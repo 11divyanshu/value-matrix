@@ -1,0 +1,18 @@
+.loginLanding{
+    background: url("../images/LoginBg.jpg");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    min-height: 100vh;
+    padding:2%;
+    justify-content: center;
+    align-items: center;
+}
+
+.Card1{
+    background: url("../images/LoginCard3.jpg");
+    background-size: cover;
+    background-position: center;
+    height:100%;
+    width:100%;
+}
