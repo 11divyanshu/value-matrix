@@ -1,136 +1,69 @@
 import React from "react";
-import Cookies from "js-cookie";
-// Components
-import HorizontalNav from "../Components/Dashbaord/horizontalNav";
-import Card from "../Components/Dashbaord/Cards";
-import SessionCard from "../Components/Dashbaord/sessions";
+import { useParams } from "react-router-dom";
+import { ReactSession } from "react-client-session";
 
-// Assets
-import VideoCall from "../assets/images/Call.svg";
-import Board from "../assets/images/board.svg";
-import { BsThreeDots } from "react-icons/bs";
+// Components
+import { dashboardRoutes } from "../routes";
+import HorizontalNav from "../Components/Dashbaord/Navbar";
 import Sidebar from "../Components/Dashbaord/sidebar";
+import { getUserFromId, getUserIdFromToken } from "../service/api";
+import jsCookie from "js-cookie";
+
+
 
 const Dashboard = () => {
+  
+  let [comp, setComponent] = React.useState(null);
+  let { component } = useParams();
+  component = "/" + component;
+  
+  let [user, setUser] = React.useState(null);
+  let access_token = null;
 
-  const token = Cookies.get("access_token");
-  console.log(token);
+  // Set Access_Token And User to the Session Storage
+  React.useEffect(() => {
+    access_token = jsCookie.get("access_token");
+    ReactSession.set("access_token", access_token);
+    console.log(access_token);
+    const getData = async (token) => {
+      let user_id = await getUserIdFromToken({ access_token: token });
+      if (user_id) {
+        let user = await getUserFromId({ id: user_id.data.user.user }, token);
+        setUser(user.data.user);
+        if (user.data.user.access_valid === false)
+          window.location.redirect = "/login";
+        ReactSession.set("user", user.data.user);
+      } else {
+        window.location.href = "/login";
+      }
+    };
+
+    getData(access_token);
+  }, []);
+
+  // Get Component To Render from the URL Parameter
+  React.useEffect(() => {
+    if (component === null) {
+      let c = dashboardRoutes.filter((route) => route.path === "/");
+      setComponent(c[0].component);
+    } else {
+      let c = dashboardRoutes.filter((route) => route.path === component);
+      if (c[0]) setComponent(c[0].component);
+      else
+        setComponent(
+          dashboardRoutes.filter((route) => route.path === "/")[0].component
+        );
+    }
+  }, [component]);
+
   return (
     <div className="max-w-screen flex h-screen">
       <div className="z-10 fixed h-screen">
-      <Sidebar/>
+        <Sidebar />
       </div>
       <div className="pl-16 w-full z-1">
-        <HorizontalNav />
-
-        <div className="flex flex-col-reverse lg:flex-row">
-          <div className="w-3/8 p-3">
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-          </div>       
-          <div className="w-5/8 p-3">
-            <div className="flex space-x-3 md:flex-row flex-col ">
-              <div>
-                <div className="shadow-lg  py-5 flex justify-around space-x-9 px-4 bg-slate-100">
-                  <div className="space-y-2">
-                    <p className="text-blue-400 text-3xl font-semibold">16</p>
-                    <p className="font-semibold text-sm uppercase text-gray-700">
-                      Total Interview
-                    </p>
-                  </div>
-                  <div className="space-y-2">
-                    <p className="text-orange-400 text-3xl font-semibold">4</p>
-                    <p className="font-semibold text-sm uppercase text-gray-700">
-                      Pending Interview
-                    </p>
-                  </div>
-                  <div className="space-y-2">
-                    <p className="text-purple-400 text-3xl font-semibold">12</p>
-                    <p className="font-semibold text-sm uppercase text-gray-700">
-                      Completed Interview
-                    </p>
-                  </div>
-                </div>
-                <div className="flex space-x-3 py-4">
-                  <div className="w-1/2 bg-orange-200 p-3 space-y-3">
-                    <div className="flex items-center">
-                      <p className="text-md font-bold text-gray-700">
-                        Mins of interview
-                      </p>
-                      <BsThreeDots className="text-orange-400 ml-auto text-lg" />
-                    </div>
-                    <div>
-                      <div>
-                        <p className="text-gray-800 text-lg font-bold mt-24">
-                          18 Hrs
-                        </p>
-                        <p className="text-xs">This Month</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="w-1/2 bg-blue-200 p-3 space-y-3">
-                    <div className="flex items-center">
-                      <p className="text-md font-bold text-gray-700">
-                        Credit Earned
-                      </p>
-                      <BsThreeDots className="text-blue-400 ml-auto text-lg" />
-                    </div>
-                    <div>
-                      <div>
-                        <p className="text-gray-800 text-lg font-bold mt-24">
-                          3.4 k
-                        </p>
-                        <p className="text-xs">This Month</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="w-3/8">
-                <SessionCard />
-              </div>
-            </div>
-            <div className="flex space-x-3 mt-3">
-              <div className="rounded-sm shadow-lg py-12 space-y-3 bg-purple-200 text-center px-10">
-                <p className="text-md font-bold text-gray-700">
-                  Give Mock Interview
-                </p>
-                <img
-                  src={VideoCall}
-                  alt="videoCall"
-                  className="h-32 w-32 mx-auto"
-                />
-                <button className="bg-purple-600 rounded-md px-3 text-white text-sm hover:bg-purple-700 py-2">
-                  Give Interview
-                </button>
-              </div>
-              <div className="rounded-sm shadow-lg py-12 space-y-3 bg-blue-200 text-center px-10">
-                <p className="text-md font-bold text-gray-700">
-                  Give Mock Interview
-                </p>
-                <img src={Board} alt="Board" className="h-32 w-32 mx-auto" />
-                <button className="bg-blue-600 rounded-md px-3 text-white text-sm hover:bg-blue-700 py-2">
-                  Give Interview
-                </button>
-              </div>
-              <div className="rounded-sm shadow-lg py-12 space-y-3 bg-orange-200 text-center px-10">
-                <p className="text-md font-bold text-gray-700">
-                  Give Mock Interview
-                </p>
-                <img
-                  src={VideoCall}
-                  alt="videoCall"
-                  className="h-32 w-32 mx-auto"
-                />
-                <button className="bg-orange-600 rounded-md px-3 text-white text-sm hover:bg-orange-700 py-2">
-                  Give Interview
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <HorizontalNav user={user} />
+        <div>{comp}</div>
       </div>
     </div>
   );

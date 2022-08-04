@@ -8,37 +8,21 @@ import LoginForm from "../Components/Login/LoginForm";
 // Assets
 import styles from "../assets/stylesheet/login.module.css";
 import jsCookie from "js-cookie";
-import { LogoutAPI } from "../service/api";
 
-const Login = () => {
+const AdminLogin = () => {
   
+  ReactSession.set("access_token", null);
+  jsCookie.set("access_token", null);
+  ReactSession.set("user", null);
   const [login, showLogin] = React.useState(true);
-
-  const Logout =async () => {
-    let user = ReactSession.get("user");
-    await LogoutAPI(user._id);
-    ReactSession.set("user", null);
-    jsCookie.set("access_token",null);
-    ReactSession.set("access_token", null);
-  };
-
-  React.useEffect(()=>{
-    let access = ReactSession.get("access_token");
-    let user = ReactSession.get("user");
-    if(access === null || access === undefined)
-      access  = jsCookie.get('access_token');
-    if(access && user){
-        Logout();
-    }
-  })
 
   return (
     <div className={styles.loginLanding}>
       {/* Login Card */}
       <div className="container w-3/4 flex bg-white rounded-lg">
-        {!login && (
+        {!login && (    
           <div className="w-full lg:w-1/2 flex flex-col">
-            <SignupForm />
+            <SignupForm admin/>
             <p className="py-5 text-center text-sm block">
               Already have an account ?{" "}
               <span
@@ -58,17 +42,7 @@ const Login = () => {
         {/* Card 2 */}
         {login && (
           <div className="w-full lg:w-1/2 flex flex-col">
-            <LoginForm />
-            <p className="py-5 text-center text-sm block">
-              Don't have an account ?{" "}
-              <span
-                className="text-blue-700 font-semibold cursor-pointer"
-                onClick={() => showLogin(false)}
-              >
-                {" "}
-                Log In{" "}
-              </span>
-            </p>
+            <LoginForm admin />
           </div>
         )}
       </div>
@@ -77,4 +51,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AdminLogin;

@@ -27,6 +27,17 @@
     <link rel="stylesheet" href="../dist/output.css"/>
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Repute Hire</title>
+
+<!-- PushAlert -->
+<script type="text/javascript">
+  (function(d, t) {
+          var g = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+          g.src = "https://cdn.pushalert.co/integrate_4aa8b85f70cfe411d76e077fe42b0feb.js";
+          s.parentNode.insertBefore(g, s);
+  }(document, "script"));
+</script>
+<!-- End PushAlert -->
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -41,5 +52,10 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+      var popover = new bootstrap.Popover(document.querySelector('.popover-dismiss'), {
+        trigger: 'focus'
+      })
+    </script>
   </body>
 </html>

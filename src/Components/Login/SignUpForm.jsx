@@ -244,7 +244,14 @@ const SignupForm = () => {
         <div className="flex justify-center space-x-7 h-7 mt-3">
           <form action="http://localhost:8000/auth/google"><button type="submit"><img src={Google} alt="google-login" className="cursor-pointer h-7"/></button></form>
           <form action="http://localhost:8000/auth/microsoft"><button type="submit"><img src={Microsoft} alt="microsoft-login" className="cursor-pointer h-7" /></button></form>
-          <img src={Linkedin} alt="linkedin-login" className="cursor-pointer" />
+          <form action="http://localhost:8000/auth/linkedin">
+            <button type="submit">
+            <img
+              src={Linkedin}
+              alt="linkedin-login"
+              className="cursor-pointer h-7"
+            /></button>
+          </form>
         </div>
         <div className="h-5 block"></div>
       
