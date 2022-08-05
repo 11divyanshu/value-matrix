@@ -2,13 +2,13 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { ReactSession } from "react-client-session";
 
-
 // Assets
 import Microsoft from "../../assets/images/Social/microsoft.svg";
 import Google from "../../assets/images/Social/google.svg";
 import Linkedin from "../../assets/images/Social/linkedin.svg";
 import Loader from "../../assets/images/loader.gif";
-import { adminLogin, authenticateLogin, LogoutAPI } from "../../service/api";
+import { adminLogin, authenticateLogin, url } from "../../service/api";
+import jsCookie from "js-cookie";
 
 const LoginForm = (props) => {
 
@@ -24,6 +24,7 @@ const LoginForm = (props) => {
     if (res) {
       setLoading(false);
       ReactSession.set("access_token", res.data.access_token);
+      jsCookie.set("access_token",res.data.access_token);
       if (!props.admin) {
         window.location.href = "/dashboard";
         alert("Normal");
@@ -112,7 +113,7 @@ const LoginForm = (props) => {
           <div className="h-[0.5px] w-12 bg-gray-600 block"></div>
         </div>
         <div className="flex justify-center space-x-7 h-7 mt-3">
-          <form action="http://localhost:8000/auth/google?admin=1">
+          <form action={`${url}/auth/google`}>
             <button type="submit">
               <img
                 src={Google}
@@ -121,7 +122,7 @@ const LoginForm = (props) => {
               />
             </button>
           </form>
-          <form action="http://localhost:8000/auth/microsoft">
+          <form action={`${url}/auth/microsoft`}>
             <button type="submit">
               <img
                 src={Microsoft}
@@ -130,7 +131,7 @@ const LoginForm = (props) => {
               />
             </button>
           </form>
-          <form action="http://localhost:8000/auth/linkedin">
+          <form action={`${url}/auth/linkedin`}>
             <button type="submit">
               <img
                 src={Linkedin}

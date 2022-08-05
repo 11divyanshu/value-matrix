@@ -8,7 +8,7 @@ import LoginForm from "../Components/Login/LoginForm";
 // Assets
 import styles from "../assets/stylesheet/login.module.css";
 import jsCookie from "js-cookie";
-import { LogoutAPI } from "../service/api";
+import { url, LogoutAPI } from "../service/api";
 
 const Login = () => {
   

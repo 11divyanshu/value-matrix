@@ -1,5 +1,7 @@
 import axios from "axios";
-const url = "http://localhost:8000";
+
+export const url = "http://localhost:8000";
+// export const url = "http://3.6.65.3:8000"
 
 // User Method API
 export const authenticateLogin = async (user) => {
