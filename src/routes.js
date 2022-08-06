@@ -7,6 +7,7 @@ import UserProfile from "./Pages/UserDashboard/UserProfile";
 import EditProfile from "./Pages/UserDashboard/EditProfile";
 import NotificationPanel from "./Pages/AdminDashboard/Notification";
 import EmailNotification from "./Pages/AdminDashboard/EmailNotification";
+import PushNotification from "./Pages/AdminDashboard/PushNotifications";
 
 export const dashboardRoutes = [
     {
@@ -82,5 +83,11 @@ export const adminDashboardRoutes = [
         path:'/emailNotification',
         hide:true,
         component: <EmailNotification/>
+    },
+    {
+        name:"One Signal Notification",
+        path:'/pushNotification',
+        hide:true,
+        component: <PushNotification/>
     }
 ]

@@ -24,20 +24,28 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <link rel="stylesheet" href="../dist/output.css"/>
+    <link rel="stylesheet" href="../dist/output.css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Repute Hire</title>
 
-<!-- PushAlert -->
-<script type="text/javascript">
-  (function(d, t) {
-          var g = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-          g.src = "https://cdn.pushalert.co/integrate_4aa8b85f70cfe411d76e077fe42b0feb.js";
-          s.parentNode.insertBefore(g, s);
-  }(document, "script"));
-</script>
-<!-- End PushAlert -->
+    <script
+      src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"
+      async=""
+    ></script>
+    <script>
+      window.OneSignal = window.OneSignal || [];
+      OneSignal.push(function () {
+        OneSignal.init({
+          appId: "91130518-13a8-4213-bf6c-36b55314829a",
+          safari_web_id:
+            "web.onesignal.auto.2cee7bb2-7604-4e25-b1d2-cbd521c730a5",
+          notifyButton: {
+            enable: true,
+          },
+          allowLocalhostAsSecureOrigin: true,
+        });
+      });
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -53,9 +61,12 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
     <script>
-      var popover = new bootstrap.Popover(document.querySelector('.popover-dismiss'), {
-        trigger: 'focus'
-      })
+      var popover = new bootstrap.Popover(
+        document.querySelector(".popover-dismiss"),
+        {
+          trigger: "focus",
+        }
+      );
     </script>
   </body>
 </html>

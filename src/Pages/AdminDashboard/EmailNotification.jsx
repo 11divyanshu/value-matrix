@@ -1,20 +1,50 @@
-import React from 'react';
+import React from "react";
 import { Formik, Form, ErrorMessage, Field } from "formik";
-import { sendEmailNotification } from '../../service/api';
-import {ReactSession} from 'react-client-session';
+import { sendEmailNotification } from "../../service/api";
+import { ReactSession } from "react-client-session";
 
 const EmailNotification = () => {
 
-    const sendEmail = async(values)=>{
-        let user  = ReactSession.get("user");
-        let token = ReactSession.get("access_token");
-        let res = sendEmailNotification({user_id : user._id,...values },token)
-    }
+  const [Alert, setAlert] = React.useState(null);
 
-    return(
-        <div className="p-5">
-            <p className="text-2xl font-bold">Email Notifications</p>
-            <Formik
+  const sendEmail = async (values) => {
+    setAlert(null);
+    let user = ReactSession.get("user");
+    let token = ReactSession.get("access_token");
+    let res = sendEmailNotification({ user_id: user._id, ...values }, token);
+    if(res){
+      setAlert(true);
+      setTimeout(() => {
+        window.location.reload();
+      }, 4000);
+    }
+    else{
+      setAlert(false);
+    }
+  };
+
+  return (
+    <div className="p-5">
+      <p className="text-2xl font-bold">Email Notifications</p>
+
+      {Alert === true && (
+        <div
+          class="bg-green-100 rounded-lg py-5 px-6 my-3 mb-4 text-base text-green-800"
+          role="alert"
+        >
+          Emails Sent
+        </div>
+      )}
+      {Alert === false && (
+        <div
+          class="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700"
+          role="alert"
+        >
+          Emails Not Sent
+        </div>
+      )}
+
+      <Formik
         initialValues={{
           text: null,
           sendTo: "All",
@@ -25,12 +55,14 @@ const EmailNotification = () => {
           if (values.text === null || values.text.trim() === "") {
             errors.message = "Message Required !";
           }
-          if(values.subject === null || values.subject.trim() === ""){
+          if (values.subject === null || values.subject.trim() === "") {
             errors.title = "Subject Required !";
           }
           return errors;
         }}
-        onSubmit={(values) => {sendEmail(values)}}
+        onSubmit={(values) => {
+          sendEmail(values);
+        }}
       >
         {({ values }) => (
           <Form className="w-full">
@@ -40,7 +72,7 @@ const EmailNotification = () => {
                 name="subject"
                 type="text"
                 placeholder=" Your Subject Here"
-                className="border-[0.5px] border-gray-400 w-1/2 focus:outline-0 focus:border-0 p-1"
+                className="border-[0.5px] border-gray-400 md:w-1/2 w-3/4 focus:outline-0 focus:border-0 p-1"
               />
               <ErrorMessage
                 name="subject"
@@ -54,7 +86,7 @@ const EmailNotification = () => {
                 name="text"
                 as="textarea"
                 placeholder=" Your Message Here"
-                className="border-[0.5px] border-gray-400 w-1/2 h-24 focus:outline-0 focus:border-0 px-1"
+                className="border-[0.5px] border-gray-400 md:w-1/2 w-3/4 h-24 focus:outline-0 focus:border-0 px-1"
               />
               <ErrorMessage
                 name="text"
@@ -106,8 +138,8 @@ const EmailNotification = () => {
           </Form>
         )}
       </Formik>
-        </div>
-    )
-}
+    </div>
+  );
+};
 
 export default EmailNotification;

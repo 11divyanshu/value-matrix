@@ -1,11 +1,8 @@
 import {
   ProSidebar,
-  SidebarHeader,
-  SidebarFooter,
   SidebarContent,
   Menu,
   MenuItem,
-  SubMenu,
 } from "react-pro-sidebar";
 import "react-pro-sidebar/dist/css/styles.css";
 import { dashboardRoutes } from "../../routes";
@@ -13,15 +10,43 @@ import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import React from "react";
 import "../../assets/stylesheet/sidebar.scss";
 import { Link } from "react-router-dom";
+import {FaUserCog} from "react-icons/fa";
 
-const Sidebar = () => {
+const Sidebar = (props) => {
   const [open, setOpen] = React.useState(true);
+  
+  const hasWindow = typeof window !== 'undefined';
+
+  function getWindowDimensions() {
+    const width = hasWindow ? window.innerWidth : null;
+    const height = hasWindow ? window.innerHeight : null;
+    return {
+      width,
+      height,
+    };
+  }
+
+  const [windowDimensions, setWindowDimensions] = React.useState(getWindowDimensions());
+
+  React.useEffect(() => {
+    if (hasWindow) {
+      function handleResize() {
+        setWindowDimensions(getWindowDimensions());
+      }
+
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }
+  }, [hasWindow]);
 
   return (
+    <div className="relative h-screen">
+      <div className="fixed bg-blue-500 left-3 top-3 rounded-full text-white p-2">
+      <AiOutlineMenu className="text-md" onClick={()=>{setOpen(false);}}/>
+      </div>
     <ProSidebar
-      style={{ backgroundColor: "red !important" }}
       width={200}
-      collapsedWidth={65}
+      collapsedWidth={windowDimensions.width < 769 ? 1 : 65}
       className="fixed left-0 h-screen z-10"
       collapsed={open}
     >
@@ -46,9 +71,15 @@ const Sidebar = () => {
             );
             return null;
           })}
+          {props.user && props.user.isAdmin}
+          <MenuItem
+          icon={<FaUserCog className="text-xl"/>}>
+            <Link to="/admin">Admin Panel</Link>
+          </MenuItem>
         </Menu>
       </SidebarContent>
     </ProSidebar>
+    </div>
   );
 };
 

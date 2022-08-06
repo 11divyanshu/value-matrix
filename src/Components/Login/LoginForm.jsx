@@ -27,10 +27,8 @@ const LoginForm = (props) => {
       jsCookie.set("access_token",res.data.access_token);
       if (!props.admin) {
         window.location.href = "/dashboard";
-        alert("Normal");
       } else {
         window.location.href = "/admin";
-        alert("Admin");
       }
     } else {
       setLoginError("Username and Password doesn't match !");
@@ -39,9 +37,9 @@ const LoginForm = (props) => {
   };
 
   return (
-    <div className="p-9 pt-5 pb-2">
+    <div className="p-5 pt-5 pb-2 lg:p-9 ">
       <p className="text-3xl font-semibold">Repute Hire</p>
-      <div className="p-12 pt-8 pb-2 pl-5">
+      <div className="p-2 lg:p-12 pt-8  pb-2 pl-5">
         <p className="text-xl font-bold">
           OPs {props.admin ? "Admin" : ""} Signup
         </p>
@@ -113,7 +111,7 @@ const LoginForm = (props) => {
           <div className="h-[0.5px] w-12 bg-gray-600 block"></div>
         </div>
         <div className="flex justify-center space-x-7 h-7 mt-3">
-          <form action={`${url}/auth/google`}>
+          <form action={`192.168.173.42/auth/google`}>
             <button type="submit">
               <img
                 src={Google}

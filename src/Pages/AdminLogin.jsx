@@ -21,7 +21,7 @@ const AdminLogin = () => {
       {/* Login Card */}
       <div className="container w-3/4 flex bg-white rounded-lg">
         {!login && (    
-          <div className="w-full lg:w-1/2 flex flex-col">
+          <div className="md:w-1/2 w-full flex flex-col">
             <SignupForm admin/>
             <p className="py-5 text-center text-sm block">
               Already have an account ?{" "}
@@ -36,12 +36,12 @@ const AdminLogin = () => {
           </div>
         )}
         {/* Card 1 */}
-        <div className="w-1/2 m-0 lg:block hidden">
+        <div className="w-1/2 m-0 md:block hidden">
           <div className={styles.Card1}></div>
         </div>
         {/* Card 2 */}
         {login && (
-          <div className="w-full lg:w-1/2 flex flex-col">
+          <div className="md:w-1/2 w-full flex flex-col">
             <LoginForm admin />
           </div>
         )}

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import { ReactSession } from 'react-client-session';
 import 'tw-elements';
+import OneSignal from 'react-onesignal';
 // Assets
 import "../src/assets/stylesheet/output.css";
 import "../src/assets/stylesheet/style.css";
@@ -16,6 +17,7 @@ import AdminDashboard from './Pages/AdminLayout';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 ReactSession.setStoreType("sessionStorage");
 root.render(
+  
   <React.StrictMode>
     <Router>
       <Routes>

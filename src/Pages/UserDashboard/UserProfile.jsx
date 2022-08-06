@@ -8,15 +8,15 @@ import Avatar from "../../assets/images/UserAvatar.png";
 const UserProfile = () => {
 
   // Access Token And User State
-  const [access_token, setAccesToken] = React.useState(null);
   const [user, setUser] = React.useState(null);
 
   // Sets User and AccessToken from SessionStorage
   React.useEffect(() => {
     let user = ReactSession.get("user");
     let access_token = ReactSession.get("access_token");
+    if(access_token === null )
+      window.location.href="/login"
     setUser(user);
-    setAccesToken(access_token);
   }, []);
 
   return (
@@ -24,10 +24,10 @@ const UserProfile = () => {
       <p className="text-2xl font-bold">Profile</p>
       {user !== null && (
         <div>
-          <div className="my-3 shadow-md rounded-md w-full p-3 flex items-center">
+          <div className="my-3 shadow-md rounded-md w-full p-3 flex items-center ">
             <div>
               <img
-                src={user.ProfileImg ? user.ProfileImg : Avatar}
+                src={(user && user.ProfileImg) ? user.ProfileImg : Avatar}
                 className="h-16 w-16 rounded-md mx-6"
                 alt="userAvatar"
               />
@@ -38,16 +38,22 @@ const UserProfile = () => {
               </p>
               <p className="text-gray-700 text-sm">User</p>
             </div>
-            <div className="ml-auto mr-6">
+            <div className="ml-auto mr-6 ">
               <button
-                className="border-[0.5px] border-gray-600 text-gray-600 px-2 py-1 rounded-sm"
+                className="border-[0.5px] border-gray-600 text-gray-600 px-2 py-1 rounded-sm md:block hidden"
                 onClick={() => (window.location.href = "/editProfile")}
               >
                 Edit Profile
               </button>
             </div>
           </div>
-          <div className="my-3 shadow-md rounded-md w-full p-6">
+          <button
+                className="border-[0.5px] border-gray-600 text-gray-600 px-2 py-1 ml-auto rounded-sm block md:hidden"
+                onClick={() => (window.location.href = "/editProfile")}
+              >
+                Edit Profile
+              </button>
+          <div className="my-3 shadow-md rounded-md w-full p-6 md:pt-6 pt-3">
             <p className="my-3  font-bold text-lg">User Details</p>
             <Formik
               initialValues={{
@@ -64,40 +70,40 @@ const UserProfile = () => {
                     {user.username}{" "}
                   </p>
                   <div className="flex flex-wrap w-full gap-y-5">
-                    <div className="w-1/2 space-y-1">
+                    <div className="md:w-1/2 w-full space-y-1">
                       <label className="font-semibold">First Name</label>
                       <Field
                         type="text"
                         name="firstName"
                         disabled
-                        className="block border-gray-400 py-1 w-1/2"
+                        className="block border-gray-400 py-1 md:w-1/2 w-3/4"
                       />
                     </div>
-                    <div className="w-1/2 space-y-1">
+                    <div className="md:w-1/2 w-full space-y-1">
                       <label className="font-semibold">Last Name</label>
                       <Field
                         name="lastName"
                         type="text"
                         disabled
-                        className="block border-gray-400 py-1 w-1/2"
+                        className="block border-gray-400 py-1 md:w-1/2 w-3/4"
                       />
                     </div>
-                    <div className="w-1/2 space-y-1">
+                    <div className="md:w-1/2 w-full space-y-1">
                       <label className="font-semibold">Email</label>
                       <Field
                         name="email"
                         type="text"
                         disabled
-                        className="block border-gray-400 py-1 w-1/2"
+                        className="block border-gray-400 py-1 md:w-1/2 w-3/4"
                       />
                     </div>
-                    <div className="w-1/2 space-y-1">
+                    <div className="md:w-1/2 w-full space-y-1">
                       <label className="font-semibold">Contact</label>
                       <Field
                         name="contact"
                         type="text"
                         disabled
-                        className="block border-gray-400 py-1 w-1/2"
+                        className="block border-gray-400 py-1 md:w-1/2 w-3/4"
                       />
                     </div>
                   </div>

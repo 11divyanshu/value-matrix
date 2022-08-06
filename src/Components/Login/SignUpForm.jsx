@@ -66,13 +66,13 @@ const SignupForm = () => {
   };
 
   const signup = async (values) => {
-    if (values.SmsOTP == SmsOTP) {
+    if (parseInt(values.SmsOTP) === parseInt(SmsOTP)) {
       setSmsOTPError(false);
     }
-    if (values.EmailOTP == EmailOTP) {
+    if (parseInt(values.EmailOTP) === parseInt(EmailOTP)) {
       setEmailOTP(false);
     }
-    if (values.SmsOTP == SmsOTP && values.EmailOTP == EmailOTP) {
+    if (parseInt(values.SmsOTP) === parseInt(SmsOTP) && parseInt(values.EmailOTP) === parseInt(EmailOTP)) {
       setSmsOTPError(false);
       setEmailOTP(false);
       setLoading(true);
@@ -91,7 +91,7 @@ const SignupForm = () => {
         setSmsOTPError(null);
       }
       setLoading(false);
-    } else if (values.SmsOTP != SmsOTP) {
+    } else if (parseInt(values.SmsOTP) !== parseInt(SmsOTP)) {
       setSmsOTPError(true);
     } else {
       setEmailOTPError(true);
@@ -99,9 +99,9 @@ const SignupForm = () => {
   };
 
   return (
-    <div className="p-9 pt-5 pb-2">
+    <div className="p-5 pt-5 pb-2 lg:p-9 ">
       <p className="text-3xl font-semibold">Repute Hire</p>
-      <div className="p-12 pt-8 pb-2 pl-5">
+      <div className="p-2 lg:p-12 pt-8  pb-2 pl-5">
         <p className="text-xl font-bold">OPs/Admin Signup</p>
         <p className="text-sm">Get Admin Support of ReputeHire </p>
 
@@ -131,7 +131,7 @@ const SignupForm = () => {
             if (!values.contact) {
               errors.contact = "Required";
             } else if (
-              !/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(
+              !/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/.test(
                 values.contact
               )
             ) {
@@ -290,7 +290,7 @@ const SignupForm = () => {
             </button>
           </form>
         </div>
-        <div className="h-5 block"></div>
+        <div className="lg:h-5 h-0 block"></div>
       </div>
     </div>
   );

@@ -11,7 +11,6 @@ const NotificationPanel = () => {
     let access_token = ReactSession.get("access_token");
     let user = ReactSession.get("user");
     let res = await pushNotification({user_id : user._id, ...values}, { access_token: access_token });
-    console.log(res);
     if (res) {
       setAlert(true);
       setTimeout(() => {
@@ -25,8 +24,9 @@ const NotificationPanel = () => {
   return (
     <div className="p-5">
       <p className="text-2xl font-bold">Notification Panel</p>
-      <div className="flex space-x-3 my-3">
-        <Link to='/admin/emailNotification'><p className="rounded-md bg-gray-200 text-gray-500 px-2 py-">Send Email Notification</p></Link>
+      <div className="flex my-3 flex-wrap">
+        <Link to='/admin/emailNotification'><p className="rounded-md bg-gray-200 text-gray-500 px-2 py-1 mr-3 my-2">Send Email Notification</p></Link>
+        <Link to='/admin/pushNotification'><p className="rounded-md bg-gray-200 text-gray-500 px-2 py-1 mr-3 my-2">Send Push Notification</p></Link>
       </div>
       {Alert === true && (
         <div
@@ -71,7 +71,7 @@ const NotificationPanel = () => {
                 name="title"
                 type="text"
                 placeholder=" Your Title Here"
-                className="border-[0.5px] border-gray-400 w-1/2 focus:outline-0 focus:border-0 p-1"
+                className="border-[0.5px] border-gray-400 md:w-1/2 w-3/4 focus:outline-0 focus:border-0 p-1"
               />
               <ErrorMessage
                 name="title"
@@ -85,7 +85,7 @@ const NotificationPanel = () => {
                 name="message"
                 as="textarea"
                 placeholder=" Your Message Here"
-                className="border-[0.5px] border-gray-400 w-1/2 h-24 focus:outline-0 focus:border-0 px-1"
+                className="border-[0.5px] border-gray-400 md:w-1/2 w-3/4 h-24 focus:outline-0 focus:border-0 px-1"
               />
               <ErrorMessage
                 name="message"

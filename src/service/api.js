@@ -143,7 +143,7 @@ export const getUserNotification = async (user, token) => {
   try {
     return await axios.post(
       `${url}/getUserNotification`,
-      { user_id: user._id },
+      { user_id: user._id, user: user},
       { headers: { authorization: token } }
     );
   } catch (error) {
@@ -176,3 +176,16 @@ export const sendEmailNotification = async (data, token) => {
     console.log(error);
   }
 };
+
+// send onesignal notification
+export const sendOneSignalNotification  = async(data, token) => {
+  try {
+    return await axios.post(`${url}/sendOneSignalNotification`, data, {
+      headers: {
+        authorization: token,
+      }
+    })
+  } catch (error) {
+    console.log("Error calling One Signal Notification : ", error);
+  }
+}
