@@ -1,6 +1,6 @@
 import {ImHome} from "react-icons/im";
 import {MdGroups} from "react-icons/md";
-import {RiFileUserFill} from "react-icons/ri";
+import {RiFileUserFill, RiFolderUserFill} from "react-icons/ri";
 import {BsFillChatLeftTextFill,BsFillBellFill} from "react-icons/bs";
 import Panel from "./Pages/UserDashboard/panel";
 import UserProfile from "./Pages/UserDashboard/UserProfile";
@@ -8,12 +8,14 @@ import EditProfile from "./Pages/UserDashboard/EditProfile";
 import NotificationPanel from "./Pages/AdminDashboard/Notification";
 import EmailNotification from "./Pages/AdminDashboard/EmailNotification";
 import PushNotification from "./Pages/AdminDashboard/PushNotifications";
+import AddJob from "./Pages/AdminDashboard/PostJob";
+import JobList from "./Pages/UserDashboard/jobList";
 
 export const dashboardRoutes = [
     {
         name: "Home",
         icon: <ImHome className="text-xl"/>,
-        path: "/",
+        path: "",
         component:<Panel/>,
         hide: false,
     },
@@ -26,7 +28,7 @@ export const dashboardRoutes = [
     {
         name:"Profile",
         icon: <RiFileUserFill className="text-xl"/>,
-        path:"/profile",
+        path:"profile",
         component:<UserProfile/>,
         hide:false,
     },
@@ -37,9 +39,15 @@ export const dashboardRoutes = [
         hide:false,
     },{
         name:'Edit Profile',
-        path: "/editProfile",
+        path: "editProfile",
         hide:true,
         component:<EditProfile/>
+    },{
+        name:'Jobs',
+        path: "jobs",
+        hide:false,
+        icon:<RiFolderUserFill className="text-xl"/>,
+        component:<JobList/>
     }
 ]
 
@@ -48,7 +56,7 @@ export const adminDashboardRoutes = [
     {
         name: "Home",
         icon: <ImHome className="text-xl"/>,
-        path: "/admin",
+        path: "/",
         component:<Panel/>,
         hide: false,
     },
@@ -89,5 +97,18 @@ export const adminDashboardRoutes = [
         path:'/pushNotification',
         hide:true,
         component: <PushNotification/>
+    },{
+        name:"Add Job",
+        path:"/jobsAdd",
+        icon:<RiFolderUserFill className="text-xl"/>,
+        hide:false,
+        component:<AddJob/>
+    },
+    {
+        name:'Jobs',
+        path: "/jobs",
+        hide:false,
+        icon:<RiFolderUserFill className="text-xl"/>,
+        component:<JobList/>
     }
 ]

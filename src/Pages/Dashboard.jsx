@@ -15,11 +15,10 @@ const Dashboard = () => {
   component = "/" + component;
 
   let [user, setUser] = React.useState(null);
-  
-  
+
   React.useEffect(() => {
     OneSignal.init({
-      appId: "91130518-13a8-4213-bf6c-36b55314829a"
+      appId: "91130518-13a8-4213-bf6c-36b55314829a",
     });
   }, []);
 
@@ -27,9 +26,8 @@ const Dashboard = () => {
   // Set Access_Token And User to the Session Storage
   React.useEffect(() => {
     ReactSession.set("access_token", access_token);
-    if(access_token === null)
-      window.location.href="/login";
-    console.log(access_token);
+    if (access_token === null || access_token === undefined)
+      window.location.href = "/login";
     const getData = async (token) => {
       let user_id = await getUserIdFromToken({ access_token: token });
       if (user_id) {
@@ -48,15 +46,18 @@ const Dashboard = () => {
 
   // Get Component To Render from the URL Parameter
   React.useEffect(() => {
+    console.log(component);
     if (component === null) {
-      let c = dashboardRoutes.filter((route) => route.path === "/");
+      let c = dashboardRoutes.filter((route) => route.path === "");
       setComponent(c[0].component);
     } else {
-      let c = dashboardRoutes.filter((route) => route.path === component);
+      let c = dashboardRoutes.filter(
+        (route) => route.path === component.split("/")[1]
+      );
       if (c[0]) setComponent(c[0].component);
       else
         setComponent(
-          dashboardRoutes.filter((route) => route.path === "/")[0].component
+          dashboardRoutes.filter((route) => route.path === "")[0].component
         );
     }
   }, [component]);

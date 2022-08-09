@@ -111,7 +111,7 @@ const LoginForm = (props) => {
           <div className="h-[0.5px] w-12 bg-gray-600 block"></div>
         </div>
         <div className="flex justify-center space-x-7 h-7 mt-3">
-          <form action={`192.168.173.42/auth/google`}>
+          <form action={`${url}/auth/google`}>
             <button type="submit">
               <img
                 src={Google}

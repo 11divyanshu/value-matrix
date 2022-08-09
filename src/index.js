@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import { ReactSession } from 'react-client-session';
 import 'tw-elements';
-import OneSignal from 'react-onesignal';
 // Assets
 import "../src/assets/stylesheet/output.css";
 import "../src/assets/stylesheet/style.css";
@@ -21,8 +20,8 @@ root.render(
   <React.StrictMode>
     <Router>
       <Routes>
-        <Route path="/" element={<Dashboard/>} />
-        <Route path="/:component" element={<Dashboard/>}/>
+        <Route path="/user" element={<Dashboard/>} />
+        <Route path="/user/:component" element={<Dashboard/>}/>
         <Route path="/login" element={<Login/>} />
         <Route path="/admin/login" element={<AdminLogin/>}/>
         <Route path="/admin" element={<AdminDashboard/>}/>

@@ -1,7 +1,7 @@
 import React from "react";
 import { ReactSession } from "react-client-session";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-// import ReactCrop from "react-image-crop";
+
 
 // Components And API services
 import {
@@ -9,11 +9,15 @@ import {
   updateEmailOTP,
   updateUserDetails,
 } from "../../service/api";
+import ReactCropper from "./ReactCrop";
 
 // Assets
 import Avatar from "../../assets/images/UserAvatar.png";
+import 'react-image-crop/dist/ReactCrop.css';
+
 
 const EditProfile = () => {
+
   // Sets OTPs to NULL
   React.useEffect(() => {
     setEmailOTP(null);
@@ -33,81 +37,11 @@ const EditProfile = () => {
 
   // Updates The Profile Picture
   const [ProfilePic, setProfilePic] = React.useState(undefined);
-  // const [image, setImage] =React.useState(undefined);
-
+  
   const ModalBtnRef = React.useRef(null);
-  const imagePreviewCanvasRef = React.useRef(null);
-  // const [crop, setCrop] = React.useState({
-  //   unit: "%",
-  //   x: 25,
-  //   y: 25,
-  //   width: 50,
-  //   height: 50,
-  // });
+  const ModalRef = React.useRef(null);
 
-  const setImageChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      console.log(e.target.files);
-      const myFileItemReader = new FileReader();
-      myFileItemReader.readAsDataURL(e.target.files[0]);
-      myFileItemReader.onloadend = async() => {
-        await setProfilePic(myFileItemReader.result);
-        console.log("F");
-        console.log(ProfilePic);
-      };
-      ModalBtnRef.current.click();
-    }
-  };
-
-  // const imageLoaded = (image) => {
-  //   setImage(image);
-  // };
-  // function imageCrop(crop) {
-  //   setCrop(crop);
-  // }
-  // function imageCropComplete(crop) {
-  //   userCrop(crop);
-  // }
-  // async function userCrop(crop) {
-  //   if (image && crop.width && crop.height) {
-  //     await getCroppedImage(image, crop, "newFile.jpeg");
-  //   }
-  // }
-
-  // function getCroppedImage(image, crop, fileName) {
-  //   const imageCanvas = document.createElement("canvas");
-  //   const scaleX = image.naturalWidth / image.width;
-  //   const scaleY = image.naturalHeight / image.height;
-  //   imageCanvas.width = crop.width;
-  //   imageCanvas.height = crop.height;
-  //   const imgCx = imageCanvas.getContext("2d");
-  //   imgCx.drawImage(
-  //     image,
-  //     crop.x * scaleX,
-  //     crop.y * scaleY,
-  //     crop.width * scaleX,
-  //     crop.height * scaleY,
-  //     0,
-  //     0,
-  //     crop.width,
-  //     crop.height
-  //   );
-  //   return new Promise((reject, resolve) => {
-  //     imageCanvas.toBlob((blob) => {
-  //       if (!blob) {
-  //         reject(new Error("the image canvas is empty"));
-  //         return;
-  //       }
-  //       blob.name = fileName;
-  //       let imageURL;
-  //       window.URL.revokeObjectURL(imageURL);
-  //       imageURL = window.URL.createObjectURL(blob);
-  //       resolve(imageURL);
-  //       // setImageUrl(blob);
-  //     }, "image1/jpeg");
-  //   });
-  // }
-
+  const [upImg, setUpImg] = React.useState(null);
 
   // Form Edit Submission
   const submit = (values) => {
@@ -197,6 +131,15 @@ const EditProfile = () => {
   React.useEffect(() => {
     let access_token1 = ReactSession.get("access_token");
     let user = ReactSession.get("user");
+    console.log(user);
+    if(user && user.profileImg ){
+      let array = new Uint8Array(user.profileImg.data.data)
+      let char_string = String.fromCharCode.apply(null, array);
+      let base64string = btoa(char_string);
+      base64string  = "data:image/png;base64,"+base64string;
+      setProfilePic(base64string)
+      console.log(base64string);
+    }
     setUser(user);
     setToken(access_token1);
   }, []);
@@ -209,10 +152,9 @@ const EditProfile = () => {
           <div className="my-3 shadow-md rounded-md w-full p-3 flex items-center">
             <div>
               <img
-                src={(user && user.ProfilePic )? user.ProfilePic : Avatar}
+                src={user && user.profileImg ? Avatar : Avatar}
                 className="h-16 w-16 rounded-md mx-6"
                 alt="userAvatar"
-                ref={imagePreviewCanvasRef}
               />
             </div>
             <div>
@@ -223,15 +165,9 @@ const EditProfile = () => {
             </div>
             <div class="ml-auto mr-5">
               <label>
-                <p class="bg-blue-500 rounded-sm text-white px-2 py-1 cursor-pointer">
+                <button class="bg-blue-500 rounded-sm text-white px-2 py-1 cursor-pointer" onClick={()=>ModalBtnRef.current.click()}>
                   Upload Image
-                </p>
-                <input
-                  type="file"
-                  accept="image"
-                  class="hidden"
-                  onChange={(e) => setImageChange(e)}
-                />
+                </button>
               </label>
             </div>
           </div>
@@ -284,7 +220,7 @@ const EditProfile = () => {
                     {user.username}{" "}
                   </p>
                   <div className="flex flex-wrap w-full gap-y-5">
-                  <div className="md:w-1/2 w-full space-y-1">
+                    <div className="md:w-1/2 w-full space-y-1">
                       <label className="font-semibold">First Name</label>
                       <Field
                         type="text"
@@ -401,35 +337,19 @@ const EditProfile = () => {
                 class="text-xl font-medium leading-normal text-gray-800"
                 id="exampleModalLabel"
               >
-                Crop Image
+                Update Profile Image
               </h5>
             </div>
             <div class="modal-body relative p-4">
-              {/* <ReactCrop crop={crop} onImageLoaded={imageLoaded}
-        onChange={imageCrop}
-        onComplete={imageCropComplete}>
-          <img  src={ProfilePic} alt="profileImg"/>
-        </ReactCrop> */}
-            </div>
-            <div class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
-              <button
-                type="button"
-                class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
-                data-bs-dismiss="modal"
-                onClick={() => {
-                }}
-                style={{ backgroundColor: "rgb(37 99 235)" }}
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1"
-              >
-                Understood
-              </button>
+             <ReactCropper Modal={ModalRef}/>
             </div>
           </div>
+          <button type="button"
+          class="hideen px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+          data-bs-dismiss="modal"
+          ref={ModalRef}>
+          Close
+        </button>
         </div>
       </div>
       {/* Modal For Cropping Image */}

@@ -27,7 +27,7 @@ const Sidebar = (props) => {
   }
 
   const [windowDimensions, setWindowDimensions] = React.useState(getWindowDimensions());
-
+  console.log(props.user);
   React.useEffect(() => {
     if (hasWindow) {
       function handleResize() {
@@ -67,15 +67,15 @@ const Sidebar = (props) => {
           {dashboardRoutes.map((item) => {
             if(item.hide === false)
             return (
-                <MenuItem icon={item.icon}>{item.name} <Link to={item.path} /></MenuItem>
+                <MenuItem icon={item.icon}>{item.name} <Link to={`/user/${item.path}`} onClick={()=>setOpen(true)} /></MenuItem>
             );
             return null;
           })}
-          {props.user && props.user.isAdmin}
+          {props.user && props.user.isAdmin === true && (
           <MenuItem
           icon={<FaUserCog className="text-xl"/>}>
             <Link to="/admin">Admin Panel</Link>
-          </MenuItem>
+          </MenuItem>)}
         </Menu>
       </SidebarContent>
     </ProSidebar>

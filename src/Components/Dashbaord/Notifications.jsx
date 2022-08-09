@@ -99,7 +99,7 @@ const NotificationPopOver = (props) => {
                     <BsFillBellFill className="text-md" />
                     <p>Notifications</p>{" "}
                     <p className="text-sm">
-                      ({notification && notification.length} unread)
+                      {notification && notification.length > 0 && (<p>({notification.length}  unread)</p>)}
                     </p>{" "}
                   </div>
                   {notification && notification.length>0 && (

@@ -44,19 +44,26 @@ const AdminDashboard = () => {
   }, [access_token]);
 
   React.useEffect(() => {
-    if (!component) {
+    console.log(component);
+    if (!component || component === "/undefined") {
       setComponent(
-        adminDashboardRoutes.filter((route) => route.path === "/admin")[0]
+        adminDashboardRoutes.filter((route) => route.path === "/")[0]
           .component
       );
     } else {
       let c = adminDashboardRoutes.filter((route) => route.path === component);
       if (c[0]) setComponent(c[0].component);
-      else
-        setComponent(
-          adminDashboardRoutes.filter((route) => route.path === "/admin")[0]
-            .component
+      else {
+        let c = adminDashboardRoutes.filter(
+          (route) => route.path === component.split("admin/")[1]
         );
+        if (c[0]) setComponent(c[0].component);
+        else
+          setComponent(
+            adminDashboardRoutes.filter((route) => route.path === "/admin")[0]
+              .component
+          );
+      }
     }
   }, [component]);
 

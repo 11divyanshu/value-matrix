@@ -143,7 +143,7 @@ export const getUserNotification = async (user, token) => {
   try {
     return await axios.post(
       `${url}/getUserNotification`,
-      { user_id: user._id, user: user},
+      { user_id: user._id, user: user },
       { headers: { authorization: token } }
     );
   } catch (error) {
@@ -178,14 +178,48 @@ export const sendEmailNotification = async (data, token) => {
 };
 
 // send onesignal notification
-export const sendOneSignalNotification  = async(data, token) => {
+export const sendOneSignalNotification = async (data, token) => {
   try {
     return await axios.post(`${url}/sendOneSignalNotification`, data, {
       headers: {
         authorization: token,
-      }
-    })
+      },
+    });
   } catch (error) {
     console.log("Error calling One Signal Notification : ", error);
   }
-}
+};
+
+// Update Profile Image
+export const updateProfileImage = async (data, token) => {
+  try {
+    console.log(data);
+    return await axios.post(`${url}/updateProfilePicture`, data, {
+      headers: { "Content-Type": "multipart/form-data", authorization: token },
+    });
+  } catch (error) {
+    console.log("Error : ", error);
+  }
+};
+
+// Post Job
+export const postJobAPI = async (data, token) => {
+  try {
+    return await axios.post(`${url}/addJob`, data, {
+      headers: {
+        authorization: token,
+      },
+    });
+  } catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+};
+
+// List Jobs
+export const listJobs = async () => {
+  try {
+    return await axios.post(`${url}/listJob`);
+  } catch (error) {
+    console.log("Error Calling List Jobs API :", error);
+  }
+};

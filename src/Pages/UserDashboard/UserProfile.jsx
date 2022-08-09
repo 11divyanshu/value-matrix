@@ -9,11 +9,19 @@ const UserProfile = () => {
 
   // Access Token And User State
   const [user, setUser] = React.useState(null);
+  const [profileImg, setProfileImg] = React.useState(null);
 
   // Sets User and AccessToken from SessionStorage
   React.useEffect(() => {
     let user = ReactSession.get("user");
     let access_token = ReactSession.get("access_token");
+    if(user && user.profileImg){
+      const img = user.profileImg;
+      const imgBase64 = img.toString("base64");
+      console.log(imgBase64);
+      setProfileImg(img);
+      setProfileImg(imgBase64);
+    }
     if(access_token === null )
       window.location.href="/login"
     setUser(user);
@@ -22,12 +30,12 @@ const UserProfile = () => {
   return (
     <div className="p-5">
       <p className="text-2xl font-bold">Profile</p>
-      {user !== null && (
+      {user !== null && user !== undefined && (
         <div>
           <div className="my-3 shadow-md rounded-md w-full p-3 flex items-center ">
             <div>
               <img
-                src={(user && user.ProfileImg) ? user.ProfileImg : Avatar}
+                src={(user && user.profileImg && profileImg ) ? Avatar : Avatar}
                 className="h-16 w-16 rounded-md mx-6"
                 alt="userAvatar"
               />
@@ -41,18 +49,13 @@ const UserProfile = () => {
             <div className="ml-auto mr-6 ">
               <button
                 className="border-[0.5px] border-gray-600 text-gray-600 px-2 py-1 rounded-sm md:block hidden"
-                onClick={() => (window.location.href = "/editProfile")}
+                onClick={() => (window.location.href = "/user/editProfile")}
               >
                 Edit Profile
               </button>
             </div>
           </div>
-          <button
-                className="border-[0.5px] border-gray-600 text-gray-600 px-2 py-1 ml-auto rounded-sm block md:hidden"
-                onClick={() => (window.location.href = "/editProfile")}
-              >
-                Edit Profile
-              </button>
+
           <div className="my-3 shadow-md rounded-md w-full p-6 md:pt-6 pt-3">
             <p className="my-3  font-bold text-lg">User Details</p>
             <Formik
