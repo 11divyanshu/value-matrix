@@ -3,10 +3,10 @@ import { useParams } from "react-router-dom";
 import { ReactSession } from "react-client-session";
 
 // Components
-import { adminDashboardRoutes } from "../routes";
-import Navbar from "../Components/AdminDashboard/Navbar";
-import Sidebar from "../Components/AdminDashboard/Sidebar";
-import { getUserFromId, getUserIdFromToken } from "../service/api";
+import { adminDashboardRoutes } from "../../routes";
+import Navbar from "../../Components/AdminDashboard/Navbar";
+import Sidebar from "../../Components/AdminDashboard/Sidebar";
+import { getUserFromId, getUserIdFromToken } from "../../service/api";
 import jsCookie from "js-cookie";
 
 const AdminDashboard = () => {

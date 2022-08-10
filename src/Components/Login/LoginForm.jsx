@@ -26,7 +26,10 @@ const LoginForm = (props) => {
       ReactSession.set("access_token", res.data.access_token);
       jsCookie.set("access_token",res.data.access_token);
       if (!props.admin) {
-        window.location.href = "/dashboard";
+        if(res.data.user.user_type === "User")
+          window.location.href = "/dashboard";
+        else if(res.data.user.user_type === "Company")
+          window.location.href= "/company"
       } else {
         window.location.href = "/admin";
       }

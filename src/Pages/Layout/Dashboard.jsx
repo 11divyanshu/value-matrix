@@ -3,10 +3,10 @@ import { useParams } from "react-router-dom";
 import { ReactSession } from "react-client-session";
 import OneSignal from "react-onesignal";
 // Components
-import { dashboardRoutes } from "../routes";
-import HorizontalNav from "../Components/Dashbaord/Navbar";
-import Sidebar from "../Components/Dashbaord/sidebar";
-import { getUserFromId, getUserIdFromToken } from "../service/api";
+import { dashboardRoutes } from "../../routes";
+import HorizontalNav from "../../Components/Dashbaord/Navbar";
+import Sidebar from "../../Components/Dashbaord/sidebar";
+import { getUserFromId, getUserIdFromToken } from "../../service/api";
 import jsCookie from "js-cookie";
 
 const Dashboard = () => {

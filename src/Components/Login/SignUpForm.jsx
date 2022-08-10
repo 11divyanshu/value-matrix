@@ -11,7 +11,7 @@ import {
   OTPMail,
   OTPSms,
   validateSignupDetails,
-  url
+  url,
 } from "../../service/api";
 
 const SignupForm = () => {
@@ -72,7 +72,10 @@ const SignupForm = () => {
     if (parseInt(values.EmailOTP) === parseInt(EmailOTP)) {
       setEmailOTP(false);
     }
-    if (parseInt(values.SmsOTP) === parseInt(SmsOTP) && parseInt(values.EmailOTP) === parseInt(EmailOTP)) {
+    if (
+      parseInt(values.SmsOTP) === parseInt(SmsOTP) &&
+      parseInt(values.EmailOTP) === parseInt(EmailOTP)
+    ) {
       setSmsOTPError(false);
       setEmailOTP(false);
       setLoading(true);
@@ -111,6 +114,7 @@ const SignupForm = () => {
             email: "",
             username: "",
             password: "",
+            user_type: "User",
             contact: "",
           }}
           validate={(values) => {
@@ -183,6 +187,13 @@ const SignupForm = () => {
                 placeholder="Email"
                 className="w-full"
               />
+              <label>Register As : </label>
+              <Field as="select" name="user_type">
+                <option value="Candidate">Candidate</option>
+                <option value="Company">Company</option>
+                <option value="XI">XI</option>
+                <option value="SuperXI">SuperXI</option>
+              </Field>
               <ErrorMessage
                 name="email"
                 component="div"
@@ -262,7 +273,7 @@ const SignupForm = () => {
           <div className="h-[0.5px] w-12 bg-gray-600 block"></div>
         </div>
         <div className="flex justify-center space-x-7 h-7 mt-3">
-        <form action={`${url}/auth/google`}>
+          <form action={`${url}/auth/google`}>
             <button type="submit">
               <img
                 src={Google}
