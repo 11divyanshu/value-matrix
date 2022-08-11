@@ -215,6 +215,20 @@ export const postJobAPI = async (data, token) => {
   }
 };
 
+//update job
+
+export const updateJobAPI = async (job_id,data, token) => {
+  try {
+    return await axios.post(`${url}/updateJob`, job_id,data, {
+      headers: {
+        authorization: token,
+      },
+    });
+  } catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+};
+
 // List Jobs
 export const listJobs = async () => {
   try {
@@ -223,3 +237,13 @@ export const listJobs = async () => {
     console.log("Error Calling List Jobs API :", error);
   }
 };
+
+// Get Job Details
+
+export const getjobbyid = async (id,token) => {
+  try {
+    return await axios.post(`${url}/getJobFromId`,{job_id:id},{headers:{authorization:token}});
+  } catch (error) {
+    console.log("Error Calling List Jobs API :", error);
+  }
+}

@@ -1,16 +1,30 @@
 import React from "react";
 import { FaBuilding } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+
 
 const JobCard = (props) => {
+ 
+  const navigate = useNavigate();
   const [job, setJob] = React.useState(props.job);
+  localStorage.setItem("jobs", JSON.stringify(job))
   console.log(job);
+  var jobs=[job]
+
+  
+
+
+  localStorage.setItem("ids", JSON.stringify(job._id))
   return (
     <div class="flex my-2 w-full">
       <div class="block rounded-sm shadow-lg border-[0.5px] border-gray-300 bg-white w-1/2">
         <div class="py-3 px-6 border-b border-gray-300 items-center flex ">
           <FaBuilding className="text-gray-500 mr-2" />
+          
+
+
           <p>{job.hiringOrganization}</p>
-          <p className="ml-auto text-xs text-blue-500 cursor-pointer">View Details</p>
+          <p className="ml-auto text-xs text-blue-500 cursor-pointer" onClick={()=>navigate('/jobdetails')}>View Details</p>
         </div>
         <div class="p-6">
           <h5 class="text-gray-900 text-xl font-medium mb-2">{job.jobTitle}</h5>

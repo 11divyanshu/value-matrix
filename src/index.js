@@ -13,6 +13,7 @@ import Dashboard from './Pages/Layout/Dashboard.jsx';
 import AdminLogin from './Pages/AdminLogin.jsx';
 import AdminDashboard from './Pages/Layout/AdminLayout.jsx';
 import CompanyDashboard from './Pages/Layout/CompanyLayout.jsx';
+import UpdateJob from './Pages/CompanyDashboard/UpdateJob.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 ReactSession.setStoreType("sessionStorage");
@@ -21,6 +22,7 @@ root.render(
   <React.StrictMode>
     <Router>
       <Routes>
+        <Route path="/jobdetails" element={<UpdateJob />} />
         <Route path="/user" element={<Dashboard/>} />
         <Route path="/user/:component" element={<Dashboard/>}/>
         <Route path="/login" element={<Login/>} />

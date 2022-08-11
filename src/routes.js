@@ -17,6 +17,9 @@ import PushNotification from "./Pages/AdminDashboard/PushNotifications";
 import AddJob from "./Pages/CompanyDashboard/PostJob.jsx";
 import JobList from "./Pages/UserDashboard/jobList.jsx";
 
+import UpdateJob from "./Pages/CompanyDashboard/UpdateJob.jsx";
+
+import JobDetails from "./Pages/CompanyDashboard/JobDetails.jsx";
 
 // User Dashboard Routes
 export const dashboardRoutes = [
@@ -147,6 +150,21 @@ export const companyDashboardRoutes = [
     icon: <RiFolderUserFill className="text-xl" />,
     component: <JobList />,
   },
+
+  {
+    name: "Update Job",
+    path: "/jobsUpdate",
+    hide: true,
+    icon: <RiFolderUserFill className="text-xl" />,
+    component: <UpdateJob />,
+  },
+  {
+    name: "getJobById",
+    path: "/jobdetails",
+    hide: true,
+    component: <JobDetails />,
+
+  }
 ];
 
 // XI Routes
