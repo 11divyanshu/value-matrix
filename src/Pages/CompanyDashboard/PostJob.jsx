@@ -5,7 +5,7 @@ import { ReactSession } from "react-client-session";
 
 const AddJob = () => {
   const [Alert, setAlert] = React.useState(null);
-
+ 
   const postJob = async (values) => {
     let access_token = ReactSession.get("access_token");
     let user = ReactSession.get("user");
@@ -18,6 +18,8 @@ const AddJob = () => {
       setAlert(false);
     }
   };
+  
+  
 
   return (
     <div className="p-5 pb-9">

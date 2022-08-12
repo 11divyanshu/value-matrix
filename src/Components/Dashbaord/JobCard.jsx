@@ -8,8 +8,11 @@ const JobCard = (props) => {
   const navigate = useNavigate();
   const [job, setJob] = React.useState(props.job);
   localStorage.setItem("jobs", JSON.stringify(job))
+
   console.log(job);
-  var jobs=[job]
+  
+
+  
 
   
 
@@ -22,9 +25,10 @@ const JobCard = (props) => {
           <FaBuilding className="text-gray-500 mr-2" />
           
 
-
           <p>{job.hiringOrganization}</p>
-          <p className="ml-auto text-xs text-blue-500 cursor-pointer" onClick={()=>navigate('/jobdetails')}>View Details</p>
+          <p className="ml-auto text-xs text-blue-500 cursor-pointer" onClick={(e)=>{
+            localStorage.setItem("jobsdetail", JSON.stringify(job))
+            navigate('/jobdetails') }}>View Details</p>
         </div>
         <div class="p-6">
           <h5 class="text-gray-900 text-xl font-medium mb-2">{job.jobTitle}</h5>

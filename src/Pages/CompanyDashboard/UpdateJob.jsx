@@ -8,7 +8,11 @@ const UpdateJob = () => {
 
   const UpdateJob = async (values) => {
     let access_token = ReactSession.get("access_token");
+    const resdetail=JSON.parse(localStorage.getItem("jobsdetail"))
+    console.log(resdetail);
+
     let user = ReactSession.get("user");
+    console.log(user);
     const job_id=JSON.parse(localStorage.getItem("ids"))
     values.user_id = user._id;
     values.job_id = job_id;
