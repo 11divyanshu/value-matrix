@@ -1,16 +1,24 @@
 import React from "react";
 import { Formik, Form, ErrorMessage, Field } from "formik";
-import { postJobAPI } from "../../service/api";
+import { updateJobAPI } from "../../service/api";          //should change
 import { ReactSession } from "react-client-session";
 
-const AddJob = () => {
+const UpdateJob = () => {
   const [Alert, setAlert] = React.useState(null);
- 
-  const postJob = async (values) => {
+
+  const UpdateJob = async (values) => {
     let access_token = ReactSession.get("access_token");
+    const resdetail=JSON.parse(localStorage.getItem("jobsdetail"))
+    console.log(resdetail);
+
     let user = ReactSession.get("user");
+    console.log(user);
+    const job_id=JSON.parse(localStorage.getItem("ids"))
     values.user_id = user._id;
-    let res = await postJobAPI(values, access_token);
+    values.job_id = job_id;
+
+
+    let res = await updateJobAPI(values, access_token);
     if (res) {
       setAlert(true);
     }
@@ -18,18 +26,16 @@ const AddJob = () => {
       setAlert(false);
     }
   };
-  
-  
 
   return (
     <div className="p-5 pb-9">
-      <p className="text-2xl font-bold">Add Job</p>
+      <p className="text-2xl font-bold">Update Job</p>
       {Alert === true && (
         <div
           class="bg-green-100 rounded-lg py-5 px-6 my-3 mb-4 text-base text-green-800"
           role="alert"
         >
-          Job Posted Successfully ! Check Here
+          Job Updated Successfully ! Check Here
         </div>
       )}
       {Alert === false && (
@@ -37,7 +43,7 @@ const AddJob = () => {
           class="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700"
           role="alert"
         >
-          Problem Uploading Job ! Try Again Later !
+          Problem Updating Job ! Try Again Later !
         </div>
       )}
 
@@ -71,7 +77,7 @@ const AddJob = () => {
             }
             return errors;
           }}
-          onSubmit={postJob}
+          onSubmit={UpdateJob}
         >
           {(values) => {
             return (
@@ -218,4 +224,4 @@ const AddJob = () => {
   );
 };
 
-export default AddJob;
+export default UpdateJob;
