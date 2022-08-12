@@ -28,7 +28,7 @@ const JobList = () => {
   }
 
   
-
+  
   
 
   React.useEffect(() => {
@@ -37,10 +37,23 @@ const JobList = () => {
       console.log(res)
       if (res && res.data) {
         setJobs(res.data.jobs);
+        console.log("hi");
+        console.log(res.data.jobs);
+        let arr=[...res.data.jobs];
+        const jsonObj = JSON.stringify(arr);
+
+        // save to localStorage
+        localStorage.setItem("jobsdetails", jsonObj);
+        
+        
       }
+      
+      
     };
     getData();
   }, []);
+
+  
 
   return (
     <div className="p-5">

@@ -5,14 +5,26 @@ import { ReactSession } from "react-client-session";
 
 const UpdateJob = () => {
   const [Alert, setAlert] = React.useState(null);
+  const resdetail=JSON.parse(localStorage.getItem("jobsdetail"))
+  const resdetail1=JSON.parse(localStorage.getItem("jobsdetails"))
+  resdetail1.map((item)=>{
+    if(item._id===resdetail){
+      console.log("match found");
+      const require=item
+      console.log(require);
+      
+    }
+  },[])
+  const title=require.jobTitle;
+  
 
+  
   const UpdateJob = async (values) => {
     let access_token = ReactSession.get("access_token");
-    const resdetail=JSON.parse(localStorage.getItem("jobsdetail"))
-    console.log(resdetail);
+    
 
     let user = ReactSession.get("user");
-    console.log(user);
+    
     const job_id=JSON.parse(localStorage.getItem("ids"))
     values.user_id = user._id;
     values.job_id = job_id;
@@ -87,7 +99,7 @@ const UpdateJob = () => {
                   <Field
                     name="jobTitle"
                     type="text"
-                    placeholder=""
+                    placeholder= {title}
                     className="border-[0.5px] border-gray-400 md:w-1/2 w-3/4 focus:outline-0 focus:border-0 p-1"
                   />
                   <ErrorMessage
@@ -101,7 +113,7 @@ const UpdateJob = () => {
                   <Field
                     name="jobDesc"
                     type="text"
-                    placeholder=""
+                    placeholder={resdetail1.jobDesc}
                     className="border-[0.5px] border-gray-400 md:w-1/2 w-3/4 focus:outline-0 focus:border-0 p-1"
                   />
                   <ErrorMessage

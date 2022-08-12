@@ -15,7 +15,8 @@ function JobDetails(state) {
           let res = await getjobbyid(access_token);
             console.log(res)
           if (res && res.data) {
-            setJobs(res);
+            setJobs(res.data.jobs);
+            
             
           }
         };
