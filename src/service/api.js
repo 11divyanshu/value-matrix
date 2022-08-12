@@ -223,3 +223,15 @@ export const listJobs = async () => {
     console.log("Error Calling List Jobs API :", error);
   }
 };
+
+// List Jobs
+export const updateJobDetails = async (data, token) => {
+  try {
+    return await axios.post(` ${url}/updateJobDetails`,data,{
+      headers: {
+        authorization: token,
+      }});
+  } catch (error) {
+    console.log("Error Calling List Jobs API :", error);
+  }
+};

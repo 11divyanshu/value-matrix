@@ -24,6 +24,7 @@ const CompanyDashboard = () => {
     console.log(access_token);
     ReactSession.set("access_token", access_token);
   }
+  
   React.useEffect(() => {
     const getData = async (token) => {
       let user_id = await getUserIdFromToken({ access_token: token });

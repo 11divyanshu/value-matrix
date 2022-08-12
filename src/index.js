@@ -21,9 +21,9 @@ root.render(
   <React.StrictMode>
     <Router>
       <Routes>
+        <Route path="/login" element={<Login/>} />
         <Route path="/user" element={<Dashboard/>} />
         <Route path="/user/:component" element={<Dashboard/>}/>
-        <Route path="/login" element={<Login/>} />
         <Route path="/admin/login" element={<AdminLogin/>}/>
         <Route path="/admin" element={<AdminDashboard/>}/>
         <Route path="/admin/:component" element={<AdminDashboard/>}/>
