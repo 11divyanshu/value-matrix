@@ -4,8 +4,11 @@ import { Formik, Form, Field } from "formik";
 
 // Assets
 import Avatar from "../../assets/images/UserAvatar.png";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
+
+  let navigate = useNavigate();
 
   // Access Token And User State
   const [user, setUser] = React.useState(null);
@@ -49,7 +52,7 @@ const UserProfile = () => {
             <div className="ml-auto mr-6 ">
               <button
                 className="border-[0.5px] border-gray-600 text-gray-600 px-2 py-1 rounded-sm md:block hidden"
-                onClick={() => (window.location.href = "/user/editProfile")}
+                onClick={() => {let url = window.location.href; let type  = url.split("/")[3]; window.location.href="/"+type+"/editProfile";}}
               >
                 Edit Profile
               </button>

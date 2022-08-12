@@ -5,10 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 const JobCard = (props) => {
  
-  const navigate = useNavigate();
   const [job, setJob] = React.useState(props.job);
-
-  
+  localStorage.setItem("jobs", JSON.stringify(job))
 
   console.log(job);
   
@@ -28,9 +26,7 @@ const JobCard = (props) => {
 
           <p>{job.hiringOrganization}</p>
           <p className="ml-auto text-xs text-blue-500 cursor-pointer" onClick={(e)=>{
-            localStorage.setItem("jobsdetail", JSON.stringify(job._id))
-            
-            
+            localStorage.setItem("jobsdetail", JSON.stringify(job))
             navigate('/jobdetails') }}>View Details</p>
         </div>
         <div class="p-6">

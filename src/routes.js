@@ -16,9 +16,7 @@ import PushNotification from "./Pages/AdminDashboard/PushNotifications";
 // Company Pages
 import AddJob from "./Pages/CompanyDashboard/PostJob.jsx";
 import JobList from "./Pages/UserDashboard/jobList.jsx";
-
 import UpdateJob from "./Pages/CompanyDashboard/UpdateJob.jsx";
-
 import JobDetails from "./Pages/CompanyDashboard/JobDetails.jsx";
 
 // User Dashboard Routes
@@ -160,7 +158,7 @@ export const companyDashboardRoutes = [
   },
   {
     name: "getJobById",
-    path: "/jobdetails",
+    path: "/jobDetails/",
     hide: true,
     component: <JobDetails />,
 
