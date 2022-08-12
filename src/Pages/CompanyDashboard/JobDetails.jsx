@@ -1,10 +1,32 @@
 import React from "react";
 import { getJobById } from "../../service/api";
 import { ReactSession } from "react-client-session";
+import { useParams } from "react-router-dom";
+
+function JobDetails(state) {
+    console.log(state);
+    const {states}=useParams();
+    const [jobs, setJobs] = React.useState(null);
+    const res=JSON.parse(localStorage.getItem("ids"))
+    console.log(res);
+    React.useEffect(() => {
+        let access_token = ReactSession.get(state.job_id,"access_token");
+        const getData = async () => {
+          let res = await getJobById(access_token);
+            console.log(res)
+          if (res && res.data) {
+            setJobs(res.data.jobs);
+            
+            
+          }
+        };
+        getData();
+      }, []);
 
 function JobDetails(props) {
   const [job_id, setJobId] = React.useState(props.id);
   const [job, setJob] = React.useState(null);
+
 
   React.useEffect(() => {
     const getData = async () => {
@@ -35,6 +57,7 @@ function JobDetails(props) {
     </div>
   );
 
+}
 }
 
 export default JobDetails;
