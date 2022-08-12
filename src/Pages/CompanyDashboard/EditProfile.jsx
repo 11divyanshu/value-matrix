@@ -2,22 +2,19 @@ import React from "react";
 import { ReactSession } from "react-client-session";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
-
 // Components And API services
 import {
   updateContactOTP,
   updateEmailOTP,
   updateUserDetails,
 } from "../../service/api";
-import ReactCropper from "./ReactCrop";
+import ReactCropper from "../UserDashboard/ReactCrop";
 
 // Assets
 import Avatar from "../../assets/images/UserAvatar.png";
-import 'react-image-crop/dist/ReactCrop.css';
+import "react-image-crop/dist/ReactCrop.css";
 
-
-const EditProfile = () => {
-
+const EditCompanyProfile = () => {
   // Sets OTPs to NULL
   React.useEffect(() => {
     setEmailOTP(null);
@@ -37,29 +34,32 @@ const EditProfile = () => {
 
   // Updates The Profile Picture
   const [ProfilePic, setProfilePic] = React.useState(undefined);
-  
+
   const ModalBtnRef = React.useRef(null);
   const ModalRef = React.useRef(null);
 
   const [upImg, setUpImg] = React.useState(null);
 
   // Form Edit Submission
-  const submit = async(values) => {
-    let wait = 0;
+  const submit = async (values) => {
     console.log("values");
+    let wait = 0;
     if (EmailOTP === null && ContactOTP === null)
-      wait = await SendOTPFunction(values);
-    if (wait) return;
+      wait =await SendOTPFunction(values);
+    if (wait !== 0) return;
+    console.log("values");
     if (EmailOTP && ContactOTP) {
       if (values.emailOTP !== EmailOTP && values.contactOTP !== ContactOTP) {
         setError("Invalid Email OTP and Contact OTP");
         return;
       }
     }
+    console.log("values");
     if (EmailOTP && values.emailOTP !== EmailOTP) {
       setError("Invalid Email OTP");
       return;
     }
+    console.log("values");
     if (ContactOTP && values.contactOTP !== ContactOTP) {
       setError("Invalid Contact OTP");
       return;
@@ -71,6 +71,7 @@ const EditProfile = () => {
   const SendOTPFunction = async (values) => {
     let wait = 0;
     if (values.email !== user.email) {
+      console.log("values");
       let res = await updateEmailOTP(
         { mail: values.email },
         { access_token: access_token }
@@ -83,6 +84,7 @@ const EditProfile = () => {
       }
     }
     if (values.contact !== user.contact) {
+      console.log("values");
       console.log("d");
       let res2 = await updateContactOTP(
         { contact: values.contact },
@@ -95,13 +97,16 @@ const EditProfile = () => {
         setError(res2.Error);
       }
     }
+    console.log(wait);
     return wait;
   };
 
   const update = async (values) => {
+    console.log("values");
     let data = {
       firstName: values.firstName,
       lastname: values.lastName,
+      about : values.about
     };
     if (EmailOTP) {
       data.email = values.email;
@@ -109,7 +114,6 @@ const EditProfile = () => {
     if (ContactOTP) {
       data.contact = values.contact;
     }
-    console.log(user, data);
     let res = await updateUserDetails(
       { user_id: user._id, updates: data },
       { access_token: access_token }
@@ -124,7 +128,7 @@ const EditProfile = () => {
         return;
       }
     } else if (res) {
-      window.location.href = "/user/profile";
+      window.location.href = "/company/profile";
     } else {
       console.log("Error");
     }
@@ -135,11 +139,11 @@ const EditProfile = () => {
     let access_token1 = ReactSession.get("access_token");
     let user = ReactSession.get("user");
     console.log(user);
-    if(user && user.profileImg ){
-      let array = new Uint8Array(user.profileImg.data.data)
+    if (user && user.profileImg) {
+      let array = new Uint8Array(user.profileImg.data.data);
       let char_string = String.fromCharCode.apply(null, array);
       let base64string = btoa(char_string);
-      base64string  = "data:image/png;base64,"+base64string;
+      base64string = "data:image/png;base64," + base64string;
       console.log(base64string);
       setProfilePic(base64string);
       // let image = user.profileImg.data.data.toString('base64');
@@ -160,7 +164,7 @@ const EditProfile = () => {
           <div className="my-3 shadow-md rounded-md w-full p-3 flex items-center">
             <div>
               <img
-                src={user && user.profileImg ? ProfilePic : Avatar}
+                src={user && user.profileImg ? Avatar : Avatar}
                 className="h-16 w-16 rounded-md mx-6"
                 alt="userAvatar"
               />
@@ -173,33 +177,32 @@ const EditProfile = () => {
             </div>
             <div class="ml-auto mr-5">
               <label>
-                <button class="bg-blue-500 rounded-sm text-white px-2 py-1 cursor-pointer" onClick={()=>ModalBtnRef.current.click()}>
-                  Upload Image
+                <button
+                  class="bg-blue-500 rounded-sm text-white px-2 py-1 cursor-pointer"
+                  onClick={() => ModalBtnRef.current.click()}
+                >
+                  Upload Logo
                 </button>
               </label>
             </div>
           </div>
 
           <div className="my-3 shadow-md rounded-md w-full p-6 md:pt-6 pt-3">
-            <p className="my-3  font-bold text-lg">User Details</p>
+            <p className="my-3  font-bold text-xl">Company Details</p>
 
             <Formik
               initialValues={{
                 firstName: user.firstName,
-                lastName: user.lastname,
                 email: user.email ? user.email : " ",
                 contact: user.contact ? user.contact : " ",
                 emailOTP: "",
-                about:"",
                 contactOTP: "",
+                about : ""
               }}
               validate={(values) => {
                 const errors = {};
                 if (!values.firstName) {
                   errors.firstName = "Required";
-                }
-                if (!values.lastName) {
-                  errors.lastName = "Required";
                 }
                 if (!values.email) {
                   errors.email = "Required";
@@ -225,12 +228,12 @@ const EditProfile = () => {
                 <Form>
                   {Error && <p className="text-sm text-red-500">{Error}</p>}
                   <p className="my-3">
-                    <span className="font-semibold">Username :</span>{" "}
+                    <span className="font-semibold">Company Username :</span>{" "}
                     {user.username}{" "}
                   </p>
                   <div className="flex flex-wrap w-full gap-y-5">
                     <div className="md:w-1/2 w-full space-y-1">
-                      <label className="font-semibold">First Name</label>
+                      <label className="font-semibold">Company Name</label>
                       <Field
                         type="text"
                         name="firstName"
@@ -243,16 +246,11 @@ const EditProfile = () => {
                       />
                     </div>
                     <div className="md:w-1/2 w-full space-y-1">
-                      <label className="font-semibold">Last Name</label>
+                      <label className="font-semibold">About</label>
                       <Field
-                        name="lastName"
-                        type="text"
-                        className="block border-gray-400 py-1 md:w-1/2 w-3/4"
-                      />
-                      <ErrorMessage
-                        name="lastName"
-                        component="div"
-                        className="text-sm text-red-600"
+                        as="textarea"
+                        className="block  py-1 md:w-1/2 w-3/4 h-20"
+                        name="about"
                       />
                     </div>
                     <div className="md:w-1/2 w-full space-y-1">
@@ -350,15 +348,17 @@ const EditProfile = () => {
               </h5>
             </div>
             <div class="modal-body relative p-4">
-             <ReactCropper Modal={ModalRef}/>
+              <ReactCropper Modal={ModalRef} />
             </div>
           </div>
-          <button type="button"
-          class="hideen px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
-          data-bs-dismiss="modal"
-          ref={ModalRef}>
-          Close
-        </button>
+          <button
+            type="button"
+            class="hideen px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+            data-bs-dismiss="modal"
+            ref={ModalRef}
+          >
+            Close
+          </button>
         </div>
       </div>
       {/* Modal For Cropping Image */}
@@ -366,4 +366,4 @@ const EditProfile = () => {
   );
 };
 
-export default EditProfile;
+export default EditCompanyProfile;

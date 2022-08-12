@@ -17,6 +17,8 @@ import PushNotification from "./Pages/AdminDashboard/PushNotifications";
 import AddJob from "./Pages/CompanyDashboard/PostJob.jsx";
 import JobList from "./Pages/UserDashboard/jobList.jsx";
 import UpdateJob from "./Pages/CompanyDashboard/UpdateJob.jsx";
+import EditCompanyProfile from "./Pages/CompanyDashboard/EditProfile.jsx";
+import CompanyProfile from "./Pages/CompanyDashboard/Profile";
 import JobDetails from "./Pages/CompanyDashboard/JobDetails.jsx";
 
 // User Dashboard Routes
@@ -125,14 +127,14 @@ export const companyDashboardRoutes = [
     name: "Profile",
     icon: <RiFileUserFill className="text-xl" />,
     path: "/profile",
-    component: <UserProfile />,
+    component: <CompanyProfile />,
     hide: false,
   },
   {
     name: "Edit Profile",
     path: "/editProfile",
     hide: true,
-    component: <EditProfile />,
+    component: <EditCompanyProfile/>
   },
   {
     name: "Add Job",

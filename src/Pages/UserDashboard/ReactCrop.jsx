@@ -40,7 +40,7 @@ const ReactCropper = (props) => {
       let user = ReactSession.get("user");
       let access_token1 = ReactSession.get("access_token");
       console.log("donee", { croppedImage });
-      await setCroppedImage(croppedImage);
+      await setCroppedImage(croppedImage);    
       const result = await fetch(croppedImage);
       const buf = result.arrayBuffer();
       const file = new File([buf], user._id + "-profile", { type: MimeType });
@@ -50,7 +50,7 @@ const ReactCropper = (props) => {
       let res = await updateProfileImage(formData, access_token1);
       console.log(res);
       if (res) {
-        window.location.reload();
+        // window.location.reload();
       }
     } catch (e) {
       console.error(e);

@@ -14,11 +14,12 @@ const Navbar = (props) => {
   const Logout = async () => {
 
     let user = ReactSession.get("user");
+    console.log(user);
+    window.location.href = "/login";
     let res = await LogoutAPI(user._id);
     console.log(res);
     ReactSession.set("user", null);
     ReactSession.set("access_token", null);
-    window.location.href = "/login";
   };
 
   return (
