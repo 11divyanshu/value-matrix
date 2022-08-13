@@ -59,6 +59,7 @@ const CompanyDashboard = () => {
       if (c[0]) setComponent(c[0].component);
       else {
         let c1 = component.split("/");
+        console.log(c1);
         if (c1[1] === "jobDetails") setComponent(<JobDetails id={id} />);
         else {
           let c = companyDashboardRoutes.filter(

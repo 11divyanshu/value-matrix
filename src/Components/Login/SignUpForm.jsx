@@ -116,24 +116,25 @@ const SignupForm = () => {
             password: "",
             user_type: "User",
             contact: "",
+            agree: false,
           }}
           validate={(values) => {
             const errors = {};
             if (!values.username) {
-              errors.username = "Required";
+              errors.username = "Username Required";
             }
             if (!values.name) {
-              errors.name = "Required";
+              errors.name = "Name Required";
             }
             if (!values.email) {
-              errors.email = "Required";
+              errors.email = "Email Required";
             } else if (
               !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
             ) {
               errors.email = "Invalid Email Address";
             }
             if (!values.contact) {
-              errors.contact = "Required";
+              errors.contact = "Contact Required";
             } else if (
               !/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/.test(
                 values.contact
@@ -143,6 +144,9 @@ const SignupForm = () => {
             }
             if (!values.password) {
               errors.password = "Required";
+            }
+            if (!values.agree) {
+              errors.agree = "You need to accept to continue";
             }
             return errors;
           }}
@@ -187,18 +191,18 @@ const SignupForm = () => {
                 placeholder="Email"
                 className="w-full"
               />
-              <label>Register As : </label>
-              <Field as="select" name="user_type">
-                <option value="Candidate">Candidate</option>
-                <option value="Company">Company</option>
-                <option value="XI">XI</option>
-                <option value="SuperXI">SuperXI</option>
-              </Field>
               <ErrorMessage
                 name="email"
                 component="div"
                 className="text-sm text-red-600"
               />
+              <label>Register As : </label>
+              <Field as="select" name="user_type">
+                <option value="Candidate">Candidate</option>
+                <option value="Company">Company</option>
+                <option value="XI">XI</option>
+              </Field>
+
               <Field
                 type="text"
                 name="contact"
@@ -250,6 +254,25 @@ const SignupForm = () => {
               {signupError && (
                 <p className="text-sm text-red-600">{signupError}</p>
               )}
+              <div>
+                <Field type="checkbox" name="agree" className="mr-2" />
+                <label>
+                  Agree to the{" "}
+                  <a href="#" target="_blank">
+                    Terms and conditions
+                  </a>{" "}
+                  and{" "}
+                  <a href="#" target="_blank">
+                    Privacy policy
+                  </a>
+                  .
+                </label>
+                <ErrorMessage
+                  name="agree"
+                  component="div"
+                  className="text-sm text-red-600 w-100"
+                />
+              </div>
               {!loading && (
                 <button
                   className="bg-blue-600 px-8 py-2 text-white rounded-sm mx-auto block mt-4 hover:bg-blue-700 text-center w-1/2 cursor-pointer"

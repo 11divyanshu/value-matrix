@@ -8,14 +8,6 @@ const JobCard = (props) => {
   const [job, setJob] = React.useState(props.job);
   localStorage.setItem("jobs", JSON.stringify(job))
 
-  console.log(job);
-  
-
-  
-
-  
-
-
   localStorage.setItem("ids", JSON.stringify(job._id))
   return (
     <div class="flex my-2 w-full">
@@ -25,9 +17,7 @@ const JobCard = (props) => {
           
 
           <p>{job.hiringOrganization}</p>
-          <p className="ml-auto text-xs text-blue-500 cursor-pointer" onClick={(e)=>{
-            localStorage.setItem("jobsdetail", JSON.stringify(job))
-            navigate('/jobdetails') }}>View Details</p>
+          <p className="ml-auto text-xs text-blue-500 cursor-pointer" ><Link to={`/company/jobDetails/${job._id}`}>View Details</Link></p>
         </div>
         <div class="p-6">
           <h5 class="text-gray-900 text-xl font-medium mb-2">{job.jobTitle}</h5>
