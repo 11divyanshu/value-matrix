@@ -6,14 +6,14 @@ import OneSignal from "react-onesignal";
 import { dashboardRoutes } from "../../routes";
 import HorizontalNav from "../../Components/Dashbaord/Navbar";
 import Sidebar from "../../Components/Dashbaord/sidebar";
-import { getUserFromId, getUserIdFromToken } from "../../service/api";
+import { getUserFromId, getUserIdFromToken, url } from "../../service/api";
 import jsCookie from "js-cookie";
 
 const Dashboard = () => {
   let [comp, setComponent] = React.useState(null);
   let { component } = useParams();
   component = "/" + component;
-
+  let [access_token, setAccessToken] = React.useState(null);
   let [user, setUser] = React.useState(null);
 
   React.useEffect(() => {
@@ -22,31 +22,55 @@ const Dashboard = () => {
     });
   }, []);
 
-  let access_token = jsCookie.get("access_token");
   // Set Access_Token And User to the Session Storage
+
   React.useEffect(() => {
-    ReactSession.set("access_token", access_token);
-    if (access_token === null || access_token === undefined)
-      window.location.href = "/login";
+    let access_token2 = null;
+    const tokenFunc = async () => {
+      let access_token1 = jsCookie.get("access_token");
+      let location = window.location.search;
+      const queryParams = new URLSearchParams(location);
+      const term = queryParams.get("a");
+      if (access_token1 === null) {
+        access_token1 = term;
+      }
+      access_token2 = access_token1;
+      setAccessToken(access_token1);
+      ReactSession.set("access_token", access_token1);
+};
+
     const getData = async (token) => {
       let user_id = await getUserIdFromToken({ access_token: token });
       if (user_id) {
         let user = await getUserFromId({ id: user_id.data.user.user }, token);
         setUser(user.data.user);
+
         if (user.data.user.access_valid === false)
           window.location.redirect = "/login";
+
         ReactSession.set("user", user.data.user);
       } else {
         window.location.href = "/login";
       }
     };
-
-    getData(access_token);
+    const func = async () => {
+      await tokenFunc();
+      if (access_token2 === null || access_token2 === undefined)
+        window.location.href = "/login";
+      let location = window.location.search;
+      const queryParams = new URLSearchParams(location);
+      const term = queryParams.get("a");
+      if (term) {
+          window.location.href = '/user'
+      }
+      getData(access_token2);
+    };
+    func();
   }, [access_token]);
 
   // Get Component To Render from the URL Parameter
   React.useEffect(() => {
-    console.log(component);
+  
     if (component === null) {
       let c = dashboardRoutes.filter((route) => route.path === "");
       setComponent(c[0].component);

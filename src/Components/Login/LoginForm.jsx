@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { ReactSession } from "react-client-session";
+import ReCAPTCHA from "react-google-recaptcha";
 
 // Assets
 import Microsoft from "../../assets/images/Social/microsoft.svg";
@@ -11,29 +12,50 @@ import { adminLogin, authenticateLogin, url } from "../../service/api";
 import jsCookie from "js-cookie";
 
 const LoginForm = (props) => {
-
   const [loading, setLoading] = React.useState(false);
   const [loginError, setLoginError] = React.useState(null);
+  const [captchaError, setCaptchaError] = React.useState(null);
+  const [error, setError] = React.useState(0);
+  const [captcha, setCaptcha] = React.useState(true);
 
+  const captchaRef = React.useRef();
+  console.log(captchaRef);
   const Login = async (values) => {
+    if (captcha === false && error >= 3) {
+      setCaptchaError("Confirm Captcha");
+      return;
+    }else{
+      setCaptchaError(null);
+    }
     let res = null;
     setLoading(true);
     if (props.admin) res = await adminLogin(values);
     else res = await authenticateLogin(values);
     console.log(res);
     if (res) {
+      setCaptcha(true);
+      setCaptchaError(null);
       setLoading(false);
       ReactSession.set("access_token", res.data.access_token);
-      jsCookie.set("access_token",res.data.access_token);
+      jsCookie.set("access_token", res.data.access_token);
       if (!props.admin) {
-        if(res.data.user.user_type === "User")
-          window.location.href = "/dashboard";
-        else if(res.data.user.user_type === "Company")
-          window.location.href= "/company"
+        if (res.data.user.user_type === "User")
+          window.location.href = "/user";
+        else if (res.data.user.user_type === "Company")
+          window.location.href = "/company";
       } else {
         window.location.href = "/admin";
       }
     } else {
+      setCaptcha(false);
+      if(captchaRef.current !== undefined){
+        captchaRef.current.reset();
+      }
+      let e = error + 1;
+      setError(e);
+      if (error >= 3) {
+        setCaptcha(false);
+      }
       setLoginError("Username and Password doesn't match !");
       setLoading(false);
     }
@@ -91,6 +113,22 @@ const LoginForm = (props) => {
               {loginError && (
                 <p className="text-sm text-red-600">{loginError}</p>
               )}
+              {error >= 3 && (
+                <div>
+                  <ReCAPTCHA
+                    sitekey="6LdanHEhAAAAALDqT2CqlzJvxdPDPUDYGkcceYd7"
+                    onChange={(value) => {
+                      setCaptcha(true);
+                    }}
+                    ref={captchaRef}
+                  />
+                </div>
+              )}
+              {
+                captchaError && (
+                  <p className="text-sm my-0 text-red-600">{captchaError}</p>
+                )
+              }
               {!loading && (
                 <button
                   className="bg-blue-600 px-8 py-2 text-white rounded-sm mx-auto block mt-4 hover:bg-blue-700 text-center w-1/2 cursor-pointer"
@@ -108,6 +146,7 @@ const LoginForm = (props) => {
             </Form>
           )}
         </Formik>
+
         <div className="flex space-x-3 justify-center w-full items-center text-gray-600 py-3">
           <div className="h-[0.5px] w-12 bg-gray-600 block"></div>
           <p> or </p>

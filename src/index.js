@@ -15,6 +15,7 @@ import AdminDashboard from './Pages/Layout/AdminLayout.jsx';
 import CompanyDashboard from './Pages/Layout/CompanyLayout.jsx';
 import UpdateJob from './Pages/CompanyDashboard/UpdateJob.jsx';
 import JobDetails from './Pages/CompanyDashboard/JobDetails';
+import XIDashboard from './Pages/Layout/XILayout';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 ReactSession.setStoreType("sessionStorage");
@@ -32,6 +33,10 @@ root.render(
         <Route path="/company" element={<CompanyDashboard/>}/>
         <Route path="/company/:component" element={<CompanyDashboard/>}/>
         <Route path="/company/:component/:id" element={<CompanyDashboard/>}/>
+        <Route path="/XI" element={<XIDashboard/>}/>
+        <Route path="/XI/:component" element={<XIDashboard/>}/>
+        <Route path="/XI/:component/:id" element={<XIDashboard/>}/>
+        
       </Routes>
     </Router>
   </React.StrictMode>

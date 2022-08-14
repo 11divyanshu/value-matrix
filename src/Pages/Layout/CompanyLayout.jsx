@@ -11,23 +11,40 @@ import jsCookie from "js-cookie";
 import JobDetails from "../CompanyDashboard/JobDetails.jsx";
 
 const CompanyDashboard = () => {
+  // Component To Render
   let [comp, setComponent] = React.useState(null);
   let { component, id } = useParams();
   component = "/" + component;
+
+  // Current User
   let [user, setUser] = React.useState(null);
-  let access_token = null;
 
   // Retrieve And Saves Access Token and User to Session
-  access_token = ReactSession.get("access_token");
+  const [access_token, setAccessToken] = React.useState(null);
+  let access_token1 = ReactSession.get("access_token");
   let access_token2 = jsCookie.get("access_token");
-  if (!access_token) {
-    access_token = access_token2;
-    console.log(access_token);
-    ReactSession.set("access_token", access_token);
+  if (!access_token1) {
+    access_token1= access_token2;
+    ReactSession.set("access_token", access_token1);
   }
 
   React.useEffect(() => {
+    let access_token2 = null;
+    const tokenFunc = async () => {
+      let access_token1 = jsCookie.get("access_token");
+      let location = window.location.search;
+      const queryParams = new URLSearchParams(location);
+      const term = queryParams.get("a");
+      if (access_token1 === null) {
+        access_token1 = term;
+      }
+      access_token2 = access_token1;
+      setAccessToken(access_token1);
+      ReactSession.set("access_token", access_token1);
+    };
+
     const getData = async (token) => {
+
       let user_id = await getUserIdFromToken({ access_token: token });
       if (user_id) {
         let user = await getUserFromId({ id: user_id.data.user.user }, token);
@@ -42,7 +59,21 @@ const CompanyDashboard = () => {
         window.location.href = "/login";
       }
     };
-    getData(access_token);
+
+    const func = async () => {
+      await tokenFunc();
+      if (access_token2 === null || access_token2 === undefined)
+        window.location.href = "/login";
+      let location = window.location.search;
+      const queryParams = new URLSearchParams(location);
+      const term = queryParams.get("a");
+      if (term) {
+        window.location.href = "/company";
+      }
+      getData(access_token2);
+    };
+    
+    func();
   }, [access_token]);
 
   React.useEffect(() => {

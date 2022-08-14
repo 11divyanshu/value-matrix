@@ -1,6 +1,8 @@
 import React, { useRef } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-
+import ReCAPTCHA from "react-google-recaptcha";
+import wildcards from "disposable-email-domains/wildcard.json";
+import axios from "axios";
 // Assets
 import Microsoft from "../../assets/images/Social/microsoft.svg";
 import Google from "../../assets/images/Social/google.svg";
@@ -14,6 +16,25 @@ import {
   url,
 } from "../../service/api";
 
+const validateUserEmail = (value) => {
+  let domain = value.split("@")[1];
+  let host = domain.split(".")[0];
+  if (wildcards.includes(host) | wildcards.includes(domain)) {
+    return false;
+  }
+  return true;
+};
+
+const validateCompanyEmail = (value) => {
+  let domain = value.split("@")[1];
+  let host = domain.split(".")[0];
+  let domains = ["gmail", "yahoo", "bing"];
+  if (domains.includes(host)) {
+    return false;
+  }
+  return true;
+};
+
 const SignupForm = () => {
   const [signupError, setSignupError] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
@@ -22,10 +43,26 @@ const SignupForm = () => {
   const [SmsOTP, setSMSOTP] = React.useState(null);
   const [SmsOTPError, setSmsOTPError] = React.useState(false);
   const [EmailOTPError, setEmailOTPError] = React.useState(false);
+  const [EmailError, setEmailError] = React.useState(null);
+  const [showCaptcha, setShowCaptcha] = React.useState(false);
+  const [captchaError, setCaptchaError] = React.useState(null);
+  const [captcha, setCaptcha] = React.useState(false);
+
+  const captchaRef = React.useRef();
 
   const OTPField = useRef(null);
 
   const sendOTP = async (values) => {
+    if (values.user_type === "Company") {
+      if (validateCompanyEmail(values.email) === false) {
+        setSignupError("Enter Company Email !");
+        return;
+      }
+    }
+    if (validateCompanyEmail(values.email) === false) {
+      setSignupError("Invalid Email Address");
+      return;
+    }
     setSignupError(null);
     setLoading(true);
     let check = await validateSignupDetails(values);
@@ -70,30 +107,34 @@ const SignupForm = () => {
       setSmsOTPError(false);
     }
     if (parseInt(values.EmailOTP) === parseInt(EmailOTP)) {
-      setEmailOTP(false);
+      setEmailOTPError(false);
     }
     if (
       parseInt(values.SmsOTP) === parseInt(SmsOTP) &&
       parseInt(values.EmailOTP) === parseInt(EmailOTP)
     ) {
-      setSmsOTPError(false);
-      setEmailOTP(false);
-      setLoading(true);
-      let res = await authenticateSignUp(values);
-
-      if (res && !res.data.Error) {
-        window.location.href = "/login";
-      } else if (res) {
-        setSignupError(res.data.Error);
-        setOTP(null);
+      if (captcha === false) {
+        setShowCaptcha(true);
       } else {
-        setOTP(null);
-        setSignupError("Error Signing Up");
-        OTPField.current = "";
-        setEmailOTPError(null);
-        setSmsOTPError(null);
+        let res = await authenticateSignUp(values);
+        setSmsOTPError(false);
+        setEmailOTPError(false);
+        setLoading(true);
+        console.log("valjue");
+        if (res && !res.data.Error) {
+          window.location.href = "/login";
+        } else if (res) {
+          setSignupError(res.data.Error);
+          setOTP(null);
+        } else {
+          setOTP(null);
+          setSignupError("Error Signing Up");
+          OTPField.current = "";
+          setEmailOTPError(null);
+          setSmsOTPError(null);
+        }
+        setLoading(false);
       }
-      setLoading(false);
     } else if (parseInt(values.SmsOTP) !== parseInt(SmsOTP)) {
       setSmsOTPError(true);
     } else {
@@ -273,6 +314,22 @@ const SignupForm = () => {
                   className="text-sm text-red-600 w-100"
                 />
               </div>
+              {showCaptcha && (
+                <div>
+                  <div>
+                    <ReCAPTCHA
+                      sitekey="6LdanHEhAAAAALDqT2CqlzJvxdPDPUDYGkcceYd7"
+                      onChange={(value) => {
+                        setCaptcha(true);
+                      }}
+                      ref={captchaRef}
+                    />
+                  </div>
+                  {captchaError && (
+                    <p className="text-sm my-0 text-red-600">{captchaError}</p>
+                  )}
+                </div>
+              )}
               {!loading && (
                 <button
                   className="bg-blue-600 px-8 py-2 text-white rounded-sm mx-auto block mt-4 hover:bg-blue-700 text-center w-1/2 cursor-pointer"
@@ -296,7 +353,9 @@ const SignupForm = () => {
           <div className="h-[0.5px] w-12 bg-gray-600 block"></div>
         </div>
         <div className="flex justify-center space-x-7 h-7 mt-3">
-          <form action={`${url}/auth/google`}>
+          <form 
+          action={`${url}/auth/google`}
+          >
             <button type="submit">
               <img
                 src={Google}
