@@ -26,51 +26,49 @@ const Dashboard = () => {
 
   React.useEffect(() => {
     let access_token2 = null;
+    
     const tokenFunc = async () => {
       let access_token1 = jsCookie.get("access_token");
       let location = window.location.search;
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
-      if (access_token1 === null) {
+      if (access_token1 === null || access_token1 === undefined) {
         access_token1 = term;
       }
       access_token2 = access_token1;
       setAccessToken(access_token1);
-      ReactSession.set("access_token", access_token1);
-};
-
-    const getData = async (token) => {
-      let user_id = await getUserIdFromToken({ access_token: token });
+      sessionStorage.setItem("access_token", access_token1);
+      localStorage.setItem("access_token", access_token1);
+      let user_id = await getUserIdFromToken({ access_token: access_token1 });
+      console.log(user_id);
       if (user_id) {
-        let user = await getUserFromId({ id: user_id.data.user.user }, token);
-        setUser(user.data.user);
-
+        let user = await getUserFromId(
+          { id: user_id.data.user.user },
+          access_token1
+        );
+        console.log(user)
         if (user.data.user.access_valid === false)
           window.location.redirect = "/login";
-
-        ReactSession.set("user", user.data.user);
+        sessionStorage.setItem("user", user.data.user);
       } else {
         window.location.href = "/login";
       }
     };
+
     const func = async () => {
       await tokenFunc();
-      if (access_token2 === null || access_token2 === undefined)
-        window.location.href = "/login";
       let location = window.location.search;
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
       if (term) {
-          window.location.href = '/user'
+        window.location.href = "/user";
       }
-      getData(access_token2);
     };
     func();
   }, [access_token]);
 
   // Get Component To Render from the URL Parameter
   React.useEffect(() => {
-  
     if (component === null) {
       let c = dashboardRoutes.filter((route) => route.path === "");
       setComponent(c[0].component);
