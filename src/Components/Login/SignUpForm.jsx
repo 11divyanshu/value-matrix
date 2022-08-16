@@ -59,7 +59,7 @@ const SignupForm = () => {
         return;
       }
     }
-    if (validateCompanyEmail(values.email) === false) {
+    if (validateUserEmail(values.email) === false) {
       setSignupError("Invalid Email Address");
       return;
     }
@@ -353,9 +353,7 @@ const SignupForm = () => {
           <div className="h-[0.5px] w-12 bg-gray-600 block"></div>
         </div>
         <div className="flex justify-center space-x-7 h-7 mt-3">
-          <form 
-          action={`${url}/auth/google`}
-          >
+          <form action={`${url}/auth/google`}>
             <button type="submit">
               <img
                 src={Google}

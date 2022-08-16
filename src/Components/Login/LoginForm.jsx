@@ -2,6 +2,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { ReactSession } from "react-client-session";
 import ReCAPTCHA from "react-google-recaptcha";
+import { Link } from "react-router-dom";
 
 // Assets
 import Microsoft from "../../assets/images/Social/microsoft.svg";
@@ -110,9 +111,13 @@ const LoginForm = (props) => {
                 component="div"
                 className="text-sm text-red-600"
               />
+        
               {loginError && (
                 <p className="text-sm text-red-600">{loginError}</p>
               )}
+              <div className="w-100">
+              <p className="text-sm text-blue-600 mx-auto"><Link to="/resetPassword">Forgot Password ?</Link></p>
+              </div>
               {error >= 3 && (
                 <div>
                   <ReCAPTCHA

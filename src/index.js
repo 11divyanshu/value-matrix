@@ -16,6 +16,7 @@ import CompanyDashboard from './Pages/Layout/CompanyLayout.jsx';
 import UpdateJob from './Pages/CompanyDashboard/UpdateJob.jsx';
 import JobDetails from './Pages/CompanyDashboard/JobDetails';
 import XIDashboard from './Pages/Layout/XILayout';
+import ResetPassword from './Components/Login/ForgotPassword';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 ReactSession.setStoreType("sessionStorage");
@@ -25,6 +26,7 @@ root.render(
     <Router>
       <Routes>
         <Route path="/login" element={<Login/>} />
+        <Route path="/resetPassword" element ={<ResetPassword/>}/>
         <Route path="/user" element={<Dashboard/>} />
         <Route path="/user/:component" element={<Dashboard/>}/>
         <Route path="/admin/login" element={<AdminLogin/>}/>
