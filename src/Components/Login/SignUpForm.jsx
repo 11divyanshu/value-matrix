@@ -48,79 +48,197 @@ const SignupForm = () => {
   const [captchaError, setCaptchaError] = React.useState(null);
   const [captcha, setCaptcha] = React.useState(false);
 
+  const [emailLoad, setEmailLoading] = React.useState(false);
+  const [verifyEmail, setverifyEmail] = React.useState(false);
+
+  const [smsLoad, setSmsLoading] = React.useState(false);
+  const [verifySms, setverifySms] = React.useState(false);
+
+
+
   const captchaRef = React.useRef();
 
   const OTPField = useRef(null);
 
-  const sendOTP = async (values) => {
+  // const sendOTP = async (values) => {
+  //   if (values.user_type === "Company") {
+  //     if (validateCompanyEmail(values.email) === false) {
+  //       setSignupError("Enter Company Email !");
+  //       return;
+  //     }
+  //   }
+  //   if (validateUserEmail(values.email) === false) {
+  //     setSignupError("Invalid Email Address");
+  //     return;
+  //   }
+  //   setSignupError(null);
+  //   setLoading(true);
+  //   let check = await validateSignupDetails(values);
+  //   console.log(check.data);
+  //   if (check.data.username && check.data.email === true) {
+  //     setSignupError("Username and Email Already Registered");
+  //   }
+  //   if (check.data.username && check.data.contact) {
+  //     setSignupError("Username and Contact Already Registered");
+  //   }
+  //   if (check.data.email) {
+  //     setSignupError("Email Already Registered");
+  //   }
+  //   if (check.data.contact) {
+  //     setSignupError("Contact Already Registered");
+  //   }
+  //   if (check.data.username) {
+  //     setSignupError("Username Already Registered");
+  //   }
+  //   if (check.data.username || check.data.contact || check.data.email) {
+  //     setLoading(false);
+  //     return;
+  //   }
+
+  //   let res1 = await OTPSms({ contact: values.contact });
+  //   let res2 = await OTPMail({ mail: values.email });
+
+  //   if (res1) {
+  //     setSMSOTP(res1);
+  //   }
+  //   if (res2) {
+  //     setEmailOTP(res2);
+  //   } else if (!res1 && !res2) {
+  //     console.log("Error");
+  //   }
+  //   setOTP(true);
+  //   setLoading(false);
+  // };
+
+  const sendEmailOTP = async (values) => {
+
+    if (values.user_type === "Company") {
+           if (validateCompanyEmail(values.email) === false) {
+             setSignupError("Enter Company Email !");
+             return;
+           }
+         }
+         if (validateUserEmail(values.email) === false) {
+           setSignupError("Invalid Email Address");
+           return;
+         }
+         setSignupError(null);
+         let check = await validateSignupDetails(values);
+         console.log(check.data);
+         if (check.data.username && check.data.email === true) {
+           setSignupError("Username and Email Already Registered");
+         }
+        
+         if (check.data.email) {
+           setSignupError("Email Already Registered");
+         }
+       
+         if (check.data.username) {
+           setSignupError("Username Already Registered");
+         }
+         if (check.data.username || check.data.email) {
+           setLoading(false);
+           return;
+         }
+         console.log(values.mail)
+    
+         let res2 = await OTPMail({ mail: values.email });
+    
+        
+         if (res2) {
+          setEmailOTP(res2);
+         } else if ( !res2) {
+           console.log("Error");
+         }
+
+
+
+    // setOTP(true);
+    // setLoading(false);
+  }
+
+  const verifyEmailOTP = async (values) => {
+    if (parseInt(values.EmailOTP) === parseInt(EmailOTP)) {
+      setEmailOTPError(false);
+      setverifyEmail(true);
+    } else {
+      setEmailOTPError(true);
+
+    }
+    if (verifyEmail && verifySms) {
+      setOTP(true);
+    }
+  }
+
+  const sendSmsOTP = async (values) => {
     if (values.user_type === "Company") {
       if (validateCompanyEmail(values.email) === false) {
         setSignupError("Enter Company Email !");
         return;
       }
     }
-    if (validateUserEmail(values.email) === false) {
-      setSignupError("Invalid Email Address");
-      return;
-    }
+
     setSignupError(null);
-    setLoading(true);
+    setSmsLoading(true);
+    setverifySms(false);
     let check = await validateSignupDetails(values);
     console.log(check.data);
-    if (check.data.username && check.data.email === true) {
-      setSignupError("Username and Email Already Registered");
-    }
+
     if (check.data.username && check.data.contact) {
       setSignupError("Username and Contact Already Registered");
     }
-    if (check.data.email) {
-      setSignupError("Email Already Registered");
-    }
+
     if (check.data.contact) {
       setSignupError("Contact Already Registered");
     }
     if (check.data.username) {
       setSignupError("Username Already Registered");
     }
-    if (check.data.username || check.data.contact || check.data.email) {
+    if (check.data.username || check.data.contact) {
       setLoading(false);
       return;
     }
 
     let res1 = await OTPSms({ contact: values.contact });
-    let res2 = await OTPMail({ mail: values.email });
 
     if (res1) {
       setSMSOTP(res1);
     }
-    if (res2) {
-      setEmailOTP(res2);
-    } else if (!res1 && !res2) {
+    else if (!res1) {
       console.log("Error");
     }
-    setOTP(true);
-    setLoading(false);
-  };
+    setSmsLoading(false);
+  }
 
-  const signup = async (values) => {
+
+  const verifySmsOTP = async (values) => {
     if (parseInt(values.SmsOTP) === parseInt(SmsOTP)) {
       setSmsOTPError(false);
+      setverifySms(true);
+    } else {
+      setSmsOTPError(true);
     }
-    if (parseInt(values.EmailOTP) === parseInt(EmailOTP)) {
-      setEmailOTPError(false);
+    if (verifyEmail && verifySms) {
+      setOTP(true);
     }
+  }
+
+  const signup = async (values) => {
+console.log(OTP)
+
     if (
       parseInt(values.SmsOTP) === parseInt(SmsOTP) &&
       parseInt(values.EmailOTP) === parseInt(EmailOTP)
     ) {
       if (captcha === false) {
+        console.log("show Captcha");
         setShowCaptcha(true);
       } else {
         let res = await authenticateSignUp(values);
         setSmsOTPError(false);
         setEmailOTPError(false);
         setLoading(true);
-        console.log("valjue");
+        console.log("value");
         if (res && !res.data.Error) {
           window.location.href = "/login";
         } else if (res) {
@@ -139,6 +257,7 @@ const SignupForm = () => {
       setSmsOTPError(true);
     } else {
       setEmailOTPError(true);
+
     }
   };
 
@@ -192,11 +311,14 @@ const SignupForm = () => {
             return errors;
           }}
           onSubmit={(values) => {
-            if (OTP) {
+            console.log(OTP);
+            // if (OTP) {
               signup(values);
-            } else {
-              sendOTP(values);
-            }
+            // }
+
+            // else {
+            //   sendOTP(values);
+            // }
           }}
         >
           {({ values, isSubmitting }) => (
@@ -225,6 +347,7 @@ const SignupForm = () => {
                 component="div"
                 className="text-sm text-red-600"
               />
+
               <Field
                 type="text"
                 name="email"
@@ -232,11 +355,36 @@ const SignupForm = () => {
                 placeholder="Email"
                 className="w-full"
               />
+
               <ErrorMessage
                 name="email"
                 component="div"
                 className="text-sm text-red-600"
               />
+              {EmailOTP&& !verifyEmail && (
+                <Field
+                  type="number"
+                  name="EmailOTP"
+                  // refs={OTPField}
+                  placeholder="Email OTP"
+                  className="w-full"
+                />
+              )}
+              {EmailOTP && EmailOTPError && (
+                <p className="text-sm text-red-600">Invalid Email OTP !</p>
+              )}
+              <div className="d-flex w-full justify-content-between"> <button type="button"
+                className="bg-blue-600 text-white py-2 rounded-sm hover:bg-blue-700 text-center w-1/4 cursor-pointer"
+
+                style={{ backgroundColor: "rgb(37 99 235)" }}
+                onClick={() => sendEmailOTP(values)}> Send OTP
+              </button>
+
+                {EmailOTP && <button type="button"
+                  className="bg-blue-600 text-white mx-3 py-2 rounded-sm hover:bg-blue-700 text-center w-1/4 cursor-pointer"
+
+                  style={{ backgroundColor: "rgb(37 99 235)" }}
+                  onClick={() => verifyEmailOTP(values)}> {verifyEmail ? "OTP Verified" : "Verify OTP"}</button>}</div>
               <label>Register As : </label>
               <Field as="select" name="user_type">
                 <option value="Candidate">Candidate</option>
@@ -256,6 +404,31 @@ const SignupForm = () => {
                 component="div"
                 className="text-sm text-red-600"
               />
+              {SmsOTP && !verifySms && (
+                <Field
+                  type="number"
+                  name="SmsOTP"
+                  // refs={OTPField}
+                  placeholder="Contact OTP"
+                  className="w-full"
+                // disabled={verifySms}
+                />
+              )}
+              {SmsOTP && SmsOTPError && (
+                <p className="text-sm text-red-600">Invalid SMS OTP !</p>
+              )}
+              <div className="d-flex w-full justify-content-between"> <button type="button"
+                className="bg-blue-600 text-white py-2 rounded-sm hover:bg-blue-700 text-center w-1/4 cursor-pointer"
+
+                style={{ backgroundColor: "rgb(37 99 235)" }}
+                onClick={() => sendSmsOTP(values)}> Send OTP
+              </button>
+
+                {SmsOTP && <button type="button"
+                  className="bg-blue-600 text-white mx-3 py-2 rounded-sm hover:bg-blue-700 text-center w-1/4 cursor-pointer"
+
+                  style={{ backgroundColor: "rgb(37 99 235)" }}
+                  onClick={() => verifySmsOTP(values)}> {verifySms ? "OTP Verified" : "Verify OTP"}</button>}</div>
               <Field
                 type="password"
                 name="password"
@@ -268,30 +441,8 @@ const SignupForm = () => {
                 component="div"
                 className="text-sm text-red-600"
               />
-              {EmailOTP && (
-                <Field
-                  type="number"
-                  name="EmailOTP"
-                  ref={OTPField}
-                  placeholder="Email OTP"
-                  className="w-full"
-                />
-              )}
-              {EmailOTP && EmailOTPError && (
-                <p className="text-sm text-red-600">Invalid Email OTP !</p>
-              )}
-              {SmsOTP && (
-                <Field
-                  type="number"
-                  name="SmsOTP"
-                  ref={OTPField}
-                  placeholder="Contact OTP"
-                  className="w-full"
-                />
-              )}
-              {SmsOTP && SmsOTPError && (
-                <p className="text-sm text-red-600">Invalid SMS OTP !</p>
-              )}
+
+
               {signupError && (
                 <p className="text-sm text-red-600">{signupError}</p>
               )}
@@ -319,7 +470,7 @@ const SignupForm = () => {
                   <div>
                     <ReCAPTCHA
                       sitekey="6LdanHEhAAAAALDqT2CqlzJvxdPDPUDYGkcceYd7"
-                      onChange={(value) => {
+                      onChange={(values) => {
                         setCaptcha(true);
                       }}
                       ref={captchaRef}
@@ -330,11 +481,14 @@ const SignupForm = () => {
                   )}
                 </div>
               )}
+
+
               {!loading && (
                 <button
                   className="bg-blue-600 px-8 py-2 text-white rounded-sm mx-auto block mt-4 hover:bg-blue-700 text-center w-1/2 cursor-pointer"
                   type="submit"
                   style={{ backgroundColor: "rgb(37 99 235)" }}
+                  disabled={false}
                 >
                   {OTP === null ? "Continue" : "Signup"}
                 </button>
