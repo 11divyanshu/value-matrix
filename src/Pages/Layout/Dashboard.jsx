@@ -6,7 +6,12 @@ import OneSignal from "react-onesignal";
 import { dashboardRoutes } from "../../routes";
 import HorizontalNav from "../../Components/Dashbaord/Navbar";
 import Sidebar from "../../Components/Dashbaord/sidebar";
-import { getProfileImage, getUserFromId, getUserIdFromToken, url } from "../../service/api";
+import {
+  getProfileImage,
+  getUserFromId,
+  getUserIdFromToken,
+  url,
+} from "../../service/api";
 import jsCookie from "js-cookie";
 
 const Dashboard = () => {
@@ -15,7 +20,7 @@ const Dashboard = () => {
   component = "/" + component;
   let [access_token, setAccessToken] = React.useState(null);
   let [user, setUser] = React.useState(null);
-  let [profileImg , setProfileImg ] = React.useState(null);
+  let [profileImg, setProfileImg] = React.useState(null);
 
   React.useEffect(() => {
     OneSignal.init({
@@ -35,7 +40,7 @@ const Dashboard = () => {
         await localStorage.removeItem("access_token");
         await localStorage.removeItem("access_token");
         access_token1 = term;
-        await setAccessToken(term); 
+        await setAccessToken(term);
         await localStorage.setItem("access_token", term);
 
         let user_id = await getUserIdFromToken({ access_token: access_token1 });
@@ -46,12 +51,17 @@ const Dashboard = () => {
             access_token1
           );
           await setUser(user.data.user.user);
-          let image = await getProfileImage(
-            {id : user_id.data.user.user},
-            access_token1
-          );
-          setProfileImg(image.data.Image);
-          await localStorage.setItem("profileImg", JSON.stringify(image.data.Image));
+          if (user.profileImg) {
+            let image = await getProfileImage(
+              { id: user_id.data.user.user },
+              access_token1
+            );
+            setProfileImg(image.data.Image);
+            await localStorage.setItem(
+              "profileImg",
+              JSON.stringify(image.data.Image)
+            );
+          }
           if (user.data.user.access_valid === false)
             window.location.redirect = "/login";
           await localStorage.setItem("user", JSON.stringify(user.data.user));

@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import ReCAPTCHA from "react-google-recaptcha";
 import wildcards from "disposable-email-domains/wildcard.json";
-import axios from "axios";
+
 // Assets
 import Microsoft from "../../assets/images/Social/microsoft.svg";
 import Google from "../../assets/images/Social/google.svg";
@@ -120,9 +120,18 @@ const SignupForm = () => {
         setSmsOTPError(false);
         setEmailOTPError(false);
         setLoading(true);
-        console.log("valjue");
+
         if (res && !res.data.Error) {
-          window.location.href = "/login";
+            let user = res.data.user;
+            let access = res.data.access_token;
+            if (user.user_type === "User")
+            window.location.href = "/user/?a=" + access;
+          else if (user.user_type === "Company")
+            window.location.href = "/company/?a=" + access;
+          else if (user.user_type === "XI")
+            window.location.href = "/XI/?a=" + access;
+          else if (user.isAdmin) 
+            window.location.href = "/admin/?a=" + access;
         } else if (res) {
           setSignupError(res.data.Error);
           setOTP(null);

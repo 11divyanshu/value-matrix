@@ -15,11 +15,11 @@ const HorizontalNav = (props) => {
   
 
   const Logout = async () => {
-    let user = ReactSession.get("user");
+    let user = await localStorage.get("user");
     let res = await LogoutAPI(user._id);
     console.log(res);
-    ReactSession.set("user", null);
-    ReactSession.set("access_token", null);
+    await localStorage.setItem("user", null);
+    await localStorage.setItem("access_token", null);
     window.location.href = "/login";
   };
 
