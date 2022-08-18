@@ -1,9 +1,11 @@
 import React, { useState, useCallback } from "react";
 import Cropper from "react-easy-crop";
-import { updateProfileImage } from "../../service/api";
+import { updateProfileImage, getProfileImage } from "../../service/api";
 import { getCroppedImg, getRotatedImage } from "./canvasUtils";
 import { ReactSession } from "react-client-session";
 import { url } from "../../service/api";
+import axios from "axios";
+import { BlockList } from "net";
 
 const ReactCropper = (props) => {
   const [imageSrc, setImageSrc] = React.useState(props.upImg);
@@ -37,20 +39,26 @@ const ReactCropper = (props) => {
         croppedAreaPixels,
         rotation
       );
-      let user = ReactSession.get("user");
-      let access_token1 = ReactSession.get("access_token");
-      console.log("donee", { croppedImage });
-      await setCroppedImage(croppedImage);    
-      const result = await fetch(croppedImage);
-      const buf = result.arrayBuffer();
-      const file = new File([buf], user._id + "-profile", { type: MimeType });
+      let userS = localStorage.getItem("user");
+      let user = JSON.parse(userS);
+      let access_token1 = localStorage.getItem("access_token");
+      console.log("donee", croppedImage);
+      await setCroppedImage(croppedImage);
+
       const formData = new FormData();
-      formData.append("file", file);
+      let blob = await fetch(croppedImage).then(r => r.blob());
+      blob.originalname = user._id + "-profile";
       formData.append("user_id", user._id);
+      formData.append("file" , blob);
       let res = await updateProfileImage(formData, access_token1);
-      console.log(res);
+      let image = await getProfileImage(
+        {id : user._id},
+        access_token1
+      );
+      await localStorage.setItem("profileImg", JSON.stringify(image.data.Image));
+
       if (res) {
-        // window.location.reload();
+        window.location.reload();
       }
     } catch (e) {
       console.error(e);

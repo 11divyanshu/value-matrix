@@ -15,8 +15,8 @@ const CompanyProfile = () => {
 
   // Sets User and AccessToken from SessionStorage
   React.useEffect(() => {
-    let user = ReactSession.get("user");
-    let access_token = ReactSession.get("access_token");
+    let user = localStorage.getItem("user");
+    let access_token = localStorage.getItem("access_token");
     if (user && user.profileImg) {
       const img = user.profileImg;
       const imgBase64 = img.toString("base64");
@@ -25,7 +25,7 @@ const CompanyProfile = () => {
       setProfileImg(imgBase64);
     }
     if (access_token === null) window.location.href = "/login";
-    setUser(user);
+    setUser(JSON.parse(user)) ;
   }, []);
 
   return (

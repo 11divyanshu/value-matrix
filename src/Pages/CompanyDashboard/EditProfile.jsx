@@ -45,7 +45,7 @@ const EditCompanyProfile = () => {
     console.log("values");
     let wait = 0;
     if (EmailOTP === null && ContactOTP === null)
-      wait =await SendOTPFunction(values);
+      wait = await SendOTPFunction(values);
     if (wait !== 0) return;
     console.log("values");
     if (EmailOTP && ContactOTP) {
@@ -106,7 +106,7 @@ const EditCompanyProfile = () => {
     let data = {
       firstName: values.firstName,
       lastname: values.lastName,
-      about : values.about
+      about: values.about,
     };
     if (EmailOTP) {
       data.email = values.email;
@@ -136,9 +136,9 @@ const EditCompanyProfile = () => {
 
   // Sets User And Access_token
   React.useEffect(() => {
-    let access_token1 = ReactSession.get("access_token");
-    let user = ReactSession.get("user");
-    console.log(user);
+    let access_token1 = localStorage.getItem("access_token");
+    let user = localStorage.getItem("user");
+    
     if (user && user.profileImg) {
       let array = new Uint8Array(user.profileImg.data.data);
       let char_string = String.fromCharCode.apply(null, array);
@@ -152,7 +152,7 @@ const EditCompanyProfile = () => {
       // console.log(image);
       // setProfilePic(image);
     }
-    setUser(user);
+    setUser(JSON.parse(user));
     setToken(access_token1);
   }, []);
 
@@ -197,7 +197,7 @@ const EditCompanyProfile = () => {
                 contact: user.contact ? user.contact : " ",
                 emailOTP: "",
                 contactOTP: "",
-                about : ""
+                about: "",
               }}
               validate={(values) => {
                 const errors = {};

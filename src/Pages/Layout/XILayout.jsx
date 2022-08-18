@@ -17,61 +17,57 @@ const XIDashboard = () => {
 
   // Retrieve And Saves Access Token and User to Session
   const [access_token, setAccessToken] = React.useState(null);
-  let access_token1 = ReactSession.get("access_token");
-  let access_token2 = jsCookie.get("access_token");
-  if (!access_token) {
-    access_token1 = access_token2;
-    ReactSession.set("access_token", access_token1);
-  }
+
 
   React.useEffect(() => {
-
-    let access_token2 = null;
     const tokenFunc = async () => {
-      let access_token1 = jsCookie.get("access_token");
+      let access_token1 = null;
       let location = window.location.search;
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
-      if (access_token1 === null) {
+      if (term !== null || term !== undefined) {
+
+await localStorage.removeItem("access_token");
+        await localStorage.removeItem("access_token");
         access_token1 = term;
+        await setAccessToken(term);
+        await localStorage.setItem("access_token", term);
+
+        let user_id = await getUserIdFromToken({ access_token: access_token1 });
+
+        if (user_id) {
+          let user = await getUserFromId(
+            { id: user_id.data.user.user },
+            access_token1
+          );
+          await setUser(user.data.user.user);
+          if (user.data.user.access_valid === false || user.data.user.user_type !== "XI")
+            window.location.redirect = "/login";
+          await localStorage.setItem("user", JSON.stringify(user.data.user));
+	window.history.pushState({url:'/XI'},'','/XI')
+        } else {
+          window.location.href = "/login";
+        }
       }
-      access_token2 = access_token1;
-      setAccessToken(access_token1);
-      ReactSession.set("access_token", access_token1);
+      else{
+        let access_token = localStorage.get("access_token");
+        await setAccessToken(access_token);
+        let user = localStorage.get("user");
+        await setUser(user);
+      }
     };
 
-    const getData = async (token) => {
-      let user_id = await getUserIdFromToken({ access_token: token });
-      if (user_id) {
-        let user = await getUserFromId({ id: user_id.data.user.user }, token);
-        setUser(user.data.user);
-        if (
-          user.data.user.user_type !== "XI" ||
-          user.data.user.access_valid === false
-        )
-          window.location.href = "/login";
-        ReactSession.set("user", user.data.user);
-      } else {
-        window.location.href = "/login";
-      }
-    };
-    
     const func = async () => {
       await tokenFunc();
-      if (access_token2 === null || access_token2 === undefined)
-        window.location.href = "/login";
       let location = window.location.search;
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
       if (term) {
-        window.location.href = "/XI";
+        window.history.pushState({ path: "/XI" }, "", "/XI");
       }
-      getData(access_token2);
     };
-    
     func();
   }, [access_token]);
-
   React.useEffect(() => {
     if (!component || component === "/undefined") {
       setComponent(

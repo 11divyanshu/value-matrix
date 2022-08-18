@@ -2,7 +2,6 @@ import React from "react";
 import { ReactSession } from "react-client-session";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
-
 // Components And API services
 import {
   updateContactOTP,
@@ -13,11 +12,9 @@ import ReactCropper from "./ReactCrop";
 
 // Assets
 import Avatar from "../../assets/images/UserAvatar.png";
-import 'react-image-crop/dist/ReactCrop.css';
-
+import "react-image-crop/dist/ReactCrop.css";
 
 const EditProfile = () => {
-
   // Sets OTPs to NULL
   React.useEffect(() => {
     setEmailOTP(null);
@@ -37,14 +34,14 @@ const EditProfile = () => {
 
   // Updates The Profile Picture
   const [ProfilePic, setProfilePic] = React.useState(undefined);
-  
+
   const ModalBtnRef = React.useRef(null);
   const ModalRef = React.useRef(null);
 
   const [upImg, setUpImg] = React.useState(null);
 
   // Form Edit Submission
-  const submit = async(values) => {
+  const submit = async (values) => {
     let wait = 0;
     console.log("values");
     if (EmailOTP === null && ContactOTP === null)
@@ -64,7 +61,7 @@ const EditProfile = () => {
       setError("Invalid Contact OTP");
       return;
     }
-    console.log("values");
+
     update(values);
   };
 
@@ -83,7 +80,6 @@ const EditProfile = () => {
       }
     }
     if (values.contact !== user.contact) {
-      console.log("d");
       let res2 = await updateContactOTP(
         { contact: values.contact },
         { access_token: access_token }
@@ -132,24 +128,23 @@ const EditProfile = () => {
 
   // Sets User And Access_token
   React.useEffect(() => {
-    let access_token1 = ReactSession.get("access_token");
-    let user = ReactSession.get("user");
-    console.log(user);
-    if(user && user.profileImg ){
-      let array = new Uint8Array(user.profileImg.data.data)
-      let char_string = String.fromCharCode.apply(null, array);
-      let base64string = btoa(char_string);
-      base64string  = "data:image/png;base64,"+base64string;
-      console.log(base64string);
-      setProfilePic(base64string);
-      // let image = user.profileImg.data.data.toString('base64');
-      // console.log(image);
-      // image = "data:image/png;base64,"+image;
-      // console.log(image);
-      // setProfilePic(image);
-    }
-    setUser(user);
-    setToken(access_token1);
+    const getData = async () => {
+      let access_token1 = localStorage.getItem("access_token");
+      let user = JSON.parse(localStorage.getItem("user"));
+      if (user && user.profileImg) {
+        let image = JSON.parse(await localStorage.getItem("profileImg"));
+        console.log(image);
+        let base64string = btoa(
+          String.fromCharCode(...new Uint8Array(image.data))
+        );
+        let src = `data:image/png;base64,${base64string}`;
+
+        await setProfilePic(src);
+      }
+      setUser(user);
+      setToken(access_token1);
+    };
+    getData();
   }, []);
 
   return (
@@ -160,7 +155,9 @@ const EditProfile = () => {
           <div className="my-3 shadow-md rounded-md w-full p-3 flex items-center">
             <div>
               <img
-                src={user && user.profileImg ? ProfilePic : Avatar}
+                src={
+                  user && user.profileImg && ProfilePic ? ProfilePic : Avatar
+                }
                 className="h-16 w-16 rounded-md mx-6"
                 alt="userAvatar"
               />
@@ -173,7 +170,10 @@ const EditProfile = () => {
             </div>
             <div class="ml-auto mr-5">
               <label>
-                <button class="bg-blue-500 rounded-sm text-white px-2 py-1 cursor-pointer" onClick={()=>ModalBtnRef.current.click()}>
+                <button
+                  class="bg-blue-500 rounded-sm text-white px-2 py-1 cursor-pointer"
+                  onClick={() => ModalBtnRef.current.click()}
+                >
                   Upload Image
                 </button>
               </label>
@@ -190,7 +190,7 @@ const EditProfile = () => {
                 email: user.email ? user.email : " ",
                 contact: user.contact ? user.contact : " ",
                 emailOTP: "",
-                about:"",
+                about: "",
                 contactOTP: "",
               }}
               validate={(values) => {
@@ -255,6 +255,15 @@ const EditProfile = () => {
                         className="text-sm text-red-600"
                       />
                     </div>
+                    <div className="md:w-1/2 w-full space-y-1">
+                      <label className="font-semibold">About</label>
+                      <Field
+                        as="textarea"
+                        className="block  py-1 md:w-1/2 w-3/4 h-20"
+                        name="about"
+                      />
+                    </div>
+
                     <div className="md:w-1/2 w-full space-y-1">
                       <label className="font-semibold">Email</label>
                       <Field
@@ -350,15 +359,17 @@ const EditProfile = () => {
               </h5>
             </div>
             <div class="modal-body relative p-4">
-             <ReactCropper Modal={ModalRef}/>
+              <ReactCropper Modal={ModalRef} />
             </div>
           </div>
-          <button type="button"
-          class="hideen px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
-          data-bs-dismiss="modal"
-          ref={ModalRef}>
-          Close
-        </button>
+          <button
+            type="button"
+            class="hideen px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+            data-bs-dismiss="modal"
+            ref={ModalRef}
+          >
+            Close
+          </button>
         </div>
       </div>
       {/* Modal For Cropping Image */}

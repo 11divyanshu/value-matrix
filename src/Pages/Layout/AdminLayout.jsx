@@ -27,30 +27,41 @@ const AdminDashboard = () => {
     ReactSession.set("access_token", access_token1);
   }
 
-  React.useEffect(() => {  
+  React.useEffect(() => {
     const tokenFunc = async () => {
-      let access_token1 = localStorage.get("access_token");
+      let access_token1 = null;
       let location = window.location.search;
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
-      if (access_token1 === null || access_token1 === undefined) {
+      if (term !== null || term !== undefined) {
+
+await localStorage.removeItem("access_token");
+        await localStorage.removeItem("access_token");
         access_token1 = term;
+        await setAccessToken(term);
+        await localStorage.setItem("access_token", term);
+
+        let user_id = await getUserIdFromToken({ access_token: access_token1 });
+
+        if (user_id) {
+          let user = await getUserFromId(
+            { id: user_id.data.user.user },
+            access_token1
+          );
+          await setUser(user.data.user.user);
+          if (user.data.user.access_valid === false || user.data.user.isAdmin === false)
+            window.location.redirect = "/login";
+          await localStorage.setItem("user", JSON.stringify(user.data.user));
+	window.history.pushState({url:'/admin'},'','/admin')
+        } else {
+          window.location.href = "/login";
+        }
       }
-      setAccessToken(access_token1);
-      await sessionStorage.setItem("access_token", access_token1);
-      await localStorage.setItem("access_token", access_token1);
-      let user_id = await getUserIdFromToken({ access_token: access_token1 });
-      if (user_id) {
-        let user = await getUserFromId(
-          { id: user_id.data.user.user },
-          access_token1
-        );
-        console.log(user)
-        if (user.data.user.access_valid === false || user.data.user.isAdmin === false)
-          window.location.redirect = "/login";
-        sessionStorage.setItem("user", user.data.user);
-      } else {
-        window.location.href = "/login";
+      else{
+        let access_token = localStorage.get("access_token");
+        await setAccessToken(access_token);
+        let user = localStorage.get("user");
+        await setUser(user);
       }
     };
 
@@ -60,7 +71,7 @@ const AdminDashboard = () => {
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
       if (term) {
-        window.location.href = "/admin";
+        window.history.pushState({ path: "/admin" }, "", "/admin");
       }
     };
     func();

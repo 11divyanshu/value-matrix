@@ -26,7 +26,8 @@ root.render(
     <Router>
       <Routes>
         <Route path="/login" element={<Login/>} />
-        <Route path="/resetPassword" element ={<ResetPassword/>}/>
+        <Route path="/resetPassword/" element ={<ResetPassword/>}/>
+        <Route path="/resetPassword/:id" element ={<ResetPassword/>}/>
         <Route path="/user" element={<Dashboard/>} />
         <Route path="/user/:component" element={<Dashboard/>}/>
         <Route path="/admin/login" element={<AdminLogin/>}/>

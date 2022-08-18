@@ -6,7 +6,7 @@ import OneSignal from "react-onesignal";
 import { dashboardRoutes } from "../../routes";
 import HorizontalNav from "../../Components/Dashbaord/Navbar";
 import Sidebar from "../../Components/Dashbaord/sidebar";
-import { getUserFromId, getUserIdFromToken, url } from "../../service/api";
+import { getProfileImage, getUserFromId, getUserIdFromToken, url } from "../../service/api";
 import jsCookie from "js-cookie";
 
 const Dashboard = () => {
@@ -15,6 +15,7 @@ const Dashboard = () => {
   component = "/" + component;
   let [access_token, setAccessToken] = React.useState(null);
   let [user, setUser] = React.useState(null);
+  let [profileImg , setProfileImg ] = React.useState(null);
 
   React.useEffect(() => {
     OneSignal.init({
@@ -25,32 +26,44 @@ const Dashboard = () => {
   // Set Access_Token And User to the Session Storage
 
   React.useEffect(() => {
-  
     const tokenFunc = async () => {
-      let access_token1 = localStorage.get("access_token");
+      let access_token1 = null;
       let location = window.location.search;
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
-      if (access_token1 === null || access_token1 === undefined) {
+      if (term !== null || term !== undefined) {
+        await localStorage.removeItem("access_token");
+        await localStorage.removeItem("access_token");
         access_token1 = term;
-      }
-      
-      setAccessToken(access_token1);
-      await sessionStorage.setItem("access_token", access_token1);
-      await localStorage.setItem("access_token", access_token1);
-      let user_id = await getUserIdFromToken({ access_token: access_token1 });
-      console.log(user_id);
-      if (user_id) {
-        let user = await getUserFromId(
-          { id: user_id.data.user.user },
-          access_token1
-        );
-        console.log(user)
-        if (user.data.user.access_valid === false)
-          window.location.redirect = "/login";
-        sessionStorage.setItem("user", user.data.user);
+        await setAccessToken(term); 
+        await localStorage.setItem("access_token", term);
+
+        let user_id = await getUserIdFromToken({ access_token: access_token1 });
+
+        if (user_id) {
+          let user = await getUserFromId(
+            { id: user_id.data.user.user },
+            access_token1
+          );
+          await setUser(user.data.user.user);
+          let image = await getProfileImage(
+            {id : user_id.data.user.user},
+            access_token1
+          );
+          setProfileImg(image.data.Image);
+          await localStorage.setItem("profileImg", JSON.stringify(image.data.Image));
+          if (user.data.user.access_valid === false)
+            window.location.redirect = "/login";
+          await localStorage.setItem("user", JSON.stringify(user.data.user));
+          window.history.pushState({ url: "/user" }, "", "/user");
+        } else {
+          window.location.href = "/login";
+        }
       } else {
-        window.location.href = "/login";
+        let access_token = localStorage.get("access_token");
+        await setAccessToken(access_token);
+        let user = localStorage.get("user");
+        await setUser(user);
       }
     };
 
@@ -60,7 +73,7 @@ const Dashboard = () => {
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
       if (term) {
-        window.location.href = "/user";
+        window.history.pushState({ path: "/user" }, "", "/user");
       }
     };
     func();

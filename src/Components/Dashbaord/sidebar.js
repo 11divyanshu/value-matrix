@@ -27,7 +27,7 @@ const Sidebar = (props) => {
   }
 
   const [windowDimensions, setWindowDimensions] = React.useState(getWindowDimensions());
-  console.log(props.user);
+  
   React.useEffect(() => {
     if (hasWindow) {
       function handleResize() {

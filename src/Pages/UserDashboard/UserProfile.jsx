@@ -7,7 +7,6 @@ import Avatar from "../../assets/images/UserAvatar.png";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
-
   let navigate = useNavigate();
 
   // Access Token And User State
@@ -16,18 +15,20 @@ const UserProfile = () => {
 
   // Sets User and AccessToken from SessionStorage
   React.useEffect(() => {
-    let user = ReactSession.get("user");
-    let access_token = ReactSession.get("access_token");
-    if(user && user.profileImg){
-      const img = user.profileImg;
-      const imgBase64 = img.toString("base64");
-      console.log(imgBase64);
-      setProfileImg(img);
-      setProfileImg(imgBase64);
-    }
-    if(access_token === null )
-      window.location.href="/login"
-    setUser(user);
+    const func = async () => {
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let access_token = await localStorage.getItem("access_token");
+      if (user && user.profileImg) {
+        let image = JSON.parse(await localStorage.getItem("profileImg"));
+        console.log(image);
+        let base64string = btoa(String.fromCharCode(...new Uint8Array(image.data)));
+        let src = `data:image/png;base64,${base64string}`;
+        setProfileImg(src);
+      }
+      if (access_token === null) window.location.href = "/login";
+      await setUser(user);
+    };
+    func();
   }, []);
 
   return (
@@ -38,7 +39,7 @@ const UserProfile = () => {
           <div className="my-3 shadow-md rounded-md w-full p-3 flex items-center ">
             <div>
               <img
-                src={(user && user.profileImg && profileImg ) ? Avatar : Avatar}
+                src={user && user.profileImg && profileImg ? profileImg : Avatar}
                 className="h-16 w-16 rounded-md mx-6"
                 alt="userAvatar"
               />
@@ -51,8 +52,12 @@ const UserProfile = () => {
             </div>
             <div className="ml-auto mr-6 ">
               <button
-                className="border-[0.5px] border-gray-600 text-gray-600 px-2 py-1 rounded-sm md:block hidden"
-                onClick={() => {let url = window.location.href; let type  = url.split("/")[3]; window.location.href="/"+type+"/editProfile";}}
+                className="border-[0.5px] border-gray-600 text-gray-600 px-2 py-1 rounded-sm"
+                onClick={() => {
+                  let url = window.location.href;
+                  let type = url.split("/")[3];
+                  window.location.href = "/" + type + "/editProfile";
+                }}
               >
                 Edit Profile
               </button>

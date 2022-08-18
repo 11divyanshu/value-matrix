@@ -84,6 +84,17 @@ export const getUserFromId = async (data, token) => {
   }
 };
 
+export const getProfileImage = async(data, token) => {
+  try {
+    let c = await axios.post(`${url}/getProfileImage`, data, {
+      headers: { authorization: token.access_token },
+    });
+    return c;
+  } catch (error) {
+    console.log("Error while calling GetProfileImageFromId: ", error);
+  }
+}
+
 // Update User Details
 export const updateUserDetails = async (data, token) => {
   try {
@@ -218,9 +229,9 @@ export const postJobAPI = async (data, token) => {
 
 //update job
 
-export const updateJobAPI = async (job_id,data, token) => {
+export const updateJobAPI = async (job_id, data, token) => {
   try {
-    return await axios.post(`${url}/updateJob`, job_id,data, {
+    return await axios.post(`${url}/updateJob`, job_id, data, {
       headers: {
         authorization: token,
       },
@@ -242,20 +253,61 @@ export const listJobs = async () => {
 // List Jobs
 export const updateJobDetails = async (data, token) => {
   try {
-    return await axios.post(` ${url}/updateJobDetails`,data,{
+    return await axios.post(` ${url}/updateJobDetails`, data, {
       headers: {
         authorization: token,
-      }});
+      },
+    })
   } catch (error) {
     console.log("Error Calling List Jobs API :", error);
   }
 };
 // Get Job Details
 
-export const getJobById = async (id,token) => {
+export const getJobById = async (id, token) => {
   try {
-    return await axios.post(`${url}/getJobFromId`,{job_id:id},{headers:{authorization:token}});
+    return await axios.post(
+      `${url}/getJobFromId`,
+      { job_id: id },
+      { headers: { authorization: token } }
+    );
   } catch (error) {
     console.log("Error Calling List Jobs API :", error);
   }
+};
+
+// Reset Password Mail
+export const sendResetPasswordMail = async (data) => {
+  try {
+    return await axios.post(`${url}/sendResetPasswordMail`, data);
+  } catch (error) {
+    console.log("Error : ", error);
+  }
+};
+
+// Reset Password By SMS
+export const sendResetPasswordSMS = async (data) => {
+  try {
+    return await axios.post(`${url}/sendResetPasswordSMS`, data);
+  } catch (error) {
+    console.log("Error : ", error);
+  }
+};
+
+// Reset Password by Username
+export const sendResetPasswordByUsername = async(data) => {
+  try{
+    return await axios.post(`${url}/sendResetPasswordUsername`, data);
+  }catch(error){
+    console.log("Error : ", error);
+  }
 }
+
+// Reset Password
+export const resetPassword = async (data) => {
+  try {
+    return await axios.post(`${url}/resetPassword`, data);
+  } catch (error) {
+    console.log("Error :", error);
+  }
+};
