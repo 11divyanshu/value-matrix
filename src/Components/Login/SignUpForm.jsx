@@ -229,9 +229,11 @@ const SignupForm = () => {
     console.log(OTP)
     if (!verifyEmail) {
       setEmailError(true)
+      return
     }
     if (!verifySms) {
       setSmsError(true)
+      return
     }
 
     if (
@@ -241,7 +243,7 @@ const SignupForm = () => {
       if (captcha === false) {
         console.log("show Captcha");
         setShowCaptcha(true);
-      } else {
+      } else if(captcha){
         let res = await authenticateSignUp(values);
         setSmsOTPError(false);
         setEmailOTPError(false);
@@ -527,7 +529,7 @@ const SignupForm = () => {
                   className="text-sm text-red-600 w-100"
                 />
               </div>
-              {showCaptcha && (
+             
                 <div>
                   <div>
                     <ReCAPTCHA
@@ -542,7 +544,7 @@ const SignupForm = () => {
                     <p className="text-sm my-0 text-red-600">{captchaError}</p>
                   )}
                 </div>
-              )}
+              
 
 
               {!loading && (

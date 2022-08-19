@@ -16,6 +16,8 @@ import EmailNotification from "./Pages/AdminDashboard/EmailNotification";
 import PushNotification from "./Pages/AdminDashboard/PushNotifications";
 
 // Company Pages
+import CJobList from "./Pages/CompanyDashboard/jobList.jsx";
+
 import AddJob from "./Pages/CompanyDashboard/PostJob.jsx";
 import UpdateJob from "./Pages/CompanyDashboard/UpdateJob.jsx";
 import EditCompanyProfile from "./Pages/CompanyDashboard/EditProfile.jsx";
@@ -156,7 +158,7 @@ export const companyDashboardRoutes = [
     path: "/jobs",
     hide: false,
     icon: <RiFolderUserFill className="text-xl" />,
-    component: <JobList />,
+    component: <CJobList />,
   },
 
   {

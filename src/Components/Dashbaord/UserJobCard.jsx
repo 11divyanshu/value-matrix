@@ -17,7 +17,7 @@ const JobCard = (props) => {
           
 
           <p>{job.hiringOrganization}</p>
-          <p className="ml-auto text-xs text-blue-500 cursor-pointer" ><Link to={`/user/jobDetails/${job._id}`}>View Details</Link></p>
+          <p className="ml-auto text-xs text-blue-500 cursor-pointer" ><Link to={`/jobDetails/${job._id}`}>View Details</Link></p>
         </div>
         <div class="p-6">
           <h5 class="text-gray-900 text-xl font-medium mb-2">{job.jobTitle}</h5>
