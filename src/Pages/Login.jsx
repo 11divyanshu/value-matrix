@@ -39,11 +39,11 @@ const Login = () => {
   return (
     <div className={styles.loginLanding}>
       {/* Login Card */}
-      <div className="container w-3/4 flex bg-white rounded-lg">
+      <div className="container w-3/4 flex bg-white rounded-lg" style={{borderRadius:"0.7rem"}}>
         {!login && (
-          <div className="md:w-1/2 w-full flex flex-col">
+          <div className="w-1/2 w-full flex flex-col">
             <SignupForm />
-            <p className="py-5 text-center text-sm block">
+            <p className="pb-5 text-center text-sm block">
               Already have an account ?{" "}
               <span
                 className="text-blue-700 font-semibold cursor-pointer"
@@ -59,14 +59,21 @@ const Login = () => {
           </div>
         )}
         {/* Card 1 */}
-        <div className="w-1/2 m-0 md:block hidden">
+       
+{login&&  <div className="w-1/2 m-0 md:block hidden" >
           <div className={styles.Card1}></div>
-        </div>
+        </div>}
+
+        {!login && <div className="w-1/2 m-0 md:block hidden" >
+          <div className={styles.Card2}></div>
+        </div>}
+
+
         {/* Card 2 */}
         {login && (
-          <div className="md:w-1/2 w-full flex flex-col">
+          <div className="w-1/2 w-full flex flex-col">
             <LoginForm />
-            <p className="py-5 text-center text-sm block">
+            <p className="pb-5 text-center text-sm block">
               Don't have an account ?{" "}
               <span
                 className="text-blue-700 font-semibold cursor-pointer"

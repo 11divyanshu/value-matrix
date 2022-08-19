@@ -1,5 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+
 .loginLanding{
-    background: url("../images/LoginBg.jpg");
+    background: url("../images/loginBackground.jpeg");
     background-size: cover;
     background-position: center;
     display: flex;
@@ -7,12 +12,24 @@
     padding:2%;
     justify-content: center;
     align-items: center;
+    
 }
 
 .Card1{
-    background: url("../images/LoginCard3.jpg");
+    background: url("../images/logintree.jpeg");
     background-size: cover;
     background-position: center;
     height:100%;
     width:100%;
+    border-radius: 12px 0 0 12px;
+    z-index: 10;
+}
+
+.Card2{
+    background: url("../images/signup.jpeg");
+    background-size: cover;
+    background-position: center;
+    height:100%;
+    width:100%;
+    border-radius: 0 12px 12px 0;
 }
