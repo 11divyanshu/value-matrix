@@ -249,11 +249,15 @@ const SignupForm = () => {
         setEmailOTPError(false);
         setLoading(true);
         console.log(res);
+        await localStorage.setItem("access_token", res.data.access_token);
+        await localStorage.setItem("user", JSON.stringify(res.data.user));
+
+
         if (res && !res.data.Error) {
           let user = res.data.user;
           let access = res.data.access_token;
           if (user.user_type === "User")
-            window.location.href = "/user/?a=" + access;
+            window.location.href = "/user/profile";
           else if (user.user_type === "Company")
             window.location.href = "/company/?a=" + access;
           else if (user.user_type === "XI")
