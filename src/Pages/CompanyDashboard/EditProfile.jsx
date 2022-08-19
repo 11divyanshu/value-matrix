@@ -7,7 +7,9 @@ import {
   updateContactOTP,
   updateEmailOTP,
   updateUserDetails,
+  validateSignupDetails,
 } from "../../service/api";
+
 import ReactCropper from "../UserDashboard/ReactCrop";
 
 // Assets
@@ -71,7 +73,11 @@ const EditCompanyProfile = () => {
   const SendOTPFunction = async (values) => {
     let wait = 0;
     if (values.email !== user.email) {
-      console.log("values");
+      let emailValidate = await validateSignupDetails({email : values.email});
+      if(emailValidate.data.email === true){
+        setError("Email Already Registered");
+        return 1;
+      }
       let res = await updateEmailOTP(
         { mail: values.email },
         { access_token: access_token }
@@ -84,8 +90,11 @@ const EditCompanyProfile = () => {
       }
     }
     if (values.contact !== user.contact) {
-      console.log("values");
-      console.log("d");
+      let contactValidate = await validateSignupDetails({contact : values.contact});
+      if(contactValidate.data.contact === true){
+        setError("Contact Already Registered");
+        return 1;
+      }
       let res2 = await updateContactOTP(
         { contact: values.contact },
         { access_token: access_token }
@@ -102,7 +111,7 @@ const EditCompanyProfile = () => {
   };
 
   const update = async (values) => {
-    console.log("values");
+    
     let data = {
       firstName: values.firstName,
       lastname: values.lastName,
@@ -114,10 +123,12 @@ const EditCompanyProfile = () => {
     if (ContactOTP) {
       data.contact = values.contact;
     }
+
     let res = await updateUserDetails(
       { user_id: user._id, updates: data },
       { access_token: access_token }
     );
+    
     if (res.data.Error) {
       if (res.data.contact) {
         setError(res.data.Error);
@@ -128,6 +139,7 @@ const EditCompanyProfile = () => {
         return;
       }
     } else if (res) {
+      await localStorage.setItem("user", JSON.stringify(res.data.user));
       window.location.href = "/company/profile";
     } else {
       console.log("Error");
@@ -165,7 +177,9 @@ const EditCompanyProfile = () => {
           <div className="my-3 shadow-md rounded-md w-full p-3 flex items-center">
             <div>
               <img
-                src={user && user.profileImg && ProfilePic ? ProfilePic : Avatar}
+                src={
+                  user && user.profileImg && ProfilePic ? ProfilePic : Avatar
+                }
                 className="h-16 w-16 rounded-md mx-6"
                 alt="userAvatar"
               />

@@ -1,6 +1,7 @@
 import React from "react";
 import { ReactSession } from "react-client-session";
 import { Formik, Form, Field } from "formik";
+import  {getUserFromId } from  "../../service/api.js";
 
 // Assets
 import Avatar from "../../assets/images/UserAvatar.png";
@@ -21,7 +22,9 @@ const UserProfile = () => {
       if (user && user.profileImg) {
         let image = JSON.parse(await localStorage.getItem("profileImg"));
         console.log(image);
-        let base64string = btoa(String.fromCharCode(...new Uint8Array(image.data)));
+        let base64string = btoa(
+          String.fromCharCode(...new Uint8Array(image.data))
+        );
         let src = `data:image/png;base64,${base64string}`;
         setProfileImg(src);
       }
@@ -39,7 +42,9 @@ const UserProfile = () => {
           <div className="my-3 shadow-md rounded-md w-full p-3 flex items-center ">
             <div>
               <img
-                src={user && user.profileImg && profileImg ? profileImg : Avatar}
+                src={
+                  user && user.profileImg && profileImg ? profileImg : Avatar
+                }
                 className="h-16 w-16 rounded-md mx-6"
                 alt="userAvatar"
               />
@@ -72,6 +77,7 @@ const UserProfile = () => {
                 lastName: user.lastname,
                 email: user.email ? user.email : " ",
                 contact: user.contact ? user.contact : " ",
+                about : user.about ? user.about : " ",
               }}
             >
               {({ values, isSubmitting }) => (
@@ -97,6 +103,14 @@ const UserProfile = () => {
                         type="text"
                         disabled
                         className="block border-gray-400 py-1 md:w-1/2 w-3/4"
+                      />
+                    </div>
+                    <div className="md:w-1/2 w-full space-y-1">
+                      <label className="font-semibold">About</label>
+                      <Field
+                        as="textarea"
+                        className="block  py-1 md:w-1/2 w-3/4 h-20"
+                        name="about"
                       />
                     </div>
                     <div className="md:w-1/2 w-full space-y-1">

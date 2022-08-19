@@ -7,6 +7,7 @@ import {
   updateContactOTP,
   updateEmailOTP,
   updateUserDetails,
+  validateSignupDetails,
 } from "../../service/api";
 import ReactCropper from "./ReactCrop";
 
@@ -68,6 +69,11 @@ const EditProfile = () => {
   const SendOTPFunction = async (values) => {
     let wait = 0;
     if (values.email !== user.email) {
+      let emailValidate = await validateSignupDetails({email : values.email});
+      if(emailValidate.data.email === true){
+        setError("Email Already Registered");
+        return 1;
+      }
       let res = await updateEmailOTP(
         { mail: values.email },
         { access_token: access_token }
@@ -80,6 +86,11 @@ const EditProfile = () => {
       }
     }
     if (values.contact !== user.contact) {
+      let contactValidate = await validateSignupDetails({contact : values.contact});
+      if(contactValidate.data.contact === true){
+        setError("Contact Already Registered");
+        return 1;
+      }
       let res2 = await updateContactOTP(
         { contact: values.contact },
         { access_token: access_token }
@@ -98,6 +109,7 @@ const EditProfile = () => {
     let data = {
       firstName: values.firstName,
       lastname: values.lastName,
+      about : values.about
     };
     if (EmailOTP) {
       data.email = values.email;
@@ -110,6 +122,7 @@ const EditProfile = () => {
       { user_id: user._id, updates: data },
       { access_token: access_token }
     );
+    console.log(res);
     if (res.data.Error) {
       if (res.data.contact) {
         setError(res.data.Error);
@@ -120,6 +133,8 @@ const EditProfile = () => {
         return;
       }
     } else if (res) {
+      console.log(res);
+      await localStorage.setItem("user", JSON.stringify(res.data.user));
       window.location.href = "/user/profile";
     } else {
       console.log("Error");
@@ -192,7 +207,7 @@ const EditProfile = () => {
                 email: user.email ? user.email : " ",
                 contact: user.contact ? user.contact : " ",
                 emailOTP: "",
-                about: "",
+                about: user.about ? user.about : "",
                 contactOTP: "",
               }}
               validate={(values) => {
