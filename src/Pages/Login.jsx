@@ -7,30 +7,34 @@ import LoginForm from "../Components/Login/LoginForm";
 
 // Assets
 import styles from "../assets/stylesheet/login.module.css";
-import jsCookie from "js-cookie";
-import { LogoutAPI } from "../service/api";
 
 const Login = () => {
-  
   const [login, showLogin] = React.useState(true);
 
-  const Logout =async () => {
-    let user = ReactSession.get("user");
-    await LogoutAPI(user._id);
-    ReactSession.set("user", null);
-    jsCookie.set("access_token",null);
-    ReactSession.set("access_token", null);
-  };
-
-  React.useEffect(()=>{
-    let access = ReactSession.get("access_token");
-    let user = ReactSession.get("user");
-    if(access === null || access === undefined)
-      access  = jsCookie.get('access_token');
-    if(access && user){
-        Logout();
-    }
-  })
+  React.useEffect(() => {
+    const initial = async () => {
+      let access = await localStorage.getItem("access_token");
+      
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let url = window.location.href.split("/");
+      if (url[url.length - 1] === "register") showLogin(false);
+      if (access !== "null") {
+        if (user.isAdmin) {
+          window.location.href = "/admin?a=" + access;
+        }
+        if (user.user_type === "Company") {
+          window.location.href = "/compnay?a=" + access;
+        }
+        if (user.user_type === "XI") {
+          window.location.href = "/XI?a=" + access;
+        }
+        if (user.user_type === "User") {
+          window.location.href = "/user?a=" + access;
+        }
+      }
+    };
+    initial();
+  });
 
   return (
     <div className={styles.loginLanding}>
@@ -43,7 +47,10 @@ const Login = () => {
               Already have an account ?{" "}
               <span
                 className="text-blue-700 font-semibold cursor-pointer"
-                onClick={() => showLogin(true)}
+                onClick={() => {
+                  showLogin(true);
+                  window.history.pushState({ url: "/login" }, "", "/login");
+                }}
               >
                 {" "}
                 Log In{" "}
@@ -63,7 +70,14 @@ const Login = () => {
               Don't have an account ?{" "}
               <span
                 className="text-blue-700 font-semibold cursor-pointer"
-                onClick={() => showLogin(false)}
+                onClick={() => {
+                  showLogin(false);
+                  window.history.pushState(
+                    { url: "/register" },
+                    "",
+                    "/register"
+                  );
+                }}
               >
                 {" "}
                 Sign Up{" "}

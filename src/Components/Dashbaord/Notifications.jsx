@@ -17,20 +17,20 @@ const NotificationPopOver = (props) => {
     console.log(res.data.notifications);
     if (res) {
       setNotification(res.data.notifications);
-      if(res.data.notifications && res.data.notifications[0]){
-      let mp = new Map();
-      res.data.notifications.forEach((element) => {
-        mp.set(element._id, true);
-      });
-      setShowNoti(mp);
+      if (res.data.notifications && res.data.notifications[0]) {
+        let mp = new Map();
+        res.data.notifications.forEach((element) => {
+          mp.set(element._id, true);
+        });
+        setShowNoti(mp);
       }
     }
   };
 
   const markAsReadNoti = async (noti) => {
     try {
-      let user = ReactSession.get("user");
-      let token = ReactSession.get("access_token");
+      let user = await localStorage.getItem("user");
+      let token = await localStorage.getItem("access_token");
       let res = await markNotiReadForUser(
         { noti_id: noti._id, user_id: user._id },
         token
@@ -46,18 +46,15 @@ const NotificationPopOver = (props) => {
   };
 
   const markAllUtility = async (el, user_id, token) => {
-    await markNotiReadForUser(
-      { noti_id: el._id, user_id: user_id },
-      token
-    );
+    await markNotiReadForUser({ noti_id: el._id, user_id: user_id }, token);
   };
 
   const MarkAllNotiRead = async () => {
     try {
-      let user = ReactSession.get("user");
-      let token = ReactSession.get("token");
+      let user = await localStorage.getItem("user");
+      let token = await localStorage.getItem("token");
       notification.forEach((el) => {
-          markAllUtility(el, user._id, token);
+        markAllUtility(el, user._id, token);
       });
     } catch (err) {
       console.log(err);
@@ -65,9 +62,12 @@ const NotificationPopOver = (props) => {
   };
 
   React.useEffect(() => {
-    let user = ReactSession.get("user");
-    let token = ReactSession.get("access_token");
-    getNotification(user, token);
+    const initial = async () => {
+      let user = await localStorage.getItem("user");
+      let token = await localStorage.getItem("access_token");
+      getNotification(user, token);
+    };
+    initial();
   }, []);
 
   return (
@@ -78,7 +78,7 @@ const NotificationPopOver = (props) => {
             className={`
             ${open ? "" : "text-opacity-90"} focus:outline-0`}
           >
-            {notification && notification.length>0 && (
+            {notification && notification.length > 0 && (
               <div class="absolute inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 p-1 text-xs bg-red-600 rounded-full z-10"></div>
             )}
             <BsFillBellFill className="text-gray-700 text-lg cursor-pointer hover:text-gray-800" />
@@ -99,19 +99,26 @@ const NotificationPopOver = (props) => {
                     <BsFillBellFill className="text-md" />
                     <p>Notifications</p>{" "}
                     <p className="text-sm">
-                      {notification && notification.length > 0 && (<p>({notification.length}  unread)</p>)}
+                      {notification && notification.length > 0 && (
+                        <p>({notification.length} unread)</p>
+                      )}
                     </p>{" "}
                   </div>
-                  {notification && notification.length>0 && (
-                  <p
-                    className="text-xs text-gray-400 hover:text-blue-600 cursor-pointer"
-                    onClick={MarkAllNotiRead}
-                  >
-                    Mark all as read
-                  </p>)}
+                  {notification && notification.length > 0 && (
+                    <p
+                      className="text-xs text-gray-400 hover:text-blue-600 cursor-pointer"
+                      onClick={MarkAllNotiRead}
+                    >
+                      Mark all as read
+                    </p>
+                  )}
                 </div>
                 <div className="bg-gray-50">
-                  {(notification === null || notification === undefined) && <p className="p-3">No New Notification. You are all caught up.</p>}
+                  {(notification === null || notification === undefined) && (
+                    <p className="p-3">
+                      No New Notification. You are all caught up.
+                    </p>
+                  )}
                   {notification && showNoti && (
                     <div>
                       {notification.map((item, index) => {

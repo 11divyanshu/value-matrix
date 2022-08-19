@@ -136,24 +136,25 @@ const EditCompanyProfile = () => {
 
   // Sets User And Access_token
   React.useEffect(() => {
-    let access_token1 = localStorage.getItem("access_token");
-    let user = localStorage.getItem("user");
-    
-    if (user && user.profileImg) {
-      let array = new Uint8Array(user.profileImg.data.data);
-      let char_string = String.fromCharCode.apply(null, array);
-      let base64string = btoa(char_string);
-      base64string = "data:image/png;base64," + base64string;
-      console.log(base64string);
-      setProfilePic(base64string);
-      // let image = user.profileImg.data.data.toString('base64');
-      // console.log(image);
-      // image = "data:image/png;base64,"+image;
-      // console.log(image);
-      // setProfilePic(image);
-    }
-    setUser(JSON.parse(user));
-    setToken(access_token1);
+    const initial = async () => {
+      let access_token1 = await localStorage.getItem("access_token");
+      let user = await localStorage.getItem("user");
+      if (access_token1 === "null")
+        await localStorage.setItem("access_token", user.access_token);
+      if (user && user.profileImg) {
+        let image = JSON.parse(await localStorage.getItem("profileImg"));
+        console.log(image);
+        let base64string = btoa(
+          String.fromCharCode(...new Uint8Array(image.data))
+        );
+        let src = `data:image/png;base64,${base64string}`;
+
+        await setProfilePic(src);
+      }
+      setUser(JSON.parse(user));
+      setToken(access_token1);
+    };
+    initial();
   }, []);
 
   return (
@@ -164,7 +165,7 @@ const EditCompanyProfile = () => {
           <div className="my-3 shadow-md rounded-md w-full p-3 flex items-center">
             <div>
               <img
-                src={user && user.profileImg ? Avatar : Avatar}
+                src={user && user.profileImg && ProfilePic ? ProfilePic : Avatar}
                 className="h-16 w-16 rounded-md mx-6"
                 alt="userAvatar"
               />

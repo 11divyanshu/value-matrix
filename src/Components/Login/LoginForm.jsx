@@ -20,12 +20,12 @@ const LoginForm = (props) => {
   const [captcha, setCaptcha] = React.useState(true);
 
   const captchaRef = React.useRef();
-  console.log(captchaRef);
+
   const Login = async (values) => {
     if (captcha === false && error >= 3) {
       setCaptchaError("Confirm Captcha");
       return;
-    }else{
+    } else {
       setCaptchaError(null);
     }
     let res = null;
@@ -37,19 +37,21 @@ const LoginForm = (props) => {
       setCaptcha(true);
       setCaptchaError(null);
       setLoading(false);
-      ReactSession.set("access_token", res.data.access_token);
-      jsCookie.set("access_token", res.data.access_token);
-      if (!props.admin) {
-        if (res.data.user.user_type === "User")
-          window.location.href = "/user";
-        else if (res.data.user.user_type === "Company")
-          window.location.href = "/company";
-      } else {
-        window.location.href = "/admin";
+      await localStorage.setItem("access_token", res.data.access_token);
+      let access = res.data.access_token;
+
+      if (res.data.user.user_type === "User")
+        window.location.href = "/user/?a=" + access;
+      else if (res.data.user.user_type === "Company")
+        window.location.href = "/company/?a=" + access;
+      else if (res.data.user.user_type === "XI")
+        window.location.href = "/XI/?a=" + access;
+      else if (res.data.user.isAdmin) {
+        window.location.href = "/admin/?a=" + access;
       }
     } else {
       setCaptcha(false);
-      if(captchaRef.current !== undefined){
+      if (captchaRef.current !== undefined) {
         captchaRef.current.reset();
       }
       let e = error + 1;
@@ -111,12 +113,14 @@ const LoginForm = (props) => {
                 component="div"
                 className="text-sm text-red-600"
               />
-        
+
               {loginError && (
                 <p className="text-sm text-red-600">{loginError}</p>
               )}
               <div className="w-100">
-              <p className="text-sm text-blue-600 mx-auto"><Link to="/resetPassword">Forgot Password ?</Link></p>
+                <p className="text-sm text-blue-600 mx-auto">
+                  <Link to="/resetPassword">Forgot Password ?</Link>
+                </p>
               </div>
               {error >= 3 && (
                 <div>
@@ -129,11 +133,9 @@ const LoginForm = (props) => {
                   />
                 </div>
               )}
-              {
-                captchaError && (
-                  <p className="text-sm my-0 text-red-600">{captchaError}</p>
-                )
-              }
+              {captchaError && (
+                <p className="text-sm my-0 text-red-600">{captchaError}</p>
+              )}
               {!loading && (
                 <button
                   className="bg-blue-600 px-8 py-2 text-white rounded-sm mx-auto block mt-4 hover:bg-blue-700 text-center w-1/2 cursor-pointer"

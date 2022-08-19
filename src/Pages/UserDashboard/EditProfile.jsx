@@ -129,8 +129,10 @@ const EditProfile = () => {
   // Sets User And Access_token
   React.useEffect(() => {
     const getData = async () => {
-      let access_token1 = localStorage.getItem("access_token");
-      let user = JSON.parse(localStorage.getItem("user"));
+      let access_token1 =await localStorage.getItem("access_token");
+      let user =await  JSON.parse(localStorage.getItem("user"));
+      if(access_token1 === "null")
+        await localStorage.setItem("access_token", user.access_token);
       if (user && user.profileImg) {
         let image = JSON.parse(await localStorage.getItem("profileImg"));
         console.log(image);

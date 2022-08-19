@@ -203,9 +203,9 @@ const ResetPassword = () => {
                   </Formik>
                 </div>
                 <p>
-                  Don't have an account ?{" "}
-                  <Link to="/login" className="text-blue-6x00">
-                    Create One
+                  Didn't have an account ?{" "}
+                  <Link to="/register" className="text-blue-6x00">
+                    Create 
                   </Link>
                 </p>
               </div>
