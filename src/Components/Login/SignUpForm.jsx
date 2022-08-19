@@ -226,7 +226,7 @@ const SignupForm = () => {
   }
 
   const signup = async (values) => {
-    console.log(OTP)
+   
     if (!verifyEmail) {
       setEmailError(true)
       return
@@ -248,6 +248,7 @@ const SignupForm = () => {
         setSmsOTPError(false);
         setEmailOTPError(false);
         setLoading(true);
+        console.log(res);
         if (res && !res.data.Error) {
           let user = res.data.user;
           let access = res.data.access_token;
@@ -330,7 +331,7 @@ const SignupForm = () => {
             return errors;
           }}
           onSubmit={(values) => {
-            console.log(OTP);
+            
             // if (OTP) {
             signup(values);
             // }
