@@ -44,6 +44,8 @@ const SignupForm = () => {
   const [SmsOTPError, setSmsOTPError] = React.useState(false);
   const [EmailOTPError, setEmailOTPError] = React.useState(false);
   const [EmailError, setEmailError] = React.useState(null);
+  const [SmsError, setSmsError] = React.useState(null);
+
   const [showCaptcha, setShowCaptcha] = React.useState(false);
   const [captchaError, setCaptchaError] = React.useState(null);
   const [captcha, setCaptcha] = React.useState(false);
@@ -225,6 +227,12 @@ const SignupForm = () => {
 
   const signup = async (values) => {
 console.log(OTP)
+if(!verifyEmail){
+  setEmailError(true)
+}
+if(!verifySms){
+  setSmsError(true)
+}
 
     if (
       parseInt(values.SmsOTP) === parseInt(SmsOTP) &&
@@ -359,7 +367,7 @@ console.log(OTP)
               <Field
                 type="text"
                 name="email"
-                disabled={OTP !== null}
+                disabled={verifyEmail}
                 placeholder="Email"
                 className="w-full"
               />
@@ -373,7 +381,7 @@ console.log(OTP)
                 <Field
                   type="number"
                   name="EmailOTP"
-                  // refs={OTPField}
+                   refs={OTPField}
                   placeholder="Email OTP"
                   className="w-full"
                 />
@@ -381,18 +389,29 @@ console.log(OTP)
               {EmailOTP && EmailOTPError && (
                 <p className="text-sm text-red-600">Invalid Email OTP !</p>
               )}
-              <div className="d-flex w-full justify-content-between"> <button type="button"
+{EmailError && <p className="text-sm text-red-600">Email Not Verified !</p>
+}
+
+              <div className="d-flex w-full justify-content-between"> 
+              {!verifyEmail && 
+              
+              <button type="button"
                 className="bg-blue-600 text-white py-2 rounded-sm hover:bg-blue-700 text-center w-1/4 cursor-pointer"
 
                 style={{ backgroundColor: "rgb(37 99 235)" }}
-                onClick={() => sendEmailOTP(values)}> Send OTP
-              </button>
+                onClick={() => sendEmailOTP(values)}> {EmailOTP ? "Resend OTP" : "Send OTP"}
+              </button>}
 
-                {EmailOTP && <button type="button"
+                {EmailOTP && !verifyEmail && <button type="button"
                   className="bg-blue-600 text-white mx-3 py-2 rounded-sm hover:bg-blue-700 text-center w-1/4 cursor-pointer"
-
+                  
                   style={{ backgroundColor: "rgb(37 99 235)" }}
-                  onClick={() => verifyEmailOTP(values)}> {verifyEmail ? "OTP Verified" : "Verify OTP"}</button>}</div>
+                  onClick={() => verifyEmailOTP(values)}> Verify OTP</button>
+          }
+
+          {EmailOTP && verifyEmail && <p style={{fontWeight:500, color:"green"}}>Email Verified</p>}
+                  
+                  </div>
               <label>Register As : </label>
               <Field as="select" name="user_type">
                 <option value="Candidate">Candidate</option>
@@ -403,7 +422,7 @@ console.log(OTP)
               <Field
                 type="text"
                 name="contact"
-                disabled={OTP !== null}
+                disabled={verifySms}
                 placeholder="Contact Number"
                 className="w-full"
               />
@@ -425,18 +444,29 @@ console.log(OTP)
               {SmsOTP && SmsOTPError && (
                 <p className="text-sm text-red-600">Invalid SMS OTP !</p>
               )}
-              <div className="d-flex w-full justify-content-between"> <button type="button"
+{SmsError && 
+                <p className="text-sm text-red-600">Contact Not Verified !</p>
+              }
+
+              <div className="d-flex w-full justify-content-between"> 
+              {!verifySms && 
+              <button type="button"
                 className="bg-blue-600 text-white py-2 rounded-sm hover:bg-blue-700 text-center w-1/4 cursor-pointer"
 
                 style={{ backgroundColor: "rgb(37 99 235)" }}
-                onClick={() => sendSmsOTP(values)}> Send OTP
+                onClick={() => sendSmsOTP(values)}> {SmsOTP ? "Resend OTP" : "Send OTP"}
               </button>
+}
 
-                {SmsOTP && <button type="button"
+
+                {SmsOTP && !verifySms &&  <button type="button"
                   className="bg-blue-600 text-white mx-3 py-2 rounded-sm hover:bg-blue-700 text-center w-1/4 cursor-pointer"
 
                   style={{ backgroundColor: "rgb(37 99 235)" }}
-                  onClick={() => verifySmsOTP(values)}> {verifySms ? "OTP Verified" : "Verify OTP"}</button>}</div>
+                  onClick={() => verifySmsOTP(values)}>Verify OTP</button>}
+                  {SmsOTP && verifySms && <p style={{fontWeight:500, color:"green"}}>Contact Verified</p>}
+                  
+                  </div>
               <Field
                 type="password"
                 name="password"
@@ -496,9 +526,10 @@ console.log(OTP)
                   className="bg-blue-600 px-8 py-2 text-white rounded-sm mx-auto block mt-4 hover:bg-blue-700 text-center w-1/2 cursor-pointer"
                   type="submit"
                   style={{ backgroundColor: "rgb(37 99 235)" }}
-                  disabled={false}
+                  // disabled={OTP !== true}
                 >
-                  {OTP === null ? "Continue" : "Signup"}
+                  {/* {OTP === null ? "Continue" : "Signup"} */}
+                  SignUp
                 </button>
               )}
               {loading && (

@@ -21,18 +21,16 @@ const Navbar = (props) => {
 
   return (
     <div className="flex items-center border-b-2 w-full pl-4 py-4 shadow-md">
-      <div className="text-slate-600 text-lg md:block hidden ">
-        Company Name
-      </div>
-      <div className="space-x-8   ml-auto flex mr-8 items-center">
-        <IoCall className="text-gray-700 text-lg cursor-pointer hover:text-gray-800 md:block hidden" />
-        <BsFillChatLeftTextFill className="text-gray-700 text-lg cursor-pointer hover:text-gray-800 md:block hidden" />
-        <NotificationPopOver />
-        <Popover className="relative">
-          {({ open }) => (
-            <>
-              <Popover.Button
-                className={`
+    <div className="text-slate-600 text-lg md:block hidden ">Company Name</div>
+    <div className="space-x-8   ml-auto flex mr-8 items-center">
+      <IoCall className="text-gray-700 text-lg cursor-pointer hover:text-gray-800 md:block hidden"/>
+      <BsFillChatLeftTextFill className="text-gray-700 text-lg cursor-pointer hover:text-gray-800 md:block hidden" />
+      <NotificationPopOver/>
+      <Popover className="relative">
+        {({ open }) => (
+          <>
+            <Popover.Button
+              className={`
             ${open ? "" : "text-opacity-90"} focus:outline-0`}
               >
                 <div className="flex space-x-3 items-center cursor-pointer">
