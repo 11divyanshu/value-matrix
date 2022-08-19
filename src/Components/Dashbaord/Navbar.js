@@ -15,7 +15,9 @@ const HorizontalNav = (props) => {
   
 
   const Logout = async () => {
-    let user = await localStorage.get("user");
+    console.log("CHeck")
+    let user = await localStorage.getItem("user");
+    user = JSON.parse(user);
     let res = await LogoutAPI(user._id);
     console.log(res);
     await localStorage.setItem("user", null);
@@ -25,7 +27,7 @@ const HorizontalNav = (props) => {
 
   return (
     <div className="flex items-center border-b-2 w-full pl-4 py-4 shadow-md">
-      <div className="text-slate-600 text-lg md:block hidden ">Company Name</div>
+      <div className="text-slate-600 text-lg md:block hidden ">Value Matrix</div>
       <div className="space-x-8   ml-auto flex mr-8 items-center">
         <IoCall className="text-gray-700 text-lg cursor-pointer hover:text-gray-800 md:block hidden"/>
         <BsFillChatLeftTextFill className="text-gray-700 text-lg cursor-pointer hover:text-gray-800 md:block hidden" />
@@ -68,7 +70,8 @@ const HorizontalNav = (props) => {
                           className="text-sm font-medium text-gray-900 flex items-center space-x-2 cursor-pointer"
                           onClick={Logout}
                         >
-                          <FiLogOut /> <p>Logout</p>
+
+                          <FiLogOut /> <p >Logout</p>
                         </div>
                       </span>
                     </div>

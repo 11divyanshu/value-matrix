@@ -4,6 +4,9 @@ import { ReactSession } from "react-client-session";
 import { useParams } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Microsoft from "../../assets/images/Social/microsoft.svg";
+import {AiOutlineCalendar} from "react-icons/ai"
+import {CgWorkAlt} from "react-icons/cg"
+import {HiOutlineCurrencyRupee} from "react-icons/hi"
 
 function JobDetails(props) {
 
@@ -17,6 +20,8 @@ function JobDetails(props) {
       let res = await getJobById(job_id, access_token);
       if (res) {
         setJob(res.data.job);
+      }else{
+        console.log("no response")
       }
     };
     getData();
@@ -66,11 +71,11 @@ function JobDetails(props) {
     //   )}
     // </div>
     <div className="container p-5">
-      {job && (
+      {job ? (
         <div className="card my-5 mx-auto w-3/4 p-5 " style={{ "boxShadow": "rgba(0, 0, 0, 0.1) 0px 4px 12px" }}>
 
           <div className="flex">
-          <div className="px-3 w-1/5 mx-auto align-item-center"> <img className="w-1/2 mx-auto align-items-center" src={Microsoft} /></div>
+          <div className="px-3 w-1/5 mx-auto align-middle" > <img className="w-1/2 mx-auto align-middle" src={Microsoft} style={{verticalAlign:"middle"}}/></div>
 
           <div className="card-body px-5 w-4/5" style={{ borderLeft: '1px solid grey' }}>
 
@@ -88,13 +93,13 @@ function JobDetails(props) {
           </div>
           <div className="flex mt-5 w-3/4 mx-auto" style={{justifyContent:'space-between'}}>
 
-            <div className="p-3 m-3 "><h2 className="text-blue-700 text-xl font-semibold">Job Type</h2>
+            <div className="p-3 m-3 "><h2 className="text-blue-700 text-xl flex gap-2 align-middle font-semibold"><CgWorkAlt/>Job Type</h2>
               <h3>{job.jobType}</h3></div>
 
-            <div className="p-3 m-3"><h2 className="text-blue-700 text-xl font-semibold">Basic Pay Range</h2>
+            <div className="p-3 m-3"><h2 className="text-blue-700 text-xl flex gap-2 align-middle font-semibold"><HiOutlineCurrencyRupee/>Basic Pay Range</h2>
               <h3>{job.basicSalary} rupees per year</h3></div>
 
-            <div className="p-3 m-3"><h2 className="text-blue-700 text-xl font-semibold">Apply By :</h2>
+            <div className="p-3 m-3"><h2 className="text-blue-700 text-xl gap-2 align-item-center font-semibold flex" style={{verticalAlign:"middle"}}><AiOutlineCalendar/>Apply By :</h2>
               <h3> {new Date(job.validTill).getDate() +
                 "-" +
                 new Date(job.validTill).getMonth() +
@@ -103,7 +108,7 @@ function JobDetails(props) {
           </div>
         </div>
 
-      )}
+      ):<p>Loading...</p>}
     </div>
   );
 }

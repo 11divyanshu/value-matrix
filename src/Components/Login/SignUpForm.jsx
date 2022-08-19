@@ -419,14 +419,14 @@ const SignupForm = () => {
                   <button type="button"
                     className="bg-blue-600 text-white my-2 py-2 rounded-lg hover:bg-blue-700 text-center w-1/4 cursor-pointer"
 
-                    style={{ backgroundColor: "rgb(37 99 235)" }}
+                    style={{ backgroundColor: "#3B82F6" }}
                     onClick={() => sendEmailOTP(values)}> {EmailOTP ? "Resend OTP" : "Send OTP"}
                   </button>}
 
                 {EmailOTP && !verifyEmail && <button type="button"
                   className="bg-blue-600 text-white mx-3 py-2 rounded-md hover:bg-blue-700 text-center w-1/4 cursor-pointer"
 
-                  style={{ backgroundColor: "rgb(37 99 235)" }}
+                  style={{ backgroundColor: "#3B82F6" }}
                   onClick={() => verifyEmailOTP(values)}> Verify OTP</button>
                 }
 
@@ -474,7 +474,7 @@ const SignupForm = () => {
                   <button type="button"
                     className="bg-blue-600 text-white my-2 py-2 rounded-lg hover:bg-blue-700 text-center w-1/4 cursor-pointer"
 
-                    style={{ backgroundColor: "rgb(37 99 235)" }}
+                    style={{ backgroundColor: "#3B82F6" }}
                     onClick={() => sendSmsOTP(values)}> {SmsOTP ? "Resend OTP" : "Send OTP"}
                   </button>
                 }
@@ -483,7 +483,7 @@ const SignupForm = () => {
                 {SmsOTP && !verifySms && <button type="button"
                   className="bg-blue-600 text-white mx-3 py-2 rounded-lg hover:bg-blue-700 text-center w-1/4 cursor-pointer"
 
-                  style={{ backgroundColor: "rgb(37 99 235)" }}
+                  style={{ backgroundColor: "#3B82F6" }}
                   onClick={() => verifySmsOTP(values)}>Verify OTP</button>}
                 {SmsOTP && verifySms && <p className="p-2" style={{ fontWeight: 600, color: "green" }}>Contact Verified</p>}
 
@@ -549,7 +549,7 @@ const SignupForm = () => {
                 <button
                   className="bg-blue-600 px-8 py-2 text-white rounded-lg mx-auto block mt-4 hover:bg-blue-700 text-center w-1/2 cursor-pointer"
                   type="submit"
-                  style={{ backgroundColor: "rgb(37 99 235)" }}
+                  style={{ backgroundColor: "#3B82F6" }}
                 // disabled={OTP !== true}
                 >
                   {/* {OTP === null ? "Continue" : "Signup"} */}

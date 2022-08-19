@@ -1,5 +1,5 @@
 import React from "react";
-import JobCard from "../../Components/Dashbaord/JobCard.jsx";
+import JobCard from "../../Components/Dashbaord/UserJobCard.jsx";
 import { listJobs } from "../../service/api.js";
 import { CSVLink } from "react-csv";
 

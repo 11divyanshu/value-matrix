@@ -56,6 +56,11 @@ const CompanyDashboard = () => {
         let user = localStorage.get("user");
         await setUser(user);
       }
+      let user = localStorage.getItem("user")
+      let token = localStorage.getItem("access_token")
+      if(!user || !token){
+        window.location.href = "/login"
+      }
     };
 
     const func = async () => {

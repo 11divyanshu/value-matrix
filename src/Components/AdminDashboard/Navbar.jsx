@@ -12,7 +12,9 @@ import { FiLogOut } from "react-icons/fi";
 
 const Navbar = (props) => {
   const Logout = async () => {
+    console.log("CHeck")
     let user = await localStorage.getItem("user");
+    user = JSON.parse(user);
     let res = await LogoutAPI(user._id);
     await localStorage.setItem("user", null);
     await localStorage.setItem("access_token", null);
@@ -41,7 +43,7 @@ const Navbar = (props) => {
                         {props.user.username}
                       </p>
                     ) : (
-                      <p className="text-md text-semibold">User</p>
+                      <p className="text-md text-semibold">Company</p>
                     )}
                     <p className="text-xs text-gray-600">View Profile</p>
                   </div>
