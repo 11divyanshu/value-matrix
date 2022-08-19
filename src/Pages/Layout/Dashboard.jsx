@@ -46,6 +46,7 @@ const Dashboard = () => {
         let user_id = await getUserIdFromToken({ access_token: access_token1 });
 
         if (user_id) {
+          console.log(user_id.data);
           let user = await getUserFromId(
             { id: user_id.data.user.user },
             access_token1
