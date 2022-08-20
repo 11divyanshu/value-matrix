@@ -21,8 +21,11 @@ const Dashboard = () => {
   let [access_token, setAccessToken] = React.useState(null);
   let [user, setUser] = React.useState(null);
   let [profileImg, setProfileImg] = React.useState(null);
+  let [userCheck, setUserCheck] = React.useState(false);
+
 
   React.useEffect(() => {
+    
     OneSignal.init({
       appId: "91130518-13a8-4213-bf6c-36b55314829a",
     });
@@ -80,6 +83,11 @@ const Dashboard = () => {
         let user = localStorage.get("user");
         await setUser(user);
       }
+      let user = localStorage.getItem("user")
+      let token = localStorage.getItem("access_token")
+      if(!user || !token){
+        window.location.href = "/login"
+      }
     };
 
     const func = async () => {
@@ -111,17 +119,18 @@ const Dashboard = () => {
     }
   }, [component]);
 
-  return (
-    <div className="max-w-screen flex h-screen">
-      <div className="z-10 fixed h-screen">
-        <Sidebar user={user} />
+    return (
+      <div className="max-w-screen flex h-screen">
+        <div className="z-10 fixed h-screen">
+          <Sidebar user={user} />
+        </div>
+        <div className="md:pl-16 pl-0 w-full z-1">
+          <HorizontalNav user={user} />
+          <div>{comp}</div>
+        </div>
       </div>
-      <div className="md:pl-16 pl-0 w-full z-1">
-        <HorizontalNav user={user} />
-        <div>{comp}</div>
-      </div>
-    </div>
-  );
-};
+    );
+
+    }
 
 export default Dashboard;

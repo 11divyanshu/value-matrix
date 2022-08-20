@@ -52,7 +52,7 @@ await localStorage.removeItem("access_token");
           if (user.data.user.access_valid === false || user.data.user.isAdmin === false)
             window.location.redirect = "/login";
           await localStorage.setItem("user", JSON.stringify(user.data.user));
-	window.history.pushState({url:'/admin'},'','/admin')
+	        window.history.pushState({url:'/admin'},'','/admin')
         } else {
           window.location.href = "/login";
         }
@@ -62,6 +62,11 @@ await localStorage.removeItem("access_token");
         await setAccessToken(access_token);
         let user = localStorage.get("user");
         await setUser(user);
+      }
+      let user = localStorage.getItem("user")
+      let token = localStorage.getItem("access_token")
+      if(!user || !token){
+        window.location.href = "/login"
       }
     };
 

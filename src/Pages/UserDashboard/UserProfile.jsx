@@ -95,6 +95,7 @@ const UserProfile = () => {
                         name="firstName"
                         disabled
                         className="block border-gray-400 py-1 md:w-1/2 w-3/4"
+                        style={{boxShadow:"rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",border:"none"}}
                       />
                     </div>
                     <div className="md:w-1/2 w-full space-y-1">
@@ -104,6 +105,7 @@ const UserProfile = () => {
                         type="text"
                         disabled
                         className="block border-gray-400 py-1 md:w-1/2 w-3/4"
+                        style={{boxShadow:"rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",border:"none"}}
                       />
                     </div>
                     <div className="md:w-1/2 w-full space-y-1">
@@ -112,6 +114,8 @@ const UserProfile = () => {
                         as="textarea"
                         className="block  py-1 md:w-1/2 w-3/4 h-20"
                         name="about"
+                        disabled
+                        style={{boxShadow:"rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",border:"none"}}
                       />
                     </div>
                     <div className="md:w-1/2 w-full space-y-1">
@@ -121,6 +125,7 @@ const UserProfile = () => {
                         type="text"
                         disabled
                         className="block border-gray-400 py-1 md:w-1/2 w-3/4"
+                        style={{boxShadow:"rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",border:"none"}}
                       />
                     </div>
                     <div className="md:w-1/2 w-full space-y-1">
@@ -130,6 +135,7 @@ const UserProfile = () => {
                         type="text"
                         disabled
                         className="block border-gray-400 py-1 md:w-1/2 w-3/4"
+                        style={{boxShadow:"rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",border:"none"}}
                       />
                     </div>
                   </div>

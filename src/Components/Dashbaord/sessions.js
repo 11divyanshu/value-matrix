@@ -11,7 +11,7 @@ const SessionCard = () => {
           <AiFillCalendar className="text-4xl text-gray-700" />
           <div>
             <p className="text-lg font-semibold">
-              Available Sessions
+              Available Slots
             </p>
             <p className="text-xs">
               In your local time zone{" "}

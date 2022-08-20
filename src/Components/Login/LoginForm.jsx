@@ -65,13 +65,16 @@ const LoginForm = (props) => {
   };
 
   return (
-    <div className="p-5 pt-5 pb-2 lg:p-9 ">
-      <p className="text-3xl font-semibold">Repute Hire</p>
-      <div className="p-2 lg:p-12 pt-8  pb-2 pl-5">
-        <p className="text-xl font-bold">
-          OPs {props.admin ? "Admin" : ""} Signup
+    <div className="pt-5 lg:p-9 ">
+      <span style={{fontWeight:700}} className="text-4xl font-bold flex ">Value <p style={{color:'#3667E9'}}>Matrix</p></span>
+      
+      
+      <div className=" px-6 mx-6 lg:p-4 pt-4">
+        <p className="text-xl font-bold" style={{fontWeight:700}}>
+          {/* OPs {props.admin ? "Admin" : ""} Signup */}
+          Client Login
         </p>
-        <p className="text-sm">Get Admin Support of ReputeHire </p>
+        <p className="text-sm" style={{color:'#3667E9'}}>Get Consulting Support</p>
 
         <Formik
           initialValues={{ username: "", password: "" }}
@@ -90,35 +93,42 @@ const LoginForm = (props) => {
           }}
         >
           {({ values, isSubmitting }) => (
-            <Form className="space-y-3 py-3">
+            <Form className="space-y-2 pt-3">
+               <div className="my-3">
+              <label className="font-semibold">Email</label><br></br>
               <Field
                 type="text"
                 name="username"
                 placeholder="Username, Phone or Email Address"
-                className="w-full"
+                className="w-full text-600"
+                style={{borderRadius:"10px"}}
               />
               <ErrorMessage
                 name="username"
                 component="div"
-                className="text-sm text-red-600"
+                className="text-sm text-red-600 mb-4"
               />
+              </div>
+              <div className="my-3">
+              <label className="font-semibold">Password</label><br></br>
               <Field
                 type="password"
                 name="password"
                 placeholder="Password"
-                className="w-full"
+                className="w-full text-600"
+                style={{borderRadius:"12px"}}
               />
               <ErrorMessage
                 name="password"
                 component="div"
                 className="text-sm text-red-600"
               />
-
+</div>
               {loginError && (
                 <p className="text-sm text-red-600">{loginError}</p>
               )}
               <div className="w-100">
-                <p className="text-sm text-blue-600 mx-auto">
+                <p className="text-sm text-blue-600 text-right">
                   <Link to="/resetPassword">Forgot Password ?</Link>
                 </p>
               </div>
@@ -138,7 +148,7 @@ const LoginForm = (props) => {
               )}
               {!loading && (
                 <button
-                  className="bg-blue-600 px-8 py-2 text-white rounded-sm mx-auto block mt-4 hover:bg-blue-700 text-center w-1/2 cursor-pointer"
+                  className="bg-blue-600 px-4 py-2 text-white rounded-lg  block mt-6 mx-auto hover:bg-blue-700 text-center w-1/2 cursor-pointer"
                   type="submit"
                   style={{ backgroundColor: "rgb(37 99 235)" }}
                 >

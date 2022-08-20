@@ -1,15 +1,19 @@
 import React from "react";
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import { postJobAPI } from "../../service/api";
-import { ReactSession } from "react-client-session";
 
 const AddJob = () => {
   const [Alert, setAlert] = React.useState(null);
  
   const postJob = async (values) => {
-    let access_token = ReactSession.get("access_token");
-    let user = ReactSession.get("user");
+   
+
+    let access_token = localStorage.getItem("access_token");
+  let user = JSON.parse(localStorage.getItem("user"));
+
+
     values.user_id = user._id;
+    console.log(values);
     let res = await postJobAPI(values, access_token);
     if (res) {
       setAlert(true);

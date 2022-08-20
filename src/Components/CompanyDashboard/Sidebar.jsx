@@ -41,13 +41,13 @@ import {
 
     return (
       <div className="relative h-screen">
-        <div className="fixed bg-blue-500 left-3 top-3 rounded-full text-white p-2">
+        <div className="fixed bg-blue-500 left-0 top-3 rounded-full text-white p-2">
       <AiOutlineMenu className="text-md" onClick={()=>{setOpen(false);}}/>
       </div>
       <ProSidebar
         style={{ backgroundColor: "red !important" }}
         width={200}
-        collapsedWidth={windowDimensions.width < 769 ? 1 : 65}
+        collapsedWidth={windowDimensions.width < 769 ? 1 : 69}
         className="fixed left-0 h-screen z-10"
         collapsed={open}
       >

@@ -7,6 +7,8 @@ import { BsFillChatLeftTextFill, BsFillBellFill } from "react-icons/bs";
 import Panel from "./Pages/UserDashboard/panel";
 import UserProfile from "./Pages/UserDashboard/UserProfile";
 import EditProfile from "./Pages/UserDashboard/EditProfile";
+import JobList from "./Pages/UserDashboard/jobList.jsx";
+
 
 // Admin Pages
 import NotificationPanel from "./Pages/AdminDashboard/Notification";
@@ -14,8 +16,9 @@ import EmailNotification from "./Pages/AdminDashboard/EmailNotification";
 import PushNotification from "./Pages/AdminDashboard/PushNotifications";
 
 // Company Pages
+import CJobList from "./Pages/CompanyDashboard/jobList.jsx";
+
 import AddJob from "./Pages/CompanyDashboard/PostJob.jsx";
-import JobList from "./Pages/UserDashboard/jobList.jsx";
 import UpdateJob from "./Pages/CompanyDashboard/UpdateJob.jsx";
 import EditCompanyProfile from "./Pages/CompanyDashboard/EditProfile.jsx";
 import CompanyProfile from "./Pages/CompanyDashboard/Profile";
@@ -62,6 +65,13 @@ export const dashboardRoutes = [
     icon: <RiFolderUserFill className="text-xl" />,
     component: <JobList />,
   },
+  {
+    name: "getJobById",
+    path: "/jobDetails/",
+    hide: true,
+    component: <JobDetails />,
+
+  }
 ];
 
 
@@ -148,7 +158,7 @@ export const companyDashboardRoutes = [
     path: "/jobs",
     hide: false,
     icon: <RiFolderUserFill className="text-xl" />,
-    component: <JobList />,
+    component: <CJobList />,
   },
 
   {

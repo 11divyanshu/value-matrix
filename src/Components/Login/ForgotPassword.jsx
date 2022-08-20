@@ -18,7 +18,7 @@ const ResetPassword = () => {
   const [Alert, setAlert] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [component, setComponent] = React.useState(0);
-  const [disabled, setDisabled ] = React.useState(false);
+  const [disabled, setDisabled] = React.useState(false);
 
   const { id } = useParams();
 
@@ -112,16 +112,18 @@ const ResetPassword = () => {
 
   return (
     <div className={styles.loginLanding}>
-      <div className="container w-1/2 flex bg-white rounded-lg">
+      <div className="container w-2/3 flex bg-white rounded-lg h-2/3">
+        <div className="md:w-1/2 w-full">
+          <div className={styles.Card1}></div>
+        </div>
         <div className="md:w-1/2 w-full flex flex-col">
-          <div className="p-5 pt-5 pb-2 lg:p-9 text-center">
-            <p className="text-3xl font-semibold">Repute Hire</p>
+          <div className="p-5 pt-5 pb-2 lg:p-9 text-left">
+            <span style={{ fontWeight: 700 }} className="text-3xl font-bold flex ">Value <p style={{ color: '#3667E9' }}>Matrix</p></span>
             {component === 1 && (
               <div className="p-2 lg:p-12 pt-8  pb-2 pl-5">
                 <p className="text-xl">Reset Your Password</p>
                 <p className="text-sm my-2">
-                  Forgot your password ? Just fill in your Email Address,
-                  Contact or Username.
+                  Forgot your password ? Just fill in your Email Address.
                 </p>
                 {Alert && Alert.success === true && (
                   <div
@@ -168,7 +170,9 @@ const ResetPassword = () => {
                               type="text"
                               name="contact"
                               placeholder="Enter Email, Contact or Username "
-                              className="w-2/4"
+                              className="w-3/4"
+                              style={{borderRadius:"10px"}}
+
                             />
                             <ErrorMessage
                               name="contact"
@@ -180,7 +184,7 @@ const ResetPassword = () => {
                             )}
                           </div>
                           {loading ? (
-                            <button className="mt-6 bg-blue-600 px-2 py-1 text-white rounded-sm">
+                            <button className="mt-6 bg-blue-600 px-2 py-1 text-white rounded-lg">
                               <img
                                 src={Loader}
                                 className="h-9 mx-auto"
@@ -191,7 +195,7 @@ const ResetPassword = () => {
                             <button
                               type="submit"
                               disabled={disabled}
-                              className="mt-6 bg-blue-600 px-2 py-1 text-white rounded-sm"
+                              className="mt-6 bg-blue-600 p-3 text-white rounded-lg"
                             >
                               {" "}
                               Send Link
@@ -204,8 +208,8 @@ const ResetPassword = () => {
                 </div>
                 <p>
                   Didn't have an account ?{" "}
-                  <Link to="/register" className="text-blue-6x00">
-                    Create 
+                  <Link to="/register" className="text-blue-600">
+                    Create New
                   </Link>
                 </p>
               </div>
@@ -260,12 +264,14 @@ const ResetPassword = () => {
                     {({ values }) => {
                       return (
                         <Form className="my-8 w-100">
-                          <div className="w-2/4 mx-auto text-start">
+                          <div className="w-3/4 text-start">
                             <label className="">Enter New Password </label>
                             <Field
                               type="text"
                               name="newPassword"
                               className="w-full"
+                              style={{borderRadius:"10px"}}
+
                             />
                             <ErrorMessage
                               name="newPassword"
@@ -273,12 +279,14 @@ const ResetPassword = () => {
                               className="text-sm text-red-600"
                             />
                           </div>
-                          <div className="w-2/4 mx-auto text-start mt-5">
+                          <div className="w-3/4 text-start mt-5">
                             <label className="">Re-Enter New Password </label>
                             <Field
                               type="text"
                               name="newPassword2"
                               className="w-full"
+                              style={{borderRadius:"10px"}}
+
                             />
                             <ErrorMessage
                               name="newPassword2"
@@ -297,7 +305,7 @@ const ResetPassword = () => {
                           ) : (
                             <button
                               type="submit"
-                              className="mt-6 bg-blue-600 px-2 py-1 text-white rounded-sm"
+                              className="mt-6 bg-blue-600 p-3 text-white rounded-lg"
                             >
                               {" "}
                               Reset Password

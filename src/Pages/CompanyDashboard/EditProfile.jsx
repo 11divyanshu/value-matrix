@@ -159,7 +159,7 @@ const EditCompanyProfile = () => {
           String.fromCharCode(...new Uint8Array(image.data))
         );
         let src = `data:image/png;base64,${base64string}`;
-
+          console.log(src);
         await setProfilePic(src);
       }
       setUser(JSON.parse(user));
@@ -177,7 +177,7 @@ const EditCompanyProfile = () => {
             <div>
               <img
                 src={
-                  user && user.profileImg && ProfilePic ? ProfilePic : Avatar
+                  user && user.profileImg
                 }
                 className="h-16 w-16 rounded-md mx-6"
                 alt="userAvatar"
