@@ -9,7 +9,6 @@ import {
   updateUserDetails,
   validateSignupDetails,
 } from "../../service/api";
-
 import ReactCropper from "../UserDashboard/ReactCrop";
 
 // Assets

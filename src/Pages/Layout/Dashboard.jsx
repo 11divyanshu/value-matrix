@@ -43,8 +43,12 @@ const Dashboard = () => {
         await setAccessToken(term);
         await localStorage.setItem("access_token", term);
 
-        let user_id = await getUserIdFromToken({ access_token: access_token1 });
-
+        let user_id = await getUserIdFromToken({ access_token: access_token1 });	
+	let a = await localStorage.getItem("access_token");
+	if(a === "null"){
+		let u = JSON.parse(await localStorage.getItem("user"));	
+		await localStorage.setItem("access_token",u._id);
+}
         if (user_id) {
           console.log(user_id.data);
           let user = await getUserFromId(

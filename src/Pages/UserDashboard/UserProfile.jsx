@@ -18,18 +18,18 @@ const UserProfile = () => {
   React.useEffect(() => {
     const func = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
+      await setUser(user);
       let access_token = await localStorage.getItem("access_token");
       if (user && user.profileImg) {
         let image = JSON.parse(await localStorage.getItem("profileImg"));
-        console.log(image);
+	if(image.data){
         let base64string = btoa(
           String.fromCharCode(...new Uint8Array(image.data))
         );
         let src = `data:image/png;base64,${base64string}`;
-        setProfileImg(src);
+        setProfileImg(src);}
       }
       if (access_token === null) window.location.href = "/login";
-      await setUser(user);
     };
     func();
   }, []);
@@ -37,6 +37,7 @@ const UserProfile = () => {
   return (
     <div className="p-5">
       <p className="text-2xl font-bold">Profile</p>
+
       {user !== null && user !== undefined && (
         <div>
           <div className="my-3 shadow-md rounded-md w-full p-3 flex items-center ">
