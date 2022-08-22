@@ -1,8 +1,9 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { ReactSession } from "react-client-session";
 import OneSignal from "react-onesignal";
+
 // Components
+import CandidateResumeForm from "../../Components/Dashbaord/CandidateForm.jsx";
 import { dashboardRoutes } from "../../routes";
 import HorizontalNav from "../../Components/Dashbaord/Navbar";
 import Sidebar from "../../Components/Dashbaord/sidebar";
@@ -12,7 +13,6 @@ import {
   getUserIdFromToken,
   url,
 } from "../../service/api";
-import jsCookie from "js-cookie";
 
 const Dashboard = () => {
   let [comp, setComponent] = React.useState(null);
@@ -23,11 +23,16 @@ const Dashboard = () => {
   let [profileImg, setProfileImg] = React.useState(null);
   let [userCheck, setUserCheck] = React.useState(false);
 
+  // Form to get User details
+  const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
   React.useEffect(() => {
-    
     OneSignal.init({
       appId: "91130518-13a8-4213-bf6c-36b55314829a",
+      safari_web_id: "web.onesignal.auto.2cee7bb2-7604-4e25-b1d2-cbd521c730a5",
+      notifyButton: {
+        enable: true,
+      },
     });
   }, []);
 
@@ -46,12 +51,12 @@ const Dashboard = () => {
         await setAccessToken(term);
         await localStorage.setItem("access_token", term);
 
-        let user_id = await getUserIdFromToken({ access_token: access_token1 });	
-	let a = await localStorage.getItem("access_token");
-	if(a === "null"){
-		let u = JSON.parse(await localStorage.getItem("user"));	
-		await localStorage.setItem("access_token",u._id);
-}
+        let user_id = await getUserIdFromToken({ access_token: access_token1 });
+        let a = await localStorage.getItem("access_token");
+        if (a === "null") {
+          let u = JSON.parse(await localStorage.getItem("user"));
+          await localStorage.setItem("access_token", u._id);
+        }
         if (user_id) {
           console.log(user_id.data);
           let user = await getUserFromId(
@@ -83,10 +88,10 @@ const Dashboard = () => {
         let user = localStorage.get("user");
         await setUser(user);
       }
-      let user = localStorage.getItem("user")
-      let token = localStorage.getItem("access_token")
-      if(!user || !token){
-        window.location.href = "/login"
+      let user = localStorage.getItem("user");
+      let token = localStorage.getItem("access_token");
+      if (!user || !token) {
+        window.location.href = "/login";
       }
     };
 
@@ -119,18 +124,20 @@ const Dashboard = () => {
     }
   }, [component]);
 
-    return (
-      <div className="max-w-screen flex h-screen">
-        <div className="z-10 fixed h-screen">
-          <Sidebar user={user} />
-        </div>
-        <div className="md:pl-16 pl-0 w-full z-1">
-          <HorizontalNav user={user} />
-          <div>{comp}</div>
-        </div>
+  return (
+    <div className="max-w-screen flex h-screen">
+      <div>
+        <CandidateResumeForm isOpen = {true} />
       </div>
-    );
-
-    }
+      <div className="z-10 fixed h-screen">
+        <Sidebar user={user} />
+      </div>
+      <div className="md:pl-16 pl-0 w-full z-1">
+        <HorizontalNav user={user} />
+        <div>{comp}</div>
+      </div>
+    </div>
+  );
+};
 
 export default Dashboard;

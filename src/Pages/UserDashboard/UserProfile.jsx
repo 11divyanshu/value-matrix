@@ -1,7 +1,7 @@
 import React from "react";
 import { ReactSession } from "react-client-session";
 import { Formik, Form, Field } from "formik";
-import  {getUserFromId } from  "../../service/api.js";
+import { getUserFromId } from "../../service/api.js";
 
 // Assets
 import Avatar from "../../assets/images/UserAvatar.png";
@@ -20,14 +20,17 @@ const UserProfile = () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       await setUser(user);
       let access_token = await localStorage.getItem("access_token");
+      if (access_token === "null")
+        await localStorage.setItem("access_token", user.access_token);
       if (user && user.profileImg) {
         let image = JSON.parse(await localStorage.getItem("profileImg"));
-	if(image.data){
-        let base64string = btoa(
-          String.fromCharCode(...new Uint8Array(image.data))
-        );
-        let src = `data:image/png;base64,${base64string}`;
-        setProfileImg(src);}
+        if (image.data) {
+          let base64string = btoa(
+            String.fromCharCode(...new Uint8Array(image.data))
+          );
+          let src = `data:image/png;base64,${base64string}`;
+          setProfileImg(src);
+        }
       }
       if (access_token === null) window.location.href = "/login";
     };
@@ -78,7 +81,7 @@ const UserProfile = () => {
                 lastName: user.lastname,
                 email: user.email ? user.email : " ",
                 contact: user.contact ? user.contact : " ",
-                about : user.about ? user.about : " ",
+                about: user.about ? user.about : " ",
               }}
             >
               {({ values, isSubmitting }) => (
@@ -95,7 +98,11 @@ const UserProfile = () => {
                         name="firstName"
                         disabled
                         className="block border-gray-400 py-1 md:w-1/2 w-3/4"
-                        style={{boxShadow:"rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",border:"none"}}
+                        style={{
+                          boxShadow:
+                            "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
+                          border: "none",
+                        }}
                       />
                     </div>
                     <div className="md:w-1/2 w-full space-y-1">
@@ -105,7 +112,11 @@ const UserProfile = () => {
                         type="text"
                         disabled
                         className="block border-gray-400 py-1 md:w-1/2 w-3/4"
-                        style={{boxShadow:"rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",border:"none"}}
+                        style={{
+                          boxShadow:
+                            "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
+                          border: "none",
+                        }}
                       />
                     </div>
                     <div className="md:w-1/2 w-full space-y-1">
@@ -115,7 +126,11 @@ const UserProfile = () => {
                         className="block  py-1 md:w-1/2 w-3/4 h-20"
                         name="about"
                         disabled
-                        style={{boxShadow:"rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",border:"none"}}
+                        style={{
+                          boxShadow:
+                            "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
+                          border: "none",
+                        }}
                       />
                     </div>
                     <div className="md:w-1/2 w-full space-y-1">
@@ -125,7 +140,11 @@ const UserProfile = () => {
                         type="text"
                         disabled
                         className="block border-gray-400 py-1 md:w-1/2 w-3/4"
-                        style={{boxShadow:"rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",border:"none"}}
+                        style={{
+                          boxShadow:
+                            "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
+                          border: "none",
+                        }}
                       />
                     </div>
                     <div className="md:w-1/2 w-full space-y-1">
@@ -135,7 +154,11 @@ const UserProfile = () => {
                         type="text"
                         disabled
                         className="block border-gray-400 py-1 md:w-1/2 w-3/4"
-                        style={{boxShadow:"rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",border:"none"}}
+                        style={{
+                          boxShadow:
+                            "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
+                          border: "none",
+                        }}
                       />
                     </div>
                   </div>

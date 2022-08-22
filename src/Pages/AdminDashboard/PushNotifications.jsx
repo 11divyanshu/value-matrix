@@ -10,8 +10,8 @@ const PushNotification = () => {
 
   const sendNotification = async (values) => {
       setAlert(null); 
-        let access_token  = ReactSession.get("access_token");
-        let user = ReactSession.get("user");
+        let access_token  = await localStorage.getItem("access_token");
+        let user = await localStorage.getItem("user");
         let res = await sendOneSignalNotification({message:  {
             app_id: "91130518-13a8-4213-bf6c-36b55314829a",
             contents: { en: values.text },

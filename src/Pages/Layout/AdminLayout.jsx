@@ -20,12 +20,6 @@ const AdminDashboard = () => {
 
   // Retrieve And Saves Access Token and User to Session
   const [access_token, setAccessToken] = React.useState(null);
-  let access_token1 = ReactSession.get("access_token");
-  let access_token2 = jsCookie.get("access_token");
-  if (!access_token) {
-    access_token1 = access_token2;
-    ReactSession.set("access_token", access_token1);
-  }
 
   React.useEffect(() => {
     const tokenFunc = async () => {
@@ -42,7 +36,7 @@ await localStorage.removeItem("access_token");
         await localStorage.setItem("access_token", term);
 
         let user_id = await getUserIdFromToken({ access_token: access_token1 });
-
+        
         if (user_id) {
           let user = await getUserFromId(
             { id: user_id.data.user.user },
