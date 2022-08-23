@@ -1,20 +1,127 @@
 import React from "react";
 
+import { AiOutlineClose } from "react-icons/ai";
+import { RiContactsBookLine } from "react-icons/ri";
+
 const Tools = (props) => {
   const [tools, setTools] = React.useState([]);
+  const [error, setError] = React.useState(null);
+  const [disabled, setDisabled] = React.useState(true);
 
   const inputRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const initial = async () => {
+      let res = JSON.parse(await localStorage.getItem("candidateDetails"));
+      if (res !== null && res.tools !== []) {
+        setTools(res.tools);
+      }
+    };
+    initial();
+  }, []);
 
   return (
     <div>
       <p className="font-bold text-lg">Tools</p>
-      <div>
+      <div className="flex flex-wrap items-center">
         <input
-          className="w-3/4 text-600 my-3"
+          className="w-4/5 text-600 my-3 mr-3"
           style={{ borderRadius: "10px" }}
           type="text"
           ref={inputRef}
+          onChange={() => {
+            if (inputRef.current) {
+              const res = tools.findIndex((el) => {
+                return (
+                  el.toLowerCase() === inputRef.current.value.toLowerCase()
+                );
+              });
+              if (res !== -1) {
+                setDisabled(true);
+                setError("Already added");
+              } else {
+                setDisabled(false);
+                setError(null);
+              }
+            }
+          }}
+          onKeyDown={async (e) => {
+            if (e.key === "Enter" && disabled === false) {
+              if (inputRef.current) {
+                if (inputRef.current.value !== "") {
+                  let t = tools;
+                  await setTools([...tools, inputRef.current.value]);
+                  t.push(inputRef.current.value);
+                  console.log(t);
+                  inputRef.current.value = "";
+                  let res = await localStorage.getItem("candidateDetails");
+                  res = JSON.parse(res);
+                  res.tools = t;
+                  await localStorage.setItem(
+                    "candidateDetails",
+                    JSON.stringify(res)
+                  );
+                  setError(null);
+                }
+              }
+            }
+          }}
         />
+        <button
+          type="button"
+          className="bg-blue-600 rounded-sm text-white  py-2 px-3"
+          disabled={disabled}
+          onClick={async () => {
+            if (inputRef.current && inputRef.current.value !== "") {
+              let t = tools;
+              await setTools([...tools, inputRef.current.value]);
+              t.push(inputRef.current.value);
+              inputRef.current.value = "";
+              let res = await localStorage.getItem("candidateDetails");
+              res = JSON.parse(res);
+              res.tools = t;
+              await localStorage.setItem(
+                "candidateDetails",
+                JSON.stringify(res)
+              );
+              setError(null);
+            }
+          }}
+        >
+          Add
+        </button>
+        {error && <p className="text-sm text-red-500 mb-5">{error}</p>}
+      </div>
+      <div className="flex flex-wrap">
+        {tools &&
+          tools.map((item, index) => {
+            return (
+              <div
+                key={index}
+                className="bg-gray-400 mr-3 my-2 text-black py-1 px-2 flex items-center space-x-3"
+              >
+                <p>{item}</p>
+                <p
+                  className="cursor-pointer"
+                  onClick={async () => {
+                    const res1 = tools.filter((el) => {
+                      return el !== item;
+                    });
+                    let res = await localStorage.getItem("candidateDetails");
+                    res = JSON.parse(res);
+                    res.tools = res1;
+                    await localStorage.setItem(
+                      "candidateDetails",
+                      JSON.stringify(res)
+                    );
+                    setTools(res1);
+                  }}
+                >
+                  <AiOutlineClose />
+                </p>
+              </div>
+            );
+          })}
       </div>
       <div className="pt-5 flex w-full">
         <button
@@ -23,7 +130,7 @@ const Tools = (props) => {
         >
           Prev
         </button>
-        {false ? (
+        {tools !== [] ? (
           <button className="bg-blue-600 py-2 px-3 rounded-sm ml-auto text-white">
             Submit
           </button>

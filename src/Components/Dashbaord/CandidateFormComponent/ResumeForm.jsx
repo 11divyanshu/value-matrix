@@ -6,7 +6,10 @@ const ResumeForm = (props) => {
   const handleChange = async (e) => {
     if (e.target && e.target.files) {
       await setFile(e.target.files[0]);
-      props.setCandidateDetails({ resume: e.target.files[0], ...props.candidateDetails });
+      props.setCandidateDetails({
+        resume: e.target.files[0],
+        ...props.candidateDetails,
+      });
     }
   };
 

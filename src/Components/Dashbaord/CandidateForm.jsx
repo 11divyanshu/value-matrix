@@ -16,7 +16,8 @@ const CandidateResumeForm = (props) => {
     resume: null,
     education : [],
     experience : [],
-    contact : {}
+    contact : {},
+    tools : [],
   });
 
   const [progress, setProgress] = useState(1);
