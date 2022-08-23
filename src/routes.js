@@ -8,21 +8,25 @@ import Panel from "./Pages/UserDashboard/panel";
 import UserProfile from "./Pages/UserDashboard/UserProfile";
 import EditProfile from "./Pages/UserDashboard/EditProfile";
 import JobList from "./Pages/UserDashboard/jobList.jsx";
+import JobDetails from "./Pages/UserDashboard/JobDetail.jsx";
 
 
 // Admin Pages
 import NotificationPanel from "./Pages/AdminDashboard/Notification";
 import EmailNotification from "./Pages/AdminDashboard/EmailNotification";
 import PushNotification from "./Pages/AdminDashboard/PushNotifications";
+import APanel from "./Pages/AdminDashboard/panel";
+
 
 // Company Pages
 import CJobList from "./Pages/CompanyDashboard/jobList.jsx";
+import CPanel from "./Pages/CompanyDashboard/panel";
 
 import AddJob from "./Pages/CompanyDashboard/PostJob.jsx";
 import UpdateJob from "./Pages/CompanyDashboard/UpdateJob.jsx";
 import EditCompanyProfile from "./Pages/CompanyDashboard/EditProfile.jsx";
 import CompanyProfile from "./Pages/CompanyDashboard/Profile";
-import JobDetails from "./Pages/CompanyDashboard/JobDetails.jsx";
+import CJobDetails from "./Pages/CompanyDashboard/JobDetails.jsx";
 
 // User Dashboard Routes
 export const dashboardRoutes = [
@@ -67,7 +71,7 @@ export const dashboardRoutes = [
   },
   {
     name: "getJobById",
-    path: "/jobDetails/",
+    path: "jobDetails",
     hide: true,
     component: <JobDetails />,
 
@@ -81,7 +85,7 @@ export const adminDashboardRoutes = [
     name: "Home",
     icon: <ImHome className="text-xl" />,
     path: "/",
-    component: <Panel />,
+    component: <APanel />,
     hide: false,
   },
   {
@@ -130,7 +134,7 @@ export const companyDashboardRoutes = [
     name: "Home",
     icon: <ImHome className="text-xl" />,
     path: "/",
-    component: <Panel />,
+    component: <CPanel />,
     hide: false,
   },
   {
@@ -172,7 +176,7 @@ export const companyDashboardRoutes = [
     name: "getJobById",
     path: "/jobDetails/",
     hide: true,
-    component: <JobDetails />,
+    component: <CJobDetails />,
 
   }
 ];

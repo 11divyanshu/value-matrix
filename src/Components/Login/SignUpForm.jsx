@@ -2,10 +2,11 @@ import React, { useRef } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import ReCAPTCHA from "react-google-recaptcha";
 import wildcards from "disposable-email-domains/wildcard.json";
-
+import swal from 'sweetalert';
 // Assets
 import Microsoft from "../../assets/images/Social/microsoft.svg";
 import Google from "../../assets/images/Social/google.svg";
+import Github from "../../assets/images/Social/github.svg";
 import Linkedin from "../../assets/images/Social/linkedin.svg";
 import Loader from "../../assets/images/loader.gif";
 import {
@@ -163,8 +164,20 @@ const SignupForm = () => {
     if (parseInt(values.EmailOTP) === parseInt(EmailOTP)) {
       setEmailOTPError(false);
       setverifyEmail(true);
+      swal({
+        title: "Sign Up",
+        text: "OTP Verified!",
+        icon: "success",
+        button: false,
+      })
     } else {
-      setEmailOTPError(true);
+      // setEmailOTPError(true);
+      swal({
+        title: "Sign Up",
+        text: "Invalid OTP!",
+        icon: "error",
+        button: false,
+      })
 
     }
     if (verifyEmail && verifySms) {
@@ -217,8 +230,20 @@ const SignupForm = () => {
     if (parseInt(values.SmsOTP) === parseInt(SmsOTP)) {
       setSmsOTPError(false);
       setverifySms(true);
+      swal({
+        title: "Sign Up",
+        text: "OTP Verified!",
+        icon: "success",
+        button: false,
+      })
     } else {
-      setSmsOTPError(true);
+      // setSmsOTPError(true);
+      swal({
+        title: "Sign Up",
+        text: "Invalid OTP!",
+        icon: "error",
+        button: false,
+      })
     }
     if (verifyEmail && verifySms) {
       setOTP(true);
@@ -254,16 +279,26 @@ const SignupForm = () => {
 
 
         if (res && !res.data.Error) {
-          let user = res.data.user;
-          let access = res.data.access_token;
-          if (user.user_type === "User")
-            window.location.href = "/user/profile";
-          else if (user.user_type === "Company")
-            window.location.href = "/company/?a=" + access;
-          else if (user.user_type === "XI")
-            window.location.href = "/XI/?a=" + access;
-          else if (user.isAdmin)
-            window.location.href = "/admin/?a=" + access;
+          swal({
+            title: "Sign Up",
+            text: "Signup Successfull",
+            icon: "success",
+            button: "Continue",
+          }).then(()=>{
+
+            let user = res.data.user;
+            let access = res.data.access_token;
+            if (user.user_type === "User")
+              window.location.href = "/user/profile";
+            else if (user.user_type === "Company")
+              window.location.href = "/company/profile";
+            else if (user.user_type === "XI")
+              window.location.href = "/XI/?a=" + access;
+            else if (user.isAdmin)
+              window.location.href = "/admin/?a=" + access;
+
+          })
+         
         } else if (res) {
           setSignupError(res.data.Error);
           setOTP(null);
@@ -600,6 +635,15 @@ const SignupForm = () => {
               <img
                 src={Linkedin}
                 alt="linkedin-login"
+                className="cursor-pointer h-7"
+              />
+            </button>
+          </form>
+          <form action={`${url}/auth/github`}>
+            <button type="submit">
+              <img
+                src={Github}
+                alt="Github-login"
                 className="cursor-pointer h-7"
               />
             </button>

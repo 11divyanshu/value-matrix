@@ -4,11 +4,12 @@ import { ReactSession } from "react-client-session";
 
 // Components
 import { companyDashboardRoutes } from "../../routes.js";
-import Navbar from "../../Components/AdminDashboard/Navbar";
+import Navbar from "../../Components/CompanyDashboard/Navbar";
 import Sidebar from "../../Components/CompanyDashboard/Sidebar";
 import { getUserFromId, getUserIdFromToken } from "../../service/api";
 import jsCookie from "js-cookie";
 import JobDetails from "../CompanyDashboard/JobDetails.jsx";
+import Modal from "../../Components/CompanyDashboard/Modal.jsx";
 
 const CompanyDashboard = () => {
   // Component To Render
@@ -18,9 +19,12 @@ const CompanyDashboard = () => {
 
   // Current User
   let [user, setUser] = React.useState(null);
+  const [profileModal, setProfileModal] = React.useState(false);
 
   // Retrieve And Saves Access Token and User to Session
   const [access_token, setAccessToken] = React.useState(null);
+
+ 
 
   React.useEffect(() => {
     const tokenFunc = async () => {
@@ -29,15 +33,18 @@ const CompanyDashboard = () => {
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
       if (term !== null || term !== undefined) {
-        await localStorage.removeItem("access_token");
+        // await localStorage.removeItem("access_token");
         await localStorage.removeItem("access_token");
         access_token1 = term;
         await setAccessToken(term);
         await localStorage.setItem("access_token", term);
+        // access_token1 = localStorage.getItem("access_token");
+        // await setAccessToken(access_token1);
 
         let user_id = await getUserIdFromToken({ access_token: access_token1 });
 
         if (user_id) {
+
           let user = await getUserFromId(
             { id: user_id.data.user.user },
             access_token1
@@ -105,7 +112,31 @@ const CompanyDashboard = () => {
         }
       }
     }
+    const func = async()=>{
+      let tokenCheck = await localStorage.getItem("access_token");
+      let userC = (localStorage.getItem("user"));
+   let userCheck = JSON.parse(userC);
+      console.log(userCheck);
+      if(userCheck){
+
+        if(!userCheck.contact || !userCheck.firstName || !userCheck.profileImg || !userCheck.about ||!userCheck.linkedInId){
+          {component === "/profile" || component === "/editProfile" ? setProfileModal(false) : setProfileModal(true)}
+        }
+        
+        
+      }else{
+        setProfileModal(false);
+      }
+    }
+    func();
+    console.log(component);
+   
   }, [component]);
+
+  // React.useEffect(()=>{
+    
+
+  // },[])
 
   return (
     <div className="max-w-screen flex h-screen">
@@ -114,7 +145,12 @@ const CompanyDashboard = () => {
       </div>
       <div className="md:pl-16 pl-0 w-full z-1">
         <Navbar user={user} />
+
+
+{profileModal ? <Modal/>
+:
         <div>{comp}</div>
+}
       </div>
     </div>
   );

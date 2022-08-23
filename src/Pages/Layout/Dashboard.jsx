@@ -1,8 +1,10 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import { ReactSession } from "react-client-session";
 import OneSignal from "react-onesignal";
 
 // Components
+import JobDetails from "../UserDashboard/JobDetail.jsx";
 import CandidateResumeForm from "../../Components/Dashbaord/CandidateForm.jsx";
 import { dashboardRoutes } from "../../routes";
 import HorizontalNav from "../../Components/Dashbaord/Navbar";
@@ -16,7 +18,7 @@ import {
 
 const Dashboard = () => {
   let [comp, setComponent] = React.useState(null);
-  let { component } = useParams();
+  let { component ,id} = useParams();
   component = "/" + component;
   let [access_token, setAccessToken] = React.useState(null);
   let [user, setUser] = React.useState(null);
@@ -44,6 +46,7 @@ const Dashboard = () => {
       let location = window.location.search;
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
+
       if (term !== null && term !== undefined && term !== "null") {
         console.log("Term is not null");
         await localStorage.removeItem("access_token");
@@ -51,6 +54,7 @@ const Dashboard = () => {
         await setAccessToken(term);
         await localStorage.setItem("access_token", term);
 
+        await setAccessToken(access_token1);
         let user_id = await getUserIdFromToken({ access_token: access_token1 });
         let a = await localStorage.getItem("access_token");
         if (a === "null") {
@@ -77,7 +81,7 @@ const Dashboard = () => {
               JSON.stringify(image.data.Image)
             );
           }
-          if (user.data.user.access_valid === false)
+          if (user.data.user.access_valid === false || user.data.user.user_type !== "User")
             window.location.redirect = "/login";
           await localStorage.setItem("user", JSON.stringify(user.data.user));
           window.history.pushState({ url: "/user" }, "", "/user");
@@ -116,15 +120,29 @@ const Dashboard = () => {
     if (component === null) {
       let c = dashboardRoutes.filter((route) => route.path === "");
       setComponent(c[0].component);
+      
     } else {
       let c = dashboardRoutes.filter(
-        (route) => route.path === component.split("/")[1]
+        (route) => route.path === component
       );
+      // console.log(c)
       if (c[0]) setComponent(c[0].component);
-      else
+      else{
+        let c1 = component.split("/");
+        console.log(c1);
+        if (c1[1] === "jobDetails") setComponent(<JobDetails id={id} />);
+        else {
+          let c = dashboardRoutes.filter(
+            (route) => route.path === component.split("/")[1]
+          );
+          console.log(c)
+          if (c[0]) setComponent(c[0].component);
+          else
         setComponent(
           dashboardRoutes.filter((route) => route.path === "")[0].component
         );
+        }
+      }
     }
   }, [component]);
 

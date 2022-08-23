@@ -63,7 +63,7 @@ import {
               }
               onClick={() => setOpen(!open)}
             >
-              Repute Hire
+              Value Matrix
             </MenuItem>
             {companyDashboardRoutes.map((item) => {
               if(item.hide === false)
