@@ -24,7 +24,7 @@ const Dashboard = () => {
   let [userCheck, setUserCheck] = React.useState(false);
 
   // Form to get User details
-  const [modalIsOpen, setModalIsOpen] = React.useState(false);
+  const [modalIsOpen, setModalIsOpen] = React.useState(true);
 
   React.useEffect(() => {
     OneSignal.init({
@@ -44,8 +44,8 @@ const Dashboard = () => {
       let location = window.location.search;
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
-      if (term !== null || term !== undefined) {
-        await localStorage.removeItem("access_token");
+      if (term !== null && term !== undefined && term !== "null") {
+        console.log("Term is not null");
         await localStorage.removeItem("access_token");
         access_token1 = term;
         await setAccessToken(term);
@@ -58,12 +58,14 @@ const Dashboard = () => {
           await localStorage.setItem("access_token", u._id);
         }
         if (user_id) {
-          console.log(user_id.data);
           let user = await getUserFromId(
-            { id: user_id.data.user.user },
+            { id: user_id.data.user },
             access_token1
           );
           await setUser(user.data.user.user);
+          if (user.tools) {
+            setModalIsOpen(false);
+          }
           if (user.profileImg) {
             let image = await getProfileImage(
               { id: user_id.data.user.user },
@@ -83,12 +85,14 @@ const Dashboard = () => {
           window.location.href = "/login";
         }
       } else {
-        let access_token = localStorage.get("access_token");
+        let access_token =await localStorage.getItem("access_token");
         await setAccessToken(access_token);
-        let user = localStorage.get("user");
+        let user = JSON.parse(localStorage.getItem("user"));
+        console.log(user);
+        if (user.tools) setModalIsOpen(false);
         await setUser(user);
       }
-      let user = localStorage.getItem("user");
+      let user = JSON.parse(localStorage.getItem("user"));
       let token = localStorage.getItem("access_token");
       if (!user || !token) {
         window.location.href = "/login";
@@ -126,9 +130,11 @@ const Dashboard = () => {
 
   return (
     <div className="max-w-screen flex h-screen">
-      <div>
-        <CandidateResumeForm isOpen = {true} />
-      </div>
+      {modalIsOpen && (
+        <div>
+          <CandidateResumeForm isOpen={true} />
+        </div>
+      )}
       <div className="z-10 fixed h-screen">
         <Sidebar user={user} />
       </div>

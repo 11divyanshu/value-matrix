@@ -14,10 +14,10 @@ const CandidateResumeForm = (props) => {
   // Candidate Details
   const [candidateDetails, setCandidateDetails] = useState({
     resume: null,
-    education : [],
-    experience : [],
-    contact : {},
-    tools : [],
+    education: [],
+    experience: [],
+    contact: {},
+    tools: [],
   });
 
   const [progress, setProgress] = useState(1);
@@ -44,29 +44,35 @@ const CandidateResumeForm = (props) => {
       ),
     },
     {
-      icon : "",
-      component : <ExperienceDetailForm
-      setCandidateDetails={setCandidateDetails}
-      setStep={setStep}
-      candidateDetails={candidateDetails}
-      />
+      icon: "",
+      component: (
+        <ExperienceDetailForm
+          setCandidateDetails={setCandidateDetails}
+          setStep={setStep}
+          candidateDetails={candidateDetails}
+        />
+      ),
     },
     {
       icon: "",
-      component: <ContactDetailForm
-      setCandidateDetails={setCandidateDetails}
-      setStep={setStep}
-      candidateDetails={candidateDetails}
-      />
+      component: (
+        <ContactDetailForm
+          setCandidateDetails={setCandidateDetails}
+          setStep={setStep}
+          candidateDetails={candidateDetails}
+        />
+      ),
     },
     {
-      icon :"",
-      component : <Tools
-      setCandidateDetails={setCandidateDetails}
-      setStep={setStep}
-      candidateDetails={candidateDetails}
-      />
-    }
+      icon: "",
+      component: (
+        <Tools
+          setCandidateDetails={setCandidateDetails}
+          setStep={setStep}
+          candidateDetails={candidateDetails}
+        />
+      ),
+    },
   ];
 
   function closeModal() {
@@ -78,13 +84,22 @@ const CandidateResumeForm = (props) => {
   }
 
   React.useEffect(() => {
-    var p = (step +1) * (100 / components.length);
+    var p = (step + 1) * (100 / components.length);
     setProgress(p);
-  },[step])
+  }, [step]);
 
-  React.useEffect(()=>{
-    localStorage.setItem("candidateDetails", JSON.stringify(candidateDetails));
-  },[])
+  React.useEffect(() => {
+    const initial = async () => {
+      let res = await localStorage.getItem("candidateDetails");
+      if (res === "null" || res === null) {
+        localStorage.setItem(
+          "candidateDetails",
+          JSON.stringify(candidateDetails)
+        );
+      }
+    };
+    initial();
+  }, []);
 
   return (
     <>
@@ -128,7 +143,10 @@ const CandidateResumeForm = (props) => {
                   </Dialog.Title>
                   <div className="pt-4">
                     <div class="w-full bg-gray-200 h-1 mb-6">
-                      <div class="bg-blue-400 h-1" style={{width: progress+"%"}}></div>
+                      <div
+                        class="bg-blue-400 h-1"
+                        style={{ width: progress + "%" }}
+                      ></div>
                     </div>
                   </div>
                   <div className="pt-8">{components[step].component}</div>

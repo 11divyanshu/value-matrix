@@ -61,16 +61,13 @@ const EducationDetailForm = (props) => {
                     />
                     <AiOutlineDelete
                       className="text-red-600 cursor-pointer"
-                      onClick={() => {
+                      onClick={async() => {
                         setEducationalDetail(
                           educationalDetail.filter((item, i) => i !== index)
                         );
-                        localStorage.setItem(
-                          "education",
-                          JSON.stringify(
-                            educationalDetail.filter((item, i) => i !== index)
-                          )
-                        );
+                        let res = JSON.parse(await localStorage.getItem("candidateDetails"));
+                        res.education = educationalDetail.filter((item, i) => i !== index);
+                        localStorage.setItem("candidateDetails", JSON.stringify(res));
                       }}
                     />
                   </div>
@@ -80,9 +77,10 @@ const EducationDetailForm = (props) => {
                       <FiInfo />
                       <p>{item.degree}</p> <p>|</p> <p>{item.field_of_study}</p>
                     </div>
+                    {item.grade && (
                     <div className="space-x-2 flex items-center">
                       <GrScorecard /> <p>{item.grade}</p>
-                    </div>
+                    </div>)}
                     <div className="flex items-center space-x-2">
                       <BsCalendar />
                       <p className="text-sm text-gray-600 mr-5">
@@ -123,9 +121,6 @@ const EducationDetailForm = (props) => {
                 if (values.end_date === null) {
                   errors.end_date = "Required !";
                 }
-                if (values.grade === null || values.grade.trim() === "") {
-                  errors.grade = "Required !";
-                }
                 if (values.start_date > new Date()) {
                   errors.start_date =
                     "Start date cannot be greater than today's date";
@@ -154,7 +149,6 @@ const EducationDetailForm = (props) => {
                     education: temp,
                     ...props.candidateDetails,
                   });
-                  await localStorage.setItem("education", JSON.stringify(temp));
                   return;
                 }
                 let temp = educationalDetail;
@@ -178,7 +172,6 @@ const EducationDetailForm = (props) => {
                   education: educationalDetail,
                   ...props.candidateDetails,
                 });
-                await localStorage.setItem("education", JSON.stringify(temp));
                 resetBtn.current.click();
               }}
             >
@@ -266,7 +259,7 @@ const EducationDetailForm = (props) => {
                       </div>
                     </div>
                     <div className="my-3">
-                      <label>Grade *</label>
+                      <label>Grade</label>
                       <Field
                         name="grade"
                         type="text"

@@ -1,9 +1,9 @@
 import React from "react";
 import { Formik, ErrorMessage, Field, Form } from "formik";
 
-import { FiInfo } from "react-icons/fi";
+import {CgWorkAlt} from "react-icons/cg";
 import { BsCalendar } from "react-icons/bs";
-import { GrScorecard } from "react-icons/gr";
+import {FaRegBuilding} from "react-icons/fa";
 import { AiOutlineDelete } from "react-icons/ai";
 import { RiEditBoxLine } from "react-icons/ri";
 
@@ -61,16 +61,13 @@ const ExperienceDetailForm = (props) => {
                     />
                     <AiOutlineDelete
                       className="text-red-600 cursor-pointer"
-                      onClick={() => {
+                      onClick={async() => {
                         setExperienceDetail(
                           experienceDetail.filter((item, i) => i !== index)
                         );
-                        localStorage.setItem(
-                          "experience",
-                          JSON.stringify(
-                            experienceDetail.filter((item, i) => i !== index)
-                          )
-                        );
+                        let res = JSON.parse(await localStorage.getItem("candidateDetails"));
+                        res.experience = experienceDetail.filter((item, i) => i !== index);
+                        localStorage.setItem("candidateDetails", JSON.stringify(res));
                       }}
                     />
                   </div>
@@ -82,9 +79,11 @@ const ExperienceDetailForm = (props) => {
                   </div>
                   <div className="flex flex-wrap justify-between w-full py-1 text-gray-800 ">
                     <div className="space-x-2 flex items-center">
+                      <FaRegBuilding />
                       <p>{item.company_name}</p>
                     </div>
                     <div className="space-x-2 flex items-center">
+                    <CgWorkAlt/>
                       <p>{item.industry}</p>
                     </div>
                     <div className="flex items-center space-x-2">
@@ -155,14 +154,6 @@ const ExperienceDetailForm = (props) => {
                   );
                   await setEdit(null);
                   resetBtn.current.click();
-                  await props.setCandidateDetails({
-                    experience: temp,
-                    ...props.candidateDetails,
-                  });
-                  await localStorage.setItem(
-                    "experience",
-                    JSON.stringify(temp)
-                  );
                   return;
                 }
                 let temp = experienceDetail;
@@ -183,11 +174,6 @@ const ExperienceDetailForm = (props) => {
                   industry: null,
                   description: null,
                 });
-                await props.setCandidateDetails({
-                  experience: experienceDetail,
-                  ...props.candidateDetails,
-                });
-                await localStorage.setItem("experience", JSON.stringify(temp));
                 resetBtn.current.click();
               }}
             >

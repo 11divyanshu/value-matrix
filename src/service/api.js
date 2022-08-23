@@ -13,7 +13,7 @@ export const authenticateLogin = async (user) => {
   }
 };
 
-// User Signup  
+// User Signup
 export const authenticateSignUp = async (user) => {
   try {
     return await axios.post(`${url}/userSignup`, user);
@@ -48,8 +48,6 @@ export const OTPMail = async (mail) => {
     return c.data.otp;
   } catch (error) {
     console.log("Error while calling OTPMail API: ", error);
-    
-    
   }
 };
 
@@ -88,7 +86,7 @@ export const getUserFromId = async (data, token) => {
   }
 };
 
-export const getProfileImage = async(data, token) => {
+export const getProfileImage = async (data, token) => {
   try {
     let c = await axios.post(`${url}/getProfileImage`, data, {
       headers: { authorization: token.access_token },
@@ -97,7 +95,7 @@ export const getProfileImage = async(data, token) => {
   } catch (error) {
     console.log("Error while calling GetProfileImageFromId: ", error);
   }
-}
+};
 
 // Update User Details
 export const updateUserDetails = async (data, token) => {
@@ -261,7 +259,7 @@ export const updateJobDetails = async (data, token) => {
       headers: {
         authorization: token,
       },
-    })
+    });
   } catch (error) {
     console.log("Error Calling List Jobs API :", error);
   }
@@ -299,13 +297,13 @@ export const sendResetPasswordSMS = async (data) => {
 };
 
 // Reset Password by Username
-export const sendResetPasswordByUsername = async(data) => {
-  try{
+export const sendResetPasswordByUsername = async (data) => {
+  try {
     return await axios.post(`${url}/sendResetPasswordUsername`, data);
-  }catch(error){
+  } catch (error) {
     console.log("Error : ", error);
   }
-}
+};
 
 // Reset Password
 export const resetPassword = async (data) => {
@@ -313,5 +311,27 @@ export const resetPassword = async (data) => {
     return await axios.post(`${url}/resetPassword`, data);
   } catch (error) {
     console.log("Error :", error);
+  }
+};
+
+// Upload Candidate Resume
+export const uploadCandidateResume = async (data, token) => {
+  try {
+    return await axios.post(`${url}/uploadCandidateResume`, data, {
+      headers: { "Content-Type": "multipart/form-data", authorization: token },
+    });
+  } catch (error) {
+    console.log("Error : ", error);
+  }
+};
+
+// Submit Candidate Details
+export const submitCandidateDetails = async (data, token) => {
+  try {
+    return await axios.post(`${url}/submitCandidateDetails`, data, {
+      headers: { authorization: token },
+    });
+  } catch (error) {
+    console.log("Error : ", error);
   }
 };

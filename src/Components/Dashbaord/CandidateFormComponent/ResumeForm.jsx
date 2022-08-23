@@ -1,30 +1,71 @@
 import React from "react";
+import { uploadCandidateResume } from "../../../service/api";
+
+import Loader from "../../../assets/images/loader.gif";
 
 const ResumeForm = (props) => {
   const [file, setFile] = React.useState(null);
+  const [error, setError] = React.useState(null);
+  const [fileName, setFileName] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
 
   const handleChange = async (e) => {
+    setLoading(true);
+    setError(null);
     if (e.target && e.target.files) {
-      await setFile(e.target.files[0]);
-      props.setCandidateDetails({
-        resume: e.target.files[0],
-        ...props.candidateDetails,
-      });
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let access_token = await localStorage.getItem("access_token");
+      console.log(user, " ", access_token);
+      let fd = new FormData();
+      fd.append("user_id", user._id);
+      fd.append("file", e.target.files[0]);
+      console.log(fd);
+      let response = await uploadCandidateResume(fd, access_token);
+      if (response && response.status === 200) {
+        await setFile(e.target.files[0]);
+        setFileName(e.target.files[0].name);
+        let res = await localStorage.getItem("candidateDetails");
+        res = JSON.parse(res);
+        res.resume = e.target.files[0].name;
+        await localStorage.setItem("candidateDetails", JSON.stringify(res));
+      } else {
+        setError("Error uploading file");
+      }
+      setLoading(false);
+      e.target.files = null;
     }
   };
+
+  React.useEffect(()=>{
+    const initial = async()=>{
+      let res = JSON.parse(await localStorage.getItem("candidateDetails"));
+      console.log(res);
+      if(res && res.resume){
+        await setFileName(res.resume);
+      }
+    }
+    initial();
+  },[])
 
   return (
     <div>
       <p className="font-bold text-lg">Upload Your Resume</p>
-      {file && <p className="my-3">{file.name}</p>}
+      {fileName && <p className="my-3">{fileName}</p>}
+      {error && <p className="text-red-500 my-3">{error}</p>}
       <div className="my-5">
-        <label
-          for="resume"
-          className="py-2 px-3 cursor-pointer bg-blue-500 rounded-md text-white"
-        >
-          {" "}
-          Upload Resume{" "}
-        </label>
+        {loading ? (
+          <button className="py-1 px-3 bg-blue-500 rounded-md">
+              <img src={Loader} className="h-7" alt="loader"/>
+          </button>
+        ) : (
+          <label
+            for="resume"
+            className="py-2 px-3 cursor-pointer bg-blue-500 rounded-md text-white"
+          >
+            {" "}
+            Upload Resume{" "}
+          </label>
+        )}
         <input
           type="file"
           name="resume"
@@ -35,7 +76,7 @@ const ResumeForm = (props) => {
         />
       </div>
       <div className="w-full flex content-end">
-        {file === null ? (
+        {fileName === null ? (
           <button
             disabled={true}
             className={`px-3 py-2 ml-auto mr-3 bg-blue-400 text-white rounded-md`}
@@ -44,9 +85,8 @@ const ResumeForm = (props) => {
           </button>
         ) : (
           <button
-            disabled={file === null}
             onClick={() => props.setStep(1)}
-            className={`px-3 py-2 ml-auto mr-3 bg-blue-500 text-white rounded-md`}
+            className={`px-3 py-2 ml-auto mr-3 bg-blue-600 text-white rounded-md`}
           >
             Next
           </button>

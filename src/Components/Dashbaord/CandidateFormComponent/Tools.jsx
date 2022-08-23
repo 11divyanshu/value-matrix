@@ -3,12 +3,16 @@ import React from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { RiContactsBookLine } from "react-icons/ri";
 
+import { submitCandidateDetails } from "../../../service/api";
+
 const Tools = (props) => {
   const [tools, setTools] = React.useState([]);
   const [error, setError] = React.useState(null);
   const [disabled, setDisabled] = React.useState(true);
 
   const inputRef = React.useRef(null);
+
+  const [submitError, setSubmitError] = React.useState(null);
 
   React.useEffect(() => {
     const initial = async () => {
@@ -19,6 +23,21 @@ const Tools = (props) => {
     };
     initial();
   }, []);
+
+  const handleSubmit = async () => {    
+    let res = JSON.parse(await localStorage.getItem("candidateDetails"));
+    let user = JSON.parse(await localStorage.getItem("user"));
+    res.user_id = user._id;
+    let access_token = await localStorage.getItem("access_token");
+    let response = await submitCandidateDetails(res, access_token);
+    if (response && response.status === 200) {
+      await localStorage.setItem("user", JSON.stringify(response.data.user));
+      // await localStorage.removeItem("candidateDetails");
+      window.location.reload();
+    } else {
+      setSubmitError("Something went wrong");
+    }
+  };
 
   return (
     <div>
@@ -131,12 +150,12 @@ const Tools = (props) => {
           Prev
         </button>
         {tools !== [] ? (
-          <button className="bg-blue-600 py-2 px-3 rounded-sm ml-auto text-white">
+          <button className="bg-blue-600 py-2 px-3 rounded-sm ml-auto text-white" onClick={()=>{handleSubmit();}}>
             Submit
           </button>
         ) : (
           <button className="bg-blue-400 py-2 px-3 rounded-sm ml-auto text-white">
-            Submit
+            Submits
           </button>
         )}
       </div>

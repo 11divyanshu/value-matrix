@@ -13,6 +13,9 @@ const ContactDetailForm = (props) => {
 
   const [contactVerify, setContactVerify] = React.useState(false);
   const [emailVerify, setEmailVerify] = React.useState(false);
+  
+  const [emailOTP , setEmailOTP] = React.useState(null);
+  const [contactOTP , setContactOTP] = React.useState(null);
 
   const [address, setAddress] = React.useState(null);
 
@@ -25,9 +28,8 @@ const ContactDetailForm = (props) => {
         contact: null,
         address: null,
       };
-      if(e !== null){
-        if(e.contact.address)
-          setAddress(e.contact.address);
+      if (e !== null) {
+        if (e.contact.address) setAddress(e.contact.address);
       }
       if (user.contact) {
         ed.contact = user.contact;
@@ -43,6 +45,8 @@ const ContactDetailForm = (props) => {
           formikRef.current.setFieldValue("email", user.email);
         }
       }
+      e.contact = ed;
+      await localStorage.setItem("candidateDetails", JSON.stringify(e));
       setContactDetails(ed);
       await setShowForm(true);
     };
@@ -60,17 +64,17 @@ const ContactDetailForm = (props) => {
             initialValues={contactDetails}
             validate={(values) => {
               const errors = {};
-              if (!values.contact) {
+              if (!values.contact || !contactVerify) {
                 errors.contact = "Required";
               }
-              if (!values.email) {
+              if (!values.email || !emailVerify) {
                 errors.email = "Required";
               }
               if (!values.address) {
                 errors.address = "Required";
               }
             }}
-            onSummit={(values) => {}}
+            onSubmit={(values) => {}}
           >
             {({ values }) => {
               return (
@@ -115,7 +119,7 @@ const ContactDetailForm = (props) => {
                   </div>
                   <div className="my-3">
                     <label>Address*</label>
-                    
+
                     <Field
                       name="address"
                       type="text"
@@ -142,7 +146,14 @@ const ContactDetailForm = (props) => {
                       component="div"
                       className="text-sm text-red-600"
                     />
-                    {address && (<p className="my-2"><span className="font-semibold">Current Address : </span>{address}</p>)}
+                    {address && (
+                      <p className="my-2">
+                        <span className="font-semibold">
+                          Current Address :{" "}
+                        </span>
+                        {address}
+                      </p>
+                    )}
                   </div>
                 </Form>
               );
