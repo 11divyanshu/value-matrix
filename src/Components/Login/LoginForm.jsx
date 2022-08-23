@@ -3,11 +3,14 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { ReactSession } from "react-client-session";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Link } from "react-router-dom";
+import swal from 'sweetalert';
 
 // Assets
 import Microsoft from "../../assets/images/Social/microsoft.svg";
 import Google from "../../assets/images/Social/google.svg";
 import Linkedin from "../../assets/images/Social/linkedin.svg";
+import Github from "../../assets/images/Social/github.svg";
+
 import Loader from "../../assets/images/loader.gif";
 import { adminLogin, authenticateLogin, url } from "../../service/api";
 import jsCookie from "js-cookie";
@@ -39,16 +42,23 @@ const LoginForm = (props) => {
       setLoading(false);
       await localStorage.setItem("access_token", res.data.access_token);
       let access = res.data.access_token;
+      swal({
+        title: "Login",
+        text: "Login Successful",
+        icon: "success",
+        button: "Continue",
+      }).then(()=>{
 
       if (res.data.user.user_type === "User")
         window.location.href = "/user/?a=" + access;
       else if (res.data.user.user_type === "Company")
-        window.location.href = "/company/?a=" + access;
+        window.location.href = "/company";
       else if (res.data.user.user_type === "XI")
         window.location.href = "/XI/?a=" + access;
       else if (res.data.user.isAdmin) {
         window.location.href = "/admin/?a=" + access;
       }
+    })
     } else {
       setCaptcha(false);
       if (captchaRef.current !== undefined) {
@@ -59,7 +69,13 @@ const LoginForm = (props) => {
       if (error >= 3) {
         setCaptcha(false);
       }
-      setLoginError("Username and Password doesn't match !");
+      // setLoginError("Username and Password doesn't match !");
+      swal({
+        title: "Login",
+        text: "Username and Password doesn't match !",
+        icon: "error",
+        button: false,
+      })
       setLoading(false);
     }
   };
@@ -193,6 +209,15 @@ const LoginForm = (props) => {
               <img
                 src={Linkedin}
                 alt="linkedin-login"
+                className="cursor-pointer h-7"
+              />
+            </button>
+          </form>
+          <form action={`${url}/auth/github`}>
+            <button type="submit">
+              <img
+                src={Github}
+                alt="github-login"
                 className="cursor-pointer h-7"
               />
             </button>

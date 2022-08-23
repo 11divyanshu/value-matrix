@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { ReactSession } from "react-client-session";
 import OneSignal from "react-onesignal";
 // Components
+import JobDetails from "../UserDashboard/JobDetail.jsx";
 import { dashboardRoutes } from "../../routes";
 import HorizontalNav from "../../Components/Dashbaord/Navbar";
 import Sidebar from "../../Components/Dashbaord/sidebar";
@@ -16,7 +17,7 @@ import jsCookie from "js-cookie";
 
 const Dashboard = () => {
   let [comp, setComponent] = React.useState(null);
-  let { component } = useParams();
+  let { component ,id} = useParams();
   component = "/" + component;
   let [access_token, setAccessToken] = React.useState(null);
   let [user, setUser] = React.useState(null);
@@ -40,16 +41,18 @@ const Dashboard = () => {
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
       if (term !== null || term !== undefined) {
-        await localStorage.removeItem("access_token");
-        await localStorage.removeItem("access_token");
-        access_token1 = term;
-        await setAccessToken(term);
-        await localStorage.setItem("access_token", term);
+        // await localStorage.removeItem("access_token");
+         await localStorage.removeItem("access_token");
+         access_token1 = term;
+          await setAccessToken(term);
+         await localStorage.setItem("access_token", term);
+     
 
+        await setAccessToken(access_token1);
         let user_id = await getUserIdFromToken({ access_token: access_token1 });
 
         if (user_id) {
-          console.log(user_id.data);
+          console.log(user_id);
           let user = await getUserFromId(
             { id: user_id.data.user.user },
             access_token1
@@ -66,7 +69,7 @@ const Dashboard = () => {
               JSON.stringify(image.data.Image)
             );
           }
-          if (user.data.user.access_valid === false)
+          if (user.data.user.access_valid === false || user.data.user.user_type !== "User")
             window.location.redirect = "/login";
           await localStorage.setItem("user", JSON.stringify(user.data.user));
           window.history.pushState({ url: "/user" }, "", "/user");
@@ -76,7 +79,7 @@ const Dashboard = () => {
       } else {
         let access_token = localStorage.get("access_token");
         await setAccessToken(access_token);
-        let user = localStorage.get("user");
+        let user = JSON.parse(localStorage.get("user"));
         await setUser(user);
       }
       let user = localStorage.getItem("user")
@@ -103,15 +106,29 @@ const Dashboard = () => {
     if (component === null) {
       let c = dashboardRoutes.filter((route) => route.path === "");
       setComponent(c[0].component);
+      
     } else {
       let c = dashboardRoutes.filter(
-        (route) => route.path === component.split("/")[1]
+        (route) => route.path === component
       );
+      // console.log(c)
       if (c[0]) setComponent(c[0].component);
-      else
+      else{
+        let c1 = component.split("/");
+        console.log(c1);
+        if (c1[1] === "jobDetails") setComponent(<JobDetails id={id} />);
+        else {
+          let c = dashboardRoutes.filter(
+            (route) => route.path === component.split("/")[1]
+          );
+          console.log(c)
+          if (c[0]) setComponent(c[0].component);
+          else
         setComponent(
           dashboardRoutes.filter((route) => route.path === "")[0].component
         );
+        }
+      }
     }
   }, [component]);
 
