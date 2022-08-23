@@ -8,9 +8,9 @@ const NotificationPanel = () => {
 
   const addNotification = async (values) => {
     setAlert(null);
-    let access_token = ReactSession.get("access_token");
-    let user = ReactSession.get("user");
-    let res = await pushNotification({user_id : user._id, ...values}, { access_token: access_token });
+    let access_token = await localStorage.getItem("access_token");
+    let user = await localStorage.getItem("user");
+    let res = await pushNotification({user_id : user._id, ...values}, { access_token: user.access_token });
     if (res) {
       setAlert(true);
       setTimeout(() => {

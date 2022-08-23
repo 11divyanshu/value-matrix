@@ -63,7 +63,7 @@ const NotificationPopOver = (props) => {
 
   React.useEffect(() => {
     const initial = async () => {
-      let user = await localStorage.getItem("user");
+      let user = JSON.parse(await localStorage.getItem("user"));
       let token = await localStorage.getItem("access_token");
       getNotification(user, token);
     };

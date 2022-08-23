@@ -122,7 +122,9 @@ const EditProfile = () => {
       { user_id: user._id, updates: data },
       { access_token: access_token }
     );
-    console.log(res);
+if(res.data.user){
+      await localStorage.setItem("user", JSON.stringify(res.data.user));
+}
     if (res.data.Error) {
       if (res.data.contact) {
         setError(res.data.Error);
@@ -133,8 +135,6 @@ const EditProfile = () => {
         return;
       }
     } else if (res) {
-      console.log(res);
-      await localStorage.setItem("user", JSON.stringify(res.data.user));
       window.location.href = "/user/profile";
     } else {
       console.log("Error");
@@ -146,6 +146,8 @@ const EditProfile = () => {
     const getData = async () => {
       let access_token1 =await localStorage.getItem("access_token");
       let user =await  JSON.parse(localStorage.getItem("user"));
+      await setUser(user);
+      await setToken(access_token1);
       if(access_token1 === "null")
         await localStorage.setItem("access_token", user.access_token);
       if (user && user.profileImg) {
@@ -158,8 +160,6 @@ const EditProfile = () => {
 
         await setProfilePic(src);
       }
-      setUser(user);
-      setToken(access_token1);
     };
     getData();
   }, []);

@@ -13,7 +13,7 @@ export const authenticateLogin = async (user) => {
   }
 };
 
-// User Signup
+// User Signup  
 export const authenticateSignUp = async (user) => {
   try {
     return await axios.post(`${url}/userSignup`, user);
