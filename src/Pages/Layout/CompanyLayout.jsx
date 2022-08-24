@@ -8,7 +8,6 @@ import Navbar from "../../Components/CompanyDashboard/Navbar";
 import Sidebar from "../../Components/CompanyDashboard/Sidebar";
 import CompanyForm from "../../Components/CompanyDashboard/CompanyForm";
 
-
 import { getUserFromId, getUserIdFromToken } from "../../service/api";
 import jsCookie from "js-cookie";
 import JobDetails from "../CompanyDashboard/JobDetails.jsx";
@@ -27,8 +26,6 @@ const CompanyDashboard = () => {
   // Retrieve And Saves Access Token and User to Session
   const [access_token, setAccessToken] = React.useState(null);
 
- 
-
   React.useEffect(() => {
     const tokenFunc = async () => {
       let access_token1 = null;
@@ -44,24 +41,24 @@ const CompanyDashboard = () => {
         // access_token1 = localStorage.getItem("access_token");
         // await setAccessToken(access_token1);
 
-        
-
         let user_id = await getUserIdFromToken({ access_token: access_token1 });
-console.log(user_id);
+        console.log(user_id);
         if (user_id) {
-
           let user = await getUserFromId(
             { id: user_id.data.user.user },
             access_token1
           );
-          
-console.log(user.data)
-if (user.data.user.tools) {
-  setModalIsOpen(false);
-}
+
+          console.log(user.data);
+          if (user.data.user.tools) {
+            setModalIsOpen(false);
+          }
           await setUser(user.data.user.user);
-         
-          if (user.data.user.access_valid === false || user.data.user.user_type !== "Company")
+
+          if (
+            user.data.user.access_valid === false ||
+            user.data.user.user_type !== "Company"
+          )
             window.location.redirect = "/login";
           await localStorage.setItem("user", JSON.stringify(user.data.user));
           window.history.pushState({ url: "/company" }, "", "/company");
@@ -76,10 +73,10 @@ if (user.data.user.tools) {
 
         await setUser(user);
       }
-      let user = localStorage.getItem("user")
-      let token = localStorage.getItem("access_token")
-      if(!user || !token){
-        window.location.href = "/login"
+      let user = localStorage.getItem("user");
+      let token = localStorage.getItem("access_token");
+      if (!user || !token) {
+        window.location.href = "/login";
       }
     };
 
@@ -125,32 +122,28 @@ if (user.data.user.tools) {
         }
       }
     }
- 
-   } )
+  });
   // React.useEffect(()=>{
-    
 
   // },[])
 
   return (
     <div className="max-w-screen flex h-screen">
-       {modalIsOpen && (
-       <div>
-        <CompanyForm isOpen = {true} />
-      </div>)}
+      {modalIsOpen && (
+        <div>
+          <CompanyForm isOpen={true} />
+        </div>
+      )}
       <div className="z-10 fixed h-screen">
         <Sidebar />
       </div>
       <div className="md:pl-16 pl-0 w-full z-1">
         <Navbar user={user} />
 
-
-
         <div>{comp}</div>
-
       </div>
     </div>
   );
-}
+};
 
 export default CompanyDashboard;
