@@ -1,5 +1,5 @@
 import React from "react";
-
+import swal from "sweetalert";
 import { AiOutlineClose } from "react-icons/ai";
 import { RiContactsBookLine } from "react-icons/ri";
 
@@ -32,9 +32,23 @@ const Tools = (props) => {
     let response = await submitCandidateDetails(res, access_token);
     if (response && response.status === 200) {
       await localStorage.setItem("user", JSON.stringify(response.data.user));
-      // await localStorage.removeItem("candidateDetails");
-      window.location.reload();
+      await localStorage.removeItem("candidateDetails");
+      swal({
+        title : "Candidate Details",
+        text: "Details Updated",
+        icon: "success",
+        button : false,
+      })
+      setTimeout(()=>{
+        window.location.reload();
+      }, 2000)
     } else {
+      swal({
+        title : "Candidate Details",
+        text: "Something Went Wrong",
+        icon: "error",
+        button : false,
+      })
       setSubmitError("Something went wrong");
     }
   };
@@ -149,13 +163,13 @@ const Tools = (props) => {
         >
           Prev
         </button>
-        {tools !== [] ? (
+        {tools !== [] && tools.length > 0 ? (
           <button className="bg-blue-600 py-2 px-3 rounded-sm ml-auto text-white" onClick={()=>{handleSubmit();}}>
             Submit
           </button>
         ) : (
           <button className="bg-blue-400 py-2 px-3 rounded-sm ml-auto text-white">
-            Submits
+            Submit
           </button>
         )}
       </div>

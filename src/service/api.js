@@ -55,7 +55,6 @@ export const OTPMail = async (mail) => {
 export const OTPSms = async (mail) => {
   try {
     let c = await axios.post(`${url}/OTPSms`, mail);
-    console.log(c);
     return c.data.otp;
   } catch (error) {
     console.log("Error while calling OTPSms API : ", error);

@@ -18,15 +18,15 @@ import {
 
 const Dashboard = () => {
   let [comp, setComponent] = React.useState(null);
-  let { component ,id} = useParams();
+  let { component, id } = useParams();
   component = "/" + component;
   let [access_token, setAccessToken] = React.useState(null);
   let [user, setUser] = React.useState(null);
   let [profileImg, setProfileImg] = React.useState(null);
-  let [userCheck, setUserCheck] = React.useState(false);
+  let [userCheck, setUserCheck] = React.useState(true);
 
   // Form to get User details
-  const [modalIsOpen, setModalIsOpen] = React.useState(true);
+  const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
   React.useEffect(() => {
     OneSignal.init({
@@ -47,29 +47,30 @@ const Dashboard = () => {
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
 
+      // If Token is passed in the url
       if (term !== null && term !== undefined && term !== "null") {
-        console.log("Term is not null");
         await localStorage.removeItem("access_token");
         access_token1 = term;
         await setAccessToken(term);
         await localStorage.setItem("access_token", term);
 
         await setAccessToken(access_token1);
+
         let user_id = await getUserIdFromToken({ access_token: access_token1 });
         let a = await localStorage.getItem("access_token");
         if (a === "null") {
           let u = JSON.parse(await localStorage.getItem("user"));
           await localStorage.setItem("access_token", u._id);
         }
+        
         if (user_id) {
+          
           let user = await getUserFromId(
-            { id: user_id.data.user },
+            { id: user_id.data.user.user },
             access_token1
           );
+
           await setUser(user.data.user.user);
-          if (user.tools) {
-            setModalIsOpen(false);
-          }
           if (user.profileImg) {
             let image = await getProfileImage(
               { id: user_id.data.user.user },
@@ -81,7 +82,10 @@ const Dashboard = () => {
               JSON.stringify(image.data.Image)
             );
           }
-          if (user.data.user.access_valid === false || user.data.user.user_type !== "User")
+          if (
+            user.data.user.access_valid === false ||
+            user.data.user.user_type !== "User"
+          )
             window.location.redirect = "/login";
           await localStorage.setItem("user", JSON.stringify(user.data.user));
           window.history.pushState({ url: "/user" }, "", "/user");
@@ -89,17 +93,20 @@ const Dashboard = () => {
           window.location.href = "/login";
         }
       } else {
-        let access_token =await localStorage.getItem("access_token");
+        let access_token = await localStorage.getItem("access_token");
         await setAccessToken(access_token);
         let user = JSON.parse(localStorage.getItem("user"));
-        console.log(user);
-        if (user.tools) setModalIsOpen(false);
         await setUser(user);
       }
       let user = JSON.parse(localStorage.getItem("user"));
+      console.log(user);
       let token = localStorage.getItem("access_token");
       if (!user || !token) {
         window.location.href = "/login";
+      }
+      if (user.tools === [] || user.education === [] || !user.address) {
+        console.log("F")
+        setModalIsOpen(true);
       }
     };
 
@@ -120,27 +127,24 @@ const Dashboard = () => {
     if (component === null) {
       let c = dashboardRoutes.filter((route) => route.path === "");
       setComponent(c[0].component);
-      
     } else {
-      let c = dashboardRoutes.filter(
-        (route) => route.path === component
-      );
+      let c = dashboardRoutes.filter((route) => route.path === component);
       // console.log(c)
       if (c[0]) setComponent(c[0].component);
-      else{
+      else {
         let c1 = component.split("/");
-        console.log(c1);
+
         if (c1[1] === "jobDetails") setComponent(<JobDetails id={id} />);
         else {
           let c = dashboardRoutes.filter(
             (route) => route.path === component.split("/")[1]
           );
-          console.log(c)
+
           if (c[0]) setComponent(c[0].component);
           else
-        setComponent(
-          dashboardRoutes.filter((route) => route.path === "")[0].component
-        );
+            setComponent(
+              dashboardRoutes.filter((route) => route.path === "")[0].component
+            );
         }
       }
     }

@@ -24,7 +24,7 @@ const CandidateResumeForm = (props) => {
 
   let components = [
     {
-      icon: "Upload Resume",
+      name: "Upload Resume",
       component: (
         <ResumeForm
           setCandidateDetails={setCandidateDetails}
@@ -34,7 +34,7 @@ const CandidateResumeForm = (props) => {
       ),
     },
     {
-      icon: "",
+      name: "Educational Details",
       component: (
         <EducationDetailForm
           setCandidateDetails={setCandidateDetails}
@@ -44,7 +44,7 @@ const CandidateResumeForm = (props) => {
       ),
     },
     {
-      icon: "",
+      name: "Experience",
       component: (
         <ExperienceDetailForm
           setCandidateDetails={setCandidateDetails}
@@ -54,7 +54,7 @@ const CandidateResumeForm = (props) => {
       ),
     },
     {
-      icon: "",
+      name: "Contact Details",
       component: (
         <ContactDetailForm
           setCandidateDetails={setCandidateDetails}
@@ -64,7 +64,7 @@ const CandidateResumeForm = (props) => {
       ),
     },
     {
-      icon: "",
+      name: "Tools",
       component: (
         <Tools
           setCandidateDetails={setCandidateDetails}
@@ -142,6 +142,20 @@ const CandidateResumeForm = (props) => {
                     Complete Your Profile
                   </Dialog.Title>
                   <div className="pt-4">
+                    <div className="flex justify-between py-3">
+                      {components &&
+                        components.map((item, index) => {
+                          return (
+                            <div
+                              className={`text-sm ${
+                                index > step && ("text-gray-600")
+                              } ${index === step && ("text-blue-600")} ${index < step && ("text-green-600")}`}
+                            >
+                              {item.name}
+                            </div>
+                          );
+                        })}
+                    </div>
                     <div class="w-full bg-gray-200 h-1 mb-6">
                       <div
                         class="bg-blue-400 h-1"

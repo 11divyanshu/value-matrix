@@ -76,7 +76,7 @@ const ResumeForm = (props) => {
         />
       </div>
       <div className="w-full flex content-end">
-        {fileName === null ? (
+        {loading && fileName === null ? (
           <button
             disabled={true}
             className={`px-3 py-2 ml-auto mr-3 bg-blue-400 text-white rounded-md`}

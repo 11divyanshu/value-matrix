@@ -18,7 +18,7 @@ const Login = () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       let url = window.location.href.split("/");
       if (url[url.length - 1] === "register") showLogin(false);
-      if (access !== "null") {
+      if (access !== "null" || access !== undefined || access !== null || access !== "undefined") {
         if (user.isAdmin) {
           window.location.href = "/admin?a=" + access;
         }
