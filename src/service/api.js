@@ -335,3 +335,14 @@ export const submitCandidateDetails = async (data, token) => {
     console.log("Error : ", error);
   }
 };
+
+// Submit Company Details
+export const submitCompanyDetails = async (data, token) => {
+  try {
+    return await axios.post(`${url}/submitCompanyDetails`, data, {
+      headers: { authorization: token },
+    });
+  } catch (error) {
+    console.log("Error : ", error);
+  }
+};

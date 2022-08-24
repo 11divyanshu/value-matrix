@@ -52,7 +52,7 @@ const LoginForm = (props) => {
       if (res.data.user.user_type === "User")
         window.location.href = "/user/?a=" + access;
       else if (res.data.user.user_type === "Company")
-        window.location.href = "/company";
+        window.location.href = "/company?a=" + access;
       else if (res.data.user.user_type === "XI")
         window.location.href = "/XI/?a=" + access;
       else if (res.data.user.isAdmin) {
