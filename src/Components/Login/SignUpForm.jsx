@@ -117,12 +117,24 @@ const SignupForm = () => {
 
     if (values.user_type === "Company") {
       if (validateCompanyEmail(values.email) === false) {
-        setSignupError("Enter Company Email !");
+        // setSignupError("Enter Company Email !");
+        swal({
+          title: "Sign Up",
+          text: "Enter Company Email !",
+          icon: "error",
+          button: false,
+        })
         return;
       }
     }
     if (validateUserEmail(values.email) === false) {
-      setSignupError("Invalid Email Address");
+      // setSignupError("Invalid Email Address");
+      swal({
+        title: "Sign Up",
+        text: "Invalid Email Address",
+        icon: "error",
+        button: false,
+      })
       return;
     }
     setSignupError(null);
@@ -130,14 +142,32 @@ const SignupForm = () => {
     console.log(check.data);
     if (check.data.username && check.data.email === true) {
       setSignupError("Username and Email Already Registered");
+      swal({
+        title: "Sign Up",
+        text: "Username and Email Already Registered",
+        icon: "error",
+        button: false,
+      })
     }
 
     if (check.data.email) {
-      setSignupError("Email Already Registered");
+      // setSignupError("Email Already Registered");
+      swal({
+        title: "Sign Up",
+        text: "Email Already Registered",
+        icon: "error",
+        button: false,
+      })
     }
 
     if (check.data.username) {
-      setSignupError("Username Already Registered");
+      // setSignupError("Username Already Registered");
+      swal({
+        title: "Sign Up",
+        text: "Username Already Registered",
+        icon: "error",
+        button: false,
+      })
     }
     if (check.data.username || check.data.email) {
       setLoading(false);
@@ -188,7 +218,13 @@ const SignupForm = () => {
   const sendSmsOTP = async (values) => {
     if (values.user_type === "Company") {
       if (validateCompanyEmail(values.email) === false) {
-        setSignupError("Enter Company Email !");
+        // setSignupError("Enter Company Email !");
+        swal({
+          title: "Sign Up",
+          text: "Enter Company Email !",
+          icon: "error",
+          button: false,
+        })
         return;
       }
     }
@@ -200,14 +236,32 @@ const SignupForm = () => {
     console.log(check.data);
 
     if (check.data.username && check.data.contact) {
-      setSignupError("Username and Contact Already Registered");
+      // setSignupError("Username and Contact Already Registered");
+      swal({
+        title: "Sign Up",
+        text: "Username and Contact Already Registered",
+        icon: "error",
+        button: false,
+      })
     }
 
     if (check.data.contact) {
-      setSignupError("Contact Already Registered");
+      // setSignupError("Contact Already Registered");
+      swal({
+        title: "Sign Up",
+        text: " Contact Already Registered",
+        icon: "error",
+        button: false,
+      })
     }
     if (check.data.username) {
-      setSignupError("Username Already Registered");
+      // setSignupError("Username Already Registered");
+      swal({
+        title: "Sign Up",
+        text: "Username Already Registered",
+        icon: "error",
+        button: false,
+      })
     }
     if (check.data.username || check.data.contact) {
       setLoading(false);
@@ -253,11 +307,23 @@ const SignupForm = () => {
   const signup = async (values) => {
    
     if (!verifyEmail) {
-      setEmailError(true)
+      // setEmailError(true)
+      swal({
+        title: "Sign Up",
+        text: "Invalid OTP!",
+        icon: "error",
+        button: false,
+      })
       return
     }
     if (!verifySms) {
-      setSmsError(true)
+      // setSmsError(true)
+      swal({
+        title: "Sign Up",
+        text: "Invalid OTP!",
+        icon: "error",
+        button: false,
+      })
       return
     }
 
@@ -417,7 +483,7 @@ const SignupForm = () => {
 <div className="my-1">
               <label>Register As : </label>
               <Field as="select" name="user_type" style={{ borderRadius: "12px" }}>
-                <option value="Candidate">Candidate</option>
+                <option value="User">Candidate</option>
                 <option value="Company">Company</option>
                 <option value="XI">XI</option>
               </Field>

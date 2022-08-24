@@ -23,7 +23,7 @@ const Login = () => {
           window.location.href = "/admin?a=" + access;
         }
         if (user.user_type === "Company") {
-          window.location.href = "/company";
+          window.location.href = "/company?a=" + access;
         }
         if (user.user_type === "XI") {
           window.location.href = "/XI?a=" + access;
