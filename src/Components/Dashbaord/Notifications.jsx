@@ -14,31 +14,21 @@ const NotificationPopOver = (props) => {
 
   const getNotification = async (user, token) => {
     let res = await getUserNotification(user, token);
-    console.log(res.data.notifications);
     if (res) {
       setNotification(res.data.notifications);
-      if (res.data.notifications && res.data.notifications[0]) {
-        let mp = new Map();
-        res.data.notifications.forEach((element) => {
-          mp.set(element._id, true);
-        });
-        setShowNoti(mp);
-      }
     }
   };
 
   const markAsReadNoti = async (noti) => {
     try {
-      let user = await localStorage.getItem("user");
+      let user = JSON.parse(await localStorage.getItem("user"));
       let token = await localStorage.getItem("access_token");
       let res = await markNotiReadForUser(
         { noti_id: noti._id, user_id: user._id },
         token
       );
       if (res) {
-        let r = showNoti;
-        showNoti.set(noti._id, false);
-        setShowNoti(r);
+        setNotification(notification.filter((item) => item._id !== noti._id));
       }
     } catch (error) {
       console.log(error);
@@ -51,11 +41,12 @@ const NotificationPopOver = (props) => {
 
   const MarkAllNotiRead = async () => {
     try {
-      let user = await localStorage.getItem("user");
+      let user = JSON.parse(await localStorage.getItem("user"));
       let token = await localStorage.getItem("token");
-      notification.forEach((el) => {
+      await notification.forEach((el) => {
         markAllUtility(el, user._id, token);
       });
+      setNotification([]);
     } catch (err) {
       console.log(err);
     }
@@ -119,12 +110,12 @@ const NotificationPopOver = (props) => {
                       No New Notification. You are all caught up.
                     </p>
                   )}
-                  {notification && showNoti && (
+                  {notification && (
                     <div>
                       {notification.map((item, index) => {
                         return (
                           <Transition
-                            show={showNoti.get(item._id)}
+                          show = {true}
                             className="p-3 border-b-[0.5px] border-gray-400 flex items-center"
                             key={item._id}
                           >
