@@ -27,16 +27,27 @@ const CompanyDashboard = () => {
 
   React.useEffect(() => {
     const tokenFunc = async () => {
-      let access_token1 = null;
+      let access_token1;
       let location = window.location.search;
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
-      if (term !== null && term !== undefined && term !== "null") {
-        
+
+      console.log(term);
+      if (term != null && term !== undefined && term !== 'null') {
         access_token1 = term;
         await setAccessToken(term);
         await localStorage.setItem("access_token", term);
         
+      } 
+     if(term === null || term === undefined){
+        let access_token = localStorage.getItem("access_token");
+        await setAccessToken(access_token);
+        let user = JSON.parse(localStorage.getItem("user"));
+        if (user.tools) setModalIsOpen(false);
+
+        await setUser(user);
+      }
+
         let user_id = await getUserIdFromToken({ access_token: access_token1 });
         console.log(user_id);
         if (user_id) {
@@ -61,14 +72,7 @@ const CompanyDashboard = () => {
         } else {
           window.location.href = "/login";
         }
-      } else {
-        let access_token = localStorage.getItem("access_token");
-        await setAccessToken(access_token);
-        let user = JSON.parse(localStorage.getItem("user"));
-        if (user.tools) setModalIsOpen(false);
-
-        await setUser(user);
-      }
+     
       let user = localStorage.getItem("user");
       let token = localStorage.getItem("access_token");
       if (!user || !token) {

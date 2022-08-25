@@ -12,40 +12,16 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import Linkedin from "../../assets/images/Social/linkedin.svg";
 import Microsoft from "../../assets/images/Social/microsoft.svg";
 import Google from "../../assets/images/Social/google.svg";
+import Tabs from "../../Components/CompanyDashboard/Tabs";
 const CompanyProfile = () => {
   let navigate = useNavigate();
 
   // Access Token And User State
   const [user, setUser] = React.useState();
   const [profileImg, setProfileImg] = React.useState(null);
-  const [profile, setProfile] = React.useState(true);
-  const [contact, setContact] = React.useState(false);
-  const [image, setImage] = React.useState(false);
-  const [about, setAbout] = React.useState(false);
-  const [social, setSocial] = React.useState(false);
-  const [progress, setProgress] = React.useState(0)
+ 
   // Sets User and AccessToken from SessionStorage
-  const [bar, setBar] = React.useState(0)
 
-  const responsive = {
-    superLargeDesktop: {
-      // the naming can be any, depends on you.
-      breakpoint: { max: 3000, min: 2000 },
-      items: 5
-    },
-    desktop: {
-      breakpoint: { max: 2000, min: 1024 },
-      items: 4
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1
-    }
-  };
 
 
   React.useEffect(() => {
@@ -62,83 +38,59 @@ const CompanyProfile = () => {
       if (access_token === null) window.location.href = "/login";
 
 
-      if (user.firstName && user.profileImg && user.about && user.linkedInId) {
-        setProfile(false);
-      }
+   
 
       await setUser(user);
     };
     func();
   }, []);
 
-  React.useEffect(() => {
-
-    const func = async () => {
-      let user = JSON.parse(await localStorage.getItem("user"));
-      console.log(user)
-      setProgress(0);
-
-      if (user) {
-        if (user.contact) {
-          setProgress(progress + 1);
-          setContact(true);
-        }
-        if (user.profileImg) {
-          setProgress(progress + 1);
-          setImage(true);
-        }
-        if (user.about) {
-          setProgress(progress + 1);
-          setAbout(true);
-        }
-        if (user.linkedInId) {
-          setProgress(progress + 1);
-          setSocial(true);
-        }
-
-      }
-
-      var bar = (progress / 4) * 100;
-      console.log(bar)
-      setBar(bar);
-
-
-      console.log(progress)
-    }
-    func();
-  }, [])
 
   return (
     <div className="p-5">
       <p className="text-2xl font-bold" style={{ color: "#3B82F6" }}>Company Details</p>
-      {profile && <div className="w-3/4 text-center mx-auto shadow-md rounded-md" >
-        <p className="text-3xl py-4">Complete Your Profile!</p>
-        <Carousel responsive={responsive} className="w-3/4 mx-auto">
-          <Card name={"Contact"} check={contact}></Card>
-          <Card name={"About"} check={about}></Card>
-          <Card name={"Profile Image"} check={image}></Card>
-          <Card name={"Linked In"} check={social}></Card>
-
-        </Carousel>
-
-
-        {/* <div className="w-3/4 mx-auto my-2">
-          {progress &&
-            <ProgressBar bgColor={"#3B82F6"} completed={bar} />}
-        </div> */}
-
-      </div>}
+    
       {user !== null && user !== undefined && (
 
 
-        <div className="flex flex-column-reverse m-4">
+        <div className="m-5">
+
+<div className="my-3 shadow-md mx-5  rounded-md w-full p-3 flex items-center ">
+            <div>
+              <img
+                src={
+                  user && user.profileImg && profileImg ? profileImg : Avatar
+                }
+                className="h-16 w-16 rounded-md mx-6"
+                alt="userAvatar"
+              />
+            </div>
+            <div>
+              <p className="font-semibold">
+                {user.firstName} {user.lastname}
+              </p>
+              <p className="text-gray-700 text-sm">User</p>
+            </div>
+            <div className="ml-auto mr-6 ">
+              <button
+                className="border-[0.5px] border-gray-600 text-gray-600 px-2 py-1 rounded-sm"
+                onClick={() => {
+                  let url = window.location.href;
+                  let type = url.split("/")[3];
+                  window.location.href = "/" + type + "/editProfile";
+                }}
+              >
+                Edit Profile
+              </button>
+            </div>
+          </div>
+       
 
 
-
-
-          <div className="my-3 mx-5 shadow-md rounded-md w-full p-6 md:pt-6 pt-3 w-3/4">
+          <div className="my-3 mx-5 shadow-md rounded-lg w-full  pt-3 w-3/4">
+          {/* <Tabs/> */}
             {/* <p className="my-3  font-bold text-lg">Company Details</p> */}
-            <Formik
+            {/* <Formik
               initialValues={{
                 username: user.username,
                 firstName: user.firstName,
@@ -303,36 +255,12 @@ const CompanyProfile = () => {
                   </div>
                 </Form>
               )}
-            </Formik>
+            </Formik> */}
+            <div className="App ">
+      <Tabs/>
+      </div>
           </div>
-          <div className="my-3 mx-5 shadow-md rounded-md w-1/4 p-3 flex-column text-center" style={{ height: '300px' }}>
-            <div className="text-center w-1/2 mx-auto">
-              <img
-                src={user && user.profileImg && profileImg ? Avatar : Avatar}
-                className="h-16 w-16 rounded-md mx-6"
-                alt="userAvatar"
-              />
-            </div>
-            <div className="text-center">
-              <p className="font-semibold mt-3">
-                {user.firstName} {user.lastname}
-              </p>
-              <p className="text-gray-700 text-sm"></p>
-            </div>
-            <div className="mx-auto w-1/2  text-center">
-              <button
-                className="bg-blue-600 p-3 text-white rounded-lg mx-auto block mt-4 hover:bg-blue-600 text-center cursor-pointer"
-                onClick={() => {
-                  let url = window.location.href;
-                  let type = url.split("/")[3];
-                  window.location.href = "/" + type + "/editProfile";
-                }}
-              >
-                Edit Profile
-              </button>
-            </div>
           </div>
-        </div>
       )}
     </div>
   );

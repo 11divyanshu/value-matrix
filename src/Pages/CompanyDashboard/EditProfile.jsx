@@ -14,6 +14,7 @@ import ReactCropper from "../UserDashboard/ReactCrop";
 // Assets
 import Avatar from "../../assets/images/UserAvatar.png";
 import "react-image-crop/dist/ReactCrop.css";
+import Tabs from "../../Components/CompanyDashboard/EditTabs";
 
 const EditCompanyProfile = () => {
   // Sets OTPs to NULL
@@ -42,108 +43,108 @@ const EditCompanyProfile = () => {
   const [upImg, setUpImg] = React.useState(null);
 
   // Form Edit Submission
-  const submit = async (values) => {
-    console.log("values");
-    let wait = 0;
-    if (EmailOTP === null && ContactOTP === null)
-      wait = await SendOTPFunction(values);
-    if (wait !== 0) return;
-    console.log("values");
-    if (EmailOTP && ContactOTP) {
-      if (values.emailOTP !== EmailOTP && values.contactOTP !== ContactOTP) {
-        setError("Invalid Email OTP and Contact OTP");
-        return;
-      }
-    }
-    console.log("values");
-    if (EmailOTP && values.emailOTP !== EmailOTP) {
-      setError("Invalid Email OTP");
-      return;
-    }
-    console.log("values");
-    if (ContactOTP && values.contactOTP !== ContactOTP) {
-      setError("Invalid Contact OTP");
-      return;
-    }
-    console.log("values");
-    update(values);
-  };
+  // const submit = async (values) => {
+  //   console.log("values");
+  //   let wait = 0;
+  //   if (EmailOTP === null && ContactOTP === null)
+  //     wait = await SendOTPFunction(values);
+  //   if (wait !== 0) return;
+  //   console.log("values");
+  //   if (EmailOTP && ContactOTP) {
+  //     if (values.emailOTP !== EmailOTP && values.contactOTP !== ContactOTP) {
+  //       setError("Invalid Email OTP and Contact OTP");
+  //       return;
+  //     }
+  //   }
+  //   console.log("values");
+  //   if (EmailOTP && values.emailOTP !== EmailOTP) {
+  //     setError("Invalid Email OTP");
+  //     return;
+  //   }
+  //   console.log("values");
+  //   if (ContactOTP && values.contactOTP !== ContactOTP) {
+  //     setError("Invalid Contact OTP");
+  //     return;
+  //   }
+  //   console.log("values");
+  //   update(values);
+  // };
 
-  const SendOTPFunction = async (values) => {
-    let wait = 0;
-    if (values.email !== user.email) {
-      let emailValidate = await validateSignupDetails({email : values.email});
-      if(emailValidate.data.email === true){
-        setError("Email Already Registered");
-        return 1;
-      }
-      let res = await updateEmailOTP(
-        { mail: values.email },
-        { access_token: access_token }
-      );
-      if (res.otp) {
-        setEmailOTP(res.otp);
-        wait = 1;
-      } else if (res.Error) {
-        setError(res.Error);
-      }
-    }
-    if (values.contact !== user.contact) {
-      let contactValidate = await validateSignupDetails({contact : values.contact});
-      if(contactValidate.data.contact === true){
-        setError("Contact Already Registered");
-        return 1;
-      }
-      let res2 = await updateContactOTP(
-        { contact: values.contact },
-        { access_token: access_token }
-      );
-      if (res2.otp) {
-        setContactOTP(res2.otp);
-        wait = 1;
-      } else if (res2.Error) {
-        setError(res2.Error);
-      }
-    }
-    console.log(wait);
-    return wait;
-  };
+  // const SendOTPFunction = async (values) => {
+  //   let wait = 0;
+  //   if (values.email !== user.email) {
+  //     let emailValidate = await validateSignupDetails({email : values.email});
+  //     if(emailValidate.data.email === true){
+  //       setError("Email Already Registered");
+  //       return 1;
+  //     }
+  //     let res = await updateEmailOTP(
+  //       { mail: values.email },
+  //       { access_token: access_token }
+  //     );
+  //     if (res.otp) {
+  //       setEmailOTP(res.otp);
+  //       wait = 1;
+  //     } else if (res.Error) {
+  //       setError(res.Error);
+  //     }
+  //   }
+  //   if (values.contact !== user.contact) {
+  //     let contactValidate = await validateSignupDetails({contact : values.contact});
+  //     if(contactValidate.data.contact === true){
+  //       setError("Contact Already Registered");
+  //       return 1;
+  //     }
+  //     let res2 = await updateContactOTP(
+  //       { contact: values.contact },
+  //       { access_token: access_token }
+  //     );
+  //     if (res2.otp) {
+  //       setContactOTP(res2.otp);
+  //       wait = 1;
+  //     } else if (res2.Error) {
+  //       setError(res2.Error);
+  //     }
+  //   }
+  //   console.log(wait);
+  //   return wait;
+  // };
 
-  const update = async (values) => {
+  // const update = async (values) => {
     
-    let data = {
-      firstName: values.firstName,
-      lastname: values.lastName,
-      about: values.about,
-    };
-    if (EmailOTP) {
-      data.email = values.email;
-    }
-    if (ContactOTP) {
-      data.contact = values.contact;
-    }
+  //   let data = {
+  //     firstName: values.firstName,
+  //     lastname: values.lastName,
+  //     about: values.about,
+  //   };
+  //   if (EmailOTP) {
+  //     data.email = values.email;
+  //   }
+  //   if (ContactOTP) {
+  //     data.contact = values.contact;
+  //   }
 
-    let res = await updateUserDetails(
-      { user_id: user._id, updates: data },
-      { access_token: access_token }
-    );
+  //   let res = await updateUserDetails(
+  //     { user_id: user._id, updates: data },
+  //     { access_token: access_token }
+  //   );
     
-    if (res.data.Error) {
-      if (res.data.contact) {
-        setError(res.data.Error);
-        return;
-      }
-      if (res.data.email) {
-        setError(res.data.Error);
-        return;
-      }
-    } else if (res) {
-      await localStorage.setItem("user", JSON.stringify(res.data.user));
-      window.location.href = "/company/profile";
-    } else {
-      console.log("Error");
-    }
-  };
+  //   if (res.data.Error) {
+  //     if (res.data.contact) {
+  //       setError(res.data.Error);
+  //       return;
+  //     }
+  //     if (res.data.email) {
+  //       setError(res.data.Error);
+  //       return;
+  //     }
+  //   } else if (res) {
+  //     await localStorage.setItem("user", JSON.stringify(res.data.user));
+  //     window.location.href = "/company/profile";
+  //   } else {
+  //     console.log("Error");
+  //   }
+  // };
 
   // Sets User And Access_token
   React.useEffect(() => {
@@ -177,7 +178,7 @@ const EditCompanyProfile = () => {
             <div>
               <img
                 src={
-                  user && user.profileImg
+                  user && user.profileImg ? user.profileImg : Avatar
                 }
                 className="h-16 w-16 rounded-md mx-6"
                 alt="userAvatar"
@@ -201,10 +202,9 @@ const EditCompanyProfile = () => {
             </div>
           </div>
 
-          <div className="my-3 shadow-md rounded-md w-full p-6 md:pt-6 pt-3">
-            <p className="my-3  font-bold text-xl">Company Details</p>
+          <div className="my-3 shadow-md rounded-md w-full  pt-3">
 
-            <Formik
+            {/* <Formik
               initialValues={{
                 firstName: user.firstName,
                 email: user.email ? user.email : " ",
@@ -327,7 +327,8 @@ const EditCompanyProfile = () => {
                   </div>
                 </Form>
               )}
-            </Formik>
+            </Formik> */}
+            <Tabs/>
           </div>
         </div>
       )}

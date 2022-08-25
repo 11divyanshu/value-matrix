@@ -8,7 +8,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { RiEditBoxLine } from "react-icons/ri";
 
 const ExperienceDetailForm = (props) => {
-  const [experienceDetail, setExperienceDetail] = React.useState([]);
+  const [billingDetail, setBillingDetail] = React.useState([]);
   const [showForm, setShowForm] = React.useState(false);
   const [showError, setShowError] = React.useState(true);
   const [edit, setEdit] = React.useState(null);
@@ -32,10 +32,10 @@ const ExperienceDetailForm = (props) => {
       if (e === null) return null;
       let ed = e.experience;
       if (ed !== "null" || ed !== null) {
-        setExperienceDetail(ed);
+        setBillingDetail(ed);
       }
-      if (experienceDetail === null) {
-        setExperienceDetail([]);
+      if (billingDetail === null) {
+        setBillingDetail([]);
       }
     };
     initial();
@@ -44,10 +44,10 @@ const ExperienceDetailForm = (props) => {
   return (
     <div>
       <div>
-        <p className="font-bold text-lg">Experience Details</p>
+        <p className="font-bold text-lg">Billing Credentials</p>
         <div>
-          {experienceDetail &&
-            experienceDetail.map((item, index) => {
+          {billingDetail &&
+            billingDetail.map((item, index) => {
               return (
                 <div className="my-2 shadow-md rounded-md p-2 bg-gray-100" key={index}>
                   <div className="flex justify-end space-x-3 items-center">
@@ -62,13 +62,13 @@ const ExperienceDetailForm = (props) => {
                     <AiOutlineDelete
                       className="text-red-600 cursor-pointer"
                       onClick={() => {
-                        setExperienceDetail(
-                          experienceDetail.filter((item, i) => i !== index)
+                        setBillingDetail(
+                          billingDetail.filter((item, i) => i !== index)
                         );
                         localStorage.setItem(
                           "experience",
                           JSON.stringify(
-                            experienceDetail.filter((item, i) => i !== index)
+                            billingDetail.filter((item, i) => i !== index)
                           )
                         );
                       }}
@@ -103,7 +103,7 @@ const ExperienceDetailForm = (props) => {
         </div>
         {showForm ? (
           <div className={`${!showForm ? "hidden" : "block"}`}>
-            <p className="text-md font-semibold my-3">Add experience</p>
+            <p className="text-md font-semibold my-3">Add Billing Credentials</p>
             <Formik
               initialValues={initialValues}
               validate={(values) => {
@@ -145,9 +145,9 @@ const ExperienceDetailForm = (props) => {
                   await localStorage.getItem("candidateDetails")
                 );
                 if (edit !== null) {
-                  const temp = [...experienceDetail];
+                  const temp = [...billingDetail];
                   temp[edit] = values;
-                  await setExperienceDetail(temp);
+                  await setBillingDetail(temp);
                   e.experience = temp;
                   await localStorage.setItem(
                     "candidateDetails",
@@ -165,9 +165,9 @@ const ExperienceDetailForm = (props) => {
                   );
                   return;
                 }
-                let temp = experienceDetail;
-                temp = [...experienceDetail, values];
-                await setExperienceDetail(temp);
+                let temp = billingDetail;
+                temp = [...billingDetail, values];
+                await setBillingDetail(temp);
                 e.experience = temp;
                 await localStorage.setItem(
                   "candidateDetails",
@@ -184,7 +184,7 @@ const ExperienceDetailForm = (props) => {
                   description: null,
                 });
                 await props.setCandidateDetails({
-                  experience: experienceDetail,
+                  experience: billingDetail,
                   ...props.candidateDetails,
                 });
                 await localStorage.setItem("experience", JSON.stringify(temp));
@@ -370,7 +370,7 @@ const ExperienceDetailForm = (props) => {
         >
           Prev
         </button>
-        {experienceDetail && experienceDetail.length > 0 ? (
+        {billingDetail && billingDetail.length > 0 ? (
           <button
             className="bg-blue-600 py-2 px-3 rounded-sm ml-auto text-white"
             onClick={() => {

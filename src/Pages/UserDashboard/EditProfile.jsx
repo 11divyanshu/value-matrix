@@ -14,6 +14,7 @@ import ReactCropper from "./ReactCrop";
 // Assets
 import Avatar from "../../assets/images/UserAvatar.png";
 import "react-image-crop/dist/ReactCrop.css";
+import EditTabs from "../../Components/Dashbaord/EditTabs"
 
 const EditProfile = () => {
   // Sets OTPs to NULL
@@ -198,150 +199,9 @@ if(res.data.user){
           </div>
 
           <div className="my-3 shadow-md rounded-md w-full p-6 md:pt-6 pt-3">
-            <p className="my-3  font-bold text-lg">User Details</p>
-
-            <Formik
-              initialValues={{
-                firstName: user.firstName,
-                lastName: user.lastname,
-                email: user.email ? user.email : " ",
-                contact: user.contact ? user.contact : " ",
-                emailOTP: "",
-                about: user.about ? user.about : "",
-                contactOTP: "",
-              }}
-              validate={(values) => {
-                const errors = {};
-                if (!values.firstName) {
-                  errors.firstName = "Required";
-                }
-                if (!values.lastName) {
-                  errors.lastName = "Required";
-                }
-                if (!values.email) {
-                  errors.email = "Required";
-                } else if (
-                  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-                ) {
-                  errors.email = "Invalid Email Address";
-                }
-                if (!values.contact) {
-                  errors.contact = "Required";
-                } else if (
-                  !/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/.test(
-                    values.contact
-                  )
-                ) {
-                  errors.contact = "Invalid Contact Number";
-                }
-                return errors;
-              }}
-              onSubmit={(values) => submit(values)}
-            >
-              {({ values }) => (
-                <Form>
-                  {Error && <p className="text-sm text-red-500">{Error}</p>}
-                  <p className="my-3">
-                    <span className="font-semibold">Username :</span>{" "}
-                    {user.username}{" "}
-                  </p>
-                  <div className="flex flex-wrap w-full gap-y-5">
-                    <div className="md:w-1/2 w-full space-y-1">
-                      <label className="font-semibold">First Name</label>
-                      <Field
-                        type="text"
-                        name="firstName"
-                        className="block border-gray-400 py-1 md:w-1/2 w-3/4"
-                      />
-                      <ErrorMessage
-                        name="firstName"
-                        component="div"
-                        className="text-sm text-red-600"
-                      />
-                    </div>
-                    <div className="md:w-1/2 w-full space-y-1">
-                      <label className="font-semibold">Last Name</label>
-                      <Field
-                        name="lastName"
-                        type="text"
-                        className="block border-gray-400 py-1 md:w-1/2 w-3/4"
-                      />
-                      <ErrorMessage
-                        name="lastName"
-                        component="div"
-                        className="text-sm text-red-600"
-                      />
-                    </div>
-                    <div className="md:w-1/2 w-full space-y-1">
-                      <label className="font-semibold">About</label>
-                      <Field
-                        as="textarea"
-                        className="block  py-1 md:w-1/2 w-3/4 h-20"
-                        name="about"
-                      />
-                    </div>
-
-                    <div className="md:w-1/2 w-full space-y-1">
-                      <label className="font-semibold">Email</label>
-                      <Field
-                        name="email"
-                        type="text"
-                        className="block border-gray-400 py-1 md:w-1/2 w-3/4"
-                        disabled={EmailOTP !== null || ContactOTP !== null}
-                      />
-                      <ErrorMessage
-                        name="email"
-                        component="div"
-                        className="text-sm text-red-600"
-                      />
-                    </div>
-                    <div className="md:w-1/2 w-full space-y-1">
-                      <label className="font-semibold">Contact</label>
-                      <Field
-                        name="contact"
-                        type="text"
-                        className="block border-gray-400 py-1 md:w-1/2 w-3/4"
-                        disabled={EmailOTP !== null || ContactOTP !== null}
-                      />
-                      <ErrorMessage
-                        name="contact"
-                        component="div"
-                        className="text-sm text-red-600"
-                      />
-                    </div>
-                    {EmailOTP && (
-                      <div className="md:w-1/2 w-full space-y-1">
-                        <label className="font-semibold">Email OTP</label>
-                        <Field
-                          name="emailOTP"
-                          type="text"
-                          className="block border-gray-400 py-1 md:w-1/2 w-3/4"
-                        />
-                      </div>
-                    )}
-                    {ContactOTP && (
-                      <div className="md:w-1/2 w-full space-y-1">
-                        <label className="font-semibold">Contact OTP</label>
-                        <Field
-                          name="contactOTP"
-                          type="text"
-                          className="block border-gray-400 py-1 md:w-1/2 w-3/4"
-                        />
-                      </div>
-                    )}
-                  </div>
-                  <div className="w-full">
-                    <button
-                      type="submit"
-                      className="bg-blue-500 px-2 py-1 text-white rounded-sm my-5"
-                      style={{ backgroundColor: " rgb(59 130 246)" }}
-                    >
-                      Submit
-                    </button>
-                  </div>
-                </Form>
-              )}
-            </Formik>
+          
+         
+          <EditTabs/>
           </div>
         </div>
       )}

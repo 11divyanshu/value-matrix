@@ -125,17 +125,10 @@ const ContactDetailForm = (props) => {
                       className="text-sm text-red-600"
                     />
                   </div>
-                  <div className="my-3">
+                  {/* <div className="my-3">
 
                     <label>Linked In *</label>
-                    {/* <Field
-                      name="email"
-                      type="email"
-                      className="w-full text-600"
-                      style={{ borderRadius: "10px" }}
-                      value={values.email}
-                      disabled={values.email !== null}
-                    /> */}
+                  
                     {linkedinVerify ? (
                       <p className="text-green-600 text-md">Connected</p> ): 
                       (
@@ -151,7 +144,7 @@ const ContactDetailForm = (props) => {
                       component="div"
                       className="text-sm text-red-600"
                     />
-                  </div>
+                  </div> */}
                   <div className="my-3">
                     <label>Address*</label>
                     

@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import "tw-elements";
 import ResumeForm from "./CompanyFormComponent/ResumeForm";
 import AboutDetailForm from "./CompanyFormComponent/AboutDetails";
-import ExperienceDetailForm from "./CompanyFormComponent/ExperienceDetail";
+import Billing from "./CompanyFormComponent/Billing";
 import ContactDetailForm from "./CompanyFormComponent/ContactDetails";
 import Tools from "./CompanyFormComponent/Tools";
 
@@ -17,7 +17,7 @@ const CandidateResumeForm = (props) => {
     about : [],
     // experience : [],
     contact : {},
-    tools : [],
+    billing : [],
   });
 
   const [progress, setProgress] = useState(1);
@@ -33,7 +33,7 @@ const CandidateResumeForm = (props) => {
     //     />
     //   ),
     // },
-    {
+    { name: "About",
       icon: "",
       component: (
         <AboutDetailForm
@@ -43,15 +43,8 @@ const CandidateResumeForm = (props) => {
         />
       ),
     },
-    // {
-    //   icon : "",
-    //   component : <ExperienceDetailForm
-    //   setCompanyDetails={setCompanyDetails}
-    //   setStep={setStep}
-    //   companyDetails={companyDetails}
-    //   />
-    // },
-    {
+  
+    {name: "Contact Details",
       icon: "",
       component: <ContactDetailForm
       setCompanyDetails={setCompanyDetails}
@@ -59,14 +52,23 @@ const CandidateResumeForm = (props) => {
       companyDetails={companyDetails}
       />
     },
-    {
-      icon :"",
-      component : <Tools
+      {name: "Billing Credentials",
+      icon : "",
+      component : <Billing
       setCompanyDetails={setCompanyDetails}
       setStep={setStep}
       companyDetails={companyDetails}
       />
     }
+    // {
+    //   name: "Tools",
+    //   icon :"",
+    //   component : <Tools
+    //   setCompanyDetails={setCompanyDetails}
+    //   setStep={setStep}
+    //   companyDetails={companyDetails}
+    //   />
+    // }
   ];
 
   function closeModal() {
@@ -82,9 +84,21 @@ const CandidateResumeForm = (props) => {
     setProgress(p);
   },[step])
 
-  React.useEffect(()=>{
-    localStorage.setItem("companyDetails", JSON.stringify(companyDetails));
-  },[])
+  // React.useEffect(()=>{
+  //   localStorage.setItem("companyDetails", JSON.stringify(companyDetails));
+  // },[])
+  React.useEffect(() => {
+    const initial = async () => {
+      let res = await localStorage.getItem("companyDetails");
+      if (res === "null" || res === null) {
+        localStorage.setItem(
+          "companyDetails",
+          JSON.stringify(companyDetails)
+        );
+      }
+    };
+    initial();
+  }, []);
 
   return (
     <>
@@ -127,6 +141,20 @@ const CandidateResumeForm = (props) => {
                     Complete Your Details
                   </Dialog.Title>
                   <div className="pt-4">
+                  <div className="flex justify-between py-3">
+                      {components &&
+                        components.map((item, index) => {
+                          return (
+                            <div
+                              className={`text-sm ${
+                                index > step && ("text-gray-600")
+                              } ${index === step && ("text-blue-600")} ${index < step && ("text-green-600")}`}
+                            >
+                              {item.name}
+                            </div>
+                          );
+                        })}
+                    </div>
                     <div class="w-full bg-gray-200 h-1 mb-6">
                       <div class="bg-blue-400 h-1" style={{width: progress+"%"}}></div>
                     </div>
