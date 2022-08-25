@@ -4,6 +4,7 @@ import { useInsertionEffect } from "react";
 import { OTPSms, validateSignupDetails } from "../../../service/api";
 import Loader from "../../../assets/images/loader.gif";
 import swal from "sweetalert";
+import { submitCandidateDetails } from "../../../service/api";
 
 const ContactDetailForm = (props) => {
   const [contactDetails, setContactDetails] = React.useState({
@@ -24,6 +25,7 @@ const ContactDetailForm = (props) => {
   const [loadingContact, setLoadingContact] = React.useState(false);
 
   const [address, setAddress] = React.useState(null);
+  const [addressValue, setAddressValue] = React.useState(null);
 
   React.useEffect(() => {
     const initial = async () => {
@@ -37,6 +39,8 @@ const ContactDetailForm = (props) => {
       let ad = null;
       if (e !== null && e.address !== null && e.contact.address !== null) {
         await setAddress(e.contact.address);
+      } else if (user.address) {
+        await setAddress(user.address);
       }
       if (e !== null && e.contact && e.contact.contact) {
         ed.contact = e.contact.contact;
@@ -250,6 +254,7 @@ const ContactDetailForm = (props) => {
                           ...contactDetails,
                           address: e.target.value,
                         });
+                        await setAddressValue(e.target.value);
                         let c = JSON.parse(
                           await localStorage.getItem("candidateDetails")
                         );
@@ -283,11 +288,23 @@ const ContactDetailForm = (props) => {
       <div className="pt-5 flex w-full">
         <button
           className="bg-blue-600 py-2 px-3 rounded-sm text-white"
-          onClick={() => props.setStep(2)}
+          onClick={async () => {
+            let access = await localStorage.getItem("access_token");
+            let details = JSON.parse(
+              await localStorage.getItem("candidateDetails")
+            );
+            let user = JSON.parse(await localStorage.getItem("user"));
+            await submitCandidateDetails(
+              { contact: details.contact, user_id: user._id },
+              access
+            );
+            props.setStep(2);
+          }}
         >
           Prev
         </button>
-        {(contactDetails.address || address) &&
+
+        {(contactDetails.address || address || addressValue) &&
         contactDetails.contact &&
         emailVerify &&
         contactVerify &&
@@ -299,7 +316,19 @@ const ContactDetailForm = (props) => {
                 await localStorage.getItem("candidateDetails")
               );
               if (ed.contact.address === null) ed.contact.address = address;
-              await localStorage.setItem("candidateDetails",JSON.stringify(ed));
+              await localStorage.setItem(
+                "candidateDetails",
+                JSON.stringify(ed)
+              );
+              let access = await localStorage.getItem("access_token");
+              let details = JSON.parse(
+                await localStorage.getItem("candidateDetails")
+              );
+              let user = JSON.parse(await localStorage.getItem("user"));
+              await submitCandidateDetails(
+                { contact: details.contact, user_id: user._id },
+                access
+              );
               props.setStep(4);
             }}
           >

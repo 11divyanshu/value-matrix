@@ -1,11 +1,12 @@
 import React from "react";
 import { Formik, ErrorMessage, Field, Form } from "formik";
 
-import {CgWorkAlt} from "react-icons/cg";
-import {FaRegBuilding} from "react-icons/fa";
+import { CgWorkAlt } from "react-icons/cg";
+import { FaRegBuilding } from "react-icons/fa";
 import { BsCalendar } from "react-icons/bs";
 import { AiOutlineDelete } from "react-icons/ai";
 import { RiEditBoxLine } from "react-icons/ri";
+import { submitCandidateDetails } from "../../../service/api";
 
 const ExperienceDetailForm = (props) => {
   const [experienceDetail, setExperienceDetail] = React.useState([]);
@@ -49,7 +50,10 @@ const ExperienceDetailForm = (props) => {
           {experienceDetail &&
             experienceDetail.map((item, index) => {
               return (
-                <div className="my-2 shadow-md rounded-md p-2 bg-gray-100" key={index}>
+                <div
+                  className="my-2 shadow-md rounded-md p-2 bg-gray-100"
+                  key={index}
+                >
                   <div className="flex justify-end space-x-3 items-center">
                     <RiEditBoxLine
                       className="cursor-pointer"
@@ -61,13 +65,20 @@ const ExperienceDetailForm = (props) => {
                     />
                     <AiOutlineDelete
                       className="text-red-600 cursor-pointer"
-                      onClick={async() => {
+                      onClick={async () => {
                         setExperienceDetail(
                           experienceDetail.filter((item, i) => i !== index)
                         );
-                        let res = JSON.parse(await localStorage.getItem("candidateDetails"));
-                        res.experience = experienceDetail.filter((item, i) => i !== index);
-                        localStorage.setItem("candidateDetails", JSON.stringify(res));
+                        let res = JSON.parse(
+                          await localStorage.getItem("candidateDetails")
+                        );
+                        res.experience = experienceDetail.filter(
+                          (item, i) => i !== index
+                        );
+                        localStorage.setItem(
+                          "candidateDetails",
+                          JSON.stringify(res)
+                        );
                       }}
                     />
                   </div>
@@ -83,7 +94,7 @@ const ExperienceDetailForm = (props) => {
                       <p>{item.company_name}</p>
                     </div>
                     <div className="space-x-2 flex items-center">
-                    <CgWorkAlt/>
+                      <CgWorkAlt />
                       <p>{item.industry}</p>
                     </div>
                     <div className="flex items-center space-x-2">
@@ -131,8 +142,7 @@ const ExperienceDetailForm = (props) => {
                     "Start date cannot be greater than today's date";
                 }
                 if (values.start_date > values.end_date) {
-                  errors.end_date =
-                    "End date cannot be less than start date";
+                  errors.end_date = "End date cannot be less than start date";
                 }
                 if (!values.industry) {
                   errors.industry = "Required";
@@ -352,14 +362,34 @@ const ExperienceDetailForm = (props) => {
       <div className="pt-5 flex w-full">
         <button
           className="bg-blue-600 py-2 px-3 rounded-sm text-white"
-          onClick={() => props.setStep(1)}
+          onClick={async () => {
+            let access = await localStorage.getItem("access_token");
+            let details = JSON.parse(
+              await localStorage.getItem("candidateDetails")
+            );
+            let user = JSON.parse(await localStorage.getItem("user"));
+            await submitCandidateDetails(
+              { experience: details.experience, user_id: user._id },
+              access
+            );
+            props.setStep(1);
+          }}
         >
           Prev
         </button>
         {experienceDetail && experienceDetail.length > 0 ? (
           <button
             className="bg-blue-600 py-2 px-3 rounded-sm ml-auto text-white"
-            onClick={() => {
+            onClick={async () => {
+              let access = await localStorage.getItem("access_token");
+              let details = JSON.parse(
+                await localStorage.getItem("candidateDetails")
+              );
+              let user = JSON.parse(await localStorage.getItem("user"));
+              await submitCandidateDetails(
+                { experience: details.experience, user_id: user._id },
+                access
+              );
               props.setStep(3);
             }}
           >

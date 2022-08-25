@@ -13,7 +13,6 @@ import {
   getProfileImage,
   getUserFromId,
   getUserIdFromToken,
-  url,
 } from "../../service/api";
 
 const Dashboard = () => {
@@ -104,7 +103,7 @@ const Dashboard = () => {
       if (!user || !token) {
         window.location.href = "/login";
       }
-      if (user.tools === [] || user.education === [] || !user.address) {
+      if (user.tools.length === 0|| user.education === [] || !user.address) {
         console.log("F")
         setModalIsOpen(true);
       }
@@ -154,7 +153,7 @@ const Dashboard = () => {
     <div className="max-w-screen flex h-screen">
       {modalIsOpen && (
         <div>
-          <CandidateResumeForm isOpen={true} />
+          <CandidateResumeForm isOpen={true} setModalIsOpen={setModalIsOpen} />
         </div>
       )}
       <div className="z-10 fixed h-screen">

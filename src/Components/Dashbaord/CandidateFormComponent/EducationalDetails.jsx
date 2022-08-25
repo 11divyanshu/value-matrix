@@ -6,6 +6,7 @@ import { BsCalendar } from "react-icons/bs";
 import { GrScorecard } from "react-icons/gr";
 import { AiOutlineDelete } from "react-icons/ai";
 import { RiEditBoxLine } from "react-icons/ri";
+import { submitCandidateDetails } from "../../../service/api";
 
 const EducationDetailForm = (props) => {
   const [educationalDetail, setEducationalDetail] = React.useState([]);
@@ -49,7 +50,10 @@ const EducationDetailForm = (props) => {
           {educationalDetail &&
             educationalDetail.map((item, index) => {
               return (
-                <div className="my-2 shadow-md rounded-md p-2 bg-gray-100" key={index}>
+                <div
+                  className="my-2 shadow-md rounded-md p-2 bg-gray-100"
+                  key={index}
+                >
                   <div className="flex justify-end space-x-3 items-center">
                     <RiEditBoxLine
                       className="cursor-pointer"
@@ -61,13 +65,20 @@ const EducationDetailForm = (props) => {
                     />
                     <AiOutlineDelete
                       className="text-red-600 cursor-pointer"
-                      onClick={async() => {
+                      onClick={async () => {
                         setEducationalDetail(
                           educationalDetail.filter((item, i) => i !== index)
                         );
-                        let res = JSON.parse(await localStorage.getItem("candidateDetails"));
-                        res.education = educationalDetail.filter((item, i) => i !== index);
-                        localStorage.setItem("candidateDetails", JSON.stringify(res));
+                        let res = JSON.parse(
+                          await localStorage.getItem("candidateDetails")
+                        );
+                        res.education = educationalDetail.filter(
+                          (item, i) => i !== index
+                        );
+                        localStorage.setItem(
+                          "candidateDetails",
+                          JSON.stringify(res)
+                        );
                       }}
                     />
                   </div>
@@ -78,9 +89,10 @@ const EducationDetailForm = (props) => {
                       <p>{item.degree}</p> <p>|</p> <p>{item.field_of_study}</p>
                     </div>
                     {item.grade && (
-                    <div className="space-x-2 flex items-center">
-                      <GrScorecard /> <p>{item.grade}</p>
-                    </div>)}
+                      <div className="space-x-2 flex items-center">
+                        <GrScorecard /> <p>{item.grade}</p>
+                      </div>
+                    )}
                     <div className="flex items-center space-x-2">
                       <BsCalendar />
                       <p className="text-sm text-gray-600 mr-5">
@@ -329,14 +341,36 @@ const EducationDetailForm = (props) => {
       <div className="pt-5 flex w-full">
         <button
           className="bg-blue-600 py-2 px-3 rounded-sm text-white"
-          onClick={() => props.setStep(0)}
+          onClick={async () => {
+            let access = await localStorage.getItem("access_token");
+            let details = JSON.parse(
+              await localStorage.getItem("candidateDetails")
+            );
+            let user = JSON.parse(await localStorage.getItem("user"));
+              await submitCandidateDetails(
+                { education: details.education, user_id: user._id},
+                access
+              );
+            props.setStep(0);
+          }}
         >
           Prev
         </button>
         {educationalDetail && educationalDetail.length > 0 ? (
           <button
             className="bg-blue-600 py-2 px-3 rounded-sm ml-auto text-white"
-            onClick={() => props.setStep(2)}
+            onClick={async () => {
+              let access = await localStorage.getItem("access_token");
+              let details = JSON.parse(
+                await localStorage.getItem("candidateDetails")
+              );
+              let user = JSON.parse(await localStorage.getItem("user"));
+              await submitCandidateDetails(
+                { education: details.education, user_id: user._id},
+                access
+              );
+              props.setStep(2);
+            }}
           >
             Next
           </button>

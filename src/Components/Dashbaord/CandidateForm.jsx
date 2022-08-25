@@ -91,11 +91,15 @@ const CandidateResumeForm = (props) => {
   React.useEffect(() => {
     const initial = async () => {
       let res = await localStorage.getItem("candidateDetails");
-      if (res === "null" || res === null) {
-        localStorage.setItem(
-          "candidateDetails",
-          JSON.stringify(candidateDetails)
-        );
+      let user = JSON.parse(await localStorage.getItem("user"));
+      if (user && (res === "null" || res === null)) {
+        let data = {
+          education : user.education ? user.education : [],
+          experience : user.experience ? user.experience : [],
+          contact : user.contact ? user.contact : {},
+          tools : user.tools ? user.tools : [],
+        }
+        await localStorage.setItem("candidateDetails", JSON.stringify(data));
       }
     };
     initial();
@@ -137,9 +141,10 @@ const CandidateResumeForm = (props) => {
                 <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
-                    className="text-2xl font-bold leading-6 text-gray-900"
+                    className="text-2xl font-bold leading-6 text-gray-900 flex"
                   >
                     Complete Your Profile
+                    <p className="ml-auto text-sm text-blue-500 cursor-pointer" onClick = {()=>props.setModalIsOpen(false)}>Skip</p>
                   </Dialog.Title>
                   <div className="pt-4">
                     <div className="flex justify-between py-3">
@@ -148,8 +153,10 @@ const CandidateResumeForm = (props) => {
                           return (
                             <div
                               className={`text-sm ${
-                                index > step && ("text-gray-600")
-                              } ${index === step && ("text-blue-600")} ${index < step && ("text-green-600")}`}
+                                index > step && "text-gray-600"
+                              } ${index === step && "text-blue-600"} ${
+                                index < step && "text-green-600"
+                              }`}
                             >
                               {item.name}
                             </div>
