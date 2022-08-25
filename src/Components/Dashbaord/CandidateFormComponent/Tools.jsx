@@ -24,7 +24,7 @@ const Tools = (props) => {
     initial();
   }, []);
 
-  const handleSubmit = async () => {    
+  const handleSubmit = async () => {
     let res = JSON.parse(await localStorage.getItem("candidateDetails"));
     let user = JSON.parse(await localStorage.getItem("user"));
     res.user_id = user._id;
@@ -34,28 +34,28 @@ const Tools = (props) => {
       await localStorage.setItem("user", JSON.stringify(response.data.user));
       await localStorage.removeItem("candidateDetails");
       swal({
-        title : "Candidate Details",
+        title: "Candidate Details",
         text: "Details Updated",
         icon: "success",
-        button : false,
-      })
-      setTimeout(()=>{
+        button: false,
+      });
+      setTimeout(() => {
         window.location.reload();
-      }, 2000)
+      }, 2000);
     } else {
       swal({
-        title : "Candidate Details",
+        title: "Candidate Details",
         text: "Something Went Wrong",
         icon: "error",
-        button : false,
-      })
+        button: false,
+      });
       setSubmitError("Something went wrong");
     }
   };
 
   return (
     <div>
-      <p className="font-bold text-lg">Tools</p>
+      <p className="font-bold text-lg">Skills</p>
       <div className="flex flex-wrap items-center">
         <input
           className="w-4/5 text-600 my-3 mr-3"
@@ -159,12 +159,28 @@ const Tools = (props) => {
       <div className="pt-5 flex w-full">
         <button
           className="bg-blue-600 py-2 px-3 rounded-sm text-white"
-          onClick={() => props.setStep(3)}
+          onClick={async () => {
+            let access = await localStorage.getItem("access_token");
+            let details = JSON.parse(
+              await localStorage.getItem("candidateDetails")
+            );
+            let user = JSON.parse(await localStorage.getItem("user"));
+            await submitCandidateDetails(
+              { tools: details.tools, user_id: user._id },
+              access
+            );
+            props.setStep(3);
+          }}
         >
           Prev
         </button>
         {tools !== [] && tools.length > 0 ? (
-          <button className="bg-blue-600 py-2 px-3 rounded-sm ml-auto text-white" onClick={()=>{handleSubmit();}}>
+          <button
+            className="bg-blue-600 py-2 px-3 rounded-sm ml-auto text-white"
+            onClick={() => {
+              handleSubmit();
+            }}
+          >
             Submit
           </button>
         ) : (
