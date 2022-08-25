@@ -1,5 +1,5 @@
 :root {
-    --primary: coral;
+    --primary: #3B82F6;
     --secondary:#3667E9;
     }
 
@@ -18,7 +18,7 @@
     
 
     .tabHead{
-        padding:1.5rem 4rem;
+        padding:1.5rem 3rem;
         border:1px solid white;
         cursor:pointer;
         border-radius: 12px 12px 0 0;
@@ -27,6 +27,6 @@
 }
 
 .active{
-    background: var(--secondary);
+    background: var(--primary);
     color:white;
 }

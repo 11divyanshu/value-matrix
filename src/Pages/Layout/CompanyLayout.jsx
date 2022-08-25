@@ -21,7 +21,7 @@ const CompanyDashboard = () => {
 
   // Current User
   let [user, setUser] = React.useState(null);
-  const [modalIsOpen, setModalIsOpen] = React.useState(true);
+  const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
   // Retrieve And Saves Access Token and User to Session
   const [access_token, setAccessToken] = React.useState(null);
@@ -46,7 +46,6 @@ const CompanyDashboard = () => {
         let access_token = localStorage.getItem("access_token");
         await setAccessToken(access_token);
         let user = JSON.parse(localStorage.getItem("user"));
-        if (user.tools) setModalIsOpen(false);
 
         await setUser(user);
       }
@@ -60,9 +59,7 @@ const CompanyDashboard = () => {
           );
 
           console.log(user.data);
-          if (user.data.user.tools) {
-            setModalIsOpen(false);
-          }
+         
           await setUser(user.data.user.user);
 
           if (
@@ -80,6 +77,10 @@ const CompanyDashboard = () => {
       let token = localStorage.getItem("access_token");
       if (!user || !token) {
         window.location.href = "/login";
+      }
+      if (user.desc === []|| user.billing === [] || !user.address) {
+        console.log("F")
+        setModalIsOpen(true);
       }
     };
 
@@ -134,9 +135,9 @@ const CompanyDashboard = () => {
     <div className="max-w-screen flex h-screen">
       {modalIsOpen && (
         <div>
-          <CompanyForm isOpen={true} />
+          <CompanyForm isOpen={true} setModalIsOpen={setModalIsOpen}  />
         </div>
-      )}
+       )}
       <div className="z-10 fixed h-screen">
         <Sidebar />
       </div>

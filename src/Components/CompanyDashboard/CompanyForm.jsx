@@ -139,6 +139,8 @@ const CandidateResumeForm = (props) => {
                     className="text-2xl font-bold leading-6 text-gray-900"
                   >
                     Complete Your Details
+                    <p className="ml-auto text-sm text-blue-500 cursor-pointer" onClick = {()=>props.setModalIsOpen(false)}>Skip</p>
+
                   </Dialog.Title>
                   <div className="pt-4">
                   <div className="flex justify-between py-3">

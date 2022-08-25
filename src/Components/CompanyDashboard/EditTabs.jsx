@@ -49,6 +49,7 @@ export default function Tabs(props) {
   const [index, setIndex] = React.useState(0)
   const [profileImg, setProfileImg] = React.useState(null);
   const [aboutDetail, setAboutDetail] = React.useState([]);
+  const [billingDetail, setBillingDetail] = React.useState([]);
   React.useEffect(() => {
     const initial = async () => {
       let e = JSON.parse(await localStorage.getItem("user"));
@@ -70,26 +71,7 @@ export default function Tabs(props) {
 
 
     if (values.firstName) {
-      // if (EmailOTP === null && ContactOTP === null)
-      //   wait = await SendOTPFunction(values);
-      // if (wait !== 0) return;
-      // console.log("values");
-      // if (EmailOTP && ContactOTP) {
-      //   if (values.emailOTP !== EmailOTP && values.contactOTP !== ContactOTP) {
-      //     setError("Invalid Email OTP and Contact OTP");
-      //     return;
-      //   }
-      // }
-      // console.log("values");
-      // if (EmailOTP && values.emailOTP !== EmailOTP) {
-      //   setError("Invalid Email OTP");
-      //   return;
-      // }
-      // console.log("values");
-      // if (ContactOTP && values.contactOTP !== ContactOTP) {
-      //   setError("Invalid Contact OTP");
-      //   return;
-      // }
+     
       let user = JSON.parse(localStorage.getItem("user"));
 
       user.firstName = values.firstName;
@@ -103,10 +85,7 @@ export default function Tabs(props) {
 
 
     if (values.about) {
-      // user.desc[0] = values;
-      // console.log(user);
-      // setUser(user);
-      // localStorage.setItem("user", JSON.stringify(user));
+      
       let e = JSON.parse(
         await localStorage.getItem("user")
       );
@@ -114,22 +93,33 @@ export default function Tabs(props) {
       temp[0] = values;
       console.log(temp)
       e.desc = temp;
-      update(e);
+      // update(e);
       await localStorage.setItem(
         "user",
         JSON.stringify(e)
       );
       await setAboutDetail(temp);
 
-      // e.about = temp;
+   
+    }
     
-      // await props.setUser({
-      //   desc: temp,
-      //   ...props.user,
-      // });
+    if (values.gst) {
+      
+      let e = JSON.parse(
+        await localStorage.getItem("user")
+      );
+      const temp = [...user.billing];
+      temp[0] = values;
+      console.log(temp)
+      e.billing = temp;
+      // update(e);
+      await localStorage.setItem(
+        "user",
+        JSON.stringify(e)
+      );
+      await setBillingDetail(temp);
 
-      // await localStorage.setItem("user", JSON.stringify(user));
-      // return;
+   
     }
   }
 
@@ -212,7 +202,8 @@ export default function Tabs(props) {
       firstName: ed.firstName,
       lastname: ed.lastName,
       address:ed.address,
-      desc:ed.desc
+      desc:ed.desc,
+      billing:ed.billing
     };
     if (EmailOTP) {
       data.email = ed.email;
@@ -563,7 +554,81 @@ export default function Tabs(props) {
         )}
       </div>
       <div className="tabContent p-5" hidden={index != 2}>
-        Billing Credentials
+      {user !== null && user !== undefined && (
+          <Formik
+            initialValues={{
+              gst: user.billing[0].gst,
+              pan: user.billing[0].pan,
+              
+            }}
+          >
+            {({ values, isSubmitting }) => (
+              <Form>
+
+                <div className="flex flex-wrap w-full gap-y-5">
+                 
+
+                  <label style={{ color: "#3B82F6" }} className="py-3 text-xl font-semibold">Billing Credentials</label>
+                  <hr />
+                
+
+                  <div className="md:w-1/2 w-full space-y-1">
+
+                    <label className="font-semibold">GST No.</label>
+                    <Field
+                      type="text"
+                      className="block border-gray-100 rounded-lg py-1 md:w-3/4 w-full"
+                      name="gst"
+                    
+                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+
+                    />
+
+                  </div>
+
+                  <div className="md:w-1/2 w-full space-y-1">
+
+                    <label className="font-semibold">PAN</label>
+                    <Field
+                      type="text"
+                      className="block border-gray-100 rounded-lg  py-1 md:w-3/4 w-full"
+                      name="pan"
+                     
+                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+
+                    />
+
+                  </div>
+
+                 
+                
+                </div>
+              
+           
+            <div className="w-full">
+                  <button
+                    onClick={() =>save(values)}
+                    className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"
+                    style={{ backgroundColor: " rgb(59 130 246)" }}
+                  >
+                    Save
+                  </button>
+                  <button
+                    type="submit"
+                    className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"
+                    style={{ backgroundColor: " rgb(59 130 246)" }}
+                    onClick={() =>update(user)}
+
+                  >
+                    Submit
+                  </button>
+                </div>
+                </Form>
+                 )}
+          </Formik>
+        )}
+
+
       </div>
     </div>
   )

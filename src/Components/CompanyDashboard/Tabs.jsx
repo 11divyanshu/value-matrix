@@ -49,7 +49,7 @@ export default function Tabs() {
       <div className="tabList flex">
         <div className={`tabHead ${index===0 && 'active'}`} onClick={() => { setIndex(0) }}>Contact</div>
         <div className={`tabHead ${index===1 && 'active'}`} onClick={() => { setIndex(1) }}>About</div>
-        <div className={`tabHead ${index===2 && 'active'}`} onClick={() => { setIndex(2) }}>Billing Info</div>
+        <div className={`tabHead ${index===2 && 'active'}`} onClick={() => { setIndex(2) }}>Billing Credentials</div>
       </div>
       <div className="tabContent p-5" hidden={index != 0}>
         {user !== null && user !== undefined && (
@@ -75,8 +75,8 @@ export default function Tabs() {
                       type="text"
                       name="username"
                       disabled
-                      className="block border-gray-400 py-1 md:w-1/2 w-3/4"
-                      style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                      className="block border-gray-100 rounded-lg py-1 md:w-1/2 w-3/4"
+                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
                   </div>
@@ -86,8 +86,8 @@ export default function Tabs() {
                       type="text"
                       name="firstName"
                       disabled
-                      className="block border-gray-400 py-1 md:w-1/2 w-3/4"
-                      style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                      className="block border-gray-100 rounded-lg py-1 md:w-1/2 w-3/4"
+                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
                   </div>
@@ -97,8 +97,8 @@ export default function Tabs() {
                       name="email"
                       type="text"
                       disabled
-                      className="block border-gray-400 py-1 md:w-1/2 w-3/4"
-                      style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                      className="block border-gray-100 rounded-lg py-1 md:w-1/2 w-3/4"
+                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
                   </div>
@@ -108,8 +108,8 @@ export default function Tabs() {
                       name="contact"
                       type="text"
                       disabled
-                      className="block border-gray-400 py-1 md:w-1/2 w-3/4"
-                      style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                      className="block border-gray-100 rounded-lg py-1 md:w-1/2 w-3/4"
+                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
                   </div>
@@ -119,8 +119,8 @@ export default function Tabs() {
                       name="address"
                       type="text"
                       disabled
-                      className="block border-gray-400 py-1 md:w-1/2 w-3/4"
-                      style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                      className="block border-gray-100 rounded-lg py-1 md:w-1/2 w-3/4"
+                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
                   </div>
@@ -156,14 +156,15 @@ export default function Tabs() {
                   <div className="md:w-1/2 w-full space-y-1">
 
                     <label className="font-semibold">Overview</label>
-                    <Field
-                      type="textarea"
-                      className="block  py-1 md:w-3/4 w-full h-20"
+                    <p
+                      type="text"
+                      className="block break-words py-2 md:w-3/4 w-full rounded-lg"
                       name="about"
                       disabled
-                      style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
-                    />
+                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+
+                    > {user.desc[0].about} </p>
 
                   </div>
 
@@ -172,10 +173,10 @@ export default function Tabs() {
                     <label className="font-semibold">Motto</label>
                     <Field
                       type="text"
-                      className="block border-gray-400 py-1 md:w-3/4 w-full"
+                      className="block border-gray-100 rounded-lg py-1 md:w-3/4 w-full"
                       name="motto"
                       disabled
-                      style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
 
@@ -186,10 +187,10 @@ export default function Tabs() {
                     <label className="font-semibold">Website</label>
                     <Field
                       type="text"
-                      className="block border-gray-400 py-1 md:w-3/4 w-full"
+                      className="block border-gray-100 rounded-lg  py-1 md:w-3/4 w-full"
                       name="website"
                       disabled
-                      style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
 
@@ -200,10 +201,10 @@ export default function Tabs() {
                     <label className="font-semibold">Industry</label>
                     <Field
                       type="text"
-                      className="block border-gray-400 py-1 md:w-3/4 w-full"
+                      className="block border-gray-100 rounded-lg py-1 md:w-3/4 w-full"
                       name="industry"
                       disabled
-                      style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
 
@@ -214,10 +215,10 @@ export default function Tabs() {
                     <label className="font-semibold">Company Size</label>
                     <Field
                       type="text"
-                      className="block border-gray-400 py-1 md:w-3/4 w-full"
+                      className="block border-gray-100 rounded-lg py-1 md:w-3/4 w-full"
                       name="company_size"
                       disabled
-                      style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
 
@@ -228,10 +229,10 @@ export default function Tabs() {
                     <label className="font-semibold">Company Founded on</label>
                     <Field
                       type="text"
-                      className="block border-gray-400 py-1 md:w-3/4 w-full"
+                      className="block border-gray-100 rounded-lg py-1 md:w-3/4 w-full"
                       name="found"
                       disabled
-                      style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
 
@@ -245,7 +246,59 @@ export default function Tabs() {
         )}
       </div>
       <div className="tabContent p-5" hidden={index != 2}>
-        Billing Credentials
+      {user !== null && user !== undefined && (
+          <Formik
+            initialValues={{
+              gst: user.billing[0].gst,
+              pan: user.billing[0].pan,
+              
+            }}
+          >
+            {({ values, isSubmitting }) => (
+              <Form>
+
+                <div className="flex flex-wrap w-full gap-y-5">
+                 
+
+                  <label style={{ color: "#3B82F6" }} className="py-3 text-xl font-semibold">Billing Credentials</label>
+                  <hr />
+                
+
+                  <div className="md:w-1/2 w-full space-y-1">
+
+                    <label className="font-semibold">GST No.</label>
+                    <Field
+                      type="text"
+                      className="block border-gray-100 rounded-lg py-1 md:w-3/4 w-full"
+                      name="gst"
+                      disabled
+                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+
+                    />
+
+                  </div>
+
+                  <div className="md:w-1/2 w-full space-y-1">
+
+                    <label className="font-semibold">PAN</label>
+                    <Field
+                      type="text"
+                      className="block border-gray-100 rounded-lg  py-1 md:w-3/4 w-full"
+                      name="pan"
+                      disabled
+                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+
+                    />
+
+                  </div>
+
+                 
+                
+                </div>
+              </Form>
+            )}
+          </Formik>
+        )}
       </div>
     </div>
   )
