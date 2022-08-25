@@ -2,8 +2,8 @@ import React from "react";
 import { Formik, ErrorMessage, Field, Form } from "formik";
 
 import {CgWorkAlt} from "react-icons/cg";
-import { BsCalendar } from "react-icons/bs";
 import {FaRegBuilding} from "react-icons/fa";
+import { BsCalendar } from "react-icons/bs";
 import { AiOutlineDelete } from "react-icons/ai";
 import { RiEditBoxLine } from "react-icons/ri";
 

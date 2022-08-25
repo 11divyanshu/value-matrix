@@ -1,0 +1,32 @@
+:root {
+    --primary: coral;
+    --secondary:#3667E9;
+    }
+
+
+.Tabs{
+    display:flex;
+    flex-direction: column;
+    border-radius: 12px 12px 0 0;
+
+    width: 60%;
+}
+
+.tabList{
+    display: flex;
+    
+    
+
+    .tabHead{
+        padding:1.5rem 4rem;
+        border:1px solid white;
+        cursor:pointer;
+        border-radius: 12px 12px 0 0;
+    }
+
+}
+
+.active{
+    background: var(--secondary);
+    color:white;
+}

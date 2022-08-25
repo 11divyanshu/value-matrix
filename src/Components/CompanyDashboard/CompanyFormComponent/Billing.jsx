@@ -6,48 +6,66 @@ import { BsCalendar } from "react-icons/bs";
 import { GrScorecard } from "react-icons/gr";
 import { AiOutlineDelete } from "react-icons/ai";
 import { RiEditBoxLine } from "react-icons/ri";
+import { submitCompanyDetails } from "../../../service/api";
 
-const EducationDetailForm = (props) => {
-  const [aboutDetail, setAboutDetail] = React.useState([]);
+const BillingDetailForm = (props) => {
+  const [billingDetail, setBillingDetail] = React.useState([]);
   const [showForm, setShowForm] = React.useState(false);
   const [showError, setShowError] = React.useState(true);
   const [edit, setEdit] = React.useState(null);
   const [addButton, setAddButton] = React.useState(true)
+  const [submitError, setSubmitError] = React.useState(null);
 
   const resetBtn = React.useRef(null);
 
   const [initialValues, setInitialValues] = React.useState({
-   motto:null,
-    website: null,
-    industry: null,
-    found: null,
-    company_size: null,
-    desc: null,
+   gst:null,
+    pan: null,
+   
   });
 
   React.useEffect(() => {
     const initial = async () => {
       let e = JSON.parse(await localStorage.getItem("companyDetails"));
       if (e === null) return null;
-      let ed = e.about;
+      let ed = e.billing;
       console.log(ed);
       if (ed !== "null" || ed !== null) {
-        setAboutDetail(ed);
+        setBillingDetail(ed);
       }
-      if (aboutDetail === null) {
-        setAboutDetail([]);
+      if (billingDetail === null) {
+        setBillingDetail([]);
       }
     };
     initial();
   }, []);
 
+  
+  const handleSubmit = async () => {    
+    let res = JSON.parse(await localStorage.getItem("companyDetails"));
+    let user = JSON.parse(await localStorage.getItem("user"));
+    res.user_id = user._id;
+    console.log(res);
+    let access_token = await localStorage.getItem("access_token");
+    console.log(access_token)
+    let response = await submitCompanyDetails(res, access_token);
+    if (response && response.status === 200) {
+      await localStorage.setItem("user", JSON.stringify(response.data.user));
+      // await localStorage.removeItem("companyDetails");
+      window.location.reload();
+    } else {
+      setSubmitError("Something went wrong");
+    }
+  };
+
+
   return (
     <div>
       <div className="">
-        <p className="font-bold text-lg">About</p>
+        <p className="font-bold text-lg">Billing Credentials</p>
         <div>
-          {aboutDetail &&
-            aboutDetail.map((item, index) => {
+          {billingDetail &&
+            billingDetail.map((item, index) => {
               return (
                 <div className="my-2 shadow-md rounded-md p-2 bg-gray-100" key={index}>
                   <div className="flex justify-end space-x-3 items-center">
@@ -62,40 +80,27 @@ const EducationDetailForm = (props) => {
                     <AiOutlineDelete
                       className="text-red-600 cursor-pointer"
                       onClick={() => {
-                        setAboutDetail(
-                          aboutDetail.filter((item, i) => i !== index)
+                        setBillingDetail(
+                          billingDetail.filter((item, i) => i !== index)
                         );
                         localStorage.setItem(
-                          "about",
+                          "billing",
                           JSON.stringify(
-                            aboutDetail.filter((item, i) => i !== index)
+                            billingDetail.filter((item, i) => i !== index)
                           )
                         );
                       }}
                     />
                   </div>
-                  <p className="font-semibold">About</p>
-                  {item.about && (
-                    <div className="py-2">{item.desc}</div>
+                  <p className="font-semibold">GST</p>
+                  {item.gst && (
+                    <div className="py-2">{item.gst}</div>
                   )}
+               
+                <label className="font-semibold">Pan</label>
+                  
                   <p>{item.motto}</p>
-                  <div className="flex flex-wrap justify-between w-full py-1 text-gray-800 ">
-
-                    <div className="flex space-x-2 text-sm items-center">
-                      <FiInfo />
-                      <p>{item.industry}</p> <p>|</p> <p>{item.company_size}</p>
-                    </div>
-
-                    <div className="flex items-center space-x-2">
-                      <BsCalendar />
-                      <p className="text-sm text-gray-600 mr-5">
-                        {item.found}
-                      </p>
-                    </div>
-                    <div className="space-x-2 flex items-center">
-                      <GrScorecard /> <p>{item.website}</p>
-                    </div>
-                  </div>
+                 
 
                 </div>
               );
@@ -109,76 +114,57 @@ const EducationDetailForm = (props) => {
                 if (showForm === false) return {};
                 const errors = {};
 
-                if (values.company_size === null || values.company_size.trim() === "") {
-                  errors.company_size = "Required !";
+                if (values.gst === null || values.gst.trim() === "") {
+                  errors.gst = "Required !";
                 }
-                if (values.motto === null || values.motto.trim() === "") {
-                  errors.motto = "Required !";
+                if (values.pan === null || values.pan.trim() === "") {
+                  errors.pan = "Required !";
                 }
-                if (
-                  values.industry === null ||
-                  values.industry.trim() === ""
-                ) {
-                  errors.industry = "Required !";
-                }
-                if (values.found === null) {
-                  errors.found = "Required !";
-                }
-
-                if (values.website === null || values.website.trim() === "") {
-                  errors.website = "Required !";
-                }
-                if (values.found > new Date()) {
-                  errors.found =
-                    "Company Found cannot be greater than today's date";
-                }
+               
 
                 return errors;
               }}
               onSubmit={async (values) => {
+                console.log(values);
                 let e = JSON.parse(
                   await localStorage.getItem("companyDetails")
                 );
                 if (edit !== null) {
-                  const temp = [...aboutDetail];
+                  const temp = [...billingDetail];
                   temp[edit] = values;
-                  await setAboutDetail(temp);
+                  await setBillingDetail(temp);
                   await setEdit(null);
                   resetBtn.current.click();
-                  e.about = temp;
+                  e.billing = temp;
                   await localStorage.setItem(
                     "companyDetails",
                     JSON.stringify(e)
                   );
                   await props.setCompanyDetails({
-                    about: temp,
+                    billing: temp,
                     ...props.companyDetails,
                   });
-                  await localStorage.setItem("about", JSON.stringify(temp));
+                  await localStorage.setItem("billing", JSON.stringify(temp));
                   return;
                 }
                 
-                let temp = aboutDetail;
-                temp = [...aboutDetail, values];
-                await setAboutDetail(temp);
-                e.about = temp;
+                let temp = billingDetail;
+                temp = [...billingDetail, values];
+                await setBillingDetail(temp);
+                e.billing = temp;
                 await localStorage.setItem(
                   "companyDetails",
                   JSON.stringify(e)
                 );
                 await setInitialValues({
-                  motto:null,
-                  website: null,
-                  industry: null,
-                  found: null,
-                  company_size: null,
-                  desc: null,
+                    gst:null,
+                    Pan: null,
                 });
                 await props.setCompanyDetails({
-                  about: aboutDetail,
+                  billing: billingDetail,
                   ...props.companyDetails,
                 });
-                await localStorage.setItem("about", JSON.stringify(temp));
+                await localStorage.setItem("billing", JSON.stringify(temp));
                 resetBtn.current.click();
 
                 setAddButton(false);
@@ -205,24 +191,24 @@ const EducationDetailForm = (props) => {
                     </div> */}
 
                     <div className="my-3">
-                      <label>About</label>
+                      <label>GST</label>
                       <Field
-                        name="about"
+                        name="gst"
                         type="textarea"
                         className="w-full h-20 text-600 border-[0.5px] border-[#6b7280] p-2"
                         style={{ borderRadius: "10px", border: "0.5px solid" , wordBreak:"break" }}
-                        value={values.about}
+                        value={values.billing}
                       />
                       <ErrorMessage
-                        name="about"
+                        name="billing"
                         component="div"
                         className="text-sm text-red-600"
                       />
                     </div>
                     <div className="my-3">
-                      <label>motto *</label>
+                      <label>PAN *</label>
                       <Field
-                        name="motto"
+                        name="pan"
                         type="text"
                         placeholder="Ex. Bachelor's"
                         className="w-full text-600"
@@ -236,71 +222,7 @@ const EducationDetailForm = (props) => {
                       />
                     </div>
 
-                    <div className="my-3">
-                      <label>company_size *</label>
-                      <Field
-                        name="company_size"
-                        type="text"
-                        placeholder="Ex. Bachelor's"
-                        className="w-full text-600"
-                        style={{ borderRadius: "10px" }}
-                        value={values.company_size}
-                      />
-                      <ErrorMessage
-                        name="company_size"
-                        component="div"
-                        className="text-sm text-red-600"
-                      />
-                    </div>
-                    <div className="my-3">
-                      <label>Industry *</label>
-                      <Field
-                        name="industry"
-                        type="text"
-                        placeholder="Ex. Business"
-                        className="w-full text-600"
-                        style={{ borderRadius: "10px" }}
-                        value={values.industry}
-                      />
-                      <ErrorMessage
-                        name="industry"
-                        component="div"
-                        className="text-sm text-red-600"
-                      />
-                    </div>
-                    <div className="flex flex-wrap">
-                      <div className="my-3 md:w-1/2 pr-2">
-                        <label>Company Founded *</label>
-                        <Field
-                          name="found"
-                          type="month"
-                          className="w-full text-600"
-                          style={{ borderRadius: "10px" }}
-                          value={values.found}
-                        />
-                        <ErrorMessage
-                          name="found"
-                          component="div"
-                          className="text-sm text-red-600"
-                        />
-                      </div>
-
-                    </div>
-                    <div className="my-3">
-                      <label>Website *</label>
-                      <Field
-                        name="website"
-                        type="text"
-                        className="w-full text-600"
-                        style={{ borderRadius: "10px" }}
-                        value={values.website}
-                      />
-                      <ErrorMessage
-                        name="website"
-                        component="div"
-                        className="text-sm text-red-600"
-                      />
-                    </div>
+                  
 
                     <div className="flex flex-wrap">
                       <button
@@ -337,33 +259,30 @@ const EducationDetailForm = (props) => {
               }}
               
             >
-              Add about
+              Add billing
             </button>}
           </div>
         )}
       </div>
       <div className="pt-5 flex w-full">
-        {/* <button
+        <button
           className="bg-blue-600 py-2 px-3 rounded-sm text-white"
-          onClick={() => props.setStep(0)}
+          onClick={() => props.setStep(1)}
         >
           Prev
-        </button> */}
-        {aboutDetail && aboutDetail.length > 0 ? (
-          <button
-            className="bg-blue-600 py-2 px-3 rounded-sm ml-auto text-white"
-            onClick={() => props.setStep(1)}
-          >
-            Next
-          </button>
-        ) : (
-          <button  className="bg-blue-400 py-2 px-3 rounded-sm ml-auto text-white">
-            Next
-          </button>
+        </button>
+        {billingDetail && billingDetail.length > 0 ? (
+          <button className="bg-blue-600 py-2 px-3 rounded-sm ml-auto text-white" onClick={()=>{handleSubmit()}}>
+          Submit
+        </button>
+      ) : (
+        <button disabled className="bg-blue-400 py-2 px-3 rounded-sm ml-auto text-white">
+          Submit
+        </button>
         )}
       </div>
     </div>
   );
 };
 
-export default EducationDetailForm;
+export default BillingDetailForm;

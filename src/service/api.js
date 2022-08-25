@@ -96,6 +96,8 @@ export const getProfileImage = async (data, token) => {
   }
 };
 
+
+
 // Update User Details
 export const updateUserDetails = async (data, token) => {
   try {
