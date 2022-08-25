@@ -29,6 +29,7 @@ root.render(
         <Route path="/register" element={<Login/>} />
         <Route path="/resetPassword/" element ={<ResetPassword/>}/>
         <Route path="/resetPassword/:id" element ={<ResetPassword/>}/>
+        
         <Route path="/user" element={<Dashboard/>} />
         <Route path="/user/:component" element={<Dashboard/>}/>
         <Route path="/user/:component/:id" element={<Dashboard/>}/>
@@ -36,9 +37,12 @@ root.render(
         <Route path="/admin/login" element={<AdminLogin/>}/>
         <Route path="/admin" element={<AdminDashboard/>}/>
         <Route path="/admin/:component" element={<AdminDashboard/>}/>
+        <Route path="/admin/:component/:id" element={<AdminDashboard/>}/>
+        
         <Route path="/company" element={<CompanyDashboard/>}/>
         <Route path="/company/:component" element={<CompanyDashboard/>}/>
         <Route path="/company/:component/:id" element={<CompanyDashboard/>}/>
+
         <Route path="/XI" element={<XIDashboard/>}/>
         <Route path="/XI/:component" element={<XIDashboard/>}/>
         <Route path="/XI/:component/:id" element={<XIDashboard/>}/>

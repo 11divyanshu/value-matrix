@@ -9,7 +9,6 @@ import Sidebar from "../../Components/CompanyDashboard/Sidebar";
 import CompanyForm from "../../Components/CompanyDashboard/CompanyForm";
 
 import { getUserFromId, getUserIdFromToken } from "../../service/api";
-import jsCookie from "js-cookie";
 import JobDetails from "../CompanyDashboard/JobDetails.jsx";
 import Modal from "../../Components/CompanyDashboard/Modal.jsx";
 
@@ -32,15 +31,12 @@ const CompanyDashboard = () => {
       let location = window.location.search;
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
-      if (term !== null || term !== undefined) {
-        // await localStorage.removeItem("access_token");
-        // await localStorage.removeItem("access_token");
+      if (term !== null && term !== undefined && term !== "null") {
+        
         access_token1 = term;
         await setAccessToken(term);
         await localStorage.setItem("access_token", term);
-        // access_token1 = localStorage.getItem("access_token");
-        // await setAccessToken(access_token1);
-
+        
         let user_id = await getUserIdFromToken({ access_token: access_token1 });
         console.log(user_id);
         if (user_id) {
@@ -112,7 +108,7 @@ const CompanyDashboard = () => {
           let c = companyDashboardRoutes.filter(
             (route) => route.path === component.split("company/")[1]
           );
-          if (c[0]) setComponent(c[0].component);
+          if (c.length > 0 &&c[0]) setComponent(c[0].component);
           else
             setComponent(
               companyDashboardRoutes.filter(

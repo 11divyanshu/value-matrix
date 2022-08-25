@@ -27,40 +27,43 @@ const AdminDashboard = () => {
       let location = window.location.search;
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
-      if (term !== null || term !== undefined) {
-
-await localStorage.removeItem("access_token");
+      if (term !== null && term !== undefined && term !== "null") {
+        await localStorage.removeItem("access_token");
         await localStorage.removeItem("access_token");
         access_token1 = term;
         await setAccessToken(term);
         await localStorage.setItem("access_token", term);
 
         let user_id = await getUserIdFromToken({ access_token: access_token1 });
-        
+
         if (user_id) {
           let user = await getUserFromId(
             { id: user_id.data.user.user },
             access_token1
           );
           await setUser(user.data.user.user);
-          if (user.data.user.access_valid === false || user.data.user.isAdmin === false)
+          if (
+            user.data.user.access_valid === false ||
+            user.data.user.isAdmin === false
+          )
             window.location.redirect = "/login";
           await localStorage.setItem("user", JSON.stringify(user.data.user));
-	        window.history.pushState({url:'/admin'},'','/admin')
+          window.history.pushState({ url: "/admin" }, "", "/admin");
         } else {
           window.location.href = "/login";
         }
-      }
-      else{
-        let access_token = localStorage.get("access_token");
+      } else {
+        let access_token = await localStorage.getItem("access_token");
+        let user = JSON.parse(await localStorage.getItem("user"));
+        if (access_token === "null" || access_token === null) access_token = user.access_token;
+        await localStorage.setItem("access_token", access_token);
         await setAccessToken(access_token);
-        let user = localStorage.get("user");
         await setUser(user);
       }
-      let user = localStorage.getItem("user")
-      let token = localStorage.getItem("access_token")
-      if(!user || !token){
-        window.location.href = "/login"
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let token = await localStorage.getItem("access_token");
+      if (!user || !token) {
+        window.location.href = "/login";
       }
     };
 

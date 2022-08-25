@@ -33,7 +33,7 @@ const PushNotification = () => {
 
   return (
     <div className="p-5">
-      <p className="text-2xl font-bold">Email Notifications</p>
+      <p className="text-2xl font-bold">Push Notifications</p>
       {Alert === true && (
         <div
           class="bg-green-100 rounded-lg py-5 px-6 my-3 mb-4 text-base text-green-800"
