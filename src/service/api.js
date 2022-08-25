@@ -347,3 +347,36 @@ export const submitCompanyDetails = async (data, token) => {
     console.log("Error : ", error);
   }
 };
+
+// Get Company List
+export const getCompanyList = async (data, token) => {
+  try {
+    return await axios.post(`${url}/getCompanyList`, data, {
+      headers: { authorization: token },
+    });
+  } catch (error) {
+    console.log("Error : ", error);
+  }
+};
+
+// Get User List
+export const getUserList = async(data, token )=> {
+  try {
+    return await axios.post(`${url}/getUserList`, data, {
+      headers: { authorization: token },
+    });
+  } catch (error) {
+    console.log("Error : ", error);
+  }
+}
+
+// Download Resume
+export const downloadResume = async (data, token) => {
+  try {
+    return await axios.post(`${url}/downloadResume`, data, {
+      headers: { authorization: token },
+    });
+  } catch (error) {
+    console.log("Error : ", error);
+  }
+}

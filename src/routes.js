@@ -2,6 +2,8 @@ import { ImHome } from "react-icons/im";
 import { MdGroups } from "react-icons/md";
 import { RiFileUserFill, RiFolderUserFill } from "react-icons/ri";
 import { BsFillChatLeftTextFill, BsFillBellFill } from "react-icons/bs";
+import {FaBuilding} from "react-icons/fa";
+import {FaUserFriends} from "react-icons/fa";
 
 // User Pages
 import Panel from "./Pages/UserDashboard/panel";
@@ -27,6 +29,10 @@ import UpdateJob from "./Pages/CompanyDashboard/UpdateJob.jsx";
 import EditCompanyProfile from "./Pages/CompanyDashboard/EditProfile.jsx";
 import CompanyProfile from "./Pages/CompanyDashboard/Profile";
 import CJobDetails from "./Pages/CompanyDashboard/JobDetails.jsx";
+import CompanyList from "./Pages/AdminDashboard/CompanyList";
+import CompanyDetails from "./Pages/AdminDashboard/CompanyDetails";
+import CandiadateList from "./Pages/AdminDashboard/CandidatesList";
+import CandiadateDetail from "./Pages/AdminDashboard/CandidateDetail";
 
 // User Dashboard Routes
 export const dashboardRoutes = [
@@ -125,6 +131,32 @@ export const adminDashboardRoutes = [
     path: "/pushNotification",
     hide: true,
     component: <PushNotification />,
+  },
+  {
+    name : "Company List",
+    path : "/companies",
+    hide: false,
+    component : <CompanyList/>,
+    icon: <FaBuilding className="text-xl" />
+  },
+  {
+    name : "Company Details",
+    path: "/company",
+    hide : true,
+    component : <CompanyDetails />
+  },
+  {
+    name : "Candidates List",
+    path : "/candidates",
+    hide: false,
+    component : <CandiadateList/>,
+    icon: <FaUserFriends className="text-xl" />
+  },
+  {
+    name : "Candidate Details",
+    path: "/candidate",
+    hide : true,
+    component : <CandiadateDetail/>
   },
 ];
 
