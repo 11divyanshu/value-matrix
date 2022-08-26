@@ -39,6 +39,8 @@ const CompanyDashboard = () => {
         await localStorage.setItem("access_token", term);
         
       } 
+
+      
      if(term === null || term === undefined){
         let access_token = localStorage.getItem("access_token");
         await setAccessToken(access_token);
@@ -70,12 +72,14 @@ const CompanyDashboard = () => {
           window.location.href = "/login";
         }
      
-      let user = localStorage.getItem("user");
+      let user = await localStorage.getItem("user");
       let token = localStorage.getItem("access_token");
       if (!user || !token) {
         window.location.href = "/login";
       }
-      if (user.desc === []|| user.billing === [] || !user.address) {
+
+      let usercheck = await JSON.parse(user)
+      if (usercheck.desc === [] || usercheck.billing[0] === [] || !usercheck.address) {
         console.log("F")
         setModalIsOpen(true);
       }
@@ -132,7 +136,7 @@ const CompanyDashboard = () => {
     <div className="max-w-screen flex h-screen">
       {modalIsOpen && (
         <div>
-          <CompanyForm isOpen={true} setModalIsOpen={setModalIsOpen}  />
+          <CompanyForm isOpen={true} />
         </div>
        )}
       <div className="z-10 fixed h-screen">

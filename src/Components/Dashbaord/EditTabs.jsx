@@ -14,6 +14,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { CgWorkAlt } from "react-icons/cg";
 import { FaRegBuilding } from "react-icons/fa";
 // Assets
+import swal from "sweetalert";
 
 import "react-multi-carousel/lib/styles.css";
 // Components And API services
@@ -122,7 +123,7 @@ export default function Tabs(props) {
   React.useEffect(() => {
     const initial = async () => {
       let e = JSON.parse(await localStorage.getItem("user"));
-
+setUser(e);
       if (e === null) return null;
       let ed = e.education;
       console.log(ed);
@@ -140,6 +141,10 @@ export default function Tabs(props) {
       if (ex === null) {
         setExperienceDetail([]);
       }
+
+
+
+    
     };
     initial();
   }, []);
@@ -180,6 +185,12 @@ export default function Tabs(props) {
     });
   
     resetBtn.current.click();
+    swal({
+      icon: "success",
+      title: "EditProfile",
+      text: "Details Saved",
+      button: "Continue",
+    });
 
   }
 
@@ -222,6 +233,12 @@ export default function Tabs(props) {
       description: null,
     });
     resetBtn.current.click();
+    swal({
+      icon: "success",
+      title: "EditProfile",
+      text: "Details Saved",
+      button: "Continue",
+    });
   }
 
 
@@ -261,6 +278,12 @@ const save = async (values) => {
     user.address = values.address;
     setUser(user);
     localStorage.setItem("user", JSON.stringify(user));
+    swal({
+      icon: "success",
+      title: "EditProfile",
+      text: "Details Saved",
+      button: "Continue",
+    });
 
   }
 
@@ -1309,7 +1332,7 @@ return (
 
       <div className="md:w-1/2 w-full space-y-1">
         <label className="font-semibold">Resume</label>
-         <input type="file" value={user.resume} />
+         {/* <input type="file" value={user.resume} /> */}
       </div>
 
 

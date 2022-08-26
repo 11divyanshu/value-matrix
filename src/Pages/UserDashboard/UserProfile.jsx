@@ -54,9 +54,10 @@ const UserProfile = () => {
 <div className="my-3 shadow-md mx-5  rounded-md w-full p-3 flex items-center ">
             <div>
               <img
-                src={
-                  user && user.profileImg && profileImg ? profileImg : Avatar
-                }
+                // src={
+                //   user && user.profileImg && profileImg ? profileImg : Avatar
+                // }
+                src={Avatar}
                 className="h-16 w-16 rounded-md mx-6"
                 alt="userAvatar"
               />

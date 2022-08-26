@@ -137,12 +137,12 @@ export default function Tabs() {
       {user !== null && user !== undefined && (
           <Formik
             initialValues={{
-              about: user.desc[0].about,
-              motto: user.desc[0].motto,
-              industry: user.desc[0].industry,
-              found: user.desc[0].found ? user.desc[0].found : " ",
-              website: user.desc[0].website ? user.desc[0].website : " ",
-              company_size: user.desc[0].company_size ? user.desc[0].company_size : ""
+              about: user.desc[0] ? user.desc[0].about :" ", 
+              motto: user.desc[0] ? user.desc[0].motto: " ",
+              industry: user.desc[0] ? user.desc[0].industry  :" " ,
+              found: user.desc[0] ? user.desc[0].found : " ",
+              website: user.desc[0] ? user.desc[0].website : " ",
+              company_size: user.desc[0] ? user.desc[0].company_size : " "
             }}
           >
             {({ values, isSubmitting }) => (
@@ -159,12 +159,12 @@ export default function Tabs() {
                     <p
                       type="text"
                       className="block break-words py-2 md:w-3/4 w-full rounded-lg"
-                      name="about"
+                      
                       disabled
 
                       // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
-                    > {user.desc[0].about} </p>
+                    > {user.desc[0] ? user.desc[0].about :" "} </p>
 
                   </div>
 
@@ -249,8 +249,8 @@ export default function Tabs() {
       {user !== null && user !== undefined && (
           <Formik
             initialValues={{
-              gst: user.billing[0].gst,
-              pan: user.billing[0].pan,
+              gst: user.billing[0] ?user.billing[0].gst :"",
+              pan: user.billing[0] ?user.billing[0].pan:"",
               
             }}
           >

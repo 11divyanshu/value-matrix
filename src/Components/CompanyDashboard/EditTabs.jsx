@@ -2,7 +2,7 @@ import React from 'react';
 
 import '../../assets/stylesheet/Tabs.scss'
 import { Formik, Form, Field, ErrorMessage } from "formik";
-
+import swal from "sweetalert";
 // Assets
 
 import "react-multi-carousel/lib/styles.css";
@@ -53,6 +53,8 @@ export default function Tabs(props) {
   React.useEffect(() => {
     const initial = async () => {
       let e = JSON.parse(await localStorage.getItem("user"));
+
+      setUser(e);
       if (e === null) return null;
       let ed = e.desc;
       console.log(ed);
@@ -61,6 +63,15 @@ export default function Tabs(props) {
       }
       if (aboutDetail === null) {
         setAboutDetail([]);
+      }
+
+      let eb = e.billing;
+      console.log(ed);
+      if (eb !== "null" || eb !== null) {
+        setBillingDetail(ed);
+      }
+      if (aboutDetail === null) {
+        setBillingDetail([]);
       }
     };
     initial();
@@ -79,6 +90,13 @@ export default function Tabs(props) {
       user.address = values.address;
       setUser(user);
       localStorage.setItem("user", JSON.stringify(user));
+      swal({
+        icon: "success",
+        title: "EditProfile",
+        text: "Details Saved",
+        button: "Continue",
+      });
+
 
     }
 
@@ -93,13 +111,19 @@ export default function Tabs(props) {
       temp[0] = values;
       console.log(temp)
       e.desc = temp;
+      setUser(e);
       // update(e);
       await localStorage.setItem(
         "user",
         JSON.stringify(e)
       );
       await setAboutDetail(temp);
-
+      swal({
+        icon: "success",
+        title: "EditProfile",
+        text: "Details Saved",
+        button: "Continue",
+      });
    
     }
     
@@ -112,13 +136,19 @@ export default function Tabs(props) {
       temp[0] = values;
       console.log(temp)
       e.billing = temp;
+      setUser(e);
       // update(e);
       await localStorage.setItem(
         "user",
         JSON.stringify(e)
       );
       await setBillingDetail(temp);
-
+      swal({
+        icon: "success",
+        title: "EditProfile",
+        text: "Details Saved",
+        button: "Continue",
+      });
    
     }
   }
@@ -557,8 +587,8 @@ export default function Tabs(props) {
       {user !== null && user !== undefined && (
           <Formik
             initialValues={{
-              gst: user.billing[0].gst,
-              pan: user.billing[0].pan,
+              gst: user.billing[0] ? user.billing[0].gst:"",
+              pan: user.billing[0] ?user.billing[0].pan:"",
               
             }}
           >
