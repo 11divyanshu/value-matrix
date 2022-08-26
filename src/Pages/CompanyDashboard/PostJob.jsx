@@ -6,24 +6,18 @@ const AddJob = () => {
   const [Alert, setAlert] = React.useState(null);
 
   const postJob = async (values) => {
-
-
     let access_token = localStorage.getItem("access_token");
     let user = JSON.parse(localStorage.getItem("user"));
-
 
     values.user_id = user._id;
     console.log(values);
     let res = await postJobAPI(values, access_token);
     if (res) {
       setAlert(true);
-    }
-    else {
+    } else {
       setAlert(false);
     }
   };
-
-
 
   return (
     <div className="p-5 pb-9">
@@ -45,7 +39,7 @@ const AddJob = () => {
         </div>
       )}
 
-      <div>
+      {/* <div>
         <Formik
           initialValues={{
             jobTitle: null,
@@ -214,80 +208,479 @@ const AddJob = () => {
               //     Submit
               //   </button>
               // </Form>
-
-              <div class="flex items-start">
-                <ul class="nav nav-tabs flex flex-col flex-wrap list-none border-b-0 pl-0 mr-4" id="tabs-tabVertical"
-                  role="tablist">
-                  <li class="nav-item flex-grow text-center" role="presentation">
-                    <a href="#tabs-homeVertical" class="
-          nav-link
-          block
-          font-medium
-          text-xs
-          leading-tight
-          uppercase
-          border-x-0 border-t-0 border-b-2 border-transparent
-          px-6
-          py-3
-          my-2
-          hover:border-transparent hover:bg-gray-100
-          focus:border-transparent
-          active
-        " id="tabs-home-tabVertical" data-bs-toggle="pill" data-bs-target="#tabs-homeVertical" role="tab"
-                      aria-controls="tabs-homeVertical" aria-selected="true">Home</a>
-                  </li>
-                  <li class="nav-item flex-grow text-center" role="presentation">
-                    <a href="#tabs-profileVertical" class="
-          nav-link
-          block
-          font-medium
-          text-xs
-          leading-tight
-          uppercase
-          border-x-0 border-t-0 border-b-2 border-transparent
-          px-6
-          py-3
-          my-2
-          hover:border-transparent hover:bg-gray-100
-          focus:border-transparent
-        " id="tabs-profile-tabVertical" data-bs-toggle="pill" data-bs-target="#tabs-profileVertical" role="tab"
-                      aria-controls="tabs-profileVertical" aria-selected="false">Profile</a>
-                  </li>
-                  <li class="nav-item flex-grow text-center" role="presentation">
-                    <a href="#tabs-messagesVertical" class="
-          nav-link
-          block
-          font-medium
-          text-xs
-          leading-tight
-          uppercase
-          border-x-0 border-t-0 border-b-2 border-transparent
-          px-6
-          py-3
-          my-2
-          hover:border-transparent hover:bg-gray-100
-          focus:border-transparent
-        " id="tabs-messages-tabVertical" data-bs-toggle="pill" data-bs-target="#tabs-messagesVertical" role="tab"
-                      aria-controls="tabs-messagesVertical" aria-selected="false">Messages</a>
-                  </li>
-                </ul>
-                <div class="tab-content" id="tabs-tabContentVertical">
-                  <div class="tab-pane fade show active" id="tabs-homeVertical" role="tabpanel"
-                    aria-labelledby="tabs-home-tabVertical">
-                    Tab 1 content vertical
-                  </div>
-                  <div class="tab-pane fade" id="tabs-profileVertical" role="tabpanel" aria-labelledby="tabs-profile-tabVertical">
-                    Tab 2 content vertical
-                  </div>
-                  <div class="tab-pane fade" id="tabs-messagesVertical" role="tabpanel"
-                    aria-labelledby="tabs-profile-tabVertical">
-                    Tab 3 content vertical
-                  </div>
-                </div>
-              </div>
             );
           }}
         </Formik>
+      </div> */}
+
+      <div class="flex items-start w-full py-5">
+        <ul
+          class="nav nav-tabs flex flex-col flex-wrap list-none border-b-0 pl-0 mr-4"
+          id="tabs-tabVertical"
+          role="tablist"
+        >
+          <li class="nav-item flex-grow" role="presentation">
+            <a
+              href="#tabs-homeVertical"
+              class="
+          nav-link
+          block
+          font-medium
+          text-xs
+          leading-tight
+          uppercase
+          border-x-0 border-t-0 border-b-2 border-transparent
+          px-6
+          py-3
+          my-2
+          hover:border-transparent hover:bg-gray-100
+          focus:border-transparent
+          hover:text-black  
+          active
+        "
+              id="tabs-home-tabVertical"
+              data-bs-toggle="pill"
+              data-bs-target="#tabs-homeVertical"
+              role="tab"
+              aria-controls="tabs-homeVertical"
+              aria-selected="true"
+            >
+              Home
+            </a>
+          </li>
+          <li class="nav-item flex-grow" role="presentation">
+            <a
+              href="#tabs-profileVertical"
+              class="
+          nav-link
+          block
+          font-medium
+          text-xs
+          leading-tight
+          uppercase
+          border-x-0 border-t-0 border-b-2 border-transparent
+          hover:text-black  
+          px-6
+          py-3
+          my-2
+          hover:border-transparent hover:bg-gray-100
+          focus:border-transparent
+        "
+              id="tabs-profile-tabVertical"
+              data-bs-toggle="pill"
+              data-bs-target="#tabs-profileVertical"
+              role="tab"
+              aria-controls="tabs-profileVertical"
+              aria-selected="false"
+            >
+              Eligbility
+            </a>
+          </li>
+          <li class="nav-item flex-grow" role="presentation">
+            <a
+              href="#tabs-messagesVertical"
+              class="
+          nav-link
+          block
+          font-medium
+          text-xs
+          leading-tight
+          hover:text-black  
+          uppercase
+          border-x-0 border-t-0 border-b-2 border-transparent
+          px-6
+          py-3
+          my-2
+          hover:border-transparent hover:bg-gray-100
+          focus:border-transparent
+        "
+              id="tabs-messages-tabVertical"
+              data-bs-toggle="pill"
+              data-bs-target="#tabs-messagesVertical"
+              role="tab"
+              aria-controls="tabs-messagesVertical"
+              aria-selected="false"
+            >
+              Salary And Perks
+            </a>
+          </li>
+        </ul>
+        <div class="tab-content" id="tabs-tabContentVertical">
+          <div
+            class="tab-pane fade show active"
+            id="tabs-homeVertical"
+            role="tabpanel"
+            aria-labelledby="tabs-home-tabVertical"
+          >
+            <div className="bg-white text-black p-3">
+              <h1 className="text-xl border-b-[0.5px] border-gray-400 w-full font-bold text-gray-700">
+                Job Profile Details
+              </h1>
+              <div className="flex justify-between w-full space-x-32 my-5">
+                <div class="flex justify-center">
+                  <div class="mb-3 xl:w-96">
+                    <label
+                      for="exampleText0"
+                      class="form-label inline-block mb-2 text-gray-700"
+                    >
+                      Title
+                    </label>
+                    <input
+                      type="text"
+                      class="
+        form-control
+        block
+        w-full
+        px-3
+        py-1.5
+        text-base
+        font-normal
+        text-gray-700
+        bg-white bg-clip-padding
+        border border-solid border-gray-300
+        rounded
+        transition
+        ease-in-out
+        m-0
+        shadow-md
+        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+      "
+                      id="exampleText0"
+                      placeholder="e.g. UI/UX Designer"
+                    />
+                  </div>
+                </div>
+                <div class="flex justify-center">
+                  <div class="mb-3 xl:w-96">
+                    <label
+                      for="exampleText0"
+                      class="form-label inline-block mb-2 text-gray-700"
+                    >
+                      Location
+                    </label>
+                    <input
+                      type="text"
+                      class="
+        form-control
+        block
+        shadow-md
+        w-full
+        px-3
+        py-1.5
+        text-base
+        font-normal
+        text-gray-700
+        bg-white bg-clip-padding
+        border border-solid border-gray-300
+        rounded
+        transition
+        ease-in-out
+        m-0
+        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+      "
+                      id="exampleText0"
+                      placeholder="e.g. Bangalore"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-between w-full space-x-32 my-5">
+                <div class="flex justify-center">
+                  <div class="mb-3 xl:w-96">
+                    <label
+                      for="exampleText0"
+                      class="form-label inline-block mb-2 text-gray-700"
+                    >
+                      Job Type
+                    </label>
+                    <input
+                      type="text"
+                      class="
+        form-control
+        block
+        w-full
+        px-3
+        py-1.5
+        text-base
+        font-normal
+        text-gray-700
+        bg-white bg-clip-padding
+        border border-solid border-gray-300
+        rounded
+        transition
+        ease-in-out
+        m-0
+        shadow-md
+        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+      "
+                      id="exampleText0"
+                      placeholder="e.g. Internship"
+                    />
+                  </div>
+                </div>
+                <div class="flex justify-center">
+                  <div class="mb-3 xl:w-96">
+                    <label
+                      for="exampleText0"
+                      class="form-label inline-block mb-2 text-gray-700"
+                    >
+                      Start Date
+                    </label>
+                    <input
+                      type="date"
+                      class="
+        form-control
+        block
+        shadow-md
+        w-full
+        px-3
+        py-1.5
+        text-base
+        font-normal
+        text-gray-700
+        bg-white bg-clip-padding
+        border border-solid border-gray-300
+        rounded
+        transition
+        ease-in-out
+        m-0
+        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+      "
+                      id="exampleText0"
+                      placeholder="Bangalore"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="flex w-full">
+                  <div class="mb-3 xl:w-full">
+                    <label
+                      for="exampleFormControlTextarea1"
+                      class="form-label inline-block mb-2 text-gray-700"
+                    >
+                      Description
+                    </label>
+                    <textarea
+                      class="
+        form-control
+        block
+        w-full
+        px-3
+        py-1.5
+        text-base
+        font-normal
+        text-gray-700
+        bg-white bg-clip-padding
+        border border-solid border-gray-300
+        rounded
+        transition
+        ease-in-out
+        m-0
+        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+      "
+                      id="exampleFormControlTextarea1"
+                      rows="3"
+                      placeholder="Your message"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="flex w-full">
+                  <div class="mb-3 xl:w-full">
+                    <label
+                      for="exampleFormControlTextarea1"
+                      class="form-label inline-block mb-2 text-gray-700"
+                    >
+                      Requirements
+                    </label>
+                    <textarea
+                      class="
+        form-control
+        block
+        w-full
+        px-3
+        py-1.5
+        text-base
+        font-normal
+        text-gray-700
+        bg-white bg-clip-padding
+        border border-solid border-gray-300
+        rounded
+        transition
+        ease-in-out
+        m-0
+        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+      "
+                      id="exampleFormControlTextarea1"
+                      rows="3"
+                      placeholder="Your message"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="tabs-profileVertical"
+            role="tabpanel"
+            aria-labelledby="tabs-profile-tabVertical"
+          >
+            <div className="bg-white text-black p-3">
+              <h1 className="text-xl border-b-[0.5px] border-gray-400 w-full font-bold text-gray-700">
+                Eligibility
+              </h1>
+              <div>
+                <div class="flex w-full py-4">
+                  <div class="mb-3 xl:w-full">
+                    <label
+                      for="exampleFormControlTextarea1"
+                      class="form-label inline-block mb-2 text-gray-700"
+                    >
+                      Minimum Eligibility
+                    </label>
+                    <textarea
+                      class="
+        form-control
+        block
+        w-full
+        px-3
+        py-1.5
+        text-base
+        font-normal
+        text-gray-700
+        bg-white bg-clip-padding
+        border border-solid border-gray-300
+        rounded
+        transition
+        ease-in-out
+        m-0
+        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+      "
+                      id="exampleFormControlTextarea1"
+                      rows="3"
+                      placeholder="Your message"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="flex">
+                <div class="mb-3 xl:w-96">
+                  <label
+                    for="exampleText0"
+                    class="form-label inline-block mb-2 text-gray-700"
+                  >
+                    Skills
+                  </label>
+                  <input
+                    type="text"
+                    class="
+        form-control
+        block
+        w-full
+        px-3
+        py-1.5
+        text-base
+        font-normal
+        text-gray-700
+        bg-white bg-clip-padding
+        border border-solid border-gray-300
+        rounded
+        transition
+        ease-in-out
+        m-0
+        shadow-md
+        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+      "
+                    id="exampleText0"
+                    placeholder="e.g. Figma"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="tabs-messagesVertical"
+            role="tabpanel"
+            aria-labelledby="tabs-profile-tabVertical"
+          >
+            <div className="bg-white text-black p-3">
+              <h1 className="text-xl border-b-[0.5px] border-gray-400 w-full font-bold text-gray-700">
+                Salary And Perks
+              </h1>
+              <div class="flex my-4">
+                <div class="mb-3 xl:w-96">
+                  <label
+                    for="exampleText0"
+                    class="form-label inline-block mb-2 text-gray-700"
+                  >
+                    CTC
+                  </label>
+                  <input
+                    type="text"
+                    class="
+        form-control
+        block
+        w-full
+        px-3
+        py-1.5
+        text-base
+        font-normal
+        text-gray-700
+        bg-white bg-clip-padding
+        border border-solid border-gray-300
+        rounded
+        transition
+        ease-in-out
+        m-0
+        shadow-md
+        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+      "
+                    id="exampleText0"
+                    placeholder="e.g. Figma"
+                  />
+                </div>
+              </div>
+              <div>
+                <div class="flex w-full py-4">
+                  <div class="mb-3 xl:w-full">
+                    <label
+                      for="exampleFormControlTextarea1"
+                      class="form-label inline-block mb-2 text-gray-700"
+                    >
+                      Perks
+                    </label>
+                    <textarea
+                      class="
+        form-control
+        block
+        w-full
+        px-3
+        py-1.5
+        text-base
+        font-normal
+        text-gray-700
+        bg-white bg-clip-padding
+        border border-solid border-gray-300
+        rounded
+        transition
+        ease-in-out
+        m-0
+        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+      "
+                      id="exampleFormControlTextarea1"
+                      rows="3"
+                      placeholder="Your message"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
