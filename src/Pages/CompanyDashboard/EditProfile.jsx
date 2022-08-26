@@ -177,9 +177,10 @@ const EditCompanyProfile = () => {
           <div className="my-3 shadow-md rounded-md w-full p-3 flex items-center">
             <div>
               <img
-                src={
-                  user && user.profileImg ? user.profileImg : Avatar
-                }
+                // src={
+                //   user && user.profileImg ? user.profileImg : Avatar
+                // }
+                src={Avatar}
                 className="h-16 w-16 rounded-md mx-6"
                 alt="userAvatar"
               />

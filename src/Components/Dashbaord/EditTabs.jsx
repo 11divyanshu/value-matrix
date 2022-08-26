@@ -142,6 +142,15 @@ setUser(e);
         setExperienceDetail([]);
       }
 
+      let et = e.tools;
+      console.log(ex);
+      if (et !== "null" || et !== null) {
+        setTools(et);
+      }
+      if (et === null) {
+        setTools([]);
+      }
+
 
 
     
@@ -159,6 +168,7 @@ setUser(e);
       await setEdit(null);
       resetBtn.current.click();
       e.education = temp;
+      setUser(e);
       await localStorage.setItem(
         "user",
         JSON.stringify(e)
@@ -170,6 +180,7 @@ setUser(e);
     temp = [...educationalDetail, values];
     await setEducationalDetail(temp);
     e.education = temp;
+    setUser(e);
     await localStorage.setItem(
       "user",
       JSON.stringify(e)
@@ -206,6 +217,7 @@ setUser(e);
       temp[edit] = values;
       await setExperienceDetail(temp);
       e.experience = temp;
+      setUser(e);
       await localStorage.setItem(
         "user",
         JSON.stringify(e)
@@ -218,6 +230,7 @@ setUser(e);
     temp = [...experienceDetail, values];
     await setExperienceDetail(temp);
     e.experience = temp;
+    setUser(e);
     await localStorage.setItem(
       "user",
       JSON.stringify(e)
@@ -289,35 +302,35 @@ const save = async (values) => {
 
 
 
-  if (values.about) {
-    // user.desc[0] = values;
-    // console.log(user);
-    // setUser(user);
-    // localStorage.setItem("user", JSON.stringify(user));
-    let e = JSON.parse(
-      await localStorage.getItem("user")
-    );
-    const temp = [...user.desc];
-    temp[0] = values;
-    console.log(temp)
-    e.desc = temp;
-    update(e);
-    await localStorage.setItem(
-      "user",
-      JSON.stringify(e)
-    );
-    await setAboutDetail(temp);
+  // if (values.about) {
+  //   // user.desc[0] = values;
+  //   // console.log(user);
+  //   // setUser(user);
+  //   // localStorage.setItem("user", JSON.stringify(user));
+  //   let e = JSON.parse(
+  //     await localStorage.getItem("user")
+  //   );
+  //   const temp = [...user.desc];
+  //   temp[0] = values;
+  //   console.log(temp)
+  //   e.desc = temp;
+  //   update(e);
+  //   await localStorage.setItem(
+  //     "user",
+  //     JSON.stringify(e)
+  //   );
+  //   await setAboutDetail(temp);
 
-    // e.about = temp;
+  //   // e.about = temp;
 
-    // await props.setUser({
-    //   desc: temp,
-    //   ...props.user,
-    // });
+  //   // await props.setUser({
+  //   //   desc: temp,
+  //   //   ...props.user,
+  //   // });
 
-    // await localStorage.setItem("user", JSON.stringify(user));
-    // return;
-  }
+  //   // await localStorage.setItem("user", JSON.stringify(user));
+  //   // return;
+  // }
 }
 
 
@@ -430,6 +443,13 @@ const update = async (ed) => {
   } else {
     console.log("Error");
   }
+
+  swal({
+    icon: "success",
+    title: "EditProfile",
+    text: "Details Updated Succesfully",
+    button: "Continue",
+  });
 };
 
 React.useEffect(() => {
@@ -1309,8 +1329,8 @@ return (
                         const res1 = tools.filter((el) => {
                           return el !== item;
                         });
-                        let res = await localStorage.getItem("user");
-                        res = JSON.parse(res);
+                        let res2 = await localStorage.getItem("user");
+                        let res = JSON.parse(res2);
                         res.tools = res1;
                         setUser(res);
                         await localStorage.setItem(

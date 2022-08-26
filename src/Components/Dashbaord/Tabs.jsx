@@ -220,18 +220,21 @@ export default function Tabs() {
               <div className="flex">
               {user.tools ? user.tools.map((item, index) => {
                 return (
-                  <p className='p-2 m-2 font-lg '>{item}</p>)
+                  
+                  <span class="bg-blue-100 text-blue-800 text-xs my-4 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800">{item}</span>
+
+                  
+                  )
               }) : "No Skills"}
               </div>
             </div>
 
 
 
-            <div className="md:w-1/2 w-full space-y-1">
+            {/* <div className="md:w-1/2 w-full space-y-1">
               <label className="font-semibold">Resume</label>
-              {/* <iframe src={resume}/> */}
 
-            </div>
+            </div> */}
           </div>
 
         }
