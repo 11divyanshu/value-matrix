@@ -257,11 +257,22 @@ export default function Tabs(props) {
         return;
       }
     } else if (res) {
-      await localStorage.setItem("user", JSON.stringify(res.data.user));
-      window.location.href = "/company/profile";
+      swal({
+        icon: "success",
+        title: "EditProfile",
+        text: "Details Updated Succesfully",
+        button: "Continue",
+      }).then(async()=>{
+
+        await localStorage.setItem("user", JSON.stringify(res.data.user));
+        window.location.href = "/company/profile";
+      })
+    
     } else {
       console.log("Error");
     }
+
+   
   };
   React.useEffect(() => {
     const initial = async () => {
