@@ -78,7 +78,7 @@ const CompanyDashboard = () => {
         window.location.href = "/login";
       }
 
-      let usercheck = await JSON.parse(user)
+      let usercheck = JSON.parse(user)
       if (usercheck.desc === [] || usercheck.billing[0] === [] || !usercheck.address) {
         console.log("F")
         setModalIsOpen(true);
