@@ -220,7 +220,11 @@ export default function Tabs() {
               <div className="flex">
               {user.tools ? user.tools.map((item, index) => {
                 return (
-                  <p className='p-2 m-2 font-lg '>{item}</p>)
+                  
+                  <span class="bg-blue-100 text-blue-800 text-xs my-4 font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">{item}</span>
+
+                  
+                  )
               }) : "No Skills"}
               </div>
             </div>
