@@ -1,7 +1,5 @@
 import React, { useState, Fragment } from 'react';
 import { Dialog, Transition } from "@headlessui/react";
-
-
 import '../../assets/stylesheet/Tabs.scss'
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { FiInfo } from "react-icons/fi";

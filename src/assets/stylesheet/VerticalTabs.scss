@@ -34,13 +34,14 @@
     margin: 0;
     padding: 0;
     color: black;
-// border :2px solid var(--primary);
+ border :2px solid whitesmoke;
+ box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
   }
   
   .react-tabs__tab {
     text-align: center;
     vertical-align: middle;
-
+  font-size: 1.2rem;
     height: 80px;
     list-style: none;
     padding: 12px 6px;
