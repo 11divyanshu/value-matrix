@@ -76,6 +76,7 @@ const CompanyDashboard = () => {
         window.location.href = "/login";
       }
 
+
       let usercheck = user;
       console.log(usercheck);
       if (
