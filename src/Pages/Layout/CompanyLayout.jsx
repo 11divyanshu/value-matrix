@@ -11,6 +11,7 @@ import CompanyForm from "../../Components/CompanyDashboard/CompanyForm";
 import { getUserFromId, getUserIdFromToken } from "../../service/api";
 import JobDetails from "../CompanyDashboard/JobDetails.jsx";
 import Modal from "../../Components/CompanyDashboard/Modal.jsx";
+import { AiOutlineConsoleSql } from "react-icons/ai";
 
 const CompanyDashboard = () => {
   // Component To Render
@@ -27,60 +28,62 @@ const CompanyDashboard = () => {
 
   React.useEffect(() => {
     const tokenFunc = async () => {
-      let access_token1;
+      let access_token1 = null;
       let location = window.location.search;
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
-
-      console.log(term);
-      if (term != null && term !== undefined && term !== 'null') {
+      if (term !== null && term !== undefined && term !== "null") {
+        await localStorage.removeItem("access_token");
         access_token1 = term;
         await setAccessToken(term);
         await localStorage.setItem("access_token", term);
-        
-      } 
-
-      
-     if(term === null || term === undefined){
-        let access_token = localStorage.getItem("access_token");
-        await setAccessToken(access_token);
-        let user = JSON.parse(localStorage.getItem("user"));
-
-        await setUser(user);
-      }
 
         let user_id = await getUserIdFromToken({ access_token: access_token1 });
-        console.log(user_id);
+
         if (user_id) {
           let user = await getUserFromId(
             { id: user_id.data.user.user },
             access_token1
           );
-
-          console.log(user.data);
-         
           await setUser(user.data.user.user);
-
           if (
             user.data.user.access_valid === false ||
-            user.data.user.user_type !== "Company"
+            !(user.data.user.user_type === "Company" || user.data.user.user_type === "Company_User")
           )
-            window.location.redirect = "/login";
+            window.location.href = "/login";
           await localStorage.setItem("user", JSON.stringify(user.data.user));
           window.history.pushState({ url: "/company" }, "", "/company");
         } else {
           window.location.href = "/login";
         }
-     
-      let user = await localStorage.getItem("user");
-      let token = localStorage.getItem("access_token");
+      } else {
+        let access_token = await localStorage.getItem("access_token");
+        let user = JSON.parse(await localStorage.getItem("user"));
+        if (access_token === "null" || access_token === null)
+          access_token = user.access_token;
+        await localStorage.setItem("access_token", access_token);
+        if (
+          user.access_valid === false ||
+          (user.user_type !== "Company" && user.user_type !== "Company_User")
+        )
+          window.location.href = "/login";
+        await setAccessToken(access_token);
+        await setUser(user);
+      }
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let token = await localStorage.getItem("access_token");
       if (!user || !token) {
         window.location.href = "/login";
       }
 
-      let usercheck = await JSON.parse(user)
-      if (usercheck.desc === [] || usercheck.billing[0] === [] || !usercheck.address) {
-        console.log("F")
+      let usercheck = user;
+      console.log(usercheck);
+      if (
+        usercheck.desc === [] ||
+        usercheck.billing[0] === [] ||
+        !usercheck.address
+      ) {
+        console.log("F");
         setModalIsOpen(true);
       }
     };
@@ -117,7 +120,7 @@ const CompanyDashboard = () => {
           let c = companyDashboardRoutes.filter(
             (route) => route.path === component.split("company/")[1]
           );
-          if (c.length > 0 &&c[0]) setComponent(c[0].component);
+          if (c.length > 0 && c[0]) setComponent(c[0].component);
           else
             setComponent(
               companyDashboardRoutes.filter(
@@ -138,7 +141,7 @@ const CompanyDashboard = () => {
         <div>
           <CompanyForm isOpen={true} />
         </div>
-       )}
+      )}
       <div className="z-10 fixed h-screen">
         <Sidebar />
       </div>

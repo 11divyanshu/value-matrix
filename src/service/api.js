@@ -96,8 +96,6 @@ export const getProfileImage = async (data, token) => {
   }
 };
 
-
-
 // Update User Details
 export const updateUserDetails = async (data, token) => {
   try {
@@ -360,7 +358,7 @@ export const getCompanyList = async (data, token) => {
 };
 
 // Get User List
-export const getUserList = async(data, token )=> {
+export const getUserList = async (data, token) => {
   try {
     return await axios.post(`${url}/getUserList`, data, {
       headers: { authorization: token },
@@ -368,7 +366,7 @@ export const getUserList = async(data, token )=> {
   } catch (error) {
     console.log("Error : ", error);
   }
-}
+};
 
 // Download Resume
 export const downloadResume = async (data, token) => {
@@ -379,4 +377,37 @@ export const downloadResume = async (data, token) => {
   } catch (error) {
     console.log("Error : ", error);
   }
-}
+};
+
+// Add Company User
+export const addCompanyUser = async (data, token) => {
+  try {
+    return await axios.post(`${url}/addCompanyUser`, data, {
+      headers: { authorization: token },
+    });
+  } catch (error) {
+    console.log("Error : ", error);
+  }
+};
+
+// Add SKils
+export const addSkills = async (data, token) => {
+  try {
+    return await axios.post(`${url}/addSkills`, data, {
+      headers: { authorization: token },
+    });
+  } catch (error) {
+    console.log("Error : ", error);
+  }
+};
+
+// Get Skills
+export const getSkills = async (data, token) => {
+  try {
+    return await axios.post(`${url}/getSkills`, data, {
+      headers: { authorization: token },
+    });
+  } catch (error) {
+    console.log("Error : ", error);
+  }
+};

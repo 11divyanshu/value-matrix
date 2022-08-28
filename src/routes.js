@@ -3,7 +3,7 @@ import { MdGroups } from "react-icons/md";
 import { RiFileUserFill, RiFolderUserFill } from "react-icons/ri";
 import { BsFillChatLeftTextFill, BsFillBellFill } from "react-icons/bs";
 import {FaBuilding} from "react-icons/fa";
-import {FaUserFriends} from "react-icons/fa";
+import {FaUserFriends, FaToolbox} from "react-icons/fa";
 
 // User Pages
 import Panel from "./Pages/UserDashboard/panel";
@@ -33,6 +33,8 @@ import CompanyList from "./Pages/AdminDashboard/CompanyList";
 import CompanyDetails from "./Pages/AdminDashboard/CompanyDetails";
 import CandiadateList from "./Pages/AdminDashboard/CandidatesList";
 import CandiadateDetail from "./Pages/AdminDashboard/CandidateDetail";
+import AddCompanyUser from "./Pages/CompanyDashboard/AddCompanyUser";
+import AddSkills from "./Components/AdminDashboard/AddSkills";
 
 // User Dashboard Routes
 export const dashboardRoutes = [
@@ -158,6 +160,14 @@ export const adminDashboardRoutes = [
     hide : true,
     component : <CandiadateDetail/>
   },
+  {
+    name : "Add Skills",
+    path:"/addSkills" ,
+    hide : false,
+    component: <AddSkills/>,
+    icon : <FaToolbox className="text-xl"/>
+
+  }
 ];
 
 // Company Dashboard Routes
@@ -168,6 +178,7 @@ export const companyDashboardRoutes = [
     path: "/",
     component: <CPanel />,
     hide: false,
+    permission: "default",
   },
   {
     name: "Profile",
@@ -175,12 +186,14 @@ export const companyDashboardRoutes = [
     path: "/profile",
     component: <CompanyProfile />,
     hide: false,
+    permission: "default",
   },
   {
     name: "Edit Profile",
     path: "/editProfile",
     hide: true,
-    component: <EditCompanyProfile/>
+    component: <EditCompanyProfile/>,
+    permission: "default",
   },
   {
     name: "Add Job",
@@ -188,6 +201,7 @@ export const companyDashboardRoutes = [
     icon: <RiFolderUserFill className="text-xl" />,
     hide: false,
     component: <AddJob />,
+    permission : "add_jobs"
   },
   {
     name: "Jobs",
@@ -195,6 +209,7 @@ export const companyDashboardRoutes = [
     hide: false,
     icon: <RiFolderUserFill className="text-xl" />,
     component: <CJobList />,
+    permission: "default",
   },
 
   {
@@ -202,14 +217,22 @@ export const companyDashboardRoutes = [
     path: "/jobsUpdate",
     hide: true,
     icon: <RiFolderUserFill className="text-xl" />,
-    component: <UpdateJob />,
+    component: <UpdateJob />,permission: "default",
   },
   {
     name: "getJobById",
     path: "/jobDetails/",
     hide: true,
     component: <CJobDetails />,
-
+    permission: "default",
+  },
+  {
+    name : "Add Company User",
+    path : "/addCompanyUser",
+    hide : false,
+    component : <AddCompanyUser/>,
+    icon : <FaUserFriends className="text-xl" />,
+    permission : "add_users",
   }
 ];
 
