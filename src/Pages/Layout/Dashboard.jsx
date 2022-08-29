@@ -61,9 +61,8 @@ const Dashboard = () => {
           let u = JSON.parse(await localStorage.getItem("user"));
           await localStorage.setItem("access_token", u._id);
         }
-        
+
         if (user_id) {
-          
           let user = await getUserFromId(
             { id: user_id.data.user.user },
             access_token1
@@ -85,7 +84,7 @@ const Dashboard = () => {
             user.data.user.access_valid === false ||
             user.data.user.user_type !== "User"
           )
-            window.location.redirect = "/login";
+            window.location.href = "/login";
           await localStorage.setItem("user", JSON.stringify(user.data.user));
           window.history.pushState({ url: "/user" }, "", "/user");
         } else {
@@ -96,6 +95,10 @@ const Dashboard = () => {
         await setAccessToken(access_token);
         let user = JSON.parse(localStorage.getItem("user"));
         await setUser(user);
+
+        if (user.access_valid === false || user.user_type !== "User") {
+          window.location.href = "/login";
+        }
       }
       let user = JSON.parse(localStorage.getItem("user"));
       console.log(user);

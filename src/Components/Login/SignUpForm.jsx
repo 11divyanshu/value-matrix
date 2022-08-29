@@ -356,7 +356,7 @@ const SignupForm = () => {
             let access = res.data.access_token;
             if (user.user_type === "User")
               window.location.href = "/user/profile";
-            else if (user.user_type === "Company")
+              else if (user.user_type === "Company" || user.user_type === "Company_User")
               window.location.href = "/company/profile";
             else if (user.user_type === "XI")
               window.location.href = "/XI/?a=" + access;

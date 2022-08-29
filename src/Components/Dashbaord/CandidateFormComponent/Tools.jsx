@@ -3,12 +3,15 @@ import swal from "sweetalert";
 import { AiOutlineClose } from "react-icons/ai";
 import { RiContactsBookLine } from "react-icons/ri";
 
-import { submitCandidateDetails } from "../../../service/api";
+import { getSkills, submitCandidateDetails } from "../../../service/api";
 
 const Tools = (props) => {
   const [tools, setTools] = React.useState([]);
   const [error, setError] = React.useState(null);
   const [disabled, setDisabled] = React.useState(true);
+
+  const [dbSkills, setDbSkills] = React.useState([]);
+  const [suggesstions, setSuggesstions] = React.useState([]);
 
   const inputRef = React.useRef(null);
 
@@ -23,6 +26,21 @@ const Tools = (props) => {
     };
     initial();
   }, []);
+
+  React.useEffect(() => {
+    const initial = async () => {
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let res = await getSkills({ user_id: user._id }, user.access_token);
+      if (res && res.status === 200) {
+        let skills = [];
+        res.data.map((el) => {
+          skills.push(el.skill);
+        });
+        await setDbSkills(skills);
+      }
+    };
+    initial();
+  });
 
   const handleSubmit = async () => {
     let res = JSON.parse(await localStorage.getItem("candidateDetails"));
@@ -64,6 +82,11 @@ const Tools = (props) => {
           ref={inputRef}
           onChange={() => {
             if (inputRef.current) {
+              setSuggesstions(
+                dbSkills.filter((el) => {
+                  return el.includes(inputRef.current.value);
+                })
+              );
               const res = tools.findIndex((el) => {
                 return (
                   el.toLowerCase() === inputRef.current.value.toLowerCase()
@@ -124,6 +147,28 @@ const Tools = (props) => {
           Add
         </button>
         {error && <p className="text-sm text-red-500 mb-5">{error}</p>}
+      </div>
+      <div className="flex items-center space-x-3 py-4">
+        <p className="font-semibold">Suggesstions:</p>
+        {suggesstions &&
+          suggesstions.map((el, index) => {
+            if (index < 5) {
+              return (
+                <p
+                  key={index}
+                  className="text-sm text-blue-700 bg-blue-100 p-2 cursor-pointer"
+                  onClick={() => {
+                    if (inputRef.current) {
+                      inputRef.current.value = el;
+                    }
+                  }}
+                >
+                  {el}
+                </p>
+              );
+            }
+            return null;
+          })}
       </div>
       <div className="flex flex-wrap">
         {tools &&

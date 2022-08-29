@@ -19,6 +19,10 @@ const NotificationPopOver = (props) => {
     }
   };
 
+  function sortByTime(a, b) {
+    return a.timeCreated < b.timeCreated ? 1 : -1;
+  }
+
   const markAsReadNoti = async (noti) => {
     try {
       let user = JSON.parse(await localStorage.getItem("user"));

@@ -15,10 +15,8 @@ const UserProfile = () => {
   // Access Token And User State
   const [user, setUser] = React.useState();
   const [profileImg, setProfileImg] = React.useState(null);
- 
+
   // Sets User and AccessToken from SessionStorage
-
-
 
   React.useEffect(() => {
     const func = async () => {
@@ -33,25 +31,20 @@ const UserProfile = () => {
       }
       if (access_token === null) window.location.href = "/login";
 
-
-   
-
       await setUser(user);
     };
     func();
   }, []);
 
-
   return (
     <div className="p-5">
-      <p className="text-2xl font-bold" style={{ color: "#3B82F6" }}>Your Profile</p>
-    
+      <p className="text-2xl font-bold" style={{ color: "#3B82F6" }}>
+        Your Profile
+      </p>
+
       {user !== null && user !== undefined && (
-
-
         <div className="m-5">
-
-<div className="my-3 shadow-md mx-5  rounded-md w-full p-3 flex items-center ">
+          <div className="my-3 shadow-md mx-5  rounded-md w-full p-3 flex items-center ">
             <div>
               <img
                 // src={
@@ -81,16 +74,16 @@ const UserProfile = () => {
               </button>
             </div>
           </div>
-       
 
-
-          <div className="my-3 mx-5 shadow-md rounded-lg w-full  pt-3 w-3/4" style={{borderRadius:"12px"}}>
-        
-            <div className="App " style={{borderRadius:"12px"}}>
-      <Tabs/>
-      </div>
+          <div
+            className="my-3 mx-5 shadow-md rounded-lg w-full  pt-3 w-3/4"
+            style={{ borderRadius: "12px" }}
+          >
+            <div className="App " style={{ borderRadius: "12px" }}>
+              <Tabs />
+            </div>
           </div>
-          </div>
+        </div>
       )}
     </div>
   );

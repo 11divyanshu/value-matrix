@@ -29,7 +29,6 @@ const AdminDashboard = () => {
       const term = queryParams.get("a");
       if (term !== null && term !== undefined && term !== "null") {
         await localStorage.removeItem("access_token");
-        await localStorage.removeItem("access_token");
         access_token1 = term;
         await setAccessToken(term);
         await localStorage.setItem("access_token", term);
@@ -46,7 +45,7 @@ const AdminDashboard = () => {
             user.data.user.access_valid === false ||
             user.data.user.isAdmin === false
           )
-            window.location.redirect = "/login";
+            window.location.href = "/login";
           await localStorage.setItem("user", JSON.stringify(user.data.user));
           window.history.pushState({ url: "/admin" }, "", "/admin");
         } else {
@@ -57,6 +56,11 @@ const AdminDashboard = () => {
         let user = JSON.parse(await localStorage.getItem("user"));
         if (access_token === "null" || access_token === null) access_token = user.access_token;
         await localStorage.setItem("access_token", access_token);
+        if (
+          user.access_valid === false ||
+          user.isAdmin === false
+        )
+          window.location.href = "/login";
         await setAccessToken(access_token);
         await setUser(user);
       }
