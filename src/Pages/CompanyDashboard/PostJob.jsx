@@ -8,6 +8,9 @@ import { AiOutlineClose } from "react-icons/ai";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { convertToHTML } from 'draft-convert';
+import { Link, useNavigate } from "react-router-dom";
+import { getUserFromId } from "../../service/api";
+
 
 const AddJob = () => {
   const [Alert, setAlert] = React.useState(null);

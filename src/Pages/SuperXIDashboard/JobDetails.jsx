@@ -8,7 +8,6 @@ import {AiOutlineCalendar} from "react-icons/ai"
 import {CgWorkAlt} from "react-icons/cg"
 import {HiOutlineCurrencyRupee} from "react-icons/hi"
 import { HiOutlineLocationMarker,HiOutlineCurrencyDollar,HiOutlineCalendar,HiOutlinePlay} from "react-icons/hi";
-import DOMPurify from 'dompurify';
 
 
 function JobDetails(props) {
@@ -31,12 +30,6 @@ function JobDetails(props) {
     };
     getData();
   }, [job_id]);
-
-  const createMarkup = (html) => {
-    return  {
-      __html: DOMPurify.sanitize(html)
-    }
-  }
 
 
   return (
@@ -186,11 +179,11 @@ function JobDetails(props) {
 
 <div className="my-7">
 <h5 className=" px-4 py-2 text-xl text-gray-800 font-bold"> Job Description :</h5>
-<h6 className="px-4 mb-2 text-lg text-gray-500" dangerouslySetInnerHTML={createMarkup(job.jobDesc)}></h6>
+<h6 className="px-4 mb-2 text-lg text-gray-500">{job.jobDesc}</h6>
 </div>
 <div className="my-7">
 <h5 className=" px-4 py-2 text-xl text-gray-800 font-bold">Eligibility :</h5>
-<h6 className="px-4 mb-2 text-lg text-gray-500" dangerouslySetInnerHTML={createMarkup(job.eligibility)}></h6>
+<h6 className="px-4 mb-2 text-lg text-gray-500">{job.eligibility}</h6>
 </div>
 <div className="my-7">
 <h5 className=" px-4 py-2 text-xl text-gray-800 font-bold">Skills Required :</h5>

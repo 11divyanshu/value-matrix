@@ -286,7 +286,7 @@ export default function Tabs() {
 
             </div> */}
           </div>
-        )}
+        }
       </div>
     </div>
   );

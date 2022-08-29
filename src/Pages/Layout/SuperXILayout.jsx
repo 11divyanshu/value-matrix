@@ -4,9 +4,9 @@ import { ReactSession } from "react-client-session";
 
 // Components
 import { superXIDashboardRoutes } from "../../routes";
-import Navbar from "../Components/AdminDashboard/Navbar";
-import Sidebar from "../Components/CompanyDashboard/Sidebar";
-import { getUserFromId, getUserIdFromToken } from "../service/api";
+import Navbar from "../../Components/AdminDashboard/Navbar";
+import Sidebar from "../../Components/AdminDashboard/Sidebar";
+import { getUserFromId, getUserIdFromToken } from "../../service/api";
 import jsCookie from "js-cookie";
 
 const CompanyDashboard = () => {

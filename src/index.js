@@ -16,6 +16,8 @@ import CompanyDashboard from './Pages/Layout/CompanyLayout.jsx';
 import UpdateJob from './Pages/CompanyDashboard/UpdateJob.jsx';
 import JobDetails from './Pages/CompanyDashboard/JobDetails';
 import XIDashboard from './Pages/Layout/XILayout';
+import SuperXIDashboard from './Pages/Layout/SuperXILayout';
+
 import ResetPassword from './Components/Login/ForgotPassword';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -46,6 +48,9 @@ root.render(
         <Route path="/XI" element={<XIDashboard/>}/>
         <Route path="/XI/:component" element={<XIDashboard/>}/>
         <Route path="/XI/:component/:id" element={<XIDashboard/>}/>
+
+        <Route path="/superXI" element={<SuperXIDashboard/>}/>
+        <Route path="/superXI/:component" element={<SuperXIDashboard/>}/>
         
       </Routes>
     </Router>

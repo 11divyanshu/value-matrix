@@ -43,7 +43,7 @@ const Navbar = (props) => {
                         {props.user.username}
                       </p>
                     ) : (
-                      <p className="text-md text-semibold">Admin</p>
+                      <p className="text-md text-semibold">SuperXI</p>
                     )}
                     <p className="text-xs text-gray-600">View Profile</p>
                   </div>

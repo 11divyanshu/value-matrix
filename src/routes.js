@@ -36,6 +36,13 @@ import AddCompanyUser from "./Pages/CompanyDashboard/AddCompanyUser";
 import AddSkills from "./Components/AdminDashboard/AddSkills";
 import AddAdminUser from "./Pages/AdminDashboard/AddAdminUser";
 
+// SuperXIDashboard
+import SXIPanel from "./Pages/SuperXIDashboard/panel.jsx";
+import SXIUserProfile from "./Pages/SuperXIDashboard/UserProfile";
+import SXIEditProfile from "./Pages/SuperXIDashboard/EditProfile";
+import SXIJobList from "./Pages/SuperXIDashboard/jobList.jsx";
+import SXIJobDetails from "./Pages/SuperXIDashboard/JobDetails.jsx";
+
 // User Dashboard Routes
 export const dashboardRoutes = [
   {
@@ -277,7 +284,46 @@ export const superXIDashboardRoutes = [
     name: "Home",
     icon: <ImHome className="text-xl" />,
     path: "/",
-    component: <Panel />,
+    component: <SXIPanel />,
     hide: false,
   },
+  {
+    name: "Group",
+    icon: <MdGroups className="text-xl" />,
+    path: "/",
+    hide: false,
+  },
+  {
+    name: "Profile",
+    icon: <RiFileUserFill className="text-xl" />,
+    path: "profile",
+    component: <SXIUserProfile />,
+    hide: false,
+  },
+  {
+    name: "Chat",
+    icon: <BsFillChatLeftTextFill className="text-xl" />,
+    path: "/",
+    hide: false,
+  },
+  {
+    name: "Edit Profile",
+    path: "editProfile",
+    hide: true,
+    component: <SXIEditProfile />,
+  },
+  {
+    name: "Jobs",
+    path: "jobs",
+    hide: false,
+    icon: <RiFolderUserFill className="text-xl" />,
+    component: <SXIJobList />,
+  },
+  {
+    name: "getJobById",
+    path: "jobDetails",
+    hide: true,
+    component: <SXIJobDetails />,
+  },
 ];
+
