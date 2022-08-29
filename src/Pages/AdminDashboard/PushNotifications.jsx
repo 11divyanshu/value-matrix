@@ -2,6 +2,8 @@ import React from "react";
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import { sendOneSignalNotification } from "../../service/api";
 import { ReactSession } from "react-client-session";
+import { getUserFromId } from "../../service/api";
+import { useNavigate } from "react-router-dom";
 
 const PushNotification = () => {
 
@@ -30,6 +32,23 @@ const PushNotification = () => {
           setAlert(false); 
         }
   };
+
+  const navigate = useNavigate();
+
+  React.useState(() => {
+    const initial = async () => {
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let res =await  getUserFromId({ id: user._id }, user.access_token);
+      if (res && res.data && res.data.user) {
+        if (
+          res.data.user.permissions[0].admin_permissions.add_notifications === false
+        ) {
+          navigate(-1);
+        }
+      }
+    };
+    initial();  
+  }, []);
 
   return (
     <div className="p-5">

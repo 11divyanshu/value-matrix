@@ -1,19 +1,22 @@
 import React from "react";
 import { Formik, Form, ErrorMessage, Field } from "formik";
-import { addCompanyUser, validateSignupDetails } from "../../service/api";
+import {
+  addAdminUser,
+  getUserFromId,
+  validateSignupDetails,
+} from "../../service/api";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
-import { getUserFromId } from "../../service/api";
 
-const AddCompanyUser = () => {
+const AddAdminUser = () => {
   const [emailError, setEmailError] = React.useState(null);
   const [userNameError, setUserNameError] = React.useState(null);
   const [contactError, setContactError] = React.useState(null);
 
   const [permissions, setPermissions] = React.useState([
     {
-      title: "Add Jobs",
-      id: "add_jobs",
+      title: "Add Notifications",
+      id: "add_notifications",
       value: false,
     },
     {
@@ -24,6 +27,16 @@ const AddCompanyUser = () => {
     {
       title: "List Candidates",
       id: "list_candidates",
+      value: false,
+    },
+    {
+      title: "List Companies",
+      id: "list_companies",
+      value: false,
+    },
+    {
+      title: "Add Skills",
+      id: "add_skills",
       value: false,
     },
   ]);
@@ -38,25 +51,6 @@ const AddCompanyUser = () => {
     contact: null,
     permission: permissions,
   });
-
-  const navigate = useNavigate();
-
-  React.useState(() => {
-    const initial = async () => {
-      let user = JSON.parse(await localStorage.getItem("user"));
-      let res =await  getUserFromId({ id: user._id }, user.access_token);
-      console.log(res);
-      if (res && res.data && res.data.user) {
-        if (
-          res.data.user.permissions[0].company_permissions.add_users === false
-        ) {
-          navigate(-1);
-        }
-      }
-    };
-    initial();  
-  }, []);
-
 
   const handleSumbit = async (values) => {
     try {
@@ -87,11 +81,8 @@ const AddCompanyUser = () => {
       }
       let token = await localStorage.getItem("access_token");
       let user = JSON.parse(await localStorage.getItem("user"));
-      let res = await addCompanyUser(
-        { ...values, company_id: user._id },
-        token
-      );
-      if (res && res.status===200) {
+      let res = await addAdminUser({ ...values, company_id: user._id }, token);
+      if (res && res.status === 200) {
         swal({
           title: "User Added",
           text: "User Added Successfully",
@@ -99,7 +90,7 @@ const AddCompanyUser = () => {
           button: "Continue",
         });
         setTimeout(() => {
-            window.location.reload();
+          window.location.reload();
         }, 2000);
       } else {
         swal({
@@ -114,9 +105,27 @@ const AddCompanyUser = () => {
     }
   };
 
+  const navigate =useNavigate();
+
+  React.useState(() => {
+    const initial = async () => {
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let res =await  getUserFromId({ id: user._id }, user.access_token);
+      console.log(res);
+      if (res && res.data && res.data.user) {
+        if (
+          res.data.user.permissions[0].admin_permissions.add_users === false
+        ) {
+          navigate(-1);
+        }
+      }
+    };
+    initial();  
+  }, []);
+
   return (
     <div className="p-5">
-      <p className="text-2xl font-bold">Add Company User</p>
+      <p className="text-2xl font-bold">Add Admin User</p>
       <div className="w-full">
         <Formik
           initialValues={initialValue}
@@ -318,4 +327,4 @@ const AddCompanyUser = () => {
   );
 };
 
-export default AddCompanyUser;
+export default AddAdminUser;

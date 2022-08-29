@@ -22,10 +22,10 @@ const Dashboard = () => {
   let [access_token, setAccessToken] = React.useState(null);
   let [user, setUser] = React.useState(null);
   let [profileImg, setProfileImg] = React.useState(null);
-  let [userCheck, setUserCheck] = React.useState(true);
+  let [userCheck, setUserCheck] = React.useState(false);
 
   // Form to get User details
-  const [modalIsOpen, setModalIsOpen] = React.useState(false);
+  const [modalIsOpen, setModalIsOpen] = React.useState(true);
 
   React.useEffect(() => {
     OneSignal.init({

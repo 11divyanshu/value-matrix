@@ -1,6 +1,8 @@
 import React from "react";
 import { getUserList } from "../../service/api";
 import { Link } from "react-router-dom";
+import { getUserFromId } from "../../service/api";
+import { useNavigate } from "react-router-dom";
 
 const CandiadateList = () => {
   const [userList, setUserList] = React.useState([]);
@@ -16,6 +18,24 @@ const CandiadateList = () => {
     };
     initial();
   }, []);
+
+  const navigate = useNavigate();
+
+  React.useState(() => {
+    const initial = async () => {
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let res =await  getUserFromId({ id: user._id }, user.access_token);
+      if (res && res.data && res.data.user) {
+        if (
+          res.data.user.permissions[0].admin_permissions.list_candidates === false
+        ) {
+          navigate(-1);
+        }
+      }
+    };
+    initial();  
+  }, []);
+
 
   return (
     <div className="p-5">

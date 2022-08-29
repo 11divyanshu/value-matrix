@@ -1,5 +1,8 @@
 import React from "react";
-import { uploadCandidateResume } from "../../../service/api";
+import {
+  sovrenResumeParser,
+  uploadCandidateResume,
+} from "../../../service/api";
 
 import Loader from "../../../assets/images/loader.gif";
 
@@ -19,7 +22,7 @@ const ResumeForm = (props) => {
       let fd = new FormData();
       fd.append("user_id", user._id);
       fd.append("file", e.target.files[0]);
-      console.log(fd);
+
       let response = await uploadCandidateResume(fd, access_token);
       if (response && response.status === 200) {
         await setFile(e.target.files[0]);
@@ -31,21 +34,42 @@ const ResumeForm = (props) => {
       } else {
         setError("Error uploading file");
       }
+
+      var fileReader = new FileReader();
+      var base64;
+      // Onload of file read the file content
+      let base64String = "";
+      fileReader.onload = function (fileLoadedEvent) {
+        base64 = fileLoadedEvent.target.result;
+        base64String = base64;
+      };
+      await fileReader.readAsDataURL(e.target.files[0]);
+      let resumeResponse = await sovrenResumeParser({
+        DocumentAsBase64String: base64String,
+        SkillsSettings: {
+          Normalize: false,
+          TaxonomyVersion: "",
+        },
+        ProfessionsSettings: {
+          Normalize: false,
+        },
+        DocumentLastModified : e.target.files[0].lastModified
+      });
+      console.log(resumeResponse);
       setLoading(false);
       e.target.files = null;
     }
   };
 
-  React.useEffect(()=>{
-    const initial = async()=>{
+  React.useEffect(() => {
+    const initial = async () => {
       let res = JSON.parse(await localStorage.getItem("candidateDetails"));
-      console.log(res);
-      if(res && res.resume){
+      if (res && res.resume) {
         await setFileName(res.resume);
       }
-    }
+    };
     initial();
-  },[])
+  }, []);
 
   return (
     <div>
@@ -55,7 +79,7 @@ const ResumeForm = (props) => {
       <div className="my-5">
         {loading ? (
           <button className="py-1 px-3 bg-blue-500 rounded-md">
-              <img src={Loader} className="h-7" alt="loader"/>
+            <img src={Loader} className="h-7" alt="loader" />
           </button>
         ) : (
           <label

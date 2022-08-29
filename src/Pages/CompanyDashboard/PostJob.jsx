@@ -5,6 +5,8 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import "../../assets/stylesheet/VerticalTabs.scss"
 import swal from "sweetalert";
 import { AiOutlineClose } from "react-icons/ai";
+import {useNavigate} from "react-router-dom";
+import { getUserFromId } from "../../service/api";
 // import { Editor } from "react-draft-wysiwyg";
 // import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
@@ -48,6 +50,24 @@ const AddJob = () => {
 
     };
     initial();
+  }, []);
+
+  const navigate = useNavigate();
+
+  React.useState(() => {
+    const initial = async () => {
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let res =await  getUserFromId({ id: user._id }, user.access_token);
+      console.log(res);
+      if (res && res.data && res.data.user) {
+        if (
+          res.data.user.permissions[0].company_permissions.add_jobs === false
+        ) {
+          navigate(-1);
+        }
+      }
+    };
+    initial();  
   }, []);
 
   const postJob = async (values) => {

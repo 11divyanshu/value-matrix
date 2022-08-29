@@ -7,14 +7,26 @@ import { GrScorecard } from "react-icons/gr";
 import { CgWorkAlt } from "react-icons/cg";
 import { FaRegBuilding } from "react-icons/fa";
 import { download } from "downloadjs";
-import {downloadResume} from "../../service/api.js";
+import { downloadResume } from "../../service/api.js";
+import { useNavigate } from "react-router-dom";
 
 const CandiadateDetail = () => {
   const { id } = useParams();
   const [userDetail, setUserDetail] = React.useState(null);
 
+  const navigate = useNavigate();
   React.useEffect(() => {
     const initial = async () => {
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let res = await getUserFromId({ id: user._id }, user.access_token);
+      if (res && res.data && res.data.user) {
+        if (
+          res.data.user.permissions[0].admin_permissions.list_candidates ===
+          false
+        ) {
+          navigate(-1);
+        }
+      }
       let token = await localStorage.getItem("access_token");
       let response = await getUserFromId({ id: id }, token);
       if (response && response.status === 200) {
@@ -39,18 +51,18 @@ const CandiadateDetail = () => {
             {userDetail.resume && (
               <p
                 className="ml-auto text-blue-500 text-sm cursor-pointer"
-                onClick={async() => {
-                    let token = await localStorage.getItem("access_token");
-                    let res = await downloadResume({ user_id : id }, token);
-                    if(res && res.status === 200){
-                        const link = document.createElement("a");
-                        link.href = res.data.link;
-                        link.setAttribute('download', "resume.pdf");
-                        link.setAttribute("target", "_blank");
-                        document.body.appendChild(link);
-                        link.click();
-                        link.parentNode.removeChild(link);
-                    }
+                onClick={async () => {
+                  let token = await localStorage.getItem("access_token");
+                  let res = await downloadResume({ user_id: id }, token);
+                  if (res && res.status === 200) {
+                    const link = document.createElement("a");
+                    link.href = res.data.link;
+                    link.setAttribute("download", "resume.pdf");
+                    link.setAttribute("target", "_blank");
+                    document.body.appendChild(link);
+                    link.click();
+                    link.parentNode.removeChild(link);
+                  }
                 }}
               >
                 Download Resume

@@ -2,8 +2,8 @@ import { ImHome } from "react-icons/im";
 import { MdGroups } from "react-icons/md";
 import { RiFileUserFill, RiFolderUserFill } from "react-icons/ri";
 import { BsFillChatLeftTextFill, BsFillBellFill } from "react-icons/bs";
-import {FaBuilding} from "react-icons/fa";
-import {FaUserFriends, FaToolbox} from "react-icons/fa";
+import { FaBuilding } from "react-icons/fa";
+import { FaUserFriends, FaToolbox } from "react-icons/fa";
 
 // User Pages
 import Panel from "./Pages/UserDashboard/panel";
@@ -12,13 +12,11 @@ import EditProfile from "./Pages/UserDashboard/EditProfile";
 import JobList from "./Pages/UserDashboard/jobList.jsx";
 import JobDetails from "./Pages/UserDashboard/JobDetail.jsx";
 
-
 // Admin Pages
 import NotificationPanel from "./Pages/AdminDashboard/Notification";
 import EmailNotification from "./Pages/AdminDashboard/EmailNotification";
 import PushNotification from "./Pages/AdminDashboard/PushNotifications";
 import APanel from "./Pages/AdminDashboard/panel";
-
 
 // Company Pages
 import CJobList from "./Pages/CompanyDashboard/jobList.jsx";
@@ -35,6 +33,7 @@ import CandiadateList from "./Pages/AdminDashboard/CandidatesList";
 import CandiadateDetail from "./Pages/AdminDashboard/CandidateDetail";
 import AddCompanyUser from "./Pages/CompanyDashboard/AddCompanyUser";
 import AddSkills from "./Components/AdminDashboard/AddSkills";
+import AddAdminUser from "./Pages/AdminDashboard/AddAdminUser";
 
 // User Dashboard Routes
 export const dashboardRoutes = [
@@ -82,10 +81,8 @@ export const dashboardRoutes = [
     path: "jobDetails",
     hide: true,
     component: <JobDetails />,
-
-  }
+  },
 ];
-
 
 // Admin Dashboard Routes
 export const adminDashboardRoutes = [
@@ -95,12 +92,14 @@ export const adminDashboardRoutes = [
     path: "/",
     component: <APanel />,
     hide: false,
+    permission: "default",
   },
   {
     name: "Group",
     icon: <MdGroups className="text-xl" />,
     path: "/",
     hide: false,
+    permission: "default",
   },
   {
     name: "Profile",
@@ -108,12 +107,14 @@ export const adminDashboardRoutes = [
     path: "/profile",
     component: <UserProfile />,
     hide: false,
+    permission: "default",
   },
   {
     name: "Edit Profile",
     path: "/editProfile",
     hide: true,
     component: <EditProfile />,
+    permission: "default",
   },
   {
     name: "Notification",
@@ -121,53 +122,68 @@ export const adminDashboardRoutes = [
     hide: false,
     icon: <BsFillBellFill className="text-xl" />,
     component: <NotificationPanel />,
+    permission: "add_notifications",
   },
   {
     name: "Email Notifications",
     path: "/emailNotification",
     hide: true,
     component: <EmailNotification />,
+    permission: "add_notifications",
   },
   {
     name: "One Signal Notification",
     path: "/pushNotification",
     hide: true,
     component: <PushNotification />,
+    permission: "add_notifications",
   },
   {
-    name : "Company List",
-    path : "/companies",
+    name: "Company List",
+    path: "/companies",
     hide: false,
-    component : <CompanyList/>,
-    icon: <FaBuilding className="text-xl" />
+    component: <CompanyList />,
+    icon: <FaBuilding className="text-xl" />,
+    permission: "list_companies",
   },
   {
-    name : "Company Details",
+    name: "Company Details",
     path: "/company",
-    hide : true,
-    component : <CompanyDetails />
+    hide: true,
+    component: <CompanyDetails />,
+    permission: "list_companies",
   },
   {
-    name : "Candidates List",
-    path : "/candidates",
+    name: "Candidates List",
+    path: "/candidates",
     hide: false,
-    component : <CandiadateList/>,
-    icon: <FaUserFriends className="text-xl" />
+    component: <CandiadateList />,
+    icon: <FaUserFriends className="text-xl" />,
+    permission: "list_candidates",
   },
   {
-    name : "Candidate Details",
+    name: "Candidate Details",
     path: "/candidate",
-    hide : true,
-    component : <CandiadateDetail/>
+    hide: true,
+    component: <CandiadateDetail />,
+    permission: "list_candidates",
   },
   {
-    name : "Add Skills",
-    path:"/addSkills" ,
-    hide : false,
-    component: <AddSkills/>,
-    icon : <FaToolbox className="text-xl"/>
-
-  }
+    name: "Add Skills",
+    path: "/addSkills",
+    hide: false,
+    component: <AddSkills />,
+    icon: <FaToolbox className="text-xl" />,
+    permission:"add_skills"
+  },
+  {
+    name: "Add Admin User",
+    path: "/addAdminUser",
+    hide: false,
+    icon: <FaUserFriends className="text-xl" />,
+    component: <AddAdminUser />,
+    permission: "add_users"
+  },
 ];
 
 // Company Dashboard Routes
@@ -192,7 +208,7 @@ export const companyDashboardRoutes = [
     name: "Edit Profile",
     path: "/editProfile",
     hide: true,
-    component: <EditCompanyProfile/>,
+    component: <EditCompanyProfile />,
     permission: "default",
   },
   {
@@ -201,7 +217,7 @@ export const companyDashboardRoutes = [
     icon: <RiFolderUserFill className="text-xl" />,
     hide: false,
     component: <AddJob />,
-    permission : "add_jobs"
+    permission: "add_jobs",
   },
   {
     name: "Jobs",
@@ -217,7 +233,8 @@ export const companyDashboardRoutes = [
     path: "/jobsUpdate",
     hide: true,
     icon: <RiFolderUserFill className="text-xl" />,
-    component: <UpdateJob />,permission: "default",
+    component: <UpdateJob />,
+    permission: "default",
   },
   {
     name: "getJobById",
@@ -227,13 +244,13 @@ export const companyDashboardRoutes = [
     permission: "default",
   },
   {
-    name : "Add Company User",
-    path : "/addCompanyUser",
-    hide : false,
-    component : <AddCompanyUser/>,
-    icon : <FaUserFriends className="text-xl" />,
-    permission : "add_users",
-  }
+    name: "Add Company User",
+    path: "/addCompanyUser",
+    hide: false,
+    component: <AddCompanyUser />,
+    icon: <FaUserFriends className="text-xl" />,
+    permission: "add_users",
+  },
 ];
 
 // XI Routes
@@ -244,8 +261,8 @@ export const XIDashboardRoutes = [
     path: "/",
     component: <Panel />,
     hide: false,
-  }
-]
+  },
+];
 
 // SuperXI Routes
 export const superXIDashboardRoutes = [
@@ -255,5 +272,5 @@ export const superXIDashboardRoutes = [
     path: "/",
     component: <Panel />,
     hide: false,
-  }
-]
+  },
+];
