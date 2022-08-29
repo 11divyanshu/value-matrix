@@ -41,7 +41,8 @@ const ResumeForm = (props) => {
       let base64String = "";
       fileReader.onload = async function (fileLoadedEvent) {
         var modifiedDate = (new Date(fileLoadedEvent.lastModified)).toISOString().substring(0, 10);
-        base64 = Base64.encodeArray(fileLoadedEvent.target.result);
+        // base64 = Base64.encodeArray(fileLoadedEvent.target.result);
+        base64 = fileLoadedEvent.target.result;
         base64String = base64;
         let resumeResponse = await sovrenResumeParser({
           DocumentAsBase64String: base64,

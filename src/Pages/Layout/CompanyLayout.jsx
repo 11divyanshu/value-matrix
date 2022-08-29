@@ -76,16 +76,12 @@ const CompanyDashboard = () => {
         window.location.href = "/login";
       }
 
-
-      let usercheck = user;
-      console.log(usercheck);
-      if (
-        usercheck.desc === [] ||
-        usercheck.billing[0] === [] ||
-        !usercheck.address
-      ) {
-        console.log("F");
+      let usercheck = JSON.parse(user)
+      if (usercheck.desc === [] || usercheck.billing[0] === []) {
+        console.log("F")
         setModalIsOpen(true);
+      }else{
+        setModalIsOpen(false);
       }
     };
 
@@ -131,7 +127,7 @@ const CompanyDashboard = () => {
         }
       }
     }
-  });
+  },[component]);
   // React.useEffect(()=>{
 
   // },[])

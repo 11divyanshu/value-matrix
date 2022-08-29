@@ -1,9 +1,9 @@
 import React from "react";
 
 // Components
-import Card from "../../Components/Dashbaord/Cards";
+import Card from "../../Components/SuperXIDashboard/Cards";
 import SessionCard from "../../Components/Dashbaord/sessions";
-
+import {AiOutlineUnorderedList} from "react-icons/ai"
 // Assets
 import VideoCall from "../../assets/images/Call.svg";
 import Board from "../../assets/images/board.svg";
@@ -18,9 +18,7 @@ const Panel = () => {
       <div className="flex flex-col-reverse lg:flex-row">
         <div className="w-2/5 p-3">
           <Card />
-          <Card />
-          <Card />
-          <Card />
+         
         </div>
         <div className="w-3/5 p-3">
           <div className="flex space-x-3 md:flex-row flex-col ">
@@ -29,7 +27,7 @@ const Panel = () => {
                 <div className="space-y-2">
                   <p className="text-blue-400 text-3xl font-semibold">16</p>
                   <p className="font-semibold text-sm uppercase text-gray-700">
-                    Total Interview
+                    Total Interview Taken
                   </p>
                 </div>
                 <div className="space-y-2">
@@ -94,10 +92,11 @@ const Panel = () => {
               <SessionCard />
             </div>
           </div>
+          <div className="flex">
           <div className="flex w-3/5 md:space-x-4 space-x-4 flex-wrap justify-center">
             <div className="rounded-sm shadow-lg py-12 space-y-3 bg-purple-200 text-center px-10 my-3">
               <p className="text-md font-bold text-gray-700">
-                Give Mock Interview
+                Take Instant Interview
               </p>
               <img
                 src={VideoCall}
@@ -108,7 +107,7 @@ const Panel = () => {
                 Give Interview
               </button>
             </div>
-            <div className="rounded-sm shadow-lg py-12 space-y-3 bg-blue-200 text-center px-10  my-3">
+            {/* <div className="rounded-sm shadow-lg py-12 space-y-3 bg-blue-200 text-center px-10  my-3">
               <p className="text-md font-bold text-gray-700">
                 How to Earn Credit
               </p>
@@ -116,8 +115,8 @@ const Panel = () => {
               <button className="bg-blue-600 rounded-md px-3 text-white text-sm hover:bg-blue-700 py-2">
                 Earn Credit
               </button>
-            </div>
-            <div className="rounded-sm shadow-lg py-12 space-y-3 bg-orange-200 text-center px-10  my-3">
+            </div> */}
+            {/* <div className="rounded-sm shadow-lg py-12 space-y-3 bg-orange-200 text-center px-10  my-3">
               <p className="text-md font-bold text-gray-700">
                 Culture Training
               </p>
@@ -129,7 +128,7 @@ const Panel = () => {
               <button className="bg-orange-600 rounded-md px-3 text-white text-sm hover:bg-orange-700 py-2">
                 Train Now
               </button>
-            </div>
+            </div> */}
             <div className="rounded-sm shadow-lg py-12 space-y-3 bg-blue-200 text-center px-10  my-3">
               <p className="text-md font-bold text-gray-700">
                 Assistance
@@ -140,9 +139,18 @@ const Panel = () => {
               </button>
             </div>
           </div>
-          {/* <div className="shadow-lg w-2/5  py-5 flex justify-around space-x-9 px-4 bg-slate-100">
-            <p>Jobs</p>
-          </div> */}
+ <div className="shadow-lg w-2/5  py-5 text-center mx-5 my-5  justify-around space-x-7 px-4 bg-slate-100">
+            <p className="text-xl px-4 mx-auto text-blue-500 font-bold text-center flex"><div className=" px-3 py-1 ml-5 text-center" ><AiOutlineUnorderedList/></div><p className="px-3  text-xl">Interviewers</p></p>
+
+            <p className="py-2 font-md">Rahul Pandey</p>
+            <p className="py-2 font-md">Vijay Singh</p>
+            <p className="py-2 font-md">Abhiraj Singh</p>
+            <p className="py-2 font-md">Sanjay Silakari</p>
+            <button className="bg-blue-600 rounded-lg px-3 my-3 py-2 text-xs text-white">View List</button>
+
+          </div>
+          </div>
+         
         </div>
 
       </div>

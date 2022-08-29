@@ -64,6 +64,11 @@ const NotificationPanel = () => {
             Send Push Notification
           </p>
         </Link>
+        <Link to="/admin/whatsappNotification">
+          <p className="rounded-md bg-gray-200 text-gray-500 px-2 py-1 mr-3 my-2">
+            Send Whatsapp Notification
+          </p>
+        </Link>
       </div>
       {Alert === true && (
         <div

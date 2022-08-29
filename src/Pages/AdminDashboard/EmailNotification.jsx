@@ -9,10 +9,10 @@ const EmailNotification = () => {
 
   const [Alert, setAlert] = React.useState(null);
 
-  const emailInputRef = React.useRef(null);
   const [emailList, setEmailList] = React.useState([]);
   const [emailListError, setEmailListError] = React.useState(null);
   const addBtnRef = React.useRef(null);
+  const emailInputRef = React.useRef(null);
 
   const sendEmail = async (values) => {
     setAlert(null);

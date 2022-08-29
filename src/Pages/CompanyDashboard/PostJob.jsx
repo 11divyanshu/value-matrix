@@ -5,17 +5,31 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import "../../assets/stylesheet/VerticalTabs.scss"
 import swal from "sweetalert";
 import { AiOutlineClose } from "react-icons/ai";
-import {useNavigate} from "react-router-dom";
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { convertToHTML } from 'draft-convert';
+import { Link, useNavigate } from "react-router-dom";
 import { getUserFromId } from "../../service/api";
-// import { Editor } from "react-draft-wysiwyg";
-// import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+
 
 const AddJob = () => {
   const [Alert, setAlert] = React.useState(null);
   const [skills, setSkills] = React.useState([]);
   const [error, setError] = React.useState(null);
   const [disabled, setDisabled] = React.useState(true);
-  const [editorState, setEditorState] = React.useState(true);
+
+  //Description
+  const [desc, setDescState] = React.useState();
+  const  [convertedDesc, setConvertedDesc] = useState(null);
+
+   //eligibility
+   const [eligible, setEligibleState] = React.useState();
+   const  [convertedEl, setConvertedEl] = useState(null);
+
+      //Perks
+      const [perks, setPerksState] = React.useState();
+      const  [convertedPerks, setConvertedPerks] = useState(null);
+
 
   const inputRef = React.useRef(null);
 
@@ -85,8 +99,8 @@ const AddJob = () => {
     }
 
     localStorage.removeItem("postjob");
-       setUser({});
-       setSkills([]);
+    setUser({});
+    setSkills([]);
   };
 
   const saveBasic = async (values) => {
@@ -110,13 +124,12 @@ const AddJob = () => {
     job.jobTitle = values.values.jobTitle;
     job.hiringOrganization = values.values.hiringOrganization;
     job.jobType = values.values.jobType;
-    job.jobDesc = values.values.jobDesc;
     job.location = values.values.location;
     job.user_id = values.values.user_id;
     job.validTill = values.values.validTill;
 
 
-setUser(job);
+    setUser(job);
     console.log(job);
 
     localStorage.setItem("postjob", JSON.stringify(job));
@@ -128,15 +141,80 @@ setUser(job);
     });
 
   }
-  const saveEligible = async (values) => {
-    let job = await JSON.parse(localStorage.getItem("postjob"));
 
-    job.eligibility = values.values.eligibility;
+  //Perks Editor
+  const onPerksEditorStateChange = (state) =>{
+    setPerksState(state);
+    convertPerksToHTML();
+   }
 
-    console.log(job)
-
+   const convertPerksToHTML = async() => {
+    let currentContentAsHTML = convertToHTML(perks.getCurrentContent());
+    setConvertedPerks(currentContentAsHTML);
+    // console.log(currentContentAsHTML)
+    const job =  JSON.parse(await localStorage.getItem("postjob"));
+    job.perks = currentContentAsHTML ; 
     setUser(job);
+    console.log(job);
+
     localStorage.setItem("postjob", JSON.stringify(job));
+  }
+
+
+
+  //description Editor
+
+   const onDescEditorStateChange = (state) =>{
+    setDescState(state);
+    convertDescToHTML();
+   }
+
+   const convertDescToHTML = async() => {
+    let currentContentAsHTML = convertToHTML(desc.getCurrentContent());
+    setConvertedDesc(currentContentAsHTML);
+    // console.log(currentContentAsHTML)
+
+    const job =  JSON.parse(await localStorage.getItem("postjob"));
+    job.jobDesc = currentContentAsHTML ; 
+    setUser(job);
+    console.log(job);
+
+    localStorage.setItem("postjob", JSON.stringify(job));
+  }
+
+  //Eligibility Editor
+
+
+
+  const oneligibiltyStateChange = (state) => {
+    setEligibleState(state);
+  
+    convertElToHTML();
+    // console.log(editorState);
+ 
+  }
+
+  const convertElToHTML = async() => {
+    let currentContentAsHTML = convertToHTML(eligible.getCurrentContent());
+    setConvertedEl(currentContentAsHTML);
+    console.log(currentContentAsHTML)
+
+    const job =  JSON.parse(await localStorage.getItem("postjob"));
+    job.eligibility = currentContentAsHTML ; 
+    setUser(job);
+    console.log(job);
+
+    localStorage.setItem("postjob", JSON.stringify(job));
+    
+  }
+
+
+  const saveEligible = async (content) => {
+
+    
+
+   
+    localStorage.setItem("postjob", JSON.stringify(content));
     swal({
       icon: "success",
       title: "EditProfile",
@@ -144,11 +222,13 @@ setUser(job);
       button: "Continue",
     });
   }
+
+
   const saveSalary = async (values) => {
     let job = await JSON.parse(localStorage.getItem("postjob"));
 
     job.salary = values.values.salary;
-    job.perks = values.values.perks;
+ 
 
 
 
@@ -228,17 +308,15 @@ setUser(job);
                   location: user ? user.location : '',
                   jobType: user ? user.jobType : '',
                   validTill: user ? user.validTill : '',
-                  hiringOrganization: user? user.hiringOrganization : '',
-                 
+                  hiringOrganization: user ? user.hiringOrganization : '',
+
                 }}
                 validate={(values) => {
                   const errors = {};
                   if (!values.jobTitle || values.jobTitle.trim() === "") {
                     errors.jobTitle = "Required !";
                   }
-                  if (!values.jobDesc || values.jobDesc.trim() === "") {
-                    errors.jobDesc = "Required !";
-                  }
+                 
                   if (!values.location || values.location.trim() === "") {
                     errors.location = "Required !";
                   }
@@ -261,12 +339,12 @@ setUser(job);
                           Job Details
                         </h1>
                         <div className="my-7 space-y-3 w-full">
-                          <label className="text-left w-1/2 mx-auto block">Job Title</label>
+                          <label className="text-left w-3/4 mx-auto block">Job Title</label>
                           <Field
                             name="jobTitle"
                             type="text"
                             placeholder=""
-                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-1/2 w-3/4 focus:outline-0 focus:border-0 p-1"
+                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
                           />
                           <ErrorMessage
                             name="jobTitle"
@@ -275,8 +353,8 @@ setUser(job);
                           />
                         </div>
                         <div className="my-7 space-y-3 w-full">
-                          <label className="text-left w-1/2 mx-auto block">Job Description</label>
-                          <Field
+                          <label className="text-left w-3/4 mx-auto block">Job Description</label>
+                          {/* <Field
                             name="jobDesc"
                             type="text"
                             placeholder=""
@@ -286,15 +364,24 @@ setUser(job);
                             name="jobDesc"
                             component="div"
                             className="text-red-600 text-sm w-full"
+                          /> */}
+                          <Editor
+                             editorState={desc}
+                            toolbarClassName="toolbarClassName"
+                            wrapperClassName="wrapperClassName"
+                            editorClassName="editorClassName"
+                            wrapperStyle={{ width: "75%", margin: "0 auto", border: "1px solid black" }}
+
+                           onEditorStateChange={onDescEditorStateChange}
                           />
                         </div>
                         <div className="my-7 space-y-3 w-full">
-                          <label className="text-left w-1/2 mx-auto block">Job Location</label>
+                          <label className="text-left w-3/4 mx-auto block">Job Location</label>
                           <Field
                             name="location"
                             type="text"
                             placeholder=""
-                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-1/2 w-3/4 focus:outline-0 focus:border-0 p-1"
+                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
                           />
                           <ErrorMessage
                             name="location"
@@ -303,7 +390,7 @@ setUser(job);
                           />
                         </div>
                         <div className="my-7 space-y-3">
-                          <label className="text-left w-1/2 mx-auto block">Job Type:</label>
+                          <label className="text-left w-3/4 mx-auto block">Job Type:</label>
                           <div
                             role="group"
                             aria-labelledby="my-radio-group"
@@ -348,24 +435,24 @@ setUser(job);
                           </div>
                         </div>
                         <div className="my-7 space-y-3 w-full">
-                          <label className="text-left w-1/2 mx-auto block">
+                          <label className="text-left w-3/4 mx-auto block">
                             Applications Open Till :{" "}
                           </label>
                           <Field
                             name="validTill"
                             type="date"
                             placeholder=""
-                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-1/2 w-3/4 focus:outline-0 focus:border-0 p-1"
+                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
                             min={Date.now()}
                           />
                         </div>
-                        <div className="text-left w-1/2 mx-auto block">
-                          <label className="block w-full">Hiring Organization</label>
+                        <div className="my-7 space-y-3 w-full">
+                          <label className="text-left w-3/4 mx-auto block">Hiring Organization</label>
                           <Field
                             name="hiringOrganization"
                             type="text"
                             placeholder=""
-                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-1/2 w-3/4 focus:outline-0 focus:border-0 p-1"
+                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
                           />
                           <ErrorMessage
                             name="hiringOrganization"
@@ -392,30 +479,30 @@ setUser(job);
                 initialValues={{
                   eligibility: user.eligibility ? user.eligibility : '',
                   skills: user.skills ? user.skills : [],
-                  
+
 
 
                 }}
-                validate={(values) => {
-                  const errors = {};
-                  if (!values.jobTitle || values.jobTitle.trim() === "") {
-                    errors.jobTitle = "Required !";
-                  }
-                  if (!values.jobDesc || values.jobDesc.trim() === "") {
-                    errors.jobDesc = "Required !";
-                  }
-                  if (!values.location || values.location.trim() === "") {
-                    errors.location = "Required !";
-                  }
-                  if (
-                    !values.hiringOrganization ||
-                    values.hiringOrganization.trim() === ""
-                  ) {
-                    errors.hiringOrganization = "Required !";
-                  }
-                  return errors;
-                }}
-                // onSubmit={postJob}
+                // validate={(values) => {
+                //   const errors = {};
+                //   if (!values.jobTitle || values.jobTitle.trim() === "") {
+                //     errors.jobTitle = "Required !";
+                //   }
+                //   if (!values.jobDesc || values.jobDesc.trim() === "") {
+                //     errors.jobDesc = "Required !";
+                //   }
+                //   if (!values.location || values.location.trim() === "") {
+                //     errors.location = "Required !";
+                //   }
+                //   if (
+                //     !values.hiringOrganization ||
+                //     values.hiringOrganization.trim() === ""
+                //   ) {
+                //     errors.hiringOrganization = "Required !";
+                //   }
+                //   return errors;
+                // }}
+              // onSubmit={postJob}
               >
                 {(values) => {
                   return (
@@ -426,17 +513,27 @@ setUser(job);
                           Eligibilty
                         </h1>
                         <div className="mt-4">
-                          <label className="text-left w-1/2 mx-auto block">Minimum Eligibility</label>
-                          <Field
+                          <label className="text-left w-3/4 mx-auto block">Minimum Eligibility</label>
+                          {/* <Field
                             name="eligibility"
                             type="textarea"
                             placeholder=""
-                            className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-1/2 w-3/4 focus:outline-0 focus:border-0 p-1"
+                            className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
                           />
                           <ErrorMessage
                             name="eligibility"
                             component="div"
                             className="text-red-600 text-sm w-full"
+                          /> */}
+
+                          <Editor
+                             editorState={eligible}
+                            toolbarClassName="toolbarClassName"
+                            wrapperClassName="wrapperClassName"
+                            editorClassName="editorClassName"
+                            wrapperStyle={{ width: "75%", margin: "0 auto", border: "1px solid black" }}
+
+                           onEditorStateChange={oneligibiltyStateChange}
                           />
                           {/* <Editor
                             editorState={editorState}
@@ -447,9 +544,9 @@ setUser(job);
                           />; */}
                         </div>
                         <div className="my-7 space-y-3 w-full block">
-                          <label className="text-left w-1/2 mx-auto block">Skills</label>
+                          <label className="text-left w-3/4 mx-auto block">Skills</label>
                           <input
-                            className="w-1/2 text-600 my-3 block mx-auto"
+                            className="w-3/4 text-600 my-3 block mx-auto"
                             style={{ borderRadius: "10px" }}
                             type="text"
                             ref={inputRef}
@@ -551,7 +648,7 @@ setUser(job);
                         <button
                           type="submit"
                           class="bg-blue-500 my-7 mx-2 px-5 py-3 hover:bg-blue-700 text-white font-bold rounded-lg"
-                          onClick={() => saveEligible(values)}
+                          onClick={() => saveEligible(user)}
                         >
                           Save
                         </button>
@@ -576,13 +673,11 @@ setUser(job);
                   if (!values.salary || values.salary.trim() === "") {
                     errors.salary = "Required !";
                   }
-                  if (!values.perks || values.perks.trim() === "") {
-                    errors.perks = "Required !";
-                  }
+                 
 
                   return errors;
                 }}
-                // onSubmit={postJob}
+              // onSubmit={postJob}
               >
                 {(values) => {
                   return (
@@ -593,39 +688,48 @@ setUser(job);
                           Salary and Perks
                         </h1>
                         <div className="my-7 mt-9 space-y-3 w-full">
-                          <label className="text-left w-1/2 mx-auto block">
+                          <label className="text-left w-3/4 mx-auto block">
                             Salary
                           </label>
                           <Field
                             name="salary"
                             type="text"
                             placeholder=""
-                            className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-1/2 w-3/4 focus:outline-0 focus:border-0 p-1"
+                            className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
 
                           />
                         </div>
 
                         <div className="my-5 space-y-3 w-full">
-                          <label className="text-left w-1/2 mx-auto block">
+                          <label className="text-left w-3/4 mx-auto block">
                             Perks
                           </label>
-                          <Field
+                          {/* <Field
                             name="perks"
                             type="text"
                             placeholder=""
-                            className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-1/2 w-3/4 focus:outline-0 focus:border-0 p-1"
+                            className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
 
+                          /> */}
+                             <Editor
+                             editorState={perks}
+                            toolbarClassName="toolbarClassName"
+                            wrapperClassName="wrapperClassName"
+                            editorClassName="editorClassName"
+                            wrapperStyle={{ width: "75%",margin:"0 auto", border: "1px solid black" }}
+
+                             onEditorStateChange={onPerksEditorStateChange}
                           />
                         </div>
                         <button
-                         
+
                           class="bg-blue-500 my-5 px-5 py-3 my-5 mx-4 hover:bg-blue-700 text-white font-bold rounded-lg"
                           onClick={() => saveSalary(values)}
                         >
                           Save
                         </button>
                         <button
-                          
+
                           class="bg-blue-500 my-5 px-5 py-3 my-5 mx-4 hover:bg-blue-700 text-white font-bold rounded-lg"
                           onClick={() => postJob(user)}
                         >
@@ -690,7 +794,7 @@ setUser(job);
               //       name="jobTitle"
               //       type="text"
               //       placeholder=""
-              //       className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-1/2 w-3/4 focus:outline-0 focus:border-0 p-1"
+              //       className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
               //     />
               //     <ErrorMessage
               //       name="jobTitle"
@@ -704,7 +808,7 @@ setUser(job);
               //       name="jobDesc"
               //       type="text"
               //       placeholder=""
-              //       className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-1/2 w-3/4 focus:outline-0 focus:border-0 p-1"
+              //       className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
               //     />
               //     <ErrorMessage
               //       name="jobDesc"
@@ -718,7 +822,7 @@ setUser(job);
               //       name="location"
               //       type="text"
               //       placeholder=""
-              //       className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-1/2 w-3/4 focus:outline-0 focus:border-0 p-1"
+              //       className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
               //     />
               //     <ErrorMessage
               //       name="location"
@@ -779,7 +883,7 @@ setUser(job);
               //       name="validTill"
               //       type="date"
               //       placeholder=""
-              //       className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-1/2 w-3/4 focus:outline-0 focus:border-0 p-1"
+              //       className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
               //       min={Date.now()}
               //     />
               //   </div>
@@ -789,7 +893,7 @@ setUser(job);
               //       name="hiringOrganization"
               //       type="text"
               //       placeholder=""
-              //       className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-1/2 w-3/4 focus:outline-0 focus:border-0 p-1"
+              //       className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
               //     />
               //     <ErrorMessage
               //       name="hiringOrganization"
@@ -803,7 +907,7 @@ setUser(job);
               //       name="basicSalary"
               //       type="number"
               //       placeholder=""
-              //       className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-1/2 w-3/4 focus:outline-0 focus:border-0 p-1"
+              //       className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
               //     />
               //     <ErrorMessage
               //       name="basicSalary"

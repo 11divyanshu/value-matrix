@@ -214,7 +214,7 @@ const Tools = (props) => {
               { tools: details.tools, user_id: user._id },
               access
             );
-            props.setStep(3);
+            props.setStep(4);
           }}
         >
           Prev

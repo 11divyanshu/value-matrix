@@ -189,6 +189,18 @@ export const sendEmailNotification = async (data, token) => {
     console.log(error);
   }
 };
+// Send Whastapp Notification
+export const sendWhatsappNotification = async (data, token) => {
+  try {
+    return await axios.post(`${url}/sendWhatsappNotification`, data, {
+      headers: {
+        authorization: token,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 // send onesignal notification
 export const sendOneSignalNotification = async (data, token) => {

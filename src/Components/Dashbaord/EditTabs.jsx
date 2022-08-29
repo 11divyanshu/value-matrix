@@ -57,7 +57,6 @@ export default function Tabs(props) {
 
   const [index, setIndex] = React.useState(0)
   const [profileImg, setProfileImg] = React.useState(null);
-  const [aboutDetail, setAboutDetail] = React.useState([]);
 
 
   //education
@@ -93,13 +92,14 @@ export default function Tabs(props) {
   });
   const [exinitialValues, setExInitialValues] = React.useState({
 
-    //education
-    school: null,
-    degree: null,
-    field_of_study: null,
+  
+    title: null,
+    employment_type: "",
+    company_name: null,
+    location: null,
     start_date: null,
     end_date: null,
-    grade: null,
+    industry: null,
     description: null,
 
     //experience
@@ -110,6 +110,25 @@ export default function Tabs(props) {
   const [experienceDetail, setExperienceDetail] = React.useState([]);
   const [showExForm, setShowExForm] = React.useState(false);
 
+  //Association
+  const [associateDetail, setAssociateDetail] = React.useState([]);
+  const [showAsForm, setShowAsForm] = React.useState(false);
+
+  const [asinitialValues, setAsInitialValues] = React.useState({
+
+  
+    title: null,
+    // employment_type: "",
+    company_name: null,
+    location: null,
+    start_date: null,
+    end_date: null,
+    industry: null,
+    description: null,
+
+    //experience
+
+  });
 
   //Tools
   const [tools, setTools] = React.useState([]);
@@ -138,6 +157,15 @@ setUser(e);
       }
       if (ex === null) {
         setExperienceDetail([]);
+      }
+
+      let as = e.associate;
+      console.log(as);
+      if (as !== "null" || as !== null) {
+        setAssociateDetail(as);
+      }
+      if (as === null) {
+        setAssociateDetail([]);
       }
 
       let et = e.tools;
@@ -236,6 +264,54 @@ setUser(e);
     await setExInitialValues({
       title: null,
       employment_type: "",
+      company_name: null,
+      location: null,
+      start_date: null,
+      end_date: null,
+      industry: null,
+      description: null,
+    });
+    resetBtn.current.click();
+    swal({
+      icon: "success",
+      title: "EditProfile",
+      text: "Details Saved",
+      button: "Continue",
+    });
+  }
+
+
+  const updateAssociation = async (values) => {
+
+    let e = JSON.parse(
+      await localStorage.getItem("user")
+    );
+    if (edit !== null) {
+      const temp = [...associateDetail];
+      temp[edit] = values;
+      await setAssociateDetail(temp);
+      e.associate = temp;
+      setUser(e);
+      await localStorage.setItem(
+        "user",
+        JSON.stringify(e)
+      );
+      await setEdit(null);
+      resetBtn.current.click();
+      return;
+    }
+    let temp = associateDetail;
+    temp ? temp = [...associateDetail, values] : temp = [values] ;
+    await setAssociateDetail(temp);
+    e.associate = temp;
+    setUser(e);
+    await localStorage.setItem(
+      "user",
+      JSON.stringify(e)
+    );
+    await setAsInitialValues({
+      title: null,
+    
       company_name: null,
       location: null,
       start_date: null,
@@ -411,6 +487,7 @@ const update = async (ed) => {
     lastname: ed.lastName,
     address: ed.address,
     experience: ed.experience,
+    associate: ed.associate,
     education: ed.education,
     tools: ed.tools,
   };
@@ -481,7 +558,8 @@ return (
       <div className={`tabHead ${index === 0 && 'active'}`} onClick={() => { setIndex(0) }}>Contact</div>
       <div className={`tabHead ${index === 1 && 'active'}`} onClick={() => { setIndex(1) }}>Education</div>
       <div className={`tabHead ${index === 2 && 'active'}`} onClick={() => { setIndex(2) }}>Experience</div>
-      <div className={`tabHead ${index === 3 && 'active'}`} onClick={() => { setIndex(3) }}>Skills</div>
+      <div className={`tabHead ${index === 3 && 'active'}`} onClick={() => { setIndex(3) }}>Association</div>
+      <div className={`tabHead ${index === 4 && 'active'}`} onClick={() => { setIndex(4) }}>Skills</div>
     </div>
     <div className="tabContent p-5" hidden={index != 0}>
       {user !== null && user !== undefined && (
@@ -1235,7 +1313,330 @@ return (
       )}
 
     </div >
-    <div className="tabContent p-5" hidden={index != 3}>
+ <div className="tabContent p-5" hidden={index != 3}>
+
+
+      <div>
+        {user && associateDetail &&
+          associateDetail.map((item, index) => {
+            return (
+              <div className="my-2 shadow-md rounded-md p-2 bg-gray-100" key={index}>
+                <div className="flex justify-end space-x-3 items-center">
+                  <RiEditBoxLine
+                    className="cursor-pointer"
+                    onClick={() => {
+                      setEdit(index);
+                      setAsInitialValues(item);
+                      setShowAsForm(true);
+                    }}
+                  />
+                  <AiOutlineDelete
+                    className="text-red-600 cursor-pointer"
+                    onClick={async () => {
+                      setAssociateDetail(
+                        associateDetail.filter((item, i) => i !== index)
+                      );
+                      let res = JSON.parse(await localStorage.getItem("user"));
+                      res.associate = associateDetail.filter((item, i) => i !== index);
+                      localStorage.setItem("user", JSON.stringify(res));
+                    }}
+                  />
+                </div>
+                <div className="font-semibold flex space-x-2 items-center">
+                  <p>{item.title}</p> <p className="font-normal text-sm">|</p>{" "}
+                  <p className="font-normal text-sm">
+                    {item.location}
+                  </p>{" "}
+                </div>
+                <div className="flex flex-wrap justify-between w-full py-1 text-gray-800 ">
+                  <div className="space-x-2 flex items-center">
+                    <FaRegBuilding />
+                    <p>{item.company_name}</p>
+                  </div>
+                  <div className="space-x-2 flex items-center">
+                    <CgWorkAlt />
+                    <p>{item.industry}</p>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <BsCalendar />
+                    <p className="text-sm text-gray-600 mr-5">
+                      {item.start_date} - {item.end_date}
+                    </p>
+                  </div>
+                </div>
+                {item.description && (
+                  <div className="py-2">{item.description}</div>
+                )}
+              </div>
+            );
+          })}
+
+        <div className='flex'>
+          <button
+            className="h-8 bg-blue-600 text-white rounded-sm block cursor-pointer px-8 my-5"
+            onClick={async () => {
+              await setShowError(true);
+              await setShowAsForm(true);
+            }}
+          >
+            Add Association
+          </button>
+
+          <button
+
+            className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"
+            style={{ backgroundColor: " rgb(59 130 246)" }}
+            onClick={() => update(user)}
+
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+
+      {showAsForm && (
+        <Transition appear show={showAsForm} as={Fragment} className="relative z-50">
+          <Dialog
+            as="div"
+            className="relative z-10"
+            onClose={() => { }}
+            static={true}
+          >
+            <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-black bg-opacity-25" />
+            </Transition.Child>
+
+            <div className="fixed inset-0 overflow-y-auto">
+              <div className="flex min-h-full items-center justify-center p-4 text-center">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 scale-95"
+                  enterTo="opacity-100 scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 scale-100"
+                  leaveTo="opacity-0 scale-95"
+                >
+                  <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                    <Dialog.Title
+                      as="h3"
+                      className="text-2xl font-bold leading-6 text-gray-900"
+                    >
+                      Complete Your Details
+                    </Dialog.Title>
+                    <div className={`${!showAsForm ? "hidden" : "block"}`}>
+                      <p className="text-md font-semibold my-3">Add Association</p>
+                      <Formik
+                        initialValues={asinitialValues}
+                        validate={(values) => {
+                          if (showAsForm === false) return {};
+                          const errors = {};
+                          if (!values.title) {
+                            errors.title = "Required";
+                          }
+                         
+                          if (!values.company_name) {
+                            errors.company_name = "Required";
+                          }
+                          if (!values.location) {
+                            errors.location = "Required";
+                          }
+                          if (values.start_date === null) {
+                            errors.start_date = "Required !";
+                          }
+                          if (values.end_date === null) {
+                            errors.end_date = "Required !";
+                          }
+                          if (values.start_date > new Date()) {
+                            errors.start_date =
+                              "Start date cannot be greater than today's date";
+                          }
+                          if (values.start_date > values.end_date) {
+                            errors.end_date =
+                              "End date cannot be less than start date";
+                          }
+
+                          return errors;
+                        }}
+
+                      >
+                        {({ values }) => {
+                          return (
+                            <Form className="w-4/5 space-y-3">
+                              <div className="my-3">
+                                <label>Title *</label>
+                                <Field
+                                  name="title"
+                                  type="text"
+                                  placeholder="Ex. Manager"
+                                  className="w-full text-600"
+                                  style={{ borderRadius: "10px" }}
+                                  value={values.title}
+                                />
+                                <ErrorMessage
+                                  name="title"
+                                  component="div"
+                                  className="text-sm text-red-600"
+                                />
+                              </div>
+                              {/* <div className="my-3">
+                                <label>Employment Type *</label>
+                                <Field
+                                  name="employment_type"
+                                  as="select"
+                                  className="w-full text-600"
+                                  style={{ borderRadius: "10px" }}
+                                >
+                                  <option value="">Please Select</option>
+                                  <option value="Full Time">Full Time</option>
+                                  <option value="Part Time">Part Time</option>
+                                  <option value="Self Employed">Self Employed</option>
+                                  <option value="Internship">Internship</option>
+                                  <option value="Free Lancer">Free Lancer</option>
+                                </Field>
+                                <ErrorMessage
+                                  name="employment_type"
+                                  component="div"
+                                  className="text-sm text-red-600"
+                                />
+                              </div> */}
+                              <div className="my-3">
+                                <label>Company *</label>
+                                <Field
+                                  name="company_name"
+                                  type="text"
+                                  placeholder="Ex. Microsoft"
+                                  className="w-full text-600"
+                                  style={{ borderRadius: "10px" }}
+                                  value={values.company_name}
+                                />
+                                <ErrorMessage
+                                  name="company_name"
+                                  component="div"
+                                  className="text-sm text-red-600"
+                                />
+                              </div>
+                              <div className="my-3">
+                                <label>Location *</label>
+                                <Field
+                                  name="location"
+                                  type="text"
+                                  placeholder="Ex. London"
+                                  className="w-full text-600"
+                                  style={{ borderRadius: "10px" }}
+                                  value={values.location}
+                                />
+                                <ErrorMessage
+                                  name="location"
+                                  component="div"
+                                  className="text-sm text-red-600"
+                                />
+                              </div>
+                              <div className="flex flex-wrap">
+                                <div className="my-3 md:w-1/2 pr-2">
+                                  <label>Start Date *</label>
+                                  <Field
+                                    name="start_date"
+                                    type="month"
+                                    className="w-full text-600"
+                                    style={{ borderRadius: "10px" }}
+                                    value={values.start_date}
+                                  />
+                                  <ErrorMessage
+                                    name="start_date"
+                                    component="div"
+                                    className="text-sm text-red-600"
+                                  />
+                                </div>
+                                <div className="my-3 md:w-1/2 pr-2">
+                                  <label>End Date (or Expected)*</label>
+                                  <Field
+                                    name="end_date"
+                                    type="month"
+                                    className="w-full text-600"
+                                    style={{ borderRadius: "10px" }}
+                                    value={values.end_date}
+                                  />
+                                  <ErrorMessage
+                                    name="end_date"
+                                    component="div"
+                                    className="text-sm text-red-600"
+                                  />
+                                </div>
+                              </div>
+                              <div className="my-3">
+                                <label>Industry *</label>
+                                <Field
+                                  name="industry"
+                                  type="text"
+                                  className="w-full text-600"
+                                  style={{ borderRadius: "10px" }}
+                                  value={values.industry}
+                                />
+                                <ErrorMessage
+                                  name="industry"
+                                  component="div"
+                                  className="text-sm text-red-600"
+                                />
+                              </div>
+                              <div className="my-3">
+                                <label>Description</label>
+                                <Field
+                                  name="description"
+                                  type="textarea"
+                                  className="w-full text-600 border-[0.5px] border-[#6b7280] p-2"
+                                  style={{ borderRadius: "10px", border: "0.5px solid" }}
+                                  value={values.description}
+                                />
+                                <ErrorMessage
+                                  name="description"
+                                  component="div"
+                                  className="text-sm text-red-600"
+                                />
+                              </div>
+                              <div className="flex flex-wrap">
+                                <button
+                                  onClick={() => updateAssociation(values)}
+                                  className="h-8 bg-blue-600 text-white rounded-sm block cursor-pointer px-8 align-middle"
+                                >
+                                  {edit === null ? "Add " : "Update"}
+                                </button>
+                                <button
+                                  type="button"
+                                  className="h-8 border-[0.5px] mx-3 border-red-600 text-red-600 rounded-sm block cursor-pointer px-8"
+                                  ref={resetBtn}
+                                  onClick={async () => {
+                                    await setShowError(false);
+                                    await setShowAsForm(false);
+                                  }}
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </Form>
+                          );
+                        }}
+                      </Formik>
+                    </div>
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
+            </div>
+          </Dialog>
+        </Transition>
+      )}
+
+    </div >
+    <div className="tabContent p-5" hidden={index != 4}>
 
       {user !== null && user !== undefined &&
         <div>

@@ -17,6 +17,7 @@ import NotificationPanel from "./Pages/AdminDashboard/Notification";
 import EmailNotification from "./Pages/AdminDashboard/EmailNotification";
 import PushNotification from "./Pages/AdminDashboard/PushNotifications";
 import APanel from "./Pages/AdminDashboard/panel";
+import WhatsappNotification from "./Pages/AdminDashboard/WhatsappNotification";
 
 // Company Pages
 import CJobList from "./Pages/CompanyDashboard/jobList.jsx";
@@ -37,6 +38,13 @@ import AddAdminUser from "./Pages/AdminDashboard/AddAdminUser";
 
 // XI Pages
 import XIDashboard from "./Pages/XIDashboard/Dashboard";
+
+// SuperXIDashboard
+import SXIPanel from "./Pages/SuperXIDashboard/panel.jsx";
+import SXIUserProfile from "./Pages/SuperXIDashboard/UserProfile";
+import SXIEditProfile from "./Pages/SuperXIDashboard/EditProfile";
+import SXIJobList from "./Pages/SuperXIDashboard/jobList.jsx";
+import SXIJobDetails from "./Pages/SuperXIDashboard/JobDetails.jsx";
 
 // User Dashboard Routes
 export const dashboardRoutes = [
@@ -135,6 +143,12 @@ export const adminDashboardRoutes = [
     permission: "add_notifications",
   },
   {
+    name: "Whatsapp Notifications",
+    path: "/whatsappNotification",
+    hide: true,
+    component: <WhatsappNotification />,
+  },
+  {
     name: "One Signal Notification",
     path: "/pushNotification",
     hide: true,
@@ -177,7 +191,7 @@ export const adminDashboardRoutes = [
     hide: false,
     component: <AddSkills />,
     icon: <FaToolbox className="text-xl" />,
-    permission:"add_skills"
+    permission: "add_skills",
   },
   {
     name: "Add Admin User",
@@ -185,7 +199,7 @@ export const adminDashboardRoutes = [
     hide: false,
     icon: <FaUserFriends className="text-xl" />,
     component: <AddAdminUser />,
-    permission: "add_users"
+    permission: "add_users",
   },
 ];
 
@@ -262,7 +276,7 @@ export const XIDashboardRoutes = [
     name: "Home",
     icon: <ImHome className="text-xl" />,
     path: "/",
-    component: <XIDashboard/>,
+    component: <XIDashboard />,
     hide: false,
   },
 ];
@@ -273,7 +287,45 @@ export const superXIDashboardRoutes = [
     name: "Home",
     icon: <ImHome className="text-xl" />,
     path: "/",
-    component: <Panel />,
+    component: <SXIPanel />,
     hide: false,
+  },
+  {
+    name: "Group",
+    icon: <MdGroups className="text-xl" />,
+    path: "/",
+    hide: false,
+  },
+  {
+    name: "Profile",
+    icon: <RiFileUserFill className="text-xl" />,
+    path: "profile",
+    component: <SXIUserProfile />,
+    hide: false,
+  },
+  {
+    name: "Chat",
+    icon: <BsFillChatLeftTextFill className="text-xl" />,
+    path: "/",
+    hide: false,
+  },
+  {
+    name: "Edit Profile",
+    path: "editProfile",
+    hide: true,
+    component: <SXIEditProfile />,
+  },
+  {
+    name: "Jobs",
+    path: "jobs",
+    hide: false,
+    icon: <RiFolderUserFill className="text-xl" />,
+    component: <SXIJobList />,
+  },
+  {
+    name: "getJobById",
+    path: "jobDetails",
+    hide: true,
+    component: <SXIJobDetails />,
   },
 ];

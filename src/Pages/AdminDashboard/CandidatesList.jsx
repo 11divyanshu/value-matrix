@@ -113,6 +113,8 @@ const CandiadateList = () => {
           </div>
         </div>
       </div>
+
+      {/* <div><SkillsUpload/></div> */}
     </div>
   );
 };
