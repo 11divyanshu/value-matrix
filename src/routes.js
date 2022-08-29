@@ -35,6 +35,9 @@ import AddCompanyUser from "./Pages/CompanyDashboard/AddCompanyUser";
 import AddSkills from "./Components/AdminDashboard/AddSkills";
 import AddAdminUser from "./Pages/AdminDashboard/AddAdminUser";
 
+// XI Pages
+import XIDashboard from "./Pages/XIDashboard/Dashboard";
+
 // User Dashboard Routes
 export const dashboardRoutes = [
   {
@@ -259,7 +262,7 @@ export const XIDashboardRoutes = [
     name: "Home",
     icon: <ImHome className="text-xl" />,
     path: "/",
-    component: <Panel />,
+    component: <XIDashboard/>,
     hide: false,
   },
 ];
