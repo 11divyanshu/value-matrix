@@ -191,6 +191,18 @@ export const sendEmailNotification = async (data, token) => {
     console.log(error);
   }
 };
+// Send Whastapp Notification
+export const sendWhatsappNotification = async (data, token) => {
+  try {
+    return await axios.post(`${url}/sendWhatsappNotification`, data, {
+      headers: {
+        authorization: token,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 // send onesignal notification
 export const sendOneSignalNotification = async (data, token) => {
@@ -380,3 +392,16 @@ export const downloadResume = async (data, token) => {
     console.log("Error : ", error);
   }
 }
+
+
+// import Skills Excel
+
+// export const uploadSkills = async (data) => {
+//   try {
+//     return await axios.post(`${url}/uploadSkills`, data, {
+//       headers: { "Content-Type": "multipart/form-data" },
+//     });
+//   } catch (error) {
+//     console.log("Error : ", error);
+//   }
+// };

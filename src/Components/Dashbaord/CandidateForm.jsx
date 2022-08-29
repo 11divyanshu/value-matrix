@@ -4,6 +4,7 @@ import "tw-elements";
 import ResumeForm from "./CandidateFormComponent/ResumeForm";
 import EducationDetailForm from "./CandidateFormComponent/EducationalDetails";
 import ExperienceDetailForm from "./CandidateFormComponent/ExperienceDetail";
+import AssociationDetailForm from "./CandidateFormComponent/Association";
 import ContactDetailForm from "./CandidateFormComponent/ContactDetails";
 import Tools from "./CandidateFormComponent/Tools";
 
@@ -16,6 +17,7 @@ const CandidateResumeForm = (props) => {
     resume: null,
     education: [],
     experience: [],
+    associate: [],
     contact: {},
     tools: [],
   });
@@ -47,6 +49,16 @@ const CandidateResumeForm = (props) => {
       name: "Experience",
       component: (
         <ExperienceDetailForm
+          setCandidateDetails={setCandidateDetails}
+          setStep={setStep}
+          candidateDetails={candidateDetails}
+        />
+      ),
+    },
+    {
+      name: "Association",
+      component: (
+        <AssociationDetailForm
           setCandidateDetails={setCandidateDetails}
           setStep={setStep}
           candidateDetails={candidateDetails}
@@ -96,6 +108,7 @@ const CandidateResumeForm = (props) => {
         let data = {
           education : user.education ? user.education : [],
           experience : user.experience ? user.experience : [],
+          associate : user.associate ? user.associate : [],
           contact : user.contact ? user.contact : {},
           tools : user.tools ? user.tools : [],
         }

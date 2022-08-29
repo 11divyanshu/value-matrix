@@ -79,9 +79,11 @@ const CompanyDashboard = () => {
       }
 
       let usercheck = JSON.parse(user)
-      if (usercheck.desc === [] || usercheck.billing[0] === [] || !usercheck.address) {
+      if (usercheck.desc === [] || usercheck.billing[0] === []) {
         console.log("F")
         setModalIsOpen(true);
+      }else{
+        setModalIsOpen(false);
       }
     };
 
@@ -127,7 +129,7 @@ const CompanyDashboard = () => {
         }
       }
     }
-  });
+  },[component]);
   // React.useEffect(()=>{
 
   // },[])

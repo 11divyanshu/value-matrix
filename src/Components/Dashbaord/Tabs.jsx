@@ -53,7 +53,8 @@ export default function Tabs() {
         <div className={`tabHead ${index === 0 && 'active'}`} onClick={() => { setIndex(0) }}>Contact</div>
         <div className={`tabHead ${index === 1 && 'active'}`} onClick={() => { setIndex(1) }}>Education</div>
         <div className={`tabHead ${index === 2 && 'active'}`} onClick={() => { setIndex(2) }}>Experience</div>
-        <div className={`tabHead ${index === 3 && 'active'}`} onClick={() => { setIndex(3) }}>Skills</div>
+        <div className={`tabHead ${index === 3 && 'active'}`} onClick={() => { setIndex(3) }}>Association</div>
+        <div className={`tabHead ${index === 4 && 'active'}`} onClick={() => { setIndex(4) }}>Skills</div>
       </div>
       <div className="tabContent p-5" hidden={index != 0}>
         {user !== null && user !== undefined && (
@@ -212,6 +213,39 @@ export default function Tabs() {
         }
       </div>
       <div className="tabContent p-5" hidden={index != 3}>
+        {user !== null && user !== undefined && user.associate && user.associate.map((item, index) => {
+          return (
+            <div className="my-2 shadow-md rounded-md p-5  bg-gray-50 h-40" key={index}>
+
+              <div className="font-semibold flex space-x-2 mt-3 items-center">
+                <p className='text-xl'>{item.title}</p> <p className="font-normal text-lg">|</p>{" "}
+               
+              </div>
+              <div className="flex flex-wrap justify-between w-full py-5 text-gray-800 ">
+                <div className="space-x-2 flex items-center">
+                  <FaRegBuilding />
+                  <p>{item.company_name}</p>
+                </div>
+                <div className="space-x-2 flex items-center">
+                  <CgWorkAlt />
+                  <p>{item.industry}</p>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <BsCalendar />
+                  <p className="text-sm text-gray-600 mr-5">
+                    {item.start_date} - {item.end_date}
+                  </p>
+                </div>
+              </div>
+              {item.description && (
+                <div className="py-2">{item.description}</div>
+              )}
+            </div>
+          );
+        })
+        }
+      </div>
+      <div className="tabContent p-5" hidden={index != 4}>
 
         {user !== null && user !== undefined &&
           <div>

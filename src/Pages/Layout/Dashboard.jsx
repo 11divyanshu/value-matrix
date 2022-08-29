@@ -103,7 +103,7 @@ const Dashboard = () => {
       if (!user || !token) {
         window.location.href = "/login";
       }
-      if (user.tools.length === 0|| user.education === [] || !user.address) {
+      if (user.tools.length === 0|| user.education === [] || user.association === [] ) {
         console.log("F")
         setModalIsOpen(true);
       }
@@ -155,7 +155,7 @@ const Dashboard = () => {
         <div>
           <CandidateResumeForm isOpen={true} setModalIsOpen={setModalIsOpen} />
         </div>
-      )}
+     )} 
       <div className="z-10 fixed h-screen">
         <Sidebar user={user} />
       </div>

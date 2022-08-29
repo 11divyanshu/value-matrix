@@ -298,7 +298,7 @@ const ContactDetailForm = (props) => {
               { contact: details.contact, user_id: user._id },
               access
             );
-            props.setStep(2);
+            props.setStep(3);
           }}
         >
           Prev
@@ -329,7 +329,7 @@ const ContactDetailForm = (props) => {
                 { contact: details.contact, user_id: user._id },
                 access
               );
-              props.setStep(4);
+              props.setStep(5);
             }}
           >
             Next

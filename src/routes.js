@@ -18,6 +18,7 @@ import NotificationPanel from "./Pages/AdminDashboard/Notification";
 import EmailNotification from "./Pages/AdminDashboard/EmailNotification";
 import PushNotification from "./Pages/AdminDashboard/PushNotifications";
 import APanel from "./Pages/AdminDashboard/panel";
+import WhatsappNotification from "./Pages/AdminDashboard/WhatsappNotification";
 
 
 // Company Pages
@@ -125,6 +126,12 @@ export const adminDashboardRoutes = [
     path: "/emailNotification",
     hide: true,
     component: <EmailNotification />,
+  },
+  {
+    name: "Whatsapp Notifications",
+    path: "/whatsappNotification",
+    hide: true,
+    component: <WhatsappNotification/>,
   },
   {
     name: "One Signal Notification",

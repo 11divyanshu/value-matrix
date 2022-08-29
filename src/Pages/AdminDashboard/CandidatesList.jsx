@@ -1,6 +1,7 @@
 import React from "react";
 import { getUserList } from "../../service/api";
 import { Link } from "react-router-dom";
+// import SkillsUpload from "../../Components/AdminDashboard/SkillsUpload";
 
 const CandiadateList = () => {
   const [userList, setUserList] = React.useState([]);
@@ -93,6 +94,8 @@ const CandiadateList = () => {
           </div>
         </div>
       </div>
+
+      {/* <div><SkillsUpload/></div> */}
     </div>
   );
 };

@@ -140,9 +140,9 @@ const Panel = () => {
               </button>
             </div>
           </div>
-          <div className="shadow-lg w-2/5  py-5 flex justify-around space-x-9 px-4 bg-slate-100">
+          {/* <div className="shadow-lg w-2/5  py-5 flex justify-around space-x-9 px-4 bg-slate-100">
             <p>Jobs</p>
-          </div>
+          </div> */}
         </div>
 
       </div>
