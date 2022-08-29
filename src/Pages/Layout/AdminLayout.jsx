@@ -43,7 +43,7 @@ const AdminDashboard = () => {
           await setUser(user.data.user.user);
           if (
             user.data.user.access_valid === false ||
-            user.data.user.isAdmin === false
+            (user.data.user.user_type !== "Admin" && user.data.user.user_type !== "Admin_User")
           )
             window.location.href = "/login";
           await localStorage.setItem("user", JSON.stringify(user.data.user));
@@ -58,7 +58,7 @@ const AdminDashboard = () => {
         await localStorage.setItem("access_token", access_token);
         if (
           user.access_valid === false ||
-          user.isAdmin === false
+          (user.user_type !== "Admin" && user.user_type !== "Admin_User")
         )
           window.location.href = "/login";
         await setAccessToken(access_token);

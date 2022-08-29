@@ -423,3 +423,34 @@ export const getSkills = async (data, token) => {
     console.log("Error : ", error);
   }
 };
+
+// Add Admin User
+export const addAdminUser = async (data, token) => {
+  try {
+    return await axios.post(`${url}/addAdminUser`, data, {
+      headers: { authorization: token },
+    });
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+};
+
+// Sovren Resume Parser
+export const sovrenResumeParser = async (data) => {
+  try {
+    return await axios.post(
+      `https://rest.resumeparsing.com/v10/parser/resume`,
+      data,
+      {
+        headers: {
+          "Sovren-AccountId": "58045629",
+          "Sovren-ServiceKey": "N6x3TEi+ULpI57PrPkIK23P44F1tfDu6lum+iV3m",
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      }
+    );
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+};

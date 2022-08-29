@@ -61,7 +61,7 @@ const Sidebar = () => {
       ) {
         if (user.data.user.permissions[0]) {
           await setPermissions({
-            ...user.data.user.permissions[0],
+            ...user.data.user.permissions[0].company_permissions,
             default: true,
           });
         }

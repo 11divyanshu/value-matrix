@@ -63,6 +63,24 @@ const AddJob = () => {
     initial();
   }, []);
 
+  const navigate = useNavigate();
+
+  React.useState(() => {
+    const initial = async () => {
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let res =await  getUserFromId({ id: user._id }, user.access_token);
+      console.log(res);
+      if (res && res.data && res.data.user) {
+        if (
+          res.data.user.permissions[0].company_permissions.add_jobs === false
+        ) {
+          navigate(-1);
+        }
+      }
+    };
+    initial();  
+  }, []);
+
   const postJob = async (values) => {
     let access_token = localStorage.getItem("access_token");
     let user = JSON.parse(localStorage.getItem("user"));
