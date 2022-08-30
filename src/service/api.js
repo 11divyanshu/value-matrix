@@ -242,9 +242,9 @@ export const postJobAPI = async (data, token) => {
 
 //update job
 
-export const updateJobAPI = async (job_id, data, token) => {
+export const updateJobAPI = async (data, token) => {
   try {
-    return await axios.post(`${url}/updateJobDetails`, job_id, data, {
+    return await axios.post(`${url}/updateJobDetails`, data, {
       headers: {
         authorization: token,
       },

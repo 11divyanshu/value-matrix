@@ -615,8 +615,8 @@ const AddJob = () => {
             <div className="panel-content">
               <Formik
                 initialValues={{
-                  eligibility: user.eligibility ? user.eligibility : '',
-                  skills: user.skills ? user.skills : [],
+                  // eligibility: user.eligibility ? user.eligibility : '',
+                  skills: user ? user.skills : [],
                 }}
                 // validate={(values) => {
                 //   const errors = {};
@@ -1237,8 +1237,8 @@ const AddJob = () => {
             <div className="panel-content">
               <Formik
                 initialValues={{
-                  salary: user.salary ? user.salary : "",
-                  perks: user.perks ? user.perks : "",
+                  salary: user ? user.salary : "",
+                  perks: user ? user.perks : "",
                 }}
                 validate={(values) => {
                   const errors = {};

@@ -24,7 +24,9 @@ function JobDetails(props) {
       } else {
         console.log("no response")
       }
+    
     };
+   
     getData();
   }, [job_id]);
 

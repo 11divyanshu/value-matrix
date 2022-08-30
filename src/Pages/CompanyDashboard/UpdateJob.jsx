@@ -25,7 +25,6 @@ import htmlToDraft from 'html-to-draftjs';
 
 const UpdateJob = () => {
   const [Alert, setAlert] = React.useState(null);
-  const [job, setJob] = React.useState(null);
   const [skills, setSkills] = React.useState([]);
   const [error, setError] = React.useState(null);
   const [disabled, setDisabled] = React.useState(true);
@@ -34,21 +33,23 @@ const UpdateJob = () => {
   //Description
   const [desc, setDescState] = React.useState();
   const [descEdit, setDescEditState] = React.useState();
-  const  [convertedDesc, setConvertedDesc] = useState(null);
+  const [convertedDesc, setConvertedDesc] = useState(null);
 
-   //eligibility
-   const [eligible, setEligibleState] = React.useState();
-   const  [convertedEl, setConvertedEl] = useState(null);
+  //eligibility
+  const [eligible, setEligibleState] = React.useState();
+  const [elEdit, setElEditState] = React.useState();
 
-      //Perks
-      const [perks, setPerksState] = React.useState();
-      const  [convertedPerks, setConvertedPerks] = useState(null);
+  const [convertedEl, setConvertedEl] = useState(null);
+
+  //Perks
+  const [perks, setPerksState] = React.useState();
+  const [convertedPerks, setConvertedPerks] = useState(null);
 
 
   const inputRef = React.useRef(null);
 
   const [submitError, setSubmitError] = React.useState(null);
-  const [user, setUser] = useState();
+  const [job, setJob] = useState(null);
 
   // const resdetail=JSON.parse(localStorage.getItem("jobsdetail"))
   // const resdetail1=JSON.parse(localStorage.getItem("jobsdetails"))
@@ -57,7 +58,7 @@ const UpdateJob = () => {
   //     console.log("match found");
   //     const require=item
   //     console.log(require);
-      
+
   //   }
   // }
 
@@ -69,64 +70,120 @@ const UpdateJob = () => {
     let access_token = localStorage.getItem("access_token");
     const getData = async () => {
       // let access_token = ReactSession.get("access_token");
-      
-      
+
+
       let res = await getJobById(job_id, access_token);
       if (res) {
-        //  setUser(res.data.job);
+        //  setJob(res.data.job);
         console.log(res.data.job);
 
 
-        // const blocksFromHtml = htmlToDraft(user.jobDesc);
-        // const { contentBlocks, entityMap } = blocksFromHtml;
-        // const contentState = ContentState.createFromBlockArray(
-        //   contentBlocks,
-        //   entityMap
-        // );
-        // const editorState = EditorState.createWithContent(contentState);
         
-    
-        // setDescEditState(editorState);
-       
-        
-        //  setDescState(user.jobDesc)
-        //  setPerksState(user.perks)
-        //  setEligibleState(user.eligibility)
-        
-         await localStorage.setItem("postjob" , JSON.stringify(res.data.job))
-              await setUser(res.data.job);
-       
-      //  if(res.data.job){
-        
-      //  }
+
+
+        //  setDescState(job.jobDesc)
+        //  setPerksState(job.perks)
+        //  setEligibleState(job.eligibility)
+
+        await localStorage.setItem("postjob", JSON.stringify(res.data.job))
+        await setJob(res.data.job);
+        setState();
+        //  if(res.data.job){
+
+        //  }
 
       } else {
         console.log("no response")
       }
-      console.log(user)
+      console.log(job)
     }
     getData();
-  },[job_id]);
+    const setState = async() => {
+      
+      let data = JSON.parse(await localStorage.getItem("postjob"));
+      if (data) {
 
-  React.useEffect(()=>{
-    let data = JSON.parse(localStorage.getItem("postjob"));
-    if(data){
+        setJob(data);
+        setSkills(data.skills);
 
-      setUser(data);
-      setSkills(data.skills);
+if(data.eligibility){
+
+
+        const blocksFromHtml = htmlToDraft(data.eligibility);
+        const { contentBlocks, entityMap } = blocksFromHtml;
+        const contentState = ContentState.createFromBlockArray(
+          contentBlocks,
+          entityMap
+        );
+         const editorState = EditorState.createWithContent(contentState);
+        setEligibleState(editorState);
+
+
+        }
+
+        if(data.jobDesc){
+
+
+          const blocksFromHtml = htmlToDraft(data.jobDesc);
+          const { contentBlocks, entityMap } = blocksFromHtml;
+          const contentState = ContentState.createFromBlockArray(
+            contentBlocks,
+            entityMap
+          );
+           const editorState = EditorState.createWithContent(contentState);
+          setDescState(editorState);
+  
+  
+          }
+
+          if(data.perks){
+
+
+            const blocksFromHtml = htmlToDraft(data.perks);
+            const { contentBlocks, entityMap } = blocksFromHtml;
+            const contentState = ContentState.createFromBlockArray(
+              contentBlocks,
+              entityMap
+            );
+             const editorState = EditorState.createWithContent(contentState);
+            setPerksState(editorState);
+    
+    
+            }
+
+
+
+
+
+
+
+
+
+
+      }
     }
-  },[])
-  
+    
+  }, [job_id]);
 
-  
-  const title=require.jobTitle;
+
+
+
+
+  const title = require.jobTitle;
+
+
   const postJob = async (values) => {
     let access_token = localStorage.getItem("access_token");
-    let user = JSON.parse(localStorage.getItem("user"));
+    let jobs = JSON.parse(await localStorage.getItem("postjob"));
 
-    values.user_id = user._id;
+    
+    const job_id=localStorage.getItem("ids");
+    // values.user_id = job._id;
+    // values.job_id = job_id;
+
+   
     console.log(values);
-    let res = await updateJobAPI(values, access_token);
+    let res = await updateJobAPI(jobs, access_token);
     if (res) {
       setAlert(true);
     }
@@ -135,7 +192,7 @@ const UpdateJob = () => {
     }
 
     localStorage.removeItem("postjob");
-    setUser();
+    setJob();
     setSkills([]);
   };
 
@@ -144,7 +201,7 @@ const UpdateJob = () => {
 
     console.log(values)
 
-    //   setUser ({
+    //   setJob ({
 
     //     jobTitle : values.values.jobTitle ,
     //    hiringOrganization  : values.values.hiringOrganization ,
@@ -165,13 +222,13 @@ const UpdateJob = () => {
     job.validTill = values.values.validTill;
 
 
-    setUser(job);
+    setJob(job);
     console.log(job);
 
     localStorage.setItem("postjob", JSON.stringify(job));
     swal({
       icon: "success",
-      title: "EditProfile",
+      title: "Update Job",
       text: "Details Updated Succesfully",
       button: "Continue",
     });
@@ -179,18 +236,18 @@ const UpdateJob = () => {
   }
 
   //Perks Editor
-  const onPerksEditorStateChange = (state) =>{
+  const onPerksEditorStateChange = (state) => {
     setPerksState(state);
     convertPerksToHTML();
-   }
+  }
 
-   const convertPerksToHTML = async() => {
+  const convertPerksToHTML = async () => {
     let currentContentAsHTML = convertToHTML(perks.getCurrentContent());
     setConvertedPerks(currentContentAsHTML);
     // console.log(currentContentAsHTML)
-    const job =  JSON.parse(await localStorage.getItem("postjob"));
-    job.perks = currentContentAsHTML ; 
-    setUser(job);
+    const job = JSON.parse(await localStorage.getItem("postjob"));
+    job.perks = currentContentAsHTML;
+    setJob(job);
     console.log(job);
 
     localStorage.setItem("postjob", JSON.stringify(job));
@@ -200,19 +257,19 @@ const UpdateJob = () => {
 
   //description Editor
 
-   const onDescEditorStateChange = (state) =>{
+  const onDescEditorStateChange = (state) => {
     setDescState(state);
     convertDescToHTML();
-   }
+  }
 
-   const convertDescToHTML = async() => {
+  const convertDescToHTML = async () => {
     let currentContentAsHTML = convertToHTML(desc.getCurrentContent());
     setConvertedDesc(currentContentAsHTML);
     // console.log(currentContentAsHTML)
 
-    const job =  JSON.parse(await localStorage.getItem("postjob"));
-    job.jobDesc = currentContentAsHTML ; 
-    setUser(job);
+    const job = JSON.parse(await localStorage.getItem("postjob"));
+    job.jobDesc = currentContentAsHTML;
+    setJob(job);
     console.log(job);
 
     localStorage.setItem("postjob", JSON.stringify(job));
@@ -224,36 +281,36 @@ const UpdateJob = () => {
 
   const oneligibiltyStateChange = (state) => {
     setEligibleState(state);
-  
+
     convertElToHTML();
     // console.log(editorState);
- 
+
   }
 
-  const convertElToHTML = async() => {
+  const convertElToHTML = async () => {
     let currentContentAsHTML = convertToHTML(eligible.getCurrentContent());
     setConvertedEl(currentContentAsHTML);
     console.log(currentContentAsHTML)
 
-    const job =  JSON.parse(await localStorage.getItem("postjob"));
-    job.eligibility = currentContentAsHTML ; 
-    setUser(job);
+    const job = JSON.parse(await localStorage.getItem("postjob"));
+    job.eligibility = currentContentAsHTML;
+    setJob(job);
     console.log(job);
 
     localStorage.setItem("postjob", JSON.stringify(job));
-    
+
   }
 
 
   const saveEligible = async (content) => {
 
-    
 
-   
+
+
     localStorage.setItem("postjob", JSON.stringify(content));
     swal({
       icon: "success",
-      title: "EditProfile",
+      title: "Update Job",
       text: "Details Updated Succesfully",
       button: "Continue",
     });
@@ -264,45 +321,45 @@ const UpdateJob = () => {
     let job = await JSON.parse(localStorage.getItem("postjob"));
 
     job.salary = values.values.salary;
- 
+
 
 
 
     console.log(job);
 
-    setUser(job);
+    setJob(job);
     localStorage.setItem("postjob", JSON.stringify(job));
     swal({
       icon: "success",
-      title: "EditProfile",
+      title: "Update Job",
       text: "Details Updated Succesfully",
       button: "Continue",
     });
 
     // await postJob(job).then(() => {
     //   localStorage.removeItem("postjob");
-    //   setUser({});
+    //   setJob({});
     //   setSkills([]);
     //   swal({
     //     icon: "success",
-    //     title: "EditProfile",
+    //     title: "Update Job",
     //     text: "Details Updated Succesfully",
     //     button: "Continue",
     //   });
     // })
 
   }
-  
 
-  
+
+
   // const UpdateJob = async (values) => {
   //   let access_token = localStorage.getItem("access_token");
-    
 
-  //   let user = localStorage.getItem("user");
-    
+
+  //   let job = localStorage.getItem("job");
+
   //   const job_id=JSON.parse(localStorage.getItem("ids"))
-  //   values.user_id = user._id;
+  //   values.user_id = job._id;
   //   values.job_id = job_id;
 
 
@@ -509,86 +566,86 @@ const UpdateJob = () => {
         </Formik>
       </div> */}
 
-      {user ?  
+      {job ?
 
-<div className="Verticaltab mx-auto w-full">
+        <div className="Verticaltab mx-auto w-full">
 
-<Tabs>
-  <TabList>
-    <Tab>
-      <p>Home</p>
-    </Tab>
-    <Tab>
-      <p>Eligibilty</p>
-    </Tab>
-    <Tab>
-      <p>Salary</p>
-    </Tab>
-    {/* <Tab>
+          <Tabs>
+            <TabList>
+              <Tab>
+                <p>Home</p>
+              </Tab>
+              <Tab>
+                <p>Eligibilty</p>
+              </Tab>
+              <Tab>
+                <p>Salary</p>
+              </Tab>
+              {/* <Tab>
     <p>Title 4</p>
   </Tab>
   <Tab>
     <p>Title 5</p>
   </Tab> */}
-  </TabList>
+            </TabList>
 
 
-  <TabPanel>
-    <div className="panel-content">
-      <Formik
-        initialValues={{
-          jobTitle: user ? user.jobTitle : '',
-          // jobDesc: user.jobDesc ? user.jobDesc : '',
-          location: user ? user.location : '',
-          jobType: user ? user.jobType : '',
-          validTill: user ? user.validTill : '',
-          hiringOrganization: user ? user.hiringOrganization : '',
+            <TabPanel>
+              <div className="panel-content">
+                <Formik
+                  initialValues={{
+                    jobTitle: job ? job.jobTitle : '',
+                    // jobDesc: job.jobDesc ? job.jobDesc : '',
+                    location: job ? job.location : '',
+                    jobType: job ? job.jobType : '',
+                    validTill: job ? job.validTill : '',
+                    hiringOrganization: job ? job.hiringOrganization : '',
 
-        }}
-        validate={(values) => {
-          const errors = {};
-          if (!values.jobTitle || values.jobTitle.trim() === "") {
-            errors.jobTitle = "Required !";
-          }
-         
-          if (!values.location || values.location.trim() === "") {
-            errors.location = "Required !";
-          }
-          if (
-            !values.hiringOrganization ||
-            values.hiringOrganization.trim() === ""
-          ) {
-            errors.hiringOrganization = "Required !";
-          }
-          return errors;
-        }}
+                  }}
+                  validate={(values) => {
+                    const errors = {};
+                    if (!values.jobTitle || values.jobTitle.trim() === "") {
+                      errors.jobTitle = "Required !";
+                    }
 
-      >
-        {(values) => {
-          return (
-            <div className="w-full mt-9">
+                    if (!values.location || values.location.trim() === "") {
+                      errors.location = "Required !";
+                    }
+                    if (
+                      !values.hiringOrganization ||
+                      values.hiringOrganization.trim() === ""
+                    ) {
+                      errors.hiringOrganization = "Required !";
+                    }
+                    return errors;
+                  }}
 
-              <Form className="w-full mt-5">
-                <h1 style={{ color: `var(--primary)` }} className="text-xl border-b-[0.5px] pl-5  text-left px-5 border-gray-400 w-full font-bold text-gray-700">
-                  Job Details
-                </h1>
-                <div className="my-7 space-y-3 w-full">
-                  <label className="text-left w-3/4 mx-auto block">Job Title</label>
-                  <Field
-                    name="jobTitle"
-                    type="text"
-                    placeholder=""
-                    className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
-                  />
-                  <ErrorMessage
-                    name="jobTitle"
-                    component="div"
-                    className="text-red-600 text-sm w-full"
-                  />
-                </div>
-                <div className="my-7 space-y-3 w-full">
-                  <label className="text-left w-3/4 mx-auto block">Job Description</label>
-                  {/* <Field
+                >
+                  {(values) => {
+                    return (
+                      <div className="w-full mt-9">
+
+                        <Form className="w-full mt-5">
+                          <h1 style={{ color: `var(--primary)` }} className="text-xl border-b-[0.5px] pl-5  text-left px-5 border-gray-400 w-full font-bold text-gray-700">
+                            Job Details
+                          </h1>
+                          <div className="my-7 space-y-3 w-full">
+                            <label className="text-left w-3/4 mx-auto block">Job Title</label>
+                            <Field
+                              name="jobTitle"
+                              type="text"
+                              placeholder=""
+                              className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
+                            />
+                            <ErrorMessage
+                              name="jobTitle"
+                              component="div"
+                              className="text-red-600 text-sm w-full"
+                            />
+                          </div>
+                          <div className="my-7 space-y-3 w-full">
+                            <label className="text-left w-3/4 mx-auto block">Job Description</label>
+                            {/* <Field
                     name="jobDesc"
                     type="text"
                     placeholder=""
@@ -599,155 +656,155 @@ const UpdateJob = () => {
                     component="div"
                     className="text-red-600 text-sm w-full"
                   /> */}
-                  <Editor
-                     editorState={desc}
-                    toolbarClassName="toolbarClassName"
-                    wrapperClassName="wrapperClassName"
-                    editorClassName="editorClassName"
-                    wrapperStyle={{ width: "75%", margin: "0 auto", border: "1px solid black" }}
+                            <Editor
+                              editorState={desc}
+                              toolbarClassName="toolbarClassName"
+                              wrapperClassName="wrapperClassName"
+                              editorClassName="editorClassName"
+                              wrapperStyle={{ width: "75%", margin: "0 auto", border: "1px solid black" }}
 
-                   onEditorStateChange={onDescEditorStateChange}
-                  />
-                </div>
-                <div className="my-7 space-y-3 w-full">
-                  <label className="text-left w-3/4 mx-auto block">Job Location</label>
-                  <Field
-                    name="location"
-                    type="text"
-                    placeholder=""
-                    className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
-                  />
-                  <ErrorMessage
-                    name="location"
-                    component="div"
-                    className="text-red-600 text-sm w-full"
-                  />
-                </div>
-                <div className="my-7 space-y-3">
-                  <label className="text-left w-3/4 mx-auto block">Job Type:</label>
-                  <div
-                    role="group"
-                    aria-labelledby="my-radio-group"
-                    className="space-x-5 my-3"
-                  >
-                    <label>
-                      <Field
-                        type="radio"
-                        name="jobType"
-                        value="Full-Time"
-                        className="mr-2"
-                      />
-                      Full-Time
-                    </label>
-                    <label>
-                      <Field
-                        type="radio"
-                        name="jobType"
-                        value="Part-Time"
-                        className="mr-2"
-                      />
-                      Part-Time
-                    </label>
-                    <label>
-                      <Field
-                        type="radio"
-                        name="jobType"
-                        value="Internship"
-                        className="mr-2"
-                      />
-                      Internship
-                    </label>
-                    <label>
-                      <Field
-                        type="radio"
-                        name="jobType"
-                        value="Freelancing"
-                        className="mr-2"
-                      />
-                      Freelancing
-                    </label>
-                  </div>
-                </div>
-                <div className="my-7 space-y-3 w-full">
-                  <label className="text-left w-3/4 mx-auto block">
-                    Applications Open Till :{" "}
-                  </label>
-                  <Field
-                    name="validTill"
-                    type="date"
-                    placeholder=""
-                    className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
-                    min={Date.now()}
-                  />
-                </div>
-                <div className="my-7 space-y-3 w-full">
-                  <label className="text-left w-3/4 mx-auto block">Hiring Organization</label>
-                  <Field
-                    name="hiringOrganization"
-                    type="text"
-                    placeholder=""
-                    className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
-                  />
-                  <ErrorMessage
-                    name="hiringOrganization"
-                    component="div"
-                    className="text-red-600 text-sm w-full"
-                  />
-                </div>
+                              onEditorStateChange={onDescEditorStateChange}
+                            />
+                          </div>
+                          <div className="my-7 space-y-3 w-full">
+                            <label className="text-left w-3/4 mx-auto block">Job Location</label>
+                            <Field
+                              name="location"
+                              type="text"
+                              placeholder=""
+                              className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
+                            />
+                            <ErrorMessage
+                              name="location"
+                              component="div"
+                              className="text-red-600 text-sm w-full"
+                            />
+                          </div>
+                          <div className="my-7 space-y-3">
+                            <label className="text-left w-3/4 mx-auto block">Job Type:</label>
+                            <div
+                              role="group"
+                              aria-labelledby="my-radio-group"
+                              className="space-x-5 my-3"
+                            >
+                              <label>
+                                <Field
+                                  type="radio"
+                                  name="jobType"
+                                  value="Full-Time"
+                                  className="mr-2"
+                                />
+                                Full-Time
+                              </label>
+                              <label>
+                                <Field
+                                  type="radio"
+                                  name="jobType"
+                                  value="Part-Time"
+                                  className="mr-2"
+                                />
+                                Part-Time
+                              </label>
+                              <label>
+                                <Field
+                                  type="radio"
+                                  name="jobType"
+                                  value="Internship"
+                                  className="mr-2"
+                                />
+                                Internship
+                              </label>
+                              <label>
+                                <Field
+                                  type="radio"
+                                  name="jobType"
+                                  value="Freelancing"
+                                  className="mr-2"
+                                />
+                                Freelancing
+                              </label>
+                            </div>
+                          </div>
+                          <div className="my-7 space-y-3 w-full">
+                            <label className="text-left w-3/4 mx-auto block">
+                              Applications Open Till :{" "}
+                            </label>
+                            <Field
+                              name="validTill"
+                              type="date"
+                              placeholder=""
+                              className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
+                              min={Date.now()}
+                            />
+                          </div>
+                          <div className="my-7 space-y-3 w-full">
+                            <label className="text-left w-3/4 mx-auto block">Hiring Organization</label>
+                            <Field
+                              name="hiringOrganization"
+                              type="text"
+                              placeholder=""
+                              className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
+                            />
+                            <ErrorMessage
+                              name="hiringOrganization"
+                              component="div"
+                              className="text-red-600 text-sm w-full"
+                            />
+                          </div>
 
-                <button
-                  type="submit"
-                  class="bg-blue-500 my-7 px-5 py-3 hover:bg-blue-700 text-white font-bold rounded-lg" onClick={() => saveBasic(values)}
+                          <button
+                            type="submit"
+                            class="bg-blue-500 my-7 px-5 py-3 hover:bg-blue-700 text-white font-bold rounded-lg" onClick={() => saveBasic(values)}
+                          >
+                            Save
+                          </button>
+                        </Form>
+                      </div>
+                    )
+                  }}</Formik>
+              </div>
+            </TabPanel>
+            <TabPanel>
+              <div className="panel-content">
+                <Formik
+                  initialValues={{
+                    skills: job.skills ? job.skills : [],
+
+
+
+                  }}
+                // validate={(values) => {
+                //   const errors = {};
+                //   if (!values.jobTitle || values.jobTitle.trim() === "") {
+                //     errors.jobTitle = "Required !";
+                //   }
+                //   if (!values.jobDesc || values.jobDesc.trim() === "") {
+                //     errors.jobDesc = "Required !";
+                //   }
+                //   if (!values.location || values.location.trim() === "") {
+                //     errors.location = "Required !";
+                //   }
+                //   if (
+                //     !values.hiringOrganization ||
+                //     values.hiringOrganization.trim() === ""
+                //   ) {
+                //     errors.hiringOrganization = "Required !";
+                //   }
+                //   return errors;
+                // }}
+                // onSubmit={postJob}
                 >
-                  Save
-                </button>
-              </Form>
-            </div>
-          )
-        }}</Formik>
-    </div>
-  </TabPanel>
-  <TabPanel>
-    <div className="panel-content">
-      <Formik
-        initialValues={{
-          skills: user.skills ? user.skills : [],
+                  {(values) => {
+                    return (
+                      <div>
 
-
-
-        }}
-        // validate={(values) => {
-        //   const errors = {};
-        //   if (!values.jobTitle || values.jobTitle.trim() === "") {
-        //     errors.jobTitle = "Required !";
-        //   }
-        //   if (!values.jobDesc || values.jobDesc.trim() === "") {
-        //     errors.jobDesc = "Required !";
-        //   }
-        //   if (!values.location || values.location.trim() === "") {
-        //     errors.location = "Required !";
-        //   }
-        //   if (
-        //     !values.hiringOrganization ||
-        //     values.hiringOrganization.trim() === ""
-        //   ) {
-        //     errors.hiringOrganization = "Required !";
-        //   }
-        //   return errors;
-        // }}
-      // onSubmit={postJob}
-      >
-        {(values) => {
-          return (
-            <div>
-
-              <Form className="w-full mt-9 ">
-                <h1 style={{ color: `var(--primary)` }} className="text-xl border-b-[0.5px] pl-5  text-left px-5 border-gray-400 w-full font-bold ">
-                  Eligibilty
-                </h1>
-                <div className="mt-4">
-                  <label className="text-left w-3/4 mx-auto block">Minimum Eligibility</label>
-                  {/* <Field
+                        <Form className="w-full mt-9 ">
+                          <h1 style={{ color: `var(--primary)` }} className="text-xl border-b-[0.5px] pl-5  text-left px-5 border-gray-400 w-full font-bold ">
+                            Eligibilty
+                          </h1>
+                          <div className="mt-4">
+                            <label className="text-left w-3/4 mx-auto block">Minimum Eligibility</label>
+                            {/* <Field
                     name="eligibility"
                     type="textarea"
                     placeholder=""
@@ -759,229 +816,229 @@ const UpdateJob = () => {
                     className="text-red-600 text-sm w-full"
                   /> */}
 
-                  <Editor
-                     editorState={eligible}
-                    toolbarClassName="toolbarClassName"
-                    wrapperClassName="wrapperClassName"
-                    editorClassName="editorClassName"
-                    wrapperStyle={{ width: "75%", margin: "0 auto", border: "1px solid black" }}
+                            <Editor
+                              editorState={eligible}
+                              toolbarClassName="toolbarClassName"
+                              wrapperClassName="wrapperClassName"
+                              editorClassName="editorClassName"
+                              wrapperStyle={{ width: "75%", margin: "0 auto", border: "1px solid black" }}
 
-                   onEditorStateChange={oneligibiltyStateChange}
-                  />
-                  {/* <Editor
+                              onEditorStateChange={oneligibiltyStateChange}
+                            />
+                            {/* <Editor
                     editorState={editorState}
                     toolbarClassName="toolbarClassName"
                     wrapperClassName="wrapperClassName"
                     editorClassName="editorClassName"
                     onEditorStateChange={this.onEditorStateChange}
                   />; */}
-                </div>
-                <div className="my-7 space-y-3 w-full block">
-                  <label className="text-left w-3/4 mx-auto block">Skills</label>
-                  <input
-                    className="w-3/4 text-600 my-3 block mx-auto"
-                    style={{ borderRadius: "10px" }}
-                    type="text"
-                    ref={inputRef}
-                    onChange={() => {
-                      if (inputRef.current) {
-                        const res = skills.findIndex((el) => {
-                          return (
-                            el.toLowerCase() === inputRef.current.value.toLowerCase()
-                          );
-                        });
-                        if (res !== -1) {
-                          setDisabled(true);
-                          setError("Already added");
-                        } else {
-                          setDisabled(false);
-                          setError(null);
-                        }
-                      }
-                    }}
-                    onKeyDown={async (e) => {
-                      if (e.key === "Enter" && disabled === false) {
-                        if (inputRef.current) {
-                          if (inputRef.current.value !== "") {
-                            let t = skills;
-                            await setSkills([...skills, inputRef.current.value]);
-                            t.push(inputRef.current.value);
-                            console.log(t);
-                            inputRef.current.value = "";
-                            let res = await localStorage.getItem("postjob");
-                            res = JSON.parse(res);
-                            res.skills = t;
-                            await localStorage.setItem(
-                              "postjob",
-                              JSON.stringify(res)
-                            );
-                            setError(null);
-                          }
-                        }
-                      }
-                    }}
-                  />
-                  <button
-                    type="button"
-                    className="bg-blue-600 rounded-sm text-white  py-2 px-3"
-                    disabled={disabled}
-                    onClick={async () => {
-                      if (inputRef.current && inputRef.current.value !== "") {
-                        let t = skills;
-                        await setSkills([...skills, inputRef.current.value]);
-                        t.push(inputRef.current.value);
-                        inputRef.current.value = "";
-                        let res = await localStorage.getItem("postjob");
-                        res = JSON.parse(res);
-                        res.skills = t;
-                        await localStorage.setItem(
-                          "postjob",
-                          JSON.stringify(res)
-                        );
-                        setError(null);
-                      }
-                    }}
-                  >
-                    Add
-                  </button>
-
-                  <div className="flex flex-wrap mx-5">
-                    {skills &&
-                      skills.map((item, index) => {
-                        return (
-                          <div
-                            key={index}
-                            className="bg-gray-400 mr-3 my-2 text-black py-1 px-2 flex items-center space-x-3"
-                          >
-                            <p>{item}</p>
-                            <p
-                              className="cursor-pointer"
+                          </div>
+                          <div className="my-7 space-y-3 w-full block">
+                            <label className="text-left w-3/4 mx-auto block">Skills</label>
+                            <input
+                              className="w-3/4 text-600 my-3 block mx-auto"
+                              style={{ borderRadius: "10px" }}
+                              type="text"
+                              ref={inputRef}
+                              onChange={() => {
+                                if (inputRef.current) {
+                                  const res = skills.findIndex((el) => {
+                                    return (
+                                      el.toLowerCase() === inputRef.current.value.toLowerCase()
+                                    );
+                                  });
+                                  if (res !== -1) {
+                                    setDisabled(true);
+                                    setError("Already added");
+                                  } else {
+                                    setDisabled(false);
+                                    setError(null);
+                                  }
+                                }
+                              }}
+                              onKeyDown={async (e) => {
+                                if (e.key === "Enter" && disabled === false) {
+                                  if (inputRef.current) {
+                                    if (inputRef.current.value !== "") {
+                                      let t = skills;
+                                      await setSkills([...skills, inputRef.current.value]);
+                                      t.push(inputRef.current.value);
+                                      console.log(t);
+                                      inputRef.current.value = "";
+                                      let res = await localStorage.getItem("postjob");
+                                      res = JSON.parse(res);
+                                      res.skills = t;
+                                      await localStorage.setItem(
+                                        "postjob",
+                                        JSON.stringify(res)
+                                      );
+                                      setError(null);
+                                    }
+                                  }
+                                }
+                              }}
+                            />
+                            <button
+                              type="button"
+                              className="bg-blue-600 rounded-sm text-white  py-2 px-3"
+                              disabled={disabled}
                               onClick={async () => {
-                                const res1 = skills.filter((el) => {
-                                  return el !== item;
-                                });
-                                let res = await localStorage.getItem("postjob");
-                                res = JSON.parse(res);
-                                res.skills = res1;
-                                await localStorage.setItem(
-                                  "postjob",
-                                  JSON.stringify(res)
-                                );
-                                setSkills(res1);
+                                if (inputRef.current && inputRef.current.value !== "") {
+                                  let t = skills;
+                                  await setSkills([...skills, inputRef.current.value]);
+                                  t.push(inputRef.current.value);
+                                  inputRef.current.value = "";
+                                  let res = await localStorage.getItem("postjob");
+                                  res = JSON.parse(res);
+                                  res.skills = t;
+                                  await localStorage.setItem(
+                                    "postjob",
+                                    JSON.stringify(res)
+                                  );
+                                  setError(null);
+                                }
                               }}
                             >
-                              <AiOutlineClose />
-                            </p>
+                              Add
+                            </button>
+
+                            <div className="flex flex-wrap mx-5">
+                              {skills &&
+                                skills.map((item, index) => {
+                                  return (
+                                    <div
+                                      key={index}
+                                      className="bg-gray-400 mr-3 my-2 text-black py-1 px-2 flex items-center space-x-3"
+                                    >
+                                      <p>{item}</p>
+                                      <p
+                                        className="cursor-pointer"
+                                        onClick={async () => {
+                                          const res1 = skills.filter((el) => {
+                                            return el !== item;
+                                          });
+                                          let res = await localStorage.getItem("postjob");
+                                          res = JSON.parse(res);
+                                          res.skills = res1;
+                                          await localStorage.setItem(
+                                            "postjob",
+                                            JSON.stringify(res)
+                                          );
+                                          setSkills(res1);
+                                        }}
+                                      >
+                                        <AiOutlineClose />
+                                      </p>
+                                    </div>
+                                  );
+                                })}
+                            </div>
                           </div>
-                        );
-                      })}
-                  </div>
-                </div>
 
-                <button
-                  type="submit"
-                  class="bg-blue-500 my-7 mx-2 px-5 py-3 hover:bg-blue-700 text-white font-bold rounded-lg"
-                  onClick={() => saveEligible(user)}
+                          <button
+                            type="submit"
+                            class="bg-blue-500 my-7 mx-2 px-5 py-3 hover:bg-blue-700 text-white font-bold rounded-lg"
+                            onClick={() => saveEligible(job)}
+                          >
+                            Save
+                          </button>
+                        </Form>
+                      </div>
+                    )
+                  }}
+                </Formik>
+              </div>
+
+            </TabPanel>
+            <TabPanel>
+              <div className="panel-content">
+                <Formik
+                  initialValues={{
+                    salary: job.salary ? job.salary : '',
+                    // perks: job.perks ? job.perks : '',
+
+                  }}
+                  validate={(values) => {
+                    const errors = {};
+                    if (!values.salary) {
+                      errors.salary = "Required !";
+                    }
+
+
+                    return errors;
+                  }}
+                // onSubmit={postJob}
                 >
-                  Save
-                </button>
-              </Form>
-            </div>
-          )
-        }}
-      </Formik>
-    </div>
+                  {(values) => {
+                    return (
+                      <div>
 
-  </TabPanel>
-  <TabPanel>
-    <div className="panel-content">
-      <Formik
-        initialValues={{
-          salary: user.salary ? user.salary : '',
-          perks: user.perks ? user.perks : '',
+                        <Form className="w-full mt-9">
+                          <h1 style={{ color: `var(--primary)` }} className="text-xl border-b-[0.5px] px-3  text-left border-gray-400 w-full font-bold text-gray-700">
+                            Salary and Perks
+                          </h1>
+                          <div className="my-7 mt-9 space-y-3 w-full">
+                            <label className="text-left w-3/4 mx-auto block">
+                              Salary
+                            </label>
+                            <Field
+                              name="salary"
+                              type="text"
+                              placeholder=""
+                              className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
 
-        }}
-        validate={(values) => {
-          const errors = {};
-          if (!values.salary || values.salary.trim() === "") {
-            errors.salary = "Required !";
-          }
-         
+                            />
+                          </div>
 
-          return errors;
-        }}
-      // onSubmit={postJob}
-      >
-        {(values) => {
-          return (
-            <div>
-
-              <Form className="w-full mt-9">
-                <h1 style={{ color: `var(--primary)` }} className="text-xl border-b-[0.5px] px-3  text-left border-gray-400 w-full font-bold text-gray-700">
-                  Salary and Perks
-                </h1>
-                <div className="my-7 mt-9 space-y-3 w-full">
-                  <label className="text-left w-3/4 mx-auto block">
-                    Salary
-                  </label>
-                  <Field
-                    name="salary"
-                    type="text"
-                    placeholder=""
-                    className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
-
-                  />
-                </div>
-
-                <div className="my-5 space-y-3 w-full">
-                  <label className="text-left w-3/4 mx-auto block">
-                    Perks
-                  </label>
-                  {/* <Field
+                          <div className="my-5 space-y-3 w-full">
+                            <label className="text-left w-3/4 mx-auto block">
+                              Perks
+                            </label>
+                            {/* <Field
                     name="perks"
                     type="text"
                     placeholder=""
                     className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
 
                   /> */}
-                     <Editor
-                     editorState={perks}
-                    toolbarClassName="toolbarClassName"
-                    wrapperClassName="wrapperClassName"
-                    editorClassName="editorClassName"
-                    wrapperStyle={{ width: "75%",margin:"0 auto", border: "1px solid black" }}
+                            <Editor
+                              editorState={perks}
+                              toolbarClassName="toolbarClassName"
+                              wrapperClassName="wrapperClassName"
+                              editorClassName="editorClassName"
+                              wrapperStyle={{ width: "75%", margin: "0 auto", border: "1px solid black" }}
 
-                     onEditorStateChange={onPerksEditorStateChange}
-                  />
-                </div>
-                <button
+                              onEditorStateChange={onPerksEditorStateChange}
+                            />
+                          </div>
+                          <button
 
-                  class="bg-blue-500 my-5 px-5 py-3 my-5 mx-4 hover:bg-blue-700 text-white font-bold rounded-lg"
-                  onClick={() => saveSalary(values)}
-                >
-                  Save
-                </button>
-                <button
+                            class="bg-blue-500 my-5 px-5 py-3 my-5 mx-4 hover:bg-blue-700 text-white font-bold rounded-lg"
+                            onClick={() => saveSalary(values)}
+                          >
+                            Save
+                          </button>
+                          <button
 
-                  class="bg-blue-500 my-5 px-5 py-3 my-5 mx-4 hover:bg-blue-700 text-white font-bold rounded-lg"
-                  onClick={() => postJob(user)}
-                >
-                  Submit
-                </button>
-              </Form>
-            </div>
-          )
-        }}
-      </Formik>
-    </div>
-  </TabPanel>
+                            class="bg-blue-500 my-5 px-5 py-3 my-5 mx-4 hover:bg-blue-700 text-white font-bold rounded-lg"
+                            onClick={()=>postJob(job)}
+                          >
+                            Submit
+                          </button>
+                        </Form>
+                      </div>
+                    )
+                  }}
+                </Formik>
+              </div>
+            </TabPanel>
 
 
 
-</Tabs>
-</div>
+          </Tabs>
+        </div>
 
-: <p>Loading</p>}
+        : <p>Loading</p>}
     </div>
   );
 };

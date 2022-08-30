@@ -2,7 +2,7 @@ import React from "react";
 
 // Components
 import Card from "../../Components/Dashbaord/Cards";
-import SessionCard from "../../Components/Dashbaord/sessions";
+import SessionCard from "../../Components/CompanyDashboard/sessions";
 
 // Assets
 import VideoCall from "../../assets/images/Call.svg";
@@ -49,7 +49,7 @@ const Panel = () => {
                 <div className="w-1/2 bg-orange-200 p-3 space-y-3">
                   <div className="flex items-center">
                     <p className="text-md font-bold text-gray-700">
-                      Mins of interview
+                      Credits Bought
                     </p>
                     <BsThreeDots className="text-orange-400 ml-auto text-lg" />
                   </div>
@@ -61,7 +61,7 @@ const Panel = () => {
                         className="md:h-20  -z-10 md:w-32 h-8 w-full"
                       />
                       <p className="text-gray-800 text-lg font-bold ">
-                        18 Hrs
+                       12k
                       </p>
                       <p className="text-xs">This Month</p>
                     </div>
@@ -70,7 +70,7 @@ const Panel = () => {
                 <div className="w-1/2 p-3 space-y-3" style={{ backgroundColor: "#B4C6F0" }}>
                   <div className="flex items-center">
                     <p className="text-md font-bold text-gray-700">
-                      Credit Earned
+                      Current Balance
                     </p>
                     <BsThreeDots className="text-blue-400 ml-auto text-lg" />
                   </div>
@@ -97,7 +97,7 @@ const Panel = () => {
           <div className="flex w-3/5 md:space-x-4 space-x-4 flex-wrap justify-center">
             <div className="rounded-sm shadow-lg py-12 space-y-3 bg-purple-200 text-center px-10 my-3">
               <p className="text-md font-bold text-gray-700">
-                Give Mock Interview
+                Post a Job
               </p>
               <img
                 src={VideoCall}
@@ -105,16 +105,16 @@ const Panel = () => {
                 className="md:h-32 md:w-32 h-16 w-16 mx-auto"
               />
               <button className="bg-purple-600 rounded-md px-3 text-white text-sm hover:bg-purple-700 py-2">
-                Give Interview
+                view
               </button>
             </div>
             <div className="rounded-sm shadow-lg py-12 space-y-3 bg-blue-200 text-center px-10  my-3">
               <p className="text-md font-bold text-gray-700">
-                How to Earn Credit
+                Buy Credits
               </p>
               <img src={Board} alt="Board" className="md:h-32 md:w-32 h-16 w-16 mx-auto" />
               <button className="bg-blue-600 rounded-md px-3 text-white text-sm hover:bg-blue-700 py-2">
-                Earn Credit
+                View
               </button>
             </div>
             <div className="rounded-sm shadow-lg py-12 space-y-3 bg-orange-200 text-center px-10  my-3">
