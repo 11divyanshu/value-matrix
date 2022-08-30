@@ -454,3 +454,14 @@ export const sovrenResumeParser = async (data) => {
     console.log("Error : ", err);
   }
 };
+
+// Send Job Invitations
+export const sendJobInvitations = async (data, token) => {
+  try{
+    return await axios.post(`${url}/sendJobInvitation`, data, {
+      headers: { authorization: token },
+    });
+  }catch(err){
+    console.log("Error : ", err);
+  }
+}

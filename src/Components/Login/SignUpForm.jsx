@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import ReCAPTCHA from "react-google-recaptcha";
 import wildcards from "disposable-email-domains/wildcard.json";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 // Assets
 import Microsoft from "../../assets/images/Social/microsoft.svg";
 import Google from "../../assets/images/Social/google.svg";
@@ -56,8 +56,6 @@ const SignupForm = () => {
 
   const [smsLoad, setSmsLoading] = React.useState(false);
   const [verifySms, setverifySms] = React.useState(false);
-
-
 
   const captchaRef = React.useRef();
 
@@ -114,7 +112,6 @@ const SignupForm = () => {
   // };
 
   const sendEmailOTP = async (values) => {
-
     if (values.user_type === "Company") {
       if (validateCompanyEmail(values.email) === false) {
         // setSignupError("Enter Company Email !");
@@ -123,7 +120,7 @@ const SignupForm = () => {
           text: "Enter Company Email !",
           icon: "error",
           button: false,
-        })
+        });
         return;
       }
     }
@@ -134,7 +131,7 @@ const SignupForm = () => {
         text: "Invalid Email Address",
         icon: "error",
         button: false,
-      })
+      });
       return;
     }
     setSignupError(null);
@@ -147,7 +144,7 @@ const SignupForm = () => {
         text: "Username and Email Already Registered",
         icon: "error",
         button: false,
-      })
+      });
     }
 
     if (check.data.email) {
@@ -157,7 +154,7 @@ const SignupForm = () => {
         text: "Email Already Registered",
         icon: "error",
         button: false,
-      })
+      });
     }
 
     if (check.data.username) {
@@ -167,16 +164,15 @@ const SignupForm = () => {
         text: "Username Already Registered",
         icon: "error",
         button: false,
-      })
+      });
     }
     if (check.data.username || check.data.email) {
       setLoading(false);
       return;
     }
-    console.log(values.mail)
+    console.log(values.mail);
 
     let res2 = await OTPMail({ mail: values.email });
-
 
     if (res2) {
       setEmailOTP(res2);
@@ -184,11 +180,9 @@ const SignupForm = () => {
       console.log("Error");
     }
 
-
-
     // setOTP(true);
     // setLoading(false);
-  }
+  };
 
   const verifyEmailOTP = async (values) => {
     if (parseInt(values.EmailOTP) === parseInt(EmailOTP)) {
@@ -199,7 +193,7 @@ const SignupForm = () => {
         text: "OTP Verified!",
         icon: "success",
         button: false,
-      })
+      });
     } else {
       // setEmailOTPError(true);
       swal({
@@ -207,13 +201,12 @@ const SignupForm = () => {
         text: "Invalid OTP!",
         icon: "error",
         button: false,
-      })
-
+      });
     }
     if (verifyEmail && verifySms) {
       setOTP(true);
     }
-  }
+  };
 
   const sendSmsOTP = async (values) => {
     if (values.user_type === "Company") {
@@ -224,7 +217,7 @@ const SignupForm = () => {
           text: "Enter Company Email !",
           icon: "error",
           button: false,
-        })
+        });
         return;
       }
     }
@@ -242,7 +235,7 @@ const SignupForm = () => {
         text: "Username and Contact Already Registered",
         icon: "error",
         button: false,
-      })
+      });
     }
 
     if (check.data.contact) {
@@ -252,7 +245,7 @@ const SignupForm = () => {
         text: " Contact Already Registered",
         icon: "error",
         button: false,
-      })
+      });
     }
     if (check.data.username) {
       // setSignupError("Username Already Registered");
@@ -261,7 +254,7 @@ const SignupForm = () => {
         text: "Username Already Registered",
         icon: "error",
         button: false,
-      })
+      });
     }
     if (check.data.username || check.data.contact) {
       setLoading(false);
@@ -272,13 +265,11 @@ const SignupForm = () => {
 
     if (res1) {
       setSMSOTP(res1);
-    }
-    else if (!res1) {
+    } else if (!res1) {
       console.log("Error");
     }
     setSmsLoading(false);
-  }
-
+  };
 
   const verifySmsOTP = async (values) => {
     if (parseInt(values.SmsOTP) === parseInt(SmsOTP)) {
@@ -289,7 +280,7 @@ const SignupForm = () => {
         text: "OTP Verified!",
         icon: "success",
         button: false,
-      })
+      });
     } else {
       // setSmsOTPError(true);
       swal({
@@ -297,15 +288,14 @@ const SignupForm = () => {
         text: "Invalid OTP!",
         icon: "error",
         button: false,
-      })
+      });
     }
     if (verifyEmail && verifySms) {
       setOTP(true);
     }
-  }
+  };
 
   const signup = async (values) => {
-   
     if (!verifyEmail) {
       // setEmailError(true)
       swal({
@@ -313,8 +303,8 @@ const SignupForm = () => {
         text: "Invalid OTP!",
         icon: "error",
         button: false,
-      })
-      return
+      });
+      return;
     }
     if (!verifySms) {
       // setSmsError(true)
@@ -323,8 +313,8 @@ const SignupForm = () => {
         text: "Invalid OTP!",
         icon: "error",
         button: false,
-      })
-      return
+      });
+      return;
     }
 
     if (
@@ -334,7 +324,7 @@ const SignupForm = () => {
       if (captcha === false) {
         console.log("show Captcha");
         setShowCaptcha(true);
-      } else if(captcha){
+      } else if (captcha) {
         let res = await authenticateSignUp(values);
         setSmsOTPError(false);
         setEmailOTPError(false);
@@ -343,28 +333,26 @@ const SignupForm = () => {
         await localStorage.setItem("access_token", res.data.access_token);
         await localStorage.setItem("user", JSON.stringify(res.data.user));
 
-
         if (res && !res.data.Error) {
           swal({
             title: "Sign Up",
             text: "Signup Successfull",
             icon: "success",
             button: "Continue",
-          }).then(()=>{
-
+          }).then(() => {
             let user = res.data.user;
             let access = res.data.access_token;
             if (user.user_type === "User")
               window.location.href = "/user/profile";
-              else if (user.user_type === "Company" || user.user_type === "Company_User")
+            else if (
+              user.user_type === "Company" ||
+              user.user_type === "Company_User"
+            )
               window.location.href = "/company/profile";
             else if (user.user_type === "XI")
               window.location.href = "/XI/?a=" + access;
-            else if (user.isAdmin)
-              window.location.href = "/admin/?a=" + access;
-
-          })
-         
+            else if (user.isAdmin) window.location.href = "/admin/?a=" + access;
+          });
         } else if (res) {
           setSignupError(res.data.Error);
           setOTP(null);
@@ -381,17 +369,23 @@ const SignupForm = () => {
       setSmsOTPError(true);
     } else {
       setEmailOTPError(true);
-
     }
   };
 
   return (
     <div className="px-7 pt-5  lg:p-9 ">
-      <span style={{ fontWeight: 700 }} className="text-3xl font-bold flex ">Value <p className="px-2" style={{ color: '#3667E9' }}>Matrix</p></span>
+      <span style={{ fontWeight: 700 }} className="text-3xl font-bold flex ">
+        Value{" "}
+        <p className="px-2" style={{ color: "#3667E9" }}>
+          Matrix
+        </p>
+      </span>
       <br></br>
       <div className="p-4 lg:p-12 pt-5  pb-2 px-7">
         {/* <p className="text-xl font-bold">OPs/Admin Signup</p> */}
-        <p className="text-lg mb-4" style={{ fontWeight: 700 }}>Create New Account </p>
+        <p className="text-lg mb-4" style={{ fontWeight: 700 }}>
+          Create New Account{" "}
+        </p>
 
         <Formik
           initialValues={{
@@ -436,7 +430,6 @@ const SignupForm = () => {
             return errors;
           }}
           onSubmit={(values) => {
-            
             // if (OTP) {
             signup(values);
             // }
@@ -449,153 +442,179 @@ const SignupForm = () => {
           {({ values, isSubmitting }) => (
             <Form className="space-y-3 py-1">
               <div className="my-2">
-              <Field
-                type="text"
-                name="name"
-                placeholder="Full Name"
-                className="w-full"
-                disabled={OTP !== null}
-                style={{ borderRadius: "12px" }}
-
-              />
-              <ErrorMessage
-                name="name"
-                component="div"
-                className="text-sm text-red-600"
-              />
+                <Field
+                  type="text"
+                  name="name"
+                  placeholder="Full Name"
+                  className="w-full"
+                  disabled={OTP !== null}
+                  style={{ borderRadius: "12px" }}
+                />
+                <ErrorMessage
+                  name="name"
+                  component="div"
+                  className="text-sm text-red-600"
+                />
               </div>
               <div className="my-2">
-              <Field
-                type="text"
-                name="username"
-                placeholder="Username"
-                className="w-full"
-                disabled={OTP !== null}
-                style={{ borderRadius: "12px" }}
-
-              />
-              <ErrorMessage
-                name="username"
-                component="div"
-                className="text-sm text-red-600"
-              />
-</div>
-<div className="my-1">
-              <label>Register As : </label>
-              <Field as="select" name="user_type" style={{ borderRadius: "12px" }}>
-                <option value="User">Candidate</option>
-                <option value="Company">Company</option>
-                <option value="XI">XI</option>
-              </Field>
+                <Field
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                  className="w-full"
+                  disabled={OTP !== null}
+                  style={{ borderRadius: "12px" }}
+                />
+                <ErrorMessage
+                  name="username"
+                  component="div"
+                  className="text-sm text-red-600"
+                />
               </div>
               <div className="my-1">
-              <Field
-                type="text"
-                name="email"
-                disabled={verifyEmail}
-                placeholder="Email"
-                className="w-full"
-                style={{ borderRadius: "12px" }}
-
-              />
-
-              <ErrorMessage
-                name="email"
-                component="div"
-                className="text-sm text-red-600"
-              />
-              {EmailOTP && !verifyEmail && (
+                <label>Register As : </label>
                 <Field
-                  type="number"
-                  name="EmailOTP"
-                  refs={OTPField}
-                  placeholder="Email OTP"
-                  className="w-full"
-                  style={{ borderRadius: "12px" , marginTop:"10px"}}
-                   
-                />
-              )}
-              {EmailOTP && EmailOTPError && (
-                <p className="text-sm text-red-600">Invalid Email OTP !</p>
-              )}
-              {EmailError && <p className="text-sm text-red-600">Email Not Verified !</p>
-              }
-
-              <div className="d-flex w-full justify-content-between">
-                {!verifyEmail &&
-
-                  <button type="button"
-                    className="bg-blue-600 text-white my-2 py-2 rounded-lg hover:bg-blue-700 text-center w-1/4 cursor-pointer"
-
-                    style={{ backgroundColor: "#3B82F6" }}
-                    onClick={() => sendEmailOTP(values)}> {EmailOTP ? "Resend OTP" : "Send OTP"}
-                  </button>}
-
-                {EmailOTP && !verifyEmail && <button type="button"
-                  className="bg-blue-600 text-white mx-3 py-2 rounded-md hover:bg-blue-700 text-center w-1/4 cursor-pointer"
-
-                  style={{ backgroundColor: "#3B82F6" }}
-                  onClick={() => verifyEmailOTP(values)}> Verify OTP</button>
-                }
-
-                {EmailOTP && verifyEmail && <p className="p-2" style={{ fontWeight: 600, color: "green" }}>Email Verified</p>}
-
+                  as="select"
+                  name="user_type"
+                  style={{ borderRadius: "12px" }}
+                >
+                  <option value="User">Candidate</option>
+                  <option value="Company">Company</option>
+                  <option value="XI">XI</option>
+                </Field>
               </div>
-
-</div>
-<div className="my-1">
-              <Field
-                type="text"
-                name="contact"
-                disabled={verifySms}
-                placeholder="Contact Number"
-                className="w-full"
-                style={{ borderRadius: "12px" }}
-
-              />
-              <ErrorMessage
-                name="contact"
-                component="div"
-                className="text-sm text-red-600"
-              />
-              {SmsOTP && !verifySms && (
+              <div className="my-1">
                 <Field
-                  type="number"
-                  name="SmsOTP"
-                  // refs={OTPField}
-                  placeholder="Contact OTP"
+                  type="text"
+                  name="email"
+                  disabled={verifyEmail}
+                  placeholder="Email"
                   className="w-full"
-                  style={{ borderRadius: "12px" , marginTop:"10px"}}
-
-                // disabled={verifySms}
+                  style={{ borderRadius: "12px" }}
                 />
-              )}
-              {SmsOTP && SmsOTPError && (
-                <p className="text-sm text-red-600">Invalid SMS OTP !</p>
-              )}
-              {SmsError &&
-                <p className="text-sm text-red-600">Contact Not Verified !</p>
-              }
 
-              <div className="d-flex w-full justify-content-between">
-                {!verifySms &&
-                  <button type="button"
-                    className="bg-blue-600 text-white my-2 py-2 rounded-lg hover:bg-blue-700 text-center w-1/4 cursor-pointer"
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className="text-sm text-red-600"
+                />
+                {EmailOTP && !verifyEmail && (
+                  <Field
+                    type="number"
+                    name="EmailOTP"
+                    refs={OTPField}
+                    placeholder="Email OTP"
+                    className="w-full"
+                    style={{ borderRadius: "12px", marginTop: "10px" }}
+                  />
+                )}
+                {EmailOTP && EmailOTPError && (
+                  <p className="text-sm text-red-600">Invalid Email OTP !</p>
+                )}
+                {EmailError && (
+                  <p className="text-sm text-red-600">Email Not Verified !</p>
+                )}
 
-                    style={{ backgroundColor: "#3B82F6" }}
-                    onClick={() => sendSmsOTP(values)}> {SmsOTP ? "Resend OTP" : "Send OTP"}
-                  </button>
-                }
+                <div className="d-flex w-full justify-content-between">
+                  {!verifyEmail && (
+                    <button
+                      type="button"
+                      className="bg-blue-600 text-white my-2 py-2 rounded-lg hover:bg-blue-700 text-center w-1/4 cursor-pointer"
+                      style={{ backgroundColor: "#3B82F6" }}
+                      onClick={() => sendEmailOTP(values)}
+                    >
+                      {" "}
+                      {EmailOTP ? "Resend OTP" : "Send OTP"}
+                    </button>
+                  )}
 
+                  {EmailOTP && !verifyEmail && (
+                    <button
+                      type="button"
+                      className="bg-blue-600 text-white mx-3 py-2 rounded-md hover:bg-blue-700 text-center w-1/4 cursor-pointer"
+                      style={{ backgroundColor: "#3B82F6" }}
+                      onClick={() => verifyEmailOTP(values)}
+                    >
+                      {" "}
+                      Verify OTP
+                    </button>
+                  )}
 
-                {SmsOTP && !verifySms && <button type="button"
-                  className="bg-blue-600 text-white mx-3 py-2 rounded-lg hover:bg-blue-700 text-center w-1/4 cursor-pointer"
-
-                  style={{ backgroundColor: "#3B82F6" }}
-                  onClick={() => verifySmsOTP(values)}>Verify OTP</button>}
-                {SmsOTP && verifySms && <p className="p-2" style={{ fontWeight: 600, color: "green" }}>Contact Verified</p>}
-
+                  {EmailOTP && verifyEmail && (
+                    <p
+                      className="p-2"
+                      style={{ fontWeight: 600, color: "green" }}
+                    >
+                      Email Verified
+                    </p>
+                  )}
+                </div>
               </div>
+              <div className="my-1">
+                <Field
+                  type="text"
+                  name="contact"
+                  disabled={verifySms}
+                  placeholder="Contact Number"
+                  className="w-full"
+                  style={{ borderRadius: "12px" }}
+                />
+                <ErrorMessage
+                  name="contact"
+                  component="div"
+                  className="text-sm text-red-600"
+                />
+                {SmsOTP && !verifySms && (
+                  <Field
+                    type="number"
+                    name="SmsOTP"
+                    // refs={OTPField}
+                    placeholder="Contact OTP"
+                    className="w-full"
+                    style={{ borderRadius: "12px", marginTop: "10px" }}
+
+                    // disabled={verifySms}
+                  />
+                )}
+                {SmsOTP && SmsOTPError && (
+                  <p className="text-sm text-red-600">Invalid SMS OTP !</p>
+                )}
+                {SmsError && (
+                  <p className="text-sm text-red-600">Contact Not Verified !</p>
+                )}
+
+                <div className="d-flex w-full justify-content-between">
+                  {!verifySms && (
+                    <button
+                      type="button"
+                      className="bg-blue-600 text-white my-2 py-2 rounded-lg hover:bg-blue-700 text-center w-1/4 cursor-pointer"
+                      style={{ backgroundColor: "#3B82F6" }}
+                      onClick={() => sendSmsOTP(values)}
+                    >
+                      {" "}
+                      {SmsOTP ? "Resend OTP" : "Send OTP"}
+                    </button>
+                  )}
+
+                  {SmsOTP && !verifySms && (
+                    <button
+                      type="button"
+                      className="bg-blue-600 text-white mx-3 py-2 rounded-lg hover:bg-blue-700 text-center w-1/4 cursor-pointer"
+                      style={{ backgroundColor: "#3B82F6" }}
+                      onClick={() => verifySmsOTP(values)}
+                    >
+                      Verify OTP
+                    </button>
+                  )}
+                  {SmsOTP && verifySms && (
+                    <p
+                      className="p-2"
+                      style={{ fontWeight: 600, color: "green" }}
+                    >
+                      Contact Verified
+                    </p>
+                  )}
+                </div>
               </div>
               <Field
                 type="password"
@@ -604,14 +623,12 @@ const SignupForm = () => {
                 placeholder="Password"
                 className="w-full"
                 style={{ borderRadius: "12px" }}
-
               />
               <ErrorMessage
                 name="password"
                 component="div"
                 className="text-sm text-red-600"
               />
-
 
               {signupError && (
                 <p className="text-sm text-red-600">{signupError}</p>
@@ -635,30 +652,28 @@ const SignupForm = () => {
                   className="text-sm text-red-600 w-100"
                 />
               </div>
-             
-                <div>
-                  <div>
-                    <ReCAPTCHA
-                      sitekey="6LdanHEhAAAAALDqT2CqlzJvxdPDPUDYGkcceYd7"
-                      onChange={(values) => {
-                        setCaptcha(true);
-                      }}
-                      ref={captchaRef}
-                    />
-                  </div>
-                  {captchaError && (
-                    <p className="text-sm my-0 text-red-600">{captchaError}</p>
-                  )}
-                </div>
-              
 
+              <div>
+                <div>
+                  <ReCAPTCHA
+                    sitekey="6LdanHEhAAAAALDqT2CqlzJvxdPDPUDYGkcceYd7"
+                    onChange={(values) => {
+                      setCaptcha(true);
+                    }}
+                    ref={captchaRef}
+                  />
+                </div>
+                {captchaError && (
+                  <p className="text-sm my-0 text-red-600">{captchaError}</p>
+                )}
+              </div>
 
               {!loading && (
                 <button
                   className="bg-blue-600 px-8 py-2 text-white rounded-lg mx-auto block mt-4 hover:bg-blue-700 text-center w-1/2 cursor-pointer"
                   type="submit"
                   style={{ backgroundColor: "#3B82F6" }}
-                // disabled={OTP !== true}
+                  // disabled={OTP !== true}
                 >
                   {/* {OTP === null ? "Continue" : "Signup"} */}
                   SignUp
