@@ -64,7 +64,7 @@ const CompanyDashboard = () => {
         await localStorage.setItem("access_token", access_token);
         if (
           user.access_valid === false ||
-          (user.user_type !== "Company" && user.user_type !== "Company_User")
+          !(user.user_type !== "Company" || user.user_type !== "Company_User")
         )
           window.location.href = "/login";
         await setAccessToken(access_token);

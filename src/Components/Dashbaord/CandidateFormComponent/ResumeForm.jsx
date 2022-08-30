@@ -39,23 +39,25 @@ const ResumeForm = (props) => {
       var base64;
       // Onload of file read the file content
       let base64String = "";
-      fileReader.onload = function (fileLoadedEvent) {
+      fileReader.onload = async function (fileLoadedEvent) {
+        var modifiedDate = (new Date(fileLoadedEvent.lastModified)).toISOString().substring(0, 10);
+        // base64 = Base64.encodeArray(fileLoadedEvent.target.result);
         base64 = fileLoadedEvent.target.result;
         base64String = base64;
+        let resumeResponse = await sovrenResumeParser({
+          DocumentAsBase64String: base64,
+          SkillsSettings: {
+            Normalize: false,
+            TaxonomyVersion: "",
+          },
+          ProfessionsSettings: {
+            Normalize: false,
+          },
+          DocumentLastModified : modifiedDate,
+        });
+        console.log(resumeResponse);
       };
       await fileReader.readAsDataURL(e.target.files[0]);
-      let resumeResponse = await sovrenResumeParser({
-        DocumentAsBase64String: base64String,
-        SkillsSettings: {
-          Normalize: false,
-          TaxonomyVersion: "",
-        },
-        ProfessionsSettings: {
-          Normalize: false,
-        },
-        DocumentLastModified : e.target.files[0].lastModified
-      });
-      console.log(resumeResponse);
       setLoading(false);
       e.target.files = null;
     }

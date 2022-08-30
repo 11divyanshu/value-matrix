@@ -36,6 +36,9 @@ import AddCompanyUser from "./Pages/CompanyDashboard/AddCompanyUser";
 import AddSkills from "./Components/AdminDashboard/AddSkills";
 import AddAdminUser from "./Pages/AdminDashboard/AddAdminUser";
 
+// XI Pages
+import XIDashboard from "./Pages/XIDashboard/Dashboard";
+
 // SuperXIDashboard
 import SXIPanel from "./Pages/SuperXIDashboard/panel.jsx";
 import SXIUserProfile from "./Pages/SuperXIDashboard/UserProfile";
@@ -143,7 +146,7 @@ export const adminDashboardRoutes = [
     name: "Whatsapp Notifications",
     path: "/whatsappNotification",
     hide: true,
-    component: <WhatsappNotification/>,
+    component: <WhatsappNotification />,
   },
   {
     name: "One Signal Notification",
@@ -188,7 +191,7 @@ export const adminDashboardRoutes = [
     hide: false,
     component: <AddSkills />,
     icon: <FaToolbox className="text-xl" />,
-    permission:"add_skills"
+    permission: "add_skills",
   },
   {
     name: "Add Admin User",
@@ -196,7 +199,7 @@ export const adminDashboardRoutes = [
     hide: false,
     icon: <FaUserFriends className="text-xl" />,
     component: <AddAdminUser />,
-    permission: "add_users"
+    permission: "add_users",
   },
 ];
 
@@ -273,7 +276,7 @@ export const XIDashboardRoutes = [
     name: "Home",
     icon: <ImHome className="text-xl" />,
     path: "/",
-    component: <Panel />,
+    component: <XIDashboard />,
     hide: false,
   },
 ];
@@ -326,4 +329,3 @@ export const superXIDashboardRoutes = [
     component: <SXIJobDetails />,
   },
 ];
-

@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { Formik, Form, ErrorMessage, Field } from "formik";
-import { postJobAPI } from "../../service/api";
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import "../../assets/stylesheet/VerticalTabs.scss"
+import { postJobAPI, sendJobInvitations } from "../../service/api";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "../../assets/stylesheet/VerticalTabs.scss";
 import swal from "sweetalert";
 import { AiOutlineClose } from "react-icons/ai";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { convertToHTML } from 'draft-convert';
+import { convertToHTML } from "draft-convert";
 import { Link, useNavigate } from "react-router-dom";
 import { getUserFromId } from "../../service/api";
-
+import { RiEditBoxLine } from "react-icons/ri";
+import { AiOutlineDelete } from "react-icons/ai";
+import * as xlsx from "xlsx/xlsx.mjs";
 
 const AddJob = () => {
   const [Alert, setAlert] = React.useState(null);
@@ -20,16 +22,18 @@ const AddJob = () => {
 
   //Description
   const [desc, setDescState] = React.useState();
-  const  [convertedDesc, setConvertedDesc] = useState(null);
+  const [convertedDesc, setConvertedDesc] = useState(null);
 
-   //eligibility
-   const [eligible, setEligibleState] = React.useState();
-   const  [convertedEl, setConvertedEl] = useState(null);
+  //eligibility
+  const [eligible, setEligibleState] = React.useState();
+  const [convertedEl, setConvertedEl] = useState(null);
 
-      //Perks
-      const [perks, setPerksState] = React.useState();
-      const  [convertedPerks, setConvertedPerks] = useState(null);
+  //Perks
+  const [perks, setPerksState] = React.useState();
+  const [convertedPerks, setConvertedPerks] = useState(null);
 
+  // Candidate Xl Sheet Input
+  const candidateInputRef = React.useState(null);
 
   const inputRef = React.useRef(null);
 
@@ -43,25 +47,22 @@ const AddJob = () => {
     hiringOrganization: "",
     eligibility: "",
     skills: [],
-    salary: '',
-    perks: ''
-
-
+    salary: "",
+    perks: "",
   });
 
   React.useEffect(() => {
     const initial = async () => {
-      let e = await (localStorage.getItem("postjob"));
+      let e = await localStorage.getItem("postjob");
       let u = await JSON.parse(localStorage.getItem("user"));
 
       if (e === null || e === undefined) {
-        localStorage.setItem("postjob", JSON.stringify(user))
-      };
+        localStorage.setItem("postjob", JSON.stringify(user));
+      }
 
       if (e !== "null" || e !== null) {
         setUser(JSON.parse(e));
       }
-
     };
     initial();
   }, []);
@@ -71,7 +72,7 @@ const AddJob = () => {
   React.useState(() => {
     const initial = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
-      let res =await  getUserFromId({ id: user._id }, user.access_token);
+      let res = await getUserFromId({ id: user._id }, user.access_token);
       console.log(res);
       if (res && res.data && res.data.user) {
         if (
@@ -81,32 +82,171 @@ const AddJob = () => {
         }
       }
     };
-    initial();  
+    initial();
   }, []);
 
-  const postJob = async (values) => {
-    let access_token = localStorage.getItem("access_token");
-    let user = JSON.parse(localStorage.getItem("user"));
+  // Candidate Data
+  const [candidateData, setCandidateData] = React.useState([]);
+  const [rejectedData, setRejectedData] = React.useState([]);
+  const [selectedData, setSelectedData] = React.useState([]);
 
-    values.user_id = user._id;
-    console.log(values);
-    let res = await postJobAPI(values, access_token);
-    if (res) {
-      setAlert(true);
+  const [showRejected, setShowRejected] = React.useState(false);
+  const [showCandidate, setShowCandidate] = React.useState(false);
+
+  const [candidateInitial, setCandidateInitial] = React.useState({
+    FirstName: "",
+    LastName: "",
+    Email: "",
+    Contact: "",
+    Address: "",
+  });
+  const [showCandidateForm, setShowCandidateForm] = React.useState(false);
+  const [editIndex, setEditIndex] = React.useState(null);
+
+  // Handle Candidates File Upload
+  const handleCandidateFileUpload = async (e) => {
+    try {
+      e.preventDefault();
+      setShowCandidateForm(false);
+      if (e.target.files) {
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+          const data = e.target.result;
+          const workbook = xlsx.read(data, { type: "array" });
+          const sheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[sheetName];
+          console.log(sheetName);
+          let d = selectedData;
+          let r = rejectedData;
+          const json = await xlsx.utils.sheet_to_json(worksheet);
+          json.forEach((item) => {
+            console.log(item);
+            const EmailIndex = d.findIndex((el) => {
+              return (
+                (el.Email !== null &&
+                  el.Email !== undefined &&
+                  el.Email !== "undefined" &&
+                  item.Email !== undefined &&
+                  el.Email.trim().toLowerCase() ===
+                    item.Email.trim().toLowerCase()) ||
+                el.Contact === item.Contact
+              );
+            });
+            const RejectIndex = r.findIndex(
+              (el) =>
+                (el.Email !== null &&
+                  item.Email !== undefined &&
+                  (el.Email !== undefined && el.Email.trim().toLowerCase()) ===
+                    item.Email.trim().toLowerCase()) ||
+                el.Contact === item.Contact
+            );
+            if (EmailIndex !== -1 || RejectIndex !== -1) {
+              return;
+            }
+            if (
+              item.Email === null ||
+              item.Email === undefined ||
+              item.Email.trim() === "" ||
+              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
+                item.Email.trim()
+              )
+            ) {
+              r.push({
+                FirstName: item["First Name"] ? item["First Name"] : "",
+                LastName: item["Last Name"] ? item["Last Name"] : "",
+                Email: item.Email ? item.Email : "",
+                Contact: item.Contact ? item.Contact : "",
+                Reason: "Invalid Email",
+                Address: item.Address ? item.Address : "",
+              });
+              return;
+            }
+            if (item.Contact === null || !/^[0-9]{10}$/i.test(item.Contact)) {
+              r.push({
+                FirstName: item["First Name"] ? item["First Name"] : "",
+                LastName: item["Last Name"] ? item["Last Name"] : "",
+                Email: item.Email ? item.Email : "",
+                Contact: item.Contact ? item.Contact : "",
+                Reason: "Invalid Contact",
+                Address: item.Address ? item.Address : "",
+              });
+              return;
+            }
+            if (
+              item["First Name"] === null ||
+              item["First Name"] === undefined ||
+              item["First Name"].trim() === ""
+            ) {
+              r.push({
+                FirstName: item["First Name"] ? item["First Name"] : "",
+                LastName: item["Last Name"] ? item["Last Name"] : "",
+                Email: item.Email ? item.Email : "",
+                Contact: item.Contact ? item.Contact : "",
+                Reason: "Invalid First Name",
+                Address: item.Address ? item.Address : "",
+              });
+              return;
+            }
+            if (EmailIndex === -1) {
+              d.push({
+                FirstName: item["First Name"] ? item["First Name"] : "",
+                LastName: item["Last Name"] ? item["Last Name"] : "",
+                Email: item.Email ? item.Email : "",
+                Contact: item.Contact ? item.Contact : "",
+                Address: item.Address ? item.Address : "",
+              });
+            }
+          });
+          await setCandidateData(d);
+          await setRejectedData(r);
+          await setSelectedData(d);
+          candidateInputRef.current.value = "";
+        };
+        reader.readAsArrayBuffer(e.target.files[0]);
+      }
+    } catch (error) {
+      console.log(error);
     }
-    else {
+  };
+
+  const postJob = async (values) => {
+    try {
+      let access_token = localStorage.getItem("access_token");
+      let user = JSON.parse(localStorage.getItem("user"));
+
+      values.user_id = user._id;
+      
+      let res = await postJobAPI(values, access_token);
+      if (selectedData.length > 0) {
+        let res1 = await sendJobInvitations(
+          {
+            job_id: res.data.job._id,
+            candidates: selectedData,
+            user_id: user._id,
+          },
+          access_token
+        );
+        console.log(res1);
+      }
+      if (res) {
+        setAlert(true);
+      } else {
+        setAlert(false);
+      }
+
+      localStorage.removeItem("postjob");
+      setUser({});
+      setSkills([]);
+    } catch (error) {
+      console.log(error);
       setAlert(false);
     }
-
-    localStorage.removeItem("postjob");
-    setUser({});
-    setSkills([]);
   };
 
   const saveBasic = async (values) => {
     let job = await JSON.parse(localStorage.getItem("postjob"));
 
-    console.log(values)
+    console.log(values);
 
     //   setUser ({
 
@@ -128,7 +268,6 @@ const AddJob = () => {
     job.user_id = values.values.user_id;
     job.validTill = values.values.validTill;
 
-
     setUser(job);
     console.log(job);
 
@@ -139,81 +278,69 @@ const AddJob = () => {
       text: "Details Updated Succesfully",
       button: "Continue",
     });
-
-  }
+  };
 
   //Perks Editor
-  const onPerksEditorStateChange = (state) =>{
+  const onPerksEditorStateChange = (state) => {
     setPerksState(state);
     convertPerksToHTML();
-   }
+  };
 
-   const convertPerksToHTML = async() => {
+  const convertPerksToHTML = async () => {
     let currentContentAsHTML = convertToHTML(perks.getCurrentContent());
     setConvertedPerks(currentContentAsHTML);
     // console.log(currentContentAsHTML)
-    const job =  JSON.parse(await localStorage.getItem("postjob"));
-    job.perks = currentContentAsHTML ; 
+    const job = JSON.parse(await localStorage.getItem("postjob"));
+    job.perks = currentContentAsHTML;
     setUser(job);
     console.log(job);
 
     localStorage.setItem("postjob", JSON.stringify(job));
-  }
-
-
+  };
 
   //description Editor
 
-   const onDescEditorStateChange = (state) =>{
+  const onDescEditorStateChange = (state) => {
     setDescState(state);
     convertDescToHTML();
-   }
+  };
 
-   const convertDescToHTML = async() => {
+  const convertDescToHTML = async () => {
     let currentContentAsHTML = convertToHTML(desc.getCurrentContent());
     setConvertedDesc(currentContentAsHTML);
     // console.log(currentContentAsHTML)
 
-    const job =  JSON.parse(await localStorage.getItem("postjob"));
-    job.jobDesc = currentContentAsHTML ; 
+    const job = JSON.parse(await localStorage.getItem("postjob"));
+    job.jobDesc = currentContentAsHTML;
     setUser(job);
     console.log(job);
 
     localStorage.setItem("postjob", JSON.stringify(job));
-  }
+  };
 
   //Eligibility Editor
 
-
-
   const oneligibiltyStateChange = (state) => {
     setEligibleState(state);
-  
+
     convertElToHTML();
     // console.log(editorState);
- 
-  }
+  };
 
-  const convertElToHTML = async() => {
+  const convertElToHTML = async () => {
     let currentContentAsHTML = convertToHTML(eligible.getCurrentContent());
     setConvertedEl(currentContentAsHTML);
-    console.log(currentContentAsHTML)
+    console.log(currentContentAsHTML);
 
-    const job =  JSON.parse(await localStorage.getItem("postjob"));
-    job.eligibility = currentContentAsHTML ; 
+    const job = JSON.parse(await localStorage.getItem("postjob"));
+    job.eligibility = currentContentAsHTML;
     setUser(job);
     console.log(job);
 
     localStorage.setItem("postjob", JSON.stringify(job));
-    
-  }
-
+  };
 
   const saveEligible = async (content) => {
-
-    
-
-   
     localStorage.setItem("postjob", JSON.stringify(content));
     swal({
       icon: "success",
@@ -221,16 +348,12 @@ const AddJob = () => {
       text: "Details Updated Succesfully",
       button: "Continue",
     });
-  }
-
+  };
 
   const saveSalary = async (values) => {
     let job = await JSON.parse(localStorage.getItem("postjob"));
 
     job.salary = values.values.salary;
- 
-
-
 
     console.log(job);
 
@@ -254,8 +377,7 @@ const AddJob = () => {
     //     button: "Continue",
     //   });
     // })
-
-  }
+  };
 
   return (
     <div className="p-5 pb-9">
@@ -278,7 +400,6 @@ const AddJob = () => {
       )}
 
       <div className="Verticaltab mx-auto w-full">
-
         <Tabs>
           <TabList>
             <Tab>
@@ -286,6 +407,9 @@ const AddJob = () => {
             </Tab>
             <Tab>
               <p>Eligibilty</p>
+            </Tab>
+            <Tab>
+              <p>Invite Users</p>
             </Tab>
             <Tab>
               <p>Salary</p>
@@ -298,25 +422,23 @@ const AddJob = () => {
           </Tab> */}
           </TabList>
 
-
           <TabPanel>
             <div className="panel-content">
               <Formik
                 initialValues={{
-                  jobTitle: user ? user.jobTitle : '',
-                  jobDesc: user ? user.jobDesc : '',
-                  location: user ? user.location : '',
-                  jobType: user ? user.jobType : '',
-                  validTill: user ? user.validTill : '',
-                  hiringOrganization: user ? user.hiringOrganization : '',
-
+                  jobTitle: user ? user.jobTitle : "",
+                  jobDesc: user ? user.jobDesc : "",
+                  location: user ? user.location : "",
+                  jobType: user ? user.jobType : "",
+                  validTill: user ? user.validTill : "",
+                  hiringOrganization: user ? user.hiringOrganization : "",
                 }}
                 validate={(values) => {
                   const errors = {};
                   if (!values.jobTitle || values.jobTitle.trim() === "") {
                     errors.jobTitle = "Required !";
                   }
-                 
+
                   if (!values.location || values.location.trim() === "") {
                     errors.location = "Required !";
                   }
@@ -328,18 +450,21 @@ const AddJob = () => {
                   }
                   return errors;
                 }}
-
               >
                 {(values) => {
                   return (
                     <div className="w-full mt-9">
-
                       <Form className="w-full mt-5">
-                        <h1 style={{ color: `var(--primary)` }} className="text-xl border-b-[0.5px] pl-5  text-left px-5 border-gray-400 w-full font-bold text-gray-700">
+                        <h1
+                          style={{ color: `var(--primary)` }}
+                          className="text-xl border-b-[0.5px] pl-5  text-left px-5 border-gray-400 w-full font-bold text-gray-700"
+                        >
                           Job Details
                         </h1>
                         <div className="my-7 space-y-3 w-full">
-                          <label className="text-left w-3/4 mx-auto block">Job Title</label>
+                          <label className="text-left w-3/4 mx-auto block">
+                            Job Title
+                          </label>
                           <Field
                             name="jobTitle"
                             type="text"
@@ -353,7 +478,9 @@ const AddJob = () => {
                           />
                         </div>
                         <div className="my-7 space-y-3 w-full">
-                          <label className="text-left w-3/4 mx-auto block">Job Description</label>
+                          <label className="text-left w-3/4 mx-auto block">
+                            Job Description
+                          </label>
                           {/* <Field
                             name="jobDesc"
                             type="text"
@@ -366,17 +493,22 @@ const AddJob = () => {
                             className="text-red-600 text-sm w-full"
                           /> */}
                           <Editor
-                             editorState={desc}
+                            editorState={desc}
                             toolbarClassName="toolbarClassName"
                             wrapperClassName="wrapperClassName"
                             editorClassName="editorClassName"
-                            wrapperStyle={{ width: "75%", margin: "0 auto", border: "1px solid black" }}
-
-                           onEditorStateChange={onDescEditorStateChange}
+                            wrapperStyle={{
+                              width: "75%",
+                              margin: "0 auto",
+                              border: "1px solid black",
+                            }}
+                            onEditorStateChange={onDescEditorStateChange}
                           />
                         </div>
                         <div className="my-7 space-y-3 w-full">
-                          <label className="text-left w-3/4 mx-auto block">Job Location</label>
+                          <label className="text-left w-3/4 mx-auto block">
+                            Job Location
+                          </label>
                           <Field
                             name="location"
                             type="text"
@@ -390,7 +522,9 @@ const AddJob = () => {
                           />
                         </div>
                         <div className="my-7 space-y-3">
-                          <label className="text-left w-3/4 mx-auto block">Job Type:</label>
+                          <label className="text-left w-3/4 mx-auto block">
+                            Job Type:
+                          </label>
                           <div
                             role="group"
                             aria-labelledby="my-radio-group"
@@ -447,7 +581,9 @@ const AddJob = () => {
                           />
                         </div>
                         <div className="my-7 space-y-3 w-full">
-                          <label className="text-left w-3/4 mx-auto block">Hiring Organization</label>
+                          <label className="text-left w-3/4 mx-auto block">
+                            Hiring Organization
+                          </label>
                           <Field
                             name="hiringOrganization"
                             type="text"
@@ -463,25 +599,24 @@ const AddJob = () => {
 
                         <button
                           type="submit"
-                          class="bg-blue-500 my-7 px-5 py-3 hover:bg-blue-700 text-white font-bold rounded-lg" onClick={() => saveBasic(values)}
+                          class="bg-blue-500 my-7 px-5 py-3 hover:bg-blue-700 text-white font-bold rounded-lg"
+                          onClick={() => saveBasic(values)}
                         >
                           Save
                         </button>
                       </Form>
                     </div>
-                  )
-                }}</Formik>
+                  );
+                }}
+              </Formik>
             </div>
           </TabPanel>
           <TabPanel>
             <div className="panel-content">
               <Formik
                 initialValues={{
-                  // eligibility: user ? user.eligibility : '',
+                  eligibility: user.eligibility ? user.eligibility : '',
                   skills: user.skills ? user.skills : [],
-
-
-
                 }}
                 // validate={(values) => {
                 //   const errors = {};
@@ -502,18 +637,22 @@ const AddJob = () => {
                 //   }
                 //   return errors;
                 // }}
-              // onSubmit={postJob}
+                // onSubmit={postJob}
               >
                 {(values) => {
                   return (
                     <div>
-
                       <Form className="w-full mt-9 ">
-                        <h1 style={{ color: `var(--primary)` }} className="text-xl border-b-[0.5px] pl-5  text-left px-5 border-gray-400 w-full font-bold ">
+                        <h1
+                          style={{ color: `var(--primary)` }}
+                          className="text-xl border-b-[0.5px] pl-5  text-left px-5 border-gray-400 w-full font-bold "
+                        >
                           Eligibilty
                         </h1>
                         <div className="mt-4">
-                          <label className="text-left w-3/4 mx-auto block">Minimum Eligibility</label>
+                          <label className="text-left w-3/4 mx-auto block">
+                            Minimum Eligibility
+                          </label>
                           {/* <Field
                             name="eligibility"
                             type="textarea"
@@ -527,13 +666,16 @@ const AddJob = () => {
                           /> */}
 
                           <Editor
-                             editorState={eligible}
+                            editorState={eligible}
                             toolbarClassName="toolbarClassName"
                             wrapperClassName="wrapperClassName"
                             editorClassName="editorClassName"
-                            wrapperStyle={{ width: "75%", margin: "0 auto", border: "1px solid black" }}
-
-                           onEditorStateChange={oneligibiltyStateChange}
+                            wrapperStyle={{
+                              width: "75%",
+                              margin: "0 auto",
+                              border: "1px solid black",
+                            }}
+                            onEditorStateChange={oneligibiltyStateChange}
                           />
                           {/* <Editor
                             editorState={editorState}
@@ -544,7 +686,9 @@ const AddJob = () => {
                           />; */}
                         </div>
                         <div className="my-7 space-y-3 w-full block">
-                          <label className="text-left w-3/4 mx-auto block">Skills</label>
+                          <label className="text-left w-3/4 mx-auto block">
+                            Skills
+                          </label>
                           <input
                             className="w-3/4 text-600 my-3 block mx-auto"
                             style={{ borderRadius: "10px" }}
@@ -554,7 +698,8 @@ const AddJob = () => {
                               if (inputRef.current) {
                                 const res = skills.findIndex((el) => {
                                   return (
-                                    el.toLowerCase() === inputRef.current.value.toLowerCase()
+                                    el.toLowerCase() ===
+                                    inputRef.current.value.toLowerCase()
                                   );
                                 });
                                 if (res !== -1) {
@@ -571,11 +716,16 @@ const AddJob = () => {
                                 if (inputRef.current) {
                                   if (inputRef.current.value !== "") {
                                     let t = skills;
-                                    await setSkills([...skills, inputRef.current.value]);
+                                    await setSkills([
+                                      ...skills,
+                                      inputRef.current.value,
+                                    ]);
                                     t.push(inputRef.current.value);
                                     console.log(t);
                                     inputRef.current.value = "";
-                                    let res = await localStorage.getItem("postjob");
+                                    let res = await localStorage.getItem(
+                                      "postjob"
+                                    );
                                     res = JSON.parse(res);
                                     res.skills = t;
                                     await localStorage.setItem(
@@ -593,9 +743,15 @@ const AddJob = () => {
                             className="bg-blue-600 rounded-sm text-white  py-2 px-3"
                             disabled={disabled}
                             onClick={async () => {
-                              if (inputRef.current && inputRef.current.value !== "") {
+                              if (
+                                inputRef.current &&
+                                inputRef.current.value !== ""
+                              ) {
                                 let t = skills;
-                                await setSkills([...skills, inputRef.current.value]);
+                                await setSkills([
+                                  ...skills,
+                                  inputRef.current.value,
+                                ]);
                                 t.push(inputRef.current.value);
                                 inputRef.current.value = "";
                                 let res = await localStorage.getItem("postjob");
@@ -627,7 +783,9 @@ const AddJob = () => {
                                         const res1 = skills.filter((el) => {
                                           return el !== item;
                                         });
-                                        let res = await localStorage.getItem("postjob");
+                                        let res = await localStorage.getItem(
+                                          "postjob"
+                                        );
                                         res = JSON.parse(res);
                                         res.skills = res1;
                                         await localStorage.setItem(
@@ -654,37 +812,452 @@ const AddJob = () => {
                         </button>
                       </Form>
                     </div>
-                  )
+                  );
                 }}
               </Formik>
             </div>
-
+          </TabPanel>
+          <TabPanel>
+            <div className="panel-content text-left ml-5 p-3">
+              <div className="my-3 text-left">
+                <p>Add Candidate Details Sheet</p>
+                <p className="text-sm">
+                  ( Headers Conventions: FirstName, LastName, Email, Contact,
+                  Address)
+                </p>
+                <p className="text-sm">
+                  (Data must contain candidate's Email Address and Contact
+                  Number)
+                </p>
+              </div>
+              <div className="flex space-x-10">
+                <button
+                  className="bg-blue-500 text-white rounded-sm px-2 py-1"
+                  onClick={() => {
+                    setShowCandidateForm(true);
+                  }}
+                >
+                  Add User
+                </button>
+                <label
+                  for="candidatesInput"
+                  className="cursor-pointer bg-blue-500 text-white rounded-sm px-2 py-1"
+                  onClick={() => {
+                    if (candidateInputRef.current)
+                      candidateInputRef.current.click();
+                  }}
+                >
+                  {" "}
+                  Add File{" "}
+                </label>
+                <input
+                  ref={candidateInputRef}
+                  type="file"
+                  className="hidden"
+                  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                  onChange={handleCandidateFileUpload}
+                />
+                {(rejectedData.length > 0 || selectedData.length > 0) && (
+                  <button
+                    className="bg-blue-500 text-white rounded-sm px-2 py-1"
+                    onClick={() => {
+                      setCandidateData([]);
+                      setSelectedData([]);
+                      setRejectedData([]);
+                      setShowCandidateForm(false);
+                      if (candidateInputRef.current)
+                        candidateInputRef.current.value = " ";
+                    }}
+                  >
+                    Reset Data
+                  </button>
+                )}
+              </div>
+              {showCandidateForm && (
+                <div className="my-4">
+                  <Formik
+                    initialValues={candidateInitial}
+                    validate={(values) => {
+                      const errors = {};
+                      let d = selectedData;
+                      const res = d.findIndex((el) => {
+                        return el.Email === values.Email;
+                      });
+                      const res2 = d.findIndex((el) => {
+                        return el.Contact === values.Contact;
+                      });
+                      if (
+                        !values.Email ||
+                        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
+                          values.Email.trim()
+                        )
+                      ) {
+                        errors.Email = "Invalid Email";
+                      } else if (res !== -1) {
+                        errors.Email = "Email already exists";
+                      }
+                      if (
+                        !values.Contact ||
+                        !/^[0-9]{10}$/i.test(values.Contact)
+                      ) {
+                        errors.Contact = "Invalid Contact";
+                      } else if (res2 !== -1) {
+                        errors.Contact = "Contact already exists";
+                      }
+                      return errors;
+                    }}
+                    onSubmit={async (values) => {
+                      let d = selectedData;
+                      let r = rejectedData;
+                      console.log(editIndex);
+                      if (editIndex !== null) r.splice(editIndex, 1);
+                      console.log(r);
+                      setEditIndex(null);
+                      d.push(values);
+                      await setSelectedData(d);
+                      await setCandidateData(d);
+                      await setRejectedData(r);
+                      await setShowCandidate(true);
+                      console.log(selectedData);
+                      await setShowCandidateForm(false);
+                    }}
+                  >
+                    {({ values }) => {
+                      return (
+                        <Form>
+                          <p className="text-left font-semibold py-2">
+                            Add User
+                          </p>
+                          <div className="flex my-2 flex-wrap text-left">
+                            <div className="w-1/2">
+                              <label>First Name</label>
+                              <Field
+                                name="FirstName"
+                                type="text"
+                                className="text-600 rounded-sm block"
+                              />
+                              <ErrorMessage name="FirstName" component="div" />
+                            </div>
+                            <div className="w-1/2">
+                              <label>Last Name</label>
+                              <Field
+                                name="LastName"
+                                type="text"
+                                className="text-600 rounded-sm block"
+                              />
+                              <ErrorMessage name="LastName" component="div" />
+                            </div>
+                          </div>
+                          <div className="flex my-2 flex-wrap text-left">
+                            <div className="w-1/2">
+                              <label>Email</label>
+                              <Field
+                                name="Email"
+                                type="text"
+                                className="text-600 rounded-sm block"
+                              />
+                              <ErrorMessage
+                                name="Email"
+                                component="div"
+                                className="text-sm text-red-500"
+                              />
+                            </div>
+                            <div className="w-1/2">
+                              <label>Contact</label>
+                              <Field
+                                name="Contact"
+                                type="text"
+                                className="text-600 rounded-sm block"
+                              />
+                              <ErrorMessage
+                                name="Contact"
+                                component="div"
+                                className="text-sm text-red-500"
+                              />
+                            </div>
+                          </div>
+                          <div className="my-2 text-left pr-10">
+                            <label>Address</label>
+                            <Field
+                              name="Address"
+                              type="text"
+                              className="text-600 rounded-sm block w-full"
+                            />
+                          </div>
+                          <div>
+                            <button
+                              className="bg-blue-500 text-white rounded-sm px-2 py-1 my-2"
+                              type="submit"
+                            >
+                              Add
+                            </button>
+                            <button
+                              className="bg-blue-500 text-white rounded-sm px-2 py-1 my-2 mx-4"
+                              onClick={() => {
+                                setCandidateInitial({
+                                  FirstName: "",
+                                  LastName: "",
+                                  Email: "",
+                                  Contact: "",
+                                  Address: "",
+                                });
+                                setShowCandidateForm(false);
+                                setEditIndex(null);
+                              }}
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </Form>
+                      );
+                    }}
+                  </Formik>
+                </div>
+              )}
+              <div className="my-5">
+                {rejectedData.length > 0 && (
+                  <div className="flex items-center w-full justify-between">
+                    <p>Rejected Data ({rejectedData.length})</p>
+                    <p>
+                      {showRejected ? (
+                        <p
+                          className="text-sm text-blue-500 cursor-pointer ml-auto"
+                          onClick={() => {
+                            setShowRejected(false);
+                          }}
+                        >
+                          Hide
+                        </p>
+                      ) : (
+                        <p
+                          className="text-sm text-blue-500 cursor-pointer ml-auto"
+                          onClick={() => {
+                            setShowRejected(true);
+                          }}
+                        >
+                          Show
+                        </p>
+                      )}
+                    </p>
+                  </div>
+                )}
+                {showRejected && rejectedData.length > 0 && (
+                  <div>
+                    <table class="w-full">
+                      <thead class="bg-white border-b">
+                        <tr>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            #
+                          </th>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            Email
+                          </th>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            Contact
+                          </th>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            Reason
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rejectedData.map((user, index) => {
+                          return (
+                            <tr
+                              class={`${
+                                index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                              } border-b`}
+                            >
+                              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                {index + 1}
+                              </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.Email}
+                              </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.Contact}
+                              </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.Reason}
+                              </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                <RiEditBoxLine
+                                  className="text-sm text-blue-500 cursor-pointer"
+                                  onClick={() => {
+                                    setCandidateInitial(user);
+                                    setEditIndex(index);
+                                    setShowCandidateForm(true);
+                                  }}
+                                />
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+              <div className="my-5">
+                {candidateData.length > 0 && (
+                  <div className="flex items-center w-full justify-between">
+                    <p>Candidate Data ({candidateData.length})</p>
+                    <p>
+                      {showCandidate ? (
+                        <p
+                          className="text-sm text-blue-500 cursor-pointer ml-auto"
+                          onClick={() => {
+                            setShowCandidate(false);
+                          }}
+                        >
+                          Hide
+                        </p>
+                      ) : (
+                        <p
+                          className="text-sm text-blue-500 cursor-pointer ml-auto"
+                          onClick={() => {
+                            setShowCandidate(true);
+                          }}
+                        >
+                          Show
+                        </p>
+                      )}
+                    </p>
+                  </div>
+                )}
+                {showCandidate && candidateData.length > 0 && (
+                  <div>
+                    <table class="w-full">
+                      <thead class="bg-white border-b text-left">
+                        <tr>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            #
+                          </th>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            First Name
+                          </th>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            Last Name
+                          </th>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            Email
+                          </th>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            Contact
+                          </th>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            Address
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {candidateData.map((user, index) => {
+                          return (
+                            <tr
+                              class={`${
+                                index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                              } border-b`}
+                            >
+                              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
+                                {index + 1}
+                              </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.FirstName}
+                              </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.LastName}
+                              </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.Email}
+                              </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.Contact}
+                              </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.Address}
+                              </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                <AiOutlineDelete
+                                  className="text-sm  text-red-500 cursor-pointer"
+                                  onClick={() => {
+                                    setCandidateData(
+                                      candidateData.filter(
+                                        (item) => item.Email !== user.Email
+                                      )
+                                    );
+                                    setSelectedData(
+                                      selectedData.filter(
+                                        (item) => item.Email !== user.Email
+                                      )
+                                    );
+                                  }}
+                                />
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            </div>
           </TabPanel>
           <TabPanel>
             <div className="panel-content">
               <Formik
                 initialValues={{
-                  salary: user.salary ? user.salary : '',
-                  perks: user.perks ? user.perks : '',
-
+                  salary: user.salary ? user.salary : "",
+                  perks: user.perks ? user.perks : "",
                 }}
                 validate={(values) => {
                   const errors = {};
                   if (!values.salary || values.salary.trim() === "") {
                     errors.salary = "Required !";
                   }
-                 
 
                   return errors;
                 }}
-              // onSubmit={postJob}
+                // onSubmit={postJob}
               >
                 {(values) => {
                   return (
                     <div>
-
                       <Form className="w-full mt-9">
-                        <h1 style={{ color: `var(--primary)` }} className="text-xl border-b-[0.5px] px-3  text-left border-gray-400 w-full font-bold text-gray-700">
+                        <h1
+                          style={{ color: `var(--primary)` }}
+                          className="text-xl border-b-[0.5px] px-3  text-left border-gray-400 w-full font-bold text-gray-700"
+                        >
                           Salary and Perks
                         </h1>
                         <div className="my-7 mt-9 space-y-3 w-full">
@@ -696,7 +1269,6 @@ const AddJob = () => {
                             type="text"
                             placeholder=""
                             className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
-
                           />
                         </div>
 
@@ -711,40 +1283,38 @@ const AddJob = () => {
                             className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
 
                           /> */}
-                             <Editor
-                             editorState={perks}
+                          <Editor
+                            editorState={perks}
                             toolbarClassName="toolbarClassName"
                             wrapperClassName="wrapperClassName"
                             editorClassName="editorClassName"
-                            wrapperStyle={{ width: "75%",margin:"0 auto", border: "1px solid black" }}
-
-                             onEditorStateChange={onPerksEditorStateChange}
+                            wrapperStyle={{
+                              width: "75%",
+                              margin: "0 auto",
+                              border: "1px solid black",
+                            }}
+                            onEditorStateChange={onPerksEditorStateChange}
                           />
                         </div>
                         <button
-
-                          class="bg-blue-500 my-5 px-5 py-3 my-5 mx-4 hover:bg-blue-700 text-white font-bold rounded-lg"
+                          class="bg-blue-500 my-5 px-5 py-3 mx-4 hover:bg-blue-700 text-white font-bold rounded-lg"
                           onClick={() => saveSalary(values)}
                         >
                           Save
                         </button>
                         <button
-
-                          class="bg-blue-500 my-5 px-5 py-3 my-5 mx-4 hover:bg-blue-700 text-white font-bold rounded-lg"
+                          class="bg-blue-500 my-5 px-5 py-3 mx-4 hover:bg-blue-700 text-white font-bold rounded-lg"
                           onClick={() => postJob(user)}
                         >
                           Submit
                         </button>
                       </Form>
                     </div>
-                  )
+                  );
                 }}
               </Formik>
             </div>
           </TabPanel>
-
-
-
         </Tabs>
       </div>
 
@@ -754,7 +1324,6 @@ const AddJob = () => {
 
    
     </div>
-
   );
 };
 
