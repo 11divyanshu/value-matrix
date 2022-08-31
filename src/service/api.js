@@ -467,3 +467,12 @@ export const sendJobInvitations = async (data, token) => {
     console.log("Error : ", err);
   }
 }
+
+// Company Filters
+export const FilterCompany = async ( data, values) => {
+  try{
+    return await axios.post(`${url}/filterCompany/${values.picked}/${values.toggle}`, data);
+  }catch(err){
+    console.log("Error : ", err);
+  }
+}

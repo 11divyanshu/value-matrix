@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 const JobCard = (props) => {
  
   const [job, setJob] = React.useState(props.job);
-  localStorage.setItem("jobs", JSON.stringify(job))
+  // localStorage.setItem("jobs", JSON.stringify(job))
 
   localStorage.setItem("ids", JSON.stringify(job._id))
   return (
