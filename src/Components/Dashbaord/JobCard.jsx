@@ -7,26 +7,27 @@ import { Link, useNavigate } from "react-router-dom";
 const JobCard = (props) => {
  
   const [job, setJob] = React.useState(props.job);
+  console.log(props.job)
   // localStorage.setItem("jobs", JSON.stringify(job))
 
   localStorage.setItem("ids", JSON.stringify(job._id))
   return (
     <div class="flex my-2 w-full">
-      <div class="block rounded-sm p-4 shadow-lg border-[0.5px] border-gray-300 bg-white w-full">
+      <div class="block rounded-md p-3 my-2 shadow-md border-[0.5px] border-gray-300 bg-white w-full">
        
         <div class="p-6">
           <h5 class="text-black-900 text-2xl font-bold mb-2">{job.jobTitle}</h5>
-          <p className="text-xl  text-blue-500">{job.hiringOrganization}</p>
+          <p className="text-xl font-bold  text-blue-500">{job.hiringOrganization}</p>
           <div className="flex mt-5 px-3">
             {job.salary && (
               <div className="flex px-3">
               <p className="">
-                <div className="shadow-lg p-3 rounded-full"><p className="text-2xl text-blue-500"><HiOutlineCalendar/></p></div>
+                <div className="shadow-md p-3 rounded-full"><p className="text-2xl text-blue-500"><HiOutlineCalendar/></p></div>
                 
                 </p>
                 <div>
-                <p className="px-4 text-gray-400 text-lg text-gray-400">Duration</p>
-                <p className="px-4 text-md">{job.salary}</p>
+                <p className="px-4 text-gray-400 text-lg text-gray-400">Job Type</p>
+                <p className="px-4 text-md">{job.jobType}</p>
                 </div>
                 </div> 
               
@@ -35,9 +36,9 @@ const JobCard = (props) => {
             {/* <p className="text-sm text-gray-700 mx-auto">
               {job.jobType}
             </p> */}
-            <div className="flex px-3">
+            <div className="flex flex-wrap px-3">
             <p className="text-sm  ">
-                <div className="shadow-lg p-3 rounded-full"><div className="text-2xl text-blue-500 "><HiOutlineCurrencyDollar/></div></div>
+                <div className="shadow-md p-3 rounded-full"><div className="text-2xl text-blue-500 "><HiOutlineCurrencyDollar/></div></div>
                 
                 </p>
                 <div>
@@ -48,7 +49,7 @@ const JobCard = (props) => {
 
             <div className="flex px-3">
             <p className="text-sm  ">
-                <div className="shadow-lg p-3 rounded-full"><div className="text-2xl text-blue-500 "><HiOutlineLocationMarker/></div></div>
+                <div className="shadow-md p-3 rounded-full"><div className="text-2xl text-blue-500 "><HiOutlineLocationMarker/></div></div>
                 
                 </p>
                 <div>
@@ -59,12 +60,16 @@ const JobCard = (props) => {
 
             <div className="flex px-3">
             <p className="text-sm  ">
-                <div className="shadow-lg p-3 rounded-full"><div className="text-2xl text-blue-500 "><HiOutlinePlay/></div></div>
+                <div className="shadow-md p-3 rounded-full"><div className="text-2xl text-blue-500 "><HiOutlinePlay/></div></div>
                 
                 </p>
                 <div>
-                <p className="px-4 text-lg text-gray-400 ">Start Date</p>
-                <p className="px-4 text-md">{job.start_date}</p>
+                <p className="px-4 text-lg text-gray-400 ">Apply Till</p>
+                <p className="px-4 text-md">{new Date(job.validTill).getDate() +
+                "-" +
+               ( new Date(job.validTill).getMonth()+1) +
+                "-" +
+                new Date(job.validTill).getFullYear()}</p>
                 </div>
             </div>
 
