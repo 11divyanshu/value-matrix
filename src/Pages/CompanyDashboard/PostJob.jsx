@@ -248,9 +248,9 @@ const AddJob = () => {
         setAlert(false);
       }
 
-      // localStorage.removeItem("postjob");
-      // setUser({});
-      // setSkills([]);
+      localStorage.removeItem("postjob");
+      setUser({});
+      setSkills([]);
     } catch (error) {
       console.log(error);
       setAlert(false);

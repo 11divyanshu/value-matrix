@@ -67,7 +67,7 @@ const JobInvitations = () => {
 
   return (
     <div className="p-5">
-      <p className="text-2xl font-bold">Job Invitations</p>
+      <p className="text-2xl font-bold">Interview Invitations</p>
       <div className="my-5">
         {Loading && (
           <div className="text-center py-5 text-2xl">Fetching Data</div>
