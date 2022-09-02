@@ -14,6 +14,8 @@ import {
   HiOutlinePlay,
 } from "react-icons/hi";
 import DOMPurify from "dompurify";
+import { Link, useNavigate } from "react-router-dom";
+
 
 function JobDetails(props) {
   const [job_id, setJobId] = React.useState(props.id);
@@ -43,16 +45,19 @@ function JobDetails(props) {
         setInvited(res.data.invited);
       } else {
         console.log("no response");
-      }
+        console.log(job)
+      }    
     };
+   
     getData();
   }, [job_id]);
 
   const createMarkup = (html) => {
     return {
-      __html: DOMPurify.sanitize(html),
-    };
-  };
+      __html: DOMPurify.sanitize(html)
+    }
+  }
+
 
   return (
     // <div className="p-5 mx-auto">
@@ -99,7 +104,8 @@ function JobDetails(props) {
     <div className="w-full p-5">
       {job ? (
         <>
-          <div
+
+          {/* <div
             className="card my-5 mx-auto w-4/5 p-5 "
             style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px" }}
           >
@@ -110,7 +116,19 @@ function JobDetails(props) {
               <h6 className="px-4 mb-2 text-xl text-blue-600 font-extrabold">
                 {job.hiringOrganization} . {job.location}
               </h6>
+              <p className="card-text font-semibold p-4">{job.jobDesc}</p> */}
+
+          <div className="card my-5 mx-auto w-4/5 p-5 " style={{ "boxShadow": "rgba(0, 0, 0, 0.1) 0px 4px 12px" }}>
+
+
+
+
+            <div className="card-body px-5 w-4/5">
+
+              <h5 className=" px-4 py-2 text-4xl text-gray-900 font-extrabold">{job.jobTitle}</h5>
+              <h6 className="px-4 mb-2 text-xl text-blue-600 font-extrabold">{job.hiringOrganization} . {job.location}</h6>
               {/* <p className="card-text font-semibold p-4">{job.jobDesc}</p> */}
+
             </div>
             {/* <div className="flex mt-5 w-3/4 mx-auto" style={{justifyContent:'space-between'}}>
 
@@ -132,6 +150,7 @@ function JobDetails(props) {
               {job.salary && (
                 <div className="flex mt-5 px-5">
                   <p className="">
+
                     <div className="shadow-lg p-3 rounded-full">
                       <p className="text-3xl text-blue-500">
                         <HiOutlineCalendar />
@@ -147,11 +166,25 @@ function JobDetails(props) {
                 </div>
               )}
 
+{/* =======
+                    <div className="shadow-lg p-3 rounded-full"><p className="text-3xl text-blue-500"><HiOutlineCalendar /></p></div>
+
+                  </p>
+                  <div>
+                    <p className="px-4 text-gray-400 text-lg text-gray-400">Job Type</p>
+                    <p className="px-4 text-md">{job.jobType}</p>
+                  </div>
+                </div>
+
+              )}
+
+>>>>>>> bb774ccb8e7895cda9ce592fd2d4395ac20eddad */}
               {/* <p className="text-sm text-gray-700 mx-auto">
               {job.jobType}
             </p> */}
               <div className="flex px-5 mt-5">
                 <p className="text-sm  ">
+
                   <div className="shadow-lg p-3 rounded-full">
                     <div className="text-3xl text-blue-500 ">
                       <HiOutlineCurrencyDollar />
@@ -199,6 +232,7 @@ function JobDetails(props) {
               </div>
             </div>
           </div>
+
 
           <div
             className="card my-5 mx-auto w-4/5 p-5 "
