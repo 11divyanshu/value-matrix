@@ -74,7 +74,7 @@ const AddJob = () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       let res = await getUserFromId({ id: user._id }, user.access_token);
       console.log(res);
-      if (res && res.data && res.data.user) {
+      if (res && res.data && res.data.user && res.data.user.permissions && res.data.user.permissions.length>0 && res.data.user.permissions[0].company_permissions) {
         if (
           res.data.user.permissions[0].company_permissions.add_jobs === false
         ) {
@@ -115,12 +115,11 @@ const AddJob = () => {
           const workbook = xlsx.read(data, { type: "array" });
           const sheetName = workbook.SheetNames[0];
           const worksheet = workbook.Sheets[sheetName];
-          console.log(sheetName);
           let d = selectedData;
           let r = rejectedData;
           const json = await xlsx.utils.sheet_to_json(worksheet);
+          console.log(json);
           json.forEach((item) => {
-            console.log(item);
             const EmailIndex = d.findIndex((el) => {
               return (
                 (el.Email !== null &&
@@ -140,7 +139,16 @@ const AddJob = () => {
                     item.Email.trim().toLowerCase()) ||
                 el.Contact === item.Contact
             );
+
             if (EmailIndex !== -1 || RejectIndex !== -1) {
+              r.push({
+                FirstName: item["First Name"] ? item["First Name"] : "",
+                LastName: item["Last Name"] ? item["Last Name"] : "",
+                Email: item.Email ? item.Email : "",
+                Contact: item.Contact ? item.Contact : "",
+                Reason: "Email/Contact Already Added",
+                Address: item.Address ? item.Address : "",
+              })
               return;
             }
             if (
@@ -197,6 +205,8 @@ const AddJob = () => {
               });
             }
           });
+          console.log(r);
+          console.log(d);
           await setCandidateData(d);
           await setRejectedData(r);
           await setSelectedData(d);
@@ -211,14 +221,16 @@ const AddJob = () => {
 
   const postJob = async (values) => {
     try {
+      console.log(values);
       let access_token = localStorage.getItem("access_token");
       let user = JSON.parse(localStorage.getItem("user"));
 
       values.user_id = user._id;
       
       let res = await postJobAPI(values, access_token);
+
       if (selectedData.length > 0) {
-        let res1 = await sendJobInvitations(
+        let res1 = sendJobInvitations(
           {
             job_id: res.data.job._id,
             candidates: selectedData,
@@ -226,17 +238,19 @@ const AddJob = () => {
           },
           access_token
         );
-        console.log(res1);
       }
       if (res) {
         setAlert(true);
+        setTimeout(() => {
+          // window.location.reload();
+        }, 3000);
       } else {
         setAlert(false);
       }
 
-      localStorage.removeItem("postjob");
-      setUser({});
-      setSkills([]);
+      // localStorage.removeItem("postjob");
+      // setUser({});
+      // setSkills([]);
     } catch (error) {
       console.log(error);
       setAlert(false);
@@ -274,7 +288,7 @@ const AddJob = () => {
     localStorage.setItem("postjob", JSON.stringify(job));
     swal({
       icon: "success",
-      title: "EditProfile",
+      title: "Basic Details",
       text: "Details Updated Succesfully",
       button: "Continue",
     });
@@ -344,7 +358,7 @@ const AddJob = () => {
     localStorage.setItem("postjob", JSON.stringify(content));
     swal({
       icon: "success",
-      title: "EditProfile",
+      title: "Saved",
       text: "Details Updated Succesfully",
       button: "Continue",
     });
@@ -361,7 +375,7 @@ const AddJob = () => {
     localStorage.setItem("postjob", JSON.stringify(job));
     swal({
       icon: "success",
-      title: "EditProfile",
+      title: "Job Salary",
       text: "Details Updated Succesfully",
       button: "Continue",
     });
@@ -1242,7 +1256,7 @@ const AddJob = () => {
                 }}
                 validate={(values) => {
                   const errors = {};
-                  if (!values.salary || values.salary.trim() === "") {
+                  if (!values.salary) {
                     errors.salary = "Required !";
                   }
 
@@ -1266,7 +1280,7 @@ const AddJob = () => {
                           </label>
                           <Field
                             name="salary"
-                            type="text"
+                            type="number"
                             placeholder=""
                             className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
                           />
@@ -1303,6 +1317,7 @@ const AddJob = () => {
                           Save
                         </button>
                         <button
+                          type="button"
                           class="bg-blue-500 my-5 px-5 py-3 mx-4 hover:bg-blue-700 text-white font-bold rounded-lg"
                           onClick={() => postJob(user)}
                         >

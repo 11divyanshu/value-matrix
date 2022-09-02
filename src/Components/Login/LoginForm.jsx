@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { ReactSession } from "react-client-session";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Link } from "react-router-dom";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 
 // Assets
 import Microsoft from "../../assets/images/Social/microsoft.svg";
@@ -47,18 +47,25 @@ const LoginForm = (props) => {
         text: "Login Successful",
         icon: "success",
         button: "Continue",
-      }).then(()=>{
-
-      if (res.data.user.user_type === "User")
-        window.location.href = "/user/?a=" + access;
-      else if (res.data.user.user_type === "Company" || res.data.user.user_type === "Company_User")
-        window.location.href = "/company?a=" + access;
-      else if (res.data.user.user_type === "XI")
-        window.location.href = "/XI/?a=" + access;
-      else if (res.data.user.isAdmin || res.data.user.user_type === "Admin_User") {
-        window.location.href = "/admin/?a=" + access;
-      }
-    })
+      }).then(() => {
+        if (res.data.user.invite) {
+          window.location.href = "/setProfile/" + res.data.user.resetPassId;
+        } else if (res.data.user.user_type === "User")
+          window.location.href = "/user/?a=" + access;
+        else if (
+          res.data.user.user_type === "Company" ||
+          res.data.user.user_type === "Company_User"
+        )
+          window.location.href = "/company?a=" + access;
+        else if (res.data.user.user_type === "XI")
+          window.location.href = "/XI/?a=" + access;
+        else if (
+          res.data.user.isAdmin ||
+          res.data.user.user_type === "Admin_User"
+        ) {
+          window.location.href = "/admin/?a=" + access;
+        }
+      });
     } else {
       setCaptcha(false);
       if (captchaRef.current !== undefined) {
@@ -75,22 +82,25 @@ const LoginForm = (props) => {
         text: "Username and Password doesn't match !",
         icon: "error",
         button: false,
-      })
+      });
       setLoading(false);
     }
   };
 
   return (
     <div className="pt-5 lg:p-9 ">
-      <span style={{fontWeight:700}} className="text-4xl font-bold flex ">Value <p style={{color:'#3667E9'}}>Matrix</p></span>
-      
-      
+      <span style={{ fontWeight: 700 }} className="text-4xl font-bold flex ">
+        Value <p style={{ color: "#3667E9" }}>Matrix</p>
+      </span>
+
       <div className=" px-6 mx-6 lg:p-4 pt-4">
-        <p className="text-xl font-bold" style={{fontWeight:700}}>
+        <p className="text-xl font-bold" style={{ fontWeight: 700 }}>
           {/* OPs {props.admin ? "Admin" : ""} Signup */}
           Client Login
         </p>
-        <p className="text-sm" style={{color:'#3667E9'}}>Get Consulting Support</p>
+        <p className="text-sm" style={{ color: "#3667E9" }}>
+          Get Consulting Support
+        </p>
 
         <Formik
           initialValues={{ username: "", password: "" }}
@@ -110,36 +120,38 @@ const LoginForm = (props) => {
         >
           {({ values, isSubmitting }) => (
             <Form className="space-y-2 pt-3">
-               <div className="my-3">
-              <label className="font-semibold">Email</label><br></br>
-              <Field
-                type="text"
-                name="username"
-                placeholder="Username, Phone or Email Address"
-                className="w-full text-600"
-                style={{borderRadius:"10px"}}
-              />
-              <ErrorMessage
-                name="username"
-                component="div"
-                className="text-sm text-red-600 mb-4"
-              />
+              <div className="my-3">
+                <label className="font-semibold">Email</label>
+                <br></br>
+                <Field
+                  type="text"
+                  name="username"
+                  placeholder="Username, Phone or Email Address"
+                  className="w-full text-600"
+                  style={{ borderRadius: "10px" }}
+                />
+                <ErrorMessage
+                  name="username"
+                  component="div"
+                  className="text-sm text-red-600 mb-4"
+                />
               </div>
               <div className="my-3">
-              <label className="font-semibold">Password</label><br></br>
-              <Field
-                type="password"
-                name="password"
-                placeholder="Password"
-                className="w-full text-600"
-                style={{borderRadius:"12px"}}
-              />
-              <ErrorMessage
-                name="password"
-                component="div"
-                className="text-sm text-red-600"
-              />
-</div>
+                <label className="font-semibold">Password</label>
+                <br></br>
+                <Field
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  className="w-full text-600"
+                  style={{ borderRadius: "12px" }}
+                />
+                <ErrorMessage
+                  name="password"
+                  component="div"
+                  className="text-sm text-red-600"
+                />
+              </div>
               {loginError && (
                 <p className="text-sm text-red-600">{loginError}</p>
               )}

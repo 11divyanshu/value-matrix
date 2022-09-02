@@ -60,7 +60,6 @@ const JobList = () => {
       <div className="flex w-1/2" style={{justifyContent:'space-between'}}>
 
       <p className="text-2xl font-semibold pl-3 ">All Jobs</p>
-      <p className="text-gray-900 text-s mb-2 text-left text-blue"><CSVLink {...csvReport}><button class="bg-blue-600 p-3 w-10vw rounded-md text-white">DOWNLOAD CSV</button></CSVLink></p>
       </div>
       <div className="p-2 min-w-[50vw]">
         {jobs && (

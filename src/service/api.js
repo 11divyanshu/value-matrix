@@ -3,6 +3,7 @@ import axios from "axios";
 export const url = "http://localhost:8000";
 // export const url = "http://3.6.65.3:8000"
 // export const url = "https://backend.babyhost.in"
+export const frontendUrl = "http://localhost:3001";
 
 // User Method API
 export const authenticateLogin = async (user) => {
@@ -457,11 +458,52 @@ export const sovrenResumeParser = async (data) => {
 
 // Send Job Invitations
 export const sendJobInvitations = async (data, token) => {
-  try{
+  try {
     return await axios.post(`${url}/sendJobInvitation`, data, {
       headers: { authorization: token },
     });
-  }catch(err){
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+};
+
+// Get User Invite From  Reset Pass Id
+export const getUserInviteFromResetPassId = async (data) => {
+  try {
+    return await axios.post(`${url}/getUserInviteFromResetPassId`, data);
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+};
+
+// export Set Profile
+export const setProfile = async (data) => {
+  try {
+    return await axios.post(`${url}/setProfile`, data);
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+};
+
+
+// Get Job Invitations
+export const getJobInvitations = async (data, token) => {
+  try {
+    return await axios.post(`${url}/getJobInvitations`, data, {
+      headers: { authorization: token },
+    });
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
+
+// Handle Candidate Job Invitation
+export const handleCandidateJobInvitation = async (data, token) => {
+  try {
+    return await axios.post(`${url}/handleCandidateJobInvitation`, data, {
+      headers: { authorization: token },
+    });
+  } catch (err) {
     console.log("Error : ", err);
   }
 }

@@ -1,6 +1,5 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { ReactSession } from "react-client-session";
 import OneSignal from "react-onesignal";
 
 // Components
@@ -25,7 +24,7 @@ const Dashboard = () => {
   let [userCheck, setUserCheck] = React.useState(false);
 
   // Form to get User details
-  const [modalIsOpen, setModalIsOpen] = React.useState(true);
+  const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
   React.useEffect(() => {
     OneSignal.init({
@@ -69,6 +68,9 @@ const Dashboard = () => {
           );
 
           await setUser(user.data.user.user);
+          if (user.invite) {
+            window.location.href = "/setProfile" + user.resetPassId;
+          }
           if (user.profileImg) {
             let image = await getProfileImage(
               { id: user_id.data.user.user },
@@ -106,9 +108,17 @@ const Dashboard = () => {
       if (!user || !token) {
         window.location.href = "/login";
       }
-      if (user.tools.length === 0|| user.education === [] || user.association === [] ) {
-        console.log("F")
-        setModalIsOpen(true);
+      if (
+        user.tools.length === 0 ||
+        user.education === [] ||
+        user.association === []
+      ) {
+        let modalOnce = await localStorage.getItem("modalOnce");
+        console.log(typeof modalOnce);
+        if (modalOnce === "null") {
+          await localStorage.setItem("modalOnce", true);
+          setModalIsOpen(true);
+        }
       }
     };
 
@@ -158,7 +168,7 @@ const Dashboard = () => {
         <div>
           <CandidateResumeForm isOpen={true} setModalIsOpen={setModalIsOpen} />
         </div>
-     )} 
+      )}
       <div className="z-10 fixed h-screen">
         <Sidebar user={user} />
       </div>

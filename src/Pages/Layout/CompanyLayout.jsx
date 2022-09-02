@@ -1,6 +1,5 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { ReactSession } from "react-client-session";
 
 // Components
 import { companyDashboardRoutes } from "../../routes.js";
@@ -10,8 +9,6 @@ import CompanyForm from "../../Components/CompanyDashboard/CompanyForm";
 
 import { getUserFromId, getUserIdFromToken } from "../../service/api";
 import JobDetails from "../CompanyDashboard/JobDetails.jsx";
-import Modal from "../../Components/CompanyDashboard/Modal.jsx";
-import { AiOutlineConsoleSql } from "react-icons/ai";
 
 const CompanyDashboard = () => {
   // Component To Render

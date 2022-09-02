@@ -11,6 +11,7 @@ import UserProfile from "./Pages/UserDashboard/UserProfile";
 import EditProfile from "./Pages/UserDashboard/EditProfile";
 import JobList from "./Pages/UserDashboard/jobList.jsx";
 import JobDetails from "./Pages/UserDashboard/JobDetail.jsx";
+import JobInvitations from "./Pages/UserDashboard/JobInvitations";
 
 // Admin Pages
 import NotificationPanel from "./Pages/AdminDashboard/Notification";
@@ -93,6 +94,12 @@ export const dashboardRoutes = [
     hide: true,
     component: <JobDetails />,
   },
+  {
+    name : "Job Invitations",
+    path : "jobInvitations",
+    hide : true,
+    component : <JobInvitations/>,
+  }
 ];
 
 // Admin Dashboard Routes
