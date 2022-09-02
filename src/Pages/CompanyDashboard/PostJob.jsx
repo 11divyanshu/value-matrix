@@ -281,6 +281,7 @@ const AddJob = () => {
     job.location = values.values.location;
     job.user_id = values.values.user_id;
     job.validTill = values.values.validTill;
+    job.reqApp = values.values.reqApp;
 
     setUser(job);
     console.log(job);
@@ -444,6 +445,7 @@ const AddJob = () => {
                   jobDesc: user ? user.jobDesc : "",
                   location: user ? user.location : "",
                   jobType: user ? user.jobType : "",
+                  reqApp: user ? user.reqApp : "",
                   validTill: user ? user.validTill : "",
                   hiringOrganization: user ? user.hiringOrganization : "",
                 }}
@@ -606,6 +608,23 @@ const AddJob = () => {
                           />
                           <ErrorMessage
                             name="hiringOrganization"
+                            component="div"
+                            className="text-red-600 text-sm w-full"
+                          />
+                        </div>
+
+                        <div className="my-7 space-y-3 w-full">
+                          <label className="text-left w-3/4 mx-auto block">
+                            Candidates Required
+                          </label>
+                          <Field
+                            name="reqApp"
+                            type="text"
+                            placeholder=""
+                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
+                          />
+                          <ErrorMessage
+                            name="reqApp"
                             component="div"
                             className="text-red-600 text-sm w-full"
                           />

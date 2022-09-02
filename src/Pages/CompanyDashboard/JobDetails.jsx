@@ -259,17 +259,13 @@ function JobDetails(props) {
                 ></h6>
               </div>
               <div className="my-7">
-                <h5 className=" px-4 py-2 text-xl text-gray-800 font-bold">
-                  Skills Required :
-                </h5>
-                {job.skills &&
-                  job.skills.map((item) => {
-                    return (
-                      <span class="bg-blue-100 text-blue-800 text-md my-5 font-semibold mx-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-600">
-                        {item}
-                      </span>
-                    );
-                  })}
+                <h5 className=" px-4 py-2 text-xl text-gray-800 font-bold">Skills Required :</h5>
+                {job && job.skills && job.skills.map((item) => {
+                  return (
+
+                    <span class="bg-blue-100 text-blue-800 text-md my-5 font-semibold mx-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-600">{item}</span>
+                  )
+                })}
               </div>
               <div className="my-7">
                 <h5 className=" px-4 py-2 text-xl text-gray-800 font-bold">

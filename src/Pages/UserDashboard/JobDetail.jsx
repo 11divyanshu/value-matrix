@@ -143,7 +143,7 @@ const JobCard = (props) => {
                 <p className="px-4 text-lg text-gray-400 ">Apply By</p>
                 <p className="px-4 text-md">{new Date(job.validTill).getDate() +
                 "-" +
-                new Date(job.validTill).getMonth() +
+               ( new Date(job.validTill).getMonth()+1) +
                 "-" +
                 new Date(job.validTill).getFullYear()}</p>
                 </div>

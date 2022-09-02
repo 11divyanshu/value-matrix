@@ -25,11 +25,11 @@ const JobList = () => {
 
   ]
 
-  // const csvReport = {
-  //   filename: "jobs.csv",
-  //   headers: headerso,
-  //   data: jobs,
-  // }
+  const csvReport = {
+    filename: "jobs.csv",
+    headers: headerso,
+    data: jobs,
+  }
 
 
 
@@ -37,7 +37,10 @@ const JobList = () => {
 
   React.useEffect(() => {
     const getData = async () => {
-      let res = await listJobs();
+
+      let c_id  = JSON.parse(localStorage.getItem("user"));
+      console.log(c_id);
+      let res = await listJobs(c_id._id);
       console.log(res)
       if (res && res.data) {
         setJobs(res.data.jobs);
@@ -59,8 +62,10 @@ const JobList = () => {
   const applyFilter = async (values) => {
     console.log(values.picked);
     console.log(values.toggle);
+    let c_id  = JSON.parse(localStorage.getItem("user"));
+      console.log(c_id);
     const access_token = localStorage.getItem("access_token");
-    let res = await FilterCompany(jobs, values);
+    let res = await FilterCompany(c_id._id, values);
     
     if (res && res.data) {
       // await setJobs(res.data.jobs);
@@ -99,15 +104,15 @@ setJobs([]);
 
     <> <div className="flex mx-5 mt-3" style={{ justifyContent: 'space-between' }}><p className="text-2xl mx-3 font-semibold pl-3 mt-5">All Jobs</p>
 
-      {/* <div className="py-3">
+      <div className="py-3">
 
 
         <p className="text-gray-900 text-s mb-2 mx-5 text-right text-blue"><CSVLink {...csvReport}><button class="bg-blue-600 p-3 w-10vw rounded-md text-white">DOWNLOAD CSV</button></CSVLink></p>
-      </div> */}
+      </div>
     </div>
       <div className="p-4 w-full flex mx-auto" >
 
-        <div className="w-1/3 mx-5 mt-5 h-3/5 shadow-lg rounded-lg">
+        <div className="w-1/4 mx-5 mt-5 h-3/5 shadow-lg rounded-lg">
 
 
 
@@ -124,35 +129,36 @@ setJobs([]);
             {({ values }) => (
               <Form className="text-center">
                 <div id="my-radio-group " className="text-2xl text-center font-bold font-gray-600">Filters</div>
-                <div role="group" className="flex-column text-center p-3 w-1/2 mx-auto" aria-labelledby="my-radio-group">
+                <div role="group" className="flex-column content-center text-center align-items-center  py-3 my-3 w-1/2 mx-auto  border-t border-gray-300" aria-labelledby="my-radio-group">
 
-                  <label className="text-center  mx-auto w-1/2 flex p-1  text-xl">
-                    <Field type="radio" className="m-2" name="picked" value="One" />
+                  <label className="text-center content-center px-5  flex  text-xl">
+                    <Field type="radio" className="m-2 " name="picked" value="One" />
                     <p className="text-xl font-bold mx-3 font-gray-600">All</p>
                   </label>
                   <br />
-                  <label className="text-center  mx-auto w-1/2 flex p-1  text-xl">
+                  <label className="text-center px-5   flex   text-xl">
                     <Field type="radio" className="m-2" name="picked" value="Two" />
                     <p className="text-xl font-bold mx-3 font-gray-600">Active</p>
                   </label>
                   <br />
-                  <label className="text-center  mx-auto w-1/2 flex p-1  text-xl">
+                  <label className="text-center px-5    flex   text-xl">
                     <Field type="radio" className="m-2" name="picked" value="Three" />
                     <p className="text-xl font-bold mx-3 font-gray-600">Ended</p>
                   </label>
                   {/* <div>Picked: {values.picked}</div> */}
                 </div>
-                <label className="text-center w-1/2 text-center mx-auto  flex p-1  text-xl">
+
+                <label className="text-center w-1/2 content-center mx-auto px-5 text-center  flex p-1  text-xl">
                   <Field type="checkbox" className="m-2" name="toggle" />
                   <p className="text-xl font-bold mx-3 font-gray-600">Vacant</p>
                 </label>
 
 
                 <button
-                  className="bg-blue-500 text-white rounded-sm px-2 py-1"
+                  className="bg-blue-500 text-white shadow-lg rounded-lg my-4 px-4 py-2"
                   onClick={() => applyFilter(values)}
                 >
-                  Apply Changes
+                  Apply
                 </button>
               </Form>
             )}
@@ -160,7 +166,7 @@ setJobs([]);
 
 
         </div>
-        <div className=" w-2/3 mx-5">
+        <div className=" w-3/4 mx-5">
 
           {loader ? <p>...Loading</p> :
             <div className="p-2 w-full">
