@@ -173,23 +173,26 @@ const EditCompanyProfile = () => {
     <div className="p-5">
       <p className="text-2xl font-bold">Edit Profile</p>
       {user !== null && (
-        <div>
-          <div className="my-3 shadow-md rounded-md w-full p-3 flex items-center">
-            <div>
+       <div className="m-5">
+       <div className="h-48 w-full relative" style={{ background: "#99DEFF" }}>
+
+</div>
+<div className="relative mx-5 rounded-md w-full p-3 flex items-center ">
+<div className="absolute -top-20 left-20">
               <img
                 // src={
                 //   user && user.profileImg ? user.profileImg : Avatar
                 // }
                 src={Avatar}
-                className="h-16 w-16 rounded-md mx-6"
+                className="h-40 w-40 rounded-full mx-6"
                 alt="userAvatar"
               />
             </div>
-            <div>
-              <p className="font-semibold">
+            <div className="ml-72">
+              <p className="font-semibold text-3xl">
                 {user.firstName} {user.lastname}
               </p>
-              <p className="text-gray-700 text-sm">User</p>
+              <p className="text-gray-400 text-lg">{user.username}</p>
             </div>
             <div class="ml-auto mr-5">
               <label>
@@ -203,7 +206,7 @@ const EditCompanyProfile = () => {
             </div>
           </div>
 
-          <div className="my-3 shadow-md rounded-md w-full  pt-3">
+          <div className="my-3 rounded-md w-full  pt-3">
 
             {/* <Formik
               initialValues={{

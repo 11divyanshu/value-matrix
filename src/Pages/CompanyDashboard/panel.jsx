@@ -13,7 +13,6 @@ import Graph from "../../assets/images/graph.png";
 import LGraph from "../../assets/images/lgraph.png";
 
 import { BsThreeDots } from "react-icons/bs";
-import Sidebar from "../../Components/CompanyDashboard/Sidebar";
 
 const Panel = () => {
   const data = React.useMemo(
@@ -41,7 +40,6 @@ const Panel = () => {
 
   return (
     <div className="flex bg-slate-100 ">
-      <Sidebar />
 
       <div className="container-fluid mx-auto mt-12">
         <div className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-4">
