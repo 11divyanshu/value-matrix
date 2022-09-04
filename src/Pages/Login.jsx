@@ -46,13 +46,13 @@ const Login = () => {
     <div className={styles.loginLanding}>
       {/* Login Card */}
       <div
-        className="container w-1/2 flex bg-white rounded-lg"
+        className="container w-5/12 flex bg-white rounded-lg"
         style={{ borderRadius: "0.7rem" }}
       >
         {!login && (
           <div className="w-full flex flex-col">
             <SignupForm />
-            <p className="pb-5 text-center text-sm block">
+            <p className="pb-5 text-center text-md block">
               Already have an account ?{" "}
               <span
                 className="text-blue-700 font-semibold cursor-pointer"
@@ -73,7 +73,7 @@ const Login = () => {
         {login && (
           <div className="w-full flex flex-col">
             <LoginForm />
-            <p className="pb-5 text-center text-sm block">
+            <p className="pb-5 text-center text-md block">
               Don't have an account ?{" "}
               <span
                 className="text-blue-700 font-semibold cursor-pointer"

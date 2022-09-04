@@ -373,17 +373,20 @@ const SignupForm = () => {
   };
 
   return (
-    <div className="px-7 pt-5  lg:p-9 ">
-      <span style={{ fontWeight: 700 }} className="text-3xl font-bold flex ">
+    <div className="px-7 pt-5  lg:p-7 ">
+      <span
+        style={{ fontWeight: 700 }}
+        className="text-3xl font-bold flex px-4"
+      >
         Value{" "}
         <p className="px-2" style={{ color: "#3667E9" }}>
           Matrix
         </p>
       </span>
       <br></br>
-      <div className="p-4 lg:p-12 pt-5  pb-2 px-7">
+      <div className="p-4 lg:p-8 pt-2  pb-2 px-7">
         {/* <p className="text-xl font-bold">OPs/Admin Signup</p> */}
-        <p className="text-lg mb-4" style={{ fontWeight: 700 }}>
+        <p className="text-xl font-semibold mb-4" style={{ fontWeight: 700 }}>
           Create New Account{" "}
         </p>
 
@@ -476,6 +479,7 @@ const SignupForm = () => {
                 <Field
                   as="select"
                   name="user_type"
+                  className="mx-3"
                   style={{ borderRadius: "12px" }}
                 >
                   <option value="User">Candidate</option>
@@ -519,7 +523,7 @@ const SignupForm = () => {
                   {!verifyEmail && (
                     <button
                       type="button"
-                      className="bg-blue-600 text-white my-2 py-2 rounded-lg hover:bg-blue-700 text-center w-1/4 cursor-pointer"
+                      className="bg-blue-600 text-white my-2 py-2 rounded-lg hover:bg-blue-700 text-sm text-center px-2 cursor-pointer"
                       style={{ backgroundColor: "#3B82F6" }}
                       onClick={() => sendEmailOTP(values)}
                     >
@@ -531,7 +535,7 @@ const SignupForm = () => {
                   {EmailOTP && !verifyEmail && (
                     <button
                       type="button"
-                      className="bg-blue-600 text-white mx-3 py-2 rounded-md hover:bg-blue-700 text-center w-1/4 cursor-pointer"
+                      className="bg-blue-600 text-white my-2 py-2 rounded-lg hover:bg-blue-700 text-sm text-center px-2 cursor-pointer"
                       style={{ backgroundColor: "#3B82F6" }}
                       onClick={() => verifyEmailOTP(values)}
                     >
@@ -587,7 +591,7 @@ const SignupForm = () => {
                   {!verifySms && (
                     <button
                       type="button"
-                      className="bg-blue-600 text-white my-2 py-2 rounded-lg hover:bg-blue-700 text-center w-1/4 cursor-pointer"
+                      className="bg-blue-600 text-white my-2 py-2 rounded-lg hover:bg-blue-700 text-sm text-center px-2 py-1 cursor-pointer"
                       style={{ backgroundColor: "#3B82F6" }}
                       onClick={() => sendSmsOTP(values)}
                     >
@@ -599,7 +603,7 @@ const SignupForm = () => {
                   {SmsOTP && !verifySms && (
                     <button
                       type="button"
-                      className="bg-blue-600 text-white mx-3 py-2 rounded-lg hover:bg-blue-700 text-center w-1/4 cursor-pointer"
+                      className="bg-blue-600 text-white my-2 py-2 rounded-lg hover:bg-blue-700 text-sm text-center px-2 py-1 cursor-pointer"
                       style={{ backgroundColor: "#3B82F6" }}
                       onClick={() => verifySmsOTP(values)}
                     >
@@ -654,9 +658,10 @@ const SignupForm = () => {
               </div>
 
               <div>
-                <div>
+                <div className="w-full justify-center flex">
                   <ReCAPTCHA
                     sitekey="6LdanHEhAAAAALDqT2CqlzJvxdPDPUDYGkcceYd7"
+                    
                     onChange={(values) => {
                       setCaptcha(true);
                     }}

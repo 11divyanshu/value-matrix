@@ -5,12 +5,11 @@ import {
   resetPassword,
   sendResetPasswordMail,
   sendResetPasswordSMS,
-  sendResetPasswordByUsername
+  sendResetPasswordByUsername,
 } from "../../service/api";
 
 // Assets
 import styles from "../../assets/stylesheet/login.module.css";
-import jsCookie from "js-cookie";
 import Loader from "../../assets/images/loader.gif";
 
 const ResetPassword = () => {
@@ -51,10 +50,18 @@ const ResetPassword = () => {
   };
 
   const submitHandle = async (values) => {
+    if(values.contact === "" || values.contact === null){
+      setAlert({
+        success:false,
+        message : "Enter A Valid Value"
+      })
+      return;
+    }
     setLoading(true);
     setAlert(null);
     try {
       if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.contact)) {
+        console.log("F");
         let res = await sendResetPasswordMail(values);
         console.log(res);
         if (res && res.status === 200) {
@@ -112,22 +119,22 @@ const ResetPassword = () => {
 
   return (
     <div className={styles.loginLanding}>
-      <div className="container w-2/3 flex bg-white rounded-lg h-2/3">
-        <div className="md:w-1/2 w-full">
-          <div className={styles.Card1}></div>
-        </div>
+      <div className="container w-5/12 flex bg-white rounded-lg h-2/3">
         <div className="md:w-1/2 w-full flex flex-col">
           <div className="p-5 pt-5 pb-2 lg:p-9 text-left">
-            <span style={{ fontWeight: 700 }} className="text-3xl font-bold flex ">Value <p style={{ color: '#3667E9' }}>Matrix</p></span>
+            <span
+              style={{ fontWeight: 700 }}
+              className="text-3xl font-bold flex px-2"
+            >
+              Value <p style={{ color: "#3667E9" }}>Matrix</p>
+            </span>
             {component === 1 && (
               <div className="p-2 lg:p-12 pt-8  pb-2 pl-5">
-                <p className="text-xl">Reset Your Password</p>
-                <p className="text-sm my-2">
-                  Forgot your password ? Just fill in your Email Address.
-                </p>
+                <p className="text-xl font-semibold">Reset Your Password</p>
+                <p className="text-sm my-2 mb-7">Please Enter Your Details</p>
                 {Alert && Alert.success === true && (
                   <div
-                    class="bg-green-100 rounded-lg py-5 px-6 my-3 mb-4 text-base text-green-800"
+                    class="bg-green-100 rounded-lg py-5 px-6 my-3 mb-2 text-base text-green-800"
                     role="alert"
                   >
                     {Alert.message}
@@ -135,7 +142,7 @@ const ResetPassword = () => {
                 )}
                 {Alert && Alert.success === false && (
                   <div
-                    class="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700"
+                    class="bg-red-100 rounded-lg py-5 px-6 mb-2 text-base text-red-700"
                     role="alert"
                   >
                     {Alert.message}
@@ -164,15 +171,14 @@ const ResetPassword = () => {
                   >
                     {(values) => {
                       return (
-                        <Form className="my-8 w-100 ">
+                        <Form className="mb-8 w-100 ">
                           <div className="w-full mx-auto">
                             <Field
                               type="text"
                               name="contact"
                               placeholder="Enter Email, Contact or Username "
                               className="w-3/4"
-                              style={{borderRadius:"10px"}}
-
+                              style={{ borderRadius: "10px" }}
                             />
                             <ErrorMessage
                               name="contact"
@@ -207,7 +213,7 @@ const ResetPassword = () => {
                   </Formik>
                 </div>
                 <p>
-                  Didn't have an account ?{" "}
+                  Didn't have an account ?
                   <Link to="/register" className="text-blue-600">
                     Create New
                   </Link>
@@ -270,8 +276,7 @@ const ResetPassword = () => {
                               type="text"
                               name="newPassword"
                               className="w-full"
-                              style={{borderRadius:"10px"}}
-
+                              style={{ borderRadius: "10px" }}
                             />
                             <ErrorMessage
                               name="newPassword"
@@ -285,8 +290,7 @@ const ResetPassword = () => {
                               type="text"
                               name="newPassword2"
                               className="w-full"
-                              style={{borderRadius:"10px"}}
-
+                              style={{ borderRadius: "10px" }}
                             />
                             <ErrorMessage
                               name="newPassword2"

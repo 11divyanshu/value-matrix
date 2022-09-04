@@ -90,7 +90,7 @@ const LoginForm = (props) => {
   };
 
   return (
-    <div className="pt-5 lg:p-9 ">
+    <div className="pt-5 lg:p-7 ">
       <span
         style={{ fontWeight: 700 }}
         className="text-4xl font-bold flex pl-9"
@@ -120,7 +120,7 @@ const LoginForm = (props) => {
           }}
         >
           {({ values, isSubmitting }) => (
-            <Form className="space-y-2 pt   -3">
+            <Form className="space-y-2 pt-3">
               <div className="my-3">
                 <label className="font-semibold">Email</label>
                 <br></br>
@@ -153,7 +153,7 @@ const LoginForm = (props) => {
                   />
                   {showPassword ? (
                     <p
-                      className="text-black text-sm hover:text-blue-500 cursor-pointer w-10 px-2"
+                      className="text-black text-sm hover:text-blue-500 cursor-pointer w-10 px-2 font-semibold"
                       onClick={() => {
                         setShowPassword(false);
                       }}
@@ -162,7 +162,7 @@ const LoginForm = (props) => {
                     </p>
                   ) : (
                     <p
-                      className="text-black text-sm hover:text-blue-500 cursor-pointer w-10 px-2"
+                      className="text-black text-sm hover:text-blue-500 cursor-pointer w-10 px-2  font-semibold" 
                       onClick={() => {
                         setShowPassword(true);
                       }}
@@ -218,7 +218,7 @@ const LoginForm = (props) => {
           )}
         </Formik>
 
-        <div className="flex space-x-3 justify-center w-full items-center text-gray-600 py-3">
+        <div className="flex space-x-3 justify-center w-full items-center text-gray-600 py-5">
           <div className="h-[0.5px] w-12 bg-gray-600 block"></div>
           <p> Or Login With </p>
           <div className="h-[0.5px] w-12 bg-gray-600 block"></div>
