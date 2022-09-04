@@ -25,7 +25,7 @@ export default function Tabs() {
       let user = JSON.parse(await localStorage.getItem("user"));
       let access_token = localStorage.getItem("access_token");
       if (user && user.profileImg) {
-      
+
         const img = user.profileImg;
         const imgBase64 = img.toString("base64");
         console.log(imgBase64);
@@ -33,7 +33,7 @@ export default function Tabs() {
         setProfileImg(imgBase64);
       }
 
-     
+
       if (access_token === null) window.location.href = "/login";
 
 
@@ -47,9 +47,9 @@ export default function Tabs() {
     <div className='Tabs'>
 
       <div className="tabList flex">
-        <div className={`tabHead ${index===0 && 'active'}`} onClick={() => { setIndex(0) }}>Contact</div>
-        <div className={`tabHead ${index===1 && 'active'}`} onClick={() => { setIndex(1) }}>About</div>
-        <div className={`tabHead ${index===2 && 'active'}`} onClick={() => { setIndex(2) }}>Billing Credentials</div>
+        <div className={`tabHead ${index === 0 && 'active'}`} onClick={() => { setIndex(0) }}>Contact</div>
+        <div className={`tabHead ${index === 1 && 'active'}`} onClick={() => { setIndex(1) }}>About</div>
+        <div className={`tabHead ${index === 2 && 'active'}`} onClick={() => { setIndex(2) }}>Billing Credentials</div>
       </div>
       <div className="tabContent p-5" hidden={index != 0}>
         {user !== null && user !== undefined && (
@@ -76,7 +76,7 @@ export default function Tabs() {
                       name="username"
                       disabled
                       className="block border-gray-100 rounded-lg py-1 md:w-1/2 w-3/4"
-                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                    // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
                   </div>
@@ -87,7 +87,7 @@ export default function Tabs() {
                       name="firstName"
                       disabled
                       className="block border-gray-100 rounded-lg py-1 md:w-1/2 w-3/4"
-                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                    // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
                   </div>
@@ -98,7 +98,7 @@ export default function Tabs() {
                       type="text"
                       disabled
                       className="block border-gray-100 rounded-lg py-1 md:w-1/2 w-3/4"
-                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                    // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
                   </div>
@@ -109,7 +109,7 @@ export default function Tabs() {
                       type="text"
                       disabled
                       className="block border-gray-100 rounded-lg py-1 md:w-1/2 w-3/4"
-                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                    // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
                   </div>
@@ -120,26 +120,26 @@ export default function Tabs() {
                       type="text"
                       disabled
                       className="block border-gray-100 rounded-lg py-1 md:w-1/2 w-3/4"
-                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                    // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
                   </div>
 
-               
-</div>
-                 
+
+                </div>
+
               </Form>
             )}
           </Formik>
         )}
       </div>
       <div className="tabContent p-5" hidden={index != 1}>
-      {user !== null && user !== undefined && (
+        {user !== null && user !== undefined && (
           <Formik
             initialValues={{
-              about: user.desc[0] ? user.desc[0].about :" ", 
-              motto: user.desc[0] ? user.desc[0].motto: " ",
-              industry: user.desc[0] ? user.desc[0].industry  :" " ,
+              about: user.desc[0] ? user.desc[0].about : " ",
+              motto: user.desc[0] ? user.desc[0].motto : " ",
+              industry: user.desc[0] ? user.desc[0].industry : " ",
               found: user.desc[0] ? user.desc[0].found : " ",
               website: user.desc[0] ? user.desc[0].website : " ",
               company_size: user.desc[0] ? user.desc[0].company_size : " "
@@ -149,7 +149,7 @@ export default function Tabs() {
               <Form>
 
                 <div className="flex flex-wrap w-full gap-y-5">
-                 
+
 
                   <label style={{ color: "#3B82F6" }} className="py-3 text-xl font-semibold">About</label>
                   <hr />
@@ -159,12 +159,12 @@ export default function Tabs() {
                     <p
                       type="text"
                       className="block break-words py-2 md:w-3/4 w-full rounded-lg"
-                      
+
                       disabled
 
-                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                    // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
-                    > {user.desc[0] ? user.desc[0].about :" "} </p>
+                    > {user.desc[0] ? user.desc[0].about : " "} </p>
 
                   </div>
 
@@ -176,7 +176,7 @@ export default function Tabs() {
                       className="block border-gray-100 rounded-lg py-1 md:w-3/4 w-full"
                       name="motto"
                       disabled
-                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                    // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
 
@@ -190,7 +190,7 @@ export default function Tabs() {
                       className="block border-gray-100 rounded-lg  py-1 md:w-3/4 w-full"
                       name="website"
                       disabled
-                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                    // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
 
@@ -204,7 +204,7 @@ export default function Tabs() {
                       className="block border-gray-100 rounded-lg py-1 md:w-3/4 w-full"
                       name="industry"
                       disabled
-                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                    // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
 
@@ -218,7 +218,7 @@ export default function Tabs() {
                       className="block border-gray-100 rounded-lg py-1 md:w-3/4 w-full"
                       name="company_size"
                       disabled
-                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                    // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
 
@@ -232,13 +232,13 @@ export default function Tabs() {
                       className="block border-gray-100 rounded-lg py-1 md:w-3/4 w-full"
                       name="found"
                       disabled
-                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                    // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
 
                   </div>
-                  
-                
+
+
                 </div>
               </Form>
             )}
@@ -246,39 +246,58 @@ export default function Tabs() {
         )}
       </div>
       <div className="tabContent p-5" hidden={index != 2}>
-      {user !== null && user !== undefined && (
+        {user !== null && user !== undefined && (
           <Formik
             initialValues={{
-              gst: user.billing[0] ?user.billing[0].gst :"",
-              pan: user.billing[0] ?user.billing[0].pan:"",
-              
+              gst: user.billing[0] ? user.billing[0].gst : "",
+              pan: user.billing[0] ? user.billing[0].pan : "",
+              location: user.billing[0] ? user.billing[0].location : "",
+
             }}
           >
             {({ values, isSubmitting }) => (
               <Form>
 
-                <div className="flex flex-wrap w-full gap-y-5">
-                 
+                <div className="flex-column flex-wrap w-full gap-y-5">
+
 
                   <label style={{ color: "#3B82F6" }} className="py-3 text-xl font-semibold">Billing Credentials</label>
                   <hr />
-                
 
-                  <div className="md:w-1/2 w-full space-y-1">
 
-                    <label className="font-semibold">GST No.</label>
-                    <Field
-                      type="text"
-                      className="block border-gray-100 rounded-lg py-1 md:w-3/4 w-full"
-                      name="gst"
-                      disabled
+                  <div className="md:w-1/2 w-3/4 my-5 space-y-3">
+
+                    <label className="font-semibold">Tax ID</label>
+
+
+
+                    <div className='flex'>
+
+                      <Field
+
+                        type="text"
+                        id="location"
+                        name="location"
+                        className="block border-gray-100 w-14 py-1"
+                        multiple={false}
+                        disabled
+                      >
+
+                      </Field>
+
+
+                      <Field
+                        type="text"
+                        className="block border-gray-100  py-1 md:w-3/4 w-full"
+                        name="gst"
+                        disabled
                       // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
-                    />
+                      /></div>
 
                   </div>
 
-                  <div className="md:w-1/2 w-full space-y-1">
+                  <div className="md:w-1/2 w-3/4 my-5 space-y-3">
 
                     <label className="font-semibold">PAN</label>
                     <Field
@@ -286,14 +305,14 @@ export default function Tabs() {
                       className="block border-gray-100 rounded-lg  py-1 md:w-3/4 w-full"
                       name="pan"
                       disabled
-                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                    // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
 
                   </div>
 
-                 
-                
+
+
                 </div>
               </Form>
             )}

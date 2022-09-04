@@ -14,7 +14,7 @@ import { getUserFromId } from "../../service/api";
 const Sidebar = () => {
   const [open, setOpen] = React.useState(true);
 
-  const hasWindow = typeof window !== "undefined";
+  // const hasWindow = typeof window !== "undefined";
 
   const [permission, setPermissions] = React.useState({
     add_jobs: true,
@@ -23,29 +23,29 @@ const Sidebar = () => {
     default: true,
   });
 
-  function getWindowDimensions() {
-    const width = hasWindow ? window.innerWidth : null;
-    const height = hasWindow ? window.innerHeight : null;
-    return {
-      width,
-      height,
-    };
-  }
+  // function getWindowDimensions() {
+  //   const width = hasWindow ? window.innerWidth : null;
+  //   const height = hasWindow ? window.innerHeight : null;
+  //   return {
+  //     width,
+  //     height,
+  //   };
+  // }
 
-  const [windowDimensions, setWindowDimensions] = React.useState(
-    getWindowDimensions()
-  );
+  // const [windowDimensions, setWindowDimensions] = React.useState(
+  //   getWindowDimensions()
+  // );
 
-  React.useEffect(() => {
-    if (hasWindow) {
-      function handleResize() {
-        setWindowDimensions(getWindowDimensions());
-      }
+  // React.useEffect(() => {
+  //   if (hasWindow) {
+  //     function handleResize() {
+  //       setWindowDimensions(getWindowDimensions());
+  //     }
 
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }
-  }, [hasWindow]);
+  //     window.addEventListener("resize", handleResize);
+  //     return () => window.removeEventListener("resize", handleResize);
+  //   }
+  // }, [hasWindow]);
 
   React.useEffect(() => {
     const initial = async () => {
@@ -73,7 +73,7 @@ const Sidebar = () => {
 
   return (
     <div className="relative h-screen">
-      <div className="fixed bg-blue-500 left-0 top-3 rounded-full text-white p-2">
+      {/* <div className="fixed bg-blue-500 left-0 top-3 rounded-full text-white p-2">
         <AiOutlineMenu
           className="text-md"
           onClick={() => {
@@ -117,7 +117,69 @@ const Sidebar = () => {
             })}
           </Menu>
         </SidebarContent>
-      </ProSidebar>
+      </ProSidebar> */}
+
+      {/* <div className="w-1/4 h-100">
+<div className="py-3">
+{companyDashboardRoutes.map((item) => {
+              if (item.hide === false && permission[item.permission] !== false)
+                return (
+                  <Menu className="mx-4 py-2 flex font-300-gray" icon={item.icon}>
+                    {item.name}
+                    <Link
+                      to={`/company${item.path}`}
+                      onClick={() => setOpen(true)}
+                    />
+                  </Menu>
+                );
+              return null;
+            })}
+</div>
+</div> */}
+
+      <div className="flex">
+        <div className="flex flex-col h-screen p-3 bg-white shadow w-60">
+          <div className="space-y-3">
+            <div className="flex items-center">
+              {/* <h2 className="text-xl font-bold px-3">Dashboard</h2> */}
+            </div>
+            <div className="flex-1">
+              <ul className="pt-2 pb-4 space-y-1 text-sm">
+                {companyDashboardRoutes.map((item) => {
+                  if (item.hide === false && permission[item.permission] !== false)
+                    return (
+                      <li className="rounded-sm">
+
+                        {/* <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="w-6 h-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                            />
+                          </svg> */}
+                        <Link
+                          to={`/company${item.path}`}
+                          onClick={() => setOpen(true)}
+                        > <span className="flex my-2 p-3 text-gray-700"> <p className="mx-2 text-gray-600">{item.icon} </p>  <p className="font-bold"> {item.name}</p> </span></Link>
+
+                      </li>)
+                })}
+ 
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
     </div>
   );
 };

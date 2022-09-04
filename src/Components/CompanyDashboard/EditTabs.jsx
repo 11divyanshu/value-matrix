@@ -12,6 +12,7 @@ import {
   updateEmailOTP,
   updateUserDetails,
   validateSignupDetails,
+  fetchCountry
 } from "../../service/api";
 import ReactCropper from "../../Pages/UserDashboard/ReactCrop";
 
@@ -50,6 +51,11 @@ export default function Tabs(props) {
   const [profileImg, setProfileImg] = React.useState(null);
   const [aboutDetail, setAboutDetail] = React.useState([]);
   const [billingDetail, setBillingDetail] = React.useState([]);
+  const [country, setCountry] = React.useState([]);
+
+
+
+
   React.useEffect(() => {
     const initial = async () => {
       let e = JSON.parse(await localStorage.getItem("user"));
@@ -73,6 +79,12 @@ export default function Tabs(props) {
       if (aboutDetail === null) {
         setBillingDetail([]);
       }
+
+      const res = await fetchCountry();
+      // console.log(res.data.countries[0].country);
+      setCountry(res.data.countries[0].country)
+      // console.log(country)
+
     };
     initial();
   }, []);
@@ -82,7 +94,7 @@ export default function Tabs(props) {
 
 
     if (values.firstName) {
-     
+
       let user = JSON.parse(localStorage.getItem("user"));
 
       user.firstName = values.firstName;
@@ -103,7 +115,7 @@ export default function Tabs(props) {
 
 
     if (values.about) {
-      
+
       let e = JSON.parse(
         await localStorage.getItem("user")
       );
@@ -124,11 +136,11 @@ export default function Tabs(props) {
         text: "Details Saved",
         button: "Continue",
       });
-   
+
     }
-    
+
     if (values.gst) {
-      
+
       let e = JSON.parse(
         await localStorage.getItem("user")
       );
@@ -149,7 +161,7 @@ export default function Tabs(props) {
         text: "Details Saved",
         button: "Continue",
       });
-   
+
     }
   }
 
@@ -226,14 +238,14 @@ export default function Tabs(props) {
 
   const update = async (ed) => {
     console.log(ed);
-   
+
 
     let data = {
       firstName: ed.firstName,
       lastname: ed.lastName,
-      address:ed.address,
-      desc:ed.desc,
-      billing:ed.billing
+      address: ed.address,
+      desc: ed.desc,
+      billing: ed.billing
     };
     if (EmailOTP) {
       data.email = ed.email;
@@ -262,17 +274,17 @@ export default function Tabs(props) {
         title: "EditProfile",
         text: "Details Updated Succesfully",
         button: "Continue",
-      }).then(async()=>{
+      }).then(async () => {
 
         await localStorage.setItem("user", JSON.stringify(res.data.user));
         window.location.href = "/company/profile";
       })
-    
+
     } else {
       console.log("Error");
     }
 
-   
+
   };
   React.useEffect(() => {
     const initial = async () => {
@@ -341,7 +353,7 @@ export default function Tabs(props) {
               }
               return errors;
             }}
-            // onSubmit={(values) => submit(values)}
+          // onSubmit={(values) => submit(values)}
           >
             {({ values }) => (
               <Form>
@@ -442,7 +454,7 @@ export default function Tabs(props) {
                 </div>
                 <div className="w-full">
                   <button
-                    onClick={() =>save(values)}
+                    onClick={() => save(values)}
                     className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"
                     style={{ backgroundColor: " rgb(59 130 246)" }}
                   >
@@ -453,7 +465,7 @@ export default function Tabs(props) {
                     type="submit"
                     className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"
                     style={{ backgroundColor: " rgb(59 130 246)" }}
-                    onClick={() =>update(user)}
+                    onClick={() => update(user)}
 
                   >
                     Submit
@@ -470,8 +482,8 @@ export default function Tabs(props) {
           <Formik
             initialValues={{
               about: user.desc[0] ? user.desc[0].about : " ",
-              motto: user.desc[0] ? user.desc[0].motto: " ",
-              industry: user.desc[0] ? user.desc[0].industry: " ",
+              motto: user.desc[0] ? user.desc[0].motto : " ",
+              industry: user.desc[0] ? user.desc[0].industry : " ",
               found: user.desc[0] ? user.desc[0].found : " ",
               website: user.desc[0] ? user.desc[0].website : " ",
               company_size: user.desc[0] ? user.desc[0].company_size : ""
@@ -573,7 +585,7 @@ export default function Tabs(props) {
                 </div>
                 <div className="w-full">
                   <button
-                    onClick={() =>save(values)}
+                    onClick={() => save(values)}
                     className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"
                     style={{ backgroundColor: " rgb(59 130 246)" }}
                   >
@@ -583,7 +595,7 @@ export default function Tabs(props) {
                     type="submit"
                     className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"
                     style={{ backgroundColor: " rgb(59 130 246)" }}
-                    onClick={() =>update(user)}
+                    onClick={() => update(user)}
 
                   >
                     Submit
@@ -595,35 +607,67 @@ export default function Tabs(props) {
         )}
       </div>
       <div className="tabContent p-5" hidden={index != 2}>
-      {user !== null && user !== undefined && (
+        {user !== null && user !== undefined && (
           <Formik
             initialValues={{
-              gst: user.billing[0] ? user.billing[0].gst:"",
-              pan: user.billing[0] ?user.billing[0].pan:"",
-              
+              gst: user.billing[0] ? user.billing[0].gst : "",
+              pan: user.billing[0] ? user.billing[0].pan : "",
+              location: user.billing[0] ? user.billing[0].location : "",
+                  
             }}
           >
             {({ values, isSubmitting }) => (
               <Form>
 
                 <div className="flex flex-wrap w-full gap-y-5">
-                 
+
 
                   <label style={{ color: "#3B82F6" }} className="py-3 text-xl font-semibold">Billing Credentials</label>
-                  <hr />
-                
-
+                  {/* <hr />
+                  <div className="md:w-1/2 w-full space-y-1">
+                  <label className="font-semibold">Country</label>
+           <Field
+             component="select"
+             id="location"
+             name="location"
+             className="block border-gray-100 rounded-lg py-1 md:w-3/4 w-full"
+             multiple={false}
+           >
+             <option value="NY">India</option>
+             <option value="NY">New Zealand</option>
+             <option value="SF">USA</option>
+             <option value="CH">UK</option>
+             <option value="OTHER">Other</option>
+           </Field>
+           </div> */}
                   <div className="md:w-1/2 w-full space-y-1">
 
-                    <label className="font-semibold">GST No.</label>
-                    <Field
-                      type="text"
-                      className="block border-gray-100 rounded-lg py-1 md:w-3/4 w-full"
-                      name="gst"
-                    
+                    <label className="font-semibold">TAX ID.</label>
+                    <div className='flex'>
+
+                      <Field 
+
+                        component="select"
+                        id="location"
+                        name="location"
+                        className="block border-gray-100 w-1/4 py-1"
+                        multiple={false}
+                      >
+                        {country && country.map((item) => {
+                          return(
+                          <option value={item.code}>{item.name}</option>)
+                        })}
+                      </Field>
+
+
+                      <Field
+                        type="text"
+                        className="block border-gray-100  py-1 md:w-3/4 w-full"
+                        name="gst"
+
                       // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
-                    />
+                      ></Field></div>
 
                   </div>
 
@@ -634,21 +678,21 @@ export default function Tabs(props) {
                       type="text"
                       className="block border-gray-100 rounded-lg  py-1 md:w-3/4 w-full"
                       name="pan"
-                     
-                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+
+                    // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
 
                   </div>
 
-                 
-                
+
+
                 </div>
-              
-           
-            <div className="w-full">
+
+
+                <div className="w-full">
                   <button
-                    onClick={() =>save(values)}
+                    onClick={() => save(values)}
                     className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"
                     style={{ backgroundColor: " rgb(59 130 246)" }}
                   >
@@ -658,14 +702,14 @@ export default function Tabs(props) {
                     type="submit"
                     className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"
                     style={{ backgroundColor: " rgb(59 130 246)" }}
-                    onClick={() =>update(user)}
+                    onClick={() => update(user)}
 
                   >
                     Submit
                   </button>
                 </div>
-                </Form>
-                 )}
+              </Form>
+            )}
           </Formik>
         )}
 

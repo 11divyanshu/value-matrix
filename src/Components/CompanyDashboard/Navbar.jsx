@@ -4,7 +4,7 @@ import { Fragment } from "react";
 import { ReactSession } from "react-client-session";
 import { LogoutAPI } from "../../service/api";
 import NotificationPopOver from "../Dashbaord/Notifications";
-
+import logo from "../../assets/images/logo.gif"
 // Assets
 import { IoCall } from "react-icons/io5";
 import { BsFillChatLeftTextFill } from "react-icons/bs";
@@ -22,8 +22,8 @@ const Navbar = (props) => {
   };
 
   return (
-    <div className="flex items-center border-b-2 w-full pl-4 py-4 shadow-md">
-    <div className="text-slate-600 text-lg md:block hidden ">Value matrix</div>
+    <div className="flex items-center border-b-2 w-full py-4 shadow-md">
+    <div className="text-slate-600 text-lg md:block hidden "><img className="w-24 h-12 mx-5" src={logo}/></div>
     <div className="space-x-8   ml-auto flex mr-8 items-center">
       <IoCall className="text-gray-700 text-lg cursor-pointer hover:text-gray-800 md:block hidden"/>
       <BsFillChatLeftTextFill className="text-gray-700 text-lg cursor-pointer hover:text-gray-800 md:block hidden" />

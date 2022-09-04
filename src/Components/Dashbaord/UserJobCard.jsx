@@ -24,8 +24,8 @@ const JobCard = (props) => {
                 
                 </p>
                 <div>
-                <p className="px-4 text-gray-400 text-lg text-gray-400">Duration</p>
-                <p className="px-4 text-md">{job.salary}</p>
+                <p className="px-4 text-gray-400 text-lg text-gray-400">Job Type</p>
+                <p className="px-4 text-md">{job.jobType}</p>
                 </div>
                 </div> 
               
@@ -62,8 +62,12 @@ const JobCard = (props) => {
                 
                 </p>
                 <div>
-                <p className="px-4 text-lg text-gray-400 ">Start Date</p>
-                <p className="px-4 text-md">{job.start_date}</p>
+                <p className="px-4 text-lg text-gray-400 ">Apply Till</p>
+                <p className="px-4 text-md">{new Date(job.validTill).getDate() +
+                "-" +
+               ( new Date(job.validTill).getMonth()+1) +
+                "-" +
+                new Date(job.validTill).getFullYear()}</p>
                 </div>
             </div>
 
