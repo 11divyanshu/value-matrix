@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 // Components
 import { companyDashboardRoutes } from "../../routes.js";
 import Navbar from "../../Components/CompanyDashboard/Navbar";
-import Sidebar from "../../Components/CompanyDashboard/Sidebar";
 import CompanyForm from "../../Components/CompanyDashboard/CompanyForm";
 
 import { getUserFromId, getUserIdFromToken } from "../../service/api";
@@ -72,8 +71,8 @@ const CompanyDashboard = () => {
         window.location.href = "/login";
       }
 
-      let usercheck = JSON.parse(user)
-      if (usercheck.desc === [] || usercheck.billing[0] === []) {
+     
+      if (user.desc === []|| user.billing === []) {
         console.log("F")
         setModalIsOpen(true);
       }else{
@@ -132,13 +131,11 @@ const CompanyDashboard = () => {
     <div className="max-w-screen flex h-screen">
       {modalIsOpen && (
         <div>
-          <CompanyForm isOpen={true} />
+          <CompanyForm isOpen={true} setModalIsOpen={setModalIsOpen}/>
         </div>
       )}
-      <div className="z-10 fixed h-screen">
-        <Sidebar />
-      </div>
-      <div className="md:pl-16 pl-0 w-full z-1">
+     
+      <div className=" pl-0 w-full z-1">
         <Navbar user={user} />
 
         <div>{comp}</div>

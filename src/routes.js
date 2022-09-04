@@ -1,6 +1,7 @@
 import { ImHome } from "react-icons/im";
 import { MdGroups } from "react-icons/md";
 import { RiFileUserFill, RiFolderUserFill } from "react-icons/ri";
+import { AiOutlineHome,AiOutlineUser ,AiOutlineFolderAdd} from "react-icons/ai";
 import { BsFillChatLeftTextFill, BsFillBellFill } from "react-icons/bs";
 import { FaBuilding } from "react-icons/fa";
 import { FaUserFriends, FaToolbox } from "react-icons/fa";
@@ -214,7 +215,7 @@ export const adminDashboardRoutes = [
 export const companyDashboardRoutes = [
   {
     name: "Home",
-    icon: <ImHome className="text-xl" />,
+    icon: <AiOutlineHome className="text-xl" />,
     path: "/",
     component: <CPanel />,
     hide: false,
@@ -222,7 +223,7 @@ export const companyDashboardRoutes = [
   },
   {
     name: "Profile",
-    icon: <RiFileUserFill className="text-xl" />,
+    icon: <AiOutlineUser className="text-xl" />,
     path: "/profile",
     component: <CompanyProfile />,
     hide: false,
@@ -238,7 +239,7 @@ export const companyDashboardRoutes = [
   {
     name: "Add Job",
     path: "/jobsAdd",
-    icon: <RiFolderUserFill className="text-xl" />,
+    icon: <AiOutlineUser className="text-xl" />,
     hide: false,
     component: <AddJob />,
     permission: "add_jobs",
@@ -247,7 +248,7 @@ export const companyDashboardRoutes = [
     name: "Jobs",
     path: "/jobs",
     hide: false,
-    icon: <RiFolderUserFill className="text-xl" />,
+    icon: <AiOutlineUser className="text-xl" />,
     component: <CJobList />,
     permission: "default",
   },
@@ -272,7 +273,7 @@ export const companyDashboardRoutes = [
     path: "/addCompanyUser",
     hide: false,
     component: <AddCompanyUser />,
-    icon: <FaUserFriends className="text-xl" />,
+    icon: <AiOutlineFolderAdd className="text-xl" />,
     permission: "add_users",
   },
 ];

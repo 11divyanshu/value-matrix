@@ -21,6 +21,7 @@ const BillingDetailForm = (props) => {
   const [initialValues, setInitialValues] = React.useState({
    gst:null,
     pan: null,
+    location:null,
    
   });
 
@@ -92,14 +93,15 @@ const BillingDetailForm = (props) => {
                       }}
                     />
                   </div>
-                  <p className="font-semibold">GST</p>
+
+                  <p className="font-semibold">{item.location}</p>
                   {item.gst && (
                     <div className="py-2">{item.gst}</div>
                   )}
                
                 <label className="font-semibold">Pan</label>
                   
-                  <p>{item.motto}</p>
+                  <p>{item.pan}</p>
                  
 
                 </div>
@@ -159,6 +161,7 @@ const BillingDetailForm = (props) => {
                 await setInitialValues({
                     gst:null,
                     Pan: null,
+                    location:null,
                 });
                 await props.setCompanyDetails({
                   billing: billingDetail,
@@ -189,9 +192,26 @@ const BillingDetailForm = (props) => {
                         className="text-sm text-red-600"
                       />
                     </div> */}
+                     <div className="my-3">
+                     <label>Country</label>
+           <Field
+             component="select"
+             id="location"
+             name="location"
+             className="w-full h-20 text-600 border-[0.5px] border-[#6b7280] p-2"
+             multiple={false}
+             value={values.location}
+           >
+             <option value="IND">India</option>
+             <option value="NZ">New Zealand</option>
+             <option value="USA">USA</option>
+             <option value="UK">UK</option>
+             <option value="OTHER">Other</option>
+           </Field>
+           </div>
 
                     <div className="my-3">
-                      <label>GST</label>
+                      <label>Tax ID</label>
                       <Field
                         name="gst"
                         type="textarea"

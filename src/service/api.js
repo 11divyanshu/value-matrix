@@ -263,6 +263,13 @@ export const listJobs = async (data) => {
     console.log("Error Calling List Jobs API :", error);
   }
 };
+export const listJobsUser = async (data) => {
+  try {
+    return await axios.post(`${url}/listJobCandidate/${data}`);
+  } catch (error) {
+    console.log("Error Calling List Jobs API :", error);
+  }
+};
 
 // List Jobs
 export const updateJobDetails = async (data, token) => {
@@ -528,4 +535,13 @@ export const getUserInterviewApplications = async (data, token) => {
   } catch (err) {
     console.log("Error : ", err);
   }
+}
+// Fetch Country
+export const fetchCountry = async () => {
+  try{
+    return await axios.post(`${url}/fetchCountry`, );
+  }catch(err){
+    console.log("Error : ", err);
+  }
+
 };
