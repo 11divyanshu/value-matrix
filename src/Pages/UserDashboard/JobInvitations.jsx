@@ -3,7 +3,7 @@ import {
   getJobInvitations,
   handleCandidateJobInvitation,
 } from "../../service/api";
-import { Link } from "react-router-dom";
+
 import swal from "sweetalert";
 
 const JobInvitations = () => {
@@ -73,7 +73,9 @@ const JobInvitations = () => {
           <div className="text-center py-5 text-2xl">Fetching Data</div>
         )}
         {!Loading && JobInvitation.length === 0 && (
-          <div className="text-center py-5 text-2xl">No Job Invitations</div>
+          <div className="text-center py-5 text-2xl">
+            No Interview Invitations
+          </div>
         )}
         {!Loading && JobInvitation.length > 0 && (
           <div>

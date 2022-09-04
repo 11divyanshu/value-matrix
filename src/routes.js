@@ -13,6 +13,7 @@ import EditProfile from "./Pages/UserDashboard/EditProfile";
 import JobList from "./Pages/UserDashboard/jobList.jsx";
 import JobDetails from "./Pages/UserDashboard/JobDetail.jsx";
 import JobInvitations from "./Pages/UserDashboard/JobInvitations";
+import InterviewApplication from "./Pages/UserDashboard/InterviewApplication";
 
 // Admin Pages
 import NotificationPanel from "./Pages/AdminDashboard/Notification";
@@ -83,13 +84,6 @@ export const dashboardRoutes = [
     component: <EditProfile />,
   },
   {
-    name: "Jobs",
-    path: "jobs",
-    hide: false,
-    icon: <RiFolderUserFill className="text-xl" />,
-    component: <JobList />,
-  },
-  {
     name: "getJobById",
     path: "jobDetails",
     hide: true,
@@ -97,9 +91,15 @@ export const dashboardRoutes = [
   },
   {
     name : "Job Invitations",
-    path : "jobInvitations",
+    path : "interviewInvitations",
     hide : true,
     component : <JobInvitations/>,
+  },
+  {
+    name : "Interview Applications",
+    path: "interviewApplications",
+    hide: true,
+    component : <InterviewApplication/>,
   }
 ];
 

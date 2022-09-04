@@ -144,7 +144,7 @@ const Dashboard = () => {
       // console.log(c)
       if (c[0]) setComponent(c[0].component);
       else {
-        let c1 = component.split("/");
+        let c1 = component.split("/"); 
 
         if (c1[1] === "jobDetails") setComponent(<JobDetails id={id} />);
         else {

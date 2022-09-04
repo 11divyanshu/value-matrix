@@ -49,11 +49,25 @@ const Sidebar = () => {
     const initial = async () => {
       let user1 = JSON.parse(await localStorage.getItem("user"));
       let token = await localStorage.getItem("access_token");
-      if (user1.permissions && user1.permissions[0].admin_permissions) {
+
+      if (
+        user1.permissions &&
+        user1.permissions.length > 0 &&
+        user1.permissions[0].admin_permissions
+      ) {
         await setPermissions(user1.permissions[0].admin_permissions);
       }
       let user = await getUserFromId({ id: user1._id }, token);
-      if (
+      if (user.data.user.isAdmin) {
+        await setPermissions({
+          add_skills: true,
+          add_users: true,
+          list_candidates: true,
+          list_companies: true,
+          add_notifications: true,
+          default: true,
+        });
+      } else if (
         user &&
         user.data.user &&
         user.data.user.user_type === "Admin_User" &&
