@@ -1,59 +1,60 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
-*{
-    font-family: 'Montserrat', sans-serif;
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+* {
+  font-family: "Montserrat", sans-serif;
 }
 :root {
   --primary: coral;
-  --secondary:#3667E9;
-  }
+  --secondary: #3667e9;
+}
 
 /* width */
 ::-webkit-scrollbar {
-    width: 6px;
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-  
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: #3B82F6;
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #2563EB;
-  }
-
-.loginLanding{
-    background: url("../images/loginBackground.jpeg");
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    min-height: 100vh;
-    padding:2%;
-    justify-content: center;
-    align-items: center;
-    
+  width: 6px;
 }
 
-.Card1{
-    background: url("../images/logintree.jpeg");
-    background-size: cover;
-    background-position: center;
-    height:100%;
-    width:100%;
-    border-radius: 12px 0 0 12px;
-    z-index: 10;
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
 }
 
-.Card2{
-    background: url("../images/signup.jpeg");
-    background-size: cover;
-    background-position: center;
-    height:100%;
-    width:100%;
-    border-radius: 0 12px 12px 0;
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #3b82f6;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #2563eb;
+}
+
+.loginLanding {
+  /* background: url("../images/loginBackground.jpeg"); */
+  background: linear-gradient(150deg,#3b82f6,#3912ad,#331176);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  min-height: 100vh;
+  padding: 2%;
+  justify-content: center;
+  align-items: center;
+}
+
+.Card1 {
+  background: url("../images/logintree.jpeg");
+  background-size: cover;
+  background-position: center;
+  height: 100%;
+  width: 100%;
+  border-radius: 12px 0 0 12px;
+  z-index: 10;
+}
+
+.Card2 {
+  background: url("../images/signup.jpeg");
+  background-size: cover;
+  background-position: center;
+  height: 100%;
+  width: 100%;
+  border-radius: 0 12px 12px 0;
 }

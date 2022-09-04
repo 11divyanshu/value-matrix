@@ -36,7 +36,6 @@ const CompanyDashboard = () => {
         await localStorage.setItem("access_token", term);
 
         let user_id = await getUserIdFromToken({ access_token: access_token1 });
-
         if (user_id) {
           let user = await getUserFromId(
             { id: user_id.data.user.user },
@@ -47,7 +46,7 @@ const CompanyDashboard = () => {
             user.data.user.access_valid === false ||
             !(user.data.user.user_type === "Company" || user.data.user.user_type === "Company_User")
           )
-            window.location.href = "/login";
+            {window.location.href = "/login";}
           await localStorage.setItem("user", JSON.stringify(user.data.user));
           window.history.pushState({ url: "/company" }, "", "/company");
         } else {

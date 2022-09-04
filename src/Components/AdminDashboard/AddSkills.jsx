@@ -24,6 +24,7 @@ const AddSkills = () => {
         const json = xlsx.utils.sheet_to_json(worksheet);
         let s = skills;
         for (let i = 0; i < json.length; i++) {
+          console.log(json[i]);
           const res = s.findIndex((el) => {
             return el.toLowerCase() === json[i].Skills.toLowerCase();
           });

@@ -439,7 +439,6 @@ export const addAdminUser = async (data, token) => {
 // Sovren Resume Parser
 export const sovrenResumeParser = async (data) => {
   try {
-  
     return await axios.post(
       `https://rest.resumeparsing.com/v10/parser/resume`,
       data,
@@ -447,9 +446,9 @@ export const sovrenResumeParser = async (data) => {
         headers: {
           "Sovren-AccountId": "58045629",
           "Sovren-ServiceKey": "N6x3TEi+ULpI57PrPkIK23P44F1tfDu6lum+iV3m",
-          'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      // 'Content-Length': Buffer.byteLength(postData)
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          // 'Content-Length': Buffer.byteLength(postData)
         },
       }
     );
@@ -487,7 +486,6 @@ export const setProfile = async (data) => {
   }
 };
 
-
 // Get Job Invitations
 export const getJobInvitations = async (data, token) => {
   try {
@@ -497,7 +495,7 @@ export const getJobInvitations = async (data, token) => {
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 
 // Handle Candidate Job Invitation
 export const handleCandidateJobInvitation = async (data, token) => {
@@ -508,13 +506,26 @@ export const handleCandidateJobInvitation = async (data, token) => {
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 
 // Company Filters
-export const FilterCompany = async ( data, values) => {
-  try{
-    return await axios.post(`${url}/filterCompany/${values.picked}/${values.toggle}/${data}`, );
-  }catch(err){
+export const FilterCompany = async (data, values) => {
+  try {
+    return await axios.post(
+      `${url}/filterCompany/${values.picked}/${values.toggle}/${data}`
+    );
+  } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
+
+//  Get User Interview Applications
+export const getUserInterviewApplications = async (data, token) => {
+  try {
+    return await axios.post(`${url}/getUserInterviewApplications`, data, {
+      headers: { authorization: token },
+    });
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+};

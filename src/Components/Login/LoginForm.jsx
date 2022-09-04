@@ -22,6 +22,8 @@ const LoginForm = (props) => {
   const [error, setError] = React.useState(0);
   const [captcha, setCaptcha] = React.useState(true);
 
+  const [showPassword, setShowPassword] = React.useState(false);
+
   const captchaRef = React.useRef();
 
   const Login = async (values) => {
@@ -89,19 +91,18 @@ const LoginForm = (props) => {
 
   return (
     <div className="pt-5 lg:p-9 ">
-      <span style={{ fontWeight: 700 }} className="text-4xl font-bold flex ">
+      <span
+        style={{ fontWeight: 700 }}
+        className="text-4xl font-bold flex pl-9"
+      >
         Value <p style={{ color: "#3667E9" }}>Matrix</p>
       </span>
-
+      <div className="my-2">
+        <span className="font-semibold pl-9">
+          Welcome ! Please enter your details.
+        </span>
+      </div>
       <div className=" px-6 mx-6 lg:p-4 pt-4">
-        <p className="text-xl font-bold" style={{ fontWeight: 700 }}>
-          {/* OPs {props.admin ? "Admin" : ""} Signup */}
-          Client Login
-        </p>
-        <p className="text-sm" style={{ color: "#3667E9" }}>
-          Get Consulting Support
-        </p>
-
         <Formik
           initialValues={{ username: "", password: "" }}
           validate={(values) => {
@@ -119,7 +120,7 @@ const LoginForm = (props) => {
           }}
         >
           {({ values, isSubmitting }) => (
-            <Form className="space-y-2 pt-3">
+            <Form className="space-y-2 pt   -3">
               <div className="my-3">
                 <label className="font-semibold">Email</label>
                 <br></br>
@@ -127,8 +128,8 @@ const LoginForm = (props) => {
                   type="text"
                   name="username"
                   placeholder="Username, Phone or Email Address"
-                  className="w-full text-600"
-                  style={{ borderRadius: "10px" }}
+                  className="w-full text-600 my-1"
+                  style={{ borderRadius: "8px" }}
                 />
                 <ErrorMessage
                   name="username"
@@ -136,27 +137,52 @@ const LoginForm = (props) => {
                   className="text-sm text-red-600 mb-4"
                 />
               </div>
-              <div className="my-3">
+              <div className="pt-2">
                 <label className="font-semibold">Password</label>
-                <br></br>
-                <Field
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  className="w-full text-600"
+                <br />
+                <div
+                  className="w-full flex items-center"
                   style={{ borderRadius: "12px" }}
-                />
+                >
+                  <Field
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="Password"
+                    className="w-full text-600 my-1"
+                    style={{ borderRadius: "12px" }}
+                  />
+                  {showPassword ? (
+                    <p
+                      className="text-black text-sm hover:text-blue-500 cursor-pointer w-10 px-2"
+                      onClick={() => {
+                        setShowPassword(false);
+                      }}
+                    >
+                      Hide
+                    </p>
+                  ) : (
+                    <p
+                      className="text-black text-sm hover:text-blue-500 cursor-pointer w-10 px-2"
+                      onClick={() => {
+                        setShowPassword(true);
+                      }}
+                    >
+                      Show
+                    </p>
+                  )}
+                </div>
                 <ErrorMessage
                   name="password"
                   component="div"
                   className="text-sm text-red-600"
                 />
               </div>
+
               {loginError && (
                 <p className="text-sm text-red-600">{loginError}</p>
               )}
               <div className="w-100">
-                <p className="text-sm text-blue-600 text-right">
+                <p className="text-sm text-blue-600 text-right font-semibold">
                   <Link to="/resetPassword">Forgot Password ?</Link>
                 </p>
               </div>
@@ -194,7 +220,7 @@ const LoginForm = (props) => {
 
         <div className="flex space-x-3 justify-center w-full items-center text-gray-600 py-3">
           <div className="h-[0.5px] w-12 bg-gray-600 block"></div>
-          <p> or </p>
+          <p> Or Login With </p>
           <div className="h-[0.5px] w-12 bg-gray-600 block"></div>
         </div>
         <div className="flex justify-center space-x-7 h-7 mt-3">

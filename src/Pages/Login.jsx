@@ -14,11 +14,17 @@ const Login = () => {
   React.useEffect(() => {
     const initial = async () => {
       let access = await localStorage.getItem("access_token");
-      
+
       let user = JSON.parse(await localStorage.getItem("user"));
       let url = window.location.href.split("/");
       if (url[url.length - 1] === "register") showLogin(false);
-      if (access !== "null" || access !== undefined || access !== null || access !== "undefined") {
+      if (
+        (access !== "null" ||
+          access !== undefined ||
+          access !== null ||
+          access !== "undefined") &&
+        user.access_valid === true
+      ) {
         if (user.isAdmin) {
           window.location.href = "/admin?a=" + access;
         }
@@ -39,9 +45,12 @@ const Login = () => {
   return (
     <div className={styles.loginLanding}>
       {/* Login Card */}
-      <div className="container w-3/4 flex bg-white rounded-lg" style={{borderRadius:"0.7rem"}}>
+      <div
+        className="container w-1/2 flex bg-white rounded-lg"
+        style={{ borderRadius: "0.7rem" }}
+      >
         {!login && (
-          <div className="w-1/2 w-full flex flex-col">
+          <div className="w-full flex flex-col">
             <SignupForm />
             <p className="pb-5 text-center text-sm block">
               Already have an account ?{" "}
@@ -59,19 +68,10 @@ const Login = () => {
           </div>
         )}
         {/* Card 1 */}
-       
-{login&&  <div className="w-1/2 m-0 md:block hidden" >
-          <div className={styles.Card1}></div>
-        </div>}
-
-        {!login && <div className="w-1/2 m-0 md:block hidden" >
-          <div className={styles.Card2}></div>
-        </div>}
-
 
         {/* Card 2 */}
         {login && (
-          <div className="w-1/2 w-full flex flex-col">
+          <div className="w-full flex flex-col">
             <LoginForm />
             <p className="pb-5 text-center text-sm block">
               Don't have an account ?{" "}
