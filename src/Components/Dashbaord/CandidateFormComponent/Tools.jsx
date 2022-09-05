@@ -320,52 +320,7 @@ const Tools = (props) => {
                                             return (
                                               <div className="flex my-2 text-sm justify-between items-center">
                                                 <p>{secSkill.secondarySkill}</p>
-                                                {/* <div className="flex text-sm items-center space-x-1 text-gray-500">
-                                                  {secSkill.proficiency >= 1 ? <AiFillStar/> : <AiOutlineStar onClick={async()=>{
-                                                    let d = dbSkills;
-                                                    let ind = d.findIndex((el)=>{
-                                                      return el === secSkill;
-                                                    })
-                                                    d[ind] = {...d[ind], proficiency: 1}
-                                                    console.log(d);
-                                                    await setDbSkills(d);
-                                                  }}/>}
-                                                  {secSkill.proficiency >= 2 ? <AiFillStar/> : <AiOutlineStar onClick={async()=>{
-                                                    let d = dbSkills;
-                                                    let ind = d.findIndex((el)=>{
-                                                      return el === secSkill;
-                                                    })
-                                                    d[ind] = {...d[ind], proficiency:2}
-                                                    console.log(d);
-                                                    await setDbSkills(d);
-                                                  }}/>}
-                                                  {secSkill.proficiency >= 3 ? <AiFillStar/> : <AiOutlineStar onClick={async()=>{
-                                                    let d = dbSkills;
-                                                    let ind = d.findIndex((el)=>{
-                                                      return el === secSkill;
-                                                    })
-                                                    d[ind] = {...d[ind], proficiency: 3}
-                                                    console.log(d);
-                                                    await setDbSkills(d);
-                                                  }}/>}
-                                                  {secSkill.proficiency >= 4 ? <AiFillStar/> : <AiOutlineStar onClick={async()=>{
-                                                    let d = dbSkills;
-                                                    let ind = d.findIndex((el)=>{
-                                                      return el === secSkill;
-                                                    })
-                                                    d[ind] = {...d[ind], proficiency:4}
-                                                    console.log(d);
-                                                    await setDbSkills(d);
-                                                  }}/>}
-                                                  {secSkill.proficiency >= 5 ? <AiFillStar/> : <AiOutlineStar onClick={()=>{
-                                                    let d = dbSkills;
-                                                    let ind = d.findIndex((el)=>{
-                                                      return el === secSkill;
-                                                    })
-                                                    d[ind] = {...d[ind], proficiency: 5}
-                                                    setDbSkills(d);
-                                                  }}/>} */}
-                                                {/* </div> */}
+                                               
                                                 <div className="flex items-center space-x-2">
                                                   0
                                                   <input

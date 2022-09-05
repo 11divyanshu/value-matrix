@@ -163,7 +163,7 @@ const Dashboard = () => {
   }, [component]);
 
   return (
-    <div className="max-w-screen flex h-screen">
+    <div className="max-w-screen h-screen">
       {modalIsOpen && (
         <div>
           <CandidateResumeForm isOpen={true} setModalIsOpen={setModalIsOpen} />

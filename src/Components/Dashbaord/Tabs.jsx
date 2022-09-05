@@ -21,6 +21,9 @@ export default function Tabs() {
   const [profileImg, setProfileImg] = React.useState(null);
   const [resume, setResume] = React.useState(null);
 
+  const [skillsPrimary, setSkillsPrimary] = React.useState([]);
+  const [roles, setRoles] = React.useState({});
+
   React.useEffect(() => {
     const func = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
@@ -32,9 +35,23 @@ export default function Tabs() {
         setProfileImg(img);
         setProfileImg(imgBase64);
       }
-
       if (access_token === null) window.location.href = "/login";
 
+      let primarySkills = {};
+      let roles = new Set([]);
+      user.tools.forEach((skill) => {
+        roles.add(skill.role);
+        if (primarySkills[skill.role]) {
+          primarySkills[skill.role].add(skill.primarySkill);
+        } else {
+          primarySkills[skill.role] = new Set([skill.primarySkill]);
+        }
+      });
+      setRoles(Array.from(roles));
+      Array.from(roles).map((el) => {
+        primarySkills[el] = Array.from(primarySkills[el]);
+      });
+      setSkillsPrimary(primarySkills);
       await setUser(user);
     };
     func();
@@ -43,11 +60,46 @@ export default function Tabs() {
   return (
     <div className="Tabs w-full">
       <div className="tabList flex w-full">
-        <div className={`tabHead ${index === 0 && 'active'}`} onClick={() => { setIndex(0) }}>Contact</div>
-        <div className={`tabHead ${index === 1 && 'active'}`} onClick={() => { setIndex(1) }}>Education</div>
-        <div className={`tabHead ${index === 2 && 'active'}`} onClick={() => { setIndex(2) }}>Experience</div>
-        <div className={`tabHead ${index === 3 && 'active'}`} onClick={() => { setIndex(3) }}>Association</div>
-        <div className={`tabHead ${index === 4 && 'active'}`} onClick={() => { setIndex(4) }}>Skills</div>
+        <div
+          className={`tabHead ${index === 0 && "active"}`}
+          onClick={() => {
+            setIndex(0);
+          }}
+        >
+          Contact
+        </div>
+        <div
+          className={`tabHead ${index === 1 && "active"}`}
+          onClick={() => {
+            setIndex(1);
+          }}
+        >
+          Education
+        </div>
+        <div
+          className={`tabHead ${index === 2 && "active"}`}
+          onClick={() => {
+            setIndex(2);
+          }}
+        >
+          Experience
+        </div>
+        <div
+          className={`tabHead ${index === 3 && "active"}`}
+          onClick={() => {
+            setIndex(3);
+          }}
+        >
+          Association
+        </div>
+        <div
+          className={`tabHead ${index === 4 && "active"}`}
+          onClick={() => {
+            setIndex(4);
+          }}
+        >
+          Skills
+        </div>
       </div>
       <div className="tabContent bg-white p-5 w-full" hidden={index != 0}>
         {user !== null && user !== undefined && (
@@ -72,7 +124,9 @@ export default function Tabs() {
                   </label>
                   <hr />
                   <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
-                    <label className="font-semibold text-lg w-2/5 mx-5">Username</label>
+                    <label className="font-semibold text-lg w-2/5 mx-5">
+                      Username
+                    </label>
                     <Field
                       type="text"
                       name="username"
@@ -86,7 +140,9 @@ export default function Tabs() {
                     />
                   </div>
                   <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
-                    <label  className="font-semibold text-lg w-2/5 mx-5">Company Name</label>
+                    <label className="font-semibold text-lg w-2/5 mx-5">
+                      Company Name
+                    </label>
                     <Field
                       type="text"
                       name="firstName"
@@ -100,7 +156,9 @@ export default function Tabs() {
                     />
                   </div>
                   <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
-                    <label className="font-semibold text-lg w-2/5 mx-5">Email</label>
+                    <label className="font-semibold text-lg w-2/5 mx-5">
+                      Email
+                    </label>
                     <Field
                       name="email"
                       type="text"
@@ -114,7 +172,9 @@ export default function Tabs() {
                     />
                   </div>
                   <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
-                    <label className="font-semibold text-lg w-2/5 mx-5">Contact</label>
+                    <label className="font-semibold text-lg w-2/5 mx-5">
+                      Contact
+                    </label>
                     <Field
                       name="contact"
                       type="text"
@@ -128,7 +188,9 @@ export default function Tabs() {
                     />
                   </div>
                   <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
-                    <label className="font-semibold text-lg w-2/5 mx-5">Address</label>
+                    <label className="font-semibold text-lg w-2/5 mx-5">
+                      Address
+                    </label>
                     <Field
                       name="address"
                       type="text"
@@ -141,18 +203,33 @@ export default function Tabs() {
                       // }}
                     />
                   </div>
-                  {user.resume && <div className="flex space-x-12">
-                    <p className="font-semibold">Resume</p>
-                    <p className="text-sm text-blue-500 cursor-pointer" onClick={async()=>{
-                      let token = await localStorage.getItem("access_token");
-                      let res = await downloadResume({user_id: user._id}, token);
-                      console.log(res);
-                      let blob = new Blob([res.data.Resume.data], {type: "application/pdf"});
-                      let link = document.createElement('a');
-                      link.href = window.URL.createObjectURL(blob);
-                      link.download = "resume.pdf";
-                      link.click();
-                    }}>Download Resume</p></div>}
+                  {user.resume && (
+                    <div className="flex space-x-12">
+                      <p className="font-semibold">Resume</p>
+                      <p
+                        className="text-sm text-blue-500 cursor-pointer"
+                        onClick={async () => {
+                          let token = await localStorage.getItem(
+                            "access_token"
+                          );
+                          let res = await downloadResume(
+                            { user_id: user._id },
+                            token
+                          );
+                          console.log(res);
+                          let blob = new Blob([res.data.Resume.data], {
+                            type: "application/pdf",
+                          });
+                          let link = document.createElement("a");
+                          link.href = window.URL.createObjectURL(blob);
+                          link.download = "resume.pdf";
+                          link.click();
+                        }}
+                      >
+                        Download Resume
+                      </p>
+                    </div>
+                  )}
                 </div>
               </Form>
             )}
@@ -195,90 +272,109 @@ export default function Tabs() {
           })}
       </div>
       <div className="tabContent bg-white p-5" hidden={index != 2}>
-        {user !== null && user !== undefined && user.experience.map((item, index) => {
-          return (
-            <div 
-            className=" rounded-md p-5 bg-white border border-gray-400 my-5 h-35"
-            key={index}>
-
-              <div className="font-semibold flex space-x-2 mt-3 items-center">
-                <p className='text-xl'>{item.title}</p> <p className="font-normal text-lg">|</p>{" "}
-                <p className="font-normal text-lg">
-                  {item.employment_type}
-                </p>{" "}
+        {user !== null &&
+          user !== undefined &&
+          user.experience.map((item, index) => {
+            return (
+              <div
+                className=" rounded-md p-5 bg-white border border-gray-400 my-5 h-35"
+                key={index}
+              >
+                <div className="font-semibold flex space-x-2 mt-3 items-center">
+                  <p className="text-xl">{item.title}</p>{" "}
+                  <p className="font-normal text-lg">|</p>{" "}
+                  <p className="font-normal text-lg">{item.employment_type}</p>{" "}
+                </div>
+                <div className="flex flex-wrap justify-between w-full py-5 text-gray-800 ">
+                  <div className="space-x-2 flex items-center">
+                    <FaRegBuilding />
+                    <p>{item.company_name}</p>
+                  </div>
+                  <div className="space-x-2 flex items-center">
+                    <CgWorkAlt />
+                    <p>{item.industry}</p>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <BsCalendar />
+                    <p className="text-sm text-gray-600 mr-5">
+                      {item.start_date} - {item.end_date}
+                    </p>
+                  </div>
+                </div>
+                {item.description && (
+                  <div className="py-2">{item.description}</div>
+                )}
               </div>
-              <div className="flex flex-wrap justify-between w-full py-5 text-gray-800 ">
-                <div className="space-x-2 flex items-center">
-                  <FaRegBuilding />
-                  <p>{item.company_name}</p>
-                </div>
-                <div className="space-x-2 flex items-center">
-                  <CgWorkAlt />
-                  <p>{item.industry}</p>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <BsCalendar />
-                  <p className="text-sm text-gray-600 mr-5">
-                    {item.start_date} - {item.end_date}
-                  </p>
-                </div>
-              </div>
-              {item.description && (
-                <div className="py-2">{item.description}</div>
-              )}
-            </div>
-          );
-        })
-        }
+            );
+          })}
       </div>
       <div className="tabContent bg-white p-5" hidden={index != 3}>
-        {user !== null && user !== undefined && user.associate && user.associate.map((item, index) => {
-          return (
-            <div
-            className=" rounded-md p-5 bg-white border border-gray-400 my-5 h-35"
-            key={index}>
-
-              <div className="font-semibold flex space-x-2 mt-3 items-center">
-                <p className='text-xl'>{item.title}</p> <p className="font-normal text-lg">|</p>{" "}
-               
+        {user !== null &&
+          user !== undefined &&
+          user.associate &&
+          user.associate.map((item, index) => {
+            return (
+              <div
+                className=" rounded-md p-5 bg-white border border-gray-400 my-5 h-35"
+                key={index}
+              >
+                <div className="font-semibold flex space-x-2 mt-3 items-center">
+                  <p className="text-xl">{item.title}</p>{" "}
+                  <p className="font-normal text-lg">|</p>{" "}
+                </div>
+                <div className="flex flex-wrap justify-between w-full py-5 text-gray-800 ">
+                  <div className="space-x-2 flex items-center">
+                    <FaRegBuilding />
+                    <p>{item.company_name}</p>
+                  </div>
+                  <div className="space-x-2 flex items-center">
+                    <CgWorkAlt />
+                    <p>{item.industry}</p>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <BsCalendar />
+                    <p className="text-sm text-gray-600 mr-5">
+                      {item.start_date} - {item.end_date}
+                    </p>
+                  </div>
+                </div>
+                {item.description && (
+                  <div className="py-2">{item.description}</div>
+                )}
               </div>
-              <div className="flex flex-wrap justify-between w-full py-5 text-gray-800 ">
-                <div className="space-x-2 flex items-center">
-                  <FaRegBuilding />
-                  <p>{item.company_name}</p>
-                </div>
-                <div className="space-x-2 flex items-center">
-                  <CgWorkAlt />
-                  <p>{item.industry}</p>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <BsCalendar />
-                  <p className="text-sm text-gray-600 mr-5">
-                    {item.start_date} - {item.end_date}
-                  </p>
-                </div>
-              </div>
-              {item.description && (
-                <div className="py-2">{item.description}</div>
-              )}
-            </div>
-          );
-        })
-        }
+            );
+          })}
       </div>
       <div className="tabContent bg-white p-5" hidden={index != 4}>
-
-        {user !== null && user !== undefined &&
+        {user !== null && user !== undefined && (
           <div>
             <div className="md:w-1/2 w-full space-y-1">
               <label className="font-semibold">Skills</label>
-              <div className="flex">
-                {user.tools
-                  ? user.tools.map((item, index) => {
+              <div className="">
+                {roles
+                  ? roles.map((item, index) => {
                       return (
-                        <span class="bg-blue-100 text-blue-800 text-xs my-4 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
-                          {item}
-                        </span>
+                        <div>
+                          <p className="font-semibold text-md my-3">{item}</p>
+                          {skillsPrimary[item].map((el) => (
+                            <div>
+                              <p className="text-sm my-2">{el}</p>
+                              {user.tools
+                                .filter(
+                                  (tool) =>
+                                    tool.role === item &&
+                                    tool.primarySkill === el
+                                )
+                                .map((item1, index) => (
+                                  <span class="bg-blue-100 text-blue-800 text-xs my-4 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
+                                    {item1.secondarySkill}{" "}
+                                    {item1.proficiency &&
+                                      `(${item1.proficiency})`}
+                                  </span>
+                                ))}
+                            </div>
+                          ))}
+                        </div>
                       );
                     })
                   : "No Skills"}
@@ -290,7 +386,7 @@ export default function Tabs() {
 
             </div> */}
           </div>
-        }
+        )}
       </div>
     </div>
   );
