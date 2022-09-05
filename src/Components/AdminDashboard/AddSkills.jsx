@@ -23,18 +23,42 @@ const AddSkills = () => {
         const worksheet = workbook.Sheets[sheetName];
         const json = xlsx.utils.sheet_to_json(worksheet);
         let s = skills;
+        console.log(json[0]["Secondary Skill"].split("  ")[0].split("\n"));
         for (let i = 0; i < json.length; i++) {
-          console.log(json[i]);
-          const res = s.findIndex((el) => {
-            return el.toLowerCase() === json[i].Skills.toLowerCase();
-          });
-          const res2 = s.findIndex((el) => {
-            return el.toLowerCase() === json[i].Skills.toLowerCase();
-          });
-          if (res === -1 && res2 === -1) {
-            s.push(json[i].Skills);
+          let secSkills = json[i]["Secondary Skill"]
+            .split("  ")[0]
+            .split("\n");
+          if(secSkills.length === 1){
+            secSkills = secSkills[0].split(",")
+          }
+          for (let j = 0; j < secSkills.length; j++) {
+            const res = s.findIndex((el) => {
+              console.log(el);
+              return (
+                el.Role.toLowerCase() === json[i].Role.toLowerCase() &&
+                json[i]["Primary Skill"].toLowerCase() ===
+                  el.PrimarySkill.toLowerCase() &&
+                secSkills[j].toLowerCase() === el.SecondarySkill.toLowerCase()
+              );
+            });
+            const res2 = dbSkills.findIndex((el) => {
+              return (
+                el.Role.toLowerCase() === json[i].Role.toLowerCase() &&
+                json[i]["Primary Skill"].toLowerCase() ===
+                  el.PrimarySkill.toLowerCase() &&
+                secSkills[j].toLowerCase() === el.SecondarySkill.toLowerCase()
+              );
+            });
+            if (res === -1 && res2 === -1) {
+              s.push({
+                Role: json[i].Role,
+                PrimarySkill: json[i]["Primary Skill"],
+                SecondarySkill: secSkills[j],
+              });
+            }
           }
         }
+        console.log(s);
         await setSkills(s);
         setSkills([...skills, "S"]);
         setSkills(
@@ -73,8 +97,8 @@ const AddSkills = () => {
       if (res && res.status === 200) {
         let skills = [];
         res.data.map((el) => {
-            skills.push(el.skill);
-        })
+          skills.push(el.skill);
+        });
         await setDbSkills(skills);
       }
     };
@@ -194,11 +218,11 @@ const AddSkills = () => {
         <div>
           {skillError && <p className="text-red-500 text-sm">{skillError}</p>}
         </div>
-        <div className="flex items-center my-4">
+        <div className="flex items-center my-4 flex-wrap">
           {skills.map((skill) => {
             return (
               <div className="bg-blue-100 text-blue-700 flex space-x-3 mr-4 items-center p-2">
-                <p className="text-sm">{skill}</p>
+                <p className="text-sm">{skill.Role}</p>
                 <p
                   className="cursor-pointer text-sm"
                   onClick={() => {

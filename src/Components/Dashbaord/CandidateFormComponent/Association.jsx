@@ -167,7 +167,9 @@ const AssociationDetailForm = (props) => {
                   return;
                 }
                 let temp = associateDetail;
-                temp = [...associateDetail, values];
+                temp = temp === undefined ? [] : temp;
+                console.log(temp);
+                temp.push(values);
                 await setAssociateDetail(temp);
                 e.associate = temp;
                 await localStorage.setItem(
