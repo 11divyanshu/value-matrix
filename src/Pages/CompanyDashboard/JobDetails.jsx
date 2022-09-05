@@ -46,9 +46,9 @@ function JobDetails(props) {
       } else {
         console.log("no response");
         console.log(job)
-      }    
+      }
     };
-   
+
     getData();
   }, [job_id]);
 
@@ -101,7 +101,7 @@ function JobDetails(props) {
     //     </div>
     //   )}
     // </div>
-    <div className="w-full p-5">
+    <div className="w-full p-5 ">
       {job ? (
         <>
 
@@ -118,7 +118,7 @@ function JobDetails(props) {
               </h6>
               <p className="card-text font-semibold p-4">{job.jobDesc}</p> */}
 
-          <div className="card my-5 mx-auto w-4/5 p-5 " style={{ "boxShadow": "rgba(0, 0, 0, 0.1) 0px 4px 12px" }}>
+          <div className="card my-5 mx-auto w-4/5 p-5 bg-white " style={{ "boxShadow": "rgba(0, 0, 0, 0.1) 0px 4px 12px" }}>
 
 
 
@@ -166,7 +166,7 @@ function JobDetails(props) {
                 </div>
               )}
 
-{/* =======
+              {/* =======
                     <div className="shadow-lg p-3 rounded-full"><p className="text-3xl text-blue-500"><HiOutlineCalendar /></p></div>
 
                   </p>
@@ -235,7 +235,7 @@ function JobDetails(props) {
 
 
           <div
-            className="card my-5 mx-auto w-4/5 p-5 "
+            className="card my-5 mx-auto w-4/5 p-5 bg-white "
             style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px" }}
           >
             <div className="card-body px-5 w-4/5">
@@ -342,9 +342,8 @@ function JobDetails(props) {
                       {candidates.map((user, index) => {
                         return (
                           <tr
-                            class={`${
-                              index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                            } border-b`}
+                            class={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                              } border-b`}
                           >
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
                               {index + 1}
@@ -429,9 +428,8 @@ function JobDetails(props) {
                       {invited.map((user, index) => {
                         return (
                           <tr
-                            class={`${
-                              index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                            } border-b`}
+                            class={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                              } border-b`}
                           >
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
                               {index + 1}
@@ -449,8 +447,8 @@ function JobDetails(props) {
                               {candidates.includes(user)
                                 ? "Accepted"
                                 : declined.includes(user)
-                                ? "Declined"
-                                : "Waiting"}
+                                  ? "Declined"
+                                  : "Waiting"}
                             </td>
                           </tr>
                         );
@@ -514,9 +512,8 @@ function JobDetails(props) {
                       {declined.map((user, index) => {
                         return (
                           <tr
-                            class={`${
-                              index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                            } border-b`}
+                            class={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                              } border-b`}
                           >
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
                               {index + 1}
@@ -530,7 +527,7 @@ function JobDetails(props) {
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                               {user.contact}
                             </td>
-                            
+
                           </tr>
                         );
                       })}

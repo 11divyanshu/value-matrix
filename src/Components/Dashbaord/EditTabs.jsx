@@ -653,12 +653,12 @@ export default function Tabs(props) {
             {({ values }) => (
               <Form>
                 {Error && <p className="text-sm text-red-500">{Error}</p>}
-                {/* <p className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                {/* <p className="md:w-1/2  flex w-full  space-y-1 my-3">
                 <span className="font-semibold text-lg w-2/5 mx-5"> Username :</span>{" "}
                 {user.username}{" "}
               </p> */}
                 <div className="flex flex-wrap w-full gap-y-5">
-                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                  <div className="md:w-1/2  flex w-full  space-y-1 my-3">
                     <label className="font-semibold text-lg w-2/5 mx-5">
                       Name
                     </label>
@@ -673,7 +673,7 @@ export default function Tabs(props) {
                       className="text-sm text-red-600"
                     />
                   </div>
-                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                  <div className="md:w-1/2  flex w-full  space-y-1 my-3">
                     <label className="font-semibold text-lg w-2/5 mx-5">
                       Address
                     </label>
@@ -689,7 +689,7 @@ export default function Tabs(props) {
                     />
                   </div>
 
-                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                  <div className="md:w-1/2  flex w-full  space-y-1 my-3">
                     <label className="font-semibold text-lg w-2/5 mx-5">
                       Email
                     </label>
@@ -705,7 +705,7 @@ export default function Tabs(props) {
                       className="text-sm text-red-600"
                     />
                   </div>
-                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                  <div className="md:w-1/2  flex w-full  space-y-1 my-3">
                     <label className="font-semibold text-lg w-2/5 mx-5">
                       Contact
                     </label>
@@ -722,7 +722,7 @@ export default function Tabs(props) {
                     />
                   </div>
                   {EmailOTP && (
-                    <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                    <div className="md:w-1/2  flex w-full  space-y-1 my-3">
                       <label className="font-semibold text-lg w-2/5 mx-5">
                         Email OTP
                       </label>
@@ -734,7 +734,7 @@ export default function Tabs(props) {
                     </div>
                   )}
                   {ContactOTP && (
-                    <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                    <div className="md:w-1/2  flex w-full  space-y-1 my-3">
                       <label className="font-semibold text-lg w-2/5 mx-5">
                         Contact OTP
                       </label>
@@ -832,7 +832,18 @@ export default function Tabs(props) {
             className="h-8 bg-blue-600 text-white rounded-sm block cursor-pointer px-8 my-5"
             onClick={async () => {
               await setShowError(true);
+             
+              await setEduInitialValues({
+                school: null,
+                degree: null,
+                field_of_study: null,
+                start_date: null,
+                end_date: null,
+                grade: null,
+                description: null,
+              });
               await setShowEduForm(true);
+             
             }}
           >
             Add Education
@@ -891,7 +902,7 @@ export default function Tabs(props) {
                         Complete Your Details
                       </Dialog.Title>
                       <div className={`${!showEduForm ? "hidden" : "block"}`}>
-                        <p className="text-md font-semibold md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                        <p className="text-md font-semibold md:w-1/2  flex w-full  space-y-1 my-3">
                           Add Education
                         </p>
                         <Formik
@@ -923,8 +934,8 @@ export default function Tabs(props) {
                         >
                           {({ values }) => {
                             return (
-                              <Form className="w-5/6 ">
-                                {/* <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                              <Form className="w-full py-4">
+                                {/* <div className="md:w-1/2  flex w-full  space-y-1 my-3">
                                   <label className="font-semibold text-lg w-2/5 mx-5">
                                     Company Name
                                   </label>
@@ -940,7 +951,7 @@ export default function Tabs(props) {
                                   // }}
                                   />
                                 </div> */}
-                                <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                                <div className="md:w-1/2  flex w-full  space-y-1 my-3">
                                   <label className="font-semibold text-lg w-1/5 mx-5">School *</label>
                                   <Field
                                     name="school"
@@ -956,7 +967,7 @@ export default function Tabs(props) {
                                     className="text-sm text-red-600"
                                   />
                                 </div>
-                                <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                                <div className="md:w-1/2  flex w-full  space-y-1 my-3">
                                   <label className="font-semibold text-lg w-1/5 mx-5">Degree *</label>
                                   <Field
                                     name="degree"
@@ -972,8 +983,8 @@ export default function Tabs(props) {
                                     className="text-sm text-red-600"
                                   />
                                 </div>
-                                <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
-                                  <label className="font-semibold text-lg w-1/5 mx-5">Field of Study *</label>
+                                <div className="md:w-1/2  flex w-full  space-y-1 my-3">
+                                  <label className="font-semibold text-lg w-1/5 mx-5">Field *</label>
                                   <Field
                                     name="field_of_study"
                                     type="text"
@@ -988,13 +999,13 @@ export default function Tabs(props) {
                                     className="text-sm text-red-600"
                                   />
                                 </div>
-                                <div className="flex md:w-1/2 mx-9 w-full flex-wrap">
-                                  <div className=" my-3 md:w-1/2 flex pr-2">
+                                <div className="flex  w-full flex-wrap">
+                                  <div className=" my-3 flex">
                                     <label className="font-semibold text-lg mx-5">Start Date *</label>
                                     <Field
                                       name="start_date"
                                       type="month"
-                                      className="block border-gray-400 py-1"
+                                      className="block border-gray-400 py-1 mx-3"
                                       style={{ borderRadius: "10px" }}
                                       value={values.start_date}
                                     />
@@ -1004,7 +1015,7 @@ export default function Tabs(props) {
                                       className="text-sm text-red-600"
                                     />
                                   </div>
-                                  <div className=" my-3 md:w-1/2 flex pr-2">
+                                  <div className=" my-3 flex">
                                     <label className="font-semibold text-lg mx-5">End Date*</label>
                                     <Field
                                       name="end_date"
@@ -1020,7 +1031,7 @@ export default function Tabs(props) {
                                     />
                                   </div>
                                 </div>
-                                <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                                <div className="md:w-1/2  flex w-full  space-y-1 my-3">
                                   <label className="font-semibold text-lg w-1/5 mx-5">Grade</label>
                                   <Field
                                     name="grade"
@@ -1035,7 +1046,7 @@ export default function Tabs(props) {
                                     className="text-sm text-red-600"
                                   />
                                 </div>
-                                <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                                <div className="md:w-1/2  flex w-full  space-y-1 my-3">
                                   <label className="font-semibold text-lg w-1/5 mx-5">Description</label>
                                   <Field
                                     name="description"
@@ -1153,6 +1164,17 @@ export default function Tabs(props) {
               className="h-8 bg-blue-600 text-white rounded-sm block cursor-pointer px-8 my-5"
               onClick={async () => {
                 await setShowError(true);
+               
+                await setExInitialValues({
+                  title: null,
+            
+                  company_name: null,
+                  location: null,
+                  start_date: null,
+                  end_date: null,
+                  industry: null,
+                  description: null,
+                });
                 await setShowExForm(true);
               }}
             >
@@ -1214,7 +1236,7 @@ export default function Tabs(props) {
                         Complete Your Details
                       </Dialog.Title>
                       <div className={`${!showExForm ? "hidden" : "block"}`}>
-                        <p className="text-md font-semibold md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                        <p className="text-md font-semibold md:w-1/2  flex w-full  space-y-1 my-3">
                           Add Experience
                         </p>
                         <Formik
@@ -1254,8 +1276,8 @@ export default function Tabs(props) {
                         >
                           {({ values }) => {
                             return (
-                              <Form className="w-5/6">
-                                <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                              <Form className="w-full py-4">
+                                <div className="md:w-1/2  flex w-full  space-y-1 my-3">
                                   <label className="font-semibold text-lg w-1/5 mx-5">Title *</label>
                                   <Field
                                     name="title"
@@ -1271,7 +1293,7 @@ export default function Tabs(props) {
                                     className="text-sm text-red-600"
                                   />
                                 </div>
-                                <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                                <div className="md:w-1/2  flex w-full  space-y-1 my-3">
                                   <label className="font-semibold text-lg w-1/5 mx-5">Employment Type *</label>
                                   <Field
                                     name="employment_type"
@@ -1298,7 +1320,7 @@ export default function Tabs(props) {
                                     className="text-sm text-red-600"
                                   />
                                 </div>
-                                <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                                <div className="md:w-1/2  flex w-full  space-y-1 my-3">
                                   <label className="font-semibold text-lg w-1/5 mx-5">Company *</label>
                                   <Field
                                     name="company_name"
@@ -1314,7 +1336,7 @@ export default function Tabs(props) {
                                     className="text-sm text-red-600"
                                   />
                                 </div>
-                                <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                                <div className="md:w-1/2  flex w-full  space-y-1 my-3">
                                   <label className="font-semibold text-lg w-1/5 mx-5">Location *</label>
                                   <Field
                                     name="location"
@@ -1330,13 +1352,13 @@ export default function Tabs(props) {
                                     className="text-sm text-red-600"
                                   />
                                 </div>
-                                <div className="flex md:w-1/2 mx-9 w-full flex-wrap">
+                                <div className="flex md:w-1/2  w-full flex-wrap">
                                   <div className=" my-3 md:w-1/2 flex pr-2">
                                     <label className="font-semibold text-lg mx-5">Start Date *</label>
                                     <Field
                                       name="start_date"
                                       type="month"
-                                      className="block border-gray-400 py-1"
+                                      className="block border-gray-400 py-1 "
                                       style={{ borderRadius: "10px" }}
                                       value={values.start_date}
                                     />
@@ -1362,7 +1384,7 @@ export default function Tabs(props) {
                                     />
                                   </div>
                                 </div>
-                                <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                                <div className="md:w-1/2  flex w-full  space-y-1 my-3">
                                   <label className="font-semibold text-lg w-1/5 mx-5">Industry *</label>
                                   <Field
                                     name="industry"
@@ -1377,7 +1399,7 @@ export default function Tabs(props) {
                                     className="text-sm text-red-600"
                                   />
                                 </div>
-                                <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                                <div className="md:w-1/2  flex w-full  space-y-1 my-3">
                                   <label className="font-semibold text-lg w-1/5 mx-5">Description</label>
                                   <Field
                                     name="description"
@@ -1494,7 +1516,19 @@ export default function Tabs(props) {
               className="h-8 bg-blue-600 text-white rounded-sm block cursor-pointer px-8 my-5"
               onClick={async () => {
                 await setShowError(true);
+            
+                await setAsInitialValues({
+                  title: null,
+            
+                  company_name: null,
+                  location: null,
+                  start_date: null,
+                  end_date: null,
+                  industry: null,
+                  description: null,
+                });
                 await setShowAsForm(true);
+
               }}
             >
               Add Association
@@ -1555,7 +1589,7 @@ export default function Tabs(props) {
                         Complete Your Details
                       </Dialog.Title>
                       <div className={`${!showAsForm ? "hidden" : "block"}`}>
-                        <p className="text-md font-semibold md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                        <p className="text-md font-semibold md:w-1/2  flex w-full  space-y-1 my-3">
                           Add Association
                         </p>
                         <Formik
@@ -1593,8 +1627,8 @@ export default function Tabs(props) {
                         >
                           {({ values }) => {
                             return (
-                              <Form className="w-4/5 space-y-3">
-                                <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                              <Form className="w-full py-4">
+                                <div className="md:w-1/2  flex w-full  space-y-1 my-3">
                                   <label className="font-semibold text-lg w-1/5 mx-5">Title *</label>
                                   <Field
                                     name="title"
@@ -1610,7 +1644,7 @@ export default function Tabs(props) {
                                     className="text-sm text-red-600"
                                   />
                                 </div>
-                                {/* <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                                {/* <div className="md:w-1/2  flex w-full  space-y-1 my-3">
                                 <label className="font-semibold text-lg w-1/5 mx-5">Employment Type *</label>
                                 <Field
                                   name="employment_type"
@@ -1631,7 +1665,7 @@ export default function Tabs(props) {
                                   className="text-sm text-red-600"
                                 />
                               </div> */}
-                                <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                                <div className="md:w-1/2  flex w-full  space-y-1 my-3">
                                   <label className="font-semibold text-lg w-1/5 mx-5">Company *</label>
                                   <Field
                                     name="company_name"
@@ -1647,7 +1681,7 @@ export default function Tabs(props) {
                                     className="text-sm text-red-600"
                                   />
                                 </div>
-                                <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                                <div className="md:w-1/2  flex w-full  space-y-1 my-3">
                                   <label className="font-semibold text-lg w-1/5 mx-5">Location *</label>
                                   <Field
                                     name="location"
@@ -1663,7 +1697,7 @@ export default function Tabs(props) {
                                     className="text-sm text-red-600"
                                   />
                                 </div>
-                                <div className="flex md:w-1/2 mx-9 w-full flex-wrap">
+                                <div className="flex md:w-1/2  w-full flex-wrap">
                                   <div className=" my-3 md:w-1/2 flex pr-2">
                                     <label className="font-semibold text-lg mx-5">Start Date *</label>
                                     <Field
@@ -1695,7 +1729,7 @@ export default function Tabs(props) {
                                     />
                                   </div>
                                 </div>
-                                <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                                <div className="md:w-1/2  flex w-full  space-y-1 my-3">
                                   <label className="font-semibold text-lg w-1/5 mx-5">Industry *</label>
                                   <Field
                                     name="industry"
@@ -1710,7 +1744,7 @@ export default function Tabs(props) {
                                     className="text-sm text-red-600"
                                   />
                                 </div>
-                                <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+                                <div className="md:w-1/2  flex w-full  space-y-1 my-3">
                                   <label className="font-semibold text-lg w-1/5 mx-5">Description</label>
                                   <Field
                                     name="description"
@@ -1764,7 +1798,7 @@ export default function Tabs(props) {
         {user !== null && user !== undefined && (
           <div>
             <label className="font-semibold text-lg w-2/5 mx-5">Skills</label>
-            <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+            <div className="md:w-1/2  flex w-full  space-y-1 my-3">
               <div className="w-full">
                 {roles &&
                   roles.map((el, index) => {
@@ -1888,9 +1922,9 @@ export default function Tabs(props) {
                   })}
               </div>
             </div>
-            {/*   <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+            {/*   <div className="md:w-1/2  flex w-full  space-y-1 my-3">
             <input
-              className="w-4/5 text-600 md:w-1/2 mx-9 flex w-full  space-y-1 my-3 mr-3"
+              className="w-4/5 text-600 md:w-1/2  flex w-full  space-y-1 my-3 mr-3"
               style={{ borderRadius: "10px" }}
               type="text"
               ref={inputRef}
@@ -1965,7 +1999,7 @@ export default function Tabs(props) {
                 ? rolesC.map((item, index) => {
                   return (
                     <div>
-                      <p className="font-semibold text-md md:w-1/2 mx-9 flex w-full  space-y-1 my-3">{item}</p>
+                      <p className="font-semibold text-md md:w-1/2  flex w-full  space-y-1 my-3">{item}</p>
                       {skillsPrimary[item].map((el) => (
                         <div>
                           <p className="text-sm my-2">{el}</p>
@@ -1991,7 +2025,7 @@ export default function Tabs(props) {
           </div>
         )}
 
-        <div className="md:w-1/2 mx-9 flex w-full  space-y-1 my-3">
+        <div className="md:w-1/2  flex w-full  space-y-1 my-3">
           <label className="font-semibold text-lg w-2/5 my-4">Resume</label>
           {/* <input type="file" value={user.resume} /> */}
         </div>
