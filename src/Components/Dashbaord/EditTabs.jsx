@@ -552,16 +552,16 @@ React.useEffect(() => {
 }, []);
 
 return (
-  <div className='Tabs '>
+  <div className='Tabs w-full'>
 
-    <div className="tabList flex">
+    <div className="tabList flex w-full">
       <div className={`tabHead ${index === 0 && 'active'}`} onClick={() => { setIndex(0) }}>Contact</div>
       <div className={`tabHead ${index === 1 && 'active'}`} onClick={() => { setIndex(1) }}>Education</div>
       <div className={`tabHead ${index === 2 && 'active'}`} onClick={() => { setIndex(2) }}>Experience</div>
       <div className={`tabHead ${index === 3 && 'active'}`} onClick={() => { setIndex(3) }}>Association</div>
       <div className={`tabHead ${index === 4 && 'active'}`} onClick={() => { setIndex(4) }}>Skills</div>
     </div>
-    <div className="tabContent p-5" hidden={index != 0}>
+    <div className="tabContent bg-white  w-full p-5" hidden={index != 0}>
       {user !== null && user !== undefined && (
         <Formik
           initialValues={{
@@ -601,30 +601,31 @@ return (
           {({ values }) => (
             <Form>
               {Error && <p className="text-sm text-red-500">{Error}</p>}
-              <p className="my-3">
-                <span className="font-semibold"> Username :</span>{" "}
+              {/* <p className="my-3">
+                <span className="font-semibold text-lg w-2/5 mx-5"> Username :</span>{" "}
                 {user.username}{" "}
-              </p>
+              </p> */}
               <div className="flex flex-wrap w-full gap-y-5">
-                <div className="md:w-1/2 w-full space-y-1">
-                  <label className="font-semibold"> Name</label>
+
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                    <label className="font-semibold text-lg w-2/5 mx-5">Name</label>
                   <Field
                     type="text"
                     name="firstName"
-                    className="block border-gray-400 py-1 md:w-1/2 w-3/4"
-                  />
+                    className="block border-gray-400 py-1 md:w-1/2 w-3/5"
+                    />
                   <ErrorMessage
                     name="firstName"
                     component="div"
                     className="text-sm text-red-600"
                   />
                 </div>
-                <div className="md:w-1/2 w-full space-y-1">
-                  <label className="font-semibold">Address</label>
+                   <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                  <label className="font-semibold text-lg w-2/5 mx-5">Address</label>
                   <Field
                     type="text"
                     name="address"
-                    className="block border-gray-400 py-1 md:w-1/2 w-3/4"
+                    className="block border-gray-400 py-1 md:w-1/2 w-3/5"
                   />
                   <ErrorMessage
                     name="address"
@@ -633,12 +634,12 @@ return (
                   />
                 </div>
 
-                <div className="md:w-1/2 w-full space-y-1">
-                  <label className="font-semibold">Email</label>
+                   <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                  <label className="font-semibold text-lg w-2/5 mx-5">Email</label>
                   <Field
                     name="email"
                     type="text"
-                    className="block border-gray-400 py-1 md:w-1/2 w-3/4"
+                    className="block border-gray-400 py-1 md:w-1/2 w-3/5"
                     disabled={EmailOTP !== null || ContactOTP !== null}
                   />
                   <ErrorMessage
@@ -647,12 +648,12 @@ return (
                     className="text-sm text-red-600"
                   />
                 </div>
-                <div className="md:w-1/2 w-full space-y-1">
-                  <label className="font-semibold">Contact</label>
+                   <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                  <label className="font-semibold text-lg w-2/5 mx-5">Contact</label>
                   <Field
                     name="contact"
                     type="text"
-                    className="block border-gray-400 py-1 md:w-1/2 w-3/4"
+                    className="block border-gray-400 py-1 md:w-1/2 w-3/5"
                     disabled={EmailOTP !== null || ContactOTP !== null}
                   />
                   <ErrorMessage
@@ -663,27 +664,27 @@ return (
 
                 </div>
                 {EmailOTP && (
-                  <div className="md:w-1/2 w-full space-y-1">
-                    <label className="font-semibold">Email OTP</label>
+                     <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                    <label className="font-semibold text-lg w-2/5 mx-5">Email OTP</label>
                     <Field
                       name="emailOTP"
                       type="text"
-                      className="block border-gray-400 py-1 md:w-1/2 w-3/4"
+                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
                     />
                   </div>
                 )}
                 {ContactOTP && (
-                  <div className="md:w-1/2 w-full space-y-1">
-                    <label className="font-semibold">Contact OTP</label>
+                     <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                    <label className="font-semibold text-lg w-2/5 mx-5">Contact OTP</label>
                     <Field
                       name="contactOTP"
                       type="text"
-                      className="block border-gray-400 py-1 md:w-1/2 w-3/4"
+                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
                     />
                   </div>
                 )}
               </div>
-              <div className="w-full">
+              <div className="w-full text-center">
                 <button
                   onClick={() => save(values)}
                   className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"
@@ -708,11 +709,14 @@ return (
       )}
 
     </div>
-    <div className="tabContent p-5" hidden={index != 1}>
+    <div className="tabContent bg-white p-5" hidden={index != 1}>
       {user !== null && user !== undefined &&
         educationalDetail.map((item, index) => {
           return (
-            <div className="my-2 shadow-md rounded-md p-2 bg-gray-100" key={index}>
+            <div
+                className=" rounded-md p-5 bg-white border border-gray-400 my-5 h-35"
+                key={index}
+              >
               <div className="flex justify-end space-x-3 items-center">
                 <RiEditBoxLine
                   className="cursor-pointer"
@@ -734,7 +738,7 @@ return (
                   }}
                 />
               </div>
-              <p className="font-semibold">{item.school}</p>
+              <p className="font-semibold text-lg w-2/5 mx-5">{item.school}</p>
               <div className="flex flex-wrap justify-between w-full py-1 text-gray-800 ">
                 <div className="flex space-x-2 text-sm items-center">
                   <FiInfo />
@@ -988,14 +992,17 @@ return (
       )}
 
     </div>
-    <div className="tabContent p-5" hidden={index != 2}>
+    <div className="tabContent bg-white p-5" hidden={index != 2}>
 
 
       <div>
         {user &&
           experienceDetail.map((item, index) => {
             return (
-              <div className="my-2 shadow-md rounded-md p-2 bg-gray-100" key={index}>
+              <div
+                className=" rounded-md p-5 bg-white border border-gray-400 my-5 h-35"
+                key={index}
+              >
                 <div className="flex justify-end space-x-3 items-center">
                   <RiEditBoxLine
                     className="cursor-pointer"
@@ -1313,14 +1320,17 @@ return (
       )}
 
     </div >
- <div className="tabContent p-5" hidden={index != 3}>
+ <div className="tabContent bg-white p-5" hidden={index != 3}>
 
 
       <div>
         {user && associateDetail &&
           associateDetail.map((item, index) => {
             return (
-              <div className="my-2 shadow-md rounded-md p-2 bg-gray-100" key={index}>
+              <div
+                className=" rounded-md p-5 bg-white border border-gray-400 my-5 h-35"
+                key={index}
+              >
                 <div className="flex justify-end space-x-3 items-center">
                   <RiEditBoxLine
                     className="cursor-pointer"
@@ -1636,12 +1646,12 @@ return (
       )}
 
     </div >
-    <div className="tabContent p-5" hidden={index != 4}>
+    <div className="tabContent bg-white p-5" hidden={index != 4}>
 
       {user !== null && user !== undefined &&
         <div>
-          <label className="font-semibold">Skills</label>
-          <div className="md:w-1/2 w-full space-y-1">
+          <label className="font-semibold text-lg w-2/5 mx-5">Skills</label>
+             <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
             <input
               className="w-4/5 text-600 my-3 mr-3"
               style={{ borderRadius: "10px" }}
@@ -1749,8 +1759,8 @@ return (
 
       }
 
-      <div className="md:w-1/2 w-full space-y-1">
-        <label className="font-semibold">Resume</label>
+         <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+        <label className="font-semibold text-lg w-2/5 mx-5">Resume</label>
          {/* <input type="file" value={user.resume} /> */}
       </div>
 

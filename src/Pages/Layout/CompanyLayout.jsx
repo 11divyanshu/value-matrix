@@ -2,6 +2,8 @@ import React from "react";
 import { useParams } from "react-router-dom";
 
 // Components
+import Sidebar from "../../Components/CompanyDashboard/Sidebar";
+
 import { companyDashboardRoutes } from "../../routes.js";
 import Navbar from "../../Components/CompanyDashboard/Navbar";
 import CompanyForm from "../../Components/CompanyDashboard/CompanyForm";
@@ -44,8 +46,7 @@ const CompanyDashboard = () => {
           if (
             user.data.user.access_valid === false ||
             !(user.data.user.user_type === "Company" || user.data.user.user_type === "Company_User")
-          )
-            {window.location.href = "/login";}
+          ) { window.location.href = "/login"; }
           await localStorage.setItem("user", JSON.stringify(user.data.user));
           window.history.pushState({ url: "/company" }, "", "/company");
         } else {
@@ -71,11 +72,11 @@ const CompanyDashboard = () => {
         window.location.href = "/login";
       }
 
-     
-      if (user.desc === []|| user.billing === []) {
+
+      if (user.desc === [] || user.billing === []) {
         console.log("F")
         setModalIsOpen(true);
-      }else{
+      } else {
         setModalIsOpen(false);
       }
     };
@@ -122,23 +123,30 @@ const CompanyDashboard = () => {
         }
       }
     }
-  },[component]);
+  }, [component]);
   // React.useEffect(()=>{
 
   // },[])
 
   return (
-    <div className="max-w-screen flex h-screen">
+    <div className="max-w-screen h-screen">
       {modalIsOpen && (
         <div>
-          <CompanyForm isOpen={true} setModalIsOpen={setModalIsOpen}/>
+          <CompanyForm isOpen={true} setModalIsOpen={setModalIsOpen} />
         </div>
       )}
-     
-      <div className=" pl-0 w-full z-1">
-        <Navbar user={user} />
+      <div className="w-full"> <Navbar user={user} /></div>
 
-        <div>{comp}</div>
+      <div className="flex w-full">
+        <div className=" h-screen">
+          <Sidebar user={user} />
+
+        </div>
+
+        <div className=" pl-0 z-1 w-full bg-slate-100">
+
+          <div className="">{comp}</div>
+        </div>
       </div>
     </div>
   );

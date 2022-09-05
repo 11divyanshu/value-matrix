@@ -10,38 +10,38 @@ import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import React from "react";
 import "../../assets/stylesheet/sidebar.scss";
 import { Link } from "react-router-dom";
-import {FaUserCog} from "react-icons/fa";
+import { FaUserCog } from "react-icons/fa";
 
 const Sidebar = (props) => {
   const [open, setOpen] = React.useState(true);
-  
-  const hasWindow = typeof window !== 'undefined';
 
-  function getWindowDimensions() {
-    const width = hasWindow ? window.innerWidth : null;
-    const height = hasWindow ? window.innerHeight : null;
-    return {
-      width,
-      height,
-    };
-  }
+  // const hasWindow = typeof window !== 'undefined';
 
-  const [windowDimensions, setWindowDimensions] = React.useState(getWindowDimensions());
-  
-  React.useEffect(() => {
-    if (hasWindow) {
-      function handleResize() {
-        setWindowDimensions(getWindowDimensions());
-      }
+  // function getWindowDimensions() {
+  //   const width = hasWindow ? window.innerWidth : null;
+  //   const height = hasWindow ? window.innerHeight : null;
+  //   return {
+  //     width,
+  //     height,
+  //   };
+  // }
 
-      window.addEventListener('resize', handleResize);
-      return () => window.removeEventListener('resize', handleResize);
-    }
-  }, [hasWindow]);
+  // const [windowDimensions, setWindowDimensions] = React.useState(getWindowDimensions());
+
+  // React.useEffect(() => {
+  //   if (hasWindow) {
+  //     function handleResize() {
+  //       setWindowDimensions(getWindowDimensions());
+  //     }
+
+  //     window.addEventListener('resize', handleResize);
+  //     return () => window.removeEventListener('resize', handleResize);
+  //   }
+  // }, [hasWindow]);
 
   return (
-    <div className="relative h-screen">
-      <div className="fixed bg-blue-500 left-3 top-3 rounded-full text-white p-2">
+    <div className="h-screen">
+      {/* <div className="fixed bg-blue-500 left-3 top-3 rounded-full text-white p-2">
       <AiOutlineMenu className="text-md" onClick={()=>{setOpen(false);}}/>
       </div>
     <ProSidebar
@@ -78,7 +78,49 @@ const Sidebar = (props) => {
           </MenuItem>)}
         </Menu>
       </SidebarContent>
-    </ProSidebar>
+    </ProSidebar> */}
+
+      <div className="flex">
+        <div className="flex flex-col h-screen p-3 bg-white shadow w-60">
+          <div className="space-y-3">
+            <div className="flex items-center">
+              {/* <h2 className="text-xl font-bold px-3">Dashboard</h2> */}
+            </div>
+            <div className="flex-1">
+              <ul className="pt-2 pb-4 space-y-1 text-sm">
+                {dashboardRoutes.map((item) => {
+                  if (item.hide === false)
+                    return (
+                      <li className="rounded-sm">
+
+
+                        <Link
+                          to={`/user/${item.path}`}
+                          onClick={() => setOpen(true)}
+                        > <span className="flex my-2 p-3 text-gray-700"> <p className="mx-2 text-gray-600">{item.icon} </p>  <p className="font-bold"> {item.name}</p> </span></Link>
+
+                      </li>)
+                })}
+
+                {props.user && props.user.isAdmin === true && (
+                  // <MenuItem
+                  // icon={<FaUserCog className="text-xl"/>}>
+                  //   <Link to="/admin">Admin Panel</Link>
+                  // </MenuItem>
+
+                  <Link
+                    to={`/admin`}
+
+                  > <span className="flex my-2 p-3 text-gray-700"><p className="font-bold"> Admin Panel</p> </span></Link>
+
+                )}
+
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   );
 };

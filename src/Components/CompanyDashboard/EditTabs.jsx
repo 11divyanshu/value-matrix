@@ -311,14 +311,14 @@ export default function Tabs(props) {
   }, []);
 
   return (
-    <div className='Tabs '>
+    <div className='Tabs w-full'>
 
-      <div className="tabList flex">
+      <div className="tabList flex w-full">
         <div className={`tabHead ${index === 0 && 'active'}`} onClick={() => { setIndex(0) }}>Contact</div>
         <div className={`tabHead ${index === 1 && 'active'}`} onClick={() => { setIndex(1) }}>About</div>
         <div className={`tabHead ${index === 2 && 'active'}`} onClick={() => { setIndex(2) }}>Billing Info</div>
       </div>
-      <div className="tabContent p-5" hidden={index != 0}>
+      <div className="tabContent bg-white w-full p-5" hidden={index != 0}>
         {user !== null && user !== undefined && (
           <Formik
             initialValues={{
@@ -358,17 +358,17 @@ export default function Tabs(props) {
             {({ values }) => (
               <Form>
                 {Error && <p className="text-sm text-red-500">{Error}</p>}
-                <p className="my-3">
+                {/* <p className="my-3">
                   <span className="font-semibold">Company Username :</span>{" "}
                   {user.username}{" "}
-                </p>
+                </p> */}
                 <div className="flex flex-wrap w-full gap-y-5">
-                  <div className="md:w-1/2 w-full space-y-1">
-                    <label className="font-semibold">Company Name</label>
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                    <label className="font-semibold text-lg w-2/5 mx-5">Company Name</label>
                     <Field
                       type="text"
                       name="firstName"
-                      className="block border-gray-400 py-1 md:w-1/2 w-3/4 rounded"
+                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
                       style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
 
                     />
@@ -378,13 +378,13 @@ export default function Tabs(props) {
                       className="text-sm text-red-600"
                     />
                   </div>
-                  <div className="md:w-1/2 w-full space-y-1">
-                    <label className="font-semibold">Address</label>
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                    <label className="font-semibold text-lg w-2/5 mx-5">Address</label>
                     <Field
                       type="text"
                       name="address"
-                      className="block border-gray-400 py-1 rounded-lg md:w-1/2 w-3/4"
-                      style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
+                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
+                      // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
 
                     />
                     <ErrorMessage
@@ -394,14 +394,14 @@ export default function Tabs(props) {
                     />
                   </div>
 
-                  <div className="md:w-1/2 w-full space-y-1">
-                    <label className="font-semibold">Email</label>
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                    <label className="font-semibold text-lg w-2/5 mx-5">Email</label>
                     <Field
                       name="email"
                       type="text"
-                      className="block border-gray-400 py-1 rounded-lg md:w-1/2 w-3/4"
+                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
                       disabled={EmailOTP !== null || ContactOTP !== null}
-                      style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
+                      // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
 
                     />
                     <ErrorMessage
@@ -410,14 +410,14 @@ export default function Tabs(props) {
                       className="text-sm text-red-600"
                     />
                   </div>
-                  <div className="md:w-1/2 w-full space-y-1">
-                    <label className="font-semibold">Contact</label>
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                    <label className="font-semibold text-lg w-2/5 mx-5">Contact</label>
                     <Field
                       name="contact"
                       type="text"
-                      className="block border-gray-400 py-1 rounded-lg md:w-1/2 w-3/4"
+                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
                       disabled={EmailOTP !== null || ContactOTP !== null}
-                      style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
+                      // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
 
                     />
                     <ErrorMessage
@@ -428,31 +428,31 @@ export default function Tabs(props) {
 
                   </div>
                   {EmailOTP && (
-                    <div className="md:w-1/2 w-full space-y-1">
-                      <label className="font-semibold">Email OTP</label>
+                    <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                      <label className="font-semibold text-lg w-2/5 mx-5">Email OTP</label>
                       <Field
                         name="emailOTP"
                         type="text"
-                        className="block border-gray-400 py-1 md:w-1/2 rounded-lg w-3/4"
-                        style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
+                        className="block border-gray-400 py-1 md:w-1/2 w-3/5"
+                        // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
 
                       />
                     </div>
                   )}
                   {ContactOTP && (
-                    <div className="md:w-1/2 w-full space-y-1">
-                      <label className="font-semibold">Contact OTP</label>
+                    <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                      <label className="font-semibold text-lg w-2/5 mx-5">Contact OTP</label>
                       <Field
                         name="contactOTP"
                         type="text"
-                        className="block border-gray-400 py-1 rounded-lg md:w-1/2 w-3/4"
-                        style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
+                        className="block border-gray-400 py-1 md:w-1/2 w-3/5"
+                        // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
 
                       />
                     </div>
                   )}
                 </div>
-                <div className="w-full">
+                <div className="w-full text-center">
                   <button
                     onClick={() => save(values)}
                     className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"
@@ -477,7 +477,7 @@ export default function Tabs(props) {
         )}
 
       </div>
-      <div className="tabContent p-5" hidden={index != 1}>
+      <div className="tabContent bg-white p-5" hidden={index != 1}>
         {user !== null && user !== undefined && (
           <Formik
             initialValues={{
@@ -497,85 +497,85 @@ export default function Tabs(props) {
 
                   <label style={{ color: "#3B82F6" }} className="py-3 text-xl font-semibold">About</label>
                   <hr />
-                  <div className="md:w-1/2 w-full space-y-1">
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
 
-                    <label className="font-semibold">Overview</label>
+                    <label className="font-semibold text-lg w-2/5 mx-5">Overview</label>
                     <Field
                       type="textarea"
-                      className="block  py-1 md:w-3/4 w-full h-20"
+                      className="block border-gray-100 py-1 md:w-3/4 w-full h-20"
                       name="about"
 
-                      style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
+                      // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
 
                     />
 
                   </div>
 
-                  <div className="md:w-1/2 w-full space-y-1">
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
 
-                    <label className="font-semibold">Motto</label>
+                    <label className="font-semibold text-lg w-2/5 mx-5">Motto</label>
                     <Field
                       type="text"
                       className="block border-gray-400 py-1 md:w-3/4 w-full"
                       name="motto"
 
-                      style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
+                      // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
 
                     />
 
                   </div>
 
-                  <div className="md:w-1/2 w-full space-y-1">
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
 
-                    <label className="font-semibold">Website</label>
+                    <label className="font-semibold text-lg w-2/5 mx-5">Website</label>
                     <Field
                       type="text"
                       className="block border-gray-400 py-1 md:w-3/4 w-full"
                       name="website"
 
-                      style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
+                      // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
 
                     />
 
                   </div>
 
-                  <div className="md:w-1/2 w-full space-y-1">
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
 
-                    <label className="font-semibold">Industry</label>
+                    <label className="font-semibold text-lg w-2/5 mx-5">Industry</label>
                     <Field
                       type="text"
                       className="block border-gray-400 py-1 md:w-3/4 w-full"
                       name="industry"
 
-                      style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
+                      // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
 
                     />
 
                   </div>
 
-                  <div className="md:w-1/2 w-full space-y-1">
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
 
-                    <label className="font-semibold">Company Size</label>
+                    <label className="font-semibold text-lg w-2/5 mx-5">Company Size</label>
                     <Field
                       type="text"
                       className="block border-gray-400 py-1 md:w-3/4 w-full"
                       name="company_size"
 
-                      style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
+                      // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
 
                     />
 
                   </div>
 
-                  <div className="md:w-1/2 w-full space-y-1">
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
 
-                    <label className="font-semibold">Company Founded on</label>
+                    <label className="font-semibold text-lg w-2/5 mx-5">Company Founded on</label>
                     <Field
                       type="text"
                       className="block border-gray-400 py-1 md:w-3/4 w-full"
                       name="found"
 
-                      style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
+                      // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
 
                     />
 
@@ -583,7 +583,7 @@ export default function Tabs(props) {
 
 
                 </div>
-                <div className="w-full">
+                <div className="w-full text-center">
                   <button
                     onClick={() => save(values)}
                     className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"
@@ -606,7 +606,7 @@ export default function Tabs(props) {
           </Formik>
         )}
       </div>
-      <div className="tabContent p-5" hidden={index != 2}>
+      <div className="tabContent bg-white p-5" hidden={index != 2}>
         {user !== null && user !== undefined && (
           <Formik
             initialValues={{
@@ -624,8 +624,8 @@ export default function Tabs(props) {
 
                   <label style={{ color: "#3B82F6" }} className="py-3 text-xl font-semibold">Billing Credentials</label>
                   {/* <hr />
-                  <div className="md:w-1/2 w-full space-y-1">
-                  <label className="font-semibold">Country</label>
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                  <label className="font-semibold text-lg w-2/5 mx-5">Country</label>
            <Field
              component="select"
              id="location"
@@ -640,9 +640,9 @@ export default function Tabs(props) {
              <option value="OTHER">Other</option>
            </Field>
            </div> */}
-                  <div className="md:w-1/2 w-full space-y-1">
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
 
-                    <label className="font-semibold">TAX ID.</label>
+                    <label className="font-semibold text-lg w-2/5 mx-5">TAX ID.</label>
                     <div className='flex'>
 
                       <Field 
@@ -650,7 +650,7 @@ export default function Tabs(props) {
                         component="select"
                         id="location"
                         name="location"
-                        className="block border-gray-100 w-1/4 py-1"
+                        className="block border-gray-100 w-2/5 py-1"
                         multiple={false}
                       >
                         {country && country.map((item) => {
@@ -662,7 +662,7 @@ export default function Tabs(props) {
 
                       <Field
                         type="text"
-                        className="block border-gray-100  py-1 md:w-3/4 w-full"
+                        className="block border-gray-100  py-1 md:w-2/4 w-3/5"
                         name="gst"
 
                       // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
@@ -671,12 +671,12 @@ export default function Tabs(props) {
 
                   </div>
 
-                  <div className="md:w-1/2 w-full space-y-1">
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
 
-                    <label className="font-semibold">PAN</label>
+                    <label className="font-semibold text-lg w-2/5 mx-5">PAN</label>
                     <Field
                       type="text"
-                      className="block border-gray-100 rounded-lg  py-1 md:w-3/4 w-full"
+                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
                       name="pan"
 
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
@@ -690,7 +690,7 @@ export default function Tabs(props) {
                 </div>
 
 
-                <div className="w-full">
+                <div className="w-full text-center">
                   <button
                     onClick={() => save(values)}
                     className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"

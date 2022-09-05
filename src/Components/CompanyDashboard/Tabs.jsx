@@ -44,14 +44,14 @@ export default function Tabs() {
     func();
   }, []);
   return (
-    <div className='Tabs'>
+    <div className='Tabs w-full'>
 
-      <div className="tabList flex">
+      <div className="tabList flex w-full">
         <div className={`tabHead ${index === 0 && 'active'}`} onClick={() => { setIndex(0) }}>Contact</div>
         <div className={`tabHead ${index === 1 && 'active'}`} onClick={() => { setIndex(1) }}>About</div>
         <div className={`tabHead ${index === 2 && 'active'}`} onClick={() => { setIndex(2) }}>Billing Credentials</div>
       </div>
-      <div className="tabContent p-5" hidden={index != 0}>
+      <div className="tabContent bg-white p-5 bg-white w-full" hidden={index != 0}>
         {user !== null && user !== undefined && (
           <Formik
             initialValues={{
@@ -66,60 +66,61 @@ export default function Tabs() {
             {({ values, isSubmitting }) => (
               <Form>
 
-                <div className="flex flex-wrap w-full gap-y-5">
+<div className="flex flex-wrap w-full gap-y-5">
                   <label style={{ color: "#3B82F6" }} className="py-3 text-xl font-semibold">Contact Information</label>
                   <hr />
-                  <div className="md:w-1/2 w-full space-y-1">
-                    <label className="font-semibold">Username</label>
-                    <Field
+                  {/* <div className="md:w-1/2 mx-9 flex w-full  space-y-1 flex">
+                    <div><label className="font-semibold text-lg w-2/5 mx-5">Username</label></div>
+                    <div> <Field
                       type="text"
                       name="username"
                       disabled
-                      className="block border-gray-100 rounded-lg py-1 md:w-1/2 w-3/4"
+                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
-                    />
-                  </div>
-                  <div className="md:w-1/2 w-full space-y-1">
-                    <label className="font-semibold">Company Name</label>
+                    /></div>
+                   
+                  </div> */}
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1 flex">
+                    <label className="font-semibold text-lg w-2/5 mx-5">Company Name</label>
                     <Field
                       type="text"
                       name="firstName"
                       disabled
-                      className="block border-gray-100 rounded-lg py-1 md:w-1/2 w-3/4"
+                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
                   </div>
-                  <div className="md:w-1/2 w-full space-y-1">
-                    <label className="font-semibold">Email</label>
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1 flex">
+                    <label className="font-semibold text-lg w-2/5 mx-5">Email</label>
                     <Field
                       name="email"
                       type="text"
                       disabled
-                      className="block border-gray-100 rounded-lg py-1 md:w-1/2 w-3/4"
+                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
                   </div>
-                  <div className="md:w-1/2 w-full space-y-1">
-                    <label className="font-semibold">Contact</label>
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1 flex">
+                    <label className="font-semibold text-lg w-2/5 mx-5">Contact</label>
                     <Field
                       name="contact"
                       type="text"
                       disabled
-                      className="block border-gray-100 rounded-lg py-1 md:w-1/2 w-3/4"
+                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
                   </div>
-                  <div className="md:w-1/2 w-full space-y-1">
-                    <label className="font-semibold">Address</label>
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1 flex">
+                    <label className="font-semibold text-lg w-2/5 mx-5">Address</label>
                     <Field
                       name="address"
                       type="text"
                       disabled
-                      className="block border-gray-100 rounded-lg py-1 md:w-1/2 w-3/4"
+                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
@@ -133,7 +134,7 @@ export default function Tabs() {
           </Formik>
         )}
       </div>
-      <div className="tabContent p-5" hidden={index != 1}>
+      <div className="tabContent bg-white p-5" hidden={index != 1}>
         {user !== null && user !== undefined && (
           <Formik
             initialValues={{
@@ -153,12 +154,12 @@ export default function Tabs() {
 
                   <label style={{ color: "#3B82F6" }} className="py-3 text-xl font-semibold">About</label>
                   <hr />
-                  <div className="md:w-1/2 w-full space-y-1">
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1 flex">
 
-                    <label className="font-semibold">Overview</label>
+                    <label className="font-semibold text-lg w-2/5 mx-5">Overview</label>
                     <p
                       type="text"
-                      className="block break-words py-2 md:w-3/4 w-full rounded-lg"
+                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
 
                       disabled
 
@@ -168,12 +169,12 @@ export default function Tabs() {
 
                   </div>
 
-                  <div className="md:w-1/2 w-full space-y-1">
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
 
-                    <label className="font-semibold">Motto</label>
+                    <label className="font-semibold text-lg w-2/5 mx-5">Motto</label>
                     <Field
                       type="text"
-                      className="block border-gray-100 rounded-lg py-1 md:w-3/4 w-full"
+                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
                       name="motto"
                       disabled
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
@@ -182,12 +183,12 @@ export default function Tabs() {
 
                   </div>
 
-                  <div className="md:w-1/2 w-full space-y-1">
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
 
-                    <label className="font-semibold">Website</label>
+                    <label className="font-semibold text-lg w-2/5 mx-5">Website</label>
                     <Field
                       type="text"
-                      className="block border-gray-100 rounded-lg  py-1 md:w-3/4 w-full"
+                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
                       name="website"
                       disabled
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
@@ -196,12 +197,12 @@ export default function Tabs() {
 
                   </div>
 
-                  <div className="md:w-1/2 w-full space-y-1">
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
 
-                    <label className="font-semibold">Industry</label>
+                    <label className="font-semibold text-lg w-2/5 mx-5">Industry</label>
                     <Field
                       type="text"
-                      className="block border-gray-100 rounded-lg py-1 md:w-3/4 w-full"
+                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
                       name="industry"
                       disabled
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
@@ -210,12 +211,12 @@ export default function Tabs() {
 
                   </div>
 
-                  <div className="md:w-1/2 w-full space-y-1">
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
 
-                    <label className="font-semibold">Company Size</label>
+                    <label className="font-semibold text-lg w-2/5 mx-5">Company Size</label>
                     <Field
                       type="text"
-                      className="block border-gray-100 rounded-lg py-1 md:w-3/4 w-full"
+                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
                       name="company_size"
                       disabled
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
@@ -224,12 +225,12 @@ export default function Tabs() {
 
                   </div>
 
-                  <div className="md:w-1/2 w-full space-y-1">
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
 
-                    <label className="font-semibold">Company Founded on</label>
+                    <label className="font-semibold text-lg w-2/5 mx-5">Company Founded on</label>
                     <Field
                       type="text"
-                      className="block border-gray-100 rounded-lg py-1 md:w-3/4 w-full"
+                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
                       name="found"
                       disabled
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
@@ -245,7 +246,7 @@ export default function Tabs() {
           </Formik>
         )}
       </div>
-      <div className="tabContent p-5" hidden={index != 2}>
+      <div className="tabContent bg-white p-5" hidden={index != 2}>
         {user !== null && user !== undefined && (
           <Formik
             initialValues={{
@@ -265,13 +266,13 @@ export default function Tabs() {
                   <hr />
 
 
-                  <div className="md:w-1/2 w-3/4 my-5 space-y-3">
+                  <div className="md:w-1/2 mx-9 my-5 flex w-full  space-y-1">
 
-                    <label className="font-semibold">Tax ID</label>
+                    <label className="font-semibold text-lg w-2/5 mx-5">Tax ID</label>
 
 
 
-                    <div className='flex'>
+                    <div className='flex w-3/5' >
 
                       <Field
 
@@ -288,7 +289,7 @@ export default function Tabs() {
 
                       <Field
                         type="text"
-                        className="block border-gray-100  py-1 md:w-3/4 w-full"
+                        className="block border-gray-100  py-1 md:w-3/4"
                         name="gst"
                         disabled
                       // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
@@ -297,12 +298,12 @@ export default function Tabs() {
 
                   </div>
 
-                  <div className="md:w-1/2 w-3/4 my-5 space-y-3">
+                  <div className="md:w-1/2 mx-9 my-5 flex w-full  space-y-1">
 
-                    <label className="font-semibold">PAN</label>
+                    <label className="font-semibold text-lg w-2/5 mx-5">PAN</label>
                     <Field
                       type="text"
-                      className="block border-gray-100 rounded-lg  py-1 md:w-3/4 w-full"
+                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
                       name="pan"
                       disabled
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}

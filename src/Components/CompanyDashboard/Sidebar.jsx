@@ -73,69 +73,7 @@ const Sidebar = () => {
 
   return (
     <div className="relative h-screen">
-      {/* <div className="fixed bg-blue-500 left-0 top-3 rounded-full text-white p-2">
-        <AiOutlineMenu
-          className="text-md"
-          onClick={() => {
-            setOpen(false);
-          }}
-        />
-      </div>
-      <ProSidebar
-        style={{ backgroundColor: "red !important" }}
-        width={200}
-        collapsedWidth={windowDimensions.width < 769 ? 1 : 69}
-        className="fixed left-0 h-screen z-10"
-        collapsed={open}
-      >
-        <SidebarContent>
-          <Menu iconShape="square">
-            <MenuItem
-              icon={
-                open ? (
-                  <AiOutlineMenu className="text-xl" />
-                ) : (
-                  <AiOutlineClose className="text-xl" />
-                )
-              }
-              onClick={() => setOpen(!open)}
-            >
-              Value Matrix
-            </MenuItem>
-            {companyDashboardRoutes.map((item) => {
-              if (item.hide === false && permission[item.permission] !== false)
-                return (
-                  <MenuItem icon={item.icon}>
-                    {item.name}
-                    <Link
-                      to={`/company${item.path}`}
-                      onClick={() => setOpen(true)}
-                    />
-                  </MenuItem>
-                );
-              return null;
-            })}
-          </Menu>
-        </SidebarContent>
-      </ProSidebar> */}
-
-      {/* <div className="w-1/4 h-100">
-<div className="py-3">
-{companyDashboardRoutes.map((item) => {
-              if (item.hide === false && permission[item.permission] !== false)
-                return (
-                  <Menu className="mx-4 py-2 flex font-300-gray" icon={item.icon}>
-                    {item.name}
-                    <Link
-                      to={`/company${item.path}`}
-                      onClick={() => setOpen(true)}
-                    />
-                  </Menu>
-                );
-              return null;
-            })}
-</div>
-</div> */}
+    
 
       <div className="flex">
         <div className="flex flex-col h-screen p-3 bg-white shadow w-60">
@@ -150,20 +88,7 @@ const Sidebar = () => {
                     return (
                       <li className="rounded-sm">
 
-                        {/* <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="w-6 h-6"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                            />
-                          </svg> */}
+                       
                         <Link
                           to={`/company${item.path}`}
                           onClick={() => setOpen(true)}

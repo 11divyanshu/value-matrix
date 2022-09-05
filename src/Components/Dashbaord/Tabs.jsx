@@ -41,15 +41,15 @@ export default function Tabs() {
   }, []);
 
   return (
-    <div className="Tabs">
-      <div className="tabList flex">
+    <div className="Tabs w-full">
+      <div className="tabList flex w-full">
         <div className={`tabHead ${index === 0 && 'active'}`} onClick={() => { setIndex(0) }}>Contact</div>
         <div className={`tabHead ${index === 1 && 'active'}`} onClick={() => { setIndex(1) }}>Education</div>
         <div className={`tabHead ${index === 2 && 'active'}`} onClick={() => { setIndex(2) }}>Experience</div>
         <div className={`tabHead ${index === 3 && 'active'}`} onClick={() => { setIndex(3) }}>Association</div>
         <div className={`tabHead ${index === 4 && 'active'}`} onClick={() => { setIndex(4) }}>Skills</div>
       </div>
-      <div className="tabContent p-5" hidden={index != 0}>
+      <div className="tabContent bg-white p-5 w-full" hidden={index != 0}>
         {user !== null && user !== undefined && (
           <Formik
             initialValues={{
@@ -71,74 +71,74 @@ export default function Tabs() {
                     Contact Information
                   </label>
                   <hr />
-                  <div className="md:w-1/2 w-full space-y-1">
-                    <label className="font-semibold">Username</label>
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                    <label className="font-semibold text-lg w-2/5 mx-5">Username</label>
                     <Field
                       type="text"
                       name="username"
                       disabled
-                      className="block border-gray-400 py-1 md:w-1/2 w-3/4"
-                      style={{
-                        boxShadow:
-                          "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
-                        border: "none",
-                      }}
+                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
+                      // style={{
+                      //   boxShadow:
+                      //     "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
+                      //   border: "none",
+                      // }}
                     />
                   </div>
-                  <div className="md:w-1/2 w-full space-y-1">
-                    <label className="font-semibold">Company Name</label>
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                    <label  className="font-semibold text-lg w-2/5 mx-5">Company Name</label>
                     <Field
                       type="text"
                       name="firstName"
                       disabled
-                      className="block border-gray-400 py-1 md:w-1/2 w-3/4"
-                      style={{
-                        boxShadow:
-                          "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
-                        border: "none",
-                      }}
+                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
+                      // style={{
+                      //   boxShadow:
+                      //     "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
+                      //   border: "none",
+                      // }}
                     />
                   </div>
-                  <div className="md:w-1/2 w-full space-y-1">
-                    <label className="font-semibold">Email</label>
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                    <label className="font-semibold text-lg w-2/5 mx-5">Email</label>
                     <Field
                       name="email"
                       type="text"
                       disabled
-                      className="block border-gray-400 py-1 md:w-1/2 w-3/4"
-                      style={{
-                        boxShadow:
-                          "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
-                        border: "none",
-                      }}
+                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
+                      // style={{
+                      //   boxShadow:
+                      //     "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
+                      //   border: "none",
+                      // }}
                     />
                   </div>
-                  <div className="md:w-1/2 w-full space-y-1">
-                    <label className="font-semibold">Contact</label>
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                    <label className="font-semibold text-lg w-2/5 mx-5">Contact</label>
                     <Field
                       name="contact"
                       type="text"
                       disabled
-                      className="block border-gray-400 py-1 md:w-1/2 w-3/4"
-                      style={{
-                        boxShadow:
-                          "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
-                        border: "none",
-                      }}
+                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
+                      // style={{
+                      //   boxShadow:
+                      //     "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
+                      //   border: "none",
+                      // }}
                     />
                   </div>
-                  <div className="md:w-1/2 w-full space-y-1">
-                    <label className="font-semibold">Address</label>
+                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                    <label className="font-semibold text-lg w-2/5 mx-5">Address</label>
                     <Field
                       name="address"
                       type="text"
                       disabled
-                      className="block border-gray-400 py-1 md:w-1/2 w-3/4"
-                      style={{
-                        boxShadow:
-                          "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
-                        border: "none",
-                      }}
+                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
+                      // style={{
+                      //   boxShadow:
+                      //     "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
+                      //   border: "none",
+                      // }}
                     />
                   </div>
                   {user.resume && <div className="flex space-x-12">
@@ -159,13 +159,13 @@ export default function Tabs() {
           </Formik>
         )}
       </div>
-      <div className="tabContent p-5" hidden={index != 1}>
+      <div className="tabContent bg-white p-5" hidden={index != 1}>
         {user !== null &&
           user !== undefined &&
           user.education.map((item, index) => {
             return (
               <div
-                className="my-2 shadow-md rounded-md p-5 bg-gray-50 h-35"
+                className=" rounded-md p-5 bg-white border border-gray-400 my-5 h-35"
                 key={index}
               >
                 <div className="flex justify-end space-x-3 items-center"></div>
@@ -194,10 +194,12 @@ export default function Tabs() {
             );
           })}
       </div>
-      <div className="tabContent p-5" hidden={index != 2}>
+      <div className="tabContent bg-white p-5" hidden={index != 2}>
         {user !== null && user !== undefined && user.experience.map((item, index) => {
           return (
-            <div className="my-2 shadow-md rounded-md p-5  bg-gray-50 h-40" key={index}>
+            <div 
+            className=" rounded-md p-5 bg-white border border-gray-400 my-5 h-35"
+            key={index}>
 
               <div className="font-semibold flex space-x-2 mt-3 items-center">
                 <p className='text-xl'>{item.title}</p> <p className="font-normal text-lg">|</p>{" "}
@@ -229,10 +231,12 @@ export default function Tabs() {
         })
         }
       </div>
-      <div className="tabContent p-5" hidden={index != 3}>
+      <div className="tabContent bg-white p-5" hidden={index != 3}>
         {user !== null && user !== undefined && user.associate && user.associate.map((item, index) => {
           return (
-            <div className="my-2 shadow-md rounded-md p-5  bg-gray-50 h-40" key={index}>
+            <div
+            className=" rounded-md p-5 bg-white border border-gray-400 my-5 h-35"
+            key={index}>
 
               <div className="font-semibold flex space-x-2 mt-3 items-center">
                 <p className='text-xl'>{item.title}</p> <p className="font-normal text-lg">|</p>{" "}
@@ -262,7 +266,7 @@ export default function Tabs() {
         })
         }
       </div>
-      <div className="tabContent p-5" hidden={index != 4}>
+      <div className="tabContent bg-white p-5" hidden={index != 4}>
 
         {user !== null && user !== undefined &&
           <div>

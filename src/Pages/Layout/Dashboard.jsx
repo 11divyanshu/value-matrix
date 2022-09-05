@@ -169,12 +169,19 @@ const Dashboard = () => {
           <CandidateResumeForm isOpen={true} setModalIsOpen={setModalIsOpen} />
         </div>
       )}
-      <div className="z-10 fixed h-screen">
+      <div className="w-full"> <HorizontalNav user={user} /></div>
+      
+
+       <div className="flex w-full">
+      <div className=" h-screen">
         <Sidebar user={user} />
+       
       </div>
-      <div className="md:pl-16 pl-0 w-full z-1">
-        <HorizontalNav user={user} />
-        <div>{comp}</div>
+      
+      <div className=" pl-0 z-1 w-full bg-slate-100">
+       
+        <div className="">{comp}</div>
+      </div>
       </div>
     </div>
   );
