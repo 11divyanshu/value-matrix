@@ -127,28 +127,28 @@ setJobs([]);
           // }}
           >
             {({ values }) => (
-              <Form className="text-center">
-                <div id="my-radio-group " className="text-2xl text-center font-bold font-gray-600">Filters</div>
+              <Form className="text-center bg-white">
+                <div id="my-radio-group " className="text-2xl text-center font-bold py-4 font-gray-600">Filters</div>
                 <div role="group" className="flex-column content-center text-center align-items-center  py-3 my-3 w-1/2 mx-auto  border-t border-gray-300" aria-labelledby="my-radio-group">
 
-                  <label className="text-center content-center px-5  flex  text-xl">
+                  <label className="text-center content-center px-4  flex  text-xl">
                     <Field type="radio" className="m-2 " name="picked" value="One" />
                     <p className="text-xl font-bold mx-3 font-gray-600">All</p>
                   </label>
                   <br />
-                  <label className="text-center px-5   flex   text-xl">
+                  <label className="text-center px-4   flex   text-xl">
                     <Field type="radio" className="m-2" name="picked" value="Two" />
                     <p className="text-xl font-bold mx-3 font-gray-600">Active</p>
                   </label>
                   <br />
-                  <label className="text-center px-5    flex   text-xl">
+                  <label className="text-center px-4    flex   text-xl">
                     <Field type="radio" className="m-2" name="picked" value="Three" />
                     <p className="text-xl font-bold mx-3 font-gray-600">Ended</p>
                   </label>
                   {/* <div>Picked: {values.picked}</div> */}
                 </div>
 
-                <label className="text-center w-1/2 content-center mx-auto px-5 text-center  flex p-1  text-xl">
+                <label className="text-center w-1/2 content-center mx-auto px-4 text-center  flex p-1  text-xl">
                   <Field type="checkbox" className="m-2" name="toggle" />
                   <p className="text-xl font-bold mx-3 font-gray-600">Vacant</p>
                 </label>

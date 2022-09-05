@@ -9,7 +9,7 @@ import {
   updateUserDetails,
   validateSignupDetails,
 } from "../../service/api";
-// import ReactCropper from "./ReactCrop";
+import ReactCropper from "../../Pages/UserDashboard/ReactCrop";
 
 // Assets
 import Avatar from "../../assets/images/UserAvatar.png";
@@ -169,22 +169,26 @@ if(res.data.user){
     <div className="p-5">
       <p className="text-2xl font-bold">Edit Profile</p>
       {user !== null && (
-        <div>
-          <div className="my-3 shadow-md rounded-md w-full p-3 flex items-center">
-            <div>
+        <div className="m-5">
+            <div className="h-48 w-full relative" style={{ background: "#99DEFF" }}>
+
+</div>
+<div className="relative mx-5 rounded-md w-full p-3 flex items-center ">
+<div className="absolute -top-20 left-20">
+
               <img
                 src={
                   user && user.profileImg && ProfilePic ? ProfilePic : Avatar
                 }
-                className="h-16 w-16 rounded-md mx-6"
+                className="h-40 w-40 rounded-full mx-6"
                 alt="userAvatar"
               />
             </div>
-            <div>
-              <p className="font-semibold">
+            <div className="ml-72">
+              <p className="font-semibold text-3xl">
                 {user.firstName} {user.lastname}
               </p>
-              <p className="text-gray-700 text-sm">User</p>
+              <p className="text-gray-400 text-lg">{user.username}</p>
             </div>
             <div class="ml-auto mr-5">
               <label>
@@ -236,7 +240,7 @@ if(res.data.user){
               </h5>
             </div>
             <div class="modal-body relative p-4">
-              {/* <ReactCropper Modal={ModalRef} /> */}
+              <ReactCropper Modal={ModalRef} />
             </div>
           </div>
           <button

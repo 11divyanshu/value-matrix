@@ -414,8 +414,8 @@ const AddJob = () => {
         </div>
       )}
 
-      <div className="Verticaltab mx-auto w-full">
-        <Tabs>
+      <div className="Verticaltab mx-auto w-full ">
+        <Tabs >
           <TabList>
             <Tab>
               <p>Home</p>

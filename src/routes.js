@@ -307,7 +307,7 @@ export const superXIDashboardRoutes = [
   {
     name: "Profile",
     icon: <RiFileUserFill className="text-xl" />,
-    path: "profile",
+    path: "/profile",
     component: <SXIUserProfile />,
     hide: false,
   },
@@ -319,7 +319,7 @@ export const superXIDashboardRoutes = [
   },
   {
     name: "Edit Profile",
-    path: "editProfile",
+    path: "/editProfile",
     hide: true,
     component: <SXIEditProfile />,
   },
@@ -332,7 +332,7 @@ export const superXIDashboardRoutes = [
   },
   {
     name: "getJobById",
-    path: "jobDetails",
+    path: "/jobDetails",
     hide: true,
     component: <SXIJobDetails />,
   },

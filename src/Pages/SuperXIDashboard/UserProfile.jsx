@@ -37,33 +37,37 @@ const UserProfile = () => {
   }, []);
 
   return (
-    <div className="p-5">
-      <p className="text-2xl font-bold" style={{ color: "#3B82F6" }}>
+    <div className="p-5 bg-slate-100">
+      {/* <p className="text-2xl font-bold" style={{ color: "#3B82F6" }}>
         Your Profile
-      </p>
+      </p> */}
 
       {user !== null && user !== undefined && (
         <div className="m-5">
-          <div className="my-3 shadow-md mx-5  rounded-md w-full p-3 flex items-center ">
-            <div>
+
+          <div className="h-48 w-full relative" style={{ background: "#99DEFF" }}>
+
+          </div>
+          <div className="relative mx-5 rounded-md w-full p-3 flex items-center ">
+            <div className="absolute -top-20 left-20">
               <img
                 // src={
                 //   user && user.profileImg && profileImg ? profileImg : Avatar
                 // }
                 src={Avatar}
-                className="h-16 w-16 rounded-md mx-6"
+                className="h-40 w-40 rounded-full mx-6"
                 alt="userAvatar"
               />
             </div>
-            <div>
-              <p className="font-semibold">
+            <div className="ml-72">
+              <p className="font-semibold text-3xl">
                 {user.firstName} {user.lastname}
               </p>
-              <p className="text-gray-700 text-sm">User</p>
+              <p className="text-gray-400 text-lg">{user.username}</p>
             </div>
             <div className="ml-auto mr-6 ">
               <button
-                className="border-[0.5px] border-gray-600 text-gray-600 px-2 py-1 rounded-sm"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 onClick={() => {
                   let url = window.location.href;
                   let type = url.split("/")[3];
@@ -76,7 +80,7 @@ const UserProfile = () => {
           </div>
 
           <div
-            className="my-3 mx-5 shadow-md rounded-lg w-full  pt-3 w-3/4"
+            className="my-3 rounded-lg pt-3 w-full"
             style={{ borderRadius: "12px" }}
           >
             <div className="App " style={{ borderRadius: "12px" }}>

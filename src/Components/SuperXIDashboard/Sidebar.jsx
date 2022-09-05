@@ -1,6 +1,6 @@
 import { ProSidebar, SidebarContent, Menu, MenuItem } from "react-pro-sidebar";
 import "react-pro-sidebar/dist/css/styles.css";
-import { adminDashboardRoutes } from "../../routes";
+import { superXIDashboardRoutes } from "../../routes";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import React from "react";
 import "../../assets/stylesheet/sidebar.scss";
@@ -50,36 +50,36 @@ const Sidebar = () => {
       let user1 = JSON.parse(await localStorage.getItem("user"));
       let token = await localStorage.getItem("access_token");
 
-      if (
-        user1.permissions &&
-        user1.permissions.length > 0 &&
-        user1.permissions[0].admin_permissions
-      ) {
-        await setPermissions(user1.permissions[0].admin_permissions);
-      }
+      // if (
+      //   user1.permissions &&
+      //   user1.permissions.length > 0 &&
+      //   user1.permissions[0].admin_permissions
+      // ) {
+      //   await setPermissions(user1.permissions[0].admin_permissions);
+      // }
       let user = await getUserFromId({ id: user1._id }, token);
-      if (user.data.user.isAdmin) {
-        await setPermissions({
-          add_skills: true,
-          add_users: true,
-          list_candidates: true,
-          list_companies: true,
-          add_notifications: true,
-          default: true,
-        });
-      } else if (
-        user &&
-        user.data.user &&
-        user.data.user.user_type === "Admin_User" &&
-        user.data.user.permissions
-      ) {
-        if (user.data.user.permissions[0]) {
-          await setPermissions({
-            ...user.data.user.permissions[0].admin_permissions,
-            default: true,
-          });
-        }
-      }
+      // if (user.data.user.isAdmin) {
+      //   await setPermissions({
+      //     add_skills: true,
+      //     add_users: true,
+      //     list_candidates: true,
+      //     list_companies: true,
+      //     add_notifications: true,
+      //     default: true,
+      //   });
+      // } else if (
+      //   user &&
+      //   user.data.user &&
+      //   user.data.user.user_type === "Admin_User" &&
+      //   user.data.user.permissions
+      // ) {
+      //   if (user.data.user.permissions[0]) {
+      //     await setPermissions({
+      //       ...user.data.user.permissions[0].admin_permissions,
+      //       default: true,
+      //     });
+      //   }
+      // }
     };
     initial();
   }, [permission]);
@@ -95,12 +95,12 @@ const Sidebar = () => {
             </div>
             <div className="flex-1">
               <ul className="pt-2 pb-4 space-y-1 text-sm">
-                {adminDashboardRoutes.map((item) => {
+                {superXIDashboardRoutes.map((item) => {
                   if (item.hide === false && permission[item.permission] !== false)
                     return (
                       <li className="rounded-sm">
                         <Link
-                          to={`/admin${item.path}`}
+                          to={`/superXI${item.path}`}
                           onClick={() => setOpen(true)}
                         >
                           <span className="flex my-2 p-3 text-gray-700"> <p className="mx-2 text-gray-600">{item.icon} </p>  <p className="font-bold"> {item.name}</p> </span></Link>

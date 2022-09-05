@@ -9,7 +9,7 @@ import {
   updateUserDetails,
   validateSignupDetails,
 } from "../../service/api";
-import ReactCropper from "./ReactCrop";
+import ReactCropper from "../../Pages/UserDashboard/ReactCrop";
 
 // Assets
 import Avatar from "../../assets/images/UserAvatar.png";
@@ -167,7 +167,7 @@ if(res.data.user){
 
   return (
     <div className="p-5">
-      <p className="text-2xl font-bold">Edit Profile</p>
+      {/* <p className="text-2xl font-bold">Edit Profile</p> */}
       {user !== null && (
         <div className="m-5">
             <div className="h-48 w-full relative" style={{ background: "#99DEFF" }}>
