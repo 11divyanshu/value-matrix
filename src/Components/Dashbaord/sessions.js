@@ -23,7 +23,7 @@ const SessionCard = () => {
         </div>
         <div className="my-3">
            
-           <div className='mx-4 px-3 my-4'><label>Thu 12 May</label>
+           <div className='mx-2  my-4'><label>Thu 12 May</label>
            <br/>
            <div className='flex my-2 '>
            <span class="bg-white border border-gray-400 text-gray-600 text-xs font-semibold mr-2 px-2.5 py-2 rounded-3xl dark:bg-gray-600 dark:text-gray-600">10am -11am</span>
@@ -33,7 +33,7 @@ const SessionCard = () => {
            
            </div>
 
-           <div className='mx-4 px-3 mt-4'><label>Thu 12 May</label>
+           <div className='mx-2  mt-4'><label>Thu 12 May</label>
            <br/>
            <div className='flex my-2 '>
            <span class="bg-white border border-gray-400 text-gray-600 text-xs font-semibold mr-2 px-2.5 py-2 rounded-3xl dark:bg-gray-600 dark:text-gray-600">10am -11am</span>
@@ -43,7 +43,7 @@ const SessionCard = () => {
            
            </div>
 
-           <div className='mx-4 px-3 mt-4'><label>Thu 12 May</label>
+           <div className='mx-2  mt-4'><label>Thu 12 May</label>
            <br/>
            <div className='flex my-2 '>
            <span class="bg-white border border-gray-400 text-gray-600 text-xs font-semibold mr-2 px-2.5 py-2 rounded-3xl dark:bg-gray-600 dark:text-gray-600">10am -11am</span>

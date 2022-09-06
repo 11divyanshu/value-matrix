@@ -6,7 +6,7 @@ import {
 } from "react-pro-sidebar";
 import "react-pro-sidebar/dist/css/styles.css";
 import { dashboardRoutes } from "../../routes";
-import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { RiAdminFill } from "react-icons/ri";
 import React from "react";
 import "../../assets/stylesheet/sidebar.scss";
 import { Link } from "react-router-dom";
@@ -111,7 +111,7 @@ const Sidebar = (props) => {
                   <Link
                     to={`/admin`}
 
-                  > <span className="flex my-2 p-3 text-gray-700"><p className="font-bold"> Admin Panel</p> </span></Link>
+                  > <span className="flex my-2 p-3 text-gray-700"> <p className="mx-2 text-xl text-gray-600"> <RiAdminFill/></p>  <p className="font-bold">Admin Panel</p> </span></Link>
 
                 )}
 

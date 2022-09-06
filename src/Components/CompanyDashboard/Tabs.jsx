@@ -272,14 +272,14 @@ export default function Tabs() {
 
 
 
-                    <div className='flex w-3/5' >
+                    <div className='flex md:w-1/2 w-3/5' >
 
                       <Field
 
                         type="text"
                         id="location"
                         name="location"
-                        className="block border-gray-100 w-14 py-1"
+                        className="block border-gray-100 py-1 w-1/6"
                         multiple={false}
                         disabled
                       >
@@ -289,7 +289,7 @@ export default function Tabs() {
 
                       <Field
                         type="text"
-                        className="block border-gray-100  py-1 md:w-3/4"
+                        className="block border-gray-100  py-1 md:w-3/4 w-5/6"
                         name="gst"
                         disabled
                       // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}

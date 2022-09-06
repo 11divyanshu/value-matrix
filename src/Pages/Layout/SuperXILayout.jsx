@@ -5,7 +5,7 @@ import { ReactSession } from "react-client-session";
 // Components
 import { superXIDashboardRoutes } from "../../routes";
 import Navbar from "../../Components/AdminDashboard/Navbar";
-import Sidebar from "../../Components/AdminDashboard/Sidebar";
+import Sidebar from "../../Components/SuperXIDashboard/Sidebar";
 import { getUserFromId, getUserIdFromToken } from "../../service/api";
 import jsCookie from "js-cookie";
 
@@ -51,9 +51,9 @@ const CompanyDashboard = () => {
         let user = localStorage.get("user");
         await setUser(user);
       }
-       let user = localStorage.getItem("user")
+      let user = localStorage.getItem("user")
       let token = localStorage.getItem("access_token")
-      if(!user || !token){
+      if (!user || !token) {
         window.location.href = "/login"
       }
     };
@@ -98,13 +98,19 @@ const CompanyDashboard = () => {
   }, [component]);
 
   return (
-    <div className="max-w-screen flex h-screen">
-      <div className="z-10 fixed h-screen">
-        <Sidebar />
-      </div>
-      <div className="md:pl-16 pl-0 w-full z-1">
-        <Navbar user={user} />
-        <div>{comp}</div>
+    <div className="max-w-screen h-screen">
+      <div className="w-full"> <Navbar user={user} /></div>
+
+      <div className="flex w-full">
+        <div className=" h-screen">
+          <Sidebar user={user} />
+
+        </div>
+
+        <div className=" pl-0 z-1 w-full bg-slate-100">
+
+          <div className="">{comp}</div>
+        </div>
       </div>
     </div>
   );
