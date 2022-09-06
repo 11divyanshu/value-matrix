@@ -24,7 +24,7 @@ const Dashboard = () => {
   let [userCheck, setUserCheck] = React.useState(false);
 
   // Form to get User details
-  const [modalIsOpen, setModalIsOpen] = React.useState(false);
+  const [modalIsOpen, setModalIsOpen] = React.useState(false );
 
   React.useEffect(() => {
     OneSignal.init({

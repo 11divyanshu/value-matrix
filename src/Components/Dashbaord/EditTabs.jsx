@@ -44,10 +44,13 @@ export default function Tabs(props) {
   const [rolesC, setCRoles] = React.useState({});
 
   const [roles, setRoles] = React.useState([]);
+  const [showRoles, setShowRoles] = React.useState([]);
   const [primarySkills, setPrimarySkills] = React.useState([]);
   const [secondarySkills, setSecondarySkills] = React.useState([]);
   const [prof, setProf] = React.useState([]);
   const [dbSkills, setDbSkills] = React.useState([]);
+
+  const inputSkillRef = React.useRef(null);
   // Updates Any Error during the Editing Profile
   const [Error, setError] = React.useState(null);
 
@@ -487,7 +490,7 @@ export default function Tabs(props) {
         } else {
           await setProf(pr);
         }
-
+        await setShowRoles(Array.from(roles));
         await setRoles(Array.from(roles));
         await setDbSkills(res.data);
         await setPrimarySkills(pSkills);
@@ -1748,10 +1751,55 @@ export default function Tabs(props) {
         {user !== null && user !== undefined && (
           <div>
             <label className="font-semibold text-lg w-2/5 mx-5">Skills</label>
+
+            <div className="my-3 px-4 flex items-center flex-wrap">
+              <input
+                type="text"
+                className="w-3/4 text-600 border-[0.5px] border-[#6b7280] p-2"
+                placeholder="Search Skill..."
+                ref={inputSkillRef}
+                onChange={async () => {
+                  let role = new Set([]);
+                  if (
+                    inputSkillRef.current.value.trim() !== "" ||
+                    !inputSkillRef ||
+                    !inputSkillRef.current.value
+                  ) {
+                    dbSkills.forEach((el) => {
+                      if (
+                        el.role
+                          .toLowerCase()
+                          .includes(inputSkillRef.current.value.toLowerCase())
+                      ) {
+                        role.add(el.role);
+                      } else if (
+                        el.primarySkill
+                          .toLowerCase()
+                          .includes(inputSkillRef.current.value.toLowerCase())
+                      ) {
+                        role.add(el.role);
+                      } else if (
+                        el.secondarySkill
+                          .toLowerCase()
+                          .includes(inputSkillRef.current.value.toLowerCase())
+                      ) {
+                        role.add(el.role);
+                      }
+                    });
+                    await setShowRoles(Array.from(role));
+                  } else {
+                    await setShowRoles(roles);
+                  }
+                }}
+              />
+              <button className="h-10 bg-blue-600 text-white rounded-sm block cursor-pointer px-8 align-middle ml-3">
+                Search
+              </button>
+            </div>
             <div className="my-3">
               <div className="w-full">
-                {roles &&
-                  roles.map((el, index) => {
+                {showRoles &&
+                  showRoles.map((el, index) => {
                     return (
                       <div key={index}>
                         <Disclosure>
@@ -1945,7 +1993,7 @@ export default function Tabs(props) {
               Add
             </button>
             {error && <p className="text-sm text-red-500 mb-5">{error}</p>} */}
-            {/* </div> */}
+
             <div className="p-5">
               {rolesC
                 ? rolesC.map((item, index) => {
