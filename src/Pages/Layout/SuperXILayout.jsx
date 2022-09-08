@@ -102,15 +102,10 @@ const CompanyDashboard = () => {
       <div className="w-full"> <Navbar user={user} /></div>
 
       <div className="flex w-full">
-        <div className=" h-screen">
-          <Sidebar user={user} />
+        <Sidebar className="h-screen absolute top-0">
 
-        </div>
-
-        <div className=" pl-0 z-1 w-full bg-slate-100">
-
-          <div className="">{comp}</div>
-        </div>
+        </Sidebar>
+        <div className="w-full">{comp}</div>
       </div>
     </div>
   );

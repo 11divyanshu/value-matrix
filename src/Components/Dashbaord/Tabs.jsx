@@ -101,7 +101,7 @@ export default function Tabs() {
           Skills
         </div>
       </div>
-      <div className="tabContent bg-white p-5 w-full" hidden={index != 0}>
+      <div className="tabContent shadow-md bg-white p-5 w-full" hidden={index != 0}>
         {user !== null && user !== undefined && (
           <Formik
             initialValues={{
@@ -236,13 +236,13 @@ export default function Tabs() {
           </Formik>
         )}
       </div>
-      <div className="tabContent bg-white p-5" hidden={index != 1}>
+      <div className="tabContent shadow-md bg-white p-5" hidden={index != 1}>
         {user !== null &&
           user !== undefined &&
           user.education.map((item, index) => {
             return (
               <div
-                className=" rounded-md p-5 bg-white border border-gray-400 my-5 h-35"
+                className=" rounded-md p-5 bg-white border border-gray-400 my-5 h-35 md:w-4/5 mx-auto"
                 key={index}
               >
                 <div className="flex justify-end space-x-3 items-center"></div>
@@ -271,13 +271,13 @@ export default function Tabs() {
             );
           })}
       </div>
-      <div className="tabContent bg-white p-5" hidden={index != 2}>
+      <div className="tabContent shadow-md bg-white p-5" hidden={index != 2}>
         {user !== null &&
           user !== undefined &&
           user.experience.map((item, index) => {
             return (
               <div
-                className=" rounded-md p-5 bg-white border border-gray-400 my-5 h-35"
+                className=" rounded-md p-5 bg-white border border-gray-400 my-5 h-35  md:w-4/5 mx-auto"
                 key={index}
               >
                 <div className="font-semibold flex space-x-2 mt-3 items-center">
@@ -308,14 +308,14 @@ export default function Tabs() {
             );
           })}
       </div>
-      <div className="tabContent bg-white p-5" hidden={index != 3}>
+      <div className="tabContent shadow-md bg-white p-5" hidden={index != 3}>
         {user !== null &&
           user !== undefined &&
           user.associate &&
           user.associate.map((item, index) => {
             return (
               <div
-                className=" rounded-md p-5 bg-white border border-gray-400 my-5 h-35"
+                className=" rounded-md p-5 bg-white border border-gray-400 my-5 h-35  md:w-4/5 mx-auto"
                 key={index}
               >
                 <div className="font-semibold flex space-x-2 mt-3 items-center">
@@ -345,7 +345,7 @@ export default function Tabs() {
             );
           })}
       </div>
-      <div className="tabContent bg-white p-5" hidden={index != 4}>
+      <div className="tabContent shadow-md bg-white p-5" hidden={index != 4}>
         {user !== null && user !== undefined && (
           <div>
             <div className="md:w-1/2 w-full space-y-1">

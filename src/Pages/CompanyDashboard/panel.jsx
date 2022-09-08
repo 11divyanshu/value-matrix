@@ -43,38 +43,38 @@ const Panel = () => {
     <div className="flex bg-slate-100 w-full">
       {/* <Sidebar /> */}
 
-      <div className="container-fluid mx-auto mt-12">
+      <div className="container-fluid mx-auto  mt-12">
         <div className="grid grid-cols-1 gap-5 mb-6 lg:grid-cols-4">
           <div className=" px-4 mx-4 py-3 bg-white rounded-lg shadow">
             <div className="text-sm font-medium text-gray-500 truncate">
-              Total users
+             Credit Balance
             </div>
             <div className="mt-1 text-lg font-semibold text-gray-900">
-              18 Total Interview
+              2.5k This Month
             </div>
           </div>
           <div className=" px-4 mx-4 py-3 bg-white rounded-lg shadow">
             <div className="text-sm font-medium text-gray-500 truncate">
-              Total users
+              Credits Bought
             </div>
             <div className="mt-1 text-lg font-semibold text-gray-900">
-              08 Interview Pending
+              5k This Month
             </div>
           </div>
           <div className=" px-4 mx-4 py-3 bg-white rounded-lg shadow">
             <div className="text-sm font-medium text-gray-500 truncate">
-              Total Profit
+             Total Jobs Listed
             </div>
             <div className="mt-1 text-lg font-semibold text-gray-900">
-              22 interview Completed
+              22
             </div>
           </div>
           <div className=" px-4 mx-4 py-3 bg-white rounded-lg shadow">
             <div className="text-sm font-medium text-gray-500 truncate">
-              Total Orders
+              Total Interviews
             </div>
             <div className="mt-1 text-lg font-semibold text-gray-900">
-              01 Interview in Progress
+              16
             </div>
           </div>
         </div>
@@ -126,7 +126,9 @@ const Panel = () => {
               <div className="px-5 text-center my-3"><p>12am  - 1am</p><p className="text-gray-400 text-sm "> 03 Minutes Remaining</p></div>
               <div className="px-5 text-center my-3 vertical-middle"><span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900">Pending</span>
               </div>
-              <div className="px-5 text-center my-3"><p><BsThreeDots /></p></div>
+              <div className="px-5 text-center my-3"><button style={{ background: "#40D1C9" }} className=" rounded-xl px-3 py-2 text-xs text-white">
+                  More
+                </button></div>
             </div>
 
             <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center lg:grid-cols-6">
@@ -146,7 +148,9 @@ const Panel = () => {
               <div className="px-5 text-center my-3"><p>12am  - 1am</p><p className="text-gray-400 text-sm"> 03 Minutes Remaining</p></div>
               <div className="px-5 text-center my-3"><span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900">Pending</span>
               </div>
-              <div className="px-5 text-center my-3"><p><BsThreeDots /></p></div>
+              <div className="px-5 text-center my-3"><button style={{ background: "#40D1C9" }} className=" rounded-xl px-3 py-2 text-xs text-white">
+                  More
+                </button></div>
             </div>
 
             <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center lg:grid-cols-6">
@@ -166,7 +170,9 @@ const Panel = () => {
               <div className="px-5 text-center my-3"><p>12am  - 1am</p><p className="text-gray-400 text-sm"> 03 Minutes Remaining</p></div>
               <div className="px-5 text-center my-3"><span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900">Pending</span>
               </div>
-              <div className="px-5 text-center my-3"><p><BsThreeDots /></p></div>
+              <div className="px-5 text-center my-3"><button style={{ background: "#40D1C9" }} className=" rounded-xl px-3 py-2 text-xs text-white">
+                  More
+                </button></div>
             </div>
 
 
@@ -187,7 +193,9 @@ const Panel = () => {
               <div className="px-5 text-center my-3"><p>12am  - 1am</p><p className="text-gray-400 text-sm"> 03 Minutes Remaining</p></div>
               <div className="px-5 text-center my-3"><span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900">Pending</span>
               </div>
-              <div className="px-5 text-center my-3"><p><BsThreeDots /></p></div>
+              <div className="px-5 text-center my-3"> <button style={{ background: "#40D1C9" }} className=" rounded-xl px-3 py-2 text-xs text-white">
+                  More
+                </button></div>
             </div>
 
 

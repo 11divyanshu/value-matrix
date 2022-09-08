@@ -58,7 +58,7 @@ function handleActive(event) {
 
   return (
     <div className="h-screen">
-      <div className="fixed text-gray-9 left-3 top-3 rounded-full text-gray-700 text-xl visible md:invisible p-2">
+      <div className="absolute  text-gray-9 left-5 top-5  visible md:invisible text-gray-700 text-xl">
       <AiOutlineMenu className="text-md " onClick={()=>{handleToggle();}}/>
       </div>
     <ProSidebar

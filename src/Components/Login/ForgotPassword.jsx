@@ -119,7 +119,7 @@ const ResetPassword = () => {
 
   return (
     <div className={styles.loginLanding}>
-      <div className="container w-5/12 flex bg-white rounded-lg h-2/3">
+      <div className="container md:w-5/12 flex bg-white rounded-lg h-2/3">
         <div className="md:w-1/2 w-full flex flex-col">
           <div className="p-5 pt-5 pb-2 lg:p-9 text-left">
             <span

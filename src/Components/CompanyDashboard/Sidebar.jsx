@@ -77,7 +77,7 @@ const Sidebar = () => {
 
   return (
     <div className="h-screen">
-      <div className="fixed bg-blue-500 left-3 top-3 rounded-full  visible md:invisible text-white p-2">
+      <div className="absolute  text-gray-9 left-5 top-5  visible md:invisible text-gray-700 text-xl">
       <AiOutlineMenu className="text-md " onClick={()=>{handleToggle();}}/>
       </div>
     <ProSidebar

@@ -12,6 +12,9 @@
     box-sizing: border-box;
     margin:2rem auto;
     padding: 0  3rem;
+    @media only screen and (max-width: 768px){
+      padding: 1rem;
+  }
   
   .react-tabs {
     display: flex;
@@ -22,7 +25,13 @@
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     text-align: left;
     background-color: white;
-
+    @media only screen and (max-width: 768px){
+      padding: 0;
+      margin:0 !important;
+      margin-left: 0 !important;
+      width: 100%;
+      display: block;
+  }
 
   }
   
@@ -37,6 +46,15 @@
     color: black;
  border :2px solid whitesmoke;
  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+
+
+ @media only screen and (max-width: 768px){
+  padding: 0;
+  margin:0 !important;
+ display: block;
+ width:100%;
+  
+}
   }
   
   .react-tabs__tab {
