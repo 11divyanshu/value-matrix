@@ -250,10 +250,10 @@ const AddSkills = () => {
         </div>
         <div className="my-4">
           <p className="font-semibold">Skills Present</p>
-          <div className="flex items-center my-4">
+          <div className=" items-center my-4">
             {dbSkills.map((skill) => {
               return (
-                <div className="bg-blue-100 text-blue-700 flex space-x-3 mr-4 items-center p-2">
+                <div className="bg-blue-100 text-blue-700 flex space-x-3 mr-4 my-2 items-center p-2">
                   <p className="text-sm">{skill}</p>
                 </div>
               );

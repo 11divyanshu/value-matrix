@@ -3,16 +3,18 @@ import { useParams } from "react-router-dom";
 import OneSignal from "react-onesignal";
 
 // Components
+
 import JobDetails from "../UserDashboard/JobDetail.jsx";
 import CandidateResumeForm from "../../Components/Dashbaord/CandidateForm.jsx";
 import { dashboardRoutes } from "../../routes";
 import HorizontalNav from "../../Components/Dashbaord/Navbar";
-import Sidebar from "../../Components/Dashbaord/sidebar";
+import SidebarComponent from "../../Components/Dashbaord/sidebar";
 import {
   getProfileImage,
   getUserFromId,
   getUserIdFromToken,
 } from "../../service/api";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   let [comp, setComponent] = React.useState(null);
@@ -22,6 +24,7 @@ const Dashboard = () => {
   let [user, setUser] = React.useState(null);
   let [profileImg, setProfileImg] = React.useState(null);
   let [userCheck, setUserCheck] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   // Form to get User details
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
@@ -162,6 +165,8 @@ const Dashboard = () => {
     }
   }, [component]);
 
+ 
+
   return (
     <div className="max-w-screen h-screen">
       {modalIsOpen && (
@@ -169,12 +174,15 @@ const Dashboard = () => {
           <CandidateResumeForm isOpen={true} setModalIsOpen={setModalIsOpen} />
         </div>
       )}
-      <div className="w-full"> <HorizontalNav user={user} /></div>
+      <div className="w-full z-50"> <HorizontalNav  user={user} /></div>
       
 
-       <div className="flex w-full">
+       {/* <div className="flex w-full">
       <div className=" h-screen">
-        <Sidebar user={user} />
+        <Sidebar
+        breakPoint="768"
+        content={[<SidebarItem><SidebarComponent user={user}/></SidebarItem>]}
+      ></Sidebar>
        
       </div>
       
@@ -182,7 +190,13 @@ const Dashboard = () => {
        
         <div className="">{comp}</div>
       </div>
-      </div>
+      </div> */}
+<div className="flex w-full">
+<SidebarComponent className="h-screen absolute top-0">
+
+      </SidebarComponent>
+<div className="w-full">{comp}</div>
+</div>
     </div>
   );
 };

@@ -363,13 +363,13 @@ export default function Tabs(props) {
                   {user.username}{" "}
                 </p> */}
                 <div className="flex flex-wrap w-full gap-y-5">
-                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
-                    <label className="font-semibold text-lg w-2/5 mx-5">Company Name</label>
+                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">Company Name</label>
                     <Field
                       type="text"
                       name="firstName"
-                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
-                      style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
+                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
+                      
 
                     />
                     <ErrorMessage
@@ -378,12 +378,12 @@ export default function Tabs(props) {
                       className="text-sm text-red-600"
                     />
                   </div>
-                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
-                    <label className="font-semibold text-lg w-2/5 mx-5">Address</label>
+                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">Address</label>
                     <Field
                       type="text"
                       name="address"
-                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
+                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
                       // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
 
                     />
@@ -394,12 +394,12 @@ export default function Tabs(props) {
                     />
                   </div>
 
-                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
-                    <label className="font-semibold text-lg w-2/5 mx-5">Email</label>
+                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">Email</label>
                     <Field
                       name="email"
                       type="text"
-                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
+                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
                       disabled={EmailOTP !== null || ContactOTP !== null}
                       // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
 
@@ -410,12 +410,12 @@ export default function Tabs(props) {
                       className="text-sm text-red-600"
                     />
                   </div>
-                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
-                    <label className="font-semibold text-lg w-2/5 mx-5">Contact</label>
+                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">Contact</label>
                     <Field
                       name="contact"
                       type="text"
-                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
+                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
                       disabled={EmailOTP !== null || ContactOTP !== null}
                       // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
 
@@ -428,24 +428,24 @@ export default function Tabs(props) {
 
                   </div>
                   {EmailOTP && (
-                    <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
-                      <label className="font-semibold text-lg w-2/5 mx-5">Email OTP</label>
+                    <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                      <label className="font-semibold text-lg md:w-2/5 mx-5">Email OTP</label>
                       <Field
                         name="emailOTP"
                         type="text"
-                        className="block border-gray-400 py-1 md:w-1/2 w-3/5"
+                        className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
                         // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
 
                       />
                     </div>
                   )}
                   {ContactOTP && (
-                    <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
-                      <label className="font-semibold text-lg w-2/5 mx-5">Contact OTP</label>
+                    <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                      <label className="font-semibold text-lg md:w-2/5 mx-5">Contact OTP</label>
                       <Field
                         name="contactOTP"
                         type="text"
-                        className="block border-gray-400 py-1 md:w-1/2 w-3/5"
+                        className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
                         // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
 
                       />
@@ -497,9 +497,9 @@ export default function Tabs(props) {
 
                   <label style={{ color: "#3B82F6" }} className="py-3 text-xl font-semibold">About</label>
                   <hr />
-                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
 
-                    <label className="font-semibold text-lg w-2/5 mx-5">Overview</label>
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">Overview</label>
                     <Field
                       type="textarea"
                       className="block border-gray-100 py-1 md:w-3/4 w-full h-20"
@@ -511,9 +511,9 @@ export default function Tabs(props) {
 
                   </div>
 
-                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
 
-                    <label className="font-semibold text-lg w-2/5 mx-5">Motto</label>
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">Motto</label>
                     <Field
                       type="text"
                       className="block border-gray-400 py-1 md:w-3/4 w-full"
@@ -525,9 +525,9 @@ export default function Tabs(props) {
 
                   </div>
 
-                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
 
-                    <label className="font-semibold text-lg w-2/5 mx-5">Website</label>
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">Website</label>
                     <Field
                       type="text"
                       className="block border-gray-400 py-1 md:w-3/4 w-full"
@@ -539,9 +539,9 @@ export default function Tabs(props) {
 
                   </div>
 
-                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
 
-                    <label className="font-semibold text-lg w-2/5 mx-5">Industry</label>
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">Industry</label>
                     <Field
                       type="text"
                       className="block border-gray-400 py-1 md:w-3/4 w-full"
@@ -553,9 +553,9 @@ export default function Tabs(props) {
 
                   </div>
 
-                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
 
-                    <label className="font-semibold text-lg w-2/5 mx-5">Company Size</label>
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">Company Size</label>
                     <Field
                       type="text"
                       className="block border-gray-400 py-1 md:w-3/4 w-full"
@@ -567,9 +567,9 @@ export default function Tabs(props) {
 
                   </div>
 
-                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
 
-                    <label className="font-semibold text-lg w-2/5 mx-5">Company Founded on</label>
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">Company Founded on</label>
                     <Field
                       type="text"
                       className="block border-gray-400 py-1 md:w-3/4 w-full"
@@ -624,8 +624,8 @@ export default function Tabs(props) {
 
                   <label style={{ color: "#3B82F6" }} className="py-3 text-xl font-semibold">Billing Credentials</label>
                   {/* <hr />
-                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
-                  <label className="font-semibold text-lg w-2/5 mx-5">Country</label>
+                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                  <label className="font-semibold text-lg md:md:w-2/5 mx-5">Country</label>
            <Field
              component="select"
              id="location"
@@ -640,9 +640,9 @@ export default function Tabs(props) {
              <option value="OTHER">Other</option>
            </Field>
            </div> */}
-                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
 
-                    <label className="font-semibold text-lg w-2/5 mx-5">TAX ID.</label>
+                    <label className="font-semibold text-lg md:md:w-2/5 mx-5">TAX ID.</label>
                     <div className='flex'>
 
                       <Field 
@@ -671,12 +671,12 @@ export default function Tabs(props) {
 
                   </div>
 
-                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
+                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
 
-                    <label className="font-semibold text-lg w-2/5 mx-5">PAN</label>
+                    <label className="font-semibold text-lg md:md:w-2/5 mx-5">PAN</label>
                     <Field
                       type="text"
-                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
+                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
                       name="pan"
 
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}

@@ -124,7 +124,7 @@ const AddAdminUser = () => {
   }, []);
 
   return (
-    <div className="p-5">
+    <div className="p-5 ">
       <p className="text-2xl font-bold">Add Admin User</p>
       <div className="w-full">
         <Formik
@@ -169,10 +169,10 @@ const AddAdminUser = () => {
         >
           {({ values }) => {
             return (
-              <Form>
-                <div className="flex w-full">
-                  <div className="my-3 mt-4 w-3/4">
-                    <label htmlFor="username" className="text-gray-700">
+              <Form className="container bg-white p-5 my-3  w-4/5 mx-auto shadow-md">
+              <div className="md:w-1/2 mx-9 flex w-full my-3 space-y-1">
+                  
+                    <label htmlFor="username" className="font-semibold text-lg w-2/5 mx-5">
                       Username *
                     </label>
                     <Field
@@ -190,17 +190,16 @@ const AddAdminUser = () => {
                         {userNameError}
                       </div>
                     )}
-                  </div>
+                
                 </div>
-                <div className="flex flex-row w-full items-center flex-wrap">
-                  <div className="my-2 w-2/5">
-                    <label htmlFor="firstName" className="text-gray-700">
+                <div className="md:w-1/2 mx-9 my-3 flex w-full  space-y-1">
+                    <label htmlFor="firstName" className="font-semibold text-lg w-2/5 mx-5">
                       First Name *
                     </label>
                     <Field
                       type="text"
                       name="firstName"
-                      className="text-600 block my-1 w-3/4"
+                      className="text-600 block my-1 w-2/5"
                     />
                     <ErrorMessage
                       name="firstName"
@@ -208,32 +207,29 @@ const AddAdminUser = () => {
                       className="text-sm text-red-600"
                     />
                   </div>
-                  <div className="w-2/5">
-                    <label htmlFor="lastName" className="text-gray-700">
+                  <div className="md:w-1/2 mx-9 my-3 flex w-full  space-y-1">
+                    <label htmlFor="lastName" className="font-semibold text-lg w-2/5 mx-5">
                       Last Name *
                     </label>
                     <Field
                       type="text"
                       name="lastName"
-                      className="text-600 block my-1 w-3/4"
-                    />
+                      className="text-600 block my-1 w-2/5"                    />
                     <ErrorMessage
                       name="lastName"
                       component="div"
                       className="text-sm text-red-600"
                     />
-                  </div>
+                
                 </div>
-                <div className="flex flex-row w-full items-center flex-wrap">
-                  <div className="my-2 w-2/5">
-                    <label htmlFor="email" className="text-gray-700">
+                <div className="md:w-1/2 mx-9 my-3 flex w-full  space-y-1">
+                    <label htmlFor="email" className="font-semibold text-lg w-2/5 mx-5">
                       Email *
                     </label>
                     <Field
                       type="email"
                       name="email"
-                      className="text-600 block my-1 w-3/4"
-                    />
+                      className="text-600 block my-1 w-2/5"                    />
                     <ErrorMessage
                       name="email"
                       component="div"
@@ -243,15 +239,14 @@ const AddAdminUser = () => {
                       <div className="text-sm text-red-600">{emailError}</div>
                     )}
                   </div>
-                  <div className="w-2/5">
-                    <label htmlFor="contact" className="text-gray-700">
+                  <div className="md:w-1/2 mx-9 my-3 flex w-full  space-y-1">
+                    <label htmlFor="contact" className="font-semibold text-lg w-2/5 mx-5">
                       Contact *
                     </label>
                     <Field
                       type="text"
                       name="contact"
-                      className="text-600 block my-1 w-3/4"
-                    />
+                      className="text-600 block my-1 w-2/5"                    />
                     <ErrorMessage
                       name="contact"
                       component="div"
@@ -260,11 +255,10 @@ const AddAdminUser = () => {
                     {contactError && (
                       <div className="text-sm text-red-600">{contactError}</div>
                     )}
-                  </div>
+                
                 </div>
-                <div className="flex w-full">
-                  <div className="my-3 mt-4 w-3/4">
-                    <label htmlFor="password" className="text-gray-700">
+                <div className="md:w-1/2 mx-9 my-3 flex w-full  space-y-1">                  
+                    <label htmlFor="password" className="font-semibold text-lg w-2/5 mx-5">
                       Password *
                     </label>
                     <Field
@@ -277,15 +271,15 @@ const AddAdminUser = () => {
                       component="div"
                       className="text-sm text-red-600"
                     />
-                  </div>
+                  
                 </div>
-                <div>
-                  <label htmlFor="permissions" className="text-gray-700">
+                <div className="text-left mx-9">
+                  <label htmlFor="permissions" className="text-gray-700 text-xl font-bold">
                     User permissions
                   </label>
                   {permissions.map((item, index) => {
                     return (
-                      <div className="">
+                      <div className="mx-3 my-4">
                         <Field
                           type="checkbox"
                           name={item.title}
@@ -311,6 +305,7 @@ const AddAdminUser = () => {
                     className="text-sm text-red-600"
                   />
                 </div>
+                <div className="w-full text-center justify-center">
                 <button
                   type="submit"
                   className="my-3 px-2 py-1 bg-blue-500 text-white "
@@ -318,6 +313,7 @@ const AddAdminUser = () => {
                   {" "}
                   Add User
                 </button>
+                </div>
               </Form>
             );
           }}

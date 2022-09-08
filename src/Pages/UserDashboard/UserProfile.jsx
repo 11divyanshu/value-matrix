@@ -48,26 +48,28 @@ const UserProfile = () => {
           <div className="h-48 w-full relative" style={{ background: "#99DEFF" }}>
 
           </div>
-          <div className="relative mx-5 rounded-md w-full p-3 flex items-center ">
-            <div className="absolute -top-20 left-20">
+          <div className="relative  rounded-md w-full py-3 md:flex items-center ">
+            <div className="absolute  sm:left-0 -top-20 md:-top-28 md:left-20 " >
               <img
                 // src={
                 //   user && user.profileImg && profileImg ? profileImg : Avatar
                 // }
                 src={Avatar}
-                className="h-40 w-40 rounded-full mx-6"
+                className="sm:h-20 sm:w-20 md:h-56 md:w-56 rounded-full"
                 alt="userAvatar"
               />
             </div>
-            <div className="ml-72">
-              <p className="font-semibold text-3xl">
+
+            <div className=" md:ml-80 md:px-5 text-right md:text-left">
+              <p className="font-semibold md:text-3xl sm:text-xl ">
                 {user.firstName} {user.lastname}
               </p>
               <p className="text-gray-400 text-lg">{user.username}</p>
             </div>
-            <div className="ml-auto mr-6 ">
+            <div className="ml-auto mr-0 mt-5 text-right md:text-left">
               <button
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                class=" hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                style={{backgroundColor:"#034488"}}
                 onClick={() => {
                   let url = window.location.href;
                   let type = url.split("/")[3];
@@ -80,7 +82,7 @@ const UserProfile = () => {
           </div>
 
           <div
-            className="my-3 rounded-lg pt-3 w-full"
+            className="my-7 rounded-lg pt-3 w-full"
             style={{ borderRadius: "12px" }}
           >
             <div className="App " style={{ borderRadius: "12px" }}>

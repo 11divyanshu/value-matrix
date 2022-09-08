@@ -13,12 +13,12 @@ const JobCard = (props) => {
     <div class="flex my-2 w-full">
       <div class="block rounded-sm p-4 shadow-lg border-[0.5px] border-gray-300 bg-white w-full">
        
-        <div class="p-6">
+        <div class="md:p-6 p-3">
           <h5 class="text-black-900 text-2xl font-bold mb-2">{job.jobTitle}</h5>
           <p className="text-xl  text-blue-500">{job.hiringOrganization}</p>
-          <div className="flex mt-5 px-3">
+          <div className="md:flex mt-5 px-3">
             {job.salary && (
-              <div className="flex px-3">
+              <div className="flex px-3 my-2">
               <p className="">
                 <div className="shadow-lg p-3 rounded-full"><p className="text-2xl text-blue-500"><HiOutlineCalendar/></p></div>
                 
@@ -34,7 +34,7 @@ const JobCard = (props) => {
             {/* <p className="text-sm text-gray-700 mx-auto">
               {job.jobType}
             </p> */}
-            <div className="flex px-3">
+            <div className="flex px-3 my-2">
             <p className="text-sm  ">
                 <div className="shadow-lg p-3 rounded-full"><div className="text-2xl text-blue-500 "><HiOutlineCurrencyDollar/></div></div>
                 
@@ -45,7 +45,7 @@ const JobCard = (props) => {
                 </div>
             </div>
 
-            <div className="flex px-3">
+            <div className="flex px-3 my-2">
             <p className="text-sm  ">
                 <div className="shadow-lg p-3 rounded-full"><div className="text-2xl text-blue-500 "><HiOutlineLocationMarker/></div></div>
                 
@@ -56,7 +56,7 @@ const JobCard = (props) => {
                 </div>
             </div>
 
-            <div className="flex px-3">
+            <div className="flex px-3 my-2">
             <p className="text-sm  ">
                 <div className="shadow-lg p-3 rounded-full"><div className="text-2xl text-blue-500 "><HiOutlinePlay/></div></div>
                 

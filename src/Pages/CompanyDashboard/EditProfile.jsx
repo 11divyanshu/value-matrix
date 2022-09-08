@@ -111,7 +111,7 @@ const EditCompanyProfile = () => {
   // };
 
   // const update = async (values) => {
-    
+
   //   let data = {
   //     firstName: values.firstName,
   //     lastname: values.lastName,
@@ -128,7 +128,7 @@ const EditCompanyProfile = () => {
   //     { user_id: user._id, updates: data },
   //     { access_token: access_token }
   //   );
-    
+
   //   if (res.data.Error) {
   //     if (res.data.contact) {
   //       setError(res.data.Error);
@@ -160,7 +160,7 @@ const EditCompanyProfile = () => {
           String.fromCharCode(...new Uint8Array(image.data))
         );
         let src = `data:image/png;base64,${base64string}`;
-          console.log(src);
+        console.log(src);
         await setProfilePic(src);
       }
       setUser(JSON.parse(user));
@@ -170,34 +170,37 @@ const EditCompanyProfile = () => {
   }, []);
 
   return (
-    <div className="p-5">
+    <div className="p-5 bg-slate-100">
       <p className="text-2xl font-bold">Edit Profile</p>
       {user !== null && (
-       <div className="m-5">
-       <div className="h-48 w-full relative" style={{ background: "#99DEFF" }}>
+        <div className="m-5">
+          <div className="h-48 w-full relative" style={{ background: "#99DEFF" }}>
 
-</div>
-<div className="relative mx-5 rounded-md w-full p-3 flex items-center ">
-<div className="absolute -top-20 left-20">
+          </div>
+          <div className="relative  rounded-md w-full py-3 md:flex items-center ">
+            <div className="absolute  sm:left-10 -top-20 md:-top-28 md:left-20 " >
               <img
                 // src={
                 //   user && user.profileImg ? user.profileImg : Avatar
                 // }
                 src={Avatar}
-                className="h-40 w-40 rounded-full mx-6"
+                className="sm:h-20 sm:w-20 md:h-56 md:w-56 rounded-full"
                 alt="userAvatar"
               />
             </div>
-            <div className="ml-72">
-              <p className="font-semibold text-3xl">
+            <div className=" md:ml-80 md:px-5 text-right md:text-left">
+              <p className="font-semibold md:text-3xl sm:text-xl ">
                 {user.firstName} {user.lastname}
               </p>
               <p className="text-gray-400 text-lg">{user.username}</p>
             </div>
-            <div class="ml-auto mr-5">
+            <div className="ml-auto mr-0 mt-5 text-right md:text-left">
               <label>
                 <button
-                  class="bg-blue-500 rounded-sm text-white px-2 py-1 cursor-pointer"
+                      style={{backgroundColor:"#034488"}}
+
+
+                 class=" hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                   onClick={() => ModalBtnRef.current.click()}
                 >
                   Upload Logo
@@ -206,7 +209,7 @@ const EditCompanyProfile = () => {
             </div>
           </div>
 
-          <div className="my-3 rounded-md w-full  pt-3">
+          <div className="my-7 rounded-md w-full  pt-3">
 
             {/* <Formik
               initialValues={{
@@ -332,7 +335,7 @@ const EditCompanyProfile = () => {
                 </Form>
               )}
             </Formik> */}
-            <Tabs/>
+            <Tabs />
           </div>
         </div>
       )}

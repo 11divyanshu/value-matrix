@@ -110,9 +110,9 @@ setJobs([]);
         <p className="text-gray-900 text-s mb-2 mx-5 text-right text-blue"><CSVLink {...csvReport}><button class="bg-blue-600 p-3 w-10vw rounded-md text-white">DOWNLOAD CSV</button></CSVLink></p>
       </div>
     </div>
-      <div className="p-4 w-full flex mx-auto" >
+      <div className="p-4 w-full md:flex mx-auto" >
 
-        <div className="w-1/4 mx-5 mt-5 h-3/5 shadow-lg rounded-lg">
+        <div className="md:w-1/4 sm:w-full  mt-5 h-3/5 shadow-lg rounded-lg">
 
 
 
@@ -127,7 +127,7 @@ setJobs([]);
           // }}
           >
             {({ values }) => (
-              <Form className="text-center bg-white">
+              <Form className="text-center px-5 py-3 bg-white">
                 <div id="my-radio-group " className="text-2xl text-center font-bold py-4 font-gray-600">Filters</div>
                 <div role="group" className="flex-column content-center text-center align-items-center  py-3 my-3 w-1/2 mx-auto  border-t border-gray-300" aria-labelledby="my-radio-group">
 
@@ -166,7 +166,7 @@ setJobs([]);
 
 
         </div>
-        <div className=" w-3/4 mx-5">
+        <div className=" md:w-3/4 md:mx-5">
 
           {loader ? <p>...Loading</p> :
             <div className="p-2 w-full">

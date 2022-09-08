@@ -10,12 +10,15 @@
     border-radius: 8px 8px 0 0;
     // background-color: white;
     width: 100%;
+   
 }
 
 .tabList{
     display: flex;
     width:100%;
-    
+    @media only screen and (max-width: 600px){
+        display:block;
+    }
 
     .tabHead{
         padding:1rem 4rem;
@@ -24,11 +27,12 @@
         border-radius: 8px 8px 0 0;
     }
 
-}
+
 
 .active{
     background: white;
     border-bottom:2px solid #3667E9;
     color:black;
     font-weight: 600;
+}
 }

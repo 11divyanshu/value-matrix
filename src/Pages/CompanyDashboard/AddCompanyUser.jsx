@@ -115,7 +115,7 @@ const AddCompanyUser = () => {
   };
 
   return (
-    <div className="p-5">
+    <div className="md:p-5 p-3">
       <p className="text-2xl my-5 font-bold">Add Company User</p>
       <div className="w-full">
         <Formik
@@ -161,7 +161,7 @@ const AddCompanyUser = () => {
           {({ values }) => {
             return (
               <Form className="container bg-white p-5  w-4/5 mx-auto shadow-md">
-                <div className="md:w-1/2 mx-9 flex w-full my-3 space-y-1">
+                <div className="md:w-1/2 md:mx-9 sm:mx-0 flex w-full my-3 space-y-1">
                   
                     <label htmlFor="username" className="font-semibold text-lg w-2/5 mx-5">
                       Username *
@@ -183,7 +183,7 @@ const AddCompanyUser = () => {
                     )}
                   
                 </div>
-                <div className="md:w-1/2 mx-9 my-3 flex w-full  space-y-1">
+                <div className="md:w-1/2 md:mx-9 sm:mx-0 my-3 flex w-full  space-y-1">
                   
                     <label htmlFor="firstName" className="font-semibold text-lg w-2/5 mx-5">
                       First Name *
@@ -200,7 +200,7 @@ const AddCompanyUser = () => {
                     />
                  
                   </div>
-                  <div className="md:w-1/2 mx-9 flex w-full my-3 space-y-1">
+                  <div className="md:w-1/2 md:mx-9 sm:mx-0 flex w-full my-3 space-y-1">
 
                   
                     <label htmlFor="lastName" className="font-semibold text-lg w-2/5 mx-5">
@@ -218,7 +218,7 @@ const AddCompanyUser = () => {
                     />
                  
                 </div>
-                <div className="md:w-1/2 mx-9 flex w-full my-3 space-y-1">
+                <div className="md:w-1/2 md:mx-9 sm:mx-0 flex w-full my-3 space-y-1">
                     <label htmlFor="email" className="font-semibold text-lg w-2/5 mx-5">
                       Email *
                     </label>
@@ -236,7 +236,7 @@ const AddCompanyUser = () => {
                       <div className="text-sm text-red-600">{emailError}</div>
                     )}
                   </div>
-                  <div className="md:w-1/2 mx-9 flex w-full my-3 space-y-1">
+                  <div className="md:w-1/2 md:mx-9 sm:mx-0 flex w-full my-3 space-y-1">
 
                     <label htmlFor="contact" className="font-semibold text-lg w-2/5 mx-5">
                       Contact *
@@ -255,7 +255,7 @@ const AddCompanyUser = () => {
                       <div className="text-sm text-red-600">{contactError}</div>
                     )}
                 </div>
-                <div className="md:w-1/2 mx-9 flex w-full my-3 space-y-1">
+                <div className="md:w-1/2 md:mx-9 sm:mx-0 flex w-full my-3 space-y-1">
                     <label htmlFor="password" className="font-semibold text-lg w-2/5 mx-5">
                       Password *
                     </label>
@@ -270,7 +270,7 @@ const AddCompanyUser = () => {
                       className="text-sm text-red-600"
                     />
                 </div>
-                <div className="text-left mx-9">
+                <div className="text-left md:mx-9 sm:mx-0">
                   <label htmlFor="permissions" className="text-gray-700 text-xl font-bold">
                     User permissions
                   </label>

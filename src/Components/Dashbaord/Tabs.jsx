@@ -59,7 +59,7 @@ export default function Tabs() {
 
   return (
     <div className="Tabs w-full">
-      <div className="tabList flex w-full">
+      <div className="tabList">
         <div
           className={`tabHead ${index === 0 && "active"}`}
           onClick={() => {
@@ -123,15 +123,15 @@ export default function Tabs() {
                     Contact Information
                   </label>
                   <hr />
-                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
-                    <label className="font-semibold text-lg w-2/5 mx-5">
+                  <div className=" md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Username
                     </label>
                     <Field
                       type="text"
                       name="username"
                       disabled
-                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
+                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
                       // style={{
                       //   boxShadow:
                       //     "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
@@ -139,15 +139,15 @@ export default function Tabs() {
                       // }}
                     />
                   </div>
-                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
-                    <label className="font-semibold text-lg w-2/5 mx-5">
+                  <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full  space-y-1">
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Company Name
                     </label>
                     <Field
                       type="text"
                       name="firstName"
                       disabled
-                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
+                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
                       // style={{
                       //   boxShadow:
                       //     "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
@@ -155,15 +155,15 @@ export default function Tabs() {
                       // }}
                     />
                   </div>
-                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
-                    <label className="font-semibold text-lg w-2/5 mx-5">
+                  <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full  space-y-1">
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Email
                     </label>
                     <Field
                       name="email"
                       type="text"
                       disabled
-                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
+                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
                       // style={{
                       //   boxShadow:
                       //     "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
@@ -171,15 +171,15 @@ export default function Tabs() {
                       // }}
                     />
                   </div>
-                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
-                    <label className="font-semibold text-lg w-2/5 mx-5">
+                  <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full  space-y-1">
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Contact
                     </label>
                     <Field
                       name="contact"
                       type="text"
                       disabled
-                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
+                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
                       // style={{
                       //   boxShadow:
                       //     "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
@@ -187,15 +187,15 @@ export default function Tabs() {
                       // }}
                     />
                   </div>
-                  <div className="md:w-1/2 mx-9 flex w-full  space-y-1">
-                    <label className="font-semibold text-lg w-2/5 mx-5">
+                  <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full  space-y-1">
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Address
                     </label>
                     <Field
                       name="address"
                       type="text"
                       disabled
-                      className="block border-gray-400 py-1 md:w-1/2 w-3/5"
+                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
                       // style={{
                       //   boxShadow:
                       //     "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",

@@ -40,12 +40,12 @@ const Panel = () => {
 
 
   return (
-    <div className="flex bg-slate-100 ">
+    <div className="flex bg-slate-100 w-full">
       {/* <Sidebar /> */}
 
       <div className="container-fluid mx-auto mt-12">
-        <div className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-4">
-          <div className="w-5/6 px-4 mx-5 py-3 bg-white rounded-lg shadow">
+        <div className="grid grid-cols-1 gap-5 mb-6 lg:grid-cols-4">
+          <div className=" px-4 mx-4 py-3 bg-white rounded-lg shadow">
             <div className="text-sm font-medium text-gray-500 truncate">
               Total users
             </div>
@@ -53,7 +53,7 @@ const Panel = () => {
               18 Total Interview
             </div>
           </div>
-          <div className="w-5/6 px-4 mx-5 py-3 bg-white rounded-lg shadow">
+          <div className=" px-4 mx-4 py-3 bg-white rounded-lg shadow">
             <div className="text-sm font-medium text-gray-500 truncate">
               Total users
             </div>
@@ -61,7 +61,7 @@ const Panel = () => {
               08 Interview Pending
             </div>
           </div>
-          <div className="w-5/6 px-4 mx-5 py-3 bg-white rounded-lg shadow">
+          <div className=" px-4 mx-4 py-3 bg-white rounded-lg shadow">
             <div className="text-sm font-medium text-gray-500 truncate">
               Total Profit
             </div>
@@ -69,7 +69,7 @@ const Panel = () => {
               22 interview Completed
             </div>
           </div>
-          <div className="w-5/6 px-4 mx-5 py-3 bg-white rounded-lg shadow">
+          <div className=" px-4 mx-4 py-3 bg-white rounded-lg shadow">
             <div className="text-sm font-medium text-gray-500 truncate">
               Total Orders
             </div>
@@ -81,9 +81,9 @@ const Panel = () => {
 
 
 
-        <div className="flex w-full">
+        <div className="md:flex">
 
-          <div className="w-5/6 px-5 py-2 mx-5 bg-white shadow-md">
+          <div className="sm:w-full md:w-5/6 px-5 py-2 my-4 lg:mx-4 bg-white shadow-md ">
 
             <div
               style={{
@@ -98,13 +98,13 @@ const Panel = () => {
 
           </div>
 
-          <div className="w-2/6">
+          <div className="sm:w-full md:w-2/6 my-4 lg:mx-4 ">
             <SessionCard />
           </div>
 
         </div>
-        <div className="flex w-full mt-5">
-          <div className="w-5/6 py-5 mx-5  bg-white shadow-md">
+        <div className="md:flex  mt-5 ">
+          <div className="md:w-5/6  sm:w-full  py-5 my-4 lg:mx-4 bg-white shadow-md">
             <div className="border-b border-gray-200 my-3 px-5 py-2">
               <p className="text-xl font-bold font-gray-400">Interview Call Logs</p>
               <p className="text-md font-bold text-gray-300">Lorem ipsum dorem, Lorem ipsum dorem </p>
@@ -112,7 +112,7 @@ const Panel = () => {
             <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center lg:grid-cols-6">
 
 
-              <div className="px-5 text-center col-span-2"><p>Interview Request with Developer</p>
+              <div className="px-5 text-center my-3 col-span-2"><p>Interview Request with Developer</p>
 
                 <button style={{ background: "#40D1C9" }} className=" rounded-3xl px-3 py-2 my-2 text-xs text-white">
                   Accept
@@ -120,19 +120,19 @@ const Panel = () => {
                   Reject
                 </button>
               </div>
-              <div className="px-5 text-center"><p>Tuesday</p>
+              <div className="px-5 text-center my-3"><p>Tuesday</p>
                 <p className="text-gray-400 text-sm "> Jan 17,2022</p>
               </div>
-              <div className="px-5 text-center"><p>12am  - 1am</p><p className="text-gray-400 text-sm "> 03 Minutes Remaining</p></div>
-              <div className="px-5 text-center vertical-middle"><span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900">Pending</span>
+              <div className="px-5 text-center my-3"><p>12am  - 1am</p><p className="text-gray-400 text-sm "> 03 Minutes Remaining</p></div>
+              <div className="px-5 text-center my-3 vertical-middle"><span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900">Pending</span>
               </div>
-              <div className="px-5 text-center"><p><BsThreeDots /></p></div>
+              <div className="px-5 text-center my-3"><p><BsThreeDots /></p></div>
             </div>
 
             <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center lg:grid-cols-6">
 
 
-              <div className="px-5 text-center col-span-2"><p>Interview Request with Developer</p>
+              <div className="px-5 text-center my-3 col-span-2"><p>Interview Request with Developer</p>
 
                 <button style={{ background: "#40D1C9" }} className=" rounded-3xl my-2  px-3 py-2 text-xs text-white">
                   Accept
@@ -140,19 +140,19 @@ const Panel = () => {
                   Reject
                 </button>
               </div>
-              <div className="px-5 text-center"><p>Tuesday</p>         
+              <div className="px-5 text-center my-3"><p>Tuesday</p>         
                    <p className="text-gray-400 text-sm"> Jan 17,2022</p>
               </div>
-              <div className="px-5 text-center"><p>12am  - 1am</p><p className="text-gray-400 text-sm"> 03 Minutes Remaining</p></div>
-              <div className="px-5 text-center"><span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900">Pending</span>
+              <div className="px-5 text-center my-3"><p>12am  - 1am</p><p className="text-gray-400 text-sm"> 03 Minutes Remaining</p></div>
+              <div className="px-5 text-center my-3"><span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900">Pending</span>
               </div>
-              <div className="px-5 text-center"><p><BsThreeDots /></p></div>
+              <div className="px-5 text-center my-3"><p><BsThreeDots /></p></div>
             </div>
 
             <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center lg:grid-cols-6">
 
 
-              <div className="px-5 text-center col-span-2"><p>Interview Request with Developer</p>
+              <div className="px-5 text-center my-3 col-span-2"><p>Interview Request with Developer</p>
 
                 <button style={{ background: "#40D1C9" }} className=" rounded-3xl my-2  px-3 py-2 text-xs text-white">
                   Accept
@@ -160,20 +160,20 @@ const Panel = () => {
                   Reject
                 </button>
               </div>
-              <div className="px-5 text-center"><p>Tuesday</p>         
+              <div className="px-5 text-center my-3"><p>Tuesday</p>         
                    <p className="text-gray-400 text-sm"> Jan 17,2022</p>
               </div>
-              <div className="px-5 text-center"><p>12am  - 1am</p><p className="text-gray-400 text-sm"> 03 Minutes Remaining</p></div>
-              <div className="px-5 text-center"><span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900">Pending</span>
+              <div className="px-5 text-center my-3"><p>12am  - 1am</p><p className="text-gray-400 text-sm"> 03 Minutes Remaining</p></div>
+              <div className="px-5 text-center my-3"><span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900">Pending</span>
               </div>
-              <div className="px-5 text-center"><p><BsThreeDots /></p></div>
+              <div className="px-5 text-center my-3"><p><BsThreeDots /></p></div>
             </div>
 
 
             <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center lg:grid-cols-6">
 
 
-              <div className="px-5 text-center col-span-2"><p>Interview Request with Developer</p>
+              <div className="px-5 text-center my-3 col-span-2"><p>Interview Request with Developer</p>
 
                 <button style={{ background: "#40D1C9" }} className=" rounded-3xl my-2  px-3 py-2 text-xs text-white">
                   Accept
@@ -181,13 +181,13 @@ const Panel = () => {
                   Reject
                 </button>
               </div>
-              <div className="px-5 text-center"><p>Tuesday</p>
+              <div className="px-5 text-center my-3"><p>Tuesday</p>
                 <p className="text-gray-400 text-sm"> Jan 17,2022</p>
               </div>
-              <div className="px-5 text-center"><p>12am  - 1am</p><p className="text-gray-400 text-sm"> 03 Minutes Remaining</p></div>
-              <div className="px-5 text-center"><span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900">Pending</span>
+              <div className="px-5 text-center my-3"><p>12am  - 1am</p><p className="text-gray-400 text-sm"> 03 Minutes Remaining</p></div>
+              <div className="px-5 text-center my-3"><span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900">Pending</span>
               </div>
-              <div className="px-5 text-center"><p><BsThreeDots /></p></div>
+              <div className="px-5 text-center my-3"><p><BsThreeDots /></p></div>
             </div>
 
 
@@ -195,7 +195,7 @@ const Panel = () => {
           </div>
 
 
-          <div className="shadow-lg w-2/6  py-5  bg-white  justify-around  px-4 bg-white">
+          <div className="shadow-lg sm:w-full md:w-2/6  py-5  bg-white  justify-around lg:mx-4 my-4 h-auto  px-4 bg-white">
             <p className="text-xl px-4 mx-auto text-gray-700 font-bold  flex">
 
               {/* <div className=" px-3 py-1 ml-5 text-center" ><AiOutlineUnorderedList/></div> */}
