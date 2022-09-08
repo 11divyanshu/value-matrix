@@ -329,19 +329,19 @@ const SignupForm = () => {
         setSmsOTPError(false);
         setEmailOTPError(false);
         setLoading(true);
-        console.log(res);
-        await localStorage.setItem("access_token", res.data.access_token);
-        await localStorage.setItem("user", JSON.stringify(res.data.user));
-
+        
+  
         if (res && !res.data.Error) {
           swal({
             title: "Sign Up",
             text: "Signup Successfull",
             icon: "success",
             button: "Continue",
-          }).then(() => {
+          }).then(async () => {
             let user = res.data.user;
             let access = res.data.access_token;
+            await localStorage.setItem("user", user);
+            await localStorage.setItem("access_token", access);
             if (user.user_type === "User")
               window.location.href = "/user/profile";
             else if (
@@ -519,12 +519,12 @@ const SignupForm = () => {
                   <p className="text-sm text-red-600">Email Not Verified !</p>
                 )}
 
-                <div className="d-flex w-full justify-content-between">
+                <div className="d-flex w-full justify-content-between space-x-2">
                   {!verifyEmail && (
                     <button
                       type="button"
                       className="bg-blue-600 text-white my-2 py-2 rounded-lg hover:bg-blue-700 text-sm text-center px-2 cursor-pointer"
-                      style={{ backgroundColor: "#3B82F6" }}
+                      style={{ backgroundColor: "#01458C" }}
                       onClick={() => sendEmailOTP(values)}
                     >
                       {" "}
@@ -536,7 +536,7 @@ const SignupForm = () => {
                     <button
                       type="button"
                       className="bg-blue-600 text-white my-2 py-2 rounded-lg hover:bg-blue-700 text-sm text-center px-2 cursor-pointer"
-                      style={{ backgroundColor: "#3B82F6" }}
+                      style={{ backgroundColor: "#01458C" }}
                       onClick={() => verifyEmailOTP(values)}
                     >
                       {" "}
@@ -587,12 +587,12 @@ const SignupForm = () => {
                   <p className="text-sm text-red-600">Contact Not Verified !</p>
                 )}
 
-                <div className="d-flex w-full justify-content-between">
+                <div className="d-flex w-full justify-content-between space-x-2">
                   {!verifySms && (
                     <button
                       type="button"
                       className="bg-blue-600 text-white my-2 py-2 rounded-lg hover:bg-blue-700 text-sm text-center px-2 py-1 cursor-pointer"
-                      style={{ backgroundColor: "#3B82F6" }}
+                      style={{ backgroundColor: "#01458C" }}
                       onClick={() => sendSmsOTP(values)}
                     >
                       {" "}
@@ -604,7 +604,7 @@ const SignupForm = () => {
                     <button
                       type="button"
                       className="bg-blue-600 text-white my-2 py-2 rounded-lg hover:bg-blue-700 text-sm text-center px-2 py-1 cursor-pointer"
-                      style={{ backgroundColor: "#3B82F6" }}
+                      style={{ backgroundColor: "#01458C" }}
                       onClick={() => verifySmsOTP(values)}
                     >
                       Verify OTP
@@ -677,7 +677,7 @@ const SignupForm = () => {
                 <button
                   className="bg-blue-600 px-8 py-2 text-white rounded-lg mx-auto block mt-4 hover:bg-blue-700 text-center w-1/2 cursor-pointer"
                   type="submit"
-                  style={{ backgroundColor: "#3B82F6" }}
+                  style={{ backgroundColor: "#01458C" }}
                   // disabled={OTP !== true}
                 >
                   {/* {OTP === null ? "Continue" : "Signup"} */}

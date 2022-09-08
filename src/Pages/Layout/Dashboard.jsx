@@ -63,13 +63,13 @@ const Dashboard = () => {
           let u = JSON.parse(await localStorage.getItem("user"));
           await localStorage.setItem("access_token", u._id);
         }
-
         if (user_id) {
           let user = await getUserFromId(
             { id: user_id.data.user.user },
             access_token1
-          );
-
+            );
+            
+            
           await setUser(user.data.user.user);
           if (user.invite) {
             window.location.href = "/setProfile" + user.resetPassId;
@@ -85,6 +85,7 @@ const Dashboard = () => {
               JSON.stringify(image.data.Image)
             );
           }
+          console.log(user.data.user);
           if (
             user.data.user.access_valid === false ||
             user.data.user.user_type !== "User"
@@ -117,9 +118,7 @@ const Dashboard = () => {
         user.association === []
       ) {
         let modalOnce = await localStorage.getItem("modalOnce");
-        console.log(typeof modalOnce);
-        if (modalOnce === "null") {
-          await localStorage.setItem("modalOnce", true);
+        if (modalOnce === "null" || modalOnce === null) {
           setModalIsOpen(true);
         }
       }
@@ -192,7 +191,7 @@ const Dashboard = () => {
       </div>
       </div> */}
 <div className="flex w-full">
-<SidebarComponent className="h-screen absolute top-0">
+<SidebarComponent className="h-screen top-0">
 
       </SidebarComponent>
 <div className="w-full">{comp}</div>

@@ -123,7 +123,7 @@ const CandidateResumeForm = (props) => {
       <Transition appear show={isOpen} as={Fragment} className="relative z-50">
         <Dialog
           as="div"
-          className="relative z-10"
+          className="relative z-120"
           onClose={() => {}}
           static={true}
         >
@@ -157,7 +157,7 @@ const CandidateResumeForm = (props) => {
                     className="text-2xl font-bold leading-6 text-gray-900 flex"
                   >
                     Complete Your Profile
-                    <p className="ml-auto text-sm text-blue-500 cursor-pointer" onClick = {()=>props.setModalIsOpen(false)}>Skip</p>
+                    <p className="ml-auto text-sm text-blue-500 cursor-pointer" onClick = {()=>{props.setModalIsOpen(false); localStorage.setItem("modalOnce", true);}}>Skip</p>
                   </Dialog.Title>
                   <div className="pt-4">
                     <div className="flex justify-between py-3">

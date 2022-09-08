@@ -86,6 +86,9 @@ const Tools = (props) => {
       return el.proficiency > 0;
     })
     let access_token = await localStorage.getItem("access_token");
+    console.log(res);
+    console.log(skills);
+    console.log(user._id);
     let response = await submitCandidateDetails({res, tools : skills, user_id : user._id}, access_token);
     if (response && response.status === 200) {
       await localStorage.setItem("user", JSON.stringify(response.data.user));
@@ -97,6 +100,7 @@ const Tools = (props) => {
         button: false,
       });
       setTimeout(() => {
+        localStorage.setItem("modalOnce", true);
         window.location.reload();
       }, 2000);
     } else {
@@ -435,7 +439,7 @@ const Tools = (props) => {
         >
           Prev
         </button>
-        {tools !== [] && tools.length > 0 ? (
+        
           <button
             className="bg-blue-600 py-2 px-3 rounded-sm ml-auto text-white"
             onClick={() => {
@@ -444,11 +448,6 @@ const Tools = (props) => {
           >
             Submit
           </button>
-        ) : (
-          <button className="bg-blue-400 py-2 px-3 rounded-sm ml-auto text-white">
-            Submit
-          </button>
-        )}
       </div>
     </div>
   );

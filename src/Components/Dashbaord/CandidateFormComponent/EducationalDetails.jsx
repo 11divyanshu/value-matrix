@@ -314,6 +314,15 @@ const EducationDetailForm = (props) => {
                         onClick={async () => {
                           await setShowError(false);
                           await setShowForm(false);
+                          await setInitialValues({
+                            school: null,
+                            degree: null,
+                            field_of_study: null,
+                            start_date: null,
+                            end_date: null,
+                            grade: null,
+                            description: null,
+                          })
                         }}
                       >
                         Cancel

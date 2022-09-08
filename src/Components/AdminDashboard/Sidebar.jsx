@@ -89,7 +89,7 @@ const Sidebar = () => {
       }
     };
     initial();
-  }, [permission]);
+  }, []);
 
   return (
     <div className="h-screen">
