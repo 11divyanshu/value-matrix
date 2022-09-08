@@ -1762,7 +1762,7 @@ export default function Tabs(props) {
           </Transition>
         )}
       </div>
-      <div className="tabContent bg-white p-5" hidden={index != 4}>
+      <div className="tabContent bg-white p-5" hidden={index !== 4}>
         {user !== null && user !== undefined && (
           <div>
             <label className="font-semibold text-lg w-2/5 mx-5">Skills</label>
@@ -1819,22 +1819,22 @@ export default function Tabs(props) {
                       <div key={index}>
                         <Disclosure>
                           {({ open }) => (
-                            <>
-                              <Disclosure.Button className=" py-2 flex w-full justify-between rounded-lg bg-blue-50 px-4 py-2 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75">
+                            <div className={`${open ? "shadow-md":""}`}>
+                              <Disclosure.Button className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-2 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${open ? "shadow-lg ":""}`}>
                                 <span>{el}</span>
                                 <ChevronUpIcon
                                   className={`${!open ? "rotate-180 transform" : ""
                                     } h-5 w-5 text-blue-500`}
                                 />
                               </Disclosure.Button>
-                              <Disclosure.Panel className="px-2">
+                              <Disclosure.Panel className="p-3 px-4">
                                 {primarySkills[el].map((skill, index) => {
                                   return (
                                     <div>
                                       <Disclosure>
                                         {({ open }) => (
-                                          <>
-                                            <Disclosure.Button className=" flex w-full justify-between rounded-lg bg-blue-50 px-4 py-2 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75">
+                                          <div className={`${open ? "shadow-md":""}`}>
+                                            <Disclosure.Button className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-2 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${open ? "shadow-lg":""} `}>
                                               <span>{skill}</span>
                                               <ChevronUpIcon
                                                 className={`${!open
@@ -1843,7 +1843,7 @@ export default function Tabs(props) {
                                                   } h-5 w-5 text-blue-500`}
                                               />
                                             </Disclosure.Button>
-                                            <Disclosure.Panel className="px-6">
+                                            <Disclosure.Panel className="p-3 px-12">
                                               {dbSkills
                                                 .filter((secSkill) => {
                                                   return (
@@ -1860,7 +1860,7 @@ export default function Tabs(props) {
                                                     }
                                                   );
                                                   return (
-                                                    <div className="flex my-2 text-sm justify-between items-center">
+                                                    <div className="flex my-2 text-sm justify-between items-center px-3">
                                                       <p>
                                                         {
                                                           secSkill.secondarySkill
@@ -1868,7 +1868,7 @@ export default function Tabs(props) {
                                                       </p>
 
                                                       <div className="flex items-center space-x-2">
-                                                        0
+                                                        <p>0</p>
                                                         <input
                                                           type="range"
                                                           min="0"
@@ -1914,20 +1914,20 @@ export default function Tabs(props) {
                                                             }
                                                           }}
                                                         />
-                                                        5
+                                                        <p>5</p>
                                                       </div>
                                                     </div>
                                                   );
                                                 })}
                                             </Disclosure.Panel>
-                                          </>
+                                          </div>
                                         )}
                                       </Disclosure>
                                     </div>
                                   );
                                 })}
                               </Disclosure.Panel>
-                            </>
+                            </div>
                           )}
                         </Disclosure>
                       </div>

@@ -330,8 +330,8 @@ const Tools = (props) => {
                 <div key={index}>
                   <Disclosure>
                     {({ open }) => (
-                      <>
-                        <Disclosure.Button className=" py-2 flex w-full justify-between rounded-lg bg-blue-50 px-4 py-2 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75">
+                      <div className={`${open ? "shadow-md":""}`}>
+                        <Disclosure.Button className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-2 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${open ? "shadow-lg ":""}`}>
                           <span>{el}</span>
                           <ChevronUpIcon
                             className={`${
@@ -345,8 +345,8 @@ const Tools = (props) => {
                               <div>
                                 <Disclosure>
                                   {({ open }) => (
-                                    <>
-                                      <Disclosure.Button className=" flex w-full justify-between rounded-lg bg-blue-50 px-4 py-2 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75">
+                                    <div className={`${open ? "shadow-md":""}`}>
+                                      <Disclosure.Button className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-2 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${open ? "shadow-lg":""} `}>
                                         <span>{skill}</span>
                                         <ChevronUpIcon
                                           className={`${
@@ -354,7 +354,7 @@ const Tools = (props) => {
                                           } h-5 w-5 text-blue-500`}
                                         />
                                       </Disclosure.Button>
-                                      <Disclosure.Panel className="px-6">
+                                      <Disclosure.Panel className="p-3 px-12">
                                         {dbSkills
                                           .filter((secSkill) => {
                                             return (
@@ -402,14 +402,14 @@ const Tools = (props) => {
                                             );
                                           })}
                                       </Disclosure.Panel>
-                                    </>
+                                    </div>
                                   )}
                                 </Disclosure>
                               </div>
                             );
                           })}
                         </Disclosure.Panel>
-                      </>
+                      </div>
                     )}
                   </Disclosure>
                 </div>
