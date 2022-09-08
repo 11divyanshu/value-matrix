@@ -2,9 +2,10 @@ import { ImHome } from "react-icons/im";
 import { MdGroups,MdOutlineWorkOutline } from "react-icons/md";
 import { RiFileUserFill, RiFolderUserFill } from "react-icons/ri";
 import { AiOutlineHome,AiOutlineUser ,AiOutlineFolderAdd,AiOutlineUserAdd} from "react-icons/ai";
-import { BsFillChatLeftTextFill, BsFillBellFill } from "react-icons/bs";
+import { BsFillChatLeftTextFill, BsFillBellFill,BsChatRightDots } from "react-icons/bs";
 import { FaBuilding } from "react-icons/fa";
 import { FaUserFriends, FaToolbox } from "react-icons/fa";
+import { CgWorkAlt } from "react-icons/cg";
 
 // User Pages
 import Panel from "./Pages/UserDashboard/panel";
@@ -56,7 +57,7 @@ export const dashboardRoutes = [
     icon: <AiOutlineHome className="text-xl" />,
     path: "",
     component: <Panel />,
-    hide: false,
+    hide: true,
   },
   {
     name: "Group",
@@ -73,14 +74,14 @@ export const dashboardRoutes = [
   },
   {
     name: "Jobs",
-    icon: <AiOutlineUser className="text-xl" />,
+    icon: <CgWorkAlt className="text-xl" />,
     path: "jobs",
     component: <JobList/>,
     hide: false,
   },
   {
     name: "Chat",
-    icon: <RiFolderUserFill className="text-xl" />,
+    icon: <BsChatRightDots className="text-xl" />,
     path: "/",
     hide: false,
   },

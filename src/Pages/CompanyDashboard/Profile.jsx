@@ -67,7 +67,7 @@ const CompanyProfile = () => {
               </p>
               <p className="text-gray-400 text-lg">{user.username}</p>
             </div>
-            <div className=" mt-3 md:text-right  md:mr-auto sm:text-left ">
+            <div className=" mt-3 md:text-right  md:ml-auto sm:text-left ">
               <button
                 class=" hover:bg-blue-700 text-white font-bold py-2 px-8 text-xs rounded"
                 style={{backgroundColor:"#034488"}}

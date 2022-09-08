@@ -11,7 +11,10 @@ import {
   AiOutlineMenu,
   AiOutlineClose,
   AiOutlineConsoleSql,
+  AiOutlineHome,
 } from "react-icons/ai";
+import { FiSettings } from "react-icons/fi";
+import { MdOutlineLogout } from "react-icons/md";
 const Sidebar = (props) => {
   const [open, setOpen] = React.useState(true);
   const [menu, setMenu] = React.useState(false)
@@ -64,7 +67,7 @@ function handleActive(event) {
     <ProSidebar
     // toggled={menu}
     // onToggle={(prev)=>setMenu(!prev)}
-      width={250}
+      width={280}
      
       className="fixed left-0 h-screen z-0 text-left active text-gray-500"
       style={{backgroundColor:"#FAFAFA"}}
@@ -85,6 +88,10 @@ function handleActive(event) {
           >
            Value matrix
           </MenuItem> */}
+           <MenuItem className='text-gray-700 font-semibold flex' active={window.location.pathname === `/user/`}
+                       > <p className='text-xl flex mx-2'><AiOutlineHome/><p className='text-sm mx-4 text-gray-700 font-semibold'>Dashboard </p></p><Link to={`/user/`} /></MenuItem>
+
+<p className='text-gray-400 font-semibold font-sm mx-4 my-5'>Analytics</p>
           {dashboardRoutes.map((item) => {
             if(item.hide === false)
             return (
@@ -103,6 +110,11 @@ function handleActive(event) {
           </MenuItem>)}
         </Menu>
       </SidebarContent>
+      <div className='mx-4 my-24'>
+      <div className='flex m-2'><p className='text-gray-700 mx-4 py-2 font-semibold'><FiSettings/> </p><p  className='text-gray-700  font-semibold py-1'>Settings</p></div>
+      <div className='flex m-2'><p className='text-gray-700 mx-4 py-2 font-semibold'><MdOutlineLogout/> </p><p className='text-gray-700  font-semibold py-1'>Log Out</p></div>
+     
+    </div>
     </ProSidebar>
 {/* 
       <div className="flex">

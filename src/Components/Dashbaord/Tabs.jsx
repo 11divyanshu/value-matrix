@@ -2,16 +2,18 @@ import React from "react";
 
 import "../../assets/stylesheet/Tabs.scss";
 import { Formik, Form, Field } from "formik";
-import { AiOutlineHome,AiOutlineUser ,AiOutlineFolderAdd} from "react-icons/ai";
+import { AiOutlineHome,AiOutlineUser ,AiOutlineFolderAdd,AiOutlineUnorderedList} from "react-icons/ai";
 
 // Assets
 import Avatar from "../../assets/images/UserAvatar.png";
 import { Navigate, useNavigate } from "react-router-dom";
 import { CgWorkAlt } from "react-icons/cg";
+import { IoSchoolOutline } from "react-icons/io5";
 import { FaRegBuilding } from "react-icons/fa";
 import { FiInfo } from "react-icons/fi";
 import { BsCalendar } from "react-icons/bs";
 import { GrScorecard } from "react-icons/gr";
+import { HiOutlineOfficeBuilding } from "react-icons/hi";
 import { downloadResume, getResume } from "../../service/api";
 
 import "react-multi-carousel/lib/styles.css";
@@ -67,7 +69,7 @@ export default function Tabs() {
             setIndex(0);
           }}
         >
-          <p className="md:visible hidden">Contact</p><p className="icons hidden"><AiOutlineHome/></p>
+           <p className="md:visible hidden content">Contact</p><p className="icons hidden"><AiOutlineHome/></p>
         </div>
         <div
           className={`tabHead ${index === 1 && "active"}`}
@@ -75,7 +77,7 @@ export default function Tabs() {
             setIndex(1);
           }}
         >
-          <p className="md:visible hidden">Education</p><p className="icons hidden"><AiOutlineHome/></p>
+           <p className="md:visible hidden content">Education</p><p className="icons hidden"><IoSchoolOutline/></p>
         </div>
         <div
           className={`tabHead ${index === 2 && "active"}`}
@@ -83,7 +85,7 @@ export default function Tabs() {
             setIndex(2);
           }}
         >
-           <p className="md:visible hidden">Experience</p><p className="icons text-xl text-center hidden"><AiOutlineHome/></p>
+            <p className="md:visible hidden content">Experience</p><p className="icons hidden"><CgWorkAlt/></p>
         </div>
         <div
           className={`tabHead ${index === 3 && "active"}`}
@@ -91,7 +93,7 @@ export default function Tabs() {
             setIndex(3);
           }}
         >
-           <p className="md:visible hidden">Association</p><p className="icons hidden"><AiOutlineHome/></p>
+           <p className="md:visible hidden content">Association</p><p className="icons hidden"><HiOutlineOfficeBuilding/></p>
         </div>
         <div
           className={`tabHead ${index === 4 && "active"}`}
@@ -99,7 +101,7 @@ export default function Tabs() {
             setIndex(4);
           }}
         >
-           <p className="md:visible hidden">Skills</p><p className="icons hidden"><AiOutlineHome/></p>
+            <p className="md:visible hidden content">Skills</p><p className="icons hidden"><AiOutlineUnorderedList/></p>
         </div>
       </div>
       <div className="tabContent shadow-md bg-white p-5 w-full" hidden={index != 0}>

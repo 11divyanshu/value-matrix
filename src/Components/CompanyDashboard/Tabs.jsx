@@ -49,7 +49,8 @@ export default function Tabs() {
     <div className='Tabs w-full'>
 
       <div className="tabList flex w-full">
-        <div className={`tabHead ${index === 0 && 'active'}`} onClick={() => { setIndex(0) }}> <p className="md:visible hidden content">Contact</p><p className="icons hidden"><AiOutlineHome/></p>
+        <div className={`tabHead ${index === 0 && 'active'}`} onClick={() => { setIndex(0) }}> 
+        <p className="md:visible hidden content">Contact</p><p className="icons hidden"><AiOutlineHome/></p>
 </div>
         <div className={`tabHead ${index === 1 && 'active'}`} onClick={() => { setIndex(1) }}><p className="md:visible hidden content">About</p><p className="icons hidden"><AiOutlineUser/></p>
 </div>
