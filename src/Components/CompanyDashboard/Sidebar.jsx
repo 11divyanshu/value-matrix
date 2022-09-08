@@ -5,11 +5,16 @@ import {
   AiOutlineMenu,
   AiOutlineClose,
   AiOutlineConsoleSql,
+  AiOutlineHome,
+  AiOutlinePoweroff,
 } from "react-icons/ai";
 import React from "react";
 import "../../assets/stylesheet/sidebar.scss";
 import { Link } from "react-router-dom";
 import { getUserFromId } from "../../service/api";
+import { ImHome } from "react-icons/im";
+import { FiSettings } from "react-icons/fi";
+import { MdOutlineLogout } from "react-icons/md";
 
 const Sidebar = () => {
   const [open, setOpen] = React.useState(true);
@@ -76,22 +81,38 @@ const Sidebar = () => {
   }, []);
 
   return (
-    <div className="h-screen">
+    <div className="h-screen ">
       <div className="absolute  text-gray-9 left-5 top-5  visible md:invisible text-gray-700 text-xl">
       <AiOutlineMenu className="text-md " onClick={()=>{handleToggle();}}/>
       </div>
     <ProSidebar
     // toggled={menu}
     // onToggle={(prev)=>setMenu(!prev)}
-      width={250}
+      width={280}
      
       className="fixed left-0 h-screen z-10 text-left active text-gray-500"
       style={{backgroundColor:"#FAFAFA"}}
       breakPoint="md"
       collapsed={collapsed} toggled={toggled} onToggle={handleToggle}
     >
+         <button
+      class=" hover:bg-blue-700 text-white font-bold py-2 px-10 mx-auto text-sm mt-4 text-center rounded-lg"
+      style={{backgroundColor:"#034488"}}
+     
+    >
+   + Post New Job
+    </button>
       <SidebarContent    className='text-left mx-5 mt-7'>
+
+   
         <Menu iconShape="square">
+
+        <MenuItem className='text-gray-700 font-semibold flex' active={window.location.pathname === `/company/`}
+                       > <p className='text-xl flex mx-2'><AiOutlineHome/><p className='text-sm mx-4 text-gray-700 font-semibold'>Dashboard </p></p><Link to={`/company/`} /></MenuItem>
+
+
+{/* <hr></hr> */}
+<p className='text-gray-400 font-semibold font-sm mx-4 my-5'>Analytics</p>
                 {companyDashboardRoutes.map((item) => {
                   if (item.hide === false && permission[item.permission] !== false)
                     return (
@@ -114,7 +135,13 @@ const Sidebar = () => {
 
         </Menu>
       </SidebarContent>
+      <div className='mx-4 my-24'>
+      <div className='flex m-2'><p className='text-gray-700 mx-4 py-2 font-semibold'><FiSettings/> </p><p  className='text-gray-700  font-semibold py-1'>Settings</p></div>
+      <div className='flex m-2'><p className='text-gray-700 mx-4 py-2 font-semibold'><MdOutlineLogout/> </p><p className='text-gray-700  font-semibold py-1'>Log Out</p></div>
+     
+    </div>
     </ProSidebar>
+   
 
     
 

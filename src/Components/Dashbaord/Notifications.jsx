@@ -6,7 +6,7 @@ import { ReactSession } from "react-client-session";
 import { timeDifferenceCalculator } from "time-difference-calculator";
 
 // Assets
-import { BsFillBellFill } from "react-icons/bs";
+import { BsBell } from "react-icons/bs";
 
 const NotificationPopOver = (props) => {
   const [notification, setNotification] = React.useState(null);
@@ -66,7 +66,7 @@ const NotificationPopOver = (props) => {
   }, []);
 
   return (
-    <Popover className="relative">
+    <Popover className="relative mt-1">
       {({ open }) => (
         <>
           <Popover.Button
@@ -76,7 +76,7 @@ const NotificationPopOver = (props) => {
             {notification && notification.length > 0 && (
               <div class="absolute inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 p-1 text-xs bg-red-600 rounded-full z-10"></div>
             )}
-            <BsFillBellFill className="text-gray-700 text-lg cursor-pointer hover:text-gray-800" />
+            <BsBell className="text-gray-700 text-lg cursor-pointer hover:text-gray-800" />
           </Popover.Button>
           <Transition
             as={Fragment}
@@ -91,7 +91,7 @@ const NotificationPopOver = (props) => {
               <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                 <div className="relative gap-8 bg-white p-3 lg:grid-cols-2 flex justify-between">
                   <div className="flex items-center text-gray-800 space-x-2">
-                    <BsFillBellFill className="text-md" />
+                    <BsBell className="text-md" />
                     <p>Notifications</p>{" "}
                     <p className="text-sm">
                       {notification && notification.length > 0 && (

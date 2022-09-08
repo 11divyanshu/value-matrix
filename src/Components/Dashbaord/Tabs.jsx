@@ -2,6 +2,7 @@ import React from "react";
 
 import "../../assets/stylesheet/Tabs.scss";
 import { Formik, Form, Field } from "formik";
+import { AiOutlineHome,AiOutlineUser ,AiOutlineFolderAdd} from "react-icons/ai";
 
 // Assets
 import Avatar from "../../assets/images/UserAvatar.png";
@@ -66,7 +67,7 @@ export default function Tabs() {
             setIndex(0);
           }}
         >
-          Contact
+          <p className="md:visible hidden">Contact</p><p className="icons hidden"><AiOutlineHome/></p>
         </div>
         <div
           className={`tabHead ${index === 1 && "active"}`}
@@ -74,7 +75,7 @@ export default function Tabs() {
             setIndex(1);
           }}
         >
-          Education
+          <p className="md:visible hidden">Education</p><p className="icons hidden"><AiOutlineHome/></p>
         </div>
         <div
           className={`tabHead ${index === 2 && "active"}`}
@@ -82,7 +83,7 @@ export default function Tabs() {
             setIndex(2);
           }}
         >
-          Experience
+           <p className="md:visible hidden">Experience</p><p className="icons text-xl text-center hidden"><AiOutlineHome/></p>
         </div>
         <div
           className={`tabHead ${index === 3 && "active"}`}
@@ -90,7 +91,7 @@ export default function Tabs() {
             setIndex(3);
           }}
         >
-          Association
+           <p className="md:visible hidden">Association</p><p className="icons hidden"><AiOutlineHome/></p>
         </div>
         <div
           className={`tabHead ${index === 4 && "active"}`}
@@ -98,7 +99,7 @@ export default function Tabs() {
             setIndex(4);
           }}
         >
-          Skills
+           <p className="md:visible hidden">Skills</p><p className="icons hidden"><AiOutlineHome/></p>
         </div>
       </div>
       <div className="tabContent shadow-md bg-white p-5 w-full" hidden={index != 0}>

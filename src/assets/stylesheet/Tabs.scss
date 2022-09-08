@@ -16,15 +16,38 @@
 .tabList{
     display: flex;
     width:100%;
-    @media only screen and (max-width: 600px){
-        display:block;
-    }
+  
 
     .tabHead{
         padding:1rem 4rem;
         // border:1px solid white;
         cursor:pointer;
         border-radius: 8px 8px 0 0;
+        @media only screen and (max-width: 600px){
+        padding:0.5rem;
+        }
+    }
+    .icons{
+        visibility: invisible;
+        @media only screen and (max-width: 600px){
+            visibility: visible;
+            padding:0.5rem 1rem;
+            margin:0;
+            display: block;
+           
+
+            }
+    }
+
+    .content{
+        @media only screen and (min-width: 600px){
+            visibility: visible;
+            padding:0.5rem 1rem;
+            margin:0;
+            display: block;
+           
+
+            }
     }
 
 

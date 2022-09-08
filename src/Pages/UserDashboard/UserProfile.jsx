@@ -45,7 +45,7 @@ const UserProfile = () => {
       {user !== null && user !== undefined && (
         <div className="m-3">
 
-          <div className="h-48 w-full relative" style={{ background: "#99DEFF" }}>
+          <div className="md:h-48 h-28 w-full relative" style={{ background: "#99DEFF" }}>
 
           </div>
           <div className="relative  rounded-md w-full py-3 md:flex items-center ">
@@ -60,13 +60,13 @@ const UserProfile = () => {
               />
             </div>
 
-            <div className=" md:ml-80 md:px-5 text-right md:text-left">
-              <p className="font-semibold md:text-3xl sm:text-xl ">
+            <div className=" md:ml-80 md:px-5 mt-28 mx-5 md:text-left">
+              <p className="font-semibold md:text-3xl text-2xl ">
                 {user.firstName} {user.lastname}
               </p>
               <p className="text-gray-400 text-lg">{user.username}</p>
             </div>
-            <div className="ml-auto mr-0 mt-5 text-right md:text-left">
+            <div className="mx-5 mt-3 md:text-left">
               <button
                 class=" hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 style={{backgroundColor:"#034488"}}

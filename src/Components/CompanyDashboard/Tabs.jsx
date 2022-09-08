@@ -13,6 +13,8 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import Linkedin from "../../assets/images/Social/linkedin.svg";
 import Microsoft from "../../assets/images/Social/microsoft.svg";
 import Google from "../../assets/images/Social/google.svg";
+import { AiOutlineHome,AiOutlineUser ,AiOutlineFolderAdd} from "react-icons/ai";
+import { RiBillLine} from "react-icons/ri";
 
 export default function Tabs() {
 
@@ -47,9 +49,12 @@ export default function Tabs() {
     <div className='Tabs w-full'>
 
       <div className="tabList flex w-full">
-        <div className={`tabHead ${index === 0 && 'active'}`} onClick={() => { setIndex(0) }}>Contact</div>
-        <div className={`tabHead ${index === 1 && 'active'}`} onClick={() => { setIndex(1) }}>About</div>
-        <div className={`tabHead ${index === 2 && 'active'}`} onClick={() => { setIndex(2) }}>Billing Credentials</div>
+        <div className={`tabHead ${index === 0 && 'active'}`} onClick={() => { setIndex(0) }}> <p className="md:visible hidden content">Contact</p><p className="icons hidden"><AiOutlineHome/></p>
+</div>
+        <div className={`tabHead ${index === 1 && 'active'}`} onClick={() => { setIndex(1) }}><p className="md:visible hidden content">About</p><p className="icons hidden"><AiOutlineUser/></p>
+</div>
+        <div className={`tabHead ${index === 2 && 'active'}`} onClick={() => { setIndex(2) }}> <p className="md:visible hidden content">Billing Credentials</p><p className="icons hidden"><RiBillLine/></p>
+</div>
       </div>
       <div className="tabContent bg-white p-5 bg-white w-full" hidden={index != 0}>
         {user !== null && user !== undefined && (
@@ -67,15 +72,15 @@ export default function Tabs() {
               <Form>
 
 <div className="flex flex-wrap w-full gap-y-5">
-                  <label style={{ color: "#3B82F6" }} className="py-3 text-xl font-semibold">Contact Information</label>
-                  <hr />
+                  {/* <label style={{ color: "#3B82F6" }} className="py-3 text-xl font-semibold">Contact Information</label> */}
+                  {/* <hr /> */}
                   {/* <div className="md:w-1/2 md:mx-9 sm:mx-0  flex w-full  space-y-1 flex">
                     <div><label className="font-semibold text-lg md:w-2/5 mx-5">Username</label></div>
                     <div> <Field
                       type="text"
                       name="username"
                       disabled
-                      className="block border-gray-400 py-1 md:w-3/5 mx-5"
+                      className="shadow-sm border-gray-10 py-1 md:w-3/5 mx-5"
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     /></div>
@@ -87,7 +92,7 @@ export default function Tabs() {
                       type="text"
                       name="firstName"
                       disabled
-                      className="block border-gray-400 py-1 md:w-3/5 mx-5"
+                      className="shadow-sm border-gray-5 py-1 md:w-3/5 mx-5"
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
@@ -99,7 +104,7 @@ export default function Tabs() {
                       name="email"
                       type="text"
                       disabled
-                      className="block border-gray-400 py-1 md:w-3/5 mx-5"
+                      className="shadow-sm border-gray-10 py-1 md:w-3/5 mx-5"
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
@@ -110,7 +115,7 @@ export default function Tabs() {
                       name="contact"
                       type="text"
                       disabled
-                      className="block border-gray-400 py-1 md:w-3/5 mx-5"
+                      className="shadow-sm border-gray-10 py-1 md:w-3/5 mx-5"
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
@@ -121,7 +126,7 @@ export default function Tabs() {
                       name="address"
                       type="text"
                       disabled
-                      className="block border-gray-400 py-1 md:w-3/5 mx-5"
+                      className="shadow-sm border-gray-10 py-1 md:w-3/5 mx-5"
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
@@ -153,14 +158,14 @@ export default function Tabs() {
                 <div className="flex flex-wrap w-full gap-y-5">
 
 
-                  <label style={{ color: "#3B82F6" }} className="py-3 text-xl font-semibold">About</label>
-                  <hr />
+                  {/* <label style={{ color: "#3B82F6" }} className="py-3 text-xl font-semibold">About</label>
+                  <hr /> */}
                   <div className="md:w-1/2 md:mx-9 sm:mx-0  md:flex w-full  space-y-1 ">
 
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Overview</label>
                     <p
                       type="text"
-                      className="block border-gray-400 py-1 md:w-3/5 mx-5"
+                      className="shadow-sm border-gray-10 py-1 md:w-3/5 mx-5"
 
                       disabled
 
@@ -175,7 +180,7 @@ export default function Tabs() {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Motto</label>
                     <Field
                       type="text"
-                      className="block border-gray-400 py-1 md:w-3/5 mx-5"
+                      className="shadow-sm border-gray-10 py-1 md:w-3/5 mx-5"
                       name="motto"
                       disabled
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
@@ -189,7 +194,7 @@ export default function Tabs() {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Website</label>
                     <Field
                       type="text"
-                      className="block border-gray-400 py-1 md:w-3/5 mx-5"
+                      className="shadow-sm border-gray-10 py-1 md:w-3/5 mx-5"
                       name="website"
                       disabled
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
@@ -203,7 +208,7 @@ export default function Tabs() {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Industry</label>
                     <Field
                       type="text"
-                      className="block border-gray-400 py-1 md:w-3/5 mx-5"
+                      className="shadow-sm border-gray-10 py-1 md:w-3/5 mx-5"
                       name="industry"
                       disabled
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
@@ -217,7 +222,7 @@ export default function Tabs() {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Company Size</label>
                     <Field
                       type="text"
-                      className="block border-gray-400 py-1 md:w-3/5 mx-5"
+                      className="shadow-sm border-gray-10 py-1 md:w-3/5 mx-5"
                       name="company_size"
                       disabled
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
@@ -231,7 +236,7 @@ export default function Tabs() {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Company Founded on</label>
                     <Field
                       type="text"
-                      className="block border-gray-400 py-1 md:w-3/5 mx-5"
+                      className="shadow-sm border-gray-10 py-1 md:w-3/5 mx-5"
                       name="found"
                       disabled
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
@@ -263,8 +268,8 @@ export default function Tabs() {
                 <div className="flex-column flex-wrap w-full gap-y-5">
 
 
-                  <label style={{ color: "#3B82F6" }} className="py-3 text-xl font-semibold">Billing Credentials</label>
-                  <hr />
+                  {/* <label style={{ color: "#3B82F6" }} className="py-3 text-xl font-semibold">Billing Credentials</label> */}
+                  {/* <hr /> */}
 
 
                   <div className="md:w-1/2 md:mx-9 sm:mx-0  my-5 md:flex w-full  space-y-1">
@@ -304,7 +309,7 @@ export default function Tabs() {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">PAN</label>
                     <Field
                       type="text"
-                      className="block border-gray-400 py-1 md:w-3/5 ml-16 mr-20"
+                      className="shadow-sm border-gray-10 py-1 md:w-3/5 ml-16 mr-20"
                       name="pan"
                       disabled
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
