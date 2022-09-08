@@ -40,7 +40,7 @@ const Panel = () => {
 
 
   return (
-    <div className="flex bg-slate-100 w-full">
+    <div className="flex bg-slate-100 w-full sm:p-1">
       {/* <Sidebar /> */}
 
       <div className="container-fluid mx-auto mt-12">
@@ -58,7 +58,7 @@ const Panel = () => {
               Total users
             </div>
             <div className="mt-1 text-lg font-semibold text-gray-900">
-              08 Interview Pending
+              07 Interview Pending
             </div>
           </div>
           <div className=" px-4 mx-4 py-3 bg-white rounded-lg shadow">

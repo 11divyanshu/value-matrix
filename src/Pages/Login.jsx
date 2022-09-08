@@ -46,7 +46,7 @@ const Login = () => {
     <div className={styles.loginLanding}>
       {/* Login Card */}
       <div
-        className="container w-5/12 flex bg-white rounded-lg"
+        className="container md:w-5/12 flex bg-white rounded-lg"
         style={{ borderRadius: "0.7rem" }}
       >
         {!login && (

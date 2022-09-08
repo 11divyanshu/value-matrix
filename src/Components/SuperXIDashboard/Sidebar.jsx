@@ -9,7 +9,9 @@ import { getUserFromId } from "../../service/api";
 
 const Sidebar = () => {
   const [open, setOpen] = React.useState(true);
-
+  const [toggled, setToggled] = React.useState(true);
+  const [collapsed, setCollapsed] =  React.useState(false);
+  const [activePage, setActivePage] = React.useState(null) ;
   const hasWindow = typeof window !== "undefined";
 
   const [permission, setPermissions] = React.useState({
@@ -20,7 +22,10 @@ const Sidebar = () => {
     add_notifications: false,
     default: true,
   });
-
+  const handleToggle = () => {
+    setToggled(!toggled);
+    setCollapsed(!collapsed);
+}
   function getWindowDimensions() {
     const width = hasWindow ? window.innerWidth : null;
     const height = hasWindow ? window.innerHeight : null;
@@ -85,38 +90,41 @@ const Sidebar = () => {
   }, [permission]);
 
   return (
-    <div className="relative h-screen">
-
-      <div className="flex">
-        <div className="flex flex-col h-screen p-3 bg-white shadow w-60">
-          <div className="space-y-3">
-            <div className="flex items-center">
-              {/* <h2 className="text-xl font-bold px-3">Dashboard</h2> */}
-            </div>
-            <div className="flex-1">
-              <ul className="pt-2 pb-4 space-y-1 text-sm">
+    <div className="h-screen">
+      <div className="absolute  text-gray-9 left-5 top-5  visible md:invisible text-gray-700 text-xl">
+      <AiOutlineMenu className="text-md " onClick={()=>{handleToggle();}}/>
+      </div>
+    <ProSidebar
+    // toggled={menu}
+    // onToggle={(prev)=>setMenu(!prev)}
+      width={250}
+     
+      className="fixed left-0 h-screen z-10 text-left active text-gray-500"
+      style={{backgroundColor:"#FAFAFA"}}
+      breakPoint="md"
+      collapsed={collapsed} toggled={toggled} onToggle={handleToggle}
+    >
+      <SidebarContent    className='text-left mx-5 mt-7'>
+        <Menu iconShape="square">
                 {superXIDashboardRoutes.map((item) => {
                   if (item.hide === false && permission[item.permission] !== false)
                     return (
-                      <li className="rounded-sm">
-                        <Link
-                          to={`/superXI${item.path}`}
-                          onClick={() => setOpen(true)}
-                        >
-                          <span className="flex my-2 p-3 text-gray-700"> <p className="mx-2 text-gray-600">{item.icon} </p>  <p className="font-bold"> {item.name}</p> </span></Link>
-
-                      </li>)
+                      <MenuItem className='text-gray-700 font-semibold' active={window.location.pathname === `/superXI${item.path}`}
+                      icon={item.icon}>{item.name} <Link to={`/superXI${item.path}`} onClick={()=> {setOpen(true)} 
+                      
+                    
+                    } /></MenuItem>
+                      )
                 })}
 
-              </ul>
-            </div>
-          </div>
-        </div>
+</Menu>
+      </SidebarContent>
+    </ProSidebar>
 
-      </div>
+    
 
 
-    </div >
+    </div>
   );
 };
 

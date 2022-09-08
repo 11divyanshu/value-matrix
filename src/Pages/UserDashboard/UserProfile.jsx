@@ -43,13 +43,13 @@ const UserProfile = () => {
       </p> */}
 
       {user !== null && user !== undefined && (
-        <div className="m-5">
+        <div className="m-3">
 
           <div className="h-48 w-full relative" style={{ background: "#99DEFF" }}>
 
           </div>
           <div className="relative  rounded-md w-full py-3 md:flex items-center ">
-            <div className="absolute  sm:left-0 -top-20 md:-top-28 md:left-20 " >
+            <div className="absolute  sm:left-6 sm:px-2 -top-20 md:-top-28 md:left-20 " >
               <img
                 // src={
                 //   user && user.profileImg && profileImg ? profileImg : Avatar

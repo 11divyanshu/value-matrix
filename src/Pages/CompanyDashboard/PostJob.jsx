@@ -395,7 +395,7 @@ const AddJob = () => {
   };
 
   return (
-    <div className="p-5 pb-9">
+    <div className="p-5  pb-9">
       <p className="text-2xl font-bold">Add Job</p>
       {Alert === true && (
         <div
@@ -544,7 +544,7 @@ const AddJob = () => {
                           <div
                             role="group"
                             aria-labelledby="my-radio-group"
-                            className="space-x-5 my-3"
+                            className="space-x-5 my-3 flex-wrap"
                           >
                             <label>
                               <Field

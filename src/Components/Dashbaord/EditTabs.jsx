@@ -752,7 +752,7 @@ export default function Tabs(props) {
                 <div className="w-full text-center">
                   <button
                     onClick={() => save(values)}
-                    className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"
+                    className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-lg my-5"
                     style={{ backgroundColor: " rgb(59 130 246)" }}
                   >
                     Save
@@ -760,7 +760,7 @@ export default function Tabs(props) {
 
                   <button
                     type="submit"
-                    className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"
+                    className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-lg my-5"
                     style={{ backgroundColor: " rgb(59 130 246)" }}
                     onClick={() => update(user)}
                   >
@@ -832,7 +832,7 @@ export default function Tabs(props) {
           })}
         <div className="flex mx-auto justify-center text-center">
           <button
-            className="h-8 bg-blue-600  text-white rounded-sm block cursor-pointer px-8 my-5"
+            className=" bg-blue-600  text-white rounded-lg block cursor-pointer px-8 my-5"
             onClick={async () => {
               await setShowError(true);
              
@@ -853,7 +853,7 @@ export default function Tabs(props) {
           </button>
 
           <button
-            className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"
+            className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-lg my-5"
             style={{ backgroundColor: " rgb(59 130 246)" }}
             onClick={() => update(user)}
           >
@@ -938,24 +938,9 @@ export default function Tabs(props) {
                           {({ values }) => {
                             return (
                               <Form className="w-full py-4">
-                                {/* <div className="md:w-1/2  flex w-full  space-y-1 my-3">
-                                  <label className="font-semibold text-lg w-2/5 mx-5">
-                                    Company Name
-                                  </label>
-                                  <Field
-                                    type="text"
-                                    name="firstName"
-                                    disabled
-                                    className="block border-gray-400 py-1 md:w-1/2 w-3/5"
-                                  // style={{
-                                  //   boxShadow:
-                                  //     "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
-                                  //   border: "none",
-                                  // }}
-                                  />
-                                </div> */}
+                               
                                 <div className="md:w-1/2  md:flex w-full  space-y-1 my-3">
-                                  <label className="font-semibold text-lg w-1/5 mx-5">School *</label>
+                                  <label className="font-semibold text-lg w-1/5 mx-5">School </label>
                                   <Field
                                     name="school"
                                     type="text"
@@ -971,7 +956,7 @@ export default function Tabs(props) {
                                   />
                                 </div>
                                 <div className="md:w-1/2  md:flex w-full  space-y-1 my-3">
-                                  <label className="font-semibold text-lg w-1/5 mx-5">Degree *</label>
+                                  <label className="font-semibold text-lg w-1/5 mx-5">Degree </label>
                                   <Field
                                     name="degree"
                                     type="text"
@@ -987,7 +972,7 @@ export default function Tabs(props) {
                                   />
                                 </div>
                                 <div className="md:w-1/2  md:flex w-full  space-y-1 my-3">
-                                  <label className="font-semibold text-lg w-1/5 mx-5">Field *</label>
+                                  <label className="font-semibold text-lg w-1/5 mx-5">Field </label>
                                   <Field
                                     name="field_of_study"
                                     type="text"
@@ -1004,7 +989,7 @@ export default function Tabs(props) {
                                 </div>
                                 <div className="md:flex  w-full md:flex-wrap">
                                   <div className=" my-3 md:flex">
-                                    <label className="font-semibold text-lg mx-5">Start Date *</label>
+                                    <label className="font-semibold text-lg mx-5">Start Date </label>
                                     <Field
                                       name="start_date"
                                       type="month"
@@ -1019,7 +1004,7 @@ export default function Tabs(props) {
                                     />
                                   </div>
                                   <div className=" my-3 md:flex">
-                                    <label className="font-semibold text-lg mx-5">End Date*</label>
+                                    <label className="font-semibold text-lg mx-5">End Date</label>
                                     <Field
                                       name="end_date"
                                       type="month"
@@ -1070,13 +1055,13 @@ export default function Tabs(props) {
                                 <div className=" flex justify-center text-center">
                                   <button
                                     onClick={() => updateEducation(values)}
-                                    className="h-8 bg-blue-600  text-white rounded-lg block cursor-pointer px-8 align-middle"
+                                    className=" bg-blue-600  text-white rounded-lg block cursor-pointer px-8 align-middle"
                                   >
                                     {edit === null ? "Add " : "Update"}
                                   </button>
                                   <button
                                     type="button"
-                                    className="h-8 border-[0.5px] mx-3 border-red-600 text-red-600 rounded-lg block cursor-pointer px-8"
+                                    className=" border-[0.5px] mx-3 border-red-600 text-red-600 rounded-lg block cursor-pointer px-8"
                                     ref={resetBtn}
                                     onClick={async () => {
                                       await setShowError(false);
@@ -1164,7 +1149,7 @@ export default function Tabs(props) {
 
           <div className=" flex justify-center text-center">
             <button
-              className="h-8 bg-blue-600  text-white rounded-sm block cursor-pointer px-8 my-5"
+              className=" bg-blue-600 py-2 text-white rounded-lg block cursor-pointer px-8 my-5"
               onClick={async () => {
                 await setShowError(true);
                
@@ -1185,7 +1170,7 @@ export default function Tabs(props) {
             </button>
 
             <button
-              className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"
+              className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-lg my-5"
               style={{ backgroundColor: " rgb(59 130 246)" }}
               onClick={() => update(user)}
             >
@@ -1281,7 +1266,7 @@ export default function Tabs(props) {
                             return (
                               <Form className="w-full py-4">
                                 <div className="md:w-1/2  flex w-full  space-y-1 my-3">
-                                  <label className="font-semibold text-lg w-1/5 mx-5">Title *</label>
+                                  <label className="font-semibold text-lg w-1/5 mx-5">Title </label>
                                   <Field
                                     name="title"
                                     type="text"
@@ -1297,7 +1282,7 @@ export default function Tabs(props) {
                                   />
                                 </div>
                                 <div className="md:w-1/2  flex w-full  space-y-1 my-3">
-                                  <label className="font-semibold text-lg w-1/5 mx-5">Employment Type *</label>
+                                  <label className="font-semibold text-lg w-1/5 mx-5">Employment Type </label>
                                   <Field
                                     name="employment_type"
                                     as="select"
@@ -1324,7 +1309,7 @@ export default function Tabs(props) {
                                   />
                                 </div>
                                 <div className="md:w-1/2  flex w-full  space-y-1 my-3">
-                                  <label className="font-semibold text-lg w-1/5 mx-5">Company *</label>
+                                  <label className="font-semibold text-lg w-1/5 mx-5">Company </label>
                                   <Field
                                     name="company_name"
                                     type="text"
@@ -1340,7 +1325,7 @@ export default function Tabs(props) {
                                   />
                                 </div>
                                 <div className="md:w-1/2  flex w-full  space-y-1 my-3">
-                                  <label className="font-semibold text-lg w-1/5 mx-5">Location *</label>
+                                  <label className="font-semibold text-lg w-1/5 mx-5">Location </label>
                                   <Field
                                     name="location"
                                     type="text"
@@ -1357,11 +1342,11 @@ export default function Tabs(props) {
                                 </div>
                                 <div className="flex md:w-1/2  w-full flex-wrap">
                                   <div className=" my-3 md:w-1/2 flex pr-2">
-                                    <label className="font-semibold text-lg mx-5">Start Date *</label>
+                                    <label className="font-semibold text-lg mx-5">Start Date </label>
                                     <Field
                                       name="start_date"
                                       type="month"
-                                      className="block border-gray-400 py-1 "
+                                      className="block border-gray-400 py-1 mx-3"
                                       style={{ borderRadius: "10px" }}
                                       value={values.start_date}
                                     />
@@ -1372,7 +1357,7 @@ export default function Tabs(props) {
                                     />
                                   </div>
                                   <div className=" my-3 md:w-1/2 flex pr-2">
-                                    <label className="font-semibold text-lg mx-5">End Date*</label>
+                                    <label className="font-semibold text-lg mx-5">End Date</label>
                                     <Field
                                       name="end_date"
                                       type="month"
@@ -1388,7 +1373,7 @@ export default function Tabs(props) {
                                   </div>
                                 </div>
                                 <div className="md:w-1/2  flex w-full  space-y-1 my-3">
-                                  <label className="font-semibold text-lg w-1/5 mx-5">Industry *</label>
+                                  <label className="font-semibold text-lg w-1/5 mx-5">Industry </label>
                                   <Field
                                     name="industry"
                                     type="text"
@@ -1423,13 +1408,13 @@ export default function Tabs(props) {
                                 <div className="flex flex-wrap flex justify-center text-center">
                                   <button
                                     onClick={() => updateExperience(values)}
-                                    className=" bg-blue-600  text-white rounded-sm block cursor-pointer py-2 px-8 align-middle"
+                                    className=" bg-blue-600  text-white rounded-lg block cursor-pointer py-2 px-8 align-middle"
                                   >
                                     {edit === null ? "Add " : "Update"}
                                   </button>
                                   <button
                                     type="button"
-                                    className=" border-[0.5px] mx-3 border-red-600 py-2 text-red-600 rounded-sm block cursor-pointer px-8"
+                                    className=" border-[0.5px] mx-3 border-red-600 py-2 text-red-600 rounded-lg block cursor-pointer px-8"
                                     ref={resetBtn}
                                     onClick={async () => {
                                       await setShowError(false);
@@ -1516,7 +1501,7 @@ export default function Tabs(props) {
 
           <div className="flex mx-auto justify-center text-center">
             <button
-              className="h-8 bg-blue-600  text-white rounded-sm block cursor-pointer px-8 my-5"
+              className=" bg-blue-600  text-white rounded-lg block cursor-pointer px-8 my-5"
               onClick={async () => {
                 await setShowError(true);
             
@@ -1538,7 +1523,7 @@ export default function Tabs(props) {
             </button>
 
             <button
-              className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"
+              className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-lg my-5"
               style={{ backgroundColor: " rgb(59 130 246)" }}
               onClick={() => update(user)}
             >
@@ -1647,27 +1632,7 @@ export default function Tabs(props) {
                                     className="text-sm text-red-600"
                                   />
                                 </div>
-                                {/* <div className="md:w-1/2  flex w-full  space-y-1 my-3">
-                                <label className="font-semibold text-lg w-1/5 mx-5">Employment Type *</label>
-                                <Field
-                                  name="employment_type"
-                                  as="select"
-                                  className="block border-gray-400 py-1 w-4/5 mx-5"
-                                  style={{ borderRadius: "10px" }}
-                                >
-                                  <option value="">Please Select</option>
-                                  <option value="Full Time">Full Time</option>
-                                  <option value="Part Time">Part Time</option>
-                                  <option value="Self Employed">Self Employed</option>
-                                  <option value="Internship">Internship</option>
-                                  <option value="Free Lancer">Free Lancer</option>
-                                </Field>
-                                <ErrorMessage
-                                  name="employment_type"
-                                  component="div"
-                                  className="text-sm text-red-600"
-                                />
-                              </div> */}
+                               
                                 <div className="md:w-1/2  flex w-full  space-y-1 my-3">
                                   <label className="font-semibold text-lg w-1/5 mx-5">Company *</label>
                                   <Field
@@ -1768,13 +1733,13 @@ export default function Tabs(props) {
                                 <div className="flex px-5 w-full justify-center text-center">
                                   <button
                                     onClick={() => updateAssociation(values)}
-                                    className="h-8 bg-blue-600  text-white rounded-sm block cursor-pointer px-8 align-middle"
+                                    className=" bg-blue-600  text-white rounded-lg block cursor-pointer px-8 align-middle"
                                   >
                                     {edit === null ? "Add " : "Update"}
                                   </button>
                                   <button
                                     type="button"
-                                    className="h-8 border-[0.5px] mx-3 border-red-600 text-red-600 rounded-sm block cursor-pointer px-8"
+                                    className=" border-[0.5px] mx-3 border-red-600 text-red-600 rounded-lg block cursor-pointer px-8"
                                     ref={resetBtn}
                                     onClick={async () => {
                                       await setShowError(false);
@@ -1841,7 +1806,7 @@ export default function Tabs(props) {
                   }
                 }}
               />
-              <button className="h-10 bg-blue-600 text-white rounded-sm block cursor-pointer px-8 align-middle ml-3">
+              <button className="h-10 bg-blue-600 text-white rounded-lg block cursor-pointer px-8 align-middle ml-3">
                 Search
               </button>
             </div>
@@ -1970,77 +1935,7 @@ export default function Tabs(props) {
                   })}
               </div>
             </div>
-            {/*   <div className="md:w-1/2  flex w-full  space-y-1 my-3">
-            <input
-              className="w-4/5 mx-5 text-600 md:w-1/2  flex w-full  space-y-1 my-3 mr-3"
-              style={{ borderRadius: "10px" }}
-              type="text"
-              ref={inputRef}
-
-              onChange={() => {
-                if (inputRef.current) {
-                  const res = tools.findIndex((el) => {
-                    return (
-                      el.toLowerCase() === inputRef.current.value.toLowerCase()
-                    );
-                  });
-                  if (res !== -1) {
-                    setDisabled(true);
-                    setError("Already added");
-                  } else {
-                    setDisabled(false);
-                    setError(null);
-                  }
-                }
-              }}
-              onKeyDown={async (e) => {
-                if (e.key === "Enter" && disabled === false) {
-                  if (inputRef.current) {
-                    if (inputRef.current.value !== "") {
-                      let t = user.tools;
-                      await setTools([...user.tools, inputRef.current.value]);
-                      t.push(inputRef.current.value);
-                      console.log(t);
-                      inputRef.current.value = "";
-                      let res = await localStorage.getItem("user");
-                      res = JSON.parse(res);
-                      res.tools = t;
-                      setUser(res);
-                      await localStorage.setItem(
-                        "user",
-                        JSON.stringify(res)
-                      );
-                      setError(null);
-                    }
-                  }
-                }
-              }}
-            />
-            <button
-              type="button"
-              className="bg-blue-600  rounded-sm text-white  py-2 px-3"
-              disabled={disabled}
-              onClick={async () => {
-                if (inputRef.current && inputRef.current.value !== "") {
-                  let t = user.tools;
-                  await setTools([...user.tools, inputRef.current.value]);
-                  t.push(inputRef.current.value);
-                  inputRef.current.value = "";
-                  let res = await localStorage.getItem("user");
-                  res = JSON.parse(res);
-                  res.tools = t;
-                  setUser(res);
-                  await localStorage.setItem(
-                    "user",
-                    JSON.stringify(res)
-                  );
-                  setError(null);
-                }
-              }}
-            >
-              Add
-            </button>
-            {error && <p className="text-sm text-red-500 mb-5">{error}</p>} */}
+           
 
             <div className="p-5">
               {rolesC
@@ -2079,7 +1974,7 @@ export default function Tabs(props) {
         </div>
 
         <button
-          className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"
+          className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-lg my-5"
           style={{ backgroundColor: " rgb(59 130 246)" }}
           onClick={() => update(user)}
         >

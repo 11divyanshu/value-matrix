@@ -55,10 +55,11 @@ const JobList = () => {
         <div className="py-3">
 
 
-          <p className="text-gray-900 text-s mb-2 mx-5 text-right text-blue"><CSVLink {...csvReport}><button class="bg-blue-600 p-3 w-10vw rounded-md text-white">DOWNLOAD CSV</button></CSVLink></p>
+          <p className="text-gray-900 text-s mb-2 mx-5 text-right text-blue"><CSVLink {...csvReport}><button style={{backgroundColor:"#034488" , color:"#fff"}}
+ class=" p-3 w-10vw rounded-md text-white">DOWNLOAD CSV</button></CSVLink></p>
         </div>
       </div>
-      <div className="p-4  w-full md:flex mx-auto">
+      <div className="p-5  w-full md:flex mx-auto">
         <div className="md:w-1/4 sm:w-full mt-5 h-3/5 shadow-lg rounded-lg">
 
           <Formik
@@ -120,7 +121,8 @@ const JobList = () => {
 
 
                 <button
-                  className="bg-blue-500 text-white shadow-lg rounded-lg my-4 px-4 py-2"
+                  className="shadow-lg rounded-lg my-4 px-4 py-2"
+                  style={{backgroundColor:"#034488" , color:"#fff"}}
                   type="submit"
                 // onClick={() => applyFilter(values)}
                 >

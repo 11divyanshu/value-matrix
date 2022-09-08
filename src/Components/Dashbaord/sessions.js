@@ -13,12 +13,7 @@ const SessionCard = () => {
             <p className="text-lg text-center font-semibold">
              Available Sessions
             </p>
-            <p className="text-xs">
-              
-              {/* <span className="text-blue-600 font-semibold cursor-pointer">
-                Update
-              </span> */}
-            </p>
+          
           </div>
         </div>
         <div className="my-3">

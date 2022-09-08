@@ -27,7 +27,7 @@ const Dashboard = () => {
   const [open, setOpen] = React.useState(true);
 
   // Form to get User details
-  const [modalIsOpen, setModalIsOpen] = React.useState(false );
+  const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
   React.useEffect(() => {
     OneSignal.init({
@@ -173,7 +173,7 @@ const Dashboard = () => {
           <CandidateResumeForm isOpen={true} setModalIsOpen={setModalIsOpen} />
         </div>
       )}
-      <div className="w-full z-50"> <HorizontalNav  user={user} /></div>
+      <div className="w-full   z-50"> <HorizontalNav  user={user} /></div>
       
 
        {/* <div className="flex w-full">
