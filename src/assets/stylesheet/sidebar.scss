@@ -1,6 +1,14 @@
-$sidebar-bg-color: rgb(59 130 246);
-$sidebar-color: #FFFFFF;
-$highlight-color: #FFFFFF !default;
-$icon-bg-color: rgb(59 130 246);
-
+$sidebar-bg-color: #FAFAFA;
+$sidebar-color: #333;
+$highlight-color: #333 !default;
+$icon-bg-color: transparent;
+$sidebar-width: 323px;
+.active {
+    color: #034488;  
+   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    font-weight: 500;
+  }
+  
+  /* This is for submenu item */
+  
 @import '~react-pro-sidebar/dist/scss/styles.scss';

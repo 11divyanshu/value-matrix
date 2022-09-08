@@ -79,12 +79,13 @@ const Panel = () => {
 
       <div className="flex w-full">
 
-        <div className="w-4/6 px-5 py-2 mx-5 bg-white shadow-md">
+        <div className="w-5/6 px-5 py-2 mx-5 bg-white shadow-md">
 
           <div
             style={{
-              width: '100%',
-              height: '250px'
+              margin:"auto",
+              width: '90%',
+              height: '300px'
             }}
           >
             <Chart data={data} axes={axes} />
@@ -99,7 +100,7 @@ const Panel = () => {
 
       </div>
       <div className="flex w-full mt-5">
-        <div className="w-4/6 py-5 mx-5  bg-white shadow-md">
+        <div className="w-5/6 py-5 mx-5  bg-white shadow-md">
           <div className="border-b border-gray-200 my-3 px-5 py-2">
             <p className="text-xl font-bold font-gray-400">Interview Call Logs</p>
             <p className="text-md font-bold text-gray-300">Lorem ipsum dorem, Lorem ipsum dorem </p>

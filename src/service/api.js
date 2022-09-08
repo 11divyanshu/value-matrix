@@ -263,9 +263,9 @@ export const listJobs = async (data) => {
     console.log("Error Calling List Jobs API :", error);
   }
 };
-export const listJobsUser = async (data) => {
+export const listJobsUser = async () => {
   try {
-    return await axios.post(`${url}/listJobCandidate/${data}`);
+    return await axios.post(`${url}/listJobCandidate`);
   } catch (error) {
     console.log("Error Calling List Jobs API :", error);
   }

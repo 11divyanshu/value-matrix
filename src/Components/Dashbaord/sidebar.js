@@ -1,9 +1,5 @@
-import {
-  ProSidebar,
-  SidebarContent,
-  Menu,
-  MenuItem,
-} from "react-pro-sidebar";
+import { ProSidebar, Menu, MenuItem, SubMenu,SidebarContent } from 'react-pro-sidebar';
+
 import "react-pro-sidebar/dist/css/styles.css";
 import { dashboardRoutes } from "../../routes";
 import { RiAdminFill } from "react-icons/ri";
@@ -11,10 +7,30 @@ import React from "react";
 import "../../assets/stylesheet/sidebar.scss";
 import { Link } from "react-router-dom";
 import { FaUserCog } from "react-icons/fa";
-
+import {
+  AiOutlineMenu,
+  AiOutlineClose,
+  AiOutlineConsoleSql,
+} from "react-icons/ai";
 const Sidebar = (props) => {
   const [open, setOpen] = React.useState(true);
+  const [menu, setMenu] = React.useState(false)
+  const [toggled, setToggled] = React.useState(true);
+  const [collapsed, setCollapsed] =  React.useState(false);
+  const [activePage, setActivePage] = React.useState(null) ;
 
+function handleActive(event) {
+  if (!event.target.classList.value.includes("active")) {
+    event.target.classList.toggle('active') ;
+    if (activePage)
+      activePage.classList.remove("active") ;
+    setActivePage(event.target) ;
+  }
+}
+  const handleToggle = () => {
+      setToggled(!toggled);
+      setCollapsed(!collapsed);
+  }
   // const hasWindow = typeof window !== 'undefined';
 
   // function getWindowDimensions() {
@@ -38,36 +54,38 @@ const Sidebar = (props) => {
   //     return () => window.removeEventListener('resize', handleResize);
   //   }
   // }, [hasWindow]);
+  
 
   return (
     <div className="h-screen">
-      {/* <div className="fixed bg-blue-500 left-3 top-3 rounded-full text-white p-2">
-      <AiOutlineMenu className="text-md" onClick={()=>{setOpen(false);}}/>
+      <div className="fixed text-gray-9 left-3 top-3 rounded-full text-gray-700 text-xl visible md:invisible p-2">
+      <AiOutlineMenu className="text-md " onClick={()=>{handleToggle();}}/>
       </div>
     <ProSidebar
-      width={200}
-      collapsedWidth={windowDimensions.width < 769 ? 1 : 65}
-      className="fixed left-0 h-screen z-10"
-      collapsed={open}
+    // toggled={menu}
+    // onToggle={(prev)=>setMenu(!prev)}
+      width={250}
+     
+      className="fixed left-0 h-screen z-10 text-left active text-gray-500"
+      style={{backgroundColor:"#FAFAFA"}}
+      breakPoint="md"
+      collapsed={collapsed} toggled={toggled} onToggle={handleToggle}
     >
-      <SidebarContent>
+      <SidebarContent    className='text-left mx-5 mt-7'>
         <Menu iconShape="square">
-          <MenuItem
-            icon={
-              open ? (
-                <AiOutlineMenu className="text-xl" />
-              ) : (
-                <AiOutlineClose className="text-xl" />
-              )
-            }
-            onClick={() => setOpen(!open)}
+          {/* <MenuItem
+           
           >
-            Repute Hire
-          </MenuItem>
+           Value matrix
+          </MenuItem> */}
           {dashboardRoutes.map((item) => {
             if(item.hide === false)
             return (
-                <MenuItem icon={item.icon}>{item.name} <Link to={`/user/${item.path}`} onClick={()=>setOpen(true)} /></MenuItem>
+                <MenuItem className='text-gray-700 font-semibold' active={window.location.pathname === `/user/${item.path}`}
+                icon={item.icon}>{item.name} <Link to={`/user/${item.path}`} onClick={()=> {setOpen(true)} 
+                
+              
+              } /></MenuItem>
             );
             return null;
           })}
@@ -78,13 +96,12 @@ const Sidebar = (props) => {
           </MenuItem>)}
         </Menu>
       </SidebarContent>
-    </ProSidebar> */}
-
+    </ProSidebar>
+{/* 
       <div className="flex">
         <div className="flex flex-col h-screen p-3 bg-white shadow w-60">
           <div className="space-y-3">
             <div className="flex items-center">
-              {/* <h2 className="text-xl font-bold px-3">Dashboard</h2> */}
             </div>
             <div className="flex-1">
               <ul className="pt-2 pb-4 space-y-1 text-sm">
@@ -120,7 +137,10 @@ const Sidebar = (props) => {
           </div>
         </div>
 
-      </div>
+      </div> */}
+
+
+
     </div>
   );
 };
