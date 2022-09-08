@@ -66,7 +66,7 @@ function handleActive(event) {
     // onToggle={(prev)=>setMenu(!prev)}
       width={250}
      
-      className="fixed left-0 h-screen z-10 text-left active text-gray-500"
+      className="fixed left-0 h-screen z-0 text-left active text-gray-500"
       style={{backgroundColor:"#FAFAFA"}}
       breakPoint="md"
       collapsed={collapsed} toggled={toggled} onToggle={handleToggle}

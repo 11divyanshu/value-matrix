@@ -7,6 +7,7 @@ import {
   sendResetPasswordSMS,
   sendResetPasswordByUsername,
 } from "../../service/api";
+import swal from "sweetalert";
 
 // Assets
 import styles from "../../assets/stylesheet/login.module.css";
@@ -39,6 +40,12 @@ const ResetPassword = () => {
       });
       console.log(res);
       if (res && res.status === 200) {
+        swal({
+          title: "Success",
+          text: "Password Reset Successfully",
+          icon: "success",
+          button: "Ok",
+        })
         window.location.href = "/login";
       } else {
         setAlert({ message: "Error reseting password !", success: false });
@@ -61,15 +68,27 @@ const ResetPassword = () => {
     setAlert(null);
     try {
       if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.contact)) {
-        console.log("F");
+        
         let res = await sendResetPasswordMail(values);
         console.log(res);
         if (res && res.status === 200) {
+          swal({
+            title: "Success",
+            text: "Reset Password Link Sent To Your Mail",
+            icon: "success",
+            button: "Ok",
+          })
           setAlert({
             success: true,
-            message: "A mail has sent to reset your password !",
+            message: "A SMS has sent to reset your password !",
           });
         } else {
+          swal({
+            title : "Error",
+            text : "Error Sending Mail",
+            icon : "error",
+            button : "Ok"
+          })
           setAlert({
             success: false,
             message: res.data.Error,
@@ -82,11 +101,22 @@ const ResetPassword = () => {
       ) {
         let res = await sendResetPasswordSMS(values);
         if (res && res.status === 200) {
+          swal({
+            title: "Success",
+            text: "Reset Password Link Sent To Your ",
+            icon: "success",
+          })
           setAlert({
             success: true,
             message: "A SMS has sent to reset your password !",
           });
         } else {
+          swal({
+            title : "Error",
+            text : "Error Sending SMS",
+            icon : "error",
+            button : "Ok"
+          })
           setAlert({
             success: false,
             message: res.data.Error,
@@ -95,11 +125,23 @@ const ResetPassword = () => {
       } else {
         let res = await sendResetPasswordByUsername(values);
         if (res && res.status === 200) {
+          swal({
+            title: "Success",
+            text: "Reset Password Link Sent To Your Mail",
+            icon: "success",
+            button: "Ok",
+          })
           setAlert({
             success: true,
             message: "An Email has sent to reset your password !",
           });
         } else {
+          swal({
+            title : "Error",
+            text : "Error Sending Mail",
+            icon : "error",
+            button : "Ok"
+          })
           setAlert({
             success: false,
             message: res.data.Error,
@@ -273,7 +315,7 @@ const ResetPassword = () => {
                           <div className="w-3/4 text-start">
                             <label className="">Enter New Password </label>
                             <Field
-                              type="text"
+                              type="password"
                               name="newPassword"
                               className="w-full"
                               style={{ borderRadius: "10px" }}
@@ -287,7 +329,7 @@ const ResetPassword = () => {
                           <div className="w-3/4 text-start mt-5">
                             <label className="">Re-Enter New Password </label>
                             <Field
-                              type="text"
+                              type="password"
                               name="newPassword2"
                               className="w-full"
                               style={{ borderRadius: "10px" }}

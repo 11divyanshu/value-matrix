@@ -82,7 +82,7 @@ const Sidebar = () => {
       }
     };
     initial();
-  }, [permission]);
+  }, []);
 
   return (
     <div className="relative h-screen">

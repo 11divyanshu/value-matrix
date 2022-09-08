@@ -334,6 +334,16 @@ const ExperienceDetailForm = (props) => {
                         ref={resetBtn}
                         onClick={async () => {
                           await setShowError(false);
+                          await setInitialValues({
+                            title: null,
+                            employment_type: "",
+                            company_name: null,
+                            location: null,
+                            start_date: null,
+                            end_date: null,
+                            industry: null,
+                            description: null,
+                          });
                           await setShowForm(false);
                         }}
                       >

@@ -20,6 +20,7 @@ import SuperXIDashboard from "./Pages/Layout/SuperXILayout";
 
 import ResetPassword from "./Components/Login/ForgotPassword";
 import SetProfile from "./Pages/UserDashboard/SetProfile";
+import Initial from "./Pages/Initial";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 ReactSession.setStoreType("sessionStorage");
@@ -27,6 +28,9 @@ root.render(
   <React.StrictMode>
     <Router>
       <Routes>
+
+        <Route path="/" element={<Initial/>} />
+
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Login />} />
         <Route path="/resetPassword/" element={<ResetPassword />} />

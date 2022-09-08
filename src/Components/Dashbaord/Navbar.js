@@ -1,6 +1,7 @@
 import React from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { Fragment } from "react";
+import Avatar from "../../assets/images/UserAvatar.png";
 import { LogoutAPI } from "../../service/api";
 import { ReactSession } from "react-client-session";
 import { Link } from "react-router-dom";
@@ -15,9 +16,10 @@ import NotificationPopOver from "./Notifications";
 
 const HorizontalNav = (props) => {
   const [progress, setProgress] = React.useState(0);
+  const [user, setUser] = React.useState();
+  const [profileImg, setProfileImg] = React.useState(null);
 
   const Logout = async () => {
-    console.log("CHeck");
     let user = await localStorage.getItem("user");
     user = JSON.parse(user);
     let res = await LogoutAPI(user._id);
@@ -31,6 +33,14 @@ const HorizontalNav = (props) => {
     const initial = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       let step = 0;
+      await setUser(user);
+      if (user && user.profileImg) {
+        const img = user.profileImg;
+        const imgBase64 = img.toString("base64");
+        console.log(imgBase64);
+        setProfileImg(img);
+        setProfileImg(imgBase64);
+      }
       if (user.resume) {
         step++;
       }
@@ -69,7 +79,15 @@ const HorizontalNav = (props) => {
               ${open ? "" : "text-opacity-90"} focus:outline-0`}
               >
                 <div className="flex space-x-3 items-center cursor-pointer">
-                  <div className="h-7 w-7 bg-blue-600 rounded-full"></div>
+                <img
+                src={
+                   user && user.profileImg && profileImg ? profileImg : Avatar
+                 }
+                //src={Avatar}
+                className="sm:h-7 sm:w-7 md:h-7 md:w-7 rounded-full"
+                alt="userAvatar"
+              />
+            
                   <div className="text-xs text-start md:block hidden">
                     {props.user ? (
                       <p className="text-md text-semibold">
