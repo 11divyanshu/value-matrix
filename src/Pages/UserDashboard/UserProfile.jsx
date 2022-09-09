@@ -65,7 +65,7 @@ const UserProfile = () => {
             </div>
             <div className=" mt-3 md:text-right  md:ml-auto sm:text-left ">
               <button
-                class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
+                class=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-4 text-xs rounded"
                 style={{backgroundColor:"#034488"}}
                 onClick={() => {
                   let url = window.location.href;

@@ -40,37 +40,29 @@ const Panel = () => {
     <div className="flex bg-slate-100 ">
 
     <div className="container-fluid mx-auto mt-12">
-      <div className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-4">
-        <div className="w-5/6 px-4 mx-5 py-3 bg-white rounded-lg shadow">
-          <div className="text-sm font-medium text-gray-500 truncate">
-            Total users
-          </div>
-          <div className="mt-1 text-lg font-semibold text-gray-900">
-            18 Total Interview
+    <div className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-4">
+        <div className="w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
+          
+          <div className=" text-md font-semibold text-gray-900">
+            Job Active - 120
           </div>
         </div>
-        <div className="w-5/6 px-4 mx-5 py-3 bg-white rounded-lg shadow">
-          <div className="text-sm font-medium text-gray-500 truncate">
-            Total users
-          </div>
-          <div className="mt-1 text-lg font-semibold text-gray-900">
-            08 Interview Pending
+        <div className="w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
+          
+          <div className=" text-md font-semibold text-gray-900">
+            Interview Schedule - 20
           </div>
         </div>
-        <div className="w-5/6 px-4 mx-5 py-3 bg-white rounded-lg shadow">
-          <div className="text-sm font-medium text-gray-500 truncate">
-            Total Profit
-          </div>
-          <div className="mt-1 text-lg font-semibold text-gray-900">
-            22 interview Completed
+        <div className="w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
+          
+          <div className=" text-md font-semibold text-gray-900">
+            Candidate Uploaded - 18
           </div>
         </div>
-        <div className="w-5/6 px-4 mx-5 py-3 bg-white rounded-lg shadow">
-          <div className="text-sm font-medium text-gray-500 truncate">
-            Total Orders
-          </div>
-          <div className="mt-1 text-lg font-semibold text-gray-900">
-            01 Interview in Progress
+        <div className="w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
+          
+          <div className=" text-md font-semibold text-gray-900">
+            Reschedule Interviews - 09
           </div>
         </div>
       </div>

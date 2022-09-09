@@ -1,12 +1,13 @@
 import { ProSidebar, SidebarContent, Menu, MenuItem } from "react-pro-sidebar";
 import "react-pro-sidebar/dist/css/styles.css";
 import { adminDashboardRoutes } from "../../routes";
-import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineClose, AiOutlineHome } from "react-icons/ai";
 import React from "react";
 import "../../assets/stylesheet/sidebar.scss";
 import { Link } from "react-router-dom";
 import { getUserFromId } from "../../service/api";
-
+import { FiSettings } from "react-icons/fi";
+import { MdOutlineLogout } from "react-icons/md";
 const Sidebar = () => {
   const [open, setOpen] = React.useState(true);
 
@@ -21,12 +22,12 @@ const Sidebar = () => {
     default: true,
   });
   const [toggled, setToggled] = React.useState(true);
-  const [collapsed, setCollapsed] =  React.useState(false);
+  const [collapsed, setCollapsed] = React.useState(false);
   // const hasWindow = typeof window !== "undefined";
   const handleToggle = () => {
     setToggled(!toggled);
     setCollapsed(!collapsed);
-}
+  }
 
   function getWindowDimensions() {
     const width = hasWindow ? window.innerWidth : null;
@@ -92,45 +93,55 @@ const Sidebar = () => {
   }, []);
 
   return (
-    <div className="h-screen">
-    <div className="absolute  text-gray-9 left-5 top-5  visible md:invisible text-gray-700 text-xl">
-    <AiOutlineMenu className="text-md " onClick={()=>{handleToggle();}}/>
-    </div>
-  <ProSidebar
-  // toggled={menu}
-  // onToggle={(prev)=>setMenu(!prev)}
-    width={250}
-   
-    className="fixed left-0 h-screen z-10 text-left active text-gray-500"
-    style={{backgroundColor:"#FAFAFA"}}
-    breakPoint="md"
-    collapsed={collapsed} toggled={toggled} onToggle={handleToggle}
-  >
-      <button
-      class=" hover:bg-blue-700 text-white font-bold py-2 px-10 mx-auto text-sm mt-4 text-center rounded-lg"
-      style={{backgroundColor:"#034488"}}
-     
-    >
-   + Post New Job
-    </button>
-    <SidebarContent    className='text-left mx-5 mt-7'>
-      <Menu iconShape="square">
-                {adminDashboardRoutes.map((item) => {
-                  if (item.hide === false && permission[item.permission] !== false)
-                    return (
-                      <MenuItem className='text-gray-700 font-semibold' active={window.location.pathname === `/admin${item.path}`}
-                      icon={item.icon}>{item.name} <Link to={`/admin${item.path}`} onClick={()=> {setOpen(true)} 
-                      
-                    
+    <div className="h-screen fixed top-20 left-0">
+      <div className="absolute  text-gray-9 left-5 top-5  visible md:invisible text-gray-700 text-xl">
+        <AiOutlineMenu className="text-md " onClick={() => { handleToggle(); }} />
+      </div>
+      <ProSidebar
+        // toggled={menu}
+        // onToggle={(prev)=>setMenu(!prev)}
+        width={280}
+
+        className="fixed left-0 h-screen z-10 text-left active text-gray-500"
+        style={{ backgroundColor: "#FAFAFA" }}
+        breakPoint="md"
+        collapsed={collapsed} toggled={toggled} onToggle={handleToggle}
+      >
+        <button
+          class=" hover:bg-blue-700 text-white font-bold py-2 px-10 mx-auto text-sm mt-4 text-center rounded-lg"
+          style={{ backgroundColor: "#034488" }}
+
+        >
+          + Post New Job
+        </button>
+        <SidebarContent className='text-left mx-5 mt-7'>
+          <Menu iconShape="square">
+
+            <MenuItem className='text-gray-700 font-semibold flex' active={window.location.pathname === `/admin/`}
+            > <p className='text-xl flex mx-2'><AiOutlineHome /><p className='text-sm mx-4 text-gray-700 font-semibold'>Dashboard </p></p><Link to={`/admin/`} /></MenuItem>
+
+<p className='text-gray-400 font-semibold font-sm mx-4 my-5'>Analytics</p>
+            {adminDashboardRoutes.map((item) => {
+              if (item.hide === false && permission[item.permission] !== false)
+                return (
+                  <MenuItem className='text-gray-700 font-semibold' active={window.location.pathname === `/admin${item.path}`}
+                    icon={item.icon}>{item.name} <Link to={`/admin${item.path}`} onClick={() => { setOpen(true) }
+
+
                     } /></MenuItem>
-                      )
-                })}
+                )
+            })}
 
-</Menu>
-      </SidebarContent>
-    </ProSidebar>
+          </Menu>
+        </SidebarContent>
+        <div className='mx-4 my-24'>
+      <div className='flex m-2'><p className='text-gray-700 mx-4 py-2 font-semibold'><FiSettings/> </p><p  className='text-gray-700  font-semibold py-1'>Settings</p></div>
+      <div className='flex m-2'><p className='text-gray-700 mx-4 py-2 font-semibold'><MdOutlineLogout/> </p><p className='text-gray-700  font-semibold py-1'>Log Out</p></div>
+     
+    </div>
+      </ProSidebar>
 
-    
+
 
 
     </div>

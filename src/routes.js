@@ -118,7 +118,7 @@ export const adminDashboardRoutes = [
     icon: <ImHome className="text-xl" />,
     path: "/",
     component: <APanel />,
-    hide: false,
+    hide: true,
     permission: "default",
   },
   {
@@ -293,7 +293,7 @@ export const XIDashboardRoutes = [
     icon: <ImHome className="text-xl" />,
     path: "/",
     component: <XIDashboard />,
-    hide: false,
+    hide: true,
   },
 ];
 
@@ -304,7 +304,7 @@ export const superXIDashboardRoutes = [
     icon: <ImHome className="text-xl" />,
     path: "/",
     component: <SXIPanel />,
-    hide: false,
+    hide: true,
   },
   {
     name: "Group",
