@@ -1,4 +1,10 @@
-import { ProSidebar, Menu, MenuItem, SubMenu,SidebarContent } from 'react-pro-sidebar';
+import {
+  ProSidebar,
+  Menu,
+  MenuItem,
+  SubMenu,
+  SidebarContent,
+} from "react-pro-sidebar";
 import "react-pro-sidebar/dist/css/styles.css";
 import { companyDashboardRoutes } from "../../routes";
 import {
@@ -19,12 +25,12 @@ import { MdOutlineLogout } from "react-icons/md";
 const Sidebar = () => {
   const [open, setOpen] = React.useState(true);
   const [toggled, setToggled] = React.useState(true);
-  const [collapsed, setCollapsed] =  React.useState(false);
+  const [collapsed, setCollapsed] = React.useState(false);
   // const hasWindow = typeof window !== "undefined";
   const handleToggle = () => {
     setToggled(!toggled);
     setCollapsed(!collapsed);
-}
+  };
   const [permission, setPermissions] = React.useState({
     add_jobs: true,
     add_users: true,
@@ -83,69 +89,94 @@ const Sidebar = () => {
   return (
     <div className="h-screen fixed top-20 left-0">
       <div className="absolute  text-gray-9 left-5 top-5  visible md:invisible text-gray-700 text-xl">
-      <AiOutlineMenu className="text-md " onClick={()=>{handleToggle();}}/>
+        <AiOutlineMenu
+          className="text-md "
+          onClick={() => {
+            handleToggle();
+          }}
+        />
       </div>
-    <ProSidebar
-    // toggled={menu}
-    // onToggle={(prev)=>setMenu(!prev)}
-      width={280}
-     
-      className="fixed left-0 h-screen z-10 text-left active text-gray-500"
-      style={{backgroundColor:"#FAFAFA"}}
-      breakPoint="md"
-      collapsed={collapsed} toggled={toggled} onToggle={handleToggle}
-    >
-         <button
-      class=" hover:bg-blue-700 text-white font-bold py-2 px-10 mx-auto text-sm mt-4 text-center rounded-lg"
-      style={{backgroundColor:"#034488"}}
-     
-    >
-   + Post New Job
-    </button>
-      <SidebarContent    className='text-left mx-5 mt-7'>
+      <ProSidebar
+        // toggled={menu}
+        // onToggle={(prev)=>setMenu(!prev)}
+        width={280}
+        className="fixed left-0 h-screen z-10 text-left active text-gray-500"
+        style={{ backgroundColor: "#FAFAFA" }}
+        breakPoint="md"
+        collapsed={collapsed}
+        toggled={toggled}
+        onToggle={handleToggle}
+      >
+        <div className="w-full px-10">
+          <Link to="/company/jobsAdd">
+            <button
+              class=" hover:bg-blue-700 text-white font-bold py-2 w-full text-sm mt-4 text-center rounded-lg"
+              style={{ backgroundColor: "#034488" }}
+            >
+              + Post New Job
+            </button>
+          </Link>
+        </div>
+        <SidebarContent className="text-left mx-5 mt-7">
+          <Menu iconShape="square">
+            <MenuItem
+              className="text-gray-700 font-semibold flex"
+              active={window.location.pathname === `/company/`}
+            >
+              {" "}
+              <p className="text-xl flex mx-2">
+                <AiOutlineHome />
+                <p className="text-sm mx-4 text-gray-700 font-semibold">
+                  Dashboard{" "}
+                </p>
+              </p>
+              <Link to={`/company/`} />
+            </MenuItem>
 
-   
-        <Menu iconShape="square">
+            {/* <hr></hr> */}
+            <p className="text-gray-400 font-semibold font-sm mx-4 my-5">
+              Analytics
+            </p>
+            {companyDashboardRoutes.map((item) => {
+              if (item.hide === false && permission[item.permission] !== false)
+                return (
+                  // <Link
+                  //   to={`/company${item.path}`}
+                  //   onClick={() => setOpen(true)}
+                  // > <span className="flex my-2 p-3 text-gray-700"> <p className="mx-2 text-gray-600">{item.icon} </p>  <p className="font-bold"> {item.name}</p> </span></Link>
 
-        <MenuItem className='text-gray-700 font-semibold flex' active={window.location.pathname === `/company/`}
-                       > <p className='text-xl flex mx-2'><AiOutlineHome/><p className='text-sm mx-4 text-gray-700 font-semibold'>Dashboard </p></p><Link to={`/company/`} /></MenuItem>
-
-
-{/* <hr></hr> */}
-<p className='text-gray-400 font-semibold font-sm mx-4 my-5'>Analytics</p>
-                {companyDashboardRoutes.map((item) => {
-                  if (item.hide === false && permission[item.permission] !== false)
-                    return (
-                    
-
-                       
-                        // <Link
-                        //   to={`/company${item.path}`}
-                        //   onClick={() => setOpen(true)}
-                        // > <span className="flex my-2 p-3 text-gray-700"> <p className="mx-2 text-gray-600">{item.icon} </p>  <p className="font-bold"> {item.name}</p> </span></Link>
-
-                        <MenuItem className='text-gray-700 font-semibold' active={window.location.pathname === `/company${item.path}`}
-                        icon={item.icon}>{item.name} <Link to={`/company${item.path}`} onClick={()=> {setOpen(true)} 
-                        
-                      
-                      } /></MenuItem>
-
-                     )
-                })}
-
-        </Menu>
-      </SidebarContent>
-      <div className='mx-4 my-24'>
-      <div className='flex m-2'><p className='text-gray-700 mx-4 py-2 font-semibold'><FiSettings/> </p><p  className='text-gray-700  font-semibold py-1'>Settings</p></div>
-      <div className='flex m-2'><p className='text-gray-700 mx-4 py-2 font-semibold'><MdOutlineLogout/> </p><p className='text-gray-700  font-semibold py-1'>Log Out</p></div>
-     
-    </div>
-    </ProSidebar>
-   
-
-    
-
-
+                  <MenuItem
+                    className="text-gray-700 font-semibold"
+                    active={window.location.pathname === `/company${item.path}`}
+                    icon={item.icon}
+                  >
+                    {item.name}{" "}
+                    <Link
+                      to={`/company${item.path}`}
+                      onClick={() => {
+                        setOpen(true);
+                      }}
+                    />
+                  </MenuItem>
+                );
+            })}
+          </Menu>
+        </SidebarContent>
+        <div className="mx-4 my-24">
+          <div className="flex m-2">
+            <p className="text-gray-700 mx-4 py-2 font-semibold">
+              <FiSettings />{" "}
+            </p>
+            <p className="text-gray-700  font-semibold py-1">Settings</p>
+          </div>
+          <div className="flex m-2">
+            <p className="text-gray-700 mx-4 py-2 font-semibold">
+              <MdOutlineLogout />{" "}
+            </p>
+            <p className="text-gray-700  font-semibold py-1">Log Out</p>
+          </div>
+        </div>
+      </ProSidebar>
     </div>
   );
 };
