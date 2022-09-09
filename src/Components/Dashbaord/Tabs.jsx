@@ -119,17 +119,18 @@ export default function Tabs() {
           >
             {({ values, isSubmitting }) => (
               <Form>
-                <div className="flex flex-wrap w-full gap-y-5">
+                <div className="flex flex-wrap w-70 gap-y-5">
                  
                   <div className=" md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                    <label className="font-semibold text-lg md:w-2/5 mx-5">
+                    <label className="font-bold text-lg md:w-2/5 mx-5 mt-2">
                       Username
                     </label>
                     <Field
                       type="text"
                       name="username"
                       disabled
-                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
+                      style={{boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",borderRadius:"5px",height:"40px"}}
+                      className="block border-gray-200 py-1 md:w-4/5 sm:w-4/5 mx-5"
                       // style={{
                       //   boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
                       //   border: "none",
@@ -144,7 +145,8 @@ export default function Tabs() {
                       type="text"
                       name="firstName"
                       disabled
-                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
+                      style={{boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",borderRadius:"5px",height:"40px"}}
+                      className="block border-gray-200 py-1 md:w-4/5 sm:w-4/5 mx-5"
                       // style={{
                       //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 
@@ -160,7 +162,8 @@ export default function Tabs() {
                       name="email"
                       type="text"
                       disabled
-                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
+                      style={{boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",borderRadius:"5px",height:"40px"}}
+                      className="block border-gray-200 py-1 md:w-4/5 sm:w-4/5 mx-5"
                       // style={{
                       //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 
@@ -176,7 +179,8 @@ export default function Tabs() {
                       name="contact"
                       type="text"
                       disabled
-                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
+                      style={{boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",borderRadius:"5px",height:"40px"}}
+                      className="block border-gray-200 py-1 md:w-4/5 sm:w-4/5 mx-5"
                       // style={{
                       //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 
@@ -192,7 +196,8 @@ export default function Tabs() {
                       name="address"
                       type="text"
                       disabled
-                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
+                      style={{boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",borderRadius:"5px",height:"40px"}}
+                      className="block border-gray-200 py-1 md:w-4/5 sm:w-4/5 mx-5"
                       // style={{
                       //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 
@@ -241,13 +246,16 @@ export default function Tabs() {
               <div
                 className=" rounded-md px-5 py-2 bg-white border border-gray-400 my-5 h-35 md:w-full mx-auto"
                 key={index}
+                style={{boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px"}}
               >
                 <div className="flex justify-end space-x-3 items-center"></div>
-                <p className="font-bold text-md py-3">{item.school}</p>
-                <div className="flex flex-wrap justify-between w-full text-gray-800 ">
-                  <div className="flex space-x-2 text-sm items-center">
-                    <FiInfo />
-                    <p>{item.degree}</p> <p>|</p> <p>{item.field_of_study}</p>
+                <div className="flex flex-wrap justify-between w-full mb-4 text-gray-800 ">
+                <div className="font-bold space-x-2 text-sm items-center">
+                    <p className="text-lg ml-2 py-3" style={{fontWeight:"1000"}}>{item.school}</p>
+                    <div className="flex font-bold space-x-2 text-sm items-center">
+                      <FiInfo />
+                      <p>{item.degree}</p> <p>|</p> <p>{item.field_of_study}</p>
+                    </div>
                   </div>
                   {item.grade && (
                     <div className="space-x-2 flex items-center">
@@ -259,6 +267,17 @@ export default function Tabs() {
                     <p className="text-sm text-gray-600 mr-5">
                       {item.start_date} to {item.end_date}
                     </p>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <button
+                      class=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-4 text-xs rounded"
+                      style={{backgroundColor:"#034488"}}
+                      onClick={()=>{
+                        window.location.href="/user/editProfile"
+                      }}
+                    >
+                      Edit
+                    </button>
                   </div>
                 </div>
                

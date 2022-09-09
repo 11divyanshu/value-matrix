@@ -166,10 +166,10 @@ if(res.data.user){
   }, []);
 
   return (
-    <div className="p-5">
-      <p className="text-2xl font-bold">Edit Profile</p>
+    <div className="p-5 bg-slate-100">
+      <p className="text-2xl mx-4 font-bold">Edit Profile</p>
       {user !== null && (
-        <div className="m-5">
+        <div className="m-2">
           <div className="h-48 w-full relative" style={{ background: "#99DEFF" }}>
 
           </div>
@@ -193,7 +193,7 @@ if(res.data.user){
             <div className="ml-auto mr-0 mt-5 text-right md:text-left">
                             <label>
                 <button
-                   class=" hover:bg-blue-700 text-white text-sm font-bold py-2 px-6 rounded"
+                   class=" hover:bg-blue-700 text-white text-sm font-bold py-2 mx-3 px-6 rounded"
                   onClick={() => ModalBtnRef.current.click()}
                   style={{backgroundColor:"#034488"}}
 
