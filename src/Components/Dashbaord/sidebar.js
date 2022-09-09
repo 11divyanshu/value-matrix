@@ -90,7 +90,8 @@ function handleActive(event) {
       style={{backgroundColor:"#034488"}}
      
     >
-{/* <p classname=" py-2"><AiOutlinePlus/></p> <p>Connect New Account</p> */}
+{/* <p classname=" py-2"><AiOutlinePlus/></p> */}
+ <p>Connect New Account</p>
     </button>
       <SidebarContent  style={{zIndex:-1}}  className='text-left mx-5 mt-7'>
         <Menu iconShape="square">
