@@ -2,8 +2,9 @@ $sidebar-bg-color: #FAFAFA;
 $sidebar-color: #333;
 $highlight-color: #333 !default;
 $icon-bg-color: transparent;
-$sidebar-width: 323px;
+$sidebar-width: 100%;
 $z-index:10 !important;
+
 .active {
     color: #034488;  
    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;

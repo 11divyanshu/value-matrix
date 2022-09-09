@@ -107,13 +107,16 @@ const Sidebar = () => {
         breakPoint="md"
         collapsed={collapsed} toggled={toggled} onToggle={handleToggle}
       >
-        <button
-          class=" hover:bg-blue-700 text-white font-bold py-2 px-10 mx-auto text-sm mt-4 text-center rounded-lg"
-          style={{ backgroundColor: "#034488" }}
-
-        >
-          + Post New Job
-        </button>
+         <div className="w-full px-10">
+          <Link to="/admin">
+            <button
+              class=" hover:bg-blue-700 text-white font-bold py-2 w-full text-sm mt-4 text-center rounded-lg"
+              style={{ backgroundColor: "#034488" }}
+            >
+              + Post New Job
+            </button>
+          </Link>
+        </div>
         <SidebarContent className='text-left mx-5 mt-7'>
           <Menu iconShape="square">
 

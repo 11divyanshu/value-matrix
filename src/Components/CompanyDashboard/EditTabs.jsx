@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import '../../assets/stylesheet/Tabs.scss'
+import "../../assets/stylesheet/Tabs.scss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import swal from "sweetalert";
 // Assets
@@ -12,7 +12,7 @@ import {
   updateEmailOTP,
   updateUserDetails,
   validateSignupDetails,
-  fetchCountry
+  fetchCountry,
 } from "../../service/api";
 import ReactCropper from "../../Pages/UserDashboard/ReactCrop";
 
@@ -20,9 +20,6 @@ import ReactCropper from "../../Pages/UserDashboard/ReactCrop";
 import Avatar from "../../assets/images/UserAvatar.png";
 import "react-image-crop/dist/ReactCrop.css";
 export default function Tabs(props) {
-
-
-
   React.useEffect(() => {
     setEmailOTP(null);
     setContactOTP(null);
@@ -47,14 +44,11 @@ export default function Tabs(props) {
 
   const [upImg, setUpImg] = React.useState(null);
 
-  const [index, setIndex] = React.useState(0)
+  const [index, setIndex] = React.useState(0);
   const [profileImg, setProfileImg] = React.useState(null);
   const [aboutDetail, setAboutDetail] = React.useState([]);
   const [billingDetail, setBillingDetail] = React.useState([]);
   const [country, setCountry] = React.useState([]);
-
-
-
 
   React.useEffect(() => {
     const initial = async () => {
@@ -82,9 +76,8 @@ export default function Tabs(props) {
 
       const res = await fetchCountry();
       // console.log(res.data.countries[0].country);
-      setCountry(res.data.countries[0].country)
+      setCountry(res.data.countries[0].country);
       // console.log(country)
-
     };
     initial();
   }, []);
@@ -92,9 +85,7 @@ export default function Tabs(props) {
   const save = async (values) => {
     console.log(values);
 
-
     if (values.firstName) {
-
       let user = JSON.parse(localStorage.getItem("user"));
 
       user.firstName = values.firstName;
@@ -108,27 +99,17 @@ export default function Tabs(props) {
         text: "Details Saved",
         button: "Continue",
       });
-
-
     }
 
-
-
     if (values.about) {
-
-      let e = JSON.parse(
-        await localStorage.getItem("user")
-      );
+      let e = JSON.parse(await localStorage.getItem("user"));
       const temp = [...user.desc];
       temp[0] = values;
-      console.log(temp)
+      console.log(temp);
       e.desc = temp;
       setUser(e);
       // update(e);
-      await localStorage.setItem(
-        "user",
-        JSON.stringify(e)
-      );
+      await localStorage.setItem("user", JSON.stringify(e));
       await setAboutDetail(temp);
       swal({
         icon: "success",
@@ -136,24 +117,17 @@ export default function Tabs(props) {
         text: "Details Saved",
         button: "Continue",
       });
-
     }
 
     if (values.gst) {
-
-      let e = JSON.parse(
-        await localStorage.getItem("user")
-      );
+      let e = JSON.parse(await localStorage.getItem("user"));
       const temp = [...user.billing];
       temp[0] = values;
-      console.log(temp)
+      console.log(temp);
       e.billing = temp;
       setUser(e);
       // update(e);
-      await localStorage.setItem(
-        "user",
-        JSON.stringify(e)
-      );
+      await localStorage.setItem("user", JSON.stringify(e));
       await setBillingDetail(temp);
       swal({
         icon: "success",
@@ -161,13 +135,8 @@ export default function Tabs(props) {
         text: "Details Saved",
         button: "Continue",
       });
-
     }
-  }
-
-
-
-
+  };
 
   const submit = async (values) => {
     console.log("values");
@@ -216,7 +185,9 @@ export default function Tabs(props) {
       }
     }
     if (values.contact !== user.contact) {
-      let contactValidate = await validateSignupDetails({ contact: values.contact });
+      let contactValidate = await validateSignupDetails({
+        contact: values.contact,
+      });
       if (contactValidate.data.contact === true) {
         setError("Contact Already Registered");
         return 1;
@@ -239,13 +210,12 @@ export default function Tabs(props) {
   const update = async (ed) => {
     console.log(ed);
 
-
     let data = {
       firstName: ed.firstName,
       lastname: ed.lastName,
       address: ed.address,
       desc: ed.desc,
-      billing: ed.billing
+      billing: ed.billing,
     };
     if (EmailOTP) {
       data.email = ed.email;
@@ -274,16 +244,12 @@ export default function Tabs(props) {
         text: "Details Updated Succesfully",
         button: "Continue",
       }).then(async () => {
-
         await localStorage.setItem("user", JSON.stringify(res.data.user));
         window.location.href = "/company/profile";
-      })
-
+      });
     } else {
       console.log("Error");
     }
-
-
   };
   React.useEffect(() => {
     const initial = async () => {
@@ -306,16 +272,35 @@ export default function Tabs(props) {
       await setToken(access_token1);
     };
     initial();
-
   }, []);
 
   return (
-    <div className='Tabs w-full'>
-
+    <div className="Tabs w-full">
       <div className="tabList flex w-full">
-        <div className={`tabHead ${index === 0 && 'active'}`} onClick={() => { setIndex(0) }}>Contact</div>
-        <div className={`tabHead ${index === 1 && 'active'}`} onClick={() => { setIndex(1) }}>About</div>
-        <div className={`tabHead ${index === 2 && 'active'}`} onClick={() => { setIndex(2) }}>Billing Info</div>
+        <div
+          className={`tabHead ${index === 0 && "active"}`}
+          onClick={() => {
+            setIndex(0);
+          }}
+        >
+          Contact
+        </div>
+        <div
+          className={`tabHead ${index === 1 && "active"}`}
+          onClick={() => {
+            setIndex(1);
+          }}
+        >
+          About
+        </div>
+        <div
+          className={`tabHead ${index === 2 && "active"}`}
+          onClick={() => {
+            setIndex(2);
+          }}
+        >
+          Billing Info
+        </div>
       </div>
       <div className="tabContent bg-white w-full p-5" hidden={index != 0}>
         {user !== null && user !== undefined && (
@@ -327,7 +312,6 @@ export default function Tabs(props) {
               emailOTP: "",
               contactOTP: "",
               address: user.address,
-
             }}
             validate={(values) => {
               const errors = {};
@@ -352,7 +336,7 @@ export default function Tabs(props) {
               }
               return errors;
             }}
-          // onSubmit={(values) => submit(values)}
+            // onSubmit={(values) => submit(values)}
           >
             {({ values }) => (
               <Form>
@@ -363,13 +347,14 @@ export default function Tabs(props) {
                 </p> */}
                 <div className="flex flex-wrap w-full gap-y-5">
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                    <label className="font-semibold text-lg md:w-2/5 mx-5">Company Name</label>
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
+                      Company Name
+                    </label>
                     <Field
                       type="text"
                       name="firstName"
                       className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5"
-                      style={{borderRadius:"5px"}}
-
+                      style={{ borderRadius: "5px" }}
                     />
                     <ErrorMessage
                       name="firstName"
@@ -378,14 +363,15 @@ export default function Tabs(props) {
                     />
                   </div>
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                    <label className="font-semibold text-lg md:w-2/5 mx-5">Address</label>
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
+                      Address
+                    </label>
                     <Field
                       type="text"
                       name="address"
                       className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5"
-                      style={{borderRadius:"5px"}}
+                      style={{ borderRadius: "5px" }}
                       // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
-
                     />
                     <ErrorMessage
                       name="address"
@@ -395,15 +381,16 @@ export default function Tabs(props) {
                   </div>
 
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                    <label className="font-semibold text-lg md:w-2/5 mx-5">Email</label>
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
+                      Email
+                    </label>
                     <Field
                       name="email"
                       type="text"
                       className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5"
-                      style={{borderRadius:"5px"}}
+                      style={{ borderRadius: "5px" }}
                       disabled={EmailOTP !== null || ContactOTP !== null}
                       // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
-
                     />
                     <ErrorMessage
                       name="email"
@@ -412,46 +399,48 @@ export default function Tabs(props) {
                     />
                   </div>
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                    <label className="font-semibold text-lg md:w-2/5 mx-5">Contact</label>
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
+                      Contact
+                    </label>
                     <Field
                       name="contact"
                       type="text"
                       className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5"
-                      style={{borderRadius:"5px"}}
+                      style={{ borderRadius: "5px" }}
                       disabled={EmailOTP !== null || ContactOTP !== null}
                       // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
-
                     />
                     <ErrorMessage
                       name="contact"
                       component="div"
                       className="text-sm text-red-600"
                     />
-
                   </div>
                   {EmailOTP && (
                     <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                      <label className="font-semibold text-lg md:w-2/5 mx-5">Email OTP</label>
+                      <label className="font-semibold text-lg md:w-2/5 mx-5">
+                        Email OTP
+                      </label>
                       <Field
                         name="emailOTP"
                         type="text"
                         className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5"
-                      style={{borderRadius:"5px"}}
+                        style={{ borderRadius: "5px" }}
                         // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
-
                       />
                     </div>
                   )}
                   {ContactOTP && (
                     <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                      <label className="font-semibold text-lg md:w-2/5 mx-5">Contact OTP</label>
+                      <label className="font-semibold text-lg md:w-2/5 mx-5">
+                        Contact OTP
+                      </label>
                       <Field
                         name="contactOTP"
                         type="text"
                         className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5"
-                      style={{borderRadius:"5px"}}
+                        style={{ borderRadius: "5px" }}
                         // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
-
                       />
                     </div>
                   )}
@@ -460,7 +449,7 @@ export default function Tabs(props) {
                   <button
                     onClick={() => save(values)}
                     className="bg-blue-500 px-4 mx-2 py-1  text-white rounded-sm my-5"
-                    style={{backgroundColor:"#034488"}}
+                    style={{ backgroundColor: "#034488" }}
                   >
                     Save
                   </button>
@@ -468,9 +457,8 @@ export default function Tabs(props) {
                   <button
                     type="submit"
                     className="bg-blue-500 px-4 mx-2 py-1 text-white rounded-sm my-5"
-                    style={{backgroundColor:"#034488"}}
+                    style={{ backgroundColor: "#034488" }}
                     onClick={() => update(user)}
-
                   >
                     Submit
                   </button>
@@ -479,7 +467,6 @@ export default function Tabs(props) {
             )}
           </Formik>
         )}
-
       </div>
       <div className="tabContent bg-white p-5" hidden={index != 1}>
         {user !== null && user !== undefined && (
@@ -490,23 +477,23 @@ export default function Tabs(props) {
               industry: user.desc[0] ? user.desc[0].industry : " ",
               found: user.desc[0] ? user.desc[0].found : " ",
               website: user.desc[0] ? user.desc[0].website : " ",
-              company_size: user.desc[0] ? user.desc[0].company_size : ""
+              company_size: user.desc[0] ? user.desc[0].company_size : "",
             }}
           >
             {({ values, isSubmitting }) => (
               <Form>
-
                 <div className="flex flex-wrap w-full gap-y-5">
-
-
-                 
                   <div className="md:mx-2 my-3 sm:mx-0  md:flex w-full  space-y-1">
-
-                    <label className="font-semibold text-lg md:w-2/5 mx-5">Overview</label>
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
+                      Overview
+                    </label>
                     <Field
                       type="textarea"
                       className="block md:w-3/4 w-full py-2 px-4"
-                      style={{borderRadius:"5px", border:"rgb(156 163 175) solid 0.5px"}}
+                      style={{
+                        borderRadius: "5px",
+                        border: "rgb(156 163 175) solid 0.5px",
+                      }}
                       name="about"
                       onKeyPress={(e) => {
                         if (e.key === "Enter") {
@@ -514,102 +501,92 @@ export default function Tabs(props) {
                         }
                       }}
                       // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
-
                     />
-
                   </div>
 
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-
-                    <label className="font-semibold text-lg md:w-2/5 mx-5">Motto</label>
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
+                      Motto
+                    </label>
                     <Field
                       type="text"
                       className="block border-gray-400 py-2 px-4 md:w-3/4 w-full"
-                      style={{borderRadius:"5px"}}
+                      style={{ borderRadius: "5px" }}
                       name="motto"
 
                       // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
-
                     />
-
                   </div>
 
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-
-                    <label className="font-semibold text-lg md:w-2/5 mx-5">Website</label>
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
+                      Website
+                    </label>
                     <Field
                       type="text"
                       className="block border-gray-400 py-2 px-4 md:w-3/4 w-full"
-                      style={{borderRadius:"5px"}}
+                      style={{ borderRadius: "5px" }}
                       name="website"
 
                       // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
-
                     />
-
                   </div>
 
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-
-                    <label className="font-semibold text-lg md:w-2/5 mx-5">Industry</label>
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
+                      Industry
+                    </label>
                     <Field
                       type="text"
                       className="block border-gray-400 py-2 px-4 md:w-3/4 w-full"
-                      style={{borderRadius:"5px"}}
+                      style={{ borderRadius: "5px" }}
                       name="industry"
 
                       // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
-
                     />
-
                   </div>
 
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-
-                    <label className="font-semibold text-lg md:w-2/5 mx-5">Company Size</label>
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
+                      Company Size
+                    </label>
                     <Field
                       type="text"
                       className="block border-gray-400 py-2 px-4 md:w-3/4 w-full"
-                      style={{borderRadius:"5px"}}
+                      style={{ borderRadius: "5px" }}
                       name="company_size"
 
                       // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
-
                     />
-
                   </div>
 
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-
-                    <label className="font-semibold text-lg md:w-2/5 mx-5">Company Founded on</label>
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
+                      Company Founded on
+                    </label>
                     <Field
                       type="text"
                       className="block border-gray-400 py-2 px-4 md:w-3/4 w-full"
-                      style={{borderRadius:"5px"}}
+                      style={{ borderRadius: "5px" }}
                       name="found"
 
                       // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
-
                     />
-
                   </div>
-
-
                 </div>
                 <div className="w-full text-center">
                   <button
                     onClick={() => save(values)}
                     className="bg-blue-500 px-4 mx-2 py-1 text-white rounded-sm my-5"
-                    style={{backgroundColor:"#034488"}}
+                    style={{ backgroundColor: "#034488" }}
                   >
                     Save
                   </button>
                   <button
                     type="submit"
                     className="bg-blue-500 px-4 mx-2 py-1 text-white rounded-sm my-5"
-                    style={{backgroundColor:"#034488"}}
+                    style={{ backgroundColor: "#034488" }}
                     onClick={() => update(user)}
-
                   >
                     Submit
                   </button>
@@ -626,16 +603,11 @@ export default function Tabs(props) {
               gst: user.billing[0] ? user.billing[0].gst : "",
               pan: user.billing[0] ? user.billing[0].pan : "",
               location: user.billing[0] ? user.billing[0].location : "",
-                  
             }}
           >
             {({ values, isSubmitting }) => (
               <Form>
-
                 <div className="flex flex-wrap w-full gap-y-5">
-
-
-                 
                   {/* <hr />
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                   <label className="font-semibold text-lg md:md:w-2/5 mx-5">Country</label>
@@ -654,71 +626,70 @@ export default function Tabs(props) {
            </Field>
            </div> */}
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1 -space-x-3">
-
-                    <label className="font-semibold text-lg md:md:w-2/5 mx-5">Tax ID.</label>
-                    <div className='flex'>
-
-                      <Field 
-
+                    <label className="font-semibold text-lg md:md:w-2/5 mx-5">
+                      Tax ID.
+                    </label>
+                    <div className="flex">
+                      <Field
                         component="select"
                         id="location"
                         name="location"
                         className="block border-gray-100 w-2/5 py-1"
-                        style={{borderRadius:"5px 0 0 5px", border:"solid 0.5px rgb(156 163 175)"}}
+                        style={{
+                          borderRadius: "5px 0 0 5px",
+                          border: "solid 0.5px rgb(156 163 175)",
+                        }}
                         multiple={false}
                       >
-                        {country && country.map((item) => {
-                          return(
-                          <option value={item.code}>{item.name}</option>)
-                        })}
+                        {country &&
+                          country.map((item) => {
+                            return (
+                              <option value={item.code}>{item.name}</option>
+                            );
+                          })}
                       </Field>
-
 
                       <Field
                         type="text"
                         className="block border-gray-100  py-1 md:w-2/4 w-3/5"
                         name="gst"
-                        style={{borderRadius:" 0 5px 5px 0", border:"solid 0.5px rgb(156 163 175)"}}
+                        style={{
+                          borderRadius: " 0 5px 5px 0",
+                          border: "solid 0.5px rgb(156 163 175)",
+                        }}
 
-                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
-
-                      ></Field></div>
-
+                        // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                      ></Field>
+                    </div>
                   </div>
 
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-
-                    <label className="font-semibold text-lg md:md:w-2/5 mx-5">PAN</label>
+                    <label className="font-semibold text-lg md:md:w-2/5 mx-5">
+                      PAN
+                    </label>
                     <Field
                       type="text"
                       className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
                       name="pan"
 
-                    // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
-
+                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
                     />
-
                   </div>
-
-
-
                 </div>
-
 
                 <div className="w-full text-center">
                   <button
                     onClick={() => save(values)}
                     className="bg-blue-500 px-4 mx-2 py-1 text-white rounded-sm my-5"
-                    style={{backgroundColor:"#034488"}}
+                    style={{ backgroundColor: "#034488" }}
                   >
                     Save
                   </button>
                   <button
                     type="submit"
                     className="bg-blue-500 px-4 mx-2 py-1 text-white rounded-sm my-5"
-                    style={{backgroundColor:"#034488"}}
+                    style={{ backgroundColor: "#034488" }}
                     onClick={() => update(user)}
-
                   >
                     Submit
                   </button>
@@ -727,10 +698,7 @@ export default function Tabs(props) {
             )}
           </Formik>
         )}
-
-
       </div>
     </div>
-  )
+  );
 }
-

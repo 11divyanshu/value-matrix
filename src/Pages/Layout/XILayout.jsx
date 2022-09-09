@@ -18,7 +18,6 @@ const XIDashboard = () => {
   // Retrieve And Saves Access Token and User to Session
   const [access_token, setAccessToken] = React.useState(null);
 
-
   React.useEffect(() => {
     const tokenFunc = async () => {
       let access_token1 = null;
@@ -26,8 +25,7 @@ const XIDashboard = () => {
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
       if (term !== null || term !== undefined) {
-
-await localStorage.removeItem("access_token");
+        await localStorage.removeItem("access_token");
         await localStorage.removeItem("access_token");
         access_token1 = term;
         await setAccessToken(term);
@@ -41,24 +39,29 @@ await localStorage.removeItem("access_token");
             access_token1
           );
           await setUser(user.data.user.user);
-          if (user.data.user.access_valid === false || user.data.user.user_type !== "XI")
+          if (
+            user.data.user.access_valid === false ||
+            user.data.user.user_type !== "XI"
+          )
             window.location.redirect = "/login";
           await localStorage.setItem("user", JSON.stringify(user.data.user));
-	window.history.pushState({url:'/XI'},'','/XI')
+          window.history.pushState({ url: "/XI" }, "", "/XI");
         } else {
           window.location.href = "/login";
         }
-      }
-      else{
-        let access_token = localStorage.get("access_token");
+      } else {
+        let access_token = localStorage.getItem("access_token");
         await setAccessToken(access_token);
-        let user = localStorage.get("user");
+        let user = JSON.parse(localStorage.getItem("user"));
         await setUser(user);
       }
-      let user = localStorage.getItem("user")
-      let token = localStorage.getItem("access_token")
-      if(!user || !token){
-        window.location.href = "/login"
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let token = localStorage.getItem("access_token");
+      console.log(user);
+      if (user.access_valid === false || user.user_type !== "XI")
+        window.location.redirect = "/login";
+      if (!user || !token) {
+        window.location.href = "/login";
       }
     };
 
@@ -76,13 +79,10 @@ await localStorage.removeItem("access_token");
   React.useEffect(() => {
     if (!component || component === "/undefined") {
       setComponent(
-        XIDashboardRoutes.filter((route) => route.path === "/")[0]
-          .component
+        XIDashboardRoutes.filter((route) => route.path === "/")[0].component
       );
     } else {
-      let c = XIDashboardRoutes.filter(
-        (route) => route.path === component
-      );
+      let c = XIDashboardRoutes.filter((route) => route.path === component);
       if (c[0]) setComponent(c[0].component);
       else {
         let c = XIDashboardRoutes.filter(
@@ -100,15 +100,20 @@ await localStorage.removeItem("access_token");
 
   return (
     <div className="max-w-screen h-screen">
+      <div className="w-full bg-white  fixed z-50">
+        {" "}
+        <Navbar user={user} />
+      </div>
 
-      <div className="w-full bg-white  fixed z-50"> <Navbar user={user} /></div>
-
-<div className="flex w-full ">
-  <Sidebar className="h-screen fixed left-0">
-
-  </Sidebar>
-  <div className="justify-end ml-auto " style={{width:"82%" , marginTop:'75px'}}>{comp}</div>
-</div>
+      <div className="flex w-full ">
+        <Sidebar className="h-screen fixed left-0"></Sidebar>
+        <div
+          className="justify-end ml-auto "
+          style={{ width: "82%", marginTop: "75px" }}
+        >
+          {comp}
+        </div>
+      </div>
     </div>
   );
 };
