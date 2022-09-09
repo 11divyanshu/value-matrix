@@ -56,7 +56,7 @@ const JobList = () => {
 
 
           <p className="text-gray-900 text-s mb-2 mx-5 text-right text-blue"><CSVLink {...csvReport}><button style={{backgroundColor:"#034488" , color:"#fff"}}
- class=" p-3 w-10vw rounded-md text-white">DOWNLOAD CSV</button></CSVLink></p>
+ class=" p-3 w-10vw rounded-md text-white">Download CSV</button></CSVLink></p>
         </div>
       </div>
       <div className="p-5  w-full md:flex mx-auto">
@@ -74,12 +74,12 @@ const JobList = () => {
           >
             {({ values }) => (
               <Form className="text-center px-5 py-3 bg-white">
-                <div className="text-2xl text-center font-bold font-gray-600">Filters</div>
+                <div className="text-2xl text-center font-bold font-gray-600">Apply Filters</div>
 
 
                 <div className="flex-column content-center text-left align-items-center  py-3 my-5 w-3/4 mx-auto  border-t border-gray-300">
 
-                  <label className="font-semibold text-xl my-3">Job-Type</label><br />
+                  <label className="font-semibold text-md my-3">Job-Type</label><br />
                   <Field className="rounded-lg w-full" name="jobType" as="select">
                     <option value="fulltime">Full time</option>
                     <option value="internship">Internship</option>
@@ -90,7 +90,7 @@ const JobList = () => {
 
                 <div className="flex-column content-center text-left align-items-center  py-3 my-5 w-3/4 mx-auto ">
 
-                  <label className="font-semibold text-xl my-3">Location</label>
+                  <label className="font-semibold text-md my-3">Location</label>
                   <Field
                     type="text"
                     className="block  rounded-lg py-1 md:w-3/4 w-full"
@@ -102,18 +102,17 @@ const JobList = () => {
 
                 </div>
 
-                <div className="flex-column content-center text-left align-items-center  py-3 my-5 w-full mx-auto ">
+                <div className="flex-column content-center text-left align-items-center  py-3 my-5 w-5/6 mx-auto ">
 
-                  <label className="font-semibold text-xl my-3">Pay Range</label>
+                  <label className="font-semibold text-md my-3">Pay Range</label>
                   <div class="flex flex-col space-y-2 p-2 w-full">
-                    <Field type="range" class="w-full" name="salary" min="1" max="6" step="1" />
+                    <Field type="range" class="w-full" name="salary" min="1" max="5" step="1" />
                     <ul class="flex justify-between w-full px-[10px]">
                       <li class="flex justify-center relative"><span class="absolute">0</span></li>
                       <li class="flex justify-center relative"><span class="absolute">5k</span></li>
                       <li class="flex justify-center relative"><span class="absolute">10k</span></li>
                       <li class="flex justify-center relative"><span class="absolute">20k</span></li>
                       <li class="flex justify-center relative"><span class="absolute">40k</span></li>
-                      <li class="flex justify-center relative"><span class="absolute">80k+</span></li>
                     </ul>
                   </div>
 

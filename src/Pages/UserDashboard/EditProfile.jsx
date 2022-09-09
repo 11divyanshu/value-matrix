@@ -193,8 +193,10 @@ if(res.data.user){
             <div className="ml-auto mr-0 mt-5 text-right md:text-left">
                             <label>
                 <button
-                   class=" hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                   class=" hover:bg-blue-700 text-white text-sm font-bold py-2 px-6 rounded"
                   onClick={() => ModalBtnRef.current.click()}
+                  style={{backgroundColor:"#034488"}}
+
                 >
                   Upload Image
                 </button>
@@ -202,7 +204,7 @@ if(res.data.user){
             </div>
           </div>
 
-          <div className="my-3 shadow-md rounded-md w-full p-6 md:pt-6 pt-3">
+          <div className="my-3  rounded-md w-full  mt-6 pt-3">
           
          
           <EditTabs/>

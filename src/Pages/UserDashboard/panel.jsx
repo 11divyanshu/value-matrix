@@ -103,97 +103,104 @@ const Panel = () => {
           </div>
 
         </div>
-        <div className="md:flex  mt-5 ">
-          <div className="md:w-5/6  sm:w-full  py-5 my-4 lg:mx-4 bg-white shadow-md">
-            <div className="border-b border-gray-200 my-3 px-5 py-2">
-              <p className="text-xl font-bold font-gray-400">Interview Call Logs</p>
-              <p className="text-md font-bold text-gray-300">Lorem ipsum dorem, Lorem ipsum dorem </p>
+        <div className="md:flex w-full">
+        <div className="md:w-5/6  sm:w-full  py-5 my-4 lg:mx-3 bg-white shadow-md">
+            <div className="border-b border-gray-200 mt-1 px-5 mb-2 pb-2">
+            <p className="text-lg font-bold font-gray-400">Interview's Call Logs</p>
+            <p className="text-sm font-bold text-gray-300">Lorem ipsum dorem, Lorem ipsum dorem </p>
+          </div>
+          <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center lg:grid-cols-6">
+
+
+            <div className="px-5 text-center my-2 text-sm col-span-2"><p>Interview Request with Developer</p>
+
+              <button style={{ background: "#40D1C9" }} className=" rounded-3xl px-3 py-2 my-2 text-xs text-white">
+                Accept
+              </button> <button className="bg-white rounded-3xl px-3 py-2 text-xs my-2  text-gray">
+                Reject
+              </button>
             </div>
-            <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center lg:grid-cols-6">
-
-
-              <div className="px-5 text-center my-3 col-span-2"><p>Interview Request with Developer</p>
-
-                <button style={{ background: "#40D1C9" }} className=" rounded-3xl px-3 py-2 my-2 text-xs text-white">
-                  Accept
-                </button> <button className="bg-white rounded-3xl px-3 py-2 text-xs my-2  text-gray">
-                  Reject
-                </button>
-              </div>
-              <div className="px-5 text-center my-3"><p>Tuesday</p>
-                <p className="text-gray-400 text-sm "> Jan 17,2022</p>
-              </div>
-              <div className="px-5 text-center my-3"><p>12am  - 1am</p><p className="text-gray-400 text-sm "> 03 Minutes Remaining</p></div>
-              <div className="px-5 text-center my-3 vertical-middle"><span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900">Pending</span>
-              </div>
-              <div className="px-5 text-center my-3"><p><BsThreeDots /></p></div>
+            <div className="px-5 text-center my-2 text-sm"><p>Tuesday</p>
+              <p className="text-gray-400 text-sm"> Jan 17,2022</p>
             </div>
-
-            <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center lg:grid-cols-6">
-
-
-              <div className="px-5 text-center my-3 col-span-2"><p>Interview Request with Developer</p>
-
-                <button style={{ background: "#40D1C9" }} className=" rounded-3xl my-2  px-3 py-2 text-xs text-white">
-                  Accept
-                </button> <button className="bg-white rounded-3xl px-3 py-2 my-2  text-xs text-gray">
-                  Reject
-                </button>
-              </div>
-              <div className="px-5 text-center my-3"><p>Tuesday</p>         
-                   <p className="text-gray-400 text-sm"> Jan 17,2022</p>
-              </div>
-              <div className="px-5 text-center my-3"><p>12am  - 1am</p><p className="text-gray-400 text-sm"> 03 Minutes Remaining</p></div>
-              <div className="px-5 text-center my-3"><span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900">Pending</span>
-              </div>
-              <div className="px-5 text-center my-3"><p><BsThreeDots /></p></div>
+            <div className="px-5 text-center my-2 text-sm"><p>12am  - 1am</p><p className="text-gray-400 text-sm"> 03 Minutes Remaining</p></div>
+            <div className="px-5 text-center my-5 text-sm"><span class="bg-yellow-300 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-2  rounded-3xl dark:bg-yellow-200 dark:text-yellow-900 mt-4">Pending</span>
             </div>
-
-            <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center lg:grid-cols-6">
-
-
-              <div className="px-5 text-center my-3 col-span-2"><p>Interview Request with Developer</p>
-
-                <button style={{ background: "#40D1C9" }} className=" rounded-3xl my-2  px-3 py-2 text-xs text-white">
-                  Accept
-                </button> <button className="bg-white rounded-3xl px-3 py-2 my-2  text-xs text-gray">
-                  Reject
-                </button>
-              </div>
-              <div className="px-5 text-center my-3"><p>Tuesday</p>         
-                   <p className="text-gray-400 text-sm"> Jan 17,2022</p>
-              </div>
-              <div className="px-5 text-center my-3"><p>12am  - 1am</p><p className="text-gray-400 text-sm"> 03 Minutes Remaining</p></div>
-              <div className="px-5 text-center my-3"><span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900">Pending</span>
-              </div>
-              <div className="px-5 text-center my-3"><p><BsThreeDots /></p></div>
-            </div>
-
-
-            <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center lg:grid-cols-6">
-
-
-              <div className="px-5 text-center my-3 col-span-2"><p>Interview Request with Developer</p>
-
-                <button style={{ background: "#40D1C9" }} className=" rounded-3xl my-2  px-3 py-2 text-xs text-white">
-                  Accept
-                </button> <button className="bg-white rounded-3xl px-3 my-2  py-2 text-xs text-gray">
-                  Reject
-                </button>
-              </div>
-              <div className="px-5 text-center my-3"><p>Tuesday</p>
-                <p className="text-gray-400 text-sm"> Jan 17,2022</p>
-              </div>
-              <div className="px-5 text-center my-3"><p>12am  - 1am</p><p className="text-gray-400 text-sm"> 03 Minutes Remaining</p></div>
-              <div className="px-5 text-center my-3"><span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900">Pending</span>
-              </div>
-              <div className="px-5 text-center my-3"><p><BsThreeDots /></p></div>
-            </div>
-
-
-
+            <div className="px-5 text-center my-2 text-sm"><p><button style={{ background: "#40D1C9" }} className=" rounded-lg my-2  px-3 py-2 text-xs text-white">
+                More
+              </button></p></div>
           </div>
 
+          <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center lg:grid-cols-6">
+
+
+            <div className="px-5 text-center my-2 text-sm col-span-2"><p>Interview Request with Developer</p>
+
+              <button style={{ background: "#40D1C9" }} className=" rounded-3xl my-2  px-3 py-2 text-xs text-white">
+                Start
+              </button> <button className="bg-white rounded-3xl px-3 py-2 my-2  text-xs text-gray">
+                Reject
+              </button>
+            </div>
+            <div className="px-5 text-center my-2 text-sm"><p>Wednesday</p>         
+                 <p className="text-gray-400 text-sm"> Jan 18,2022</p>
+            </div>
+            <div className="px-5 text-center my-2 text-sm"><p>12am  - 1am</p><p className="text-gray-400 text-sm"> 03 Minutes Remaining</p></div>
+            <div className="px-5 text-center my-5 text-sm"><span class="bg-yellow-300 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900 my-2">Pending</span>
+            </div>
+            <div className="px-5 text-center my-2 text-sm"><p><button style={{ background: "#40D1C9" }} className=" rounded-lg my-2  px-3 py-2 text-xs text-white">
+                More
+              </button></p></div>
+          </div>
+
+          <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center lg:grid-cols-6">
+
+
+            <div className="px-5 text-center my-2 text-sm col-span-2"><p>Interview Request with Client</p>
+
+              <button style={{ background: "#40D1C9" }} className=" rounded-3xl my-2  px-3 py-2 text-xs text-white">
+                Re-Start
+              </button> <button className="bg-white rounded-3xl px-3 py-2 my-2  text-xs text-gray">
+                Discard
+              </button>
+            </div>
+            <div className="px-5 text-center my-2 text-sm"><p>Monday</p>         
+                 <p className="text-gray-400 text-sm"> Jan 16,2022</p>
+            </div>
+            <div className="px-5 text-center my-2 text-sm"><p>12am  - 1am</p><p className="text-gray-400 text-sm"> 03 Minutes Remaining</p></div>
+            <div className="px-5 text-center my-5 text-sm"><span class="bg-green-500 font-bold text-gray-800 text-xs font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900 my-2">Completed</span>
+            </div>
+            <div className="px-5 text-center my-2 text-sm"><p><button style={{ background: "#40D1C9" }} className=" rounded-lg my-2  px-3 py-2 text-xs text-white">
+                More
+              </button></p></div>
+          </div>
+
+
+          <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center lg:grid-cols-6">
+
+
+            <div className="px-5 text-center my-2 text-sm col-span-2"><p>Interview Request with Developer</p>
+
+              <button style={{ background: "#40D1C9" }} className=" rounded-3xl my-2  px-3 py-2 text-xs text-white">
+                Inprogress
+              </button> <button className="bg-white rounded-3xl px-3 my-2  py-2 text-xs text-gray">
+                Reject
+              </button>
+            </div>
+            <div className="px-5 text-center my-2 text-sm"><p>Tuesday</p>
+              <p className="text-gray-400 text-sm"> Jan 17,2022</p>
+            </div>
+            <div className="px-5 text-center my-2 text-sm"><p>12am  - 1am</p><p className="text-gray-400 text-sm"> 03 Minutes Remaining</p></div>
+            <div className="px-5 text-center my-5 text-sm"><span class="bg-gray-400 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900 my-2 py-2">Inprogress</span>
+            </div>
+            <div className="px-5 text-center my-2 text-sm"><p><button style={{ background: "#40D1C9" }} className=" rounded-lg my-2  px-3 py-2 text-xs text-white">
+                More
+              </button></p></div>
+          </div>
+
+
+
+        </div>
 
           <div className="shadow-lg sm:w-full md:w-2/6  py-5  bg-white  justify-around lg:mx-4 my-4 h-auto  px-4 bg-white">
             <p className="text-xl px-4 mx-auto text-gray-700 font-bold  flex">

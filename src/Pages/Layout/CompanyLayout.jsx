@@ -138,7 +138,7 @@ const CompanyDashboard = () => {
       <div className="w-full"> <Navbar user={user} /></div>
 
       <div className="flex w-full">
-        <Sidebar className="h-screen fixed top-0">
+        <Sidebar className="h-screen fixed   top-0 left-0">
 
         </Sidebar>
         <div className="w-full">{comp}</div>

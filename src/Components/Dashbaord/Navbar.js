@@ -5,7 +5,7 @@ import Avatar from "../../assets/images/UserAvatar.png";
 import { LogoutAPI } from "../../service/api";
 import { ReactSession } from "react-client-session";
 import { Link } from "react-router-dom";
-import logo from "../../assets/images/logo.gif"
+import logo from "../../assets/images/logo.png"
 
 // Assets
 import { IoCall } from "react-icons/io5";
@@ -13,6 +13,7 @@ import { BsFillChatLeftTextFill } from "react-icons/bs";
 import { RiLogoutBoxRFill } from "react-icons/ri";
 import { FaUserCircle } from "react-icons/fa";
 import NotificationPopOver from "./Notifications";
+import { FiLogOut } from "react-icons/fi";
 
 const HorizontalNav = (props) => {
   const [progress, setProgress] = React.useState(0);
@@ -65,11 +66,25 @@ const HorizontalNav = (props) => {
   return (
     <div className="flex items-center border-b-2 w-full pl-4 py-4 shadow-md">
       <div className="text-slate-600 text-lg md:block hidden ">
-      <img className="w-24 h-10 mx-5" src={logo}/>
+        <img className="w-24 h-10 mx-5" src={logo} />
       </div>
+
+      <div className="md:w-3/5 mx-auto pl-7 w-1/2">
+
+        <form >
+          <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Search</label>
+          <div class="relative">
+            <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+              <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </div>
+            <input style={{ boxShadow: 'rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px' }} type="search" id="default-search" class="block p-3 pl-10 w-full text-sm text-gray-500 bg-gray-0 rounded-lg border-none  focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="       Type to search" required />
+            {/* <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button> */}
+          </div>
+        </form>
+      </div>
+
       <div className="space-x-8   ml-auto flex mr-8 items-center">
-        <IoCall className="text-gray-700 text-lg cursor-pointer hover:text-gray-800 md:block hidden" />
-        <BsFillChatLeftTextFill className="text-gray-700 text-lg cursor-pointer hover:text-gray-800 md:block hidden" />
+
         <NotificationPopOver />
         <Popover className="relative">
           {({ open }) => (
@@ -79,15 +94,15 @@ const HorizontalNav = (props) => {
               ${open ? "" : "text-opacity-90"} focus:outline-0`}
               >
                 <div className="flex space-x-3 items-center cursor-pointer">
-                <img
-                src={
-                   user && user.profileImg && profileImg ? profileImg : Avatar
-                 }
-                //src={Avatar}
-                className="sm:h-7 sm:w-7 md:h-7 md:w-7 rounded-full"
-                alt="userAvatar"
-              />
-            
+                  <img
+                    src={
+                      user && user.profileImg && profileImg ? profileImg : Avatar
+                    }
+                    //src={Avatar}
+                    className="h-7 w-7 md:h-7 md:w-7 rounded-full"
+                    alt="userAvatar"
+                  />
+
                   <div className="text-xs text-start md:block hidden">
                     {props.user ? (
                       <p className="text-md text-semibold">

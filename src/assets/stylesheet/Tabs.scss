@@ -19,10 +19,10 @@
   
 
     .tabHead{
-        padding:1rem 4rem;
+        padding:0.5rem 4rem;
         // border:1px solid white;
         cursor:pointer;
-        border-radius: 8px 8px 0 0;
+        border-radius: 6px 6px 0 0;
         @media only screen and (max-width: 600px){
         padding:0.5rem;
         }
@@ -42,7 +42,7 @@
     .content{
         @media only screen and (min-width: 600px){
             visibility: visible;
-            padding:0.5rem 1rem;
+            padding:0rem 1rem;
             margin:0;
             display: block;
            
