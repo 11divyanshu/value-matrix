@@ -4,11 +4,17 @@ import { Fragment } from "react";
 import { ReactSession } from "react-client-session";
 import { LogoutAPI } from "../../service/api";
 import NotificationPopOver from "../Dashbaord/Notifications";
-import logo from "../../assets/images/logo.png"
+import {
+  getProfileImage,
+} from "../../service/api";
+
 // Assets
+import logo from "../../assets/images/logo.png"
+import Avatar from "../../assets/images/UserAvatar.png";
 import { IoCall } from "react-icons/io5";
 import { BsFillChatLeftTextFill } from "react-icons/bs";
 import { FiLogOut } from "react-icons/fi";
+
 
 const Navbar = (props) => {
   const Logout = async () => {
@@ -20,6 +26,32 @@ const Navbar = (props) => {
     await localStorage.setItem("access_token", null);
     window.location.href = "/login";
   };
+
+  const [ProfilePic, setProfilePic] = React.useState(undefined);
+  const [user, setUser] = React.useState(null);
+
+  React.useEffect(()=>{
+    const initial = async () => {
+      let access_token1 = await localStorage.getItem("access_token");
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let user1 = await getProfileImage({id: user._id}, user.access_token);
+      console.log(user1.data);
+      if (access_token1 === "null")
+        await localStorage.setItem("access_token", user.access_token);
+      if (user && user.profileImg) {
+        let image = JSON.parse(await localStorage.getItem("profileImg"));
+        console.log(image);
+        let base64string = btoa(
+          String.fromCharCode(...new Uint8Array(image.data))
+        );
+        let src = `data:image/png;base64,${base64string}`;
+        console.log(src);
+        await setProfilePic(src);
+      }
+      setUser(user);
+    };
+    initial();
+  },[])
 
   return (
     <div className="flex items-center border-b-2 w-full py-3 shadow-md">
@@ -63,7 +95,14 @@ const Navbar = (props) => {
                     )}
                     {/* <p className="text-xs text-gray-600">View Profile</p> */}
                   </div>
-                  <div className="h-7 w-7 bg-blue-600 rounded-full"></div>
+                  <img
+                src={
+                  user && user.profileImg && ProfilePic ? ProfilePic : Avatar
+                }
+                // src={Avatar}
+                className="h-7 w-7 rounded-full"
+                alt="userAvatar"
+              />
                 </div>
               </Popover.Button>
               <Transition
