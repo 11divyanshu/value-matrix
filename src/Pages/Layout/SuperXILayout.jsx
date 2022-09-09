@@ -99,14 +99,14 @@ const CompanyDashboard = () => {
 
   return (
     <div className="max-w-screen h-screen">
-      <div className="w-full"> <Navbar user={user} /></div>
+     <div className="w-full bg-white  fixed z-50"> <Navbar user={user} /></div>
 
-      <div className="flex w-full">
-        <Sidebar className="h-screen absolute top-0">
+<div className="flex w-full ">
+  <Sidebar className="h-screen fixed left-0">
 
-        </Sidebar>
-        <div className="w-full">{comp}</div>
-      </div>
+  </Sidebar>
+  <div className="justify-end ml-auto " style={{width:"82%" , marginTop:'75px'}}>{comp}</div>
+</div>
     </div>
   );
 };

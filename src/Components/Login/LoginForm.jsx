@@ -95,7 +95,7 @@ const LoginForm = (props) => {
         style={{ fontWeight: 700 }}
         className="text-4xl font-bold flex pl-9"
       >
-        Value <p style={{ color: "#3667E9" }}>Matrix</p>
+        Value<p className="px-2" style={{ color: "#3667E9" }}>Matrix</p>
       </span>
       <div className="my-2">
         <span className="font-semibold pl-9">
@@ -149,7 +149,7 @@ const LoginForm = (props) => {
                     name="password"
                     placeholder="Password"
                     className="w-full text-600 my-1"
-                    style={{ borderRadius: "12px" }}
+                    style={{ borderRadius: "8px" }}
                   />
                   {showPassword ? (
                     <p
@@ -202,7 +202,7 @@ const LoginForm = (props) => {
               )}
               {!loading && (
                 <button
-                  className="bg-blue-600 px-4 py-2 text-white rounded-lg  block mt-6 mx-auto hover:bg-blue-700 text-center w-1/2 cursor-pointer"
+                  className="bg-blue-600 px-4 py-2 text-white rounded-md font-bold text-lg block mt-6 mx-auto hover:bg-blue-700 text-center w-full cursor-pointer"
                   type="submit"
                   style={{ backgroundColor: "#01458C" }}
                 >
@@ -219,46 +219,62 @@ const LoginForm = (props) => {
         </Formik>
 
         <div className="flex space-x-3 justify-center w-full items-center text-gray-600 py-5">
-          <div className="h-[0.5px] w-12 bg-gray-600 block"></div>
-          <p> Or Login With </p>
-          <div className="h-[0.5px] w-12 bg-gray-600 block"></div>
+          {/* <div className="h-[0.5px] w-12 bg-gray-600 block"></div> */}
+          <p className="text-gray-800 text-md font-semibold"> Or Login With </p>
+          {/* <div className="h-[0.5px] w-12 bg-gray-600 block"></div> */}
         </div>
-        <div className="flex justify-center space-x-7 h-7 mt-3">
+        <div className="flex justify-center space-x-2 h-7 mt-3">
           <form action={`${url}/auth/google`}>
+            <div className="flex px-2 py-1 border border-gray-300">
             <button type="submit">
               <img
                 src={Google}
                 alt="google-login"
-                className="cursor-pointer h-7"
+                className="cursor-pointer h-3"
               />
             </button>
+            <p className="text-xs font-semibold px-2">Google</p>
+            </div>
           </form>
           <form action={`${url}/auth/microsoft`}>
+          <div className="flex px-2 py-1 border border-gray-300">
+
             <button type="submit">
               <img
                 src={Microsoft}
                 alt="microsoft-login"
-                className="cursor-pointer h-7"
+                className="cursor-pointer h-3"
               />
+
             </button>
+            <p className="text-xs font-semibold px-2">Microsoft</p>
+            </div>
           </form>
           <form action={`${url}/auth/linkedin`}>
+          <div className="flex px-2 py-1 border border-gray-300">
+
             <button type="submit">
               <img
                 src={Linkedin}
                 alt="linkedin-login"
-                className="cursor-pointer h-7"
+                className="cursor-pointer h-3"
               />
             </button>
+            <p className="text-xs font-semibold px-2">Linkedin</p>
+            </div>
           </form>
           <form action={`${url}/auth/github`}>
+          <div className="flex px-2 py-1 border border-gray-300">
+
             <button type="submit">
               <img
                 src={Github}
                 alt="github-login"
-                className="cursor-pointer h-7"
+                className="cursor-pointer h-3"
               />
             </button>
+            <p className="text-xs font-semibold px-2">Github</p>
+            </div>
           </form>
         </div>
         <div className="h-5 block"></div>

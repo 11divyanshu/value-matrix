@@ -173,7 +173,7 @@ const Dashboard = () => {
           <CandidateResumeForm isOpen={true} setModalIsOpen={setModalIsOpen} />
         </div>
       )}
-      <div className="w-full   z-50"> <HorizontalNav  user={user} /></div>
+      <div className="w-full bg-white  fixed z-50"> <HorizontalNav  user={user} /></div>
       
 
        {/* <div className="flex w-full">
@@ -191,10 +191,10 @@ const Dashboard = () => {
       </div>
       </div> */}
 <div className="flex w-full">
-<SidebarComponent className="h-screen top-0">
+<SidebarComponent className="h-screen fixed top-20 left-0">
 
       </SidebarComponent>
-<div className="w-full">{comp}</div>
+<div className="justify-end ml-auto mt-20" style={{width:"82%", marginTop:'75px'}}>{comp}</div>
 </div>
     </div>
   );

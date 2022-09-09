@@ -106,18 +106,13 @@ const AdminDashboard = () => {
 
   return (
     <div className="max-w-screen h-screen">
-      <div className="w-full"> <Navbar user={user} /></div>
+      <div className="w-full bg-white  fixed z-50"> <Navbar user={user} /></div>
 
-      <div className="flex w-full">
-        <div className=" h-screen">
-          <Sidebar user={user} />
+      <div className="flex w-full ">
+        <Sidebar className="h-screen fixed left-0">
 
-        </div>
-
-        <div className=" pl-0 z-1 w-full bg-slate-100">
-
-          <div className="">{comp}</div>
-        </div>
+        </Sidebar>
+        <div className="justify-end ml-auto " style={{ width: "82%", marginTop: '75px' }}>{comp}</div>
       </div>
     </div>
   );
