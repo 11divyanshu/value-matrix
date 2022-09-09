@@ -14,6 +14,8 @@ import Avatar from "../../assets/images/UserAvatar.png";
 import { IoCall } from "react-icons/io5";
 import { BsFillChatLeftTextFill } from "react-icons/bs";
 import { FiLogOut } from "react-icons/fi";
+import {AiOutlineUser} from "react-icons/ai";
+import { MdOutlineLogout } from "react-icons/md";
 
 
 const Navbar = (props) => {
@@ -122,7 +124,7 @@ const Navbar = (props) => {
                           className="text-sm font-medium text-gray-900 flex items-center space-x-2 cursor-pointer"
                           onClick={Logout}
                         >
-                          <FiLogOut /> <p>Logout</p>
+                          <MdOutlineLogout /> <p>Logout</p>
                         </div>
                       </span>
                     </div>

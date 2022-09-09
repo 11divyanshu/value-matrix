@@ -2,7 +2,12 @@ import React from "react";
 
 import "../../assets/stylesheet/Tabs.scss";
 import { Formik, Form, Field } from "formik";
-import { AiOutlineHome,AiOutlineUser ,AiOutlineFolderAdd,AiOutlineUnorderedList} from "react-icons/ai";
+import {
+  AiOutlineHome,
+  AiOutlineUser,
+  AiOutlineFolderAdd,
+  AiOutlineUnorderedList,
+} from "react-icons/ai";
 
 // Assets
 import Avatar from "../../assets/images/UserAvatar.png";
@@ -69,7 +74,10 @@ export default function Tabs() {
             setIndex(0);
           }}
         >
-           <p className="md:visible hidden content">Contact</p><p className="icons hidden"><AiOutlineHome/></p>
+          <p className="md:visible hidden content">Contact</p>
+          <p className="icons hidden">
+            <AiOutlineHome />
+          </p>
         </div>
         <div
           className={`tabHead ${index === 1 && "active"}`}
@@ -77,7 +85,10 @@ export default function Tabs() {
             setIndex(1);
           }}
         >
-           <p className="md:visible hidden content">Education</p><p className="icons hidden"><IoSchoolOutline/></p>
+          <p className="md:visible hidden content">Education</p>
+          <p className="icons hidden">
+            <IoSchoolOutline />
+          </p>
         </div>
         <div
           className={`tabHead ${index === 2 && "active"}`}
@@ -85,7 +96,10 @@ export default function Tabs() {
             setIndex(2);
           }}
         >
-            <p className="md:visible hidden content">Experience</p><p className="icons hidden"><CgWorkAlt/></p>
+          <p className="md:visible hidden content">Experience</p>
+          <p className="icons hidden">
+            <CgWorkAlt />
+          </p>
         </div>
         <div
           className={`tabHead ${index === 3 && "active"}`}
@@ -93,7 +107,10 @@ export default function Tabs() {
             setIndex(3);
           }}
         >
-           <p className="md:visible hidden content">Association</p><p className="icons hidden"><HiOutlineOfficeBuilding/></p>
+          <p className="md:visible hidden content">Association</p>
+          <p className="icons hidden">
+            <HiOutlineOfficeBuilding />
+          </p>
         </div>
         <div
           className={`tabHead ${index === 4 && "active"}`}
@@ -101,10 +118,16 @@ export default function Tabs() {
             setIndex(4);
           }}
         >
-            <p className="md:visible hidden content">Skills</p><p className="icons hidden"><AiOutlineUnorderedList/></p>
+          <p className="md:visible hidden content">Skills</p>
+          <p className="icons hidden">
+            <AiOutlineUnorderedList />
+          </p>
         </div>
       </div>
-      <div className="tabContent shadow-md bg-white p-5 w-full" hidden={index != 0}>
+      <div
+        className="tabContent shadow-md bg-white p-5 w-full"
+        hidden={index != 0}
+      >
         {user !== null && user !== undefined && (
           <Formik
             initialValues={{
@@ -112,14 +135,22 @@ export default function Tabs() {
               firstName: user.firstName,
               lastName: user.lastname,
               email: user.email ? user.email : " ",
-              contact: user.contact ? user.contact : " ",
+              contact: user.contact
+                ? [
+                    user.googleId,
+                    user.microsoftId,
+                    user.linkedInId,
+                    user.githubId,
+                  ].includes(user.contact)
+                  ? " "
+                  : user.contact
+                : " ",
               address: user.address ? user.address : " ",
             }}
           >
             {({ values, isSubmitting }) => (
               <Form>
                 <div className="flex flex-wrap w-full gap-y-5">
-                 
                   <div className=" md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Username
@@ -128,7 +159,8 @@ export default function Tabs() {
                       type="text"
                       name="username"
                       disabled
-                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
+                      className="block border-gray-400 py-1 px-4 md:w-3/5 sm:w-4/5 mx-5"
+                      style={{ borderRadius: "5px" }}
                       // style={{
                       //   boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
                       //   border: "none",
@@ -143,7 +175,9 @@ export default function Tabs() {
                       type="text"
                       name="firstName"
                       disabled
-                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
+                      className="block border-gray-400 py-1 px-4 md:w-3/5 sm:w-4/5 mx-5"
+                      style={{ borderRadius: "5px" }}
+
                       // style={{
                       //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 
@@ -159,7 +193,9 @@ export default function Tabs() {
                       name="email"
                       type="text"
                       disabled
-                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
+                      className="block border-gray-400 py-1 px-4 md:w-3/5 sm:w-4/5 mx-5"
+                      style={{ borderRadius: "5px" }}
+
                       // style={{
                       //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 
@@ -175,7 +211,21 @@ export default function Tabs() {
                       name="contact"
                       type="text"
                       disabled
-                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
+                      className="block border-gray-400 py-1 px-4 md:w-3/5 sm:w-4/5 mx-5"
+                      value={
+                        user.contact
+                          ? [
+                              user.googleId,
+                              user.microsoftId,
+                              user.linkedInId,
+                              user.githubId,
+                            ].includes(user.contact)
+                            ? " "
+                            : user.contact
+                          : " "
+                      }
+                      style={{ borderRadius: "5px" }}
+
                       // style={{
                       //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 
@@ -191,7 +241,9 @@ export default function Tabs() {
                       name="address"
                       type="text"
                       disabled
-                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
+                      className="block border-gray-400 py-1 px-4 md:w-3/5 sm:w-4/5 mx-5"
+                      style={{ borderRadius: "5px" }}
+
                       // style={{
                       //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 
@@ -233,6 +285,10 @@ export default function Tabs() {
         )}
       </div>
       <div className="tabContent shadow-md bg-white p-5" hidden={index != 1}>
+        {user !== null && user !== undefined && user.education.length === 0 && (
+          <p className="my-5 text-center">No Education Details Added</p>
+        )}
+
         {user !== null &&
           user !== undefined &&
           user.education.map((item, index) => {
@@ -260,12 +316,16 @@ export default function Tabs() {
                     </p>
                   </div>
                 </div>
-               
               </div>
             );
           })}
       </div>
       <div className="tabContent shadow-md bg-white p-5" hidden={index != 2}>
+        {user !== null &&
+          user !== undefined &&
+          user.experience.length === 0 && (
+            <p className="my-5 text-center">No Experience Details Added</p>
+          )}
         {user !== null &&
           user !== undefined &&
           user.experience.map((item, index) => {
@@ -302,7 +362,13 @@ export default function Tabs() {
             );
           })}
       </div>
+
       <div className="tabContent shadow-md bg-white p-5" hidden={index != 3}>
+        {user !== null &&
+          user !== undefined &&
+          user.associate && user.associate.length === 0 &&(
+            <p className="my-5 text-center">No Association Details Added</p>
+          )}
         {user !== null &&
           user !== undefined &&
           user.associate &&
@@ -342,7 +408,9 @@ export default function Tabs() {
         {user !== null && user !== undefined && (
           <div>
             <div className="md:w-1/2 w-full space-y-1">
-              <label className="font-semibold">Skills</label>
+              {roles && roles.length ===0 && (
+                <p className="my-5 text-center">No Skills Added</p>
+              )}
               <div className="">
                 {roles
                   ? roles.map((item, index) => {

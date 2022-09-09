@@ -6,6 +6,8 @@ import { LogoutAPI } from "../../service/api";
 import { ReactSession } from "react-client-session";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/logo.png"
+import {AiOutlineUser} from "react-icons/ai";
+import { MdOutlineLogout } from "react-icons/md";
 
 // Assets
 import { IoCall } from "react-icons/io5";
@@ -145,7 +147,7 @@ const HorizontalNav = (props) => {
                             to="/user/profile"
                             className="flex space-x-2 items-center"
                           >
-                            <FaUserCircle /> <p>View Profile</p>
+                            <AiOutlineUser/> <p>View Profile</p>
                           </Link>
                         </div>
                       </span>
@@ -154,7 +156,7 @@ const HorizontalNav = (props) => {
                           className="text-sm font-medium text-gray-900 flex items-center space-x-2 cursor-pointer"
                           onClick={Logout}
                         >
-                          <RiLogoutBoxRFill /> <p>Logout</p>
+                          <MdOutlineLogout/> <p>Logout</p>
                         </div>
                       </span>
                     </div>

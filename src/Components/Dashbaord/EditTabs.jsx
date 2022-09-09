@@ -12,7 +12,12 @@ import { Disclosure } from "@headlessui/react";
 import { getSkills } from "../../service/api";
 import { ChevronUpIcon, StarIcon } from "@heroicons/react/solid";
 import { IoSchoolOutline } from "react-icons/io5";
-import { AiOutlineHome, AiOutlineUser, AiOutlineFolderAdd, AiOutlineUnorderedList } from "react-icons/ai";
+import {
+  AiOutlineHome,
+  AiOutlineUser,
+  AiOutlineFolderAdd,
+  AiOutlineUnorderedList,
+} from "react-icons/ai";
 import { CgWorkAlt } from "react-icons/cg";
 import { FaRegBuilding } from "react-icons/fa";
 import { HiOutlineOfficeBuilding } from "react-icons/hi";
@@ -507,7 +512,10 @@ export default function Tabs(props) {
 
   const update = async (ed) => {
     console.log(ed);
-
+    let skills = dbSkills.filter((el)=>{
+      return el.proficiency > 0;
+    })
+    
     let data = {
       firstName: ed.firstName,
       lastname: ed.lastName,
@@ -515,7 +523,7 @@ export default function Tabs(props) {
       experience: ed.experience,
       associate: ed.associate,
       education: ed.education,
-      tools: ed.tools,
+      tools: skills,
     };
     if (EmailOTP) {
       data.email = ed.email;
@@ -585,7 +593,10 @@ export default function Tabs(props) {
             setIndex(0);
           }}
         >
-          <p className="md:visible hidden content">Contact</p><p className="icons hidden"><AiOutlineHome /></p>
+          <p className="md:visible hidden content">Contact</p>
+          <p className="icons hidden">
+            <AiOutlineHome />
+          </p>
         </div>
         <div
           className={`tabHead ${index === 1 && "active"}`}
@@ -593,7 +604,10 @@ export default function Tabs(props) {
             setIndex(1);
           }}
         >
-          <p className="md:visible hidden content">Education</p><p className="icons hidden"><IoSchoolOutline /></p>
+          <p className="md:visible hidden content">Education</p>
+          <p className="icons hidden">
+            <IoSchoolOutline />
+          </p>
         </div>
         <div
           className={`tabHead ${index === 2 && "active"}`}
@@ -601,7 +615,10 @@ export default function Tabs(props) {
             setIndex(2);
           }}
         >
-          <p className="md:visible hidden content">Experience</p><p className="icons hidden"><CgWorkAlt /></p>
+          <p className="md:visible hidden content">Experience</p>
+          <p className="icons hidden">
+            <CgWorkAlt />
+          </p>
         </div>
         <div
           className={`tabHead ${index === 3 && "active"}`}
@@ -609,7 +626,10 @@ export default function Tabs(props) {
             setIndex(3);
           }}
         >
-          <p className="md:visible hidden content">Association</p><p className="icons hidden"><HiOutlineOfficeBuilding /></p>
+          <p className="md:visible hidden content">Association</p>
+          <p className="icons hidden">
+            <HiOutlineOfficeBuilding />
+          </p>
         </div>
         <div
           className={`tabHead ${index === 4 && "active"}`}
@@ -617,7 +637,10 @@ export default function Tabs(props) {
             setIndex(4);
           }}
         >
-          <p className="md:visible hidden content">Skills</p><p className="icons hidden"><AiOutlineUnorderedList /></p>
+          <p className="md:visible hidden content">Skills</p>
+          <p className="icons hidden">
+            <AiOutlineUnorderedList />
+          </p>
         </div>
       </div>
       <div className="tabContent bg-white  w-full p-5" hidden={index != 0}>
@@ -654,7 +677,7 @@ export default function Tabs(props) {
               }
               return errors;
             }}
-          // onSubmit={(values) => submit(values)}
+            // onSubmit={(values) => submit(values)}
           >
             {({ values }) => (
               <Form>
@@ -665,14 +688,15 @@ export default function Tabs(props) {
               </p> */}
                 <div className="flex flex-wrap mt-2 w-full gap-y-5">
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                  <label className="font-semibold text-lg md:w-2/5 mx-5">
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Name
                     </label>
-                    <div className="w-4/5"><Field
-                      type="text"
-                      name="firstName"
-                      className="block border-gray-400 py-1 md:w-5/6 sm:w-full mx-5"
-                    />
+                    <div className="w-4/5">
+                      <Field
+                        type="text"
+                        name="firstName"
+                        className="block border-gray-400 py-1 md:w-5/6 sm:w-full mx-5"
+                      />
                       <ErrorMessage
                         name="firstName"
                         component="div"
@@ -681,14 +705,15 @@ export default function Tabs(props) {
                     </div>
                   </div>
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                                     <label className="font-semibold text-lg md:w-2/5 mx-5">
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Address
                     </label>
-                    <div className="w-4/5"><Field
-                      type="text"
-                      name="address"
-                      className="block border-gray-400 py-1 md:w-5/6 sm:w-full mx-5"
-                    />
+                    <div className="w-4/5">
+                      <Field
+                        type="text"
+                        name="address"
+                        className="block border-gray-400 py-1 md:w-5/6 sm:w-full mx-5"
+                      />
                       <ErrorMessage
                         name="address"
                         component="div"
@@ -698,15 +723,16 @@ export default function Tabs(props) {
                   </div>
 
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                                     <label className="font-semibold text-lg md:w-2/5 mx-5">
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Email
                     </label>
-                    <div className="w-4/5"><Field
-                      name="email"
-                      type="text"
-                      className="block border-gray-400 py-1 md:w-5/6 sm:w-full mx-5"
-                      disabled={EmailOTP !== null || ContactOTP !== null}
-                    />
+                    <div className="w-4/5">
+                      <Field
+                        name="email"
+                        type="text"
+                        className="block border-gray-400 py-1 md:w-5/6 sm:w-full mx-5"
+                        disabled={EmailOTP !== null || ContactOTP !== null}
+                      />
                       <ErrorMessage
                         name="email"
                         component="div"
@@ -715,15 +741,16 @@ export default function Tabs(props) {
                     </div>
                   </div>
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                                      <label className="font-semibold text-lg md:w-2/5 mx-5">
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Contact
                     </label>
-                    <div className="w-4/5"><Field
-                      name="contact"
-                      type="text"
-                      className="block border-gray-400 py-1 md:w-5/6 sm:w-full mx-5"
-                      disabled={EmailOTP !== null || ContactOTP !== null}
-                    />
+                    <div className="w-4/5">
+                      <Field
+                        name="contact"
+                        type="text"
+                        className="block border-gray-400 py-1 md:w-5/6 sm:w-full mx-5"
+                        disabled={EmailOTP !== null || ContactOTP !== null}
+                      />
                       <ErrorMessage
                         name="contact"
                         component="div"
@@ -733,7 +760,7 @@ export default function Tabs(props) {
                   </div>
                   {EmailOTP && (
                     <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                                          <label className="font-semibold text-lg md:w-2/5 mx-5">
+                      <label className="font-semibold text-lg md:w-2/5 mx-5">
                         Email OTP
                       </label>
                       <Field
@@ -745,7 +772,7 @@ export default function Tabs(props) {
                   )}
                   {ContactOTP && (
                     <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                                          <label className="font-semibold text-lg md:w-2/5 mx-5">
+                      <label className="font-semibold text-lg md:w-2/5 mx-5">
                         Contact OTP
                       </label>
                       <Field
@@ -760,7 +787,7 @@ export default function Tabs(props) {
                   <button
                     onClick={() => save(values)}
                     className="bg-blue-500 px-4 mx-2 py-2 text-white rounded-lg my-5"
-                    style={{backgroundColor:"#034488"}}
+                    style={{ backgroundColor: "#034488" }}
                   >
                     Save
                   </button>
@@ -768,7 +795,7 @@ export default function Tabs(props) {
                   <button
                     type="submit"
                     className="bg-blue-500 px-4 mx-2 py-2 text-white rounded-lg my-5"
-                    style={{backgroundColor:"#034488"}}
+                    style={{ backgroundColor: "#034488" }}
                     onClick={() => update(user)}
                   >
                     Submit
@@ -811,9 +838,7 @@ export default function Tabs(props) {
                     }}
                   /> */}
                 </div>
-                <p className="font-semibold text-md md:w-2/5 ">
-                  {item.school}
-                </p>
+                <p className="font-semibold text-md md:w-2/5 ">{item.school}</p>
                 <div className="flex flex-wrap justify-between w-full  text-gray-800 ">
                   <div className="flex my-2 space-x-2 text-sm items-center">
                     <FiInfo />
@@ -832,26 +857,25 @@ export default function Tabs(props) {
                   </div>
                   <div className="flex items-center space-x-2">
                     <button
-                class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
-                style={{backgroundColor:"#034488"}}
-                onClick={() => {
-                  setEdit(index);
-                  setEduInitialValues(item);
-                  setShowEduForm(true);
-                }}
-              >
-                Edit
-              </button>
-                    </div>
+                      class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
+                      style={{ backgroundColor: "#034488" }}
+                      onClick={() => {
+                        setEdit(index);
+                        setEduInitialValues(item);
+                        setShowEduForm(true);
+                      }}
+                    >
+                      Edit
+                    </button>
+                  </div>
                 </div>
-
               </div>
             );
           })}
         <div className="flex mx-auto justify-center text-center">
           <button
             className=" py-2  text-white rounded-lg block cursor-pointer px-8 my-5"
-            style={{backgroundColor:"#034488"}}
+            style={{ backgroundColor: "#034488" }}
             onClick={async () => {
               await setShowError(true);
 
@@ -865,7 +889,6 @@ export default function Tabs(props) {
                 description: null,
               });
               await setShowEduForm(true);
-
             }}
           >
             Add Education
@@ -873,7 +896,7 @@ export default function Tabs(props) {
 
           <button
             className="bg-blue-500 px-4 mx-2 py-1 text-white rounded-lg my-5"
-            style={{backgroundColor:"#034488"}}
+            style={{ backgroundColor: "#034488" }}
             onClick={() => update(user)}
           >
             Submit
@@ -885,12 +908,12 @@ export default function Tabs(props) {
             show={showEduForm}
             as={Fragment}
             className="relative z-1050 w-100"
-            style={{zIndex:1000}}
+            style={{ zIndex: 1000 }}
           >
             <Dialog
               as="div"
               className="relative z-1050"
-              onClose={() => { }}
+              onClose={() => {}}
               static={true}
             >
               <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
@@ -958,18 +981,20 @@ export default function Tabs(props) {
                           {({ values }) => {
                             return (
                               <Form className="w-full py-4">
-
                                 <div className="md:w-1/2  md:flex w-full  space-y-1 my-5">
-                                  <label className="font-semibold text-lg w-1/5 mx-5">School </label>
+                                  <label className="font-semibold text-lg w-1/5 mx-5">
+                                    School{" "}
+                                  </label>
 
-                                  <div className="w-4/5"><Field
-                                    name="school"
-                                    type="text"
-                                    placeholder="Ex. Boston University"
-                                    className=" block border-gray-400 py-1 w-full"
-                                    style={{ borderRadius: "10px" }}
-                                    value={values.school}
-                                  />
+                                  <div className="w-4/5">
+                                    <Field
+                                      name="school"
+                                      type="text"
+                                      placeholder="Ex. Boston University"
+                                      className=" block border-gray-400 py-1 w-full"
+                                      style={{ borderRadius: "10px" }}
+                                      value={values.school}
+                                    />
                                     <ErrorMessage
                                       name="school"
                                       component="div"
@@ -978,16 +1003,19 @@ export default function Tabs(props) {
                                   </div>
                                 </div>
                                 <div className="md:w-1/2  md:flex w-full  space-y-1 my-5">
-                                  <label className="font-semibold text-lg w-1/5 mx-5">Degree </label>
+                                  <label className="font-semibold text-lg w-1/5 mx-5">
+                                    Degree{" "}
+                                  </label>
 
-                                  <div className="w-4/5"><Field
-                                    name="degree"
-                                    type="text"
-                                    placeholder="Ex. Bachelor's"
-                                    className="block border-gray-400 py-1 w-full "
-                                    style={{ borderRadius: "10px" }}
-                                    value={values.degree}
-                                  />
+                                  <div className="w-4/5">
+                                    <Field
+                                      name="degree"
+                                      type="text"
+                                      placeholder="Ex. Bachelor's"
+                                      className="block border-gray-400 py-1 w-full "
+                                      style={{ borderRadius: "10px" }}
+                                      value={values.degree}
+                                    />
                                     <ErrorMessage
                                       name="degree"
                                       component="div"
@@ -996,16 +1024,19 @@ export default function Tabs(props) {
                                   </div>
                                 </div>
                                 <div className="md:w-1/2  md:flex w-full  space-y-1 my-5">
-                                  <label className="font-semibold text-lg w-1/5 mx-5">Field </label>
+                                  <label className="font-semibold text-lg w-1/5 mx-5">
+                                    Field{" "}
+                                  </label>
 
-                                  <div className="w-4/5"><Field
-                                    name="field_of_study"
-                                    type="text"
-                                    placeholder="Ex. Business"
-                                    className="block border-gray-400 py-1 w-full"
-                                    style={{ borderRadius: "10px" }}
-                                    value={values.field_of_study}
-                                  />
+                                  <div className="w-4/5">
+                                    <Field
+                                      name="field_of_study"
+                                      type="text"
+                                      placeholder="Ex. Business"
+                                      className="block border-gray-400 py-1 w-full"
+                                      style={{ borderRadius: "10px" }}
+                                      value={values.field_of_study}
+                                    />
                                     <ErrorMessage
                                       name="field_of_study"
                                       component="div"
@@ -1015,7 +1046,9 @@ export default function Tabs(props) {
                                 </div>
                                 <div className="flex  w-full md:w-1/2  flex-wrap">
                                   <div className=" my-3 md:w-1/2 flex ">
-                                    <label className="font-semibold text-lg mx-5">Start Date</label>
+                                    <label className="font-semibold text-lg mx-5">
+                                      Start Date
+                                    </label>
                                     <div className="">
                                       <Field
                                         name="start_date"
@@ -1032,7 +1065,9 @@ export default function Tabs(props) {
                                     </div>
                                   </div>
                                   <div className=" my-3 md:w-1/2 flex ">
-                                    <label className="font-semibold text-lg mx-5">End Date</label>
+                                    <label className="font-semibold text-lg mx-5">
+                                      End Date
+                                    </label>
                                     <div className="">
                                       <Field
                                         name="end_date"
@@ -1050,15 +1085,18 @@ export default function Tabs(props) {
                                   </div>
                                 </div>
                                 <div className="md:w-1/2  md:flex w-full  space-y-1 my-5">
-                                  <label className="font-semibold text-lg w-1/5 mx-5">Grade</label>
+                                  <label className="font-semibold text-lg w-1/5 mx-5">
+                                    Grade
+                                  </label>
 
-                                  <div className="w-4/5"><Field
-                                    name="grade"
-                                    type="text"
-                                    className="block border-gray-400 py-1 w-full"
-                                    style={{ borderRadius: "10px" }}
-                                    value={values.grade}
-                                  />
+                                  <div className="w-4/5">
+                                    <Field
+                                      name="grade"
+                                      type="text"
+                                      className="block border-gray-400 py-1 w-full"
+                                      style={{ borderRadius: "10px" }}
+                                      value={values.grade}
+                                    />
                                     <ErrorMessage
                                       name="grade"
                                       component="div"
@@ -1067,18 +1105,21 @@ export default function Tabs(props) {
                                   </div>
                                 </div>
                                 <div className="md:w-1/2  md:flex w-full  space-y-1 my-5">
-                                  <label className="font-semibold text-lg w-1/5 mx-5">Description</label>
+                                  <label className="font-semibold text-lg w-1/5 mx-5">
+                                    Description
+                                  </label>
 
-                                  <div className="w-4/5"><Field
-                                    name="description"
-                                    type="textarea"
-                                    className="block border-gray-400 py-1 w-full border-[0.5px] border-[#6b7280] p-2"
-                                    style={{
-                                      borderRadius: "10px",
-                                      border: "0.5px solid",
-                                    }}
-                                    value={values.description}
-                                  />
+                                  <div className="w-4/5">
+                                    <Field
+                                      name="description"
+                                      type="textarea"
+                                      className="block border-gray-400 py-1 w-full border-[0.5px] border-[#6b7280] p-2"
+                                      style={{
+                                        borderRadius: "10px",
+                                        border: "0.5px solid",
+                                      }}
+                                      value={values.description}
+                                    />
                                     <ErrorMessage
                                       name="description"
                                       component="div"
@@ -1174,17 +1215,17 @@ export default function Tabs(props) {
                       </p>
                     </div>
                     <div className="flex items-center space-x-2">
-                    <button
-                class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
-                style={{backgroundColor:"#034488"}}
-                onClick={() => {
-                  setEdit(index);
-                  setExInitialValues(item);
-                  setShowExForm(true);
-                }}
-              >
-                Edit
-              </button>
+                      <button
+                        class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
+                        style={{ backgroundColor: "#034488" }}
+                        onClick={() => {
+                          setEdit(index);
+                          setExInitialValues(item);
+                          setShowExForm(true);
+                        }}
+                      >
+                        Edit
+                      </button>
                     </div>
                   </div>
                   {item.description && (
@@ -1197,7 +1238,7 @@ export default function Tabs(props) {
           <div className=" flex justify-center text-center">
             <button
               className="  py-2 text-white rounded-lg block cursor-pointer px-8 my-5"
-              style={{backgroundColor:"#034488"}}
+              style={{ backgroundColor: "#034488" }}
               onClick={async () => {
                 await setShowError(true);
 
@@ -1219,7 +1260,7 @@ export default function Tabs(props) {
 
             <button
               className="bg-blue-500 px-4 mx-2 py-1 text-white rounded-lg my-5"
-              style={{backgroundColor:"#034488"}}
+              style={{ backgroundColor: "#034488" }}
               onClick={() => update(user)}
             >
               Submit
@@ -1233,15 +1274,18 @@ export default function Tabs(props) {
             show={showExForm}
             as={Fragment}
             className="relative z-10000"
-            style={{zIndex:1000}}
+            style={{ zIndex: 1000 }}
           >
             <Dialog
               as="div"
               className="relative z-10000"
-              onClose={() => { }}
+              onClose={() => {}}
               static={true}
             >
-              <div className="fixed inset-0 bg-black/30 z-10000" aria-hidden="true" />
+              <div
+                className="fixed inset-0 bg-black/30 z-10000"
+                aria-hidden="true"
+              />
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -1315,15 +1359,18 @@ export default function Tabs(props) {
                             return (
                               <Form className="w-full py-4">
                                 <div className="md:w-1/2  flex w-full  space-y-1 my-5">
-                                  <label className="font-semibold text-lg w-1/5 mx-5">Title </label>
-                                  <div className="w-4/5"><Field
-                                    name="title"
-                                    type="text"
-                                    placeholder="Ex. Manager"
-                                    className="block border-gray-400 py-1 w-full"
-                                    style={{ borderRadius: "10px" }}
-                                    value={values.title}
-                                  />
+                                  <label className="font-semibold text-lg w-1/5 mx-5">
+                                    Title{" "}
+                                  </label>
+                                  <div className="w-4/5">
+                                    <Field
+                                      name="title"
+                                      type="text"
+                                      placeholder="Ex. Manager"
+                                      className="block border-gray-400 py-1 w-full"
+                                      style={{ borderRadius: "10px" }}
+                                      value={values.title}
+                                    />
                                     <ErrorMessage
                                       name="title"
                                       component="div"
@@ -1332,27 +1379,34 @@ export default function Tabs(props) {
                                   </div>
                                 </div>
                                 <div className="md:w-1/2  flex w-full  space-y-1 my-5">
-                                  <label className="font-semibold text-lg w-1/5 mx-5">Employment Type </label>
+                                  <label className="font-semibold text-lg w-1/5 mx-5">
+                                    Employment Type{" "}
+                                  </label>
 
-                                  <div className="w-4/5"><Field
-                                    name="employment_type"
-                                    as="select"
-                                    className="block border-gray-400 py-1 w-full"
-                                    style={{ borderRadius: "10px" }}
-                                  >
-                                    <option value="">Please Select</option>
-                                    <option value="Full Time">Full Time</option>
-                                    <option value="Part Time">Part Time</option>
-                                    <option value="Self Employed">
-                                      Self Employed
-                                    </option>
-                                    <option value="Internship">
-                                      Internship
-                                    </option>
-                                    <option value="Free Lancer">
-                                      Free Lancer
-                                    </option>
-                                  </Field>
+                                  <div className="w-4/5">
+                                    <Field
+                                      name="employment_type"
+                                      as="select"
+                                      className="block border-gray-400 py-1 w-full"
+                                      style={{ borderRadius: "10px" }}
+                                    >
+                                      <option value="">Please Select</option>
+                                      <option value="Full Time">
+                                        Full Time
+                                      </option>
+                                      <option value="Part Time">
+                                        Part Time
+                                      </option>
+                                      <option value="Self Employed">
+                                        Self Employed
+                                      </option>
+                                      <option value="Internship">
+                                        Internship
+                                      </option>
+                                      <option value="Free Lancer">
+                                        Free Lancer
+                                      </option>
+                                    </Field>
                                     <ErrorMessage
                                       name="employment_type"
                                       component="div"
@@ -1361,16 +1415,19 @@ export default function Tabs(props) {
                                   </div>
                                 </div>
                                 <div className="md:w-1/2  flex w-full  space-y-1 my-5">
-                                  <label className="font-semibold text-lg w-1/5 mx-5">Company </label>
+                                  <label className="font-semibold text-lg w-1/5 mx-5">
+                                    Company{" "}
+                                  </label>
 
-                                  <div className="w-4/5"><Field
-                                    name="company_name"
-                                    type="text"
-                                    placeholder="Ex. Microsoft"
-                                    className="block border-gray-400 py-1 w-full"
-                                    style={{ borderRadius: "10px" }}
-                                    value={values.company_name}
-                                  />
+                                  <div className="w-4/5">
+                                    <Field
+                                      name="company_name"
+                                      type="text"
+                                      placeholder="Ex. Microsoft"
+                                      className="block border-gray-400 py-1 w-full"
+                                      style={{ borderRadius: "10px" }}
+                                      value={values.company_name}
+                                    />
                                     <ErrorMessage
                                       name="company_name"
                                       component="div"
@@ -1379,15 +1436,18 @@ export default function Tabs(props) {
                                   </div>
                                 </div>
                                 <div className="md:w-1/2  flex w-full  space-y-1 my-5">
-                                  <label className="font-semibold text-lg w-1/5 mx-5">Location </label>
-                                  <div className="w-4/5"><Field
-                                    name="location"
-                                    type="text"
-                                    placeholder="Ex. London"
-                                    className="block border-gray-400 py-1 w-full"
-                                    style={{ borderRadius: "10px" }}
-                                    value={values.location}
-                                  />
+                                  <label className="font-semibold text-lg w-1/5 mx-5">
+                                    Location{" "}
+                                  </label>
+                                  <div className="w-4/5">
+                                    <Field
+                                      name="location"
+                                      type="text"
+                                      placeholder="Ex. London"
+                                      className="block border-gray-400 py-1 w-full"
+                                      style={{ borderRadius: "10px" }}
+                                      value={values.location}
+                                    />
                                     <ErrorMessage
                                       name="location"
                                       component="div"
@@ -1397,14 +1457,17 @@ export default function Tabs(props) {
                                 </div>
                                 <div className="flex md:w-1/2  w-full flex-wrap">
                                   <div className=" my-3 md:w-1/2 flex pr-2">
-                                    <label className="font-semibold text-lg mx-5">Start Date </label>
-                                    <div className="w-4/5"><Field
-                                      name="start_date"
-                                      type="month"
-                                      className="block border-gray-400 py-1"
-                                      style={{ borderRadius: "10px" }}
-                                      value={values.start_date}
-                                    />
+                                    <label className="font-semibold text-lg mx-5">
+                                      Start Date{" "}
+                                    </label>
+                                    <div className="w-4/5">
+                                      <Field
+                                        name="start_date"
+                                        type="month"
+                                        className="block border-gray-400 py-1"
+                                        style={{ borderRadius: "10px" }}
+                                        value={values.start_date}
+                                      />
                                       <ErrorMessage
                                         name="start_date"
                                         component="div"
@@ -1413,14 +1476,17 @@ export default function Tabs(props) {
                                     </div>
                                   </div>
                                   <div className=" my-3 md:w-1/2 flex pr-2">
-                                    <label className="font-semibold text-lg mx-5">End Date</label>
-                                    <div className="w-4/5"><Field
-                                      name="end_date"
-                                      type="month"
-                                      className="block border-gray-400 py-1"
-                                      style={{ borderRadius: "10px" }}
-                                      value={values.end_date}
-                                    />
+                                    <label className="font-semibold text-lg mx-5">
+                                      End Date
+                                    </label>
+                                    <div className="w-4/5">
+                                      <Field
+                                        name="end_date"
+                                        type="month"
+                                        className="block border-gray-400 py-1"
+                                        style={{ borderRadius: "10px" }}
+                                        value={values.end_date}
+                                      />
                                       <ErrorMessage
                                         name="end_date"
                                         component="div"
@@ -1430,14 +1496,17 @@ export default function Tabs(props) {
                                   </div>
                                 </div>
                                 <div className="md:w-1/2  flex w-full  space-y-1 my-5">
-                                  <label className="font-semibold text-lg w-1/5 mx-5">Industry </label>
-                                  <div className="w-4/5"><Field
-                                    name="industry"
-                                    type="text"
-                                    className="block border-gray-400 py-1 w-full"
-                                    style={{ borderRadius: "10px" }}
-                                    value={values.industry}
-                                  />
+                                  <label className="font-semibold text-lg w-1/5 mx-5">
+                                    Industry{" "}
+                                  </label>
+                                  <div className="w-4/5">
+                                    <Field
+                                      name="industry"
+                                      type="text"
+                                      className="block border-gray-400 py-1 w-full"
+                                      style={{ borderRadius: "10px" }}
+                                      value={values.industry}
+                                    />
                                     <ErrorMessage
                                       name="industry"
                                       component="div"
@@ -1446,17 +1515,20 @@ export default function Tabs(props) {
                                   </div>
                                 </div>
                                 <div className="md:w-1/2  flex w-full  space-y-1 my-5">
-                                  <label className="font-semibold text-lg w-1/5 mx-5">Description</label>
-                                  <div className="w-4/5"><Field
-                                    name="description"
-                                    type="textarea"
-                                    className="block border-gray-400 py-1 w-full border-[0.5px] border-[#6b7280] p-2"
-                                    style={{
-                                      borderRadius: "10px",
-                                      border: "0.5px solid",
-                                    }}
-                                    value={values.description}
-                                  />
+                                  <label className="font-semibold text-lg w-1/5 mx-5">
+                                    Description
+                                  </label>
+                                  <div className="w-4/5">
+                                    <Field
+                                      name="description"
+                                      type="textarea"
+                                      className="block border-gray-400 py-1 w-full border-[0.5px] border-[#6b7280] p-2"
+                                      style={{
+                                        borderRadius: "10px",
+                                        border: "0.5px solid",
+                                      }}
+                                      value={values.description}
+                                    />
                                     <ErrorMessage
                                       name="description"
                                       component="div"
@@ -1540,12 +1612,12 @@ export default function Tabs(props) {
                       <FaRegBuilding />
                       <p>{item.company_name}</p>
                     </div>
-                   
-                      <div className="space-x-2 flex items-center">
-                    <CgWorkAlt />
-                    <p>{item.industry}</p>
-                  </div>
-                  
+
+                    <div className="space-x-2 flex items-center">
+                      <CgWorkAlt />
+                      <p>{item.industry}</p>
+                    </div>
+
                     <div className="flex items-center space-x-2 my-2">
                       <BsCalendar />
                       <p className="text-sm text-gray-600 mr-5">
@@ -1553,17 +1625,17 @@ export default function Tabs(props) {
                       </p>
                     </div>
                     <div className="flex items-center space-x-2">
-                    <button
-                class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
-                style={{backgroundColor:"#034488"}}
-                onClick={() => {
-                  setEdit(index);
-                  setAsInitialValues(item);
-                  setShowAsForm(true);
-                }}
-              >
-                Edit
-              </button>
+                      <button
+                        class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
+                        style={{ backgroundColor: "#034488" }}
+                        onClick={() => {
+                          setEdit(index);
+                          setAsInitialValues(item);
+                          setShowAsForm(true);
+                        }}
+                      >
+                        Edit
+                      </button>
                     </div>
                   </div>
                   {item.description && (
@@ -1576,7 +1648,7 @@ export default function Tabs(props) {
           <div className="flex mx-auto justify-center text-center">
             <button
               className="py-2  text-white rounded-lg block cursor-pointer px-8 my-5"
-              style={{backgroundColor:"#034488"}}
+              style={{ backgroundColor: "#034488" }}
               onClick={async () => {
                 await setShowError(true);
 
@@ -1591,7 +1663,6 @@ export default function Tabs(props) {
                   description: null,
                 });
                 await setShowAsForm(true);
-
               }}
             >
               Add Association
@@ -1599,7 +1670,7 @@ export default function Tabs(props) {
 
             <button
               className="bg-blue-500 px-4 mx-2 py-1 text-white rounded-lg my-5"
-              style={{backgroundColor:"#034488"}}
+              style={{ backgroundColor: "#034488" }}
               onClick={() => update(user)}
             >
               Submit
@@ -1607,19 +1678,18 @@ export default function Tabs(props) {
           </div>
         </div>
 
-
         {showAsForm && (
           <Transition
             appear
             show={showAsForm}
             as={Fragment}
             className="relative z-10000"
-            style={{zIndex:1000}}
+            style={{ zIndex: 1000 }}
           >
             <Dialog
               as="div"
               className="relative z-10000"
-              onClose={() => { }}
+              onClose={() => {}}
               static={true}
             >
               <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
@@ -1694,26 +1764,32 @@ export default function Tabs(props) {
                             return (
                               <Form className="w-full py-4">
                                 <div className="md:w-1/2  flex w-full  space-y-1 my-5">
-                                  <label className="font-semibold text-lg w-1/5 mx-5">Title </label>
-                                  <div className="w-4/5"><Field
-                                    name="title"
-                                    type="text"
-                                    placeholder="Ex. Manager"
-                                    className="block border-gray-400 py-1 w-full"
-                                    style={{ borderRadius: "10px" }}
-                                    value={values.title}
-                                  />
+                                  <label className="font-semibold text-lg w-1/5 mx-5">
+                                    Title{" "}
+                                  </label>
+                                  <div className="w-4/5">
+                                    <Field
+                                      name="title"
+                                      type="text"
+                                      placeholder="Ex. Manager"
+                                      className="block border-gray-400 py-1 w-full"
+                                      style={{ borderRadius: "10px" }}
+                                      value={values.title}
+                                    />
                                     <ErrorMessage
                                       name="title"
                                       component="div"
                                       className="text-sm text-red-600"
                                     />
                                   </div>
-                                  </div>
+                                </div>
 
-                                  <div className="md:w-1/2  flex w-full  space-y-1 my-5">
-                                    <label className="font-semibold text-lg w-1/5 mx-5">Company </label>
-                                    <div className="w-4/5"><Field
+                                <div className="md:w-1/2  flex w-full  space-y-1 my-5">
+                                  <label className="font-semibold text-lg w-1/5 mx-5">
+                                    Company{" "}
+                                  </label>
+                                  <div className="w-4/5">
+                                    <Field
                                       name="company_name"
                                       type="text"
                                       placeholder="Ex. Microsoft"
@@ -1721,349 +1797,369 @@ export default function Tabs(props) {
                                       style={{ borderRadius: "10px" }}
                                       value={values.company_name}
                                     />
-                                      <ErrorMessage
-                                        name="company_name"
-                                        component="div"
-                                        className="text-sm text-red-600"
-                                      />
-                                    </div>
-                                    </div>
-                                    <div className="md:w-1/2  flex w-full  space-y-1 my-5">
-                                      <label className="font-semibold text-lg w-1/5 mx-5">Location </label>
-                                      <div className="w-4/5"><Field
-                                        name="location"
-                                        type="text"
-                                        placeholder="Ex. London"
-                                        className="block border-gray-400 py-1 w-full"
-                                        style={{ borderRadius: "10px" }}
-                                        value={values.location}
-                                      />
-                                        <ErrorMessage
-                                          name="location"
-                                          component="div"
-                                          className="text-sm text-red-600"
-                                        />
-                                      </div>
-                                      </div>
-                                      <div className="flex md:w-1/2  w-full flex-wrap">
-                                        <div className=" my-3 md:w-1/2 flex pr-2">
-                                          <label className="font-semibold text-lg mx-5">Start Date </label>
-                                          <Field
-                                            name="start_date"
-                                            type="month"
-                                            className="block border-gray-400 py-1"
-                                            style={{ borderRadius: "10px" }}
-                                            value={values.start_date}
-                                          />
-                                          <ErrorMessage
-                                            name="start_date"
-                                            component="div"
-                                            className="text-sm text-red-600"
-                                          />
-                                        </div>
-                                        <div className=" my-3 md:w-1/2 flex pr-2">
-                                          <label className="font-semibold text-lg mx-5">End Date</label>
-                                          <Field
-                                            name="end_date"
-                                            type="month"
-                                            className="block border-gray-400 py-1"
-                                            style={{ borderRadius: "10px" }}
-                                            value={values.end_date}
-                                          />
-                                          <ErrorMessage
-                                            name="end_date"
-                                            component="div"
-                                            className="text-sm text-red-600"
-                                          />
-                                        </div>
-                                      </div>
-                                      <div className="md:w-1/2  flex w-full  space-y-1 my-5">
-                                        <label className="font-semibold text-lg w-1/5 mx-5">Industry </label>
-                                        <div className="w-4/5"><Field
-                                          name="industry"
-                                          type="text"
-                                          className="block border-gray-400 py-1 w-full"
-                                          style={{ borderRadius: "10px" }}
-                                          value={values.industry}
-                                        />
-                                          <ErrorMessage
-                                            name="industry"
-                                            component="div"
-                                            className="text-sm text-red-600"
-                                          />
-                                        </div>
-                                      </div>
-                                      <div className="md:w-1/2  flex w-full  space-y-1 my-5">
-                                        <label className="font-semibold text-lg w-1/5 mx-5">Description</label>
-                                        <div className="w-4/5"><Field
-                                          name="description"
-                                          type="textarea"
-                                          className="block border-gray-400 py-1 w-full border-[0.5px] border-[#6b7280] p-2"
-                                          style={{
-                                            borderRadius: "10px",
-                                            border: "0.5px solid",
-                                          }}
-                                          value={values.description}
-                                        />
-                                          <ErrorMessage
-                                            name="description"
-                                            component="div"
-                                            className="text-sm text-red-600"
-                                          />
-                                        </div>
-                                      </div>
-                                      <div className="flex px-5 w-full justify-center text-center">
-                                        <button
-                                          onClick={() => updateAssociation(values)}
-                                          className=" bg-blue-600  text-white rounded-lg block cursor-pointer px-8 align-middle"
-                                        >
-                                          {edit === null ? "Add " : "Update"}
-                                        </button>
-                                        <button
-                                          type="button"
-                                          className=" border-[0.5px] mx-3 border-red-600 text-red-600 rounded-lg block cursor-pointer px-8"
-                                          ref={resetBtn}
-                                          onClick={async () => {
-                                            await setShowError(false);
-                                            await setShowAsForm(false);
-                                          }}
-                                        >
-                                          Cancel
-                                        </button>
-                                      </div>
-                                    </Form>
-
-                                    );
-                          }}
-                                  </Formik>
+                                    <ErrorMessage
+                                      name="company_name"
+                                      component="div"
+                                      className="text-sm text-red-600"
+                                    />
+                                  </div>
                                 </div>
-                              </Dialog.Panel>
-                                  </Transition.Child>
-                      </div>
-                    </div>
-                  </Dialog>
-                </Transition>
-        )}
-              </div>
-              <div className="tabContent bg-white p-5" hidden={index !== 4}>
-                {user !== null && user !== undefined && (
-                  <div>
-                    <label className="font-semibold text-lg w-2/5 mx-5">Skills</label>
-                    <div className="my-3 px-4 flex items-center flex-wrap">
-                      <input
-                        type="text"
-                        className="w-3/4 text-600 border-[0.5px] border-[#6b7280] p-2"
-                        placeholder="Search Skill..."
-                        ref={inputSkillRef}
-                        onChange={async () => {
-                          let role = new Set([]);
-                          if (
-                            inputSkillRef.current.value.trim() !== "" ||
-                            !inputSkillRef ||
-                            !inputSkillRef.current.value
-                          ) {
-                            dbSkills.forEach((el) => {
-                              if (
-                                el.role
-                                  .toLowerCase()
-                                  .includes(inputSkillRef.current.value.toLowerCase())
-                              ) {
-                                role.add(el.role);
-                              } else if (
-                                el.primarySkill
-                                  .toLowerCase()
-                                  .includes(inputSkillRef.current.value.toLowerCase())
-                              ) {
-                                role.add(el.role);
-                              } else if (
-                                el.secondarySkill
-                                  .toLowerCase()
-                                  .includes(inputSkillRef.current.value.toLowerCase())
-                              ) {
-                                role.add(el.role);
-                              }
-                            });
-                            await setShowRoles(Array.from(role));
-                          } else {
-                            await setShowRoles(roles);
-                          }
-                        }}
-                      />
-                      <button className="h-10 bg-blue-600 text-white rounded-lg block cursor-pointer px-8 align-middle ml-3">
-                        Search
-                      </button>
-                    </div>
-                    <div className="md:w-1/2  flex w-full  space-y-1 my-5">
-
-                      <div className="w-full">
-                        {showRoles &&
-                          showRoles.map((el, index) => {
-                            return (
-                              <div key={index}>
-                                <Disclosure>
-                                  {({ open }) => (
-                                    <div className={`${open ? "shadow-md" : ""}`}>
-                                      <Disclosure.Button className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-2 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${open ? "shadow-lg " : ""}`}>
-                                        <span>{el}</span>
-                                        <ChevronUpIcon
-                                          className={`${!open ? "rotate-180 transform" : ""
-                                            } h-5 w-5 text-blue-500`}
-                                        />
-                                      </Disclosure.Button>
-                                      <Disclosure.Panel className="p-3 px-4">
-                                        {primarySkills[el].map((skill, index) => {
-                                          return (
-                                            <div>
-                                              <Disclosure>
-                                                {({ open }) => (
-                                                  <div className={`${open ? "shadow-md" : ""}`}>
-                                                    <Disclosure.Button className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-2 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${open ? "shadow-lg" : ""} `}>
-                                                      <span>{skill}</span>
-                                                      <ChevronUpIcon
-                                                        className={`${!open
-                                                          ? "rotate-180 transform"
-                                                          : ""
-                                                          } h-5 w-5 text-blue-500`}
-                                                      />
-                                                    </Disclosure.Button>
-                                                    <Disclosure.Panel className="p-3 px-12">
-                                                      {dbSkills
-                                                        .filter((secSkill) => {
-                                                          return (
-                                                            secSkill.primarySkill ===
-                                                            skill &&
-                                                            secSkill.role === el
-                                                          );
-                                                        })
-                                                        .map((secSkill, index) => {
-                                                          let d = dbSkills;
-                                                          let index1 = d.findIndex(
-                                                            (el) => {
-                                                              return el === secSkill;
-                                                            }
-                                                          );
-                                                          return (
-                                                            <div className="flex my-2 text-sm justify-between items-center px-3">
-                                                              <p>
-                                                                {
-                                                                  secSkill.secondarySkill
-                                                                }
-                                                              </p>
-
-                                                              <div className="flex items-center space-x-2">
-                                                                <p>0</p>
-                                                                <input
-                                                                  type="range"
-                                                                  min="0"
-                                                                  max="5"
-                                                                  value={prof[index1]}
-                                                                  onChange={async (
-                                                                    e
-                                                                  ) => {
-                                                                    let d = dbSkills;
-                                                                    d[index1] = {
-                                                                      ...d[index1],
-                                                                      proficiency:
-                                                                        e.target.value,
-                                                                    };
-                                                                    let p = prof;
-                                                                    prof[index1] =
-                                                                      e.target.value;
-                                                                    await localStorage.setItem(
-                                                                      "prof",
-                                                                      JSON.stringify(p)
-                                                                    );
-                                                                    await setProf([
-                                                                      ...p,
-                                                                    ]);
-                                                                    await setDbSkills([
-                                                                      ...d,
-                                                                    ]);
-                                                                    if (
-                                                                      e.target.value > 0
-                                                                    ) {
-                                                                      let u = user;
-                                                                      let to = u.tools;
-                                                                      to.push({
-                                                                        proficiency:
-                                                                          e.target
-                                                                            .value,
-                                                                        ...secSkill,
-                                                                      });
-                                                                      u.tools = to;
-                                                                      await setUser({
-                                                                        ...u,
-                                                                      });
-                                                                    }
-                                                                  }}
-                                                                />
-                                                                <p>5</p>
-                                                              </div>
-                                                            </div>
-                                                          );
-                                                        })}
-                                                    </Disclosure.Panel>
-                                                  </div>
-                                                )}
-                                              </Disclosure>
-                                            </div>
-                                          );
-                                        })}
-                                      </Disclosure.Panel>
-                                    </div>
-                                  )}
-                                </Disclosure>
-                              </div>
+                                <div className="md:w-1/2  flex w-full  space-y-1 my-5">
+                                  <label className="font-semibold text-lg w-1/5 mx-5">
+                                    Location{" "}
+                                  </label>
+                                  <div className="w-4/5">
+                                    <Field
+                                      name="location"
+                                      type="text"
+                                      placeholder="Ex. London"
+                                      className="block border-gray-400 py-1 w-full"
+                                      style={{ borderRadius: "10px" }}
+                                      value={values.location}
+                                    />
+                                    <ErrorMessage
+                                      name="location"
+                                      component="div"
+                                      className="text-sm text-red-600"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="flex md:w-1/2  w-full flex-wrap">
+                                  <div className=" my-3 md:w-1/2 flex pr-2">
+                                    <label className="font-semibold text-lg mx-5">
+                                      Start Date{" "}
+                                    </label>
+                                    <Field
+                                      name="start_date"
+                                      type="month"
+                                      className="block border-gray-400 py-1"
+                                      style={{ borderRadius: "10px" }}
+                                      value={values.start_date}
+                                    />
+                                    <ErrorMessage
+                                      name="start_date"
+                                      component="div"
+                                      className="text-sm text-red-600"
+                                    />
+                                  </div>
+                                  <div className=" my-3 md:w-1/2 flex pr-2">
+                                    <label className="font-semibold text-lg mx-5">
+                                      End Date
+                                    </label>
+                                    <Field
+                                      name="end_date"
+                                      type="month"
+                                      className="block border-gray-400 py-1"
+                                      style={{ borderRadius: "10px" }}
+                                      value={values.end_date}
+                                    />
+                                    <ErrorMessage
+                                      name="end_date"
+                                      component="div"
+                                      className="text-sm text-red-600"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="md:w-1/2  flex w-full  space-y-1 my-5">
+                                  <label className="font-semibold text-lg w-1/5 mx-5">
+                                    Industry{" "}
+                                  </label>
+                                  <div className="w-4/5">
+                                    <Field
+                                      name="industry"
+                                      type="text"
+                                      className="block border-gray-400 py-1 w-full"
+                                      style={{ borderRadius: "10px" }}
+                                      value={values.industry}
+                                    />
+                                    <ErrorMessage
+                                      name="industry"
+                                      component="div"
+                                      className="text-sm text-red-600"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="md:w-1/2  flex w-full  space-y-1 my-5">
+                                  <label className="font-semibold text-lg w-1/5 mx-5">
+                                    Description
+                                  </label>
+                                  <div className="w-4/5">
+                                    <Field
+                                      name="description"
+                                      type="textarea"
+                                      className="block border-gray-400 py-1 w-full border-[0.5px] border-[#6b7280] p-2"
+                                      style={{
+                                        borderRadius: "10px",
+                                        border: "0.5px solid",
+                                      }}
+                                      value={values.description}
+                                    />
+                                    <ErrorMessage
+                                      name="description"
+                                      component="div"
+                                      className="text-sm text-red-600"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="flex px-5 w-full justify-center text-center">
+                                  <button
+                                    onClick={() => updateAssociation(values)}
+                                    className=" bg-blue-600  text-white rounded-lg block cursor-pointer px-8 align-middle"
+                                  >
+                                    {edit === null ? "Add " : "Update"}
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className=" border-[0.5px] mx-3 border-red-600 text-red-600 rounded-lg block cursor-pointer px-8"
+                                    ref={resetBtn}
+                                    onClick={async () => {
+                                      await setShowError(false);
+                                      await setShowAsForm(false);
+                                    }}
+                                  >
+                                    Cancel
+                                  </button>
+                                </div>
+                              </Form>
                             );
-                          })}
+                          }}
+                        </Formik>
                       </div>
-                    </div>
-
-
-                    <div className="p-5">
-                      {rolesC
-                        ? rolesC.map((item, index) => {
-                          return (
-                            <div>
-                              <p className="font-semibold text-md md:w-1/2  flex w-full  space-y-1 my-5">{item}</p>
-                              {skillsPrimary[item].map((el) => (
-                                <div>
-                                  <p className="text-sm my-2">{el}</p>
-                                  {user.tools
-                                    .filter(
-                                      (tool) =>
-                                        tool.role === item && tool.primarySkill === el
-                                    )
-                                    .map((item1, index) => (
-                                      <span class="bg-blue-100 text-blue-800 text-xs my-4 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
-                                        {item1.secondarySkill}{" "}
-                                        {item1.proficiency &&
-                                          `(${item1.proficiency})`}
-                                      </span>
-                                    ))}
-                                </div>
-                              ))}
-                            </div>
-                          );
-                        })
-                        : "No Skills"}
-                    </div>
-                  </div>
-                )}
-
-                <div className="md:w-1/2  flex w-full  space-y-1 my-5">
-                  <label className="font-semibold text-lg w-2/5 my-4">Resume</label>
-                  {/* <input type="file" value={user.resume} /> */}
+                    </Dialog.Panel>
+                  </Transition.Child>
                 </div>
+              </div>
+            </Dialog>
+          </Transition>
+        )}
+      </div>
+      <div className="tabContent bg-white p-5" hidden={index !== 4}>
+        {user !== null && user !== undefined && (
+          <div>
+            <label className="font-semibold text-lg w-2/5 mx-5">Skills</label>
+            <div className="my-3 px-4 flex items-center flex-wrap">
+              <input
+                type="text"
+                className="w-3/4 text-600 border-[0.5px] border-[#6b7280] p-2"
+                placeholder="Search Skill..."
+                ref={inputSkillRef}
+                onChange={async () => {
+                  let role = new Set([]);
+                  if (
+                    inputSkillRef.current.value.trim() !== "" ||
+                    !inputSkillRef ||
+                    !inputSkillRef.current.value
+                  ) {
+                    dbSkills.forEach((el) => {
+                      if (
+                        el.role
+                          .toLowerCase()
+                          .includes(inputSkillRef.current.value.toLowerCase())
+                      ) {
+                        role.add(el.role);
+                      } else if (
+                        el.primarySkill
+                          .toLowerCase()
+                          .includes(inputSkillRef.current.value.toLowerCase())
+                      ) {
+                        role.add(el.role);
+                      } else if (
+                        el.secondarySkill
+                          .toLowerCase()
+                          .includes(inputSkillRef.current.value.toLowerCase())
+                      ) {
+                        role.add(el.role);
+                      }
+                    });
+                    await setShowRoles(Array.from(role));
+                  } else {
+                    await setShowRoles(roles);
+                  }
+                }}
+              />
+              <button className="h-10 bg-[#034488] text-white rounded-lg block cursor-pointer px-8 align-middle ml-3">
+                Search
+              </button>
+            </div>
+            <div className="md:w-1/2  flex w-full  space-y-1 my-5">
+              <div className="w-full">
+                {showRoles &&
+                  showRoles.map((el, index) => {
+                    return (
+                      <div key={index}>
+                        <Disclosure>
+                          {({ open }) => (
+                            <div className={`${open ? "shadow-md" : ""}`}>
+                              <Disclosure.Button
+                                className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-2 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${
+                                  open ? "shadow-lg " : ""
+                                }`}
+                              >
+                                <span>{el}</span>
+                                <ChevronUpIcon
+                                  className={`${
+                                    !open ? "rotate-180 transform" : ""
+                                  } h-5 w-5 text-blue-500`}
+                                />
+                              </Disclosure.Button>
+                              <Disclosure.Panel className="p-3 px-4">
+                                {primarySkills[el].map((skill, index) => {
+                                  return (
+                                    <div>
+                                      <Disclosure>
+                                        {({ open }) => (
+                                          <div
+                                            className={`${
+                                              open ? "shadow-md" : ""
+                                            }`}
+                                          >
+                                            <Disclosure.Button
+                                              className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-2 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${
+                                                open ? "shadow-lg" : ""
+                                              } `}
+                                            >
+                                              <span>{skill}</span>
+                                              <ChevronUpIcon
+                                                className={`${
+                                                  !open
+                                                    ? "rotate-180 transform"
+                                                    : ""
+                                                } h-5 w-5 text-blue-500`}
+                                              />
+                                            </Disclosure.Button>
+                                            <Disclosure.Panel className="p-3 px-12">
+                                              {dbSkills
+                                                .filter((secSkill) => {
+                                                  return (
+                                                    secSkill.primarySkill ===
+                                                      skill &&
+                                                    secSkill.role === el
+                                                  );
+                                                })
+                                                .map((secSkill, index) => {
+                                                  let d = dbSkills;
+                                                  let index1 = d.findIndex(
+                                                    (el) => {
+                                                      return el === secSkill;
+                                                    }
+                                                  );
+                                                  return (
+                                                    <div className="flex my-2 text-sm justify-between items-center px-3">
+                                                      <p>
+                                                        {
+                                                          secSkill.secondarySkill
+                                                        }
+                                                      </p>
 
-                <button
-                  className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-lg my-5"
-                  style={{ backgroundColor: " rgb(59 130 246)" }}
-                  onClick={() => update(user)}
-                >
-                  Submit
-                </button>
+                                                      <div className="flex items-center space-x-2">
+                                                        <p>0</p>
+                                                        <input
+                                                          type="range"
+                                                          min="0"
+                                                          max="5"
+                                                          value={prof[index1]}
+                                                          onChange={async (
+                                                            e
+                                                          ) => {
+                                                            let d = dbSkills;
+                                                            d[index1] = {
+                                                              ...d[index1],
+                                                              proficiency:
+                                                                e.target.value,
+                                                            };
+                                                            let p = prof;
+                                                            prof[index1] =
+                                                              e.target.value;
+                                                            await localStorage.setItem(
+                                                              "prof",
+                                                              JSON.stringify(p)
+                                                            );
+                                                            await setProf([
+                                                              ...p,
+                                                            ]);
+                                                            await setDbSkills([
+                                                              ...d,
+                                                            ]);
+                                                            if (
+                                                              e.target.value > 0
+                                                            ) {
+                                                              let u = user;
+                                                              let to = u.tools;
+                                                              to.push({
+                                                                proficiency:
+                                                                  e.target
+                                                                    .value,
+                                                                ...secSkill,
+                                                              });
+                                                              u.tools = to;
+                                                              await setUser({
+                                                                ...u,
+                                                              });
+                                                            }
+                                                          }}
+                                                        />
+                                                        <p>5</p>
+                                                      </div>
+                                                    </div>
+                                                  );
+                                                })}
+                                            </Disclosure.Panel>
+                                          </div>
+                                        )}
+                                      </Disclosure>
+                                    </div>
+                                  );
+                                })}
+                              </Disclosure.Panel>
+                            </div>
+                          )}
+                        </Disclosure>
+                      </div>
+                    );
+                  })}
               </div>
             </div>
-            );
+
+            <div className="p-5">
+              {rolesC
+                ? rolesC.map((item, index) => {
+                    return (
+                      <div>
+                        <p className="font-semibold text-md md:w-1/2  flex w-full  space-y-1 my-5">
+                          {item}
+                        </p>
+                        {skillsPrimary[item].map((el) => (
+                          <div>
+                            <p className="text-sm my-2">{el}</p>
+                            {user.tools
+                              .filter(
+                                (tool) =>
+                                  tool.role === item && tool.primarySkill === el
+                              )
+                              .map((item1, index) => (
+                                <span class="bg-blue-100 text-blue-800 text-xs my-4 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
+                                  {item1.secondarySkill}{" "}
+                                  {item1.proficiency &&
+                                    `(${item1.proficiency})`}
+                                </span>
+                              ))}
+                          </div>
+                        ))}
+                      </div>
+                    );
+                  })
+                : "No Skills"}
+            </div>
+          </div>
+        )}
+
+        <button
+          className="bg-[#034488] px-2 mx-2 py-1 text-white rounded-lg my-5"
+          onClick={() => update(user)}
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+  );
 }
