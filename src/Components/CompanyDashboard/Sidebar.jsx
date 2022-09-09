@@ -112,7 +112,7 @@ const Sidebar = () => {
 
 
 {/* <hr></hr> */}
-<p className='text-gray-400 font-semibold font-sm mx-4 my-5'>Analytics</p>
+<p className='text-gray-400 font-bold text-xs mx-4 my-7 py-2'>ANALYTICS</p>
                 {companyDashboardRoutes.map((item) => {
                   if (item.hide === false && permission[item.permission] !== false)
                     return (

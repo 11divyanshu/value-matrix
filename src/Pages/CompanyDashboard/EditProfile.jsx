@@ -159,12 +159,12 @@ const EditCompanyProfile = () => {
       if (user && user.profileImg) {
         let image = JSON.parse(await localStorage.getItem("profileImg"));
         console.log(image);
-        let base64string = btoa(
-          String.fromCharCode(...new Uint8Array(image.data))
-        );
-        let src = `data:image/png;base64,${base64string}`;
-        console.log(src);
-        await setProfilePic(src);
+        // let base64string = btoa(
+        //   String.fromCharCode(...new Uint8Array(image.data))
+        // );
+        // let src = `data:image/png;base64,${base64string}`;
+        // console.log(src);
+        // await setProfilePic(src);
       }
       setUser(user);
       setToken(access_token1);
