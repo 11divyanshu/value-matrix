@@ -27,11 +27,12 @@ const CompanyProfile = () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       let access_token = localStorage.getItem("access_token");
       if (user && user.profileImg) {
-        const img = user.profileImg;
-        const imgBase64 = img.toString("base64");
-        console.log(imgBase64);
-        setProfileImg(img);
-        setProfileImg(imgBase64);
+        let image = JSON.parse(await localStorage.getItem("profileImg"));
+        let base64string = btoa(
+          String.fromCharCode(...new Uint8Array(image.data))
+        );
+        let src = `data:image/png;base64,${base64string}`;
+        await setProfileImg(src);
       }
       if (access_token === null) window.location.href = "/login";
 

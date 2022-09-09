@@ -4,6 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 
 // Components And API services
 import {
+  getProfileImage,
   updateContactOTP,
   updateEmailOTP,
   updateUserDetails,
@@ -150,7 +151,9 @@ const EditCompanyProfile = () => {
   React.useEffect(() => {
     const initial = async () => {
       let access_token1 = await localStorage.getItem("access_token");
-      let user = await localStorage.getItem("user");
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let user1 = await getProfileImage({id: user._id}, user.access_token);
+      console.log(user1.data);
       if (access_token1 === "null")
         await localStorage.setItem("access_token", user.access_token);
       if (user && user.profileImg) {
@@ -163,7 +166,7 @@ const EditCompanyProfile = () => {
         console.log(src);
         await setProfilePic(src);
       }
-      setUser(JSON.parse(user));
+      setUser(user);
       setToken(access_token1);
     };
     initial();
@@ -180,10 +183,10 @@ const EditCompanyProfile = () => {
           <div className="relative  rounded-md w-full py-3 md:flex items-center ">
             <div className="absolute  sm:left-10 -top-20 md:-top-28 md:left-20 " >
               <img
-                // src={
-                //   user && user.profileImg ? user.profileImg : Avatar
-                // }
-                src={Avatar}
+                src={
+                  user && user.profileImg && ProfilePic ? ProfilePic : Avatar
+                }
+                // src={Avatar}
                 className="sm:h-20 sm:w-20 md:h-56 md:w-56 rounded-full"
                 alt="userAvatar"
               />
@@ -359,7 +362,7 @@ const EditCompanyProfile = () => {
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog relative w-[40vw] pointer-events-none my-5">
+        <div class="modal-dialog modal-dialog-centered relative w-[40vw] pointer-events-none my-24 ">
           <div class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
             <div class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
               <h5
@@ -375,7 +378,7 @@ const EditCompanyProfile = () => {
           </div>
           <button
             type="button"
-            class="hideen px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+            class="hidden px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
             data-bs-dismiss="modal"
             ref={ModalRef}
           >
