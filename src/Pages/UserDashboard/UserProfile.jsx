@@ -37,10 +37,10 @@ const UserProfile = () => {
   }, []);
 
   return (
-    <div className="p-5 bg-slate-100">
+    <div className="pl-2 h-100 bg-slate-100">
       {/* <p className="text-2xl font-bold" style={{ color: "#3B82F6" }}>Company Details</p> */}
       {user !== null && user !== undefined && (
-        <div className="m-3">
+        <div className="m-1">
           <div
             className="md:h-48 h-24 w-full relative"
             style={{ background: "#99DEFF" }}

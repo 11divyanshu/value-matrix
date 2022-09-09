@@ -55,6 +55,7 @@ export default function Tabs() {
         primarySkills[el] = Array.from(primarySkills[el]);
       });
       setSkillsPrimary(primarySkills);
+      console.log(user);
       await setUser(user);
     };
     func();
@@ -361,8 +362,6 @@ export default function Tabs() {
                                 .map((item1, index) => (
                                   <span class="bg-blue-100 text-blue-800 text-xs my-4 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
                                     {item1.secondarySkill}{" "}
-                                    {item1.proficiency &&
-                                      `(${item1.proficiency})`}
                                   </span>
                                 ))}
                             </div>

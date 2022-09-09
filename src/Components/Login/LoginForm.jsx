@@ -225,56 +225,56 @@ const LoginForm = (props) => {
         </div>
         <div className="flex justify-center space-x-2 h-7 mt-3">
           <form action={`${url}/auth/google`}>
-            <div className="flex px-2 py-1 border border-gray-300">
-            <button type="submit">
-              <img
-                src={Google}
-                alt="google-login"
-                className="cursor-pointer h-3"
-              />
-            </button>
-            <p className="text-xs font-semibold px-2">Google</p>
-            </div>
+              <button type="submit">
+                <div className="flex px-2 py-1 border border-gray-300">
+                  <img
+                    src={Google}
+                    alt="google-login"
+                    className="cursor-pointer h-3"
+                  />
+                  <p className="text-xs font-semibold px-2">Google</p>
+                </div>
+              </button>
           </form>
           <form action={`${url}/auth/microsoft`}>
+          <button type="submit">
           <div className="flex px-2 py-1 border border-gray-300">
 
-            <button type="submit">
               <img
                 src={Microsoft}
                 alt="microsoft-login"
                 className="cursor-pointer h-3"
               />
 
-            </button>
-            <p className="text-xs font-semibold px-2">Microsoft</p>
-            </div>
+              <p className="text-xs font-semibold px-2">Microsoft</p>
+              </div>
+              </button>
           </form>
           <form action={`${url}/auth/linkedin`}>
+          <button type="submit">
           <div className="flex px-2 py-1 border border-gray-300">
 
-            <button type="submit">
               <img
                 src={Linkedin}
                 alt="linkedin-login"
                 className="cursor-pointer h-3"
               />
-            </button>
-            <p className="text-xs font-semibold px-2">Linkedin</p>
-            </div>
+              <p className="text-xs font-semibold px-2">Linkedin</p>
+              </div>
+              </button>
           </form>
           <form action={`${url}/auth/github`}>
+          <button type="submit">
           <div className="flex px-2 py-1 border border-gray-300">
 
-            <button type="submit">
               <img
                 src={Github}
                 alt="github-login"
                 className="cursor-pointer h-3"
               />
-            </button>
-            <p className="text-xs font-semibold px-2">Github</p>
-            </div>
+              <p className="text-xs font-semibold px-2">Github</p>
+              </div>
+              </button>
           </form>
         </div>
         <div className="h-5 block"></div>

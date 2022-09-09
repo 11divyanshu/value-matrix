@@ -28,11 +28,11 @@ const CompanyProfile = () => {
       let access_token = localStorage.getItem("access_token");
       if (user && user.profileImg) {
         let image = JSON.parse(await localStorage.getItem("profileImg"));
-        // let base64string = btoa(
-        //   String.fromCharCode(...new Uint8Array(image.data))
-        // );
-        // let src = `data:image/png;base64,${base64string}`;
-        // await setProfileImg(src);
+        let base64string = btoa(
+          String.fromCharCode(...new Uint8Array(image.data))
+        );
+        let src = `data:image/png;base64,${base64string}`;
+        await setProfileImg(src);
       }
       if (access_token === null) window.location.href = "/login";
 
@@ -42,7 +42,7 @@ const CompanyProfile = () => {
   }, []);
 
   return (
-    <div className="p-5 bg-slate-100">
+    <div className="">
       {/* <p className="text-2xl font-bold" style={{ color: "#3B82F6" }}>Company Details</p> */}
       {user !== null && user !== undefined && (
         <div className="m-3">

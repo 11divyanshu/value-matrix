@@ -4,6 +4,7 @@ import "react-pro-sidebar/dist/css/styles.css";
 import { dashboardRoutes } from "../../routes";
 import { RiAdminFill } from "react-icons/ri";
 import React from "react";
+import { LogoutAPI } from "../../service/api";
 import "../../assets/stylesheet/sidebar.scss";
 import { Link } from "react-router-dom";
 import { FaUserCog } from "react-icons/fa";
@@ -21,7 +22,15 @@ const Sidebar = (props) => {
   const [toggled, setToggled] = React.useState(true);
   const [collapsed, setCollapsed] =  React.useState(false);
   const [activePage, setActivePage] = React.useState(null) ;
-
+  const Logout = async () => {
+    let user = await localStorage.getItem("user");
+    user = JSON.parse(user);
+    let res = await LogoutAPI(user._id);
+    console.log(res);
+    await localStorage.setItem("user", null);
+    await localStorage.setItem("access_token", null);
+    window.location.href = "/login";
+  };
 function handleActive(event) {
   if (!event.target.classList.value.includes("active")) {
     event.target.classList.toggle('active') ;
@@ -60,7 +69,7 @@ function handleActive(event) {
   
 
   return (
-    <div className="h-screen fixed top-20 left-0">
+    <div className="h-screen fixed top-20 left-0" style={{marginTop:"-10px"}}>
       <div className="absolute  text-gray-9 left-5 top-5  visible md:invisible text-gray-700 text-xl">
       <AiOutlineMenu className="text-md " onClick={()=>{handleToggle();}}/>
       </div>
@@ -111,8 +120,8 @@ function handleActive(event) {
         </Menu>
       </SidebarContent>
       <div className='mx-4 my-24'>
-      <div className='flex m-2'><p className='text-gray-700 mx-4 py-2 font-semibold'><FiSettings/> </p><p  className='text-gray-700  font-semibold py-1'>Settings</p></div>
-      <div className='flex m-2'><p className='text-gray-700 mx-4 py-2 font-semibold'><MdOutlineLogout/> </p><p className='text-gray-700  font-semibold py-1'>Log Out</p></div>
+      <div className='flex m-2'><a href="/user/profile" className='text-gray-700 mx-4 py-2 font-semibold'><FiSettings/> </a><a href="/user/profile" className='text-gray-700  font-semibold py-1'>Settings</a></div>
+      <div className='flex m-2' onClick={Logout} style={{cursor:"pointer"}}><p className='text-gray-700 mx-4 py-2 font-semibold'><MdOutlineLogout/> </p><p  className='text-gray-700  font-semibold py-1'>Log Out</p></div>
      
     </div>
     </ProSidebar>
