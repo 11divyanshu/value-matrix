@@ -8,13 +8,14 @@ import {
   updateEmailOTP,
   updateUserDetails,
   validateSignupDetails,
+  getProfileImage,
 } from "../../service/api";
 import ReactCropper from "../../Pages/UserDashboard/ReactCrop";
 
 // Assets
 import Avatar from "../../assets/images/UserAvatar.png";
 import "react-image-crop/dist/ReactCrop.css";
-import EditTabs from "../../Components/Dashbaord/EditTabs"
+import EditTabs from "../../Components/Dashbaord/EditTabs";
 
 const EditProfile = () => {
   // Sets OTPs to NULL
@@ -70,8 +71,8 @@ const EditProfile = () => {
   const SendOTPFunction = async (values) => {
     let wait = 0;
     if (values.email !== user.email) {
-      let emailValidate = await validateSignupDetails({email : values.email});
-      if(emailValidate.data.email === true){
+      let emailValidate = await validateSignupDetails({ email: values.email });
+      if (emailValidate.data.email === true) {
         setError("Email Already Registered");
         return 1;
       }
@@ -87,8 +88,10 @@ const EditProfile = () => {
       }
     }
     if (values.contact !== user.contact) {
-      let contactValidate = await validateSignupDetails({contact : values.contact});
-      if(contactValidate.data.contact === true){
+      let contactValidate = await validateSignupDetails({
+        contact: values.contact,
+      });
+      if (contactValidate.data.contact === true) {
         setError("Contact Already Registered");
         return 1;
       }
@@ -110,7 +113,7 @@ const EditProfile = () => {
     let data = {
       firstName: values.firstName,
       lastname: values.lastName,
-      about : values.about
+      about: values.about,
     };
     if (EmailOTP) {
       data.email = values.email;
@@ -123,9 +126,9 @@ const EditProfile = () => {
       { user_id: user._id, updates: data },
       { access_token: access_token }
     );
-if(res.data.user){
+    if (res.data.user) {
       await localStorage.setItem("user", JSON.stringify(res.data.user));
-}
+    }
     if (res.data.Error) {
       if (res.data.contact) {
         setError(res.data.Error);
@@ -145,20 +148,19 @@ if(res.data.user){
   // Sets User And Access_token
   React.useEffect(() => {
     const getData = async () => {
-      let access_token1 =await localStorage.getItem("access_token");
-      let user =await  JSON.parse(localStorage.getItem("user"));
+      let access_token1 = await localStorage.getItem("access_token");
+      let user = await JSON.parse(localStorage.getItem("user"));
       await setUser(user);
       await setToken(access_token1);
-      if(access_token1 === "null")
+      if (access_token1 === "null")
         await localStorage.setItem("access_token", user.access_token);
       if (user && user.profileImg) {
-        let image = JSON.parse(await localStorage.getItem("profileImg"));
-        console.log(image);
+        let image = await getProfileImage({ id: user._id }, user.access_token);
+        await localStorage.setItem("profileImg", JSON.stringify(image));
         let base64string = btoa(
-          String.fromCharCode(...new Uint8Array(image.data))
+          String.fromCharCode(...new Uint8Array(image.data.Image.data))
         );
         let src = `data:image/png;base64,${base64string}`;
-
         await setProfilePic(src);
       }
     };
@@ -166,16 +168,15 @@ if(res.data.user){
   }, []);
 
   return (
-    <div className="p-5 bg-slate-100">
-      <p className="text-2xl font-bold">Edit Profile</p>
+    <div className="pl-10 bg-slate-100">
       {user !== null && (
-        <div className="m-5">
-          <div className="h-48 w-full relative" style={{ background: "#99DEFF" }}>
-
-          </div>
+        <div className="m-2">
+          <div
+            className="h-48 w-full relative"
+            style={{ background: "#99DEFF" }}
+          ></div>
           <div className="relative  rounded-md w-full py-3 md:flex items-center ">
-            <div className="absolute  sm:left-10 -top-20 md:-top-28 md:left-20 " >
-
+            <div className="absolute  sm:left-10 -top-20 md:-top-28 md:left-20 ">
               <img
                 src={
                   user && user.profileImg && ProfilePic ? ProfilePic : Avatar
@@ -191,12 +192,11 @@ if(res.data.user){
               <p className="text-gray-400 text-lg">{user.username}</p>
             </div>
             <div className="ml-auto mr-0 mt-5 text-right md:text-left">
-                            <label>
+              <label>
                 <button
-                   class=" hover:bg-blue-700 text-white text-sm font-bold py-2 px-6 rounded"
+                  class=" hover:bg-blue-700 text-white text-sm font-bold py-2 mx-3 px-6 rounded"
                   onClick={() => ModalBtnRef.current.click()}
-                  style={{backgroundColor:"#034488"}}
-
+                  style={{ backgroundColor: "#034488" }}
                 >
                   Upload Image
                 </button>
@@ -205,9 +205,7 @@ if(res.data.user){
           </div>
 
           <div className="my-3  rounded-md w-full  mt-6 pt-3">
-          
-         
-          <EditTabs/>
+            <EditTabs />
           </div>
         </div>
       )}
@@ -223,7 +221,7 @@ if(res.data.user){
         Launch static backdrop modal
       </button>
       <div
-        class="modal fade fixed ml-[25vw] top-0  hidden h-full outline-none overflow-x-hidden overflow-y-auto"
+        class="modal fade fixed ml-[25vw] top-20 hidden h-full outline-none overflow-x-hidden overflow-y-auto"
         id="staticBackdrop"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
@@ -247,7 +245,7 @@ if(res.data.user){
           </div>
           <button
             type="button"
-            class="hideen px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+            class="hidden px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
             data-bs-dismiss="modal"
             ref={ModalRef}
           >

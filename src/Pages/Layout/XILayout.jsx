@@ -6,8 +6,9 @@ import { ReactSession } from "react-client-session";
 import { XIDashboardRoutes } from "../../routes";
 import Navbar from "../../Components/AdminDashboard/Navbar.jsx";
 import Sidebar from "../../Components/CompanyDashboard/Sidebar";
-import { getUserFromId, getUserIdFromToken } from "../../service/api";
+import { getUserFromId, getUserIdFromToken, getProfileImage } from "../../service/api";
 import jsCookie from "js-cookie";
+
 
 const XIDashboard = () => {
   let [comp, setComponent] = React.useState(null);
@@ -17,6 +18,7 @@ const XIDashboard = () => {
 
   // Retrieve And Saves Access Token and User to Session
   const [access_token, setAccessToken] = React.useState(null);
+  const [profileImg, setProfileImg] = React.useState(null);
 
   React.useEffect(() => {
     const tokenFunc = async () => {
@@ -24,42 +26,67 @@ const XIDashboard = () => {
       let location = window.location.search;
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
-      if (term !== null || term !== undefined) {
-        await localStorage.removeItem("access_token");
+
+      // If Token is passed in the url
+      if (term !== null && term !== undefined && term !== "null") {
         await localStorage.removeItem("access_token");
         access_token1 = term;
         await setAccessToken(term);
         await localStorage.setItem("access_token", term);
 
-        let user_id = await getUserIdFromToken({ access_token: access_token1 });
+        await setAccessToken(access_token1);
 
+        let user_id = await getUserIdFromToken({ access_token: access_token1 });
+        let a = await localStorage.getItem("access_token");
+        if (a === "null") {
+          let u = JSON.parse(await localStorage.getItem("user"));
+          await localStorage.setItem("access_token", u._id);
+        }
         if (user_id) {
           let user = await getUserFromId(
             { id: user_id.data.user.user },
             access_token1
-          );
+            );
+            
+            
           await setUser(user.data.user.user);
+          if (user.invite) {
+            window.location.href = "/setProfile" + user.resetPassId;
+          }
+          if (user.profileImg) {
+            let image = await getProfileImage(
+              { id: user_id.data.user.user },
+              access_token1
+            );
+            setProfileImg(image.data.Image);
+            await localStorage.setItem(
+              "profileImg",
+              JSON.stringify(image.data.Image)
+            );
+          }
+          console.log(user.data.user);
           if (
             user.data.user.access_valid === false ||
             user.data.user.user_type !== "XI"
           )
-            window.location.redirect = "/login";
+            window.location.href = "/login";
           await localStorage.setItem("user", JSON.stringify(user.data.user));
-          window.history.pushState({ url: "/XI" }, "", "/XI");
+          window.history.pushState({ url: "/user" }, "", "/user");
         } else {
           window.location.href = "/login";
         }
       } else {
-        let access_token = localStorage.getItem("access_token");
+        let access_token = await localStorage.getItem("access_token");
         await setAccessToken(access_token);
         let user = JSON.parse(localStorage.getItem("user"));
         await setUser(user);
+
+        if (user.access_valid === false || user.user_type !== "XI") {
+          window.location.href = "/login";
+        }
       }
-      let user = JSON.parse(await localStorage.getItem("user"));
+      let user = JSON.parse(localStorage.getItem("user"));
       let token = localStorage.getItem("access_token");
-      console.log(user);
-      if (user.access_valid === false || user.user_type !== "XI")
-        window.location.redirect = "/login";
       if (!user || !token) {
         window.location.href = "/login";
       }
@@ -71,7 +98,7 @@ const XIDashboard = () => {
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
       if (term) {
-        window.history.pushState({ path: "/XI" }, "", "/XI");
+        window.history.pushState({ path: "/user" }, "", "/user");
       }
     };
     func();

@@ -188,17 +188,18 @@ const AddCompanyUser = () => {
                     <label htmlFor="firstName" className="font-semibold text-lg w-2/5 mx-5">
                       First Name *
                     </label>
+                    <div className="w-2/5">
                     <Field
                       type="text"
                       name="firstName"
-                      className="text-600 block my-1 w-2/5"
+                      className="text-600 block my-1 w-full"
                     />
                     <ErrorMessage
                       name="firstName"
                       component="div"
                       className="text-sm text-red-600"
                     />
-                 
+                 </div>
                   </div>
                   <div className="md:w-1/2 md:mx-9 sm:mx-0 flex w-full my-3 space-y-1">
 
@@ -206,26 +207,28 @@ const AddCompanyUser = () => {
                     <label htmlFor="lastName" className="font-semibold text-lg w-2/5 mx-5">
                       Last Name *
                     </label>
+                    <div className="w-2/5">
                     <Field
                       type="text"
                       name="lastName"
-                      className="text-600 block my-1 w-2/5"
+                      className="text-600 block my-1 w-full"
                     />
                     <ErrorMessage
                       name="lastName"
                       component="div"
                       className="text-sm text-red-600"
                     />
-                 
+                 </div>
                 </div>
                 <div className="md:w-1/2 md:mx-9 sm:mx-0 flex w-full my-3 space-y-1">
                     <label htmlFor="email" className="font-semibold text-lg w-2/5 mx-5">
                       Email *
                     </label>
+                    <div className="w-2/5">
                     <Field
                       type="email"
                       name="email"
-                      className="text-600 block my-1 w-2/5"
+                      className="text-600 block my-1 w-full"
                     />
                     <ErrorMessage
                       name="email"
@@ -235,16 +238,18 @@ const AddCompanyUser = () => {
                     {emailError && (
                       <div className="text-sm text-red-600">{emailError}</div>
                     )}
+                    </div>
                   </div>
                   <div className="md:w-1/2 md:mx-9 sm:mx-0 flex w-full my-3 space-y-1">
 
                     <label htmlFor="contact" className="font-semibold text-lg w-2/5 mx-5">
                       Contact *
                     </label>
+                    <div className="w-2/5">
                     <Field
                       type="text"
                       name="contact"
-                      className="text-600 block my-1 w-2/5"
+                      className="text-600 block my-1 w-full"
                     />
                     <ErrorMessage
                       name="contact"
@@ -253,24 +258,25 @@ const AddCompanyUser = () => {
                     />
                     {contactError && (
                       <div className="text-sm text-red-600">{contactError}</div>
-                    )}
+                    )}</div>
                 </div>
                 <div className="md:w-1/2 md:mx-9 sm:mx-0 flex w-full my-3 space-y-1">
                     <label htmlFor="password" className="font-semibold text-lg w-2/5 mx-5">
                       Password *
                     </label>
+                    <div className="w-2/5">
                     <Field
                       type="password"
                       name="password"
-                      className="text-600 block my-1 w-2/5"
+                      className="text-600 block my-1 w-full"
                     />
                     <ErrorMessage
                       name="password"
                       component="div"
                       className="text-sm text-red-600"
-                    />
+                    /></div>
                 </div>
-                <div className="text-left md:mx-9 sm:mx-0">
+                <div className="text-left md:mx-9 sm:mx-0 pl-5">
                   <label htmlFor="permissions" className="text-gray-700 text-xl font-bold">
                     User permissions
                   </label>
@@ -305,7 +311,8 @@ const AddCompanyUser = () => {
                 <div className="w-full text-center justify-center">
                 <button
                   type="submit"
-                  className="my-3 px-3 py-2 mx-auto rounded-lg text-center bg-blue-500 text-white "
+                  className="my-3 px-3 py-2 mx-auto rounded-lg text-center bg-[#034488] text-white "
+                  style={{backgroundColor:"#034488"}}
                 >
                   {" "}
                   Add User

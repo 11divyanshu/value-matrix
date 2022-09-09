@@ -43,10 +43,14 @@ const CompanyDashboard = () => {
             access_token1
           );
           await setUser(user.data.user.user);
+          if (user.data.user.access_valid === false)
+            window.location.href = "/login";
           if (
-            user.data.user.access_valid === false ||
-            !(user.data.user.user_type === "Company" || user.data.user.user_type === "Company_User")
-          ) { window.location.href = "/login"; }
+            user.data.user.user_type === "Company" ||
+            user.data.user.user_type === "Company_User"
+          )
+            console.log("");
+          else window.location.href = "/login";
           await localStorage.setItem("user", JSON.stringify(user.data.user));
           window.history.pushState({ url: "/company" }, "", "/company");
         } else {
@@ -58,11 +62,10 @@ const CompanyDashboard = () => {
         if (access_token === "null" || access_token === null)
           access_token = user.access_token;
         await localStorage.setItem("access_token", access_token);
-        if (
-          user.access_valid === false ||
-          !(user.user_type !== "Company" || user.user_type !== "Company_User")
-        )
-          window.location.href = "/login";
+        if (user.access_valid === false) window.location.href = "/login";
+        if (user.user_type === "Company" || user.user_type === "Company_User")
+          console.log("");
+        else window.location.href = "/login";
         await setAccessToken(access_token);
         await setUser(user);
       }
@@ -72,9 +75,8 @@ const CompanyDashboard = () => {
         window.location.href = "/login";
       }
 
-
       if (user.desc === [] || user.billing === []) {
-        console.log("F")
+        console.log("F");
         setModalIsOpen(true);
       } else {
         setModalIsOpen(false);
@@ -135,13 +137,19 @@ const CompanyDashboard = () => {
           <CompanyForm isOpen={true} setModalIsOpen={setModalIsOpen} />
         </div>
       )}
-      <div className="w-full bg-white  fixed z-50"> <Navbar user={user} /></div>
+      <div className="w-full bg-white  fixed z-50">
+        {" "}
+        <Navbar user={user} />
+      </div>
 
       <div className="flex w-full ">
-        <Sidebar className="h-screen fixed left-0">
-
-        </Sidebar>
-        <div className="justify-end ml-auto " style={{width:"82%" , marginTop:'75px'}}>{comp}</div>
+        <Sidebar className="h-screen fixed left-0"></Sidebar>
+        <div
+          className="justify-end ml-auto "
+          style={{ width: "82%", marginTop: "75px" }}
+        >
+          {comp}
+        </div>
       </div>
     </div>
   );

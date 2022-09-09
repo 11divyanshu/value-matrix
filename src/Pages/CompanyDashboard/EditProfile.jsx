@@ -157,13 +157,12 @@ const EditCompanyProfile = () => {
       if (access_token1 === "null")
         await localStorage.setItem("access_token", user.access_token);
       if (user && user.profileImg) {
-        let image = JSON.parse(await localStorage.getItem("profileImg"));
-        console.log(image);
+        let image = await getProfileImage({id: user._id}, user.access_token);
+          await localStorage.setItem("profileImg", JSON.stringify(image));
         let base64string = btoa(
-          String.fromCharCode(...new Uint8Array(image.data))
+          String.fromCharCode(...new Uint8Array(image.data.Image.data))
         );
         let src = `data:image/png;base64,${base64string}`;
-        console.log(src);
         await setProfilePic(src);
       }
       setUser(user);
@@ -173,7 +172,7 @@ const EditCompanyProfile = () => {
   }, []);
 
   return (
-    <div>
+    <div className="p-5 bg-slate-100">
       {user !== null && (
         <div className="m-5">
           <div className="h-48 w-full relative" style={{ background: "#99DEFF" }}>
