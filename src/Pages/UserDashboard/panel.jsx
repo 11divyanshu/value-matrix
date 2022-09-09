@@ -40,44 +40,37 @@ const Panel = () => {
 
 
   return (
-    <div className="flex bg-slate-100 w-full sm:p-1">
+    <div className="flex w-full sm:p-1 bg-slate-100">
       {/* <Sidebar /> */}
 
       <div className="container-fluid mx-auto mt-12">
-        <div className="grid grid-cols-1 gap-5 mb-6 lg:grid-cols-4">
-          <div className=" px-4 mx-4 py-3 bg-white rounded-lg shadow">
-            <div className="text-sm font-medium text-gray-500 truncate">
-              Total users
-            </div>
-            <div className="mt-1 text-lg font-semibold text-gray-900">
-              18 Total Interview
-            </div>
-          </div>
-          <div className=" px-4 mx-4 py-3 bg-white rounded-lg shadow">
-            <div className="text-sm font-medium text-gray-500 truncate">
-              Total users
-            </div>
-            <div className="mt-1 text-lg font-semibold text-gray-900">
-              07 Interview Pending
-            </div>
-          </div>
-          <div className=" px-4 mx-4 py-3 bg-white rounded-lg shadow">
-            <div className="text-sm font-medium text-gray-500 truncate">
-              Total Profit
-            </div>
-            <div className="mt-1 text-lg font-semibold text-gray-900">
-              22 interview Completed
-            </div>
-          </div>
-          <div className=" px-4 mx-4 py-3 bg-white rounded-lg shadow">
-            <div className="text-sm font-medium text-gray-500 truncate">
-              Total Orders
-            </div>
-            <div className="mt-1 text-lg font-semibold text-gray-900">
-              01 Interview in Progress
-            </div>
+      <p className="text-sm flex my-1 mx-5 font-semibold">Hey Andrew - <p className="text-gray-400 px-2"> here's what's happening today!</p></p>
+      <div className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-4">
+        <div className="w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
+          
+          <div className=" text-md font-semibold text-gray-900">
+            Job Active - 120
           </div>
         </div>
+        <div className="w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
+          
+          <div className=" text-md font-semibold text-gray-900">
+            Interview Schedule - 20
+          </div>
+        </div>
+        <div className="w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
+          
+          <div className=" text-md font-semibold text-gray-900">
+            Candidate Uploaded - 18
+          </div>
+        </div>
+        <div className="w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
+          
+          <div className=" text-md font-semibold text-gray-900">
+            Reschedule Interviews - 09
+          </div>
+        </div>
+      </div>
 
 
 
