@@ -88,7 +88,7 @@ const Sidebar = () => {
     <ProSidebar
     // toggled={menu}
     // onToggle={(prev)=>setMenu(!prev)}
-      width={280}
+      // width={}
      
       className="fixed left-0 h-screen z-10 text-left active text-gray-500"
       style={{backgroundColor:"#FAFAFA"}}
