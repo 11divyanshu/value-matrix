@@ -200,7 +200,7 @@ const EditCompanyProfile = () => {
                       style={{backgroundColor:"#034488"}}
 
 
-                 class=" hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                 class=" hover:bg-blue-700 text-white text-sm font-bold py-2 px-8 rounded"
                   onClick={() => ModalBtnRef.current.click()}
                 >
                   Upload Logo

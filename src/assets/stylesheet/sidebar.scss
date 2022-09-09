@@ -3,10 +3,17 @@ $sidebar-color: #333;
 $highlight-color: #333 !default;
 $icon-bg-color: transparent;
 $sidebar-width: 323px;
+$z-index:10 !important;
 .active {
     color: #034488;  
    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     font-weight: 500;
+    
+  }
+  .pro-sidebar {
+    position: absolute;
+    height: 100%;
+    z-index: 10 !important;
   }
   
   /* This is for submenu item */

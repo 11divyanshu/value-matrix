@@ -363,7 +363,7 @@ export default function Tabs(props) {
                   {user.username}{" "}
                 </p> */}
                 <div className="flex flex-wrap w-full gap-y-5">
-                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Company Name</label>
                     <Field
                       type="text"
@@ -378,7 +378,7 @@ export default function Tabs(props) {
                       className="text-sm text-red-600"
                     />
                   </div>
-                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Address</label>
                     <Field
                       type="text"
@@ -394,7 +394,7 @@ export default function Tabs(props) {
                     />
                   </div>
 
-                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Email</label>
                     <Field
                       name="email"
@@ -410,7 +410,7 @@ export default function Tabs(props) {
                       className="text-sm text-red-600"
                     />
                   </div>
-                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Contact</label>
                     <Field
                       name="contact"
@@ -428,7 +428,7 @@ export default function Tabs(props) {
 
                   </div>
                   {EmailOTP && (
-                    <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                    <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                       <label className="font-semibold text-lg md:w-2/5 mx-5">Email OTP</label>
                       <Field
                         name="emailOTP"
@@ -440,7 +440,7 @@ export default function Tabs(props) {
                     </div>
                   )}
                   {ContactOTP && (
-                    <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                    <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                       <label className="font-semibold text-lg md:w-2/5 mx-5">Contact OTP</label>
                       <Field
                         name="contactOTP"
@@ -455,16 +455,16 @@ export default function Tabs(props) {
                 <div className="w-full text-center">
                   <button
                     onClick={() => save(values)}
-                    className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"
-                    style={{ backgroundColor: " rgb(59 130 246)" }}
+                    className="bg-blue-500 px-4 mx-2 py-1  text-white rounded-sm my-5"
+                    style={{backgroundColor:"#034488"}}
                   >
                     Save
                   </button>
 
                   <button
                     type="submit"
-                    className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"
-                    style={{ backgroundColor: " rgb(59 130 246)" }}
+                    className="bg-blue-500 px-4 mx-2 py-1 text-white rounded-sm my-5"
+                    style={{backgroundColor:"#034488"}}
                     onClick={() => update(user)}
 
                   >
@@ -495,9 +495,8 @@ export default function Tabs(props) {
                 <div className="flex flex-wrap w-full gap-y-5">
 
 
-                  <label style={{ color: "#3B82F6" }} className="py-3 text-xl font-semibold">About</label>
-                  <hr />
-                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                 
+                  <div className="md:mx-2 my-3 sm:mx-0  md:flex w-full  space-y-1">
 
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Overview</label>
                     <Field
@@ -511,7 +510,7 @@ export default function Tabs(props) {
 
                   </div>
 
-                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
 
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Motto</label>
                     <Field
@@ -525,7 +524,7 @@ export default function Tabs(props) {
 
                   </div>
 
-                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
 
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Website</label>
                     <Field
@@ -539,7 +538,7 @@ export default function Tabs(props) {
 
                   </div>
 
-                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
 
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Industry</label>
                     <Field
@@ -553,7 +552,7 @@ export default function Tabs(props) {
 
                   </div>
 
-                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
 
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Company Size</label>
                     <Field
@@ -567,7 +566,7 @@ export default function Tabs(props) {
 
                   </div>
 
-                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
 
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Company Founded on</label>
                     <Field
@@ -586,15 +585,15 @@ export default function Tabs(props) {
                 <div className="w-full text-center">
                   <button
                     onClick={() => save(values)}
-                    className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"
-                    style={{ backgroundColor: " rgb(59 130 246)" }}
+                    className="bg-blue-500 px-4 mx-2 py-1 text-white rounded-sm my-5"
+                    style={{backgroundColor:"#034488"}}
                   >
                     Save
                   </button>
                   <button
                     type="submit"
-                    className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"
-                    style={{ backgroundColor: " rgb(59 130 246)" }}
+                    className="bg-blue-500 px-4 mx-2 py-1 text-white rounded-sm my-5"
+                    style={{backgroundColor:"#034488"}}
                     onClick={() => update(user)}
 
                   >
@@ -622,9 +621,9 @@ export default function Tabs(props) {
                 <div className="flex flex-wrap w-full gap-y-5">
 
 
-                  <label style={{ color: "#3B82F6" }} className="py-3 text-xl font-semibold">Billing Credentials</label>
+                 
                   {/* <hr />
-                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                   <label className="font-semibold text-lg md:md:w-2/5 mx-5">Country</label>
            <Field
              component="select"
@@ -640,9 +639,9 @@ export default function Tabs(props) {
              <option value="OTHER">Other</option>
            </Field>
            </div> */}
-                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
 
-                    <label className="font-semibold text-lg md:md:w-2/5 mx-5">TAX ID.</label>
+                    <label className="font-semibold text-lg md:md:w-2/5 mx-5">Tax ID.</label>
                     <div className='flex'>
 
                       <Field 
@@ -671,7 +670,7 @@ export default function Tabs(props) {
 
                   </div>
 
-                  <div className="md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
 
                     <label className="font-semibold text-lg md:md:w-2/5 mx-5">PAN</label>
                     <Field
@@ -693,15 +692,15 @@ export default function Tabs(props) {
                 <div className="w-full text-center">
                   <button
                     onClick={() => save(values)}
-                    className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"
-                    style={{ backgroundColor: " rgb(59 130 246)" }}
+                    className="bg-blue-500 px-4 mx-2 py-1 text-white rounded-sm my-5"
+                    style={{backgroundColor:"#034488"}}
                   >
                     Save
                   </button>
                   <button
                     type="submit"
-                    className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-sm my-5"
-                    style={{ backgroundColor: " rgb(59 130 246)" }}
+                    className="bg-blue-500 px-4 mx-2 py-1 text-white rounded-sm my-5"
+                    style={{backgroundColor:"#034488"}}
                     onClick={() => update(user)}
 
                   >

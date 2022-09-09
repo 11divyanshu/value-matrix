@@ -75,7 +75,7 @@ export default function Tabs() {
 <div className="flex flex-wrap w-full gap-y-5">
                   {/* <label style={{ color: "#3B82F6" }} className="py-3 text-xl font-semibold">Contact Information</label> */}
                   {/* <hr /> */}
-                  {/* <div className="md:w-1/2 md:mx-9 sm:mx-0  flex w-full  space-y-1 flex">
+                  {/* <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  flex w-full  space-y-1 flex">
                     <div><label className="font-semibold text-lg md:w-2/5 mx-5">Username</label></div>
                     <div> <Field
                       type="text"
@@ -87,7 +87,7 @@ export default function Tabs() {
                     /></div>
                    
                   </div> */}
-                  <div className=" md:mx-9 sm:mx-0  md:flex w-full  space-y-1 ">
+                  <div className=" md:mx-2 my-1sm:mx-0  md:flex w-full  space-y-1 ">
                     <label className="font-semibold text-lg md:md:w-2/5 mx-5">Company Name</label>
                     <Field
                       type="text"
@@ -99,7 +99,7 @@ export default function Tabs() {
                     />
                   </div>
                   
-                  <div className="md:w-1/2 md:mx-9 sm:mx-0  md:flex w-full  space-y-1 ">
+                  <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  md:flex w-full  space-y-1 ">
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Email</label>
                     <Field
                       name="email"
@@ -110,7 +110,7 @@ export default function Tabs() {
 
                     />
                   </div>
-                  <div className="md:w-1/2 md:mx-9 sm:mx-0  md:flex w-full  space-y-1 ">
+                  <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  md:flex w-full  space-y-1 ">
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Contact</label>
                     <Field
                       name="contact"
@@ -121,7 +121,7 @@ export default function Tabs() {
 
                     />
                   </div>
-                  <div className="md:w-1/2 md:mx-9 sm:mx-0  md:flex w-full  space-y-1 ">
+                  <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  md:flex w-full  space-y-1 ">
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Address</label>
                     <Field
                       name="address"
@@ -161,7 +161,7 @@ export default function Tabs() {
 
                   {/* <label style={{ color: "#3B82F6" }} className="py-3 text-xl font-semibold">About</label>
                   <hr /> */}
-                  <div className="md:w-1/2 md:mx-9 sm:mx-0  md:flex w-full  space-y-1 ">
+                  <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  md:flex w-full  space-y-1 ">
 
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Overview</label>
                     <p
@@ -176,7 +176,7 @@ export default function Tabs() {
 
                   </div>
 
-                  <div className="md:w-1/2 md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                  <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  md:flex w-full  space-y-1">
 
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Motto</label>
                     <Field
@@ -190,7 +190,7 @@ export default function Tabs() {
 
                   </div>
 
-                  <div className="md:w-1/2 md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                  <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  md:flex w-full  space-y-1">
 
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Website</label>
                     <Field
@@ -204,7 +204,7 @@ export default function Tabs() {
 
                   </div>
 
-                  <div className="md:w-1/2 md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                  <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  md:flex w-full  space-y-1">
 
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Industry</label>
                     <Field
@@ -218,7 +218,7 @@ export default function Tabs() {
 
                   </div>
 
-                  <div className="md:w-1/2 md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                  <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  md:flex w-full  space-y-1">
 
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Company Size</label>
                     <Field
@@ -232,7 +232,7 @@ export default function Tabs() {
 
                   </div>
 
-                  <div className="md:w-1/2 md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                  <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  md:flex w-full  space-y-1">
 
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Company Founded on</label>
                     <Field
@@ -273,7 +273,7 @@ export default function Tabs() {
                   {/* <hr /> */}
 
 
-                  <div className="md:w-1/2 md:mx-9 sm:mx-0  my-5 md:flex w-full  space-y-1">
+                  <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  my-5 md:flex w-full  space-y-1">
 
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Tax ID</label>
 
@@ -305,7 +305,7 @@ export default function Tabs() {
 
                   </div>
 
-                  <div className="md:w-1/2 md:mx-9 sm:mx-0  my-5 md:flex w-full  space-y-1">
+                  <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  my-5 md:flex w-full  space-y-1">
 
                     <label className="font-semibold text-lg md:w-2/5 mx-5">PAN</label>
                     <Field

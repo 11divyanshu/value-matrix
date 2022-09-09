@@ -119,14 +119,8 @@ export default function Tabs() {
             {({ values, isSubmitting }) => (
               <Form>
                 <div className="flex flex-wrap w-full gap-y-5">
-                  <label
-                    style={{ color: "#3B82F6" }}
-                    className="py-3 text-xl font-semibold"
-                  >
-                    Contact Information
-                  </label>
-                  <hr />
-                  <div className=" md:mx-9 sm:mx-0  md:flex w-full  space-y-1">
+                 
+                  <div className=" md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Username
                     </label>
@@ -136,13 +130,12 @@ export default function Tabs() {
                       disabled
                       className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
                       // style={{
-                      //   boxShadow:
-                      //     "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
+                      //   boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
                       //   border: "none",
                       // }}
                     />
                   </div>
-                  <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full  space-y-1">
+                  <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0 md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Company Name
                     </label>
@@ -152,13 +145,13 @@ export default function Tabs() {
                       disabled
                       className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
                       // style={{
-                      //   boxShadow:
-                      //     "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
+                      //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
+
                       //   border: "none",
                       // }}
                     />
                   </div>
-                  <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full  space-y-1">
+                  <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0 md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Email
                     </label>
@@ -168,13 +161,13 @@ export default function Tabs() {
                       disabled
                       className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
                       // style={{
-                      //   boxShadow:
-                      //     "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
+                      //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
+
                       //   border: "none",
                       // }}
                     />
                   </div>
-                  <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full  space-y-1">
+                  <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0 md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Contact
                     </label>
@@ -184,13 +177,13 @@ export default function Tabs() {
                       disabled
                       className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
                       // style={{
-                      //   boxShadow:
-                      //     "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
+                      //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
+
                       //   border: "none",
                       // }}
                     />
                   </div>
-                  <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full  space-y-1">
+                  <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0 md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Address
                     </label>
@@ -200,8 +193,8 @@ export default function Tabs() {
                       disabled
                       className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
                       // style={{
-                      //   boxShadow:
-                      //     "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
+                      //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
+
                       //   border: "none",
                       // }}
                     />
@@ -245,12 +238,12 @@ export default function Tabs() {
           user.education.map((item, index) => {
             return (
               <div
-                className=" rounded-md p-5 bg-white border border-gray-400 my-5 h-35 md:w-4/5 mx-auto"
+                className=" rounded-md px-5 py-2 bg-white border border-gray-400 my-5 h-35 md:w-full mx-auto"
                 key={index}
               >
                 <div className="flex justify-end space-x-3 items-center"></div>
-                <p className="font-semibold py-3">{item.school}</p>
-                <div className="flex flex-wrap justify-between w-full py-3 text-gray-800 ">
+                <p className="font-bold text-md py-3">{item.school}</p>
+                <div className="flex flex-wrap justify-between w-full text-gray-800 ">
                   <div className="flex space-x-2 text-sm items-center">
                     <FiInfo />
                     <p>{item.degree}</p> <p>|</p> <p>{item.field_of_study}</p>
@@ -263,13 +256,11 @@ export default function Tabs() {
                   <div className="flex items-center space-x-2">
                     <BsCalendar />
                     <p className="text-sm text-gray-600 mr-5">
-                      {item.start_date} - {item.end_date}
+                      {item.start_date} to {item.end_date}
                     </p>
                   </div>
                 </div>
-                {item.description && (
-                  <div className="py-2">{item.description}</div>
-                )}
+               
               </div>
             );
           })}
@@ -280,15 +271,15 @@ export default function Tabs() {
           user.experience.map((item, index) => {
             return (
               <div
-                className=" rounded-md p-5 bg-white border border-gray-400 my-5 h-35  md:w-4/5 mx-auto"
+                className=" rounded-md px-5 py-2 bg-white border border-gray-400 my-5 h-35  md:w-full mx-auto"
                 key={index}
               >
-                <div className="font-semibold flex space-x-2 mt-3 items-center">
-                  <p className="text-xl">{item.title}</p>{" "}
-                  <p className="font-normal text-lg">|</p>{" "}
-                  <p className="font-normal text-lg">{item.employment_type}</p>{" "}
+                <div className="font-semibold flex space-x-2 mt-3 text-md items-center">
+                  <p className="text-md">{item.title}</p>{" "}
+                  <p className="font-normal text-md">|</p>{" "}
+                  <p className="font-normal text-md">{item.employment_type}</p>{" "}
                 </div>
-                <div className="flex flex-wrap justify-between w-full py-5 text-gray-800 ">
+                <div className="flex flex-wrap justify-between w-full py-1 text-gray-800 ">
                   <div className="space-x-2 flex items-center">
                     <FaRegBuilding />
                     <p>{item.company_name}</p>
@@ -318,14 +309,13 @@ export default function Tabs() {
           user.associate.map((item, index) => {
             return (
               <div
-                className=" rounded-md p-5 bg-white border border-gray-400 my-5 h-35  md:w-4/5 mx-auto"
+                className=" rounded-md px-5 py-2 bg-white border border-gray-400 my-5 h-35  md:w-full mx-auto"
                 key={index}
               >
                 <div className="font-semibold flex space-x-2 mt-3 items-center">
-                  <p className="text-xl">{item.title}</p>{" "}
-                  <p className="font-normal text-lg">|</p>{" "}
+                  <p className="text-md">{item.title}</p>{" "}
                 </div>
-                <div className="flex flex-wrap justify-between w-full py-5 text-gray-800 ">
+                <div className="flex flex-wrap justify-between w-full py-1 text-gray-800 ">
                   <div className="space-x-2 flex items-center">
                     <FaRegBuilding />
                     <p>{item.company_name}</p>

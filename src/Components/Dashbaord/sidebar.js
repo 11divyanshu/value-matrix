@@ -70,7 +70,7 @@ function handleActive(event) {
       width={280}
      
       className="fixed left-0 h-screen z-0 text-left active text-gray-500"
-      style={{backgroundColor:"#FAFAFA"}}
+      style={{backgroundColor:"#FAFAFA" , zIndex:-1}}
       breakPoint="md"
       collapsed={collapsed} toggled={toggled} onToggle={handleToggle}
     >
@@ -79,9 +79,9 @@ function handleActive(event) {
       style={{backgroundColor:"#034488"}}
      
     >
-   + Post New Job
+   + Connect New Account
     </button>
-      <SidebarContent    className='text-left mx-5 mt-7'>
+      <SidebarContent  style={{zIndex:-1}}  className='text-left mx-5 mt-7'>
         <Menu iconShape="square">
           {/* <MenuItem
            

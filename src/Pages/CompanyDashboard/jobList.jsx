@@ -107,7 +107,7 @@ setJobs([]);
       <div className="py-3">
 
 
-        <p className="text-gray-900 text-s mb-2 mx-5 text-right text-blue"><CSVLink {...csvReport}><button class="bg-blue-600 p-3 w-10vw rounded-md text-white">DOWNLOAD CSV</button></CSVLink></p>
+        <p className="text-gray-900 text-s mb-2 mx-5 text-right text-blue"><CSVLink {...csvReport}><button class=" p-3 w-10vw rounded-md text-white" style={{backgroundColor:"#034488"}}>Download CSV</button></CSVLink></p>
       </div>
     </div>
       <div className="p-4 w-full md:flex mx-auto" >
@@ -155,7 +155,8 @@ setJobs([]);
 
 
                 <button
-                  className="bg-blue-500 text-white shadow-lg rounded-lg my-4 px-4 py-2"
+                  className=" text-white shadow-lg rounded-lg my-4 px-4 py-2"
+                  style={{backgroundColor:"#034488"}}
                   onClick={() => applyFilter(values)}
                 >
                   Apply
