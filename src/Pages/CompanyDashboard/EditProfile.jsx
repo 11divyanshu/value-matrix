@@ -173,8 +173,7 @@ const EditCompanyProfile = () => {
   }, []);
 
   return (
-    <div className="p-5 bg-slate-100">
-      <p className="text-2xl font-bold">Edit Profile</p>
+    <div>
       {user !== null && (
         <div className="m-5">
           <div className="h-48 w-full relative" style={{ background: "#99DEFF" }}>

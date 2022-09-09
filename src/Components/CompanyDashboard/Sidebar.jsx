@@ -19,7 +19,6 @@ import "../../assets/stylesheet/sidebar.scss";
 import { Link } from "react-router-dom";
 import { getUserFromId } from "../../service/api";
 import { ImHome } from "react-icons/im";
-import { LogoutAPI } from "../../service/api";
 import { FiSettings } from "react-icons/fi";
 import { MdOutlineLogout } from "react-icons/md";
 
@@ -38,15 +37,6 @@ const Sidebar = () => {
     list_candidates: true,
     default: true,
   });
-
-  const Logout = async () => {
-    let user = await localStorage.getItem("user");
-    user = JSON.parse(user);
-    let res = await LogoutAPI(user._id);
-    await localStorage.setItem("user", null);
-    await localStorage.setItem("access_token", null);
-    window.location.href = "/login";
-  };
 
   // function getWindowDimensions() {
   //   const width = hasWindow ? window.innerWidth : null;
@@ -180,12 +170,9 @@ const Sidebar = () => {
             </p>
             <p className="text-gray-700  font-semibold py-1">Settings</p>
           </div>
-          <div className="flex m-2 cursor-pointer">
-            <p
-              className="text-gray-700 mx-4 py-2 font-semibold"
-              onClick={()=>{Logout(); console.log("logout")}}
-            >
-              <MdOutlineLogout />
+          <div className="flex m-2">
+            <p className="text-gray-700 mx-4 py-2 font-semibold">
+              <MdOutlineLogout />{" "}
             </p>
             <p className="text-gray-700  font-semibold py-1">Log Out</p>
           </div>
