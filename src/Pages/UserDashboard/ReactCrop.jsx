@@ -101,7 +101,7 @@ const ReactCropper = (props) => {
         </div>
       ) : (
         <label>
-          <p class="rounded-sm text-white px-2 py-1 cursor-pointer w-fit mx-auto" style={{backgroundColor:"#034488"}}>
+          <p class="rounded-sm text-white px-4 py-1 cursor-pointer w-fit mx-auto" style={{backgroundColor:"#034488"}}>
             Upload Image
           </p>
           <input
@@ -118,7 +118,7 @@ const ReactCropper = (props) => {
         }`}
       >
         <button
-          className=" border-[0.5px] border-red-400 text-red-400 rounded-sm px-2 py-1 cursor-pointer w-fit ml-auto"
+          className=" border-[0.5px] border-red-400 text-red-400 rounded-sm px-4 py-1 cursor-pointer w-fit ml-auto"
           onClick={() => {
             setCroppedImage(null);
             setImageSrc(null);
@@ -130,7 +130,7 @@ const ReactCropper = (props) => {
         {imageSrc && (
           <button
             onClick={showCroppedImage}
-            className="unded-sm text-white px-2 py-1 cursor-pointer w-fit ml-3"
+            className="rounded-sm text-white px-4 py-1 cursor-pointer w-fit ml-3"
             style={{backgroundColor:"#034488"}}
           >
             Upload

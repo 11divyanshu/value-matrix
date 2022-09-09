@@ -9,16 +9,27 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { convertToHTML } from "draft-convert";
 import { Link, useNavigate } from "react-router-dom";
-import { getUserFromId } from "../../service/api";
+import { getUserFromId, getSkills } from "../../service/api";
 import { RiEditBoxLine } from "react-icons/ri";
 import { AiOutlineDelete } from "react-icons/ai";
 import * as xlsx from "xlsx/xlsx.mjs";
+import { Disclosure } from "@headlessui/react";
+import { ChevronUpIcon, StarIcon } from "@heroicons/react/solid";
 
 const AddJob = () => {
   const [Alert, setAlert] = React.useState(null);
   const [skills, setSkills] = React.useState([]);
   const [error, setError] = React.useState(null);
   const [disabled, setDisabled] = React.useState(true);
+
+  // Skills
+  const [roles, setRoles] = React.useState([]);
+  const [showRoles, setShowRoles] = React.useState([]);
+  const [primarySkills, setPrimarySkills] = React.useState([]);
+  const [prof, setProf] = React.useState([]);
+  const [dbSkills, setDbSkills] = React.useState([]);
+
+  const inputSkillRef = React.useRef(null);
 
   //Description
   const [desc, setDescState] = React.useState();
@@ -57,11 +68,43 @@ const AddJob = () => {
       let u = await JSON.parse(localStorage.getItem("user"));
 
       if (e === null || e === undefined) {
-        localStorage.setItem("postjob", JSON.stringify(user));
+        localStorage.setItem("postjob", JSON.stringify(e));
       }
 
       if (e !== "null" || e !== null) {
         setUser(JSON.parse(e));
+      }
+      let p = JSON.parse(await localStorage.getItem("prof"));
+      let user = await JSON.parse(await localStorage.getItem("user"));
+
+      let res = await getSkills({ user_id: user._id }, user.access_token);
+      console.log(res);
+      let roles = new Set();
+      let pSkills = {};
+      if (res && res.status === 200) {
+        res.data.map((el) => {
+          el.proficiency = 0;
+          roles.add(el.role);
+          if (pSkills[el.role]) {
+            pSkills[el.role].add(el.primarySkill);
+          } else {
+            pSkills[el.role] = new Set([el.primarySkill]);
+          }
+          return null;
+        });
+        if (p) {
+          setProf(p);
+        } else {
+          await setProf(new Array(res.data.length).fill(0));
+        }
+        await setShowRoles(Array.from(roles));
+        await setRoles(Array.from(roles));
+        await setDbSkills(res.data);
+        await setPrimarySkills(pSkills);
+        console.log(pSkills);
+        Array.from(roles).map((el) => {
+          pSkills[el] = Array.from(pSkills[el]);
+        });
       }
     };
     initial();
@@ -74,7 +117,14 @@ const AddJob = () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       let res = await getUserFromId({ id: user._id }, user.access_token);
       console.log(res);
-      if (res && res.data && res.data.user && res.data.user.permissions && res.data.user.permissions.length>0 && res.data.user.permissions[0].company_permissions) {
+      if (
+        res &&
+        res.data &&
+        res.data.user &&
+        res.data.user.permissions &&
+        res.data.user.permissions.length > 0 &&
+        res.data.user.permissions[0].company_permissions
+      ) {
         if (
           res.data.user.permissions[0].company_permissions.add_jobs === false
         ) {
@@ -148,7 +198,7 @@ const AddJob = () => {
                 Contact: item.Contact ? item.Contact : "",
                 Reason: "Email/Contact Already Added",
                 Address: item.Address ? item.Address : "",
-              })
+              });
               return;
             }
             if (
@@ -221,11 +271,15 @@ const AddJob = () => {
 
   const postJob = async (values) => {
     try {
-      console.log(values);
+      let skills = dbSkills.filter((el)=>{
+        return el.proficiency > 0;
+      })
       let access_token = localStorage.getItem("access_token");
       let user = JSON.parse(localStorage.getItem("user"));
 
+      values.skills = skills;
       values.user_id = user._id;
+
       
       let res = await postJobAPI(values, access_token);
 
@@ -241,16 +295,16 @@ const AddJob = () => {
       }
       if (res) {
         setAlert(true);
+        localStorage.removeItem("postjob");
         setTimeout(() => {
-          // window.location.reload();
+          window.location.reload();
         }, 3000);
       } else {
         setAlert(false);
       }
 
-      localStorage.removeItem("postjob");
-      setUser({});
-      setSkills([]);
+      
+     
     } catch (error) {
       console.log(error);
       setAlert(false);
@@ -396,7 +450,7 @@ const AddJob = () => {
 
   return (
     <div className="p-5  pb-9">
-      <p className="text-2xl font-bold">Add Job</p>
+      <p className="text-2xl font-bold pr-5">Add Job</p>
       {Alert === true && (
         <div
           class="bg-green-100 rounded-lg py-5 px-6 my-3 mb-4 text-base text-green-800"
@@ -414,8 +468,8 @@ const AddJob = () => {
         </div>
       )}
 
-      <div className="Verticaltab mx-auto w-full ">
-        <Tabs >
+      <div className="Verticaltab w-full ">
+        <Tabs>
           <TabList>
             <Tab>
               <p>Home</p>
@@ -471,12 +525,12 @@ const AddJob = () => {
                   return (
                     <div className="w-full mt-9">
                       <Form className="w-full mt-5">
-                        <h1
+                        {/* <h1
                           style={{ color: `var(--primary)` }}
                           className="text-xl border-b-[0.5px] pl-5  text-left px-5 border-gray-400 w-full font-bold text-gray-700"
                         >
                           Job Details
-                        </h1>
+                        </h1> */}
                         <div className="my-7 space-y-3 w-full">
                           <label className="text-left w-3/4 mx-auto block">
                             Job Title
@@ -485,7 +539,8 @@ const AddJob = () => {
                             name="jobTitle"
                             type="text"
                             placeholder=""
-                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
+                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-2"
+                            style={{ borderRadius: "5px" }}
                           />
                           <ErrorMessage
                             name="jobTitle"
@@ -494,7 +549,7 @@ const AddJob = () => {
                           />
                         </div>
                         <div className="my-7 space-y-3 w-full">
-                          <label className="text-left w-3/4 mx-auto block">
+                          <label className="text-left w-3/4 mb-3 mx-auto block">
                             Job Description
                           </label>
                           {/* <Field
@@ -516,7 +571,12 @@ const AddJob = () => {
                             wrapperStyle={{
                               width: "75%",
                               margin: "0 auto",
-                              border: "1px solid black",
+                              border: "1px solid rgb(156 163 175 / 1)",
+                              borderRadius: "5px",
+                            }}
+                            editorStyle={{
+                              minHeight: "200px",
+                              paddingLeft:"1rem"
                             }}
                             onEditorStateChange={onDescEditorStateChange}
                           />
@@ -529,12 +589,13 @@ const AddJob = () => {
                             name="location"
                             type="text"
                             placeholder=""
-                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
+                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-1"
+                            style={{ borderRadius: "5px" }}
                           />
                           <ErrorMessage
                             name="location"
                             component="div"
-                            className="text-red-600 text-sm w-full"
+                            className="text-red-600 text-sm w-full text-left mr-auto"
                           />
                         </div>
                         <div className="my-7 space-y-3">
@@ -544,7 +605,7 @@ const AddJob = () => {
                           <div
                             role="group"
                             aria-labelledby="my-radio-group"
-                            className="space-x-5 my-3 flex-wrap"
+                            className="space-x-5 my-3 w-3/4 mr-auto -ml-6"
                           >
                             <label>
                               <Field
@@ -592,7 +653,7 @@ const AddJob = () => {
                             name="validTill"
                             type="date"
                             placeholder=""
-                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
+                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-1"
                             min={Date.now()}
                           />
                         </div>
@@ -604,7 +665,7 @@ const AddJob = () => {
                             name="hiringOrganization"
                             type="text"
                             placeholder=""
-                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
+                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-1"
                           />
                           <ErrorMessage
                             name="hiringOrganization"
@@ -621,7 +682,7 @@ const AddJob = () => {
                             name="reqApp"
                             type="text"
                             placeholder=""
-                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
+                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-1"
                           />
                           <ErrorMessage
                             name="reqApp"
@@ -676,14 +737,14 @@ const AddJob = () => {
                   return (
                     <div>
                       <Form className="w-full mt-9 ">
-                        <h1
+                        {/* <h1
                           style={{ color: `var(--primary)` }}
                           className="text-xl border-b-[0.5px] pl-5  text-left px-5 border-gray-400 w-full font-bold "
                         >
                           Eligibilty
-                        </h1>
+                        </h1> */}
                         <div className="mt-4">
-                          <label className="text-left w-3/4 mx-auto block">
+                          <label className="text-left w-3/4 mx-auto mb-3 block">
                             Minimum Eligibility
                           </label>
                           {/* <Field
@@ -706,7 +767,12 @@ const AddJob = () => {
                             wrapperStyle={{
                               width: "75%",
                               margin: "0 auto",
-                              border: "1px solid black",
+                              border: "1px solid rgb(156 163 175 / 1)",
+                              borderRadius: "5px",
+                            }}
+                            editorStyle={{                              
+                              minHeight: "200px",
+                              paddingLeft:"1rem"
                             }}
                             onEditorStateChange={oneligibiltyStateChange}
                           />
@@ -718,10 +784,8 @@ const AddJob = () => {
                             onEditorStateChange={this.onEditorStateChange}
                           />; */}
                         </div>
-                        <div className="my-7 space-y-3 w-full block">
-                          <label className="text-left w-3/4 mx-auto block">
-                            Skills
-                          </label>
+
+                        {/* <div className="my-7 space-y-3 w-full block">
                           <input
                             className="w-3/4 text-600 my-3 block mx-auto"
                             style={{ borderRadius: "10px" }}
@@ -834,11 +898,243 @@ const AddJob = () => {
                                 );
                               })}
                           </div>
+                        </div> */}
+                        <div className="my-7 space-y-3 w-full block">
+                          <label className="text-left w-3/4 mx-auto block">
+                            Skills
+                          </label>
+                          <div className="w-3/4 mx-auto">
+                            <div className="my-3 px-4 flex items-center flex-wrap gap-y-3">
+                              <input
+                                type="text"
+                                className="w-3/4 text-600 border-[0.5px] border-[#6b7280] p-2 mr-3"
+                                placeholder="Search Skill..."
+                                ref={inputSkillRef}
+                                onChange={async () => {
+                                  let role = new Set([]);
+                                  if (
+                                    inputSkillRef.current.value.trim() !== "" ||
+                                    !inputSkillRef ||
+                                    !inputSkillRef.current.value
+                                  ) {
+                                    dbSkills.forEach((el) => {
+                                      if (
+                                        el.role
+                                          .toLowerCase()
+                                          .includes(
+                                            inputSkillRef.current.value.toLowerCase()
+                                          )
+                                      ) {
+                                        role.add(el.role);
+                                      } else if (
+                                        el.primarySkill
+                                          .toLowerCase()
+                                          .includes(
+                                            inputSkillRef.current.value.toLowerCase()
+                                          )
+                                      ) {
+                                        role.add(el.role);
+                                      } else if (
+                                        el.secondarySkill
+                                          .toLowerCase()
+                                          .includes(
+                                            inputSkillRef.current.value.toLowerCase()
+                                          )
+                                      ) {
+                                        role.add(el.role);
+                                      }
+                                    });
+                                    await setShowRoles(Array.from(role));
+                                  } else {
+                                    await setShowRoles(roles);
+                                  }
+                                }}
+                              />
+                              <button className="h-10 bg-[#034488] text-white rounded-sm block cursor-pointer px-8 align-middle ">
+                                Search
+                              </button>
+                            </div>
+
+                            <div className="my-3">
+                              <div className="w-full">
+                                {showRoles &&
+                                  showRoles.map((el, index) => {
+                                    return (
+                                      <div key={index}>
+                                        <Disclosure>
+                                          {({ open }) => (
+                                            <div
+                                              className={`${
+                                                open ? "shadow-md" : ""
+                                              }`}
+                                            >
+                                              <Disclosure.Button
+                                                className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-2 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${
+                                                  open ? "shadow-lg " : ""
+                                                }`}
+                                              >
+                                                <span>{el}</span>
+                                                <ChevronUpIcon
+                                                  className={`${
+                                                    !open
+                                                      ? "rotate-180 transform"
+                                                      : ""
+                                                  } h-5 w-5 text-blue-500`}
+                                                />
+                                              </Disclosure.Button>
+                                              <Disclosure.Panel className="px-2">
+                                                {primarySkills[el].map(
+                                                  (skill, index) => {
+                                                    return (
+                                                      <div>
+                                                        <Disclosure>
+                                                          {({ open }) => (
+                                                            <div
+                                                              className={`${
+                                                                open
+                                                                  ? "shadow-md"
+                                                                  : ""
+                                                              }`}
+                                                            >
+                                                              <Disclosure.Button
+                                                                className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-2 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${
+                                                                  open
+                                                                    ? "shadow-lg"
+                                                                    : ""
+                                                                } `}
+                                                              >
+                                                                <span>
+                                                                  {skill}
+                                                                </span>
+                                                                <ChevronUpIcon
+                                                                  className={`${
+                                                                    !open
+                                                                      ? "rotate-180 transform"
+                                                                      : ""
+                                                                  } h-5 w-5 text-blue-500`}
+                                                                />
+                                                              </Disclosure.Button>
+                                                              <Disclosure.Panel className="p-3 px-12">
+                                                                {dbSkills
+                                                                  .filter(
+                                                                    (
+                                                                      secSkill
+                                                                    ) => {
+                                                                      return (
+                                                                        secSkill.primarySkill ===
+                                                                          skill &&
+                                                                        secSkill.role ===
+                                                                          el
+                                                                      );
+                                                                    }
+                                                                  )
+                                                                  .map(
+                                                                    (
+                                                                      secSkill,
+                                                                      index
+                                                                    ) => {
+                                                                      let d =
+                                                                        dbSkills;
+                                                                      let index1 =
+                                                                        d.findIndex(
+                                                                          (
+                                                                            el
+                                                                          ) => {
+                                                                            return (
+                                                                              el ===
+                                                                              secSkill
+                                                                            );
+                                                                          }
+                                                                        );
+                                                                      return (
+                                                                        <div className="flex my-2 text-sm justify-between items-center">
+                                                                          <p>
+                                                                            {
+                                                                              secSkill.secondarySkill
+                                                                            }
+                                                                          </p>
+
+                                                                          <div className="flex items-center space-x-2">
+                                                                            0
+                                                                            <input
+                                                                              type="range"
+                                                                              min="0"
+                                                                              max="5"
+                                                                              value={
+                                                                                prof[
+                                                                                  index1
+                                                                                ]
+                                                                              }
+                                                                              onChange={async (
+                                                                                e
+                                                                              ) => {
+                                                                                let d =
+                                                                                  dbSkills;
+                                                                                d[
+                                                                                  index1
+                                                                                ] =
+                                                                                  {
+                                                                                    ...d[
+                                                                                      index1
+                                                                                    ],
+                                                                                    proficiency:
+                                                                                      e
+                                                                                        .target
+                                                                                        .value,
+                                                                                  };
+                                                                                let p =
+                                                                                  prof;
+                                                                                prof[
+                                                                                  index1
+                                                                                ] =
+                                                                                  e.target.value;
+                                                                                await localStorage.setItem(
+                                                                                  "prof",
+                                                                                  JSON.stringify(
+                                                                                    p
+                                                                                  )
+                                                                                );
+                                                                                await setProf(
+                                                                                  [
+                                                                                    ...p,
+                                                                                  ]
+                                                                                );
+                                                                                await setDbSkills(
+                                                                                  [
+                                                                                    ...d,
+                                                                                  ]
+                                                                                );
+                                                                              }}
+                                                                            />
+                                                                            5
+                                                                          </div>
+                                                                        </div>
+                                                                      );
+                                                                    }
+                                                                  )}
+                                                              </Disclosure.Panel>
+                                                            </div>
+                                                          )}
+                                                        </Disclosure>
+                                                      </div>
+                                                    );
+                                                  }
+                                                )}
+                                              </Disclosure.Panel>
+                                            </div>
+                                          )}
+                                        </Disclosure>
+                                      </div>
+                                    );
+                                  })}
+                              </div>
+                            </div>
+                          </div>
                         </div>
 
                         <button
                           type="submit"
-                          class="bg-blue-500 my-7 mx-2 px-5 py-3 hover:bg-blue-700 text-white font-bold rounded-lg"
+                          class="bg-[#034488] my-7 mx-2 px-5 py-3 hover:bg-blue-700 text-white font-bold rounded-lg"
                           onClick={() => saveEligible(user)}
                         >
                           Save
@@ -851,10 +1147,10 @@ const AddJob = () => {
             </div>
           </TabPanel>
           <TabPanel>
-            <div className="panel-content text-left ml-5 p-3">
+            <div className="panel-content text-left ml-5 p-3 w-3/4 mx-auto">
               <div className="my-3 text-left">
                 <p>Add Candidate Details Sheet</p>
-                <p className="text-sm">
+                <p className="text-sm mt-3">
                   ( Headers Conventions: FirstName, LastName, Email, Contact,
                   Address)
                 </p>
@@ -865,7 +1161,7 @@ const AddJob = () => {
               </div>
               <div className="flex space-x-10">
                 <button
-                  className="bg-blue-500 text-white rounded-sm px-2 py-1"
+                  className="bg-[#034488] text-white rounded-sm px-4 py-1"
                   onClick={() => {
                     setShowCandidateForm(true);
                   }}
@@ -874,7 +1170,7 @@ const AddJob = () => {
                 </button>
                 <label
                   for="candidatesInput"
-                  className="cursor-pointer bg-blue-500 text-white rounded-sm px-2 py-1"
+                  className="cursor-pointer bg-[#034488] text-white rounded-sm px-4 py-1"
                   onClick={() => {
                     if (candidateInputRef.current)
                       candidateInputRef.current.click();
@@ -892,7 +1188,7 @@ const AddJob = () => {
                 />
                 {(rejectedData.length > 0 || selectedData.length > 0) && (
                   <button
-                    className="bg-blue-500 text-white rounded-sm px-2 py-1"
+                    className="bg-[#034488] text-white rounded-sm px-2 py-1"
                     onClick={() => {
                       setCandidateData([]);
                       setSelectedData([]);
@@ -913,11 +1209,12 @@ const AddJob = () => {
                     validate={(values) => {
                       const errors = {};
                       let d = selectedData;
+                      
                       const res = d.findIndex((el) => {
                         return el.Email === values.Email;
                       });
                       const res2 = d.findIndex((el) => {
-                        return el.Contact === values.Contact;
+                        return el.Contact == values.Contact;
                       });
                       if (
                         !values.Email ||
@@ -961,13 +1258,14 @@ const AddJob = () => {
                           <p className="text-left font-semibold py-2">
                             Add User
                           </p>
-                          <div className="flex my-2 flex-wrap text-left">
+                          <div className="flex my-3 flex-wrap text-left">
                             <div className="w-1/2">
                               <label>First Name</label>
                               <Field
                                 name="FirstName"
                                 type="text"
-                                className="text-600 rounded-sm block"
+                                className="text-600 rounded-sm block px-4 py-1"
+                                style = {{borderRadius:"5px"}}
                               />
                               <ErrorMessage name="FirstName" component="div" />
                             </div>
@@ -976,18 +1274,20 @@ const AddJob = () => {
                               <Field
                                 name="LastName"
                                 type="text"
-                                className="text-600 rounded-sm block"
+                                className="text-600 rounded-sm block px-4 py-1"
+                                style = {{borderRadius:"5px"}}
                               />
                               <ErrorMessage name="LastName" component="div" />
                             </div>
                           </div>
-                          <div className="flex my-2 flex-wrap text-left">
+                          <div className="flex my-3 flex-wrap text-left">
                             <div className="w-1/2">
                               <label>Email</label>
                               <Field
                                 name="Email"
                                 type="text"
-                                className="text-600 rounded-sm block"
+                                className="text-600 rounded-sm block px-4 py-1"
+                                style = {{borderRadius:"5px"}}
                               />
                               <ErrorMessage
                                 name="Email"
@@ -1000,7 +1300,8 @@ const AddJob = () => {
                               <Field
                                 name="Contact"
                                 type="text"
-                                className="text-600 rounded-sm block"
+                                className="text-600 rounded-sm block px-4 py-1"
+                                style = {{borderRadius:"5px"}}
                               />
                               <ErrorMessage
                                 name="Contact"
@@ -1009,23 +1310,25 @@ const AddJob = () => {
                               />
                             </div>
                           </div>
-                          <div className="my-2 text-left pr-10">
+                          <div className="my-3 text-left pr-10">
                             <label>Address</label>
                             <Field
                               name="Address"
                               type="text"
-                              className="text-600 rounded-sm block w-full"
+                              className="text-600 rounded-sm block w-full px-4 py-1"
+                              style = {{borderRadius:"5px"}}
                             />
                           </div>
                           <div>
                             <button
-                              className="bg-blue-500 text-white rounded-sm px-2 py-1 my-2"
+                              className="bg-[#034488] text-white rounded-sm py-1 my-2 px-4"
                               type="submit"
+                              style={{backgroundColor:"#034488"}}
                             >
                               Add
                             </button>
                             <button
-                              className="bg-blue-500 text-white rounded-sm px-2 py-1 my-2 mx-4"
+                              className="bg-[#034488] text-white rounded-sm px-4 py-1 my-2 mx-4"
                               onClick={() => {
                                 setCandidateInitial({
                                   FirstName: "",
@@ -1075,7 +1378,7 @@ const AddJob = () => {
                   </div>
                 )}
                 {showRejected && rejectedData.length > 0 && (
-                  <div>
+                  <div className="my-4">
                     <table class="w-full">
                       <thead class="bg-white border-b">
                         <tr>
@@ -1171,7 +1474,7 @@ const AddJob = () => {
                   </div>
                 )}
                 {showCandidate && candidateData.length > 0 && (
-                  <div>
+                  <div className="my-4">
                     <table class="w-full">
                       <thead class="bg-white border-b text-left">
                         <tr>
@@ -1287,12 +1590,12 @@ const AddJob = () => {
                   return (
                     <div>
                       <Form className="w-full mt-9">
-                        <h1
+                        {/* <h1
                           style={{ color: `var(--primary)` }}
                           className="text-xl border-b-[0.5px] px-3  text-left border-gray-400 w-full font-bold text-gray-700"
                         >
                           Salary and Perks
-                        </h1>
+                        </h1> */}
                         <div className="my-7 mt-9 space-y-3 w-full">
                           <label className="text-left w-3/4 mx-auto block">
                             Salary
@@ -1301,12 +1604,12 @@ const AddJob = () => {
                             name="salary"
                             type="number"
                             placeholder=""
-                            className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
+                            className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4"
                           />
                         </div>
 
                         <div className="my-5 space-y-3 w-full">
-                          <label className="text-left w-3/4 mx-auto block">
+                          <label className="text-left w-3/4 mb-3 mx-auto block">
                             Perks
                           </label>
                           {/* <Field
@@ -1324,21 +1627,28 @@ const AddJob = () => {
                             wrapperStyle={{
                               width: "75%",
                               margin: "0 auto",
-                              border: "1px solid black",
+                              border: "1px solid rgb(156 163 175 / 1)",
+                              borderRadius: "5px",
+                            }}
+                            editorStyle={{
+                              minHeight: "200px",
+                              paddingLeft:"1rem",
                             }}
                             onEditorStateChange={onPerksEditorStateChange}
                           />
                         </div>
                         <button
-                          class="bg-blue-500 my-5 px-5 py-3 mx-4 hover:bg-blue-700 text-white font-bold rounded-lg"
+                          class="bg-[#034488] my-5 px-4 py-1 mx-4 hover:bg-[#034488] text-white font-bold rounded-sm"
                           onClick={() => saveSalary(values)}
+                          
                         >
                           Save
                         </button>
                         <button
                           type="button"
-                          class="bg-blue-500 my-5 px-5 py-3 mx-4 hover:bg-blue-700 text-white font-bold rounded-lg"
+                          class="bg-[#034488] my-5 px-4 py-1 mx-4 hover:bg-[#034488] text-white font-bold rounded-sm"
                           onClick={() => postJob(user)}
+                          style={{backgroundColor:"#034488"}}
                         >
                           Submit
                         </button>
@@ -1351,12 +1661,6 @@ const AddJob = () => {
           </TabPanel>
         </Tabs>
       </div>
-
-
-
-
-
-   
     </div>
   );
 };

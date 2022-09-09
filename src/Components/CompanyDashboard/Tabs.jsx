@@ -93,7 +93,8 @@ export default function Tabs() {
                       type="text"
                       name="firstName"
                       disabled
-                      className="shadow-sm border-gray-5 py-1 md:w-3/5 mx-5"
+                      className="shadow-sm border-gray-5 py-2 md:w-3/5 mx-5 px-4" 
+                      style={{borderRadius:"5px"}}
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
@@ -105,7 +106,8 @@ export default function Tabs() {
                       name="email"
                       type="text"
                       disabled
-                      className="shadow-sm border-gray-10 py-1 md:w-3/5 mx-5"
+                      className="shadow-sm border-gray-5 py-2 md:w-3/5 mx-5 px-4" 
+                      style={{borderRadius:"5px"}}
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
@@ -116,7 +118,8 @@ export default function Tabs() {
                       name="contact"
                       type="text"
                       disabled
-                      className="shadow-sm border-gray-10 py-1 md:w-3/5 mx-5"
+                      className="shadow-sm border-gray-5 py-2 md:w-3/5 mx-5 px-4" 
+                      style={{borderRadius:"5px"}}
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
@@ -127,7 +130,8 @@ export default function Tabs() {
                       name="address"
                       type="text"
                       disabled
-                      className="shadow-sm border-gray-10 py-1 md:w-3/5 mx-5"
+                      className="shadow-sm border-gray-5 py-2 md:w-3/5 mx-5 px-4" 
+                      style={{borderRadius:"5px"}}
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
@@ -166,8 +170,8 @@ export default function Tabs() {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Overview</label>
                     <p
                       type="text"
-                      className="shadow-sm border-gray-10 py-1 md:w-3/5 mx-5"
-
+                      className="shadow-sm border-gray-5 py-2 md:w-3/5 mx-5 px-4" 
+                      style={{borderRadius:"5px"}}
                       disabled
 
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
@@ -181,7 +185,8 @@ export default function Tabs() {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Motto</label>
                     <Field
                       type="text"
-                      className="shadow-sm border-gray-10 py-1 md:w-3/5 mx-5"
+                      className="shadow-sm border-gray-5 py-2 md:w-3/5 mx-5 px-4" 
+                      style={{borderRadius:"5px"}}
                       name="motto"
                       disabled
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
@@ -195,7 +200,8 @@ export default function Tabs() {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Website</label>
                     <Field
                       type="text"
-                      className="shadow-sm border-gray-10 py-1 md:w-3/5 mx-5"
+                      className="shadow-sm border-gray-5 py-2 md:w-3/5 mx-5 px-4" 
+                      style={{borderRadius:"5px"}}
                       name="website"
                       disabled
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
@@ -209,7 +215,8 @@ export default function Tabs() {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Industry</label>
                     <Field
                       type="text"
-                      className="shadow-sm border-gray-10 py-1 md:w-3/5 mx-5"
+                      className="shadow-sm border-gray-5 py-2 md:w-3/5 mx-5 px-4" 
+                      style={{borderRadius:"5px"}}
                       name="industry"
                       disabled
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
@@ -223,7 +230,8 @@ export default function Tabs() {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Company Size</label>
                     <Field
                       type="text"
-                      className="shadow-sm border-gray-10 py-1 md:w-3/5 mx-5"
+                      className="shadow-sm border-gray-5 py-2 md:w-3/5 mx-5 px-4" 
+                      style={{borderRadius:"5px"}}
                       name="company_size"
                       disabled
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
@@ -237,7 +245,8 @@ export default function Tabs() {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Company Founded on</label>
                     <Field
                       type="text"
-                      className="shadow-sm border-gray-10 py-1 md:w-3/5 mx-5"
+                      className="shadow-sm border-gray-5 py-2 md:w-3/5 mx-5 px-4" 
+                      style={{borderRadius:"5px"}}
                       name="found"
                       disabled
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
@@ -287,6 +296,7 @@ export default function Tabs() {
                         id="location"
                         name="location"
                         className="block border-gray-100 py-1 w-1/6"
+                        style={{borderRadius:"5px 0 0 5px"}}
                         multiple={false}
                         disabled
                       >
@@ -296,7 +306,8 @@ export default function Tabs() {
 
                       <Field
                         type="text"
-                        className="block border-gray-100  py-1 md:w-3/4 w-5/6"
+                        className="block border-gray-100  py-2 px-4 md:w-3/4 w-5/6"
+                        style={{borderRadius:"0 5px 5px 0"}}
                         name="gst"
                         disabled
                       // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
@@ -310,7 +321,8 @@ export default function Tabs() {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">PAN</label>
                     <Field
                       type="text"
-                      className="shadow-sm border-gray-10 py-1 md:w-3/5 ml-16 mr-20"
+                      className="shadow-sm border-gray-10 md:w-3/5 ml-16 mr-20 px-4 py-2"
+                      style={{borderRadius:"5px"}}
                       name="pan"
                       disabled
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}

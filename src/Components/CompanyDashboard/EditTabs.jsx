@@ -253,7 +253,6 @@ export default function Tabs(props) {
     if (ContactOTP) {
       data.contact = ed.contact;
     }
-
     let res = await updateUserDetails(
       { user_id: user._id, updates: data },
       { access_token: access_token }
@@ -368,8 +367,8 @@ export default function Tabs(props) {
                     <Field
                       type="text"
                       name="firstName"
-                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
-                      
+                      className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5"
+                      style={{borderRadius:"5px"}}
 
                     />
                     <ErrorMessage
@@ -383,7 +382,8 @@ export default function Tabs(props) {
                     <Field
                       type="text"
                       name="address"
-                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
+                      className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5"
+                      style={{borderRadius:"5px"}}
                       // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
 
                     />
@@ -399,7 +399,8 @@ export default function Tabs(props) {
                     <Field
                       name="email"
                       type="text"
-                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
+                      className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5"
+                      style={{borderRadius:"5px"}}
                       disabled={EmailOTP !== null || ContactOTP !== null}
                       // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
 
@@ -415,7 +416,8 @@ export default function Tabs(props) {
                     <Field
                       name="contact"
                       type="text"
-                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
+                      className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5"
+                      style={{borderRadius:"5px"}}
                       disabled={EmailOTP !== null || ContactOTP !== null}
                       // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
 
@@ -433,7 +435,8 @@ export default function Tabs(props) {
                       <Field
                         name="emailOTP"
                         type="text"
-                        className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
+                        className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5"
+                      style={{borderRadius:"5px"}}
                         // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
 
                       />
@@ -445,7 +448,8 @@ export default function Tabs(props) {
                       <Field
                         name="contactOTP"
                         type="text"
-                        className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
+                        className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5"
+                      style={{borderRadius:"5px"}}
                         // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
 
                       />
@@ -501,9 +505,14 @@ export default function Tabs(props) {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Overview</label>
                     <Field
                       type="textarea"
-                      className="block border-gray-100 py-1 md:w-3/4 w-full h-20"
+                      className="block md:w-3/4 w-full py-2 px-4"
+                      style={{borderRadius:"5px", border:"rgb(156 163 175) solid 0.5px"}}
                       name="about"
-
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                        }
+                      }}
                       // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
 
                     />
@@ -515,7 +524,8 @@ export default function Tabs(props) {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Motto</label>
                     <Field
                       type="text"
-                      className="block border-gray-400 py-1 md:w-3/4 w-full"
+                      className="block border-gray-400 py-2 px-4 md:w-3/4 w-full"
+                      style={{borderRadius:"5px"}}
                       name="motto"
 
                       // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
@@ -529,7 +539,8 @@ export default function Tabs(props) {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Website</label>
                     <Field
                       type="text"
-                      className="block border-gray-400 py-1 md:w-3/4 w-full"
+                      className="block border-gray-400 py-2 px-4 md:w-3/4 w-full"
+                      style={{borderRadius:"5px"}}
                       name="website"
 
                       // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
@@ -543,7 +554,8 @@ export default function Tabs(props) {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Industry</label>
                     <Field
                       type="text"
-                      className="block border-gray-400 py-1 md:w-3/4 w-full"
+                      className="block border-gray-400 py-2 px-4 md:w-3/4 w-full"
+                      style={{borderRadius:"5px"}}
                       name="industry"
 
                       // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
@@ -557,7 +569,8 @@ export default function Tabs(props) {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Company Size</label>
                     <Field
                       type="text"
-                      className="block border-gray-400 py-1 md:w-3/4 w-full"
+                      className="block border-gray-400 py-2 px-4 md:w-3/4 w-full"
+                      style={{borderRadius:"5px"}}
                       name="company_size"
 
                       // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
@@ -571,7 +584,8 @@ export default function Tabs(props) {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Company Founded on</label>
                     <Field
                       type="text"
-                      className="block border-gray-400 py-1 md:w-3/4 w-full"
+                      className="block border-gray-400 py-2 px-4 md:w-3/4 w-full"
+                      style={{borderRadius:"5px"}}
                       name="found"
 
                       // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
@@ -639,7 +653,7 @@ export default function Tabs(props) {
              <option value="OTHER">Other</option>
            </Field>
            </div> */}
-                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1 -space-x-3">
 
                     <label className="font-semibold text-lg md:md:w-2/5 mx-5">Tax ID.</label>
                     <div className='flex'>
@@ -650,6 +664,7 @@ export default function Tabs(props) {
                         id="location"
                         name="location"
                         className="block border-gray-100 w-2/5 py-1"
+                        style={{borderRadius:"5px 0 0 5px", border:"solid 0.5px rgb(156 163 175)"}}
                         multiple={false}
                       >
                         {country && country.map((item) => {
@@ -663,6 +678,7 @@ export default function Tabs(props) {
                         type="text"
                         className="block border-gray-100  py-1 md:w-2/4 w-3/5"
                         name="gst"
+                        style={{borderRadius:" 0 5px 5px 0", border:"solid 0.5px rgb(156 163 175)"}}
 
                       // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
