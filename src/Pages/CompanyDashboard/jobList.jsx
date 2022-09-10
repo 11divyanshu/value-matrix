@@ -8,6 +8,7 @@ import Loader from "../../assets/images/loader.gif";
 import Avatar from "../../assets/images/UserAvatar.png";
 import {BsFillBookmarkFill} from 'react-icons/bs'
 import {HiOutlineUser} from 'react-icons/hi'
+import { Popover, Transition } from "@headlessui/react";
 
 const JobList = () => {
   const [jobs, setJobs] = React.useState([]);
@@ -223,8 +224,14 @@ setJobs([]);
             {/* <div className=" px-6 mx-2 py-1 ml-5 text-center" ><AiOutlineUnorderedList/></div> */}
 
 
-            <p className=" mx-2  text-sm ">Support</p><p className="py-1"><HiOutlineUser/></p>
+            <p className=" mx-2  text-sm ">Support</p><p className=""><HiOutlineUser/></p>
 </p>
+
+<div className="flex justify-between text-xs py-4 px-3">
+  <div><p>Open 0/5</p></div>
+  <div><p>Working 0/5</p></div>
+  <div><p>Closed 0/5</p></div>
+</div>
           <div className="flex px-2 vertical-align-middle" >
             <img src={Avatar} className="rounded-full w-12 h-12 m-3" />
             <div> <p className="py-2 text-sm">Cameron Williamson</p>

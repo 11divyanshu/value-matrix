@@ -116,7 +116,7 @@ function JobDetails(props) {
             <div className="card-body px-5 w-4/5">
 
               <h5 className=" px-4 py-2 text-4xl text-gray-900 font-extrabold">{job.jobTitle}</h5>
-              <h6 className="px-4 mb-2 text-xl text-blue-600 font-extrabold">{job.hiringOrganization} . {job.location}</h6>
+              <h6 className="px-4 mb-2 text-lg text-blue-600 font-extrabold">{job.hiringOrganization} . {job.location}</h6>
              
 
             </div>
@@ -202,7 +202,7 @@ function JobDetails(props) {
             style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px" }}
           >
 
-            <p className="text-center text-3xl font-black py-3 my-3">{job.jobTitle}{"  "} {job.jobType} {"  "}job</p>
+            <p className="text-center text-3xl font-black py-2 mb-3">{job.jobTitle}{"  "} {job.jobType} {"  "}job</p>
 
             <div className="w-full  bg-white border border-b">
               <div className="grid px-9 grid-cols-1 gap-4 lg:grid-cols-7 py-6" style={{backgroundColor:"#F2F3F5"}}>
@@ -248,7 +248,7 @@ function JobDetails(props) {
                 </div>
                
                 <div className="text-right  w-12 ml-auto align-middle">
-  <p className="text-right text-lg py-3"><BsThreeDots/></p>
+  <p className="text-right text-lg py-5"><BsThreeDots/></p>
   {/* <p className="ml-auto text-md text-blue-500 cursor-pointer" ><Link to={`/company/jobDetails/${job._id}`}>View Details &#12297;</Link></p> */}
 
 </div>
@@ -258,26 +258,26 @@ function JobDetails(props) {
             </div>
             <div className="card-body px-7 w-4/5">
               <div className="my-7">
-                <h5 className=" px-4 py-2 text-xl text-gray-800 font-bold">
+                <h5 className=" px-4 py-2 text-lg text-gray-800 font-bold">
                   {" "}
                   Job Description :
                 </h5>
                 <h6
-                  className="px-4 mb-2 text-lg text-gray-500"
+                  className="px-4 mb-2 text-md text-gray-500"
                   dangerouslySetInnerHTML={createMarkup(job.jobDesc)}
                 ></h6>
               </div>
               <div className="my-7">
-                <h5 className=" px-4 py-2 text-xl text-gray-800 font-bold">
+                <h5 className=" px-4 py-2 text-lg text-gray-800 font-bold">
                   Eligibility :
                 </h5>
                 <h6
-                  className="px-4 mb-2 text-lg text-gray-500"
+                  className="px-4 mb-2 text-md text-gray-500"
                   dangerouslySetInnerHTML={createMarkup(job.eligibility)}
                 ></h6>
               </div>
               <div className="my-7">
-                <h5 className=" px-4 py-2 text-xl text-gray-800 font-bold">Skills Required :</h5>
+                <h5 className=" px-4 py-2 text-lg text-gray-800 font-bold">Skills Required :</h5>
                 {job && job.skills && job.skills.map((item) => {
                   return (
 
@@ -286,7 +286,7 @@ function JobDetails(props) {
                 })}
               </div>
               <div className="my-7">
-                <h5 className=" px-4 py-2 text-xl text-gray-800 font-bold">
+                <h5 className=" px-4 py-2 text-md text-gray-800 font-bold">
                   Perks :
                 </h5>
                 <h6
@@ -299,7 +299,7 @@ function JobDetails(props) {
             {user._id === job.uploadBy && (
               <div className="my-5 px-9">
                 <div className="flex items-center justify-between">
-                  <p className="font-bold text-xl">
+                  <p className="font-bold text-lg">
                     Applicants{" "}
                     <span className="text-sm">({candidates.length})</span>
                   </p>
@@ -385,7 +385,7 @@ function JobDetails(props) {
                   </table>
                 )}
                 <div className="flex items-center justify-between my-5">
-                  <p className="font-bold text-xl">
+                  <p className="font-bold text-lg">
                     Invitations
                     <span className="text-sm"> ({invited.length})</span>
                   </p>
@@ -475,7 +475,7 @@ function JobDetails(props) {
                   </table>
                 )}
                 <div className="flex items-center justify-between my-3">
-                  <p className="font-bold text-xl">
+                  <p className="font-bold text-lg">
                     Invitations Declined
                     <span className="text-sm"> ({declined.length})</span>
                   </p>
