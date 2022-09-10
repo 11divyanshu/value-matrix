@@ -53,7 +53,7 @@ export default function Tabs() {
 </div>
         <div className={`tabHead ${index === 1 && 'active'}`} onClick={() => { setIndex(1) }}><p className="md:visible hidden content">About</p><p className="icons hidden"><AiOutlineUser/></p>
 </div>
-        <div className={`tabHead ${index === 2 && 'active'}`} onClick={() => { setIndex(2) }}> <p className="md:visible hidden content">Billing Credentials</p><p className="icons hidden"><RiBillLine/></p>
+        <div className={`tabHead ${index === 2 && 'active'}`} onClick={() => { setIndex(2) }}> <p className="md:visible hidden content">Billing Details</p><p className="icons hidden"><RiBillLine/></p>
 </div>
       </div>
       <div className="tabContent bg-white p-5 bg-white w-full" hidden={index != 0}>
@@ -305,8 +305,8 @@ export default function Tabs() {
 
                       <Field
                         type="text"
-                        className="block border-gray-100  py-2 px-4 md:w-3/4 w-5/6"
-                        style={{borderRadius:"0 5px 5px 0"}}
+                        className="block border-gray-100  py-2 px-2"
+                        style={{borderRadius:"0 5px 5px 0" , width:"76%"}}
                         name="gst"
                         disabled
                       // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
