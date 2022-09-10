@@ -204,16 +204,16 @@ setJobs([]);
         <div className="shadow-lg  py-5  bg-white  justify-around  px-5 bg-white">
           <p className="text-xl mx-auto text-gray-700 font-bold  flex">
 <p className="p-1"><BsFillBookmarkFill/></p>
-<p className=" mx-2  text-md ">My Items</p>
+<p className=" mx-2  text-sm ">My Items</p>
             </p>
             <div className="border-b border-gray-600 flex justify-between my-4 py-4">
-              <p className="font-bold text-sm">Posted Jobs</p><p className="text-gray-400 font-semibold text-sm">04</p>
+              <p className="font-bold text-xs">Posted Jobs</p><p className="text-gray-400 font-semibold text-xs">04</p>
             </div>
             <div className="border-b border-gray-600 flex justify-between my-4 py-4">
-              <p className="font-bold text-sm">My Learnings</p><p className="text-gray-400 font-semibold text-sm">06</p>
+              <p className="font-bold text-xs">My Learnings</p><p className="text-gray-400 font-semibold text-xs">06</p>
             </div>
             <div className=" border-gray-600 flex justify-between mt-4 pt-4">
-              <p className="font-bold text-sm">Save Posts</p><p className="text-gray-400 font-semibold text-sm">01</p>
+              <p className="font-bold text-xs">Save Posts</p><p className="text-gray-400 font-semibold text-xs">01</p>
             </div>
             </div>
 
@@ -223,27 +223,27 @@ setJobs([]);
             {/* <div className=" px-6 mx-2 py-1 ml-5 text-center" ><AiOutlineUnorderedList/></div> */}
 
 
-            <p className=" mx-2  text-md ">Support</p><p className="py-1"><HiOutlineUser/></p>
+            <p className=" mx-2  text-sm ">Support</p><p className="py-1"><HiOutlineUser/></p>
 </p>
           <div className="flex px-2 vertical-align-middle" >
             <img src={Avatar} className="rounded-full w-12 h-12 m-3" />
-            <div> <p className="py-2 font-md">Cameron Williamson</p>
-              <p className="text-gray-400 text-sm">Product Designer</p>
+            <div> <p className="py-2 text-sm">Cameron Williamson</p>
+              <p className="text-gray-400 text-xs">Product Designer</p>
             </div>
           </div>
 
           <div className="flex px-2 vertical-align-middle" >
             <img src={Avatar} className="rounded-full w-12 h-12 m-3" />
-            <div> <p className="py-2 font-md">Brookyln Simmons</p>
-              <p className="text-gray-400 text-sm">Software Engineer</p>
+            <div> <p className="py-2 text-sm">Brookyln Simmons</p>
+              <p className="text-gray-400 text-xs">Software Engineer</p>
             </div>
           </div>
 
 
           <div className="flex px-2 vertical-align-middle" >
             <img src={Avatar} className="rounded-full w-12 h-12 m-3" />
-            <div> <p className="py-2 font-md">Leslie Alexander</p>
-              <p className="text-gray-400 text-sm">Project Manager</p>
+            <div> <p className="py-2 text-sm">Leslie Alexander</p>
+              <p className="text-gray-400 text-xs">Project Manager</p>
             </div>
           </div>
 

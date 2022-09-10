@@ -3,7 +3,6 @@ import { getJobById } from "../../service/api";
 import { ReactSession } from "react-client-session";
 import { useParams } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import Microsoft from "../../assets/images/Social/microsoft.svg";
 import { AiOutlineCalendar } from "react-icons/ai";
 import { CgWorkAlt } from "react-icons/cg";
 import { HiOutlineCurrencyRupee } from "react-icons/hi";
@@ -15,6 +14,8 @@ import {
 } from "react-icons/hi";
 import DOMPurify from "dompurify";
 import { Link, useNavigate } from "react-router-dom";
+import { BsThreeDots ,BsCashStack } from "react-icons/bs";
+import Microsoft from "../../assets/images/micro.jpg";
 
 
 function JobDetails(props) {
@@ -101,23 +102,12 @@ function JobDetails(props) {
     //     </div>
     //   )}
     // </div>
-    <div className="w-full p-5 ">
+    <div className="w-full p-5 " style={{backgroundColor:"#F2F3F5"}}>
       {job ? (
         <>
 
-          {/* <div
-            className="card my-5 mx-auto w-4/5 p-5 "
-            style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px" }}
-          >
-            <div className="card-body px-5 w-4/5">
-              <h5 className=" px-4 py-2 text-4xl text-gray-900 font-extrabold">
-                {job.jobTitle}
-              </h5>
-              <h6 className="px-4 mb-2 text-xl text-blue-600 font-extrabold">
-                {job.hiringOrganization} . {job.location}
-              </h6>
-              <p className="card-text font-semibold p-4">{job.jobDesc}</p> */}
 
+          {/* 
           <div className="card my-5 mx-auto w-4/5 p-5 bg-white " style={{ "boxShadow": "rgba(0, 0, 0, 0.1) 0px 4px 12px" }}>
 
 
@@ -127,24 +117,10 @@ function JobDetails(props) {
 
               <h5 className=" px-4 py-2 text-4xl text-gray-900 font-extrabold">{job.jobTitle}</h5>
               <h6 className="px-4 mb-2 text-xl text-blue-600 font-extrabold">{job.hiringOrganization} . {job.location}</h6>
-              {/* <p className="card-text font-semibold p-4">{job.jobDesc}</p> */}
+             
 
             </div>
-            {/* <div className="flex mt-5 w-3/4 mx-auto" style={{justifyContent:'space-between'}}>
-
-            <div className="p-3 m-3 "><h2 className="text-blue-700 text-xl flex gap-2 align-middle font-semibold"><CgWorkAlt/>Job Type</h2>
-              <h3>{job.jobType}</h3></div>
-
-            <div className="p-3 m-3"><h2 className="text-blue-700 text-xl flex gap-2 align-middle font-semibold"><HiOutlineCurrencyRupee/>Basic Pay Range</h2>
-              <h3>{job.basicSalary} rupees per year</h3></div>
-
-            <div className="p-3 m-3"><h2 className="text-blue-700 text-xl gap-2 align-item-center font-semibold flex" style={{verticalAlign:"middle"}}><AiOutlineCalendar/>Apply By :</h2>
-              <h3> {new Date(job.validTill).getDate() +
-                "-" +
-                new Date(job.validTill).getMonth() +
-                "-" +
-                new Date(job.validTill).getFullYear()}</h3></div>
-          </div> */}
+           
 
             <div className="flex mt-5 px-3">
               {job.salary && (
@@ -166,22 +142,9 @@ function JobDetails(props) {
                 </div>
               )}
 
-              {/* =======
-                    <div className="shadow-lg p-3 rounded-full"><p className="text-3xl text-blue-500"><HiOutlineCalendar /></p></div>
+             
 
-                  </p>
-                  <div>
-                    <p className="px-4 text-gray-400 text-lg text-gray-400">Job Type</p>
-                    <p className="px-4 text-md">{job.jobType}</p>
-                  </div>
-                </div>
 
-              )}
-
->>>>>>> bb774ccb8e7895cda9ce592fd2d4395ac20eddad */}
-              {/* <p className="text-sm text-gray-700 mx-auto">
-              {job.jobType}
-            </p> */}
               <div className="flex px-5 mt-5">
                 <p className="text-sm  ">
 
@@ -231,14 +194,69 @@ function JobDetails(props) {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
 
           <div
-            className="card my-5 mx-auto w-4/5 p-5 bg-white "
+            className="card my-5 w-full p-5 bg-white "
             style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px" }}
           >
-            <div className="card-body px-5 w-4/5">
+
+            <p className="text-center text-3xl font-black py-3 my-3">{job.jobTitle}{"  "} {job.jobType} {"  "}job</p>
+
+            <div className="w-full  bg-white border border-b">
+              <div className="grid px-9 grid-cols-1 gap-4 lg:grid-cols-7 py-6" style={{backgroundColor:"#F2F3F5"}}>
+                <div className="col-span-2 flex align-middle">
+                  <div className="">
+                    <img src={Microsoft} className="h-20 w-20 text-center rounded-full mx-3 bg-white border border-gray-700"/>
+                  </div>
+                  <div className="pt-3">
+                  <h5 class="text-black-900 text-lg font-bold mb-1 ">{job.jobTitle}</h5>
+                  <p className="text-sm font-bold  text-gray-400 font-semibold">{job.hiringOrganization}</p>
+                  </div>
+                </div>
+                <div className="col-span-2">
+                  {/* <p className="px-4 text-gray-400 font-semibold text-lg text-gray-400 font-semibold">Job Type</p> */}
+                  <div className="flex py-1"><div className="text-lg py-1 text-gray-400 font-semibold "><CgWorkAlt /></div>
+
+                    <p className="px-4 text-md text-gray-400 font-semibold">{job.jobType}</p>
+                  </div>
+                  <div className="flex py-1"><div className="text-lg py-1 text-gray-400 font-semibold "><HiOutlineLocationMarker /></div>
+
+                    <p className="px-4 text-md text-gray-400 font-semibold">{job.location}</p>
+                  </div>
+                </div>
+                <div className="col-span-2">
+                  <div className="flex py-1"><div className="text-lg py-1 text-gray-400 font-semibold "><HiOutlineCalendar /></div>
+
+
+                    <p className="px-2 text-md text-gray-400 font-semibold">{new Date(job.validTill).getDate() +
+                      "-" +
+                      (new Date(job.validTill).getMonth() + 1) +
+                      "-" +
+                      new Date(job.validTill).getFullYear()}</p>
+
+
+
+                  </div>
+                  <div className="flex py-1"><div className="text-lg py-1 text-gray-400 font-semibold "><BsCashStack /></div>
+
+                    <p className="px-4 text-md text-gray-400 font-semibold">{job.salary}</p>
+                  </div>
+         
+
+                </div>
+               
+                <div className="text-right  w-12 ml-auto align-middle">
+  <p className="text-right text-lg py-3"><BsThreeDots/></p>
+  {/* <p className="ml-auto text-md text-blue-500 cursor-pointer" ><Link to={`/company/jobDetails/${job._id}`}>View Details &#12297;</Link></p> */}
+
+</div>
+
+
+              </div>
+            </div>
+            <div className="card-body px-7 w-4/5">
               <div className="my-7">
                 <h5 className=" px-4 py-2 text-xl text-gray-800 font-bold">
                   {" "}
