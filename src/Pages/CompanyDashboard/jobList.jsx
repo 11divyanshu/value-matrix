@@ -102,7 +102,10 @@ setJobs([]);
 
   return (
 
-    <> <div className="flex mx-5 mt-3" style={{ justifyContent: 'space-between' }}><p className="text-2xl mx-3 font-semibold pl-3 mt-5">All Jobs</p>
+    <div className = "bg-slate-100"> 
+    <div className="flex mx-5 mt-3" style={{ justifyContent: 'space-between' }}>
+      {/* <p className="text-2xl mx-3 font-semibold pl-3 mt-5">All Jobs</p> */}
+      <p className="text-sm flex my-5 mx-5 font-semibold">Hey Andrew - <p className="text-gray-400 px-2"> here's what's happening today!</p></p>
 
       <div className="py-3">
 
@@ -112,7 +115,7 @@ setJobs([]);
     </div>
       <div className="p-4 w-full md:flex mx-auto" >
 
-        <div className="md:w-1/4 sm:w-full  mt-5 h-3/5 shadow-lg rounded-lg">
+        {/* <div className="md:w-1/4 sm:w-full  mt-5 h-3/5 shadow-lg rounded-lg">
 
 
 
@@ -145,7 +148,6 @@ setJobs([]);
                     <Field type="radio" className="m-2" name="picked" value="Three" />
                     <p className="text-xl font-bold mx-3 font-gray-600">Ended</p>
                   </label>
-                  {/* <div>Picked: {values.picked}</div> */}
                 </div>
 
                 <label className="text-center w-1/2 content-center mx-auto px-4 text-center  flex p-1  text-xl">
@@ -166,11 +168,18 @@ setJobs([]);
           </Formik>
 
 
-        </div>
+        </div> */}
         <div className=" md:w-3/4 md:mx-5">
 
           {loader ? <p>...Loading</p> :
-            <div className="p-2 w-full">
+          <>
+          <div className=" w-full bg-white py-4 px-5" style={{borderRadius:"6px 6px 0 0"}}><p className="text-gray-900 w-full font-bold">Posted Jobs</p>
+          <p className="text-gray-400 w-full font-semibold">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+          
+          
+          </div>
+            <div className="w-full">
+
               
               {jobs && (
                 jobs.map((job) => {
@@ -180,13 +189,14 @@ setJobs([]);
                 })
               )}
             </div>
+            </>
             }
         </div>
 
 
       </div>
 
-    </>
+    </div>
   );
 };
 

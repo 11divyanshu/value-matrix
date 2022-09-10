@@ -449,8 +449,8 @@ const AddJob = () => {
   };
 
   return (
-    <div className="p-5  pb-9">
-      <p className="text-2xl font-bold pr-5">Add Job</p>
+    <div className=" mx-5 my-4 ">
+      <p className="text-md font-bold pr-5">1 of 2: Job Details</p>
       {Alert === true && (
         <div
           class="bg-green-100 rounded-lg py-5 px-6 my-3 mb-4 text-base text-green-800"
@@ -468,8 +468,282 @@ const AddJob = () => {
         </div>
       )}
 
-      <div className="Verticaltab w-full ">
-        <Tabs>
+
+  <div className="flex w-full">
+    <div className="w-3/4 shadow-md mx-3" >
+
+    <Formik
+                initialValues={{
+                  jobTitle: user ? user.jobTitle : "",
+                  jobDesc: user ? user.jobDesc : "",
+                  location: user ? user.location : "",
+                  jobType: user ? user.jobType : "",
+                  reqApp: user ? user.reqApp : "",
+                  validTill: user ? user.validTill : "",
+                  hiringOrganization: user ? user.hiringOrganization : "",
+                }}
+                validate={(values) => {
+                  const errors = {};
+                  if (!values.jobTitle || values.jobTitle.trim() === "") {
+                    errors.jobTitle = "Required !";
+                  }
+
+                  if (!values.location || values.location.trim() === "") {
+                    errors.location = "Required !";
+                  }
+                  if (
+                    !values.hiringOrganization ||
+                    values.hiringOrganization.trim() === ""
+                  ) {
+                    errors.hiringOrganization = "Required !";
+                  }
+                  return errors;
+                }}
+              >
+                {(values) => {
+                  return (
+                    <div className="w-full mt-9">
+                      <Form className="w-full mt-5">
+                       
+                        <div className="my-7 space-y-3 w-full">
+                          <label className="text-left w-3/4 mx-auto block">
+                            Job Title
+                          </label>
+                          <Field
+                            name="jobTitle"
+                            type="text"
+                            placeholder=""
+                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-2"
+                            style={{ borderRadius: "5px" }}
+                          />
+                          <ErrorMessage
+                            name="jobTitle"
+                            component="div"
+                            className="text-red-600 text-sm w-full"
+                          />
+                        </div>
+                        <div className="my-7 space-y-3 w-full">
+                          <label className="text-left w-3/4 mb-3 mx-auto block">
+                            Job Description
+                          </label>
+                          
+                          <Editor
+                            editorState={desc}
+                            toolbarClassName="toolbarClassName"
+                            wrapperClassName="wrapperClassName"
+                            editorClassName="editorClassName"
+                            wrapperStyle={{
+                              width: "75%",
+                              margin: "0 auto",
+                              border: "1px solid rgb(156 163 175 / 1)",
+                              borderRadius: "5px",
+                            }}
+                            editorStyle={{
+                              minHeight: "200px",
+                              paddingLeft:"1rem"
+                            }}
+                            onEditorStateChange={onDescEditorStateChange}
+                          />
+                        </div>
+                        <div className="my-7 space-y-3 w-full">
+                          <label className="text-left w-3/4 mx-auto block">
+                            Job Location
+                          </label>
+                          <Field
+                            name="location"
+                            type="text"
+                            placeholder=""
+                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-1"
+                            style={{ borderRadius: "5px" }}
+                          />
+                          <ErrorMessage
+                            name="location"
+                            component="div"
+                            className="text-red-600 text-sm w-full text-left mr-auto"
+                          />
+                        </div>
+                        <div className="my-7 space-y-3">
+                          <label className="text-left w-3/4 mx-auto block">
+                            Job Type:
+                          </label>
+                          <div
+                            role="group"
+                            aria-labelledby="my-radio-group"
+                            className="space-x-5 my-3 w-3/4 mr-auto -ml-6"
+                          >
+                            <label>
+                              <Field
+                                type="radio"
+                                name="jobType"
+                                value="Full-Time"
+                                className="mr-2"
+                              />
+                              Full-Time
+                            </label>
+                            <label>
+                              <Field
+                                type="radio"
+                                name="jobType"
+                                value="Part-Time"
+                                className="mr-2"
+                              />
+                              Part-Time
+                            </label>
+                            <label>
+                              <Field
+                                type="radio"
+                                name="jobType"
+                                value="Internship"
+                                className="mr-2"
+                              />
+                              Internship
+                            </label>
+                            <label>
+                              <Field
+                                type="radio"
+                                name="jobType"
+                                value="Freelancing"
+                                className="mr-2"
+                              />
+                              Freelancing
+                            </label>
+                          </div>
+                        </div>
+                        <div className="my-7 space-y-3 w-full">
+                          <label className="text-left w-3/4 mx-auto block">
+                            Applications Open Till :{" "}
+                          </label>
+                          <Field
+                            name="validTill"
+                            type="date"
+                            placeholder=""
+                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-1"
+                            min={Date.now()}
+                          />
+                        </div>
+                        <div className="my-7 space-y-3 w-full">
+                          <label className="text-left w-3/4 mx-auto block">
+                            Hiring Organization
+                          </label>
+                          <Field
+                            name="hiringOrganization"
+                            type="text"
+                            placeholder=""
+                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-1"
+                          />
+                          <ErrorMessage
+                            name="hiringOrganization"
+                            component="div"
+                            className="text-red-600 text-sm w-full"
+                          />
+                        </div>
+
+                        <div className="my-7 space-y-3 w-full">
+                          <label className="text-left w-3/4 mx-auto block">
+                            Candidates Required
+                          </label>
+                          <Field
+                            name="reqApp"
+                            type="text"
+                            placeholder=""
+                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-1"
+                          />
+                          <ErrorMessage
+                            name="reqApp"
+                            component="div"
+                            className="text-red-600 text-sm w-full"
+                          />
+                        </div>
+
+                        <button
+                          type="submit"
+                          class="bg-blue-500 my-7 px-5 py-3 hover:bg-blue-700 text-white font-bold rounded-lg"
+                          onClick={() => saveBasic(values)}
+                        >
+                          Save
+                        </button>
+                      </Form>
+                    </div>
+                  );
+                }}
+              </Formik>
+    </div>
+    <div className="w-1/4 shadow-md mx-3" >
+      <div>
+      <Formik
+            initialValues={{
+              picked: 'One',
+              toggle: false,
+              checked: [],
+            }}
+            onSubmit={async (values) => {
+              console.log(values);
+            }}
+          >
+            {({ values }) => (
+              <Form className="text-center px-5 py-3 bg-white">
+                <div className="text-2xl text-center font-bold font-gray-600">Apply Filters</div>
+
+
+                <div className="flex-column content-center text-left align-items-center  py-3 my-5 w-3/4 mx-auto  border-t border-gray-300">
+
+                  <label className="font-semibold text-md my-3">Job-Type</label><br />
+                  <Field className="rounded-lg w-full" name="jobType" as="select">
+                    <option value="fulltime">Full time</option>
+                    <option value="internship">Internship</option>
+                    <option value="parttime">Part Time</option>
+                  </Field>
+
+                </div>
+
+                <div className="flex-column content-center text-left align-items-center  py-3 my-5 w-3/4 mx-auto ">
+
+                  <label className="font-semibold text-md my-3">Location</label>
+                  <Field
+                    type="text"
+                    className="block  rounded-lg py-1 md:w-3/4 w-full"
+                    name="location"
+
+                  // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+
+                  />
+
+                </div>
+
+                <div className="flex-column content-center text-left align-items-center  py-3 my-5 w-5/6 mx-auto ">
+
+                  <label className="font-semibold text-md my-3">Pay Range</label>
+                  <div class="flex flex-col space-y-2 p-2 w-full">
+                    <Field type="range" class="w-full" name="salary" min="1" max="5" step="1" />
+                    <ul class="flex justify-between w-full px-[10px]">
+                      <li class="flex justify-center relative"><span class="absolute">0</span></li>
+                      <li class="flex justify-center relative"><span class="absolute">5k</span></li>
+                      <li class="flex justify-center relative"><span class="absolute">10k</span></li>
+                      <li class="flex justify-center relative"><span class="absolute">20k</span></li>
+                      <li class="flex justify-center relative"><span class="absolute">40k</span></li>
+                    </ul>
+                  </div>
+
+                </div>
+
+
+                <button
+                  className="shadow-lg rounded-lg my-4 px-4 py-2"
+                  style={{backgroundColor:"#034488" , color:"#fff"}}
+                  type="submit"
+                // onClick={() => applyFilter(values)}
+                >
+                  Apply
+                </button>
+              </Form>
+            )}
+          </Formik>
+      </div>
+    </div>
+  </div>
+
+      {/* <div className="Verticaltab w-full "> */}
+        {/* <Tabs>
           <TabList>
             <Tab>
               <p>Home</p>
@@ -483,12 +757,7 @@ const AddJob = () => {
             <Tab>
               <p>Salary</p>
             </Tab>
-            {/* <Tab>
-            <p>Title 4</p>
-          </Tab>
-          <Tab>
-            <p>Title 5</p>
-          </Tab> */}
+           
           </TabList>
 
           <TabPanel>
@@ -525,12 +794,7 @@ const AddJob = () => {
                   return (
                     <div className="w-full mt-9">
                       <Form className="w-full mt-5">
-                        {/* <h1
-                          style={{ color: `var(--primary)` }}
-                          className="text-xl border-b-[0.5px] pl-5  text-left px-5 border-gray-400 w-full font-bold text-gray-700"
-                        >
-                          Job Details
-                        </h1> */}
+                       
                         <div className="my-7 space-y-3 w-full">
                           <label className="text-left w-3/4 mx-auto block">
                             Job Title
@@ -552,17 +816,7 @@ const AddJob = () => {
                           <label className="text-left w-3/4 mb-3 mx-auto block">
                             Job Description
                           </label>
-                          {/* <Field
-                            name="jobDesc"
-                            type="text"
-                            placeholder=""
-                            className="border-[0.5px]  rounded-lg my-3 border-gray-400 md:w-1/2 w-3/4 focus:outline-0 focus:border-0 p-1"
-                          />
-                          <ErrorMessage
-                            name="jobDesc"
-                            component="div"
-                            className="text-red-600 text-sm w-full"
-                          /> */}
+                          
                           <Editor
                             editorState={desc}
                             toolbarClassName="toolbarClassName"
@@ -712,52 +966,18 @@ const AddJob = () => {
                   // eligibility: user.eligibility ? user.eligibility : '',
                   skills: user ? user.skills : [],
                 }}
-                // validate={(values) => {
-                //   const errors = {};
-                //   if (!values.jobTitle || values.jobTitle.trim() === "") {
-                //     errors.jobTitle = "Required !";
-                //   }
-                //   if (!values.jobDesc || values.jobDesc.trim() === "") {
-                //     errors.jobDesc = "Required !";
-                //   }
-                //   if (!values.location || values.location.trim() === "") {
-                //     errors.location = "Required !";
-                //   }
-                //   if (
-                //     !values.hiringOrganization ||
-                //     values.hiringOrganization.trim() === ""
-                //   ) {
-                //     errors.hiringOrganization = "Required !";
-                //   }
-                //   return errors;
-                // }}
-                // onSubmit={postJob}
+               
               >
                 {(values) => {
                   return (
                     <div>
                       <Form className="w-full mt-9 ">
-                        {/* <h1
-                          style={{ color: `var(--primary)` }}
-                          className="text-xl border-b-[0.5px] pl-5  text-left px-5 border-gray-400 w-full font-bold "
-                        >
-                          Eligibilty
-                        </h1> */}
+                       
                         <div className="mt-4">
                           <label className="text-left w-3/4 mx-auto mb-3 block">
                             Minimum Eligibility
                           </label>
-                          {/* <Field
-                            name="eligibility"
-                            type="textarea"
-                            placeholder=""
-                            className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
-                          />
-                          <ErrorMessage
-                            name="eligibility"
-                            component="div"
-                            className="text-red-600 text-sm w-full"
-                          /> */}
+                         
 
                           <Editor
                             editorState={eligible}
@@ -776,129 +996,10 @@ const AddJob = () => {
                             }}
                             onEditorStateChange={oneligibiltyStateChange}
                           />
-                          {/* <Editor
-                            editorState={editorState}
-                            toolbarClassName="toolbarClassName"
-                            wrapperClassName="wrapperClassName"
-                            editorClassName="editorClassName"
-                            onEditorStateChange={this.onEditorStateChange}
-                          />; */}
+                        
                         </div>
 
-                        {/* <div className="my-7 space-y-3 w-full block">
-                          <input
-                            className="w-3/4 text-600 my-3 block mx-auto"
-                            style={{ borderRadius: "10px" }}
-                            type="text"
-                            ref={inputRef}
-                            onChange={() => {
-                              if (inputRef.current) {
-                                const res = skills.findIndex((el) => {
-                                  return (
-                                    el.toLowerCase() ===
-                                    inputRef.current.value.toLowerCase()
-                                  );
-                                });
-                                if (res !== -1) {
-                                  setDisabled(true);
-                                  setError("Already added");
-                                } else {
-                                  setDisabled(false);
-                                  setError(null);
-                                }
-                              }
-                            }}
-                            onKeyDown={async (e) => {
-                              if (e.key === "Enter" && disabled === false) {
-                                if (inputRef.current) {
-                                  if (inputRef.current.value !== "") {
-                                    let t = skills;
-                                    await setSkills([
-                                      ...skills,
-                                      inputRef.current.value,
-                                    ]);
-                                    t.push(inputRef.current.value);
-                                    console.log(t);
-                                    inputRef.current.value = "";
-                                    let res = await localStorage.getItem(
-                                      "postjob"
-                                    );
-                                    res = JSON.parse(res);
-                                    res.skills = t;
-                                    await localStorage.setItem(
-                                      "postjob",
-                                      JSON.stringify(res)
-                                    );
-                                    setError(null);
-                                  }
-                                }
-                              }
-                            }}
-                          />
-                          <button
-                            type="button"
-                            className="bg-blue-600 rounded-sm text-white  py-2 px-3"
-                            disabled={disabled}
-                            onClick={async () => {
-                              if (
-                                inputRef.current &&
-                                inputRef.current.value !== ""
-                              ) {
-                                let t = skills;
-                                await setSkills([
-                                  ...skills,
-                                  inputRef.current.value,
-                                ]);
-                                t.push(inputRef.current.value);
-                                inputRef.current.value = "";
-                                let res = await localStorage.getItem("postjob");
-                                res = JSON.parse(res);
-                                res.skills = t;
-                                await localStorage.setItem(
-                                  "postjob",
-                                  JSON.stringify(res)
-                                );
-                                setError(null);
-                              }
-                            }}
-                          >
-                            Add
-                          </button>
-
-                          <div className="flex flex-wrap mx-5">
-                            {skills &&
-                              skills.map((item, index) => {
-                                return (
-                                  <div
-                                    key={index}
-                                    className="bg-gray-400 mr-3 my-2 text-black py-1 px-2 flex items-center space-x-3"
-                                  >
-                                    <p>{item}</p>
-                                    <p
-                                      className="cursor-pointer"
-                                      onClick={async () => {
-                                        const res1 = skills.filter((el) => {
-                                          return el !== item;
-                                        });
-                                        let res = await localStorage.getItem(
-                                          "postjob"
-                                        );
-                                        res = JSON.parse(res);
-                                        res.skills = res1;
-                                        await localStorage.setItem(
-                                          "postjob",
-                                          JSON.stringify(res)
-                                        );
-                                        setSkills(res1);
-                                      }}
-                                    >
-                                      <AiOutlineClose />
-                                    </p>
-                                  </div>
-                                );
-                              })}
-                          </div>
-                        </div> */}
+                      
                         <div className="my-7 space-y-3 w-full block">
                           <label className="text-left w-3/4 mx-auto block">
                             Skills
@@ -1590,12 +1691,7 @@ const AddJob = () => {
                   return (
                     <div>
                       <Form className="w-full mt-9">
-                        {/* <h1
-                          style={{ color: `var(--primary)` }}
-                          className="text-xl border-b-[0.5px] px-3  text-left border-gray-400 w-full font-bold text-gray-700"
-                        >
-                          Salary and Perks
-                        </h1> */}
+                       
                         <div className="my-7 mt-9 space-y-3 w-full">
                           <label className="text-left w-3/4 mx-auto block">
                             Salary
@@ -1612,13 +1708,7 @@ const AddJob = () => {
                           <label className="text-left w-3/4 mb-3 mx-auto block">
                             Perks
                           </label>
-                          {/* <Field
-                            name="perks"
-                            type="text"
-                            placeholder=""
-                            className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 p-1"
-
-                          /> */}
+                          
                           <Editor
                             editorState={perks}
                             toolbarClassName="toolbarClassName"
@@ -1659,8 +1749,8 @@ const AddJob = () => {
               </Formik>
             </div>
           </TabPanel>
-        </Tabs>
-      </div>
+        </Tabs> */}
+      {/* </div> */}
     </div>
   );
 };

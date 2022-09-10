@@ -77,7 +77,7 @@ export const dashboardRoutes = [
     icon: <CgWorkAlt className="text-xl" />,
     path: "jobs",
     component: <JobList/>,
-    hide: false,
+    hide: true,
   },
   {
     name: "Chat",

@@ -87,7 +87,8 @@ const Sidebar = () => {
   }, []);
 
   return (
-    <div className="h-screen fixed top-20 left-0">
+    <div style={{width:'14%'}}>
+    <div className="h-screen fixed top-20 left-0" style={{marginTop:"-10px" , width:"14%"}}>
       <div className="absolute  text-gray-9 left-5 top-5  visible md:invisible text-gray-700 text-xl">
         <AiOutlineMenu
           className="text-md "
@@ -135,9 +136,8 @@ const Sidebar = () => {
             </MenuItem>
 
             {/* <hr></hr> */}
-            <p className="text-gray-400 font-semibold font-sm mx-4 my-5">
-              Analytics
-            </p>
+            <p className='text-gray-400 font-bold text-xs mx-4 my-5'>ANALYTICS</p>
+
             {companyDashboardRoutes.map((item) => {
               if (item.hide === false && permission[item.permission] !== false)
                 return (
@@ -178,6 +178,7 @@ const Sidebar = () => {
           </div>
         </div>
       </ProSidebar>
+    </div>
     </div>
   );
 };

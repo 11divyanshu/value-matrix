@@ -109,10 +109,10 @@ const AdminDashboard = () => {
       <div className="w-full bg-white  fixed z-50"> <Navbar user={user} /></div>
 
       <div className="flex w-full ">
-        <Sidebar className="h-screen fixed left-0">
+        <Sidebar>
 
         </Sidebar>
-        <div className="justify-end ml-auto " style={{ width: "82%", marginTop: '75px' }}>{comp}</div>
+        <div className="justify-end ml-auto mt-20" style={{width:"86%", marginTop:'70px',backgroundColor:"#ffffff"}}>{comp}</div>
       </div>
     </div>
   );

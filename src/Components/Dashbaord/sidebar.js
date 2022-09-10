@@ -103,7 +103,7 @@ function handleActive(event) {
            <MenuItem className='text-gray-700 font-semibold flex' active={window.location.pathname === `/user/`}
                        > <p className='text-xl flex mx-2'><AiOutlineHome/><p className='text-sm mx-4 text-gray-700 font-semibold'>Dashboard </p></p><Link to={`/user/`} /></MenuItem>
 
-<p className='text-gray-400 font-semibold font-sm mx-4 my-5'>Analytics</p>
+<p className='text-gray-400 font-bold text-xs mx-4 my-5'>ANALYTICS</p>
           {dashboardRoutes.map((item) => {
             if(item.hide === false)
             return (
