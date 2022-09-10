@@ -100,7 +100,7 @@ function handleActive(event) {
           >
            Value matrix
           </MenuItem> */}
-           <MenuItem className='text-gray-700 font-semibold flex' active={window.location.pathname === `/user/`}
+           <MenuItem className='text-gray-700 font-semibold flex' active={window.location.pathname === `/user/` || window.location.pathname === `/user`}
                        > <p className='text-xl flex mx-2'><AiOutlineHome/><p className='text-sm mx-4 text-gray-700 font-semibold'>Dashboard </p></p><Link to={`/user/`} /></MenuItem>
 
 <p className='text-gray-400 font-bold text-xs mx-4 my-5'>ANALYTICS</p>

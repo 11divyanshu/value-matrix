@@ -10,10 +10,17 @@ import DOMPurify from "dompurify";
 import { BsThreeDots ,BsCashStack } from "react-icons/bs";
 import Microsoft from "../../assets/images/micro.jpg";
 import { CgWorkAlt } from "react-icons/cg";
+import {
+  getJobInvitations,
+  handleCandidateJobInvitation,
+} from "../../service/api";
+
+import swal from "sweetalert";
 
 function JobDetails(props) {
   const [job_id, setJobId] = React.useState(props.id);
   const [job, setJob] = React.useState(null);
+  const [JobInvitation, setJobInvitation] = React.useState([]);
 
   const [user, setUser] = React.useState(null);
 
@@ -36,6 +43,43 @@ function JobDetails(props) {
     return {
       __html: DOMPurify.sanitize(html),
     };
+  };
+  const handleJobInvitation = async (job, accept) => {
+    try {
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let res = await handleCandidateJobInvitation(
+        { job_id: job._id, user_id: user._id, accept: accept },
+        user.access_token
+      );
+      if (res && res.status === 200) {
+        let d = JobInvitation.filter((el) => {
+          return el !== job;
+        });
+        await setJobInvitation(d);
+        await setJobInvitation(d);
+        swal({
+          title: "Success",
+          text: accept ? "Job Invitation Accepted" : "Job Invitation Rejected",
+          icon: "success",
+          button: "Ok",
+        });
+      } else {
+        swal({
+          title: "Error",
+          text: "Something went wrong",
+          icon: "error",
+          button: "Ok",
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      swal({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        button: "Ok",
+      });
+    }
   };
 
   return (
@@ -197,7 +241,17 @@ function JobDetails(props) {
             </div>
           
               
-
+<div className="text-right">
+<button
+                        className=" px-4 py-2 text-white rounded-md text-sm"
+                        onClick={() => {
+                          handleJobInvitation(job, true);
+                        }}
+                        style={{ background: "#034488" }}
+                      >
+                        Accept
+                      </button>
+</div>
                
               
 

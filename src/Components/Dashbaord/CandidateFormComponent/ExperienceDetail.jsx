@@ -189,84 +189,268 @@ const ExperienceDetailForm = (props) => {
             >
               {({ values }) => {
                 return (
-                  <Form className="w-4/5 space-y-3">
-                    <div className="my-3">
-                      <label>Title *</label>
-                      <Field
-                        name="title"
-                        type="text"
-                        placeholder="Ex. Manager"
-                        className="w-full text-600"
-                        style={{ borderRadius: "10px" }}
-                        value={values.title}
-                      />
+                  // <Form className="w-4/5 space-y-3">
+                  //   <div className="my-3">
+                  //     <label>Title *</label>
+                  //     <Field
+                  //       name="title"
+                  //       type="text"
+                  //       placeholder="Ex. Manager"
+                  //       className="w-full text-600"
+                  //       style={{ borderRadius: "10px" }}
+                  //       value={values.title}
+                  //     />
+                  //     <ErrorMessage
+                  //       name="title"
+                  //       component="div"
+                  //       className="text-sm text-red-600"
+                  //     />
+                  //   </div>
+                  //   <div className="my-3">
+                  //     <label>Employment Type *</label>
+                  //     <Field
+                  //       name="employment_type"
+                  //       as="select"
+                  //       className="w-full text-600"
+                  //       style={{ borderRadius: "10px" }}
+                  //     >
+                  //       <option value="">Please Select</option>
+                  //       <option value="Full Time">Full Time</option>
+                  //       <option value="Part Time">Part Time</option>
+                  //       <option value="Self Employed">Self Employed</option>
+                  //       <option value="Internship">Internship</option>
+                  //       <option value="Free Lancer">Free Lancer</option>
+                  //     </Field>
+                  //     <ErrorMessage
+                  //       name="employment_type"
+                  //       component="div"
+                  //       className="text-sm text-red-600"
+                  //     />
+                  //   </div>
+                  //   <div className="my-3">
+                  //     <label>Company *</label>
+                  //     <Field
+                  //       name="company_name"
+                  //       type="text"
+                  //       placeholder="Ex. Microsoft"
+                  //       className="w-full text-600"
+                  //       style={{ borderRadius: "10px" }}
+                  //       value={values.company_name}
+                  //     />
+                  //     <ErrorMessage
+                  //       name="company_name"
+                  //       component="div"
+                  //       className="text-sm text-red-600"
+                  //     />
+                  //   </div>
+                  //   <div className="my-3">
+                  //     <label>Location *</label>
+                  //     <Field
+                  //       name="location"
+                  //       type="text"
+                  //       placeholder="Ex. London"
+                  //       className="w-full text-600"
+                  //       style={{ borderRadius: "10px" }}
+                  //       value={values.location}
+                  //     />
+                  //     <ErrorMessage
+                  //       name="location"
+                  //       component="div"
+                  //       className="text-sm text-red-600"
+                  //     />
+                  //   </div>
+                  //   <div className="flex flex-wrap">
+                  //     <div className="my-3 md:w-1/2 pr-2">
+                  //       <label>Start Date *</label>
+                  //       <Field
+                  //         name="start_date"
+                  //         type="month"
+                  //         className="w-full text-600"
+                  //         style={{ borderRadius: "10px" }}
+                  //         value={values.start_date}
+                  //       />
+                  //       <ErrorMessage
+                  //         name="start_date"
+                  //         component="div"
+                  //         className="text-sm text-red-600"
+                  //       />
+                  //     </div>
+                  //     <div className="my-3 md:w-1/2 pr-2">
+                  //       <label>End Date (or Expected)*</label>
+                  //       <Field
+                  //         name="end_date"
+                  //         type="month"
+                  //         className="w-full text-600"
+                  //         style={{ borderRadius: "10px" }}
+                  //         value={values.end_date}
+                  //       />
+                  //       <ErrorMessage
+                  //         name="end_date"
+                  //         component="div"
+                  //         className="text-sm text-red-600"
+                  //       />
+                  //     </div>
+                  //   </div>
+                  //   <div className="my-3">
+                  //     <label>Industry *</label>
+                  //     <Field
+                  //       name="industry"
+                  //       type="text"
+                  //       className="w-full text-600"
+                  //       style={{ borderRadius: "10px" }}
+                  //       value={values.industry}
+                  //     />
+                  //     <ErrorMessage
+                  //       name="industry"
+                  //       component="div"
+                  //       className="text-sm text-red-600"
+                  //     />
+                  //   </div>
+                  //   <div className="my-3">
+                  //     <label>Description</label>
+                  //     <Field
+                  //       name="description"
+                  //       type="textarea"
+                  //       className="w-full text-600 border-[0.5px] border-[#6b7280] p-2"
+                  //       style={{ borderRadius: "10px", border: "0.5px solid" }}
+                  //       value={values.description}
+                  //     />
+                  //     <ErrorMessage
+                  //       name="description"
+                  //       component="div"
+                  //       className="text-sm text-red-600"
+                  //     />
+                  //   </div>
+                  //   <div className="flex flex-wrap">
+                  //     <button
+                  //       type="submit"
+                  //       style={{backgroundColor:"#034488"}}
+                  //       className="h-8 bg-blue-600 text-white rounded-sm block cursor-pointer px-8 align-middle"
+                  //     >
+                  //       {edit === null ? "Add " : "Update"}
+                  //     </button>
+                  //     <button
+                  //       type="button"
+                  //       className="h-8 border-[0.5px] mx-3 border-black text-black rounded-sm block cursor-pointer px-8"
+                  //       ref={resetBtn}
+                  //       onClick={async () => {
+                  //         await setShowError(false);
+                  //         await setInitialValues({
+                  //           title: null,
+                  //           employment_type: "",
+                  //           company_name: null,
+                  //           location: null,
+                  //           start_date: null,
+                  //           end_date: null,
+                  //           industry: null,
+                  //           description: null,
+                  //         });
+                  //         await setShowForm(false);
+                  //       }}
+                  //     >
+                  //       Cancel
+                  //     </button>
+                  //   </div>
+                  // </Form>
+                  <Form className="w-full py-4">
+                  <div className="md:w-1/2  flex w-full  space-y-1 my-5">
+                    <label className="font-semibold text-lg w-2/5 mx-2">Title </label>
+                    <div className="w-4/5"><Field
+                      name="title"
+                      type="text"
+                      placeholder="Ex. Manager"
+                      className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
+                      style={{ borderRadius: "4px" }}
+                      value={values.title}
+                    />
                       <ErrorMessage
                         name="title"
                         component="div"
                         className="text-sm text-red-600"
                       />
                     </div>
-                    <div className="my-3">
-                      <label>Employment Type *</label>
-                      <Field
-                        name="employment_type"
-                        as="select"
-                        className="w-full text-600"
-                        style={{ borderRadius: "10px" }}
-                      >
-                        <option value="">Please Select</option>
-                        <option value="Full Time">Full Time</option>
-                        <option value="Part Time">Part Time</option>
-                        <option value="Self Employed">Self Employed</option>
-                        <option value="Internship">Internship</option>
-                        <option value="Free Lancer">Free Lancer</option>
-                      </Field>
+                  </div>
+                  <div className="md:w-1/2  flex w-full  space-y-1 my-5">
+                    <label className="font-semibold text-lg w-2/5 mx-2">Employment Type </label>
+
+                    <div className="w-4/5"><Field
+                      name="employment_type"
+                      as="select"
+                      className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
+                      style={{ borderRadius: "4px" }}
+                    >
+                      <option value="">Please Select</option>
+                      <option value="Full Time">Full Time</option>
+                      <option value="Part Time">Part Time</option>
+                      <option value="Self Employed">
+                        Self Employed
+                      </option>
+                      <option value="Internship">
+                        Internship
+                      </option>
+                      <option value="Free Lancer">
+                        Free Lancer
+                      </option>
+                    </Field>
                       <ErrorMessage
                         name="employment_type"
                         component="div"
                         className="text-sm text-red-600"
                       />
                     </div>
-                    <div className="my-3">
-                      <label>Company *</label>
-                      <Field
-                        name="company_name"
-                        type="text"
-                        placeholder="Ex. Microsoft"
-                        className="w-full text-600"
-                        style={{ borderRadius: "10px" }}
-                        value={values.company_name}
-                      />
+                  </div>
+                  <div className="md:w-1/2  flex w-full  space-y-1 my-5">
+                    <label className="font-semibold text-lg w-2/5 mx-2">Company </label>
+
+                    <div className="w-4/5"><Field
+                      name="company_name"
+                      type="text"
+                      placeholder="Ex. Microsoft"
+                      className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
+                      style={{ borderRadius: "4px" }}
+                      value={values.company_name}
+                    />
                       <ErrorMessage
                         name="company_name"
                         component="div"
                         className="text-sm text-red-600"
                       />
                     </div>
-                    <div className="my-3">
-                      <label>Location *</label>
-                      <Field
-                        name="location"
-                        type="text"
-                        placeholder="Ex. London"
-                        className="w-full text-600"
-                        style={{ borderRadius: "10px" }}
-                        value={values.location}
-                      />
+                  </div>
+                  <div className="md:w-1/2  flex w-full  space-y-1 my-5">
+                    <label className="font-semibold text-lg w-2/5 mx-2">Location </label>
+                    <div className="w-4/5"><Field
+                      name="location"
+                      type="text"
+                      placeholder="Ex. London"
+                      className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
+                      style={{ borderRadius: "4px" }}
+                      value={values.location}
+                    />
                       <ErrorMessage
                         name="location"
                         component="div"
                         className="text-sm text-red-600"
                       />
                     </div>
-                    <div className="flex flex-wrap">
-                      <div className="my-3 md:w-1/2 pr-2">
-                        <label>Start Date *</label>
+                  </div>
+                  <div className="md:w-1/2  md:flex w-full  space-y-1 my-2">
+
+
+                    <label className="font-semibold text-lg w-2/5 mx-2">Work Period </label>
+
+<div className="w-4/5 flex justify-between" style={{justifyContent:"space-between"}}>
+                    <div className=" my-1  flex mr-5 align-middle">
+                      <label className="font-semibold text-lg py-2">Start From</label>
+                      <div className="">
                         <Field
                           name="start_date"
                           type="month"
-                          className="w-full text-600"
-                          style={{ borderRadius: "10px" }}
+                          className="block border-gray-400 py-2 w-full mx-2 border-[0.5px] border-[#6b7280]"
+                          style={{
+                            borderRadius: "4px",
+                            border: "0.5px solid",
+                          }}
                           value={values.start_date}
                         />
                         <ErrorMessage
@@ -275,13 +459,18 @@ const ExperienceDetailForm = (props) => {
                           className="text-sm text-red-600"
                         />
                       </div>
-                      <div className="my-3 md:w-1/2 pr-2">
-                        <label>End Date (or Expected)*</label>
+                    </div>
+                    <div className=" my-1  flex ml-2  align-middle">
+                      <label className="font-semibold text-lg mx-2 py-2">End At</label>
+                      <div className="">
                         <Field
                           name="end_date"
                           type="month"
-                          className="w-full text-600"
-                          style={{ borderRadius: "10px" }}
+                          className="block border-gray-400 py-2  border-[0.5px] border-[#6b7280]"
+                          style={{
+                            borderRadius: "4px",
+                            border: "0.5px solid",
+                          }}
                           value={values.end_date}
                         />
                         <ErrorMessage
@@ -291,67 +480,73 @@ const ExperienceDetailForm = (props) => {
                         />
                       </div>
                     </div>
-                    <div className="my-3">
-                      <label>Industry *</label>
-                      <Field
-                        name="industry"
-                        type="text"
-                        className="w-full text-600"
-                        style={{ borderRadius: "10px" }}
-                        value={values.industry}
-                      />
+                    </div>
+                  </div>
+                  <div className="md:w-1/2  flex w-full  space-y-1 my-5">
+                    <label className="font-semibold text-lg w-2/5 mx-2">Industry </label>
+                    <div className="w-4/5"><Field
+                      name="industry"
+                      type="text"
+                      className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
+                      style={{ borderRadius: "4px" }}
+                      value={values.industry}
+                    />
                       <ErrorMessage
                         name="industry"
                         component="div"
                         className="text-sm text-red-600"
                       />
                     </div>
-                    <div className="my-3">
-                      <label>Description</label>
-                      <Field
-                        name="description"
-                        type="textarea"
-                        className="w-full text-600 border-[0.5px] border-[#6b7280] p-2"
-                        style={{ borderRadius: "10px", border: "0.5px solid" }}
-                        value={values.description}
-                      />
+                  </div>
+                  <div className="md:w-1/2  flex w-full  space-y-1 my-5">
+                    <label className="font-semibold text-lg w-2/5 mx-2">Description</label>
+                    <div className="w-4/5"><Field
+                      name="description"
+                      type="textarea"
+                      className="block border-gray-400 py-1 w-full border-[0.5px] border-[#6b7280] p-2"
+                      style={{
+                        borderRadius: "4px",
+                        border: "0.5px solid",
+                      }}
+                      value={values.description}
+                    />
                       <ErrorMessage
                         name="description"
                         component="div"
                         className="text-sm text-red-600"
                       />
                     </div>
-                    <div className="flex flex-wrap">
-                      <button
-                        type="submit"
-                        style={{backgroundColor:"#034488"}}
-                        className="h-8 bg-blue-600 text-white rounded-sm block cursor-pointer px-8 align-middle"
-                      >
-                        {edit === null ? "Add " : "Update"}
-                      </button>
-                      <button
-                        type="button"
-                        className="h-8 border-[0.5px] mx-3 border-black text-black rounded-sm block cursor-pointer px-8"
-                        ref={resetBtn}
-                        onClick={async () => {
-                          await setShowError(false);
-                          await setInitialValues({
-                            title: null,
-                            employment_type: "",
-                            company_name: null,
-                            location: null,
-                            start_date: null,
-                            end_date: null,
-                            industry: null,
-                            description: null,
-                          });
-                          await setShowForm(false);
-                        }}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </Form>
+                  </div>
+                  <div className="flex flex-wrap flex justify-center text-center">
+                    <button
+                      type="submit"
+                      className=" bg-blue-600  text-white rounded-lg block cursor-pointer py-2 px-8 align-middle"
+                      style={{ backgroundColor: "#034488" }}
+                    >
+                      {edit === null ? "Save Changes " : "Update"}
+                    </button>
+                    <button
+                      type="button"
+                      className=" border-[0.5px] mx-3 border-gray-700 py-2 text-gray-700 rounded-lg block cursor-pointer px-8"
+                      onClick={async () => {
+                                await setShowError(false);
+                                await setInitialValues({
+                                  title: null,
+                                  employment_type: "",
+                                  company_name: null,
+                                  location: null,
+                                  start_date: null,
+                                  end_date: null,
+                                  industry: null,
+                                  description: null,
+                                });
+                                await setShowForm(false);
+                              }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </Form>
                 );
               }}
             </Formik>

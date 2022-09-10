@@ -132,7 +132,7 @@ const Sidebar = () => {
         <SidebarContent className='text-left mx-5 mt-7'>
           <Menu iconShape="square">
 
-            <MenuItem className='text-gray-700 font-semibold flex' active={window.location.pathname === `/admin/`}
+            <MenuItem className='text-gray-700 font-semibold flex' active={window.location.pathname === `/admin/` || window.location.pathname === `/admin`}
             > <p className='text-xl flex mx-2'><AiOutlineHome /><p className='text-sm mx-4 text-gray-700 font-semibold'>Dashboard </p></p><Link to={`/admin/`} /></MenuItem>
 
 <p className='text-gray-400 font-semibold font-sm mx-4 my-5'>Analytics</p>

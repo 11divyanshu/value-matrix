@@ -189,148 +189,332 @@ const EducationDetailForm = (props) => {
             >
               {({ values }) => {
                 return (
-                  <Form className="w-4/5">
-                    <div className="my-3">
-                      <label>School *</label>
-                      <Field
-                        name="school"
-                        type="text"
-                        placeholder="Ex. Boston University"
-                        className="w-full text-600"
-                        style={{ borderRadius: "10px" }}
-                        value={values.school}
-                      />
-                      <ErrorMessage
-                        name="school"
-                        component="div"
-                        className="text-sm text-red-600"
-                      />
-                    </div>
-                    <div className="my-3">
-                      <label>Degree *</label>
-                      <Field
-                        name="degree"
-                        type="text"
-                        placeholder="Ex. Bachelor's"
-                        className="w-full text-600"
-                        style={{ borderRadius: "10px" }}
-                        value={values.degree}
-                      />
-                      <ErrorMessage
-                        name="degree"
-                        component="div"
-                        className="text-sm text-red-600"
-                      />
-                    </div>
-                    <div className="my-3">
-                      <label>Field of Study *</label>
-                      <Field
-                        name="field_of_study"
-                        type="text"
-                        placeholder="Ex. Business"
-                        className="w-full text-600"
-                        style={{ borderRadius: "10px" }}
-                        value={values.field_of_study}
-                      />
-                      <ErrorMessage
-                        name="field_of_study"
-                        component="div"
-                        className="text-sm text-red-600"
-                      />
-                    </div>
-                    <div className="flex flex-wrap">
-                      <div className="my-3 md:w-1/2 pr-2">
-                        <label>Start Date *</label>
-                        <Field
-                          name="start_date"
-                          type="month"
-                          className="w-full text-600"
-                          style={{ borderRadius: "10px" }}
-                          value={values.start_date}
-                        />
-                        <ErrorMessage
-                          name="start_date"
-                          component="div"
-                          className="text-sm text-red-600"
-                        />
-                      </div>
-                      <div className="my-3 md:w-1/2 pr-2">
-                        <label>End Date (or Expected)*</label>
-                        <Field
-                          name="end_date"
-                          type="month"
-                          className="w-full text-600"
-                          style={{ borderRadius: "10px" }}
-                          value={values.end_date}
-                        />
-                        <ErrorMessage
-                          name="end_date"
-                          component="div"
-                          className="text-sm text-red-600"
-                        />
-                      </div>
-                    </div>
-                    <div className="my-3">
-                      <label>Grade</label>
-                      <Field
-                        name="grade"
-                        type="text"
-                        className="w-full text-600"
-                        style={{ borderRadius: "10px" }}
-                        value={values.grade}
-                      />
-                      <ErrorMessage
-                        name="grade"
-                        component="div"
-                        className="text-sm text-red-600"
-                      />
-                    </div>
-                    <div className="my-3">
-                      <label>Description</label>
-                      <Field
-                        name="description"
-                        type="textarea"
-                        className="w-full text-600 border-[0.5px] border-[#6b7280] p-2"
-                        style={{ borderRadius: "10px", border: "0.5px solid" }}
-                        value={values.description}
-                      />
-                      <ErrorMessage
-                        name="description"
-                        component="div"
-                        className="text-sm text-red-600"
-                      />
-                    </div>
-                    <div className="flex flex-wrap">
-                      <button
-                        type="submit"
-                        className="h-8 bg-blue-600 text-white rounded-sm block cursor-pointer px-8 align-middle"
-                        style={{backgroundColor:"#034488"}}
-                      >
-                        {edit === null ? "Add " : "Update"}
-                      </button>
-                      <button
-                        type="button"
-                        className="h-8 border-[0.5px] mx-3 border-black text-black rounded-sm block cursor-pointer px-8"
+                  // <Form className="w-4/5">
+                  //   <div className="my-3">
+                  //     <label>School *</label>
+                  //     <Field
+                  //       name="school"
+                  //       type="text"
+                  //       placeholder="Ex. Boston University"
+                  //       className="w-full text-600"
+                  //       style={{ borderRadius: "10px" }}
+                  //       value={values.school}
+                  //     />
+                  //     <ErrorMessage
+                  //       name="school"
+                  //       component="div"
+                  //       className="text-sm text-red-600"
+                  //     />
+                  //   </div>
+                  //   <div className="my-3">
+                  //     <label>Degree *</label>
+                  //     <Field
+                  //       name="degree"
+                  //       type="text"
+                  //       placeholder="Ex. Bachelor's"
+                  //       className="w-full text-600"
+                  //       style={{ borderRadius: "10px" }}
+                  //       value={values.degree}
+                  //     />
+                  //     <ErrorMessage
+                  //       name="degree"
+                  //       component="div"
+                  //       className="text-sm text-red-600"
+                  //     />
+                  //   </div>
+                  //   <div className="my-3">
+                  //     <label>Field of Study *</label>
+                  //     <Field
+                  //       name="field_of_study"
+                  //       type="text"
+                  //       placeholder="Ex. Business"
+                  //       className="w-full text-600"
+                  //       style={{ borderRadius: "10px" }}
+                  //       value={values.field_of_study}
+                  //     />
+                  //     <ErrorMessage
+                  //       name="field_of_study"
+                  //       component="div"
+                  //       className="text-sm text-red-600"
+                  //     />
+                  //   </div>
+                  //   <div className="flex flex-wrap">
+                  //     <div className="my-3 md:w-1/2 pr-2">
+                  //       <label>Start Date *</label>
+                  //       <Field
+                  //         name="start_date"
+                  //         type="month"
+                  //         className="w-full text-600"
+                  //         style={{ borderRadius: "10px" }}
+                  //         value={values.start_date}
+                  //       />
+                  //       <ErrorMessage
+                  //         name="start_date"
+                  //         component="div"
+                  //         className="text-sm text-red-600"
+                  //       />
+                  //     </div>
+                  //     <div className="my-3 md:w-1/2 pr-2">
+                  //       <label>End Date (or Expected)*</label>
+                  //       <Field
+                  //         name="end_date"
+                  //         type="month"
+                  //         className="w-full text-600"
+                  //         style={{ borderRadius: "10px" }}
+                  //         value={values.end_date}
+                  //       />
+                  //       <ErrorMessage
+                  //         name="end_date"
+                  //         component="div"
+                  //         className="text-sm text-red-600"
+                  //       />
+                  //     </div>
+                  //   </div>
+                  //   <div className="my-3">
+                  //     <label>Grade</label>
+                  //     <Field
+                  //       name="grade"
+                  //       type="text"
+                  //       className="w-full text-600"
+                  //       style={{ borderRadius: "10px" }}
+                  //       value={values.grade}
+                  //     />
+                  //     <ErrorMessage
+                  //       name="grade"
+                  //       component="div"
+                  //       className="text-sm text-red-600"
+                  //     />
+                  //   </div>
+                  //   <div className="my-3">
+                  //     <label>Description</label>
+                  //     <Field
+                  //       name="description"
+                  //       type="textarea"
+                  //       className="w-full text-600 border-[0.5px] border-[#6b7280] p-2"
+                  //       style={{ borderRadius: "10px", border: "0.5px solid" }}
+                  //       value={values.description}
+                  //     />
+                  //     <ErrorMessage
+                  //       name="description"
+                  //       component="div"
+                  //       className="text-sm text-red-600"
+                  //     />
+                  //   </div>
+                  //   <div className="flex flex-wrap w-full text-center">
+                  //     <button
+                  //       type="submit"
+                  //       className="h-8 bg-blue-600 text-white rounded-sm block cursor-pointer px-8 align-middle"
+                  //       style={{backgroundColor:"#034488"}}
+                  //     >
+                  //       {edit === null ? "Add " : "Update"}
+                  //     </button>
+                  //     <button
+                  //       type="button"
+                  //       className="h-8 border-[0.5px] mx-3 border-black text-black rounded-sm block cursor-pointer px-8"
 
-                        ref={resetBtn}
-                        onClick={async () => {
-                          await setShowError(false);
-                          await setShowForm(false);
-                          await setInitialValues({
-                            school: null,
-                            degree: null,
-                            field_of_study: null,
-                            start_date: null,
-                            end_date: null,
-                            grade: null,
-                            description: null,
-                          })
-                        }}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </Form>
+                  //       ref={resetBtn}
+                  //       onClick={async () => {
+                  //         await setShowError(false);
+                  //         await setShowForm(false);
+                  //         await setInitialValues({
+                  //           school: null,
+                  //           degree: null,
+                  //           field_of_study: null,
+                  //           start_date: null,
+                  //           end_date: null,
+                  //           grade: null,
+                  //           description: null,
+                  //         })
+                  //       }}
+                  //     >
+                  //       Cancel
+                  //     </button>
+                  //   </div>
+                  // </Form>
+                  <Form className="w-full py-4">
+
+
+                                <div className="md:w-1/2  md:flex w-full  space-y-1 my-2">
+                                  <label className="font-semibold text-lg w-2/5 mx-2">School </label>
+
+                                  <div className="w-4/5"><Field
+                                    name="school"
+                                    type="text"
+                                    placeholder="Ex. Boston University"
+                                    className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
+                                    style={{
+                                      borderRadius: "4px",
+                                      border: "0.5px solid",
+                                    }}
+                                    value={values.school}
+                                  />
+                                    <ErrorMessage
+                                      name="school"
+                                      component="div"
+                                      className="text-sm text-red-600"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="md:w-1/2  md:flex w-full  space-y-1 my-2">
+                                  <label className="font-semibold text-lg w-2/5 mx-2">Degree </label>
+
+                                  <div className="w-4/5"><Field
+                                    name="degree"
+                                    type="text"
+                                    placeholder="Ex. Bachelor's"
+                                    className="block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
+                                    style={{
+                                      borderRadius: "4px",
+                                      border: "0.5px solid",
+                                    }}
+                                    value={values.degree}
+                                  />
+                                    <ErrorMessage
+                                      name="degree"
+                                      component="div"
+                                      className="text-sm text-red-600"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="md:w-1/2  md:flex w-full  space-y-1 my-2">
+                                  <label className="font-semibold text-lg w-2/5 mx-2">Field </label>
+
+                                  <div className="w-4/5"><Field
+                                    name="field_of_study"
+                                    type="text"
+                                    placeholder="Ex. Business"
+                                    className="block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
+                                    style={{
+                                      borderRadius: "4px",
+                                      border: "0.5px solid",
+                                    }}
+                                    value={values.field_of_study}
+                                  />
+                                    <ErrorMessage
+                                      name="field_of_study"
+                                      component="div"
+                                      className="text-sm text-red-600"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="md:w-1/2  md:flex w-full  space-y-1 my-2">
+
+
+                                  <label className="font-semibold text-lg w-2/5 mx-2">Work Period </label>
+
+<div className="w-4/5 flex justify-between" style={{justifyContent:"space-between"}}>
+                                  <div className=" my-1  flex mr-5 align-middle">
+                                    <label className="font-semibold text-lg py-2">Start From</label>
+                                    <div className="">
+                                      <Field
+                                        name="start_date"
+                                        type="month"
+                                        className="block border-gray-400 py-2 w-full mx-2 border-[0.5px] border-[#6b7280]"
+                                        style={{
+                                          borderRadius: "4px",
+                                          border: "0.5px solid",
+                                        }}
+                                        value={values.start_date}
+                                      />
+                                      <ErrorMessage
+                                        name="start_date"
+                                        component="div"
+                                        className="text-sm text-red-600"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className=" my-1  flex ml-2  align-middle">
+                                    <label className="font-semibold text-lg mx-2 py-2">End At</label>
+                                    <div className="">
+                                      <Field
+                                        name="end_date"
+                                        type="month"
+                                        className="block border-gray-400 py-2  border-[0.5px] border-[#6b7280]"
+                                        style={{
+                                          borderRadius: "4px",
+                                          border: "0.5px solid",
+                                        }}
+                                        value={values.end_date}
+                                      />
+                                      <ErrorMessage
+                                        name="end_date"
+                                        component="div"
+                                        className="text-sm text-red-600"
+                                      />
+                                    </div>
+                                  </div>
+                                  </div>
+                                </div>
+                                <div className="md:w-1/2  md:flex w-full justify-between space-y-1 my-2">
+                                  <label className="font-semibold text-lg w-2/5 mx-2">Grade</label>
+
+                                  <div className="w-4/5"><Field
+                                    name="grade"
+                                    type="text"
+                                    className="block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
+                                    style={{
+                                      borderRadius: "4px",
+                                      border: "0.5px solid",
+                                    }}
+                                    value={values.grade}
+                                  />
+                                    <ErrorMessage
+                                      name="grade"
+                                      component="div"
+                                      className="text-sm text-red-600"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="md:w-1/2  md:flex w-full justify-between space-y-1 my-2">
+                                  <label className="font-semibold text-lg w-2/5 mx-2">Description</label>
+
+                                  <div className="w-4/5"><Field
+                                    name="description"
+                                    type="textarea"
+                                    className="block border-gray-400 py-2 w-full h-20 border-[0.5px] border-[#6b7280] p-2"
+                                    style={{
+                                      borderRadius: "4px",
+                                      border: "0.5px solid",
+                                    }}
+                                    value={values.description}
+                                  />
+                                    <ErrorMessage
+                                      name="description"
+                                      component="div"
+                                      className="text-sm text-red-600"
+                                    />
+                                  </div>
+                                </div>
+                                <div className=" flex justify-center mt-4 text-center">
+                                  <button
+                                   type="submit"
+                                    className=" bg-blue-600  text-white rounded-lg block cursor-pointer py-2 px-8 align-middle"
+                                    style={{ backgroundColor: "#034488" }}
+                                  >
+                                    {edit === null ? "Save Changes " : "Update"}
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className=" border-[0.5px] mx-3 border-gray-700 py-2 text-gray-700 rounded-lg block cursor-pointer px-8"
+                                    ref={resetBtn}
+                                    onClick={async () => {
+                                              await setShowError(false);
+                                              await setShowForm(false);
+                                              await setInitialValues({
+                                                school: null,
+                                                degree: null,
+                                                field_of_study: null,
+                                                start_date: null,
+                                                end_date: null,
+                                                grade: null,
+                                                description: null,
+                                              })
+                                            }}
+                                  >
+                                    Cancel
+                                  </button>
+                                </div>
+                              </Form>
                 );
               }}
             </Formik>

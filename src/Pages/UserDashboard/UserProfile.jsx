@@ -41,7 +41,7 @@ const UserProfile = () => {
   }, []);
 
   return (
-    <div className="pl-10 h-100">
+    <div className="px-3 h-100">
       {/* <p className="text-2xl font-bold" style={{ color: "#3B82F6" }}>Company Details</p> */}
       {user !== null && user !== undefined && (
         <div className="m-1">

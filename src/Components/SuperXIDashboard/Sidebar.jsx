@@ -1,13 +1,19 @@
 import { ProSidebar, SidebarContent, Menu, MenuItem } from "react-pro-sidebar";
 import "react-pro-sidebar/dist/css/styles.css";
 import { superXIDashboardRoutes } from "../../routes";
-import { AiOutlineMenu, AiOutlineClose,AiOutlineHome } from "react-icons/ai";
 import React from "react";
 import "../../assets/stylesheet/sidebar.scss";
 import { Link } from "react-router-dom";
 import { getUserFromId } from "../../service/api";
 import { FiSettings } from "react-icons/fi";
 import { MdOutlineLogout } from "react-icons/md";
+import {
+  AiOutlineMenu,
+  AiOutlineClose,
+  AiOutlineConsoleSql,
+  AiOutlineHome,
+  AiOutlinePlus,
+} from "react-icons/ai";
 const Sidebar = () => {
   const [open, setOpen] = React.useState(true);
   const [toggled, setToggled] = React.useState(true);
@@ -110,11 +116,11 @@ const Sidebar = () => {
       style={{backgroundColor:"#034488"}}
      
     >
-   + Post New Job
+   <p className="py-1 px-2 text-sm font-bold"> <AiOutlinePlus/></p> Post New Job
     </button>
       <SidebarContent    className='text-left mx-5 mt-7'>
         <Menu iconShape="square">
-        <MenuItem className='text-gray-700 font-semibold flex' active={window.location.pathname === `/superXI/`}
+        <MenuItem className='text-gray-700 font-semibold flex' active={window.location.pathname === `/superXI/` || window.location.pathname === `/superXI`}
                        > <p className='text-xl flex mx-2'><AiOutlineHome/><p className='text-sm mx-4 text-gray-700 font-semibold'>Dashboard </p></p><Link to={`/superXI/`} /></MenuItem>
                        <p className='text-gray-400 font-semibold font-sm mx-4 my-5'>Analytics</p>
                 {superXIDashboardRoutes.map((item) => {

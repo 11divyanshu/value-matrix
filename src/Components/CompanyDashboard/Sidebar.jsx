@@ -134,7 +134,7 @@ const Sidebar = () => {
           <Menu iconShape="square">
             <MenuItem
               className="text-gray-700 font-semibold flex"
-              active={window.location.pathname === `/company/`}
+              active={window.location.pathname === `/company/` || window.location.pathname === `/company`}
             >
               {" "}
               <p className="text-xl flex mx-2">
