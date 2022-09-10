@@ -197,7 +197,7 @@ const JobCard = (props) => {
                               {/* <BsThreeDots className="text-md" /> */}
                               <p className="text-sm font-semibold">
                                 <Link to={`/company/jobUpdate/${job._id}`}>
-                                  Update Details{" "}
+                                  Update Details
                                 </Link>
                               </p>{" "}
                             </div>

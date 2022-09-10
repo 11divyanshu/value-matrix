@@ -217,12 +217,11 @@ const UpdateJob = () => {
     const getData = async () => {
       // let access_token = ReactSession.get("access_token");
       let res = await getJobById(id, access_token);
-      console.log(res);
       if (res) {
-        console.log(res.data.job);
         res.data.job.validTill = res.data.job.validTill.split("T")[0];
         await localStorage.setItem("postjob", JSON.stringify(res.data.job));
         await setJob(res.data.job);
+        await setJob({...res.data.job});
         setState();
       } else {
         console.log("no response");
@@ -274,16 +273,7 @@ const UpdateJob = () => {
   React.useEffect(() => {
     const initial = async () => {
       await setJob(null);
-      let e = JSON.parse(await localStorage.getItem("postjob"));
       let access_token = localStorage.getItem("access_token");
-      if (e === null || e === "null") {
-        await localStorage.setItem("postjob", JSON.stringify(job));
-      }
-
-      if (e !== "null" || e !== null) {
-        setJob(e);
-      }
-
       let p = JSON.parse(await localStorage.getItem("prof"));
       let user = await JSON.parse(await localStorage.getItem("user"));
       await setUser(user);

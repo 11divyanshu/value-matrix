@@ -317,10 +317,10 @@ function JobDetails(props) {
                                 <div className="flex items-center text-gray-800 space-x-2">
                                   {/* <BsThreeDots className="text-md" /> */}
                                   <p className="text-sm font-semibold cursor-pointer" onClick={()=>{
-                                      window.location.href=`/company/jobUpdate/${job._id}`;
+                                      window.location.href = `/company/jobUpdate/${job._id}`;
                                     }}>
-                                      Update Details
-                                  </p>{" "}
+                                      Update Details 
+                                  </p>
                                 </div>
                               </div>
                             </div>
