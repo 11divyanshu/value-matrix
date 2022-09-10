@@ -43,8 +43,8 @@ const Panel = () => {
     <div className="flex w-full sm:p-1 bg-slate-100">
       {/* <Sidebar /> */}
 
-      <div className="container-fluid mx-auto mt-12">
-      <p className="text-sm flex my-1 mx-5 font-semibold">Hey Andrew - <p className="text-gray-400 px-2"> here's what's happening today!</p></p>
+      <div className="container-fluid mx-auto mt-2">
+      <p className="text-sm flex my-1 mx-5 font-semibold my-4">Hey Andrew - <p className="text-gray-400 px-2"> here's what's happening today!</p></p>
       <div className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-4">
         <div className="w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
           

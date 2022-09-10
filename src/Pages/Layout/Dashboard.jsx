@@ -191,9 +191,9 @@ const Dashboard = () => {
       </div>
       </div> */}
 <div className="flex w-full">
-<SidebarComponent className="h-screen fixed top-18 left-0">
+<SidebarComponent>
 
-      </SidebarComponent>
+</SidebarComponent>
 <div className="justify-end ml-auto mt-20" style={{width:"86%", marginTop:'70px',backgroundColor:"#ffffff"}}>{comp}</div>
 </div>
     </div>

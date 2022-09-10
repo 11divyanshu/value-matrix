@@ -13,6 +13,7 @@ import {
   AiOutlineClose,
   AiOutlineConsoleSql,
   AiOutlineHome,
+  AiOutlinePlus,
 } from "react-icons/ai";
 import { FiSettings } from "react-icons/fi";
 import { MdOutlineLogout } from "react-icons/md";
@@ -69,14 +70,15 @@ function handleActive(event) {
   
 
   return (
-    <div className="h-screen fixed top-20 left-0" style={{marginTop:"-10px"}}>
+    <div style={{width:'14%'}}>
+    <div className="h-screen fixed top-20 left-0" style={{marginTop:"-10px" , width:"14%"}}>
       <div className="absolute  text-gray-9 left-5 top-5  visible md:invisible text-gray-700 text-xl">
       <AiOutlineMenu className="text-md " onClick={()=>{handleToggle();}}/>
       </div>
     <ProSidebar
     // toggled={menu}
     // onToggle={(prev)=>setMenu(!prev)}
-      width={280}
+      // width={280}
      
       className="fixed left-0 h-screen z-0 text-left active text-gray-500"
       style={{backgroundColor:"#FAFAFA" , zIndex:-1}}
@@ -84,11 +86,12 @@ function handleActive(event) {
       collapsed={collapsed} toggled={toggled} onToggle={handleToggle}
     >
       <button
-      class=" hover:bg-blue-700 text-white font-bold py-2 px-10 mx-auto text-sm mt-4 text-center rounded-lg"
+      class=" hover:bg-blue-700 text-white font-bold py-2 px-10 mx-auto text-sm mt-4 flex text-center rounded-lg"
       style={{backgroundColor:"#034488"}}
      
     >
-   + Connect New Account
+{/* <p classname=" py-2"><AiOutlinePlus/></p> */}
+ <p>Connect New Account</p>
     </button>
       <SidebarContent  style={{zIndex:-1}}  className='text-left mx-5 mt-7'>
         <Menu iconShape="square">
@@ -169,6 +172,7 @@ function handleActive(event) {
 
 
 
+    </div>
     </div>
   );
 };
