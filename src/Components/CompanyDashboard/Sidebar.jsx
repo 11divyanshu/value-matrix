@@ -123,10 +123,10 @@ const Sidebar = () => {
         <div className="w-full px-10">
           <Link to="/company/jobsAdd">
             <button
-              class=" hover:bg-blue-700 flex text-white font-bold py-2 w-full text-sm mt-4 text-center rounded-lg"
+              class=" hover:bg-blue-700 flex text-white font-bold py-2 w-full text-sm mt-4 text-center align-center rounded-lg"
               style={{ backgroundColor: "#034488" }}
             >
-             <p className="py-1 px-2 text-md"> <AiOutlinePlus/></p> Post New Job
+             <p className="mx-auto flex"><p className="py-1 px-2 text-md"> <AiOutlinePlus/></p> Post New Job</p>
             </button>
           </Link>
         </div>

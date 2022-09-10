@@ -299,7 +299,7 @@ export default function Tabs(props) {
             setIndex(2);
           }}
         >
-          Billing Info
+          Billing Details
         </div>
       </div>
       <div className="tabContent bg-white w-full p-5" hidden={index != 0}>

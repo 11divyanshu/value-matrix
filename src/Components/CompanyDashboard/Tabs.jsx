@@ -53,7 +53,7 @@ export default function Tabs() {
 </div>
         <div className={`tabHead ${index === 1 && 'active'}`} onClick={() => { setIndex(1) }}><p className="md:visible hidden content">About</p><p className="icons hidden"><AiOutlineUser/></p>
 </div>
-        <div className={`tabHead ${index === 2 && 'active'}`} onClick={() => { setIndex(2) }}> <p className="md:visible hidden content">Billing Credentials</p><p className="icons hidden"><RiBillLine/></p>
+        <div className={`tabHead ${index === 2 && 'active'}`} onClick={() => { setIndex(2) }}> <p className="md:visible hidden content">Billing Details</p><p className="icons hidden"><RiBillLine/></p>
 </div>
       </div>
       <div className="tabContent bg-white p-5 bg-white w-full" hidden={index != 0}>
