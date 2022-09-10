@@ -74,7 +74,7 @@ const NotificationPopOver = (props) => {
             ${open ? "" : "text-opacity-90"} focus:outline-0`}
           >
             {notification && notification.length > 0 && (
-              <div class="absolute inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 p-1 text-xs bg-red-600 rounded-full z-10"></div>
+              <div class="absolute inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 p-1 text-xs bg-[#034488] rounded-full z-10" style={{backgroundColor:"#034488"}}></div>
             )}
             <BsBell className="text-gray-700 text-lg cursor-pointer hover:text-gray-800" />
           </Popover.Button>

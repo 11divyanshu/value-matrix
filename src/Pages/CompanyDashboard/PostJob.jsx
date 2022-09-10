@@ -271,16 +271,15 @@ const AddJob = () => {
 
   const postJob = async (values) => {
     try {
-      let skills = dbSkills.filter((el)=>{
+      let skills = dbSkills.filter((el) => {
         return el.proficiency > 0;
-      })
+      });
       let access_token = localStorage.getItem("access_token");
       let user = JSON.parse(localStorage.getItem("user"));
 
       values.skills = skills;
       values.user_id = user._id;
 
-      
       let res = await postJobAPI(values, access_token);
 
       if (selectedData.length > 0) {
@@ -302,9 +301,6 @@ const AddJob = () => {
       } else {
         setAlert(false);
       }
-
-      
-     
     } catch (error) {
       console.log(error);
       setAlert(false);
@@ -468,282 +464,300 @@ const AddJob = () => {
         </div>
       )}
 
-
-  <div className="flex w-full">
-    <div className="w-3/4 shadow-md mx-3" >
-
-    <Formik
-                initialValues={{
-                  jobTitle: user ? user.jobTitle : "",
-                  jobDesc: user ? user.jobDesc : "",
-                  location: user ? user.location : "",
-                  jobType: user ? user.jobType : "",
-                  reqApp: user ? user.reqApp : "",
-                  validTill: user ? user.validTill : "",
-                  hiringOrganization: user ? user.hiringOrganization : "",
-                }}
-                validate={(values) => {
-                  const errors = {};
-                  if (!values.jobTitle || values.jobTitle.trim() === "") {
-                    errors.jobTitle = "Required !";
-                  }
-
-                  if (!values.location || values.location.trim() === "") {
-                    errors.location = "Required !";
-                  }
-                  if (
-                    !values.hiringOrganization ||
-                    values.hiringOrganization.trim() === ""
-                  ) {
-                    errors.hiringOrganization = "Required !";
-                  }
-                  return errors;
-                }}
-              >
-                {(values) => {
-                  return (
-                    <div className="w-full mt-9">
-                      <Form className="w-full mt-5">
-                       
-                        <div className="my-7 space-y-3 w-full">
-                          <label className="text-left w-3/4 mx-auto block">
-                            Job Title
-                          </label>
-                          <Field
-                            name="jobTitle"
-                            type="text"
-                            placeholder=""
-                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-2"
-                            style={{ borderRadius: "5px" }}
-                          />
-                          <ErrorMessage
-                            name="jobTitle"
-                            component="div"
-                            className="text-red-600 text-sm w-full"
-                          />
-                        </div>
-                        <div className="my-7 space-y-3 w-full">
-                          <label className="text-left w-3/4 mb-3 mx-auto block">
-                            Job Description
-                          </label>
-                          
-                          <Editor
-                            editorState={desc}
-                            toolbarClassName="toolbarClassName"
-                            wrapperClassName="wrapperClassName"
-                            editorClassName="editorClassName"
-                            wrapperStyle={{
-                              width: "75%",
-                              margin: "0 auto",
-                              border: "1px solid rgb(156 163 175 / 1)",
-                              borderRadius: "5px",
-                            }}
-                            editorStyle={{
-                              minHeight: "200px",
-                              paddingLeft:"1rem"
-                            }}
-                            onEditorStateChange={onDescEditorStateChange}
-                          />
-                        </div>
-                        <div className="my-7 space-y-3 w-full">
-                          <label className="text-left w-3/4 mx-auto block">
-                            Job Location
-                          </label>
-                          <Field
-                            name="location"
-                            type="text"
-                            placeholder=""
-                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-1"
-                            style={{ borderRadius: "5px" }}
-                          />
-                          <ErrorMessage
-                            name="location"
-                            component="div"
-                            className="text-red-600 text-sm w-full text-left mr-auto"
-                          />
-                        </div>
-                        <div className="my-7 space-y-3">
-                          <label className="text-left w-3/4 mx-auto block">
-                            Job Type:
-                          </label>
-                          <div
-                            role="group"
-                            aria-labelledby="my-radio-group"
-                            className="space-x-5 my-3 w-3/4 mr-auto -ml-6"
-                          >
-                            <label>
-                              <Field
-                                type="radio"
-                                name="jobType"
-                                value="Full-Time"
-                                className="mr-2"
-                              />
-                              Full-Time
-                            </label>
-                            <label>
-                              <Field
-                                type="radio"
-                                name="jobType"
-                                value="Part-Time"
-                                className="mr-2"
-                              />
-                              Part-Time
-                            </label>
-                            <label>
-                              <Field
-                                type="radio"
-                                name="jobType"
-                                value="Internship"
-                                className="mr-2"
-                              />
-                              Internship
-                            </label>
-                            <label>
-                              <Field
-                                type="radio"
-                                name="jobType"
-                                value="Freelancing"
-                                className="mr-2"
-                              />
-                              Freelancing
-                            </label>
-                          </div>
-                        </div>
-                        <div className="my-7 space-y-3 w-full">
-                          <label className="text-left w-3/4 mx-auto block">
-                            Applications Open Till :{" "}
-                          </label>
-                          <Field
-                            name="validTill"
-                            type="date"
-                            placeholder=""
-                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-1"
-                            min={Date.now()}
-                          />
-                        </div>
-                        <div className="my-7 space-y-3 w-full">
-                          <label className="text-left w-3/4 mx-auto block">
-                            Hiring Organization
-                          </label>
-                          <Field
-                            name="hiringOrganization"
-                            type="text"
-                            placeholder=""
-                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-1"
-                          />
-                          <ErrorMessage
-                            name="hiringOrganization"
-                            component="div"
-                            className="text-red-600 text-sm w-full"
-                          />
-                        </div>
-
-                        <div className="my-7 space-y-3 w-full">
-                          <label className="text-left w-3/4 mx-auto block">
-                            Candidates Required
-                          </label>
-                          <Field
-                            name="reqApp"
-                            type="text"
-                            placeholder=""
-                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-1"
-                          />
-                          <ErrorMessage
-                            name="reqApp"
-                            component="div"
-                            className="text-red-600 text-sm w-full"
-                          />
-                        </div>
-
-                        <button
-                          type="submit"
-                          class="bg-blue-500 my-7 px-5 py-3 hover:bg-blue-700 text-white font-bold rounded-lg"
-                          onClick={() => saveBasic(values)}
-                        >
-                          Save
-                        </button>
-                      </Form>
-                    </div>
-                  );
-                }}
-              </Formik>
-    </div>
-    <div className="w-1/4 shadow-md mx-3" >
-      <div>
-      <Formik
+      <div className="flex w-full">
+        <div className="w-3/4 shadow-md mx-3">
+          <Formik
             initialValues={{
-              picked: 'One',
-              toggle: false,
-              checked: [],
+              jobTitle: user ? user.jobTitle : "",
+              jobDesc: user ? user.jobDesc : "",
+              location: user ? user.location : "",
+              jobType: user ? user.jobType : "",
+              reqApp: user ? user.reqApp : "",
+              validTill: user ? user.validTill : "",
+              hiringOrganization: user ? user.hiringOrganization : "",
             }}
-            onSubmit={async (values) => {
-              console.log(values);
+            validate={(values) => {
+              const errors = {};
+              if (!values.jobTitle || values.jobTitle.trim() === "") {
+                errors.jobTitle = "Required !";
+              }
+
+              if (!values.location || values.location.trim() === "") {
+                errors.location = "Required !";
+              }
+              if (
+                !values.hiringOrganization ||
+                values.hiringOrganization.trim() === ""
+              ) {
+                errors.hiringOrganization = "Required !";
+              }
+              return errors;
             }}
           >
-            {({ values }) => (
-              <Form className="text-center px-5 py-3 bg-white">
-                <div className="text-2xl text-center font-bold font-gray-600">Apply Filters</div>
+            {(values) => {
+              return (
+                <div className="w-full mt-9">
+                  <Form className="w-full mt-5">
+                    <div className="my-7 space-y-3 w-full">
+                      <label className="text-left w-3/4 mx-auto block">
+                        Job Title
+                      </label>
+                      <Field
+                        name="jobTitle"
+                        type="text"
+                        placeholder=""
+                        className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-2"
+                        style={{ borderRadius: "5px" }}
+                      />
+                      <ErrorMessage
+                        name="jobTitle"
+                        component="div"
+                        className="text-red-600 text-sm w-full"
+                      />
+                    </div>
+                    <div className="my-7 space-y-3 w-full">
+                      <label className="text-left w-3/4 mb-3 mx-auto block">
+                        Job Description
+                      </label>
 
+                      <Editor
+                        editorState={desc}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editorClassName"
+                        wrapperStyle={{
+                          width: "75%",
+                          margin: "0 auto",
+                          border: "1px solid rgb(156 163 175 / 1)",
+                          borderRadius: "5px",
+                        }}
+                        editorStyle={{
+                          minHeight: "200px",
+                          paddingLeft: "1rem",
+                        }}
+                        onEditorStateChange={onDescEditorStateChange}
+                      />
+                    </div>
+                    <div className="my-7 space-y-3 w-full">
+                      <label className="text-left w-3/4 mx-auto block">
+                        Job Location
+                      </label>
+                      <Field
+                        name="location"
+                        type="text"
+                        placeholder=""
+                        className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-1"
+                        style={{ borderRadius: "5px" }}
+                      />
+                      <ErrorMessage
+                        name="location"
+                        component="div"
+                        className="text-red-600 text-sm w-full text-left mr-auto"
+                      />
+                    </div>
+                    <div className="my-7 space-y-3">
+                      <label className="text-left w-3/4 mx-auto block">
+                        Job Type:
+                      </label>
+                      <div
+                        role="group"
+                        aria-labelledby="my-radio-group"
+                        className="space-x-5 my-3 w-3/4 mr-auto -ml-6"
+                      >
+                        <label>
+                          <Field
+                            type="radio"
+                            name="jobType"
+                            value="Full-Time"
+                            className="mr-2"
+                          />
+                          Full-Time
+                        </label>
+                        <label>
+                          <Field
+                            type="radio"
+                            name="jobType"
+                            value="Part-Time"
+                            className="mr-2"
+                          />
+                          Part-Time
+                        </label>
+                        <label>
+                          <Field
+                            type="radio"
+                            name="jobType"
+                            value="Internship"
+                            className="mr-2"
+                          />
+                          Internship
+                        </label>
+                        <label>
+                          <Field
+                            type="radio"
+                            name="jobType"
+                            value="Freelancing"
+                            className="mr-2"
+                          />
+                          Freelancing
+                        </label>
+                      </div>
+                    </div>
+                    <div className="my-7 space-y-3 w-full">
+                      <label className="text-left w-3/4 mx-auto block">
+                        Applications Open Till :{" "}
+                      </label>
+                      <Field
+                        name="validTill"
+                        type="date"
+                        placeholder=""
+                        className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-1"
+                        min={Date.now()}
+                      />
+                    </div>
+                    <div className="my-7 space-y-3 w-full">
+                      <label className="text-left w-3/4 mx-auto block">
+                        Hiring Organization
+                      </label>
+                      <Field
+                        name="hiringOrganization"
+                        type="text"
+                        placeholder=""
+                        className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-1"
+                      />
+                      <ErrorMessage
+                        name="hiringOrganization"
+                        component="div"
+                        className="text-red-600 text-sm w-full"
+                      />
+                    </div>
 
-                <div className="flex-column content-center text-left align-items-center  py-3 my-5 w-3/4 mx-auto  border-t border-gray-300">
+                    <div className="my-7 space-y-3 w-full">
+                      <label className="text-left w-3/4 mx-auto block">
+                        Candidates Required
+                      </label>
+                      <Field
+                        name="reqApp"
+                        type="text"
+                        placeholder=""
+                        className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-1"
+                      />
+                      <ErrorMessage
+                        name="reqApp"
+                        component="div"
+                        className="text-red-600 text-sm w-full"
+                      />
+                    </div>
 
-                  <label className="font-semibold text-md my-3">Job-Type</label><br />
-                  <Field className="rounded-lg w-full" name="jobType" as="select">
-                    <option value="fulltime">Full time</option>
-                    <option value="internship">Internship</option>
-                    <option value="parttime">Part Time</option>
-                  </Field>
-
+                    <button
+                      type="submit"
+                      class="bg-blue-500 my-7 px-5 py-3 hover:bg-blue-700 text-white font-bold rounded-lg"
+                      onClick={() => saveBasic(values)}
+                    >
+                      Save
+                    </button>
+                  </Form>
                 </div>
-
-                <div className="flex-column content-center text-left align-items-center  py-3 my-5 w-3/4 mx-auto ">
-
-                  <label className="font-semibold text-md my-3">Location</label>
-                  <Field
-                    type="text"
-                    className="block  rounded-lg py-1 md:w-3/4 w-full"
-                    name="location"
-
-                  // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
-
-                  />
-
-                </div>
-
-                <div className="flex-column content-center text-left align-items-center  py-3 my-5 w-5/6 mx-auto ">
-
-                  <label className="font-semibold text-md my-3">Pay Range</label>
-                  <div class="flex flex-col space-y-2 p-2 w-full">
-                    <Field type="range" class="w-full" name="salary" min="1" max="5" step="1" />
-                    <ul class="flex justify-between w-full px-[10px]">
-                      <li class="flex justify-center relative"><span class="absolute">0</span></li>
-                      <li class="flex justify-center relative"><span class="absolute">5k</span></li>
-                      <li class="flex justify-center relative"><span class="absolute">10k</span></li>
-                      <li class="flex justify-center relative"><span class="absolute">20k</span></li>
-                      <li class="flex justify-center relative"><span class="absolute">40k</span></li>
-                    </ul>
+              );
+            }}
+          </Formik>
+        </div>
+        <div className="w-1/4 shadow-md mx-3">
+          <div>
+            <Formik
+              initialValues={{
+                picked: "One",
+                toggle: false,
+                checked: [],
+              }}
+              onSubmit={async (values) => {
+                console.log(values);
+              }}
+            >
+              {({ values }) => (
+                <Form className="text-center px-5 py-3 bg-white">
+                  <div className="text-2xl text-center font-bold font-gray-600">
+                    Apply Filters
                   </div>
 
-                </div>
+                  <div className="flex-column content-center text-left align-items-center  py-3 my-5 w-3/4 mx-auto  border-t border-gray-300">
+                    <label className="font-semibold text-md my-3">
+                      Job-Type
+                    </label>
+                    <br />
+                    <Field
+                      className="rounded-lg w-full"
+                      name="jobType"
+                      as="select"
+                    >
+                      <option value="fulltime">Full time</option>
+                      <option value="internship">Internship</option>
+                      <option value="parttime">Part Time</option>
+                    </Field>
+                  </div>
 
+                  <div className="flex-column content-center text-left align-items-center  py-3 my-5 w-3/4 mx-auto ">
+                    <label className="font-semibold text-md my-3">
+                      Location
+                    </label>
+                    <Field
+                      type="text"
+                      className="block  rounded-lg py-1 md:w-3/4 w-full"
+                      name="location"
 
-                <button
-                  className="shadow-lg rounded-lg my-4 px-4 py-2"
-                  style={{backgroundColor:"#034488" , color:"#fff"}}
-                  type="submit"
-                // onClick={() => applyFilter(values)}
-                >
-                  Apply
-                </button>
-              </Form>
-            )}
-          </Formik>
+                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                    />
+                  </div>
+
+                  <div className="flex-column content-center text-left align-items-center  py-3 my-5 w-5/6 mx-auto ">
+                    <label className="font-semibold text-md my-3">
+                      Pay Range
+                    </label>
+                    <div class="flex flex-col space-y-2 p-2 w-full">
+                      <Field
+                        type="range"
+                        class="w-full"
+                        name="salary"
+                        min="1"
+                        max="5"
+                        step="1"
+                      />
+                      <ul class="flex justify-between w-full px-[10px]">
+                        <li class="flex justify-center relative">
+                          <span class="absolute">0</span>
+                        </li>
+                        <li class="flex justify-center relative">
+                          <span class="absolute">5k</span>
+                        </li>
+                        <li class="flex justify-center relative">
+                          <span class="absolute">10k</span>
+                        </li>
+                        <li class="flex justify-center relative">
+                          <span class="absolute">20k</span>
+                        </li>
+                        <li class="flex justify-center relative">
+                          <span class="absolute">40k</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <button
+                    className="shadow-lg rounded-lg my-4 px-4 py-2"
+                    style={{ backgroundColor: "#034488", color: "#fff" }}
+                    type="submit"
+                    // onClick={() => applyFilter(values)}
+                  >
+                    Apply
+                  </button>
+                </Form>
+              )}
+            </Formik>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 
       {/* <div className="Verticaltab w-full "> */}
-        {/* <Tabs>
+      {/* <Tabs>
           <TabList>
             <Tab>
               <p>Home</p>
