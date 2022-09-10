@@ -41,13 +41,18 @@ const AdminDashboard = () => {
             access_token1
           );
           await setUser(user.data.user.user);
-          if (
-            user.data.user.access_valid === false
-          ) {
+          if (user.data.user.access_valid === false) {
             window.location.href = "/login";
           }
-          if(user.data.user.user_type === "Admin" || user.data.user.user_type === "Admin_User" || user.data.user.isAdmin) {console.log("")}
-          else {window.location.href = "/login"}
+          if (
+            user.data.user.user_type === "Admin" ||
+            user.data.user.user_type === "Admin_User" ||
+            user.data.user.isAdmin
+          ) {
+            console.log("");
+          } else {
+            window.location.href = "/login";
+          }
           await localStorage.setItem("user", JSON.stringify(user.data.user));
           window.history.pushState({ url: "/admin" }, "", "/admin");
         } else {
@@ -56,14 +61,15 @@ const AdminDashboard = () => {
       } else {
         let access_token = await localStorage.getItem("access_token");
         let user = JSON.parse(await localStorage.getItem("user"));
-        if (access_token === "null" || access_token === null) access_token = user.access_token;
+        if (access_token === "null" || access_token === null)
+          access_token = user.access_token;
         await localStorage.setItem("access_token", access_token);
+        if (user.access_valid === false) window.location.href = "/login";
         if (
-          user.access_valid === false
+          user.user_type === "Admin" ||
+          (user.user_type === "Admin_User" || user.isAdmin === true)
         )
-          window.location.href = "/login";
-        if((user.user_type === "Admin" || user.user_type === "Admin_User" && user.isAdmin === true))
-        console.log("")
+          console.log("");
         else window.location.href = "/login";
         await setAccessToken(access_token);
         await setUser(user);
@@ -110,13 +116,23 @@ const AdminDashboard = () => {
 
   return (
     <div className="max-w-screen h-screen">
-      <div className="w-full bg-white  fixed z-50"> <Navbar user={user} /></div>
+      <div className="w-full bg-white  fixed z-50">
+        {" "}
+        <Navbar user={user} />
+      </div>
 
       <div className="flex w-full ">
-        <Sidebar>
-
-        </Sidebar>
-        <div className="justify-end ml-auto mt-20" style={{width:"86%", marginTop:'70px',backgroundColor:"#ffffff"}}>{comp}</div>
+        <Sidebar></Sidebar>
+        <div
+          className="justify-end ml-auto mt-20"
+          style={{
+            width: "86%",
+            marginTop: "70px",
+            backgroundColor: "#ffffff",
+          }}
+        >
+          {comp}
+        </div>
       </div>
     </div>
   );

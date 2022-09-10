@@ -95,9 +95,10 @@ const AddJob = () => {
   const postJob = async (values) => {
     try {
       let salary = "";
-      console.log(salaryRef.current);
+      
       if(salaryRef.current){
         salary = salaryRef.current.value;
+        salaryRef.current.value = "";
       }
       let skills = dbSkills.filter((el) => {
         return el.proficiency > 0;
@@ -107,10 +108,7 @@ const AddJob = () => {
 
       values.skills = skills;
       values.user_id = user._id;
-      console.log(values);
-      console.log(skills);
-      console.log(salary);
-    
+      
       let res = await postJobAPI({skills:skills,user_id: user._id,salary: salary,...values}, access_token);
       
       if (selectedData.length > 0) {
@@ -134,7 +132,7 @@ const AddJob = () => {
         setAlert(false);
       }
     } catch (error) {
-      console.log(error);
+      
       setAlert(false);
     }
   };
@@ -155,7 +153,7 @@ const AddJob = () => {
       let user = await JSON.parse(await localStorage.getItem("user"));
       await setUser(user);
       let res = await getSkills({ user_id: user._id }, user.access_token);
-      console.log(res);
+  
       let roles = new Set();
       let pSkills = {};
       if (res && res.status === 200) {
@@ -178,7 +176,7 @@ const AddJob = () => {
         await setRoles(Array.from(roles));
         await setDbSkills(res.data);
         await setPrimarySkills(pSkills);
-        console.log(pSkills);
+        
         Array.from(roles).map((el) => {
           pSkills[el] = Array.from(pSkills[el]);
         });
@@ -193,7 +191,7 @@ const AddJob = () => {
     const initial = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       let res = await getUserFromId({ id: user._id }, user.access_token);
-      console.log(res);
+      
       if (
         res &&
         res.data &&
@@ -227,7 +225,7 @@ const AddJob = () => {
           let d = selectedData;
           let r = rejectedData;
           const json = await xlsx.utils.sheet_to_json(worksheet);
-          console.log(json);
+          
           json.forEach((item) => {
             const EmailIndex = d.findIndex((el) => {
               return (
@@ -314,8 +312,6 @@ const AddJob = () => {
               });
             }
           });
-          console.log(r);
-          console.log(d);
           await setCandidateData(d);
           await setRejectedData(r);
           await setSelectedData(d);
@@ -340,7 +336,6 @@ const AddJob = () => {
     const job = JSON.parse(await localStorage.getItem("postjob"));
     job.perks = currentContentAsHTML;
     setJob(job);
-    console.log(job);
 
     localStorage.setItem("postjob", JSON.stringify(job));
   };
@@ -369,26 +364,24 @@ const AddJob = () => {
     setEligibleState(state);
 
     convertElToHTML();
-    // console.log(editorState);
+    
   };
 
   const convertElToHTML = async () => {
     let currentContentAsHTML = convertToHTML(eligible.getCurrentContent());
     setConvertedEl(currentContentAsHTML);
-    console.log(currentContentAsHTML);
-
+    
     const job = JSON.parse(await localStorage.getItem("postjob"));
     job.eligibility = currentContentAsHTML;
     setJob(job);
-    console.log(job);
-
+    
     localStorage.setItem("postjob", JSON.stringify(job));
   };
 
   return (
     <div className=" bg-slate-100 w-full p-5">
       <p className="font-semibold">
-        {PageIndex} of 3 : {PageDetails[PageIndex - 1]}
+        {PageIndex} of 4 : {PageDetails[PageIndex - 1]}
       </p>
 
       <div className="my-2">
@@ -586,7 +579,7 @@ const AddJob = () => {
                           </label>
                           <Field
                             name="reqApp"
-                            type="text"
+                            type="number"
                             placeholder=""
                             className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-2"
                           />
@@ -629,9 +622,6 @@ const AddJob = () => {
                       ) : (
                         <button
                           className="bg-[#034388d7] px-4 py-1 text-white mx-auto block my-6 rounded-sm"
-                          onClick={() => {
-                            console.log(values);
-                          }}
                         >
                           Next
                         </button>
@@ -1025,16 +1015,14 @@ const AddJob = () => {
                         onSubmit={async (values) => {
                           let d = selectedData;
                           let r = rejectedData;
-                          console.log(editIndex);
+                          
                           if (editIndex !== null) r.splice(editIndex, 1);
-                          console.log(r);
                           setEditIndex(null);
                           d.push(values);
                           await setSelectedData(d);
                           await setCandidateData(d);
                           await setRejectedData(r);
                           await setShowCandidate(true);
-                          console.log(selectedData);
                           await setShowCandidateForm(false);
                         }}
                       >
