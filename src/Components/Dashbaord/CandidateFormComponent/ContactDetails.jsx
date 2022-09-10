@@ -177,6 +177,9 @@ const ContactDetailForm = (props) => {
                           className="w-full text-600"
                           style={{ borderRadius: "10px " }}
                           innerRef={contactOTPRef}
+                          onChange={()=>{
+                            contactOTPError(null);
+                          }}
                         />
                       </div>
                     )}
@@ -191,13 +194,14 @@ const ContactDetailForm = (props) => {
                       ) && (
                         <div className="flex space-x-2 my-2">
                           {loadingContact ? (
-                            <button className="bg-blue-500 px-2 py-1 rounded-md text-white">
+                            <button className="bg-blue-500 px-2 py-1 rounded-md text-white" style={{backgroundColor:"#034488"}}>
                               <img src={Loader} className="h-8" alt="loader" />
                             </button>
                           ) : (
                             <button
                               type="button"
                               className="bg-blue-500 px-2 py-1 rounded-md text-white"
+                              style={{backgroundColor:"#034488"}}
                               onClick={() => {
                                 handleContactOTP(values);
                               }}
@@ -210,6 +214,7 @@ const ContactDetailForm = (props) => {
                             className="bg-blue-500 px-2 py-1 rounded-md text-white"
                             disabled={contactOTP === null ? true : false}
                             onClick={() => verifyOTP(values)}
+                            style={{backgroundColor:"#034488"}}
                           >
                             Verify OTP
                           </button>
@@ -288,6 +293,7 @@ const ContactDetailForm = (props) => {
       <div className="pt-5 flex w-full">
         <button
           className="bg-blue-600 py-2 px-3 rounded-sm text-white"
+          style={{backgroundColor:"#034488"}}
           onClick={async () => {
             let access = await localStorage.getItem("access_token");
             let details = JSON.parse(
@@ -303,7 +309,6 @@ const ContactDetailForm = (props) => {
         >
           Prev
         </button>
-
         {(contactDetails.address || address || addressValue) &&
         contactDetails.contact &&
         emailVerify &&
@@ -311,6 +316,7 @@ const ContactDetailForm = (props) => {
         contactDetails.email ? (
           <button
             className="bg-blue-600 py-2 px-3 rounded-sm ml-auto text-white"
+            style={{backgroundColor:"#034488"}}
             onClick={async () => {
               let ed = JSON.parse(
                 await localStorage.getItem("candidateDetails")
@@ -335,7 +341,7 @@ const ContactDetailForm = (props) => {
             Next
           </button>
         ) : (
-          <button className="bg-blue-400 py-2 px-3 rounded-sm ml-auto text-white">
+          <button className="bg-blue-400 py-2 px-3 rounded-sm ml-auto text-white" style={{backgroundColor:"#034388d7"}}>
             Next
           </button>
         )}

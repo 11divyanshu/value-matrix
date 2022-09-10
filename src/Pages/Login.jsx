@@ -14,7 +14,7 @@ const Login = () => {
   React.useEffect(() => {
     const initial = async () => {
       let access = await localStorage.getItem("access_token");
-
+      await localStorage.removeItem("modalOnce");
       let user = JSON.parse(await localStorage.getItem("user"));
       let url = window.location.href.split("/");
       if (url[url.length - 1] === "register") showLogin(false);

@@ -157,7 +157,7 @@ const CandidateResumeForm = (props) => {
                     className="text-2xl font-bold leading-6 text-gray-900 flex"
                   >
                     Complete Your Profile
-                    <p className="ml-auto text-sm text-blue-500 cursor-pointer" onClick = {()=>{props.setModalIsOpen(false); localStorage.setItem("modalOnce", true);}}>Skip</p>
+                    <p className="ml-auto text-sm text-[#034488] cursor-pointer" onClick = {()=>{props.setModalIsOpen(false); localStorage.setItem("modalOnce", true);}}>Skip</p>
                   </Dialog.Title>
                   <div className="pt-4">
                     <div className="flex justify-between py-3">
@@ -167,7 +167,7 @@ const CandidateResumeForm = (props) => {
                             <div
                               className={`text-sm ${
                                 index > step && "text-gray-600"
-                              } ${index === step && "text-blue-600"} ${
+                              } ${index === step && "text-[#034488] font-semibold"} ${
                                 index < step && "text-green-600"
                               }`}
                             >
@@ -178,7 +178,7 @@ const CandidateResumeForm = (props) => {
                     </div>
                     <div class="w-full bg-gray-200 h-1 mb-6">
                       <div
-                        class="bg-blue-400 h-1"
+                        class="bg-[#034488] h-1"
                         style={{ width: progress + "%" }}
                       ></div>
                     </div>
