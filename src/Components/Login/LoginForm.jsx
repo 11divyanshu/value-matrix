@@ -122,7 +122,7 @@ const LoginForm = (props) => {
           {({ values, isSubmitting }) => (
             <Form className="space-y-2 pt-3">
               <div className="my-3">
-                <label className="font-semibold">Email</label>
+                <label className="font-semibold">Username, Phone or Email Address</label>
                 <br></br>
                 <Field
                   type="text"

@@ -98,6 +98,7 @@ const AddJob = () => {
       console.log(salaryRef.current);
       if(salaryRef.current){
         salary = salaryRef.current.value;
+        salaryRef.currentv.value = "";
       }
       let skills = dbSkills.filter((el) => {
         return el.proficiency > 0;
@@ -388,7 +389,7 @@ const AddJob = () => {
   return (
     <div className=" bg-slate-100 w-full p-5">
       <p className="font-semibold">
-        {PageIndex} of 3 : {PageDetails[PageIndex - 1]}
+        {PageIndex} of 4 : {PageDetails[PageIndex - 1]}
       </p>
 
       <div className="my-2">
@@ -586,7 +587,7 @@ const AddJob = () => {
                           </label>
                           <Field
                             name="reqApp"
-                            type="text"
+                            type="number"
                             placeholder=""
                             className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-2"
                           />
