@@ -155,7 +155,7 @@ const JobCard = (props) => {
             style={{ background: "#3ED3C5" }}
             className="  rounded-3xl px-6 my-3 text-xs text-gray-900 font-semibold"
           >
-            Complete Draft
+            Active
           </button>
           <div className="px-4 mx-2 py-4 align-middle">
             {/* <p className="text-right text-md py-3"><BsThreeDots/></p> */}

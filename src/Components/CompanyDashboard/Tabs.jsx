@@ -305,8 +305,8 @@ export default function Tabs() {
 
                       <Field
                         type="text"
-                        className="block border-gray-100  py-2 px-4 md:w-3/4 w-5/6"
-                        style={{borderRadius:"0 5px 5px 0"}}
+                        className="block border-gray-100  py-2 px-2"
+                        style={{borderRadius:"0 5px 5px 0" , width:"76%"}}
                         name="gst"
                         disabled
                       // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
