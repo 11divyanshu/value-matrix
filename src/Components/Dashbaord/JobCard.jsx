@@ -15,8 +15,13 @@ import { Popover, Transition } from "@headlessui/react";
 
 const JobCard = (props) => {
   const [job, setJob] = React.useState(props.job);
+  const [user, setUser] = React.useState(null);
   console.log(props.job);
   // localStorage.setItem("jobs", JSON.stringify(job))
+
+  React.useState(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }, []);
 
   localStorage.setItem("ids", JSON.stringify(job._id));
   return (
@@ -186,6 +191,18 @@ const JobCard = (props) => {
                             </p>{" "}
                           </div>
                         </div>
+                        {user && job.uploadBy === user._id && (
+                          <div className="relative gap-8 bg-white p-3 lg:grid-cols-2 flex justify-between">
+                            <div className="flex items-center text-gray-800 space-x-2">
+                              {/* <BsThreeDots className="text-md" /> */}
+                              <p className="text-sm font-semibold">
+                                <Link to={`/company/jobUpdate/${job._id}`}>
+                                  Update Details{" "}
+                                </Link>
+                              </p>{" "}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </Popover.Panel>
                   </Transition>

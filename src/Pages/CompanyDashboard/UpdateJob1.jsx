@@ -273,6 +273,7 @@ const UpdateJob = () => {
 
   React.useEffect(() => {
     const initial = async () => {
+      await setJob(null);
       let e = JSON.parse(await localStorage.getItem("postjob"));
       let access_token = localStorage.getItem("access_token");
       if (e === null || e === "null") {
@@ -287,7 +288,7 @@ const UpdateJob = () => {
       let user = await JSON.parse(await localStorage.getItem("user"));
       await setUser(user);
       let res = await getSkills({ user_id: user._id }, user.access_token);
-      console.log(res);
+      
       let roles = new Set();
       let pSkills = {};
       if (res && res.status === 200) {

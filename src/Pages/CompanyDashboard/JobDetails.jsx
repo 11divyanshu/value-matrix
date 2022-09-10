@@ -263,7 +263,7 @@ function JobDetails(props) {
                     </p>
                   </div>
                 </div>
-                
+
                 <div className="col-span-2">
                   <div className="flex py-1">
                     <div className="text-lg py-1 text-gray-400 font-semibold ">
@@ -288,52 +288,48 @@ function JobDetails(props) {
                     </p>
                   </div>
                 </div>
-                        {job.uploadBy === user._id && (
-                                 <Popover className="relative mt-1">
-                                 {({ open }) => (
-                                   <>
-                                     <Popover.Button
-                                       className={`
-                               ${open ? "" : "text-opacity-90"} focus:outline-0`}
-                                     >
-                                       {/* <div class="absolute inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 p-1 text-xs bg-[#034488] rounded-full z-10" style={{backgroundColor:"#034488"}}></div> */}
-                   
-                                       <BsThreeDots className="text-gray-700 text-lg cursor-pointer hover:text-gray-800" />
-                                     </Popover.Button>
-                                     <Transition
-                                       as={Fragment}
-                                       enter="transition ease-out duration-200"
-                                       enterFrom="opacity-0 translate-y-1"
-                                       enterTo="opacity-100 translate-y-0"
-                                       leave="transition ease-in duration-150"
-                                       leaveFrom="opacity-100 translate-y-0"
-                                       leaveTo="opacity-0 translate-y-1"
-                                     >
-                                       <Popover.Panel className="absolute z-10  max-w-sm  px-9 sm:px-0 lg:max-w-3xl">
-                                         <div className="overflow-hidden rounded-sm shadow-lg ring-1 ring-black ring-opacity-5">
-                                           <div className="relative gap-8 bg-white p-3 lg:grid-cols-2 flex justify-between">
-                                             <div className="flex items-center text-gray-800 space-x-2">
-                                               {/* <BsThreeDots className="text-md" /> */}
-                                               <p className="text-sm font-semibold">
-                                                 <Link to={`/company/jobUpdate/${job._id}`}>
-                                                   Update Details{" "}
-                                                 </Link>
-                                               </p>{" "}
-                                             </div>
-                                           </div>
-                                         </div>
-                                       </Popover.Panel>
-                                     </Transition>
-                                   </>
-                                 )}
-                               </Popover>
-                        )}
-                <div className="text-right  w-12 ml-auto align-middle">
-                  <p className="text-right text-lg py-5">
-                    <BsThreeDots />
-                  </p>
-                  {/* <p className="ml-auto text-md text-blue-500 cursor-pointer" ><Link to={`/company/jobDetails/${job._id}`}>View Details &#12297;</Link></p> */}
-                </div>
+                {job.uploadBy === user._id && (
+                  <Popover className="relative mt-1">
+                    {({ open }) => (
+                      <>
+                        <Popover.Button
+                          className={`
+                               ${
+                                 open ? "" : "text-opacity-90"
+                               } focus:outline-0`}
+                        >
+                          {/* <div class="absolute inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 p-1 text-xs bg-[#034488] rounded-full z-10" style={{backgroundColor:"#034488"}}></div> */}
+
+                          <BsThreeDots className="text-gray-700 text-lg cursor-pointer hover:text-gray-800" />
+                        </Popover.Button>
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-200"
+                          enterFrom="opacity-0 translate-y-1"
+                          enterTo="opacity-100 translate-y-0"
+                          leave="transition ease-in duration-150"
+                          leaveFrom="opacity-100 translate-y-0"
+                          leaveTo="opacity-0 translate-y-1"
+                        >
+                          <Popover.Panel className="absolute z-10  max-w-sm  px-9 sm:px-0 lg:max-w-3xl">
+                            <div className="overflow-hidden rounded-sm shadow-lg ring-1 ring-black ring-opacity-5">
+                              <div className="relative gap-8 bg-white p-3 lg:grid-cols-2 flex justify-between">
+                                <div className="flex items-center text-gray-800 space-x-2">
+                                  {/* <BsThreeDots className="text-md" /> */}
+                                  <p className="text-sm font-semibold cursor-pointer" onClick={()=>{
+                                      window.location.href=`/company/jobUpdate/${job._id}`;
+                                    }}>
+                                      Update Details
+                                  </p>{" "}
+                                </div>
+                              </div>
+                            </div>
+                          </Popover.Panel>
+                        </Transition>
+                      </>
+                    )}
+                  </Popover>
+                )}
               </div>
             </div>
             <div className="card-body px-7 w-4/5">
@@ -368,7 +364,8 @@ function JobDetails(props) {
                         {item.primarySkill}
                       </span>
                     );
-                  })} */}<div className="px-4">
+                  })} */}
+                <div className="px-4">
                   {roles
                     ? roles.map((item, index) => {
                         return (
@@ -394,9 +391,9 @@ function JobDetails(props) {
                           </div>
                         );
                       })
-                    : "No Skills Required"}</div>
-                <div className="">
+                    : "No Skills Required"}
                 </div>
+                <div className=""></div>
               </div>
               <div className="my-7">
                 <h5 className=" px-4 py-2 text-md text-gray-800 font-bold">
@@ -408,8 +405,6 @@ function JobDetails(props) {
                 ></h6>
                 {/* <p className="card-text font-semibold p-4">{job.jobDesc}</p> */}
               </div>
-
-
             </div>
             {user._id === job.uploadBy && (
               <div className="my-5 px-9">

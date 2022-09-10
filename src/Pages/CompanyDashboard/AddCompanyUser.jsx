@@ -45,7 +45,6 @@ const AddCompanyUser = () => {
     const initial = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       let res =await  getUserFromId({ id: user._id }, user.access_token);
-      console.log(res);
       if (res && res.data && res.data.user) {
         if (
           res.data.user.permissions[0].company_permissions.add_users === false
@@ -68,7 +67,6 @@ const AddCompanyUser = () => {
         contact: values.contact,
         username: values.username,
       });
-      console.log(validate);
       if (validate && validate.data.email) {
         setEmailError("Email already reigstered");
       }
