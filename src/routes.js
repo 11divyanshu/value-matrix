@@ -27,7 +27,8 @@ import WhatsappNotification from "./Pages/AdminDashboard/WhatsappNotification";
 import CJobList from "./Pages/CompanyDashboard/jobList.jsx";
 import CPanel from "./Pages/CompanyDashboard/panel";
 
-import AddJob from "./Pages/CompanyDashboard/PostJob.jsx";
+import AddJob from "./Pages/CompanyDashboard/AddJob.jsx";
+// import AddJob from "./Pages/CompanyDashboard/PostJob.jsx";
 import UpdateJob from "./Pages/CompanyDashboard/UpdateJob.jsx";
 import EditCompanyProfile from "./Pages/CompanyDashboard/EditProfile.jsx";
 import CompanyProfile from "./Pages/CompanyDashboard/Profile";
@@ -251,7 +252,7 @@ export const companyDashboardRoutes = [
     path: "/jobsAdd",
     icon: <AiOutlineUserAdd className="text-xl" />,
     hide: false,
-    component: <AddJob />,
+    component: <AddJob/>,
     permission: "add_jobs",
   },
   {
