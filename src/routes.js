@@ -29,7 +29,8 @@ import CPanel from "./Pages/CompanyDashboard/panel";
 
 import AddJob from "./Pages/CompanyDashboard/AddJob.jsx";
 // import AddJob from "./Pages/CompanyDashboard/PostJob.jsx";
-import UpdateJob from "./Pages/CompanyDashboard/UpdateJob.jsx";
+import UpdateJob from "./Pages/CompanyDashboard/UpdateJob1.jsx";
+// import UpdateJob from "./Pages/CompanyDashboard/UpdateJob.jsx";
 import EditCompanyProfile from "./Pages/CompanyDashboard/EditProfile.jsx";
 import CompanyProfile from "./Pages/CompanyDashboard/Profile";
 import CJobDetails from "./Pages/CompanyDashboard/JobDetails.jsx";
@@ -266,7 +267,7 @@ export const companyDashboardRoutes = [
 
   {
     name: "Update Job",
-    path: "/jobsUpdate",
+    path: "/jobUpdate",
     hide: true,
     icon: <RiFolderUserFill className="text-xl" />,
     component: <UpdateJob />,
