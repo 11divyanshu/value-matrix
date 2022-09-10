@@ -100,13 +100,15 @@ export const dashboardRoutes = [
   {
     name : "Job Invitations",
     path : "interviewInvitations",
-    hide : true,
+    hide : false,
+    icon : <CgWorkAlt className="text-xl" />,
     component : <JobInvitations/>,
   },
   {
     name : "Interview Applications",
     path: "interviewApplications",
-    hide: true,
+    hide: false,
+    icon:<CgWorkAlt className="text-xl" />,
     component : <InterviewApplication/>,
   }
 ];

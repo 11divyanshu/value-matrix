@@ -6,7 +6,7 @@ import { ReactSession } from "react-client-session";
 import { superXIDashboardRoutes } from "../../routes";
 import Navbar from "../../Components/AdminDashboard/Navbar";
 import Sidebar from "../../Components/SuperXIDashboard/Sidebar";
-import { getUserFromId, getUserIdFromToken } from "../../service/api";
+import { getUserFromId, getUserIdFromToken, getProfileImage } from "../../service/api";
 import jsCookie from "js-cookie";
 
 const CompanyDashboard = () => {
@@ -17,44 +17,75 @@ const CompanyDashboard = () => {
 
   // Retrieve And Saves Access Token and User to Session
   const [access_token, setAccessToken] = React.useState(null);
+  const [profileImg, setProfileImg] = React.useState(null);
   React.useEffect(() => {
     const tokenFunc = async () => {
       let access_token1 = null;
       let location = window.location.search;
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
-      if (term !== null || term !== undefined) {
+
+      // If Token is passed in the url
+      if (term !== null && term !== undefined && term !== "null") {
         await localStorage.removeItem("access_token");
-        await localStorage.removeItem("user");
         access_token1 = term;
         await setAccessToken(term);
         await localStorage.setItem("access_token", term);
 
-        let user_id = await getUserIdFromToken({ access_token: access_token1 });
+        await setAccessToken(access_token1);
 
+        let user_id = await getUserIdFromToken({ access_token: access_token1 });
+        let a = await localStorage.getItem("access_token");
+        if (a === "null") {
+          let u = JSON.parse(await localStorage.getItem("user"));
+          await localStorage.setItem("access_token", u._id);
+        }
         if (user_id) {
           let user = await getUserFromId(
             { id: user_id.data.user.user },
             access_token1
-          );
+            );
+            
+            
           await setUser(user.data.user.user);
-          if (user.data.user.access_valid === false || user.data.user.user_type !== "SuperXI")
-            window.location.redirect = "/login";
+          if (user.invite) {
+            window.location.href = "/setProfile" + user.resetPassId;
+          }
+          if (user.profileImg) {
+            let image = await getProfileImage(
+              { id: user_id.data.user.user },
+              access_token1
+            );
+            setProfileImg(image.data.Image);
+            await localStorage.setItem(
+              "profileImg",
+              JSON.stringify(image.data.Image)
+            );
+          }
+          console.log(user.data.user);
+          if (
+            user.data.user.access_valid === false ||
+            user.data.user.user_type !=="SuperXI"
+          )
+            window.location.href = "/login";
           await localStorage.setItem("user", JSON.stringify(user.data.user));
-          window.history.pushState({ url: "/superXI" }, "", "/superXI");
+          window.history.pushState({ url: "/user" }, "", "/user");
         } else {
           window.location.href = "/login";
         }
       } else {
-        let access_token = localStorage.get("access_token");
+        let access_token = await localStorage.getItem("access_token");
         await setAccessToken(access_token);
-        let user = localStorage.get("user");
+        let user = JSON.parse(localStorage.getItem("user"));
         await setUser(user);
+        if (user.access_valid === false || user.user_type !== "SuperXI") {
+          window.location.href = "/login";
+        }
       }
-      let user = localStorage.getItem("user")
-      let token = localStorage.getItem("access_token")
+      let user = JSON.parse(localStorage.getItem("user"));
+      let token = localStorage.getItem("access_token");
       if (!user || !token) {
-        window.location.href = "/login"
+        window.location.href = "/login";
       }
     };
 
@@ -64,12 +95,11 @@ const CompanyDashboard = () => {
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
       if (term) {
-        window.history.pushState({ path: "/superXI" }, "", "/superXI");
+        window.history.pushState({ path: "/user" }, "", "/user");
       }
     };
     func();
   }, [access_token]);
-
   React.useEffect(() => {
     console.log(component);
     if (!component || component === "/undefined") {

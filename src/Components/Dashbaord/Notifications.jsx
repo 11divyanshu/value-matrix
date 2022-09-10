@@ -109,7 +109,7 @@ const NotificationPopOver = (props) => {
                   )}
                 </div>
                 <div className="bg-gray-50">
-                  {(notification === null || notification === undefined) && (
+                  {(notification === null || notification === undefined || notification.length == 0) && (
                     <p className="p-3">
                       No New Notification. You are all caught up.
                     </p>

@@ -12,7 +12,12 @@ import { Disclosure } from "@headlessui/react";
 import { getSkills } from "../../service/api";
 import { ChevronUpIcon, StarIcon } from "@heroicons/react/solid";
 import { IoSchoolOutline } from "react-icons/io5";
-import { AiOutlineHome, AiOutlineUser, AiOutlineFolderAdd, AiOutlineUnorderedList } from "react-icons/ai";
+import {
+  AiOutlineHome,
+  AiOutlineUser,
+  AiOutlineFolderAdd,
+  AiOutlineUnorderedList,
+} from "react-icons/ai";
 import { CgWorkAlt } from "react-icons/cg";
 import { FaRegBuilding } from "react-icons/fa";
 import { HiOutlineOfficeBuilding } from "react-icons/hi";
@@ -507,7 +512,10 @@ export default function Tabs(props) {
 
   const update = async (ed) => {
     console.log(ed);
-
+    let skills = dbSkills.filter((el)=>{
+      return el.proficiency > 0;
+    })
+    
     let data = {
       firstName: ed.firstName,
       lastname: ed.lastName,
@@ -515,7 +523,7 @@ export default function Tabs(props) {
       experience: ed.experience,
       associate: ed.associate,
       education: ed.education,
-      tools: ed.tools,
+      tools: skills,
     };
     if (EmailOTP) {
       data.email = ed.email;
@@ -585,7 +593,10 @@ export default function Tabs(props) {
             setIndex(0);
           }}
         >
-          <p className="md:visible hidden content">Contact</p><p className="icons hidden"><AiOutlineHome /></p>
+          <p className="md:visible hidden content">Contact</p>
+          <p className="icons hidden">
+            <AiOutlineHome />
+          </p>
         </div>
         <div
           className={`tabHead ${index === 1 && "active"}`}
@@ -593,7 +604,10 @@ export default function Tabs(props) {
             setIndex(1);
           }}
         >
-          <p className="md:visible hidden content">Education</p><p className="icons hidden"><IoSchoolOutline /></p>
+          <p className="md:visible hidden content">Education</p>
+          <p className="icons hidden">
+            <IoSchoolOutline />
+          </p>
         </div>
         <div
           className={`tabHead ${index === 2 && "active"}`}
@@ -601,7 +615,10 @@ export default function Tabs(props) {
             setIndex(2);
           }}
         >
-          <p className="md:visible hidden content">Experience</p><p className="icons hidden"><CgWorkAlt /></p>
+          <p className="md:visible hidden content">Experience</p>
+          <p className="icons hidden">
+            <CgWorkAlt />
+          </p>
         </div>
         <div
           className={`tabHead ${index === 3 && "active"}`}
@@ -609,7 +626,10 @@ export default function Tabs(props) {
             setIndex(3);
           }}
         >
-          <p className="md:visible hidden content">Association</p><p className="icons hidden"><HiOutlineOfficeBuilding /></p>
+          <p className="md:visible hidden content">Association</p>
+          <p className="icons hidden">
+            <HiOutlineOfficeBuilding />
+          </p>
         </div>
         <div
           className={`tabHead ${index === 4 && "active"}`}
@@ -617,7 +637,10 @@ export default function Tabs(props) {
             setIndex(4);
           }}
         >
-          <p className="md:visible hidden content">Skills</p><p className="icons hidden"><AiOutlineUnorderedList /></p>
+          <p className="md:visible hidden content">Skills</p>
+          <p className="icons hidden">
+            <AiOutlineUnorderedList />
+          </p>
         </div>
       </div>
       <div className="tabContent bg-white  w-full p-5" hidden={index != 0}>
@@ -654,7 +677,7 @@ export default function Tabs(props) {
               }
               return errors;
             }}
-          // onSubmit={(values) => submit(values)}
+            // onSubmit={(values) => submit(values)}
           >
             {({ values }) => (
               <Form>
@@ -811,9 +834,7 @@ export default function Tabs(props) {
                     }}
                   /> */}
                 </div>
-                <p className="font-semibold text-md md:w-2/5 ">
-                  {item.school}
-                </p>
+                <p className="font-semibold text-md md:w-2/5 ">{item.school}</p>
                 <div className="flex flex-wrap justify-between w-full  text-gray-800 ">
                   <div className="flex my-2 space-x-2 text-sm items-center">
                     <FiInfo />
@@ -844,7 +865,6 @@ export default function Tabs(props) {
                     </button>
                   </div>
                 </div>
-
               </div>
             );
           })}
@@ -865,7 +885,6 @@ export default function Tabs(props) {
                 description: null,
               });
               await setShowEduForm(true);
-
             }}
           >
             Add Education
@@ -958,6 +977,7 @@ export default function Tabs(props) {
                           {({ values }) => {
                             return (
                               <Form className="w-full py-4">
+
 
                                 <div className="md:w-1/2  md:flex w-full  space-y-1 my-2">
                                   <label className="font-semibold text-lg w-2/5 mx-2">School </label>
@@ -1263,10 +1283,13 @@ export default function Tabs(props) {
             <Dialog
               as="div"
               className="relative z-10000"
-              onClose={() => { }}
+              onClose={() => {}}
               static={true}
             >
-              <div className="fixed inset-0 bg-black/30 z-10000" aria-hidden="true" />
+              <div
+                className="fixed inset-0 bg-black/30 z-10000"
+                aria-hidden="true"
+              />
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -1631,7 +1654,6 @@ export default function Tabs(props) {
                   description: null,
                 });
                 await setShowAsForm(true);
-
               }}
             >
               Add Association
@@ -1647,7 +1669,6 @@ export default function Tabs(props) {
           </div>
         </div>
 
-
         {showAsForm && (
           <Transition
             appear
@@ -1659,7 +1680,7 @@ export default function Tabs(props) {
             <Dialog
               as="div"
               className="relative z-10000"
-              onClose={() => { }}
+              onClose={() => {}}
               static={true}
             >
               <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
@@ -1752,6 +1773,7 @@ export default function Tabs(props) {
                                 </div>
 
                                 <div className="md:w-1/2  flex w-full  space-y-1 my-5">
+
                                   <label className="font-semibold text-lg w-2/5 mx-2">Company </label>
                                   <div className="w-4/5"><Field
                                     name="company_name"
@@ -1861,6 +1883,7 @@ export default function Tabs(props) {
                                     }}
                                     value={values.description}
                                   />
+
                                     <ErrorMessage
                                       name="description"
                                       component="div"
@@ -1879,6 +1902,7 @@ export default function Tabs(props) {
                                   <button
                                     type="button"
                                     className=" border-[0.5px] mx-3 border-gray-700 py-2 text-gray-700 rounded-lg block cursor-pointer px-8"
+
                                     ref={resetBtn}
                                     onClick={async () => {
                                       await setShowError(false);
@@ -1889,7 +1913,6 @@ export default function Tabs(props) {
                                   </button>
                                 </div>
                               </Form>
-
                             );
                           }}
                         </Formik>
@@ -2076,7 +2099,6 @@ export default function Tabs(props) {
               </div>
             </div>
 
-
             <div className="p-5">
               {rolesC
                 ? rolesC.map((item, index) => {
@@ -2103,6 +2125,7 @@ export default function Tabs(props) {
                     </div>
                   );
                 })
+
                 : "No Skills"}
             </div>
           </div>

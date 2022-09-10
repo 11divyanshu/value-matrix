@@ -60,6 +60,7 @@ const JobList = () => {
   }, []);
 
   const applyFilter = async (values) => {
+    setLoader(true);
     console.log(values.picked);
     console.log(values.toggle);
     let c_id  = JSON.parse(localStorage.getItem("user"));
@@ -74,7 +75,7 @@ const JobList = () => {
       
 setJobs([]);
       // setLoader(true);
-
+      setLoader(false);
       setTimeout(() => {
         
         setJobs(res.data.jobs);
@@ -130,27 +131,27 @@ setJobs([]);
           // }}
           >
             {({ values }) => (
-              <Form className="text-center px-5 py-3 bg-white">
-                <div id="my-radio-group " className="text-2xl text-center font-bold py-4 font-gray-600">Filters</div>
-                <div role="group" className="flex-column content-center text-center align-items-center  py-3 my-3 w-1/2 mx-auto  border-t border-gray-300" aria-labelledby="my-radio-group">
+              <Form className="px-5 py-3 bg-white">
+                <div id="my-radio-group " className="text-2xl font-bold py-4 font-gray-600">Filters</div>
+                <div role="group" className="flex-column align-items-center  py-3 my-3 w-1/2 border-t border-gray-300" aria-labelledby="my-radio-group">
 
-                  <label className="text-center content-center px-4  flex  text-xl">
+                  <label className="content-center px-4  flex  text-xl">
                     <Field type="radio" className="m-2 " name="picked" value="One" />
                     <p className="text-xl font-bold mx-3 font-gray-600">All</p>
                   </label>
                   <br />
-                  <label className="text-center px-4   flex   text-xl">
+                  <label className="px-4   flex   text-xl">
                     <Field type="radio" className="m-2" name="picked" value="Two" />
                     <p className="text-xl font-bold mx-3 font-gray-600">Active</p>
                   </label>
                   <br />
-                  <label className="text-center px-4    flex   text-xl">
+                  <label className="px-4 flex text-xl">
                     <Field type="radio" className="m-2" name="picked" value="Three" />
                     <p className="text-xl font-bold mx-3 font-gray-600">Ended</p>
                   </label>
                 </div>
 
-                <label className="text-center w-1/2 content-center mx-auto px-4 text-center  flex p-1  text-xl">
+                <label className="w-1/2 content-center mx-auto px-4 flex p-1  text-xl">
                   <Field type="checkbox" className="m-2" name="toggle" />
                   <p className="text-xl font-bold mx-3 font-gray-600">Vacant</p>
                 </label>

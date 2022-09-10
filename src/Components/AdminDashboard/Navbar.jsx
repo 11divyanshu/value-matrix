@@ -5,11 +5,15 @@ import { ReactSession } from "react-client-session";
 import { LogoutAPI } from "../../service/api";
 import NotificationPopOver from "../Dashbaord/Notifications";
 import logo from "../../assets/images/logo.png"
-
+import Avatar from "../../assets/images/UserAvatar.png";
+import {getProfileImage} from "../../service/api.js";
 // Assets
 import { IoCall } from "react-icons/io5";
 import { BsFillChatLeftTextFill } from "react-icons/bs";
 import { FiLogOut } from "react-icons/fi";
+import {AiOutlineUser} from "react-icons/ai";
+import { MdOutlineLogout } from "react-icons/md";
+
 
 const Navbar = (props) => {
   const Logout = async () => {
@@ -21,6 +25,31 @@ const Navbar = (props) => {
     await localStorage.setItem("access_token", null);
     window.location.href = "/login";
   };
+
+  const [profilePic, setProfilePic] = React.useState(null);
+  const [user, setUser] = React.useState(null);
+
+  React.useEffect(() => {
+    const initial = async () => {
+      let access_token1 = await localStorage.getItem("access_token");
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let user1 = await getProfileImage({ id: user._id }, user.access_token);
+      console.log(user1.data);
+      if (access_token1 === "null")
+        await localStorage.setItem("access_token", user.access_token);
+      if (user && user.profileImg) {
+        let image = await getProfileImage({ id: user._id }, user.access_token);
+        await localStorage.setItem("profileImg", JSON.stringify(image));
+        let base64string = btoa(
+          String.fromCharCode(...new Uint8Array(image.data.Image.data))
+        );
+        let src = `data:image/png;base64,${base64string}`;
+        await setProfilePic(src);
+      }
+      setUser(user);
+    };
+    initial();
+  }, []);
 
   return (
     <div className="flex items-center border-b-2 w-full py-3 shadow-md">
@@ -57,14 +86,23 @@ const Navbar = (props) => {
                   <div className="text-xs text-start md:block hidden">
                     {props.user ? (
                       <p className="text-md text-semibold">
-                        {props.user.username}
+                        {props.user.firstName}
                       </p>
                     ) : (
-                      <p className="text-md text-semibold">Company</p>
+                      <p className="text-md text-semibold">Admin</p>
                     )}
                     {/* <p className="text-xs text-gray-600">View Profile</p> */}
                   </div>
-                  <div className="h-7 w-7 bg-blue-600 rounded-full"></div>
+                  <img
+                    src={
+                      user && user.profileImg && profilePic
+                        ? profilePic
+                        : Avatar
+                    }
+                    // src={Avatar}
+                    className="h-7 w-7 rounded-full"
+                    alt="userAvatar"
+                  />
                 </div>
               </Popover.Button>
               <Transition
@@ -84,7 +122,7 @@ const Navbar = (props) => {
                           className="text-sm font-medium text-gray-900 flex items-center space-x-2 cursor-pointer"
                           onClick={Logout}
                         >
-                          <FiLogOut /> <p>Logout</p>
+                          <MdOutlineLogout /> <p>Logout</p>
                         </div>
                       </span>
                     </div>

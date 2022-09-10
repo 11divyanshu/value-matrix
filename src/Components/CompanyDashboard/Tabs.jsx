@@ -30,7 +30,6 @@ export default function Tabs() {
 
         const img = user.profileImg;
         const imgBase64 = img.toString("base64");
-        console.log(imgBase64);
         setProfileImg(img);
         setProfileImg(imgBase64);
       }

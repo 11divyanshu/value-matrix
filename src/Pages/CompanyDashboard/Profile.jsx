@@ -13,6 +13,8 @@ import Linkedin from "../../assets/images/Social/linkedin.svg";
 import Microsoft from "../../assets/images/Social/microsoft.svg";
 import Google from "../../assets/images/Social/google.svg";
 import Tabs from "../../Components/CompanyDashboard/Tabs";
+import { getProfileImage } from "../../service/api";
+
 const CompanyProfile = () => {
   let navigate = useNavigate();
 
@@ -27,9 +29,10 @@ const CompanyProfile = () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       let access_token = localStorage.getItem("access_token");
       if (user && user.profileImg) {
-        let image = JSON.parse(await localStorage.getItem("profileImg"));
+        let image = await getProfileImage({id: user._id}, user.access_token);
+          await localStorage.setItem("profileImg", JSON.stringify(image));
         let base64string = btoa(
-          String.fromCharCode(...new Uint8Array(image.data))
+          String.fromCharCode(...new Uint8Array(image.data.Image.data))
         );
         let src = `data:image/png;base64,${base64string}`;
         await setProfileImg(src);

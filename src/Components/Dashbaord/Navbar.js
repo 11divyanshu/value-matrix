@@ -2,10 +2,12 @@ import React from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import Avatar from "../../assets/images/UserAvatar.png";
-import { LogoutAPI } from "../../service/api";
+import { LogoutAPI , getProfileImage} from "../../service/api";
 import { ReactSession } from "react-client-session";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/logo.png"
+import {AiOutlineUser} from "react-icons/ai";
+import { MdOutlineLogout } from "react-icons/md";
 
 // Assets
 import { IoCall } from "react-icons/io5";
@@ -37,11 +39,13 @@ const HorizontalNav = (props) => {
       console.log(user);
       await setUser(user);
       if (user && user.profileImg) {
-        const img = user.profileImg;
-        const imgBase64 = img.toString("base64");
-        console.log(imgBase64);
-        setProfileImg(img);
-        setProfileImg(imgBase64);
+        let image = await getProfileImage({ id: user._id }, user.access_token);
+        await localStorage.setItem("profileImg", JSON.stringify(image));
+        let base64string = btoa(
+          String.fromCharCode(...new Uint8Array(image.data.Image.data))
+        );
+        let src = `data:image/png;base64,${base64string}`;
+        await setProfileImg(src);
       }
       if (user.resume) {
         step++;
@@ -145,7 +149,7 @@ const HorizontalNav = (props) => {
                             to="/user/profile"
                             className="flex space-x-2 items-center"
                           >
-                            <FaUserCircle /> <p>View Profile</p>
+                            <AiOutlineUser/> <p>View Profile</p>
                           </Link>
                         </div>
                       </span>
@@ -154,7 +158,7 @@ const HorizontalNav = (props) => {
                           className="text-sm font-medium text-gray-900 flex items-center space-x-2 cursor-pointer"
                           onClick={Logout}
                         >
-                          <RiLogoutBoxRFill /> <p>Logout</p>
+                          <MdOutlineLogout/> <p>Logout</p>
                         </div>
                       </span>
                     </div>

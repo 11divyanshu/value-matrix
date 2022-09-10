@@ -304,12 +304,14 @@ const EducationDetailForm = (props) => {
                       <button
                         type="submit"
                         className="h-8 bg-blue-600 text-white rounded-sm block cursor-pointer px-8 align-middle"
+                        style={{backgroundColor:"#034488"}}
                       >
                         {edit === null ? "Add " : "Update"}
                       </button>
                       <button
                         type="button"
-                        className="h-8 border-[0.5px] mx-3 border-red-600 text-red-600 rounded-sm block cursor-pointer px-8"
+                        className="h-8 border-[0.5px] mx-3 border-black text-black rounded-sm block cursor-pointer px-8"
+
                         ref={resetBtn}
                         onClick={async () => {
                           await setShowError(false);
@@ -337,6 +339,7 @@ const EducationDetailForm = (props) => {
           <div>
             <button
               className="h-8 bg-blue-600 text-white rounded-sm block cursor-pointer px-8 my-5"
+              style={{backgroundColor:"#034488"}}
               onClick={async () => {
                 await setShowError(true);
                 await setShowForm(true);
@@ -350,6 +353,7 @@ const EducationDetailForm = (props) => {
       <div className="pt-5 flex w-full">
         <button
           className="bg-blue-600 py-2 px-3 rounded-sm text-white"
+          style={{backgroundColor:"#034488"}}
           onClick={async () => {
             let access = await localStorage.getItem("access_token");
             let details = JSON.parse(
@@ -368,6 +372,7 @@ const EducationDetailForm = (props) => {
         {educationalDetail && educationalDetail.length > 0 ? (
           <button
             className="bg-blue-600 py-2 px-3 rounded-sm ml-auto text-white"
+            style={{backgroundColor:"#034488"}}
             onClick={async () => {
               let access = await localStorage.getItem("access_token");
               let details = JSON.parse(
@@ -384,7 +389,7 @@ const EducationDetailForm = (props) => {
             Next
           </button>
         ) : (
-          <button className="bg-blue-400 py-2 px-3 rounded-sm ml-auto text-white">
+          <button className="bg-blue-400 py-2 px-3 rounded-sm ml-auto text-white" style={{backgroundColor:"#034388d7"}}>
             Next
           </button>
         )}

@@ -114,10 +114,13 @@ const Dashboard = () => {
       }
       if (
         user.tools.length === 0 ||
-        user.education === [] ||
-        user.association === []
+        user.education === [] || user.education.length === 0 ||
+        user.association === [] || user.association.length === 0 ||
+        user.experience === [] || user.experience.length === 0
       ) {
+        console.log("GR")
         let modalOnce = await localStorage.getItem("modalOnce");
+        console.log(modalOnce)
         if (modalOnce === "null" || modalOnce === null) {
           setModalIsOpen(true);
         }

@@ -87,6 +87,7 @@ const ResumeForm = (props) => {
           <label
             for="resume"
             className="py-2 px-3 cursor-pointer bg-blue-500 rounded-md text-white"
+            style={{backgroundColor:"#034488"}}
           >
             {" "}
             Upload Resume{" "}
@@ -105,14 +106,16 @@ const ResumeForm = (props) => {
         {loading && fileName === null ? (
           <button
             disabled={true}
-            className={`px-3 py-2 ml-auto mr-3 bg-blue-400 text-white rounded-md`}
+            className={`px-3 py-2 ml-auto mr-3 bg-[#034388d7] text-white rounded-md`}
+            style={{backgroundColor:"#034377d7"}}
           >
             Next
           </button>
         ) : (
           <button
             onClick={() => props.setStep(1)}
-            className={`px-3 py-2 ml-auto mr-3 bg-blue-600 text-white rounded-md`}
+            className={`px-3 py-2 ml-auto mr-3 bg-[#034488] text-white rounded-md`}
+            style={{backgroundColor:"#034488"}}
           >
             Next
           </button>
