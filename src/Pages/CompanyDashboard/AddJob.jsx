@@ -38,7 +38,7 @@ const AddJob = () => {
   const [prof, setProf] = React.useState([]);
   const [dbSkills, setDbSkills] = React.useState([]);
 
-  const inputSkillRef = React.useRef(null);
+  const inputSkillRef = React.useRef(null); 
 
   //Description
   const [desc, setDescState] = React.useState();
@@ -89,10 +89,16 @@ const AddJob = () => {
     reqApp: "",
   });
 
+  const salaryRef= React.useRef(null);
   const [user, setUser] = React.useState(null);
 
   const postJob = async (values) => {
     try {
+      let salary = "";
+      console.log(salaryRef.current);
+      if(salaryRef.current){
+        salary = salaryRef.current.value;
+      }
       let skills = dbSkills.filter((el) => {
         return el.proficiency > 0;
       });
@@ -102,9 +108,11 @@ const AddJob = () => {
       values.skills = skills;
       values.user_id = user._id;
       console.log(values);
-
-      let res = await postJobAPI(values, access_token);
-
+      console.log(skills);
+      console.log(salary);
+    
+      let res = await postJobAPI({skills:skills,user_id: user._id,salary: salary,...values}, access_token);
+      
       if (selectedData.length > 0) {
         let res1 = sendJobInvitations(
           {
@@ -118,6 +126,7 @@ const AddJob = () => {
       if (res) {
         setAlert(true);
         localStorage.removeItem("postjob");
+        localStorage.removeItem("prof");
         setTimeout(() => {
           window.location.reload();
         }, 3000);
@@ -1405,6 +1414,7 @@ const AddJob = () => {
                                 type="number"
                                 placeholder=""
                                 className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4"
+                                innerRef={salaryRef}
                               />
                             </div>
 

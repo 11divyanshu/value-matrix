@@ -87,6 +87,7 @@ const UpdateJob = () => {
 
         await localStorage.setItem("postjob", JSON.stringify(res.data.job))
         await setJob(res.data.job);
+        console.log(res.data.job);
         setState();
         //  if(res.data.job){
 
@@ -147,19 +148,7 @@ if(data.eligibility){
             );
              const editorState = EditorState.createWithContent(contentState);
             setPerksState(editorState);
-    
-    
             }
-
-
-
-
-
-
-
-
-
-
       }
     }
     
