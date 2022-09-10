@@ -86,12 +86,12 @@ function handleActive(event) {
       collapsed={collapsed} toggled={toggled} onToggle={handleToggle}
     >
       <button
-      class=" hover:bg-blue-700 text-white font-bold py-2 px-10 mx-auto text-sm mt-4 flex text-center rounded-lg"
+      class=" hover:bg-blue-700 text-white font-bold py-2 px-4 mx-auto text-xs mt-4 flex text-center rounded-lg"
       style={{backgroundColor:"#034488"}}
      
     >
 {/* <p classname=" py-2"><AiOutlinePlus/></p> */}
- <p>Connect New Account</p>
+<p className="py-1 px-2 text-sm font-bold"> <AiOutlinePlus/></p><p className='py-1'>Connect New Account</p>
     </button>
       <SidebarContent  style={{zIndex:-1}}  className='text-left mx-5 mt-7'>
         <Menu iconShape="square">

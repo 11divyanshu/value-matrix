@@ -1,13 +1,15 @@
 import { ProSidebar, SidebarContent, Menu, MenuItem } from "react-pro-sidebar";
 import "react-pro-sidebar/dist/css/styles.css";
 import { adminDashboardRoutes } from "../../routes";
-import { AiOutlineMenu, AiOutlineClose, AiOutlineHome } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineClose, AiOutlineHome ,AiOutlinePlus} from "react-icons/ai";
 import React from "react";
 import "../../assets/stylesheet/sidebar.scss";
 import { Link } from "react-router-dom";
 import { getUserFromId } from "../../service/api";
 import { FiSettings } from "react-icons/fi";
 import { MdOutlineLogout } from "react-icons/md";
+import { LogoutAPI } from "../../service/api";
+
 const Sidebar = () => {
   const [open, setOpen] = React.useState(true);
 
@@ -21,6 +23,15 @@ const Sidebar = () => {
     add_notifications: false,
     default: true,
   });
+  const Logout = async () => {
+    console.log("CHeck");
+    let user = await localStorage.getItem("user");
+    user = JSON.parse(user);
+    let res = await LogoutAPI(user._id);
+    await localStorage.setItem("user", null);
+    await localStorage.setItem("access_token", null);
+    window.location.href = "/login";
+  };
   const [toggled, setToggled] = React.useState(true);
   const [collapsed, setCollapsed] = React.useState(false);
   // const hasWindow = typeof window !== "undefined";
@@ -111,10 +122,10 @@ const Sidebar = () => {
          <div className="w-full px-10">
           <Link to="/admin">
             <button
-              class=" hover:bg-blue-700 text-white font-bold py-2 w-full text-sm mt-4 text-center rounded-lg"
+              class=" hover:bg-blue-700 text-white font-bold py-2 flex w-full text-sm mt-4 text-center rounded-lg"
               style={{ backgroundColor: "#034488" }}
             >
-              + Post New Job
+              <p className="py-1 px-2 text-md"> <AiOutlinePlus/></p> Post New Job
             </button>
           </Link>
         </div>
@@ -140,7 +151,7 @@ const Sidebar = () => {
         </SidebarContent>
         <div className='mx-4 my-24'>
       <div className='flex m-2'><p className='text-gray-700 mx-4 py-2 font-semibold'><FiSettings/> </p><p  className='text-gray-700  font-semibold py-1'>Settings</p></div>
-      <div className='flex m-2'><p className='text-gray-700 mx-4 py-2 font-semibold'><MdOutlineLogout/> </p><p className='text-gray-700  font-semibold py-1'>Log Out</p></div>
+      <div className='flex m-2' onClick={Logout}><p className='text-gray-700 mx-4 py-2 font-semibold'><MdOutlineLogout/> </p><p className='text-gray-700  font-semibold py-1'>Log Out</p></div>
      
     </div>
       </ProSidebar>

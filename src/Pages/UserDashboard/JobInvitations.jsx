@@ -66,7 +66,7 @@ const JobInvitations = () => {
   };
 
   return (
-    <div className="p-5">
+    <div className="p-5 mx-2">
       <p className="text-2xl font-bold">Interview Invitations</p>
       <div className="my-5">
         {Loading && (
@@ -79,10 +79,10 @@ const JobInvitations = () => {
         )}
         {!Loading && JobInvitation.length > 0 && (
           <div>
-            <div className="my-4">
+            <div className="my-4 mx-4">
               {JobInvitation.map((job, index) => {
                 return (
-                  <div className="bg-slate-200 p-3 w-1/2 text-md shadow-md my-3">
+                  <div className=" p-3 w-full mx-auto text-md shadow-md my-3" style={{backgroundColor:"#F2F3F5"}}>
                     <div className="flex items-baseline">
                       <p className="font-semibold mr-2">{job.jobTitle}</p>
                       <p>|</p>
@@ -101,23 +101,25 @@ const JobInvitations = () => {
                         target="_blank"
                         rel="noreferrer"
                       >
-                        <button className="bg-blue-500 px-2 py-1 text-white rounded-sm">
+                        <button className="px-2 py-1 text-white rounded-md text-sm" style={{ background: "#034488" }}>
                           View Details
                         </button>
                       </a>
                       <button
-                        className="bg-blue-500 px-2 py-1 text-white rounded-sm"
+                        className=" px-2 py-1 text-white rounded-md text-sm"
                         onClick={() => {
                           handleJobInvitation(job, true);
                         }}
+                        style={{ background: "#034488" }}
                       >
                         Accept
                       </button>
                       <button
-                        className="border-[0.5px] border-red-500 text-red-500 px-2 py-1 rounded-sm"
+                        className="border-[0.5px] border-gray-500 text-gray-500 px-2 py-1 rounded-md text-sm"
                         onClick={() => {
                           handleJobInvitation(job, false);
                         }}
+                        
                       >
                         Decline
                       </button>
