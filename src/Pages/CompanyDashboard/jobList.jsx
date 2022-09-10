@@ -5,6 +5,9 @@ import { CSVLink } from "react-csv";
 import { Formik, Field, Form } from 'formik';
 import { FilterCompany } from "../../service/api.js";
 import Loader from "../../assets/images/loader.gif";
+import Avatar from "../../assets/images/UserAvatar.png";
+import {BsFillBookmarkFill} from 'react-icons/bs'
+import {HiOutlineUser} from 'react-icons/hi'
 
 const JobList = () => {
   const [jobs, setJobs] = React.useState([]);
@@ -174,11 +177,14 @@ setJobs([]);
 
           {loader ? <p>...Loading</p> :
           <>
-          <div className=" w-full bg-white py-4 px-5" style={{borderRadius:"6px 6px 0 0"}}><p className="text-gray-900 w-full font-bold">Posted Jobs</p>
+          <div className="flex justify-between w-full bg-white">
+          <div className="  py-4 px-5" style={{borderRadius:"6px 6px 0 0"}}><p className="text-gray-900 w-full font-bold">Posted Jobs</p>
           <p className="text-gray-400 w-full font-semibold">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
-          
-          
           </div>
+          
+          <div className="text-xs text-gray-500 py-4 px-2 font-semibold mt-2">See All Logs &#12297;</div>
+          </div>
+
             <div className="w-full">
 
               
@@ -192,6 +198,64 @@ setJobs([]);
             </div>
             </>
             }
+        </div>
+
+        <div className="md:w-1/4 ">
+        <div className="shadow-lg  py-5  bg-white  justify-around  px-5 bg-white">
+          <p className="text-xl mx-auto text-gray-700 font-bold  flex">
+<p className="p-1"><BsFillBookmarkFill/></p>
+<p className=" mx-2  text-md ">My Items</p>
+            </p>
+            <div className="border-b border-gray-600 flex justify-between my-4 py-4">
+              <p className="font-bold text-sm">Posted Jobs</p><p className="text-gray-400 font-semibold text-sm">04</p>
+            </div>
+            <div className="border-b border-gray-600 flex justify-between my-4 py-4">
+              <p className="font-bold text-sm">My Learnings</p><p className="text-gray-400 font-semibold text-sm">06</p>
+            </div>
+            <div className=" border-gray-600 flex justify-between mt-4 pt-4">
+              <p className="font-bold text-sm">Save Posts</p><p className="text-gray-400 font-semibold text-sm">01</p>
+            </div>
+            </div>
+
+            <div className="shadow-lg sm:w-full rounded-lg   py-5  bg-white  justify-around my-4 h-auto  px-4 bg-white">
+          <p className="text-xl px-2 mx-auto text-gray-700 font-bold  flex">
+
+            {/* <div className=" px-6 mx-2 py-1 ml-5 text-center" ><AiOutlineUnorderedList/></div> */}
+
+
+            <p className=" mx-2  text-md ">Support</p><p className="py-1"><HiOutlineUser/></p>
+</p>
+          <div className="flex px-2 vertical-align-middle" >
+            <img src={Avatar} className="rounded-full w-12 h-12 m-3" />
+            <div> <p className="py-2 font-md">Cameron Williamson</p>
+              <p className="text-gray-400 text-sm">Product Designer</p>
+            </div>
+          </div>
+
+          <div className="flex px-2 vertical-align-middle" >
+            <img src={Avatar} className="rounded-full w-12 h-12 m-3" />
+            <div> <p className="py-2 font-md">Brookyln Simmons</p>
+              <p className="text-gray-400 text-sm">Software Engineer</p>
+            </div>
+          </div>
+
+
+          <div className="flex px-2 vertical-align-middle" >
+            <img src={Avatar} className="rounded-full w-12 h-12 m-3" />
+            <div> <p className="py-2 font-md">Leslie Alexander</p>
+              <p className="text-gray-400 text-sm">Project Manager</p>
+            </div>
+          </div>
+
+
+      
+
+
+          {/* <button className="bg-blue-600 rounded-lg px-6 mx-2 my-3 py-2 text-xs text-gray-900 font-semibold">View List</button> */}
+
+
+        </div>
+
         </div>
 
 
