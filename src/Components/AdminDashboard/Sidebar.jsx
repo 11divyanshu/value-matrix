@@ -40,6 +40,8 @@ const Sidebar = () => {
     setCollapsed(!collapsed);
   }
 
+ 
+
   function getWindowDimensions() {
     const width = hasWindow ? window.innerWidth : null;
     const height = hasWindow ? window.innerHeight : null;
@@ -150,7 +152,7 @@ const Sidebar = () => {
           </Menu>
         </SidebarContent>
         <div className='mx-4 my-24'>
-      <div className='flex m-2'><p className='text-gray-700 mx-4 py-2 font-semibold'><FiSettings/> </p><p  className='text-gray-700  font-semibold py-1'>Settings</p></div>
+      <div className='flex m-2'><a href="/admin/profile" className='text-gray-700 mx-4 py-2 font-semibold'><FiSettings/> </a><a href="/admin/profile" className='text-gray-700  font-semibold py-1'>Settings</a></div>
       <div className='flex m-2' onClick={Logout}><p className='text-gray-700 mx-4 py-2 font-semibold'><MdOutlineLogout/> </p><p className='text-gray-700  font-semibold py-1'>Log Out</p></div>
      
     </div>

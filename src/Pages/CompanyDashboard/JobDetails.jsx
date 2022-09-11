@@ -18,6 +18,7 @@ import DOMPurify from "dompurify";
 import { Link, useNavigate } from "react-router-dom";
 import { BsThreeDots, BsCashStack } from "react-icons/bs";
 import Microsoft from "../../assets/images/micro.jpg";
+import { updateJobAPI, getSkills , archiveJob } from "../../service/api";
 
 function JobDetails(props) {
   const [job_id, setJobId] = React.useState(props.id);
@@ -34,17 +35,26 @@ function JobDetails(props) {
   const [roles, setRoles] = React.useState([]);
 
   const [user, setUser] = React.useState(null);
+  const [toggle, setToggle] = React.useState(true);
 
   React.useEffect(() => {
     const getData = async () => {
       // let access_token = ReactSession.get("access_token");
       let access_token = localStorage.getItem("access_token");
       let user = JSON.parse(await localStorage.getItem("user"));
+      
       await setUser(user);
       let res = await getJobById(job_id, access_token);
-      console.log(res.data);
+      console.log(res.data.job);
       if (res) {
         setJob(res.data.job);
+        let jobDetails = res.data.job;
+        await localStorage.setItem("jobDetails" , JSON.stringify(res.data.job));
+        console.log(res.data.job.archived);
+        if(res.data.job.archived){
+
+          setToggle(res.data.job.archived);
+        }
         setCandidates(res.data.applicants);
         setDeclined(res.data.declined);
         setInvited(res.data.invited);
@@ -71,6 +81,26 @@ function JobDetails(props) {
 
     getData();
   }, [job_id]);
+  const archive = async()=>{
+    let access_token = localStorage.getItem("access_token");
+    let user = JSON.parse(await localStorage.getItem("jobDetails"));
+    
+     user.archived = !toggle;
+     console.log(user);
+     await localStorage.setItem("jobDetails" , JSON.stringify(user));
+
+    let res = await archiveJob(user);
+
+    if(res){
+
+      console.log(res)
+       setToggle(!toggle)
+      // localStorage.removeItem("jobDetails");
+    }
+    
+
+
+  }
 
   const createMarkup = (html) => {
     return {
@@ -132,7 +162,7 @@ function JobDetails(props) {
             <div className="card-body px-5 w-4/5">
 
               <h5 className=" px-4 py-2 text-4xl text-gray-900 font-extrabold">{job.jobTitle}</h5>
-              <h6 className="px-4 mb-2 text-lg text-blue-600 font-extrabold">{job.hiringOrganization} . {job.location}</h6>
+              <h6 className="px-4 mb-2 text-md text-blue-600 font-extrabold">{job.hiringOrganization} . {job.location}</h6>
              
 
             </div>
@@ -150,7 +180,7 @@ function JobDetails(props) {
                     </div>
                   </p>
                   <div>
-                    <p className="px-4 text-gray-400 text-lg text-gray-400">
+                    <p className="px-4 text-gray-400 text-md text-gray-400">
                       Job Type
                     </p>
                     <p className="px-4 text-md">{job.jobType}</p>
@@ -171,7 +201,7 @@ function JobDetails(props) {
                   </div>
                 </p>
                 <div>
-                  <p className="px-4 text-lg text-gray-400 ">Pay Range</p>
+                  <p className="px-4 text-md text-gray-400 ">Pay Range</p>
                   <p className="px-4 text-md">{job.salary}</p>
                 </div>
               </div>
@@ -185,7 +215,7 @@ function JobDetails(props) {
                   </div>
                 </p>
                 <div>
-                  <p className="px-4 text-lg text-gray-400 ">Location</p>
+                  <p className="px-4 text-md text-gray-400 ">Location</p>
                   <p className="px-4 text-md">{job.location}</p>
                 </div>
               </div>
@@ -199,7 +229,7 @@ function JobDetails(props) {
                   </div>
                 </p>
                 <div>
-                  <p className="px-4 text-lg text-gray-400 ">Apply By</p>
+                  <p className="px-4 text-md text-gray-400 ">Apply By</p>
                   <p className="px-4 text-md">
                     {new Date(job.validTill).getDate() +
                       "-" +
@@ -243,7 +273,7 @@ function JobDetails(props) {
                   </div>
                 </div>
                 <div className="col-span-2">
-                  {/* <p className="px-4 text-gray-400 font-semibold text-lg text-gray-400 font-semibold">Job Type</p> */}
+                  {/* <p className="px-4 text-gray-400 font-semibold text-md text-gray-400 font-semibold">Job Type</p> */}
                   <div className="flex py-1">
                     <div className="text-lg py-1 text-gray-400 font-semibold ">
                       <CgWorkAlt />
@@ -300,7 +330,7 @@ function JobDetails(props) {
                         >
                           {/* <div class="absolute inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 p-1 text-xs bg-[#034488] rounded-full z-10" style={{backgroundColor:"#034488"}}></div> */}
 
-                          <BsThreeDots className="text-gray-700 text-lg cursor-pointer hover:text-gray-800" />
+                          <BsThreeDots className="text-gray-700 text-lg mt-5 cursor-pointer hover:text-gray-800" />
                         </Popover.Button>
                         <Transition
                           as={Fragment}
@@ -313,13 +343,16 @@ function JobDetails(props) {
                         >
                           <Popover.Panel className="absolute z-10  max-w-sm  px-9 sm:px-0 lg:max-w-3xl">
                             <div className="overflow-hidden rounded-sm shadow-lg ring-1 ring-black ring-opacity-5">
-                              <div className="relative gap-8 bg-white p-3 lg:grid-cols-2 flex justify-between">
-                                <div className="flex items-center text-gray-800 space-x-2">
+                              <div className="relative gap-8 bg-white p-2 lg:grid-cols-2 flex justify-between">
+                                <div className="w-[8vw]  text-gray-800 ">
                                   {/* <BsThreeDots className="text-md" /> */}
-                                  <p className="text-sm font-semibold cursor-pointer" onClick={()=>{
+                                  <p className="text-sm font-semibold py-1 border-b cursor-pointer" onClick={()=>{
                                       window.location.href = `/company/jobUpdate/${job._id}`;
                                     }}>
                                       Update Details 
+                                  </p>
+                                  <p className="text-sm font-semibold py-1 cursor-pointer" onClick={()=>{archive()}}>
+                                    {toggle ? "Unarchive" : "Archive"} Job 
                                   </p>
                                 </div>
                               </div>
@@ -409,7 +442,7 @@ function JobDetails(props) {
             {user._id === job.uploadBy && (
               <div className="my-5 px-9">
                 <div className="flex items-center justify-between">
-                  <p className="font-bold text-lg">
+                  <p className="font-bold text-md">
                     Applicants{" "}
                     <span className="text-sm">({candidates.length})</span>
                   </p>
@@ -496,7 +529,7 @@ function JobDetails(props) {
                   </table>
                 )}
                 <div className="flex items-center justify-between my-5">
-                  <p className="font-bold text-lg">
+                  <p className="font-bold text-md">
                     Invitations
                     <span className="text-sm"> ({invited.length})</span>
                   </p>
@@ -587,7 +620,7 @@ function JobDetails(props) {
                   </table>
                 )}
                 <div className="flex items-center justify-between my-3">
-                  <p className="font-bold text-lg">
+                  <p className="font-bold text-md">
                     Invitations Declined
                     <span className="text-sm"> ({declined.length})</span>
                   </p>

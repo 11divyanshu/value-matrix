@@ -545,3 +545,14 @@ export const fetchCountry = async () => {
   }
 
 };
+
+// Archive Job
+
+export const archiveJob = async (data) => {
+  try{
+    return await axios.post(`${url}/archiveJob`,data);
+  }catch(err){
+    console.log("Error : ", err);
+  }
+
+};

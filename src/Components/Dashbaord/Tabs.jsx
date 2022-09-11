@@ -295,7 +295,7 @@ export default function Tabs() {
               <div
                 className=" rounded-md px-5 py-2 bg-white border border-gray-400 my-5 h-35 md:w-full mx-auto"
                 key={index}
-                style={{boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px"}}
+                // style={{boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px"}}
               >
                 <div className="flex justify-end space-x-3 items-center"></div>
                 <div className="flex flex-wrap justify-between w-full mb-4 text-gray-800 ">
@@ -344,7 +344,7 @@ export default function Tabs() {
           user.experience.map((item, index) => {
             return (
               <div
-                className=" rounded-md px-5 py-2 bg-white border border-gray-400 my-5 h-35  md:w-full mx-auto"
+                className=" rounded-md px-5 py-3 bg-white border border-gray-400 my-5 h-35  md:w-full mx-auto"
                 key={index}
               >
                 <div className="font-semibold flex space-x-2 mt-3 text-md items-center">
@@ -388,7 +388,7 @@ export default function Tabs() {
           user.associate.map((item, index) => {
             return (
               <div
-                className=" rounded-md px-5 py-2 bg-white border border-gray-400 my-5 h-35  md:w-full mx-auto"
+                className=" rounded-md px-5 py-3 bg-white border border-gray-400 my-5 h-35  md:w-full mx-auto"
                 key={index}
               >
                 <div className="font-semibold flex space-x-2 mt-3 items-center">

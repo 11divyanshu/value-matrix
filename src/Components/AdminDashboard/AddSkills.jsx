@@ -106,7 +106,8 @@ const AddSkills = () => {
   });
 
   return (
-    <div className="p-5">
+    <div className="p-5 bg-slate-100 h-100" style={{height:'100%'}}>
+      <div className="w-5/6 bg-white mx-auto py-4 px-6 h-100">
       <p className="font-bold text-2xl">Add Skills</p>
       <div className="my-4 flex items-center">
         <div className="my-4">
@@ -248,7 +249,7 @@ const AddSkills = () => {
             Update
           </button>
         </div>
-        <div className="my-4">
+        {/* <div className="my-4">
           <p className="font-semibold">Skills Present</p>
           <div className=" items-center my-4">
             {dbSkills.map((skill) => {
@@ -259,8 +260,9 @@ const AddSkills = () => {
               );
             })}
           </div>
-        </div>
+        </div> */}
       </div>
+    </div>
     </div>
   );
 };

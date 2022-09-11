@@ -151,12 +151,33 @@ const JobCard = (props) => {
           </div>
         </div>
         <div className="flex col-span-2">
-          <button
-            style={{ background: "#3ED3C5" }}
-            className="  rounded-3xl px-6 my-3 text-xs text-gray-900 font-semibold"
-          >
-            Active
-          </button>
+         
+            {job.archived ? ( <button
+            // style={{ background: "#3ED3C5" }}
+            className=" bg-yellow-300 rounded-3xl px-6 my-3 text-xs text-gray-900 font-semibold"
+          >Archived </button>) 
+            
+            
+            
+            
+            
+            : 
+            
+            
+            (new Date().toISOString() < job.validTill ? 
+            
+            
+            ( <button
+              style={{ background: "#3ED3C5" }}
+              className="  rounded-3xl px-6 my-3 text-xs text-gray-900 font-semibold"
+            >Active </button>)  :
+            
+            ( <button
+              // style={{ background: "#3ED3C5" }}
+              className=" bg-white border border-gray-400 rounded-3xl px-6 my-3 text-xs text-gray-900 font-semibold"
+            >Ended </button>) )}
+          
+         
           <div className="px-4 mx-2 py-4 align-middle">
             {/* <p className="text-right text-md py-3"><BsThreeDots/></p> */}
             <Popover className="relative mt-1">

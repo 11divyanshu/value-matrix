@@ -126,7 +126,7 @@ const AddAdminUser = () => {
   return (
     <div>
     <div className="p-5 bg-slate-100">
-      <p className="text-2xl font-bold">Add Admin User</p>
+      <p className="text-2xl font-bold mx-5">Add Admin User</p>
       <div className="w-full">
         <Formik
           initialValues={initialValue}

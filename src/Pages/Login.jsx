@@ -73,7 +73,7 @@ const Login = () => {
         {login && (
           <div className="w-full flex flex-col">
             <LoginForm />
-            <p className="pb-5 text-center text-md block">
+            <p className="pb-5 text-center mt-4 text-md block">
               Don't have an account ?{" "}
               <span
                 className="text-blue-700 font-semibold cursor-pointer"

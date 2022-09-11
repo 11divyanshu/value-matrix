@@ -49,6 +49,8 @@ export default function Tabs(props) {
   const [aboutDetail, setAboutDetail] = React.useState([]);
   const [billingDetail, setBillingDetail] = React.useState([]);
   const [country, setCountry] = React.useState([]);
+  const [error, setFormError] = React.useState(false);
+  const [conerror, setConError] = React.useState(false);
 
   React.useEffect(() => {
     const initial = async () => {
@@ -86,6 +88,9 @@ export default function Tabs(props) {
     console.log(values);
 
     if (values.firstName) {
+      if(!conerror){
+
+      
       let user = JSON.parse(localStorage.getItem("user"));
 
       user.firstName = values.firstName;
@@ -98,7 +103,14 @@ export default function Tabs(props) {
         title: "EditProfile",
         text: "Details Saved",
         button: "Continue",
-      });
+      })}else{
+        swal({
+          icon: "error",
+          title: "EditProfile",
+          text: "Incorrect Details",
+          button: "Continue",
+        });
+      }
     }
 
     if (values.about) {
@@ -119,7 +131,10 @@ export default function Tabs(props) {
       });
     }
 
-    if (values.gst) {
+    if (values.gst || values.pan) {
+      if(!error){
+
+     
       let e = JSON.parse(await localStorage.getItem("user"));
       const temp = [...user.billing];
       temp[0] = values;
@@ -135,6 +150,14 @@ export default function Tabs(props) {
         text: "Details Saved",
         button: "Continue",
       });
+    }else{
+      swal({
+        icon: "error",
+        title: "EditProfile",
+        text: "Incorrect Details",
+        button: "Continue",
+      });
+    }
     }
   };
 
@@ -333,6 +356,12 @@ export default function Tabs(props) {
                 )
               ) {
                 errors.contact = "Invalid Contact Number";
+              }
+              if(errors.firstName || errors.email || errors.contact){
+                setConError(true);
+              }
+              else{
+                setConError(false);
               }
               return errors;
             }}
@@ -604,6 +633,28 @@ export default function Tabs(props) {
               pan: user.billing[0] ? user.billing[0].pan : "",
               location: user.billing[0] ? user.billing[0].location : "",
             }}
+
+            validate={(values) => {
+              const errors = {};
+              if (
+                !/^[0-9]{8}$/.test(
+                  values.pan
+                )
+              ) {
+                errors.pan = "Invalid Pan Number";
+              }
+
+              if(errors.pan){
+                setFormError(true);
+              }
+              else{
+                setFormError(false);
+              }
+              return errors;
+            
+            
+            
+            }}
           >
             {({ values, isSubmitting }) => (
               <Form>
@@ -626,15 +677,15 @@ export default function Tabs(props) {
            </Field>
            </div> */}
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1 -space-x-3">
-                    <label className="font-semibold text-lg md:md:w-2/5 mx-5">
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Tax ID.
                     </label>
-                    <div className="flex">
+                    <div className='shadow-sm border-gray-10 md:w-3/5  flex py-2' >
                       <Field
                         component="select"
                         id="location"
                         name="location"
-                        className="block border-gray-100 w-2/5 py-1"
+                        className="block border-gray-100 py-1 w-1/6"
                         style={{
                           borderRadius: "5px 0 0 5px",
                           border: "solid 0.5px rgb(156 163 175)",
@@ -651,7 +702,7 @@ export default function Tabs(props) {
 
                       <Field
                         type="text"
-                        className="block border-gray-100  py-1 md:w-2/4 w-3/5"
+                        className="block border-gray-100  py-2 w-5/6"
                         name="gst"
                         style={{
                           borderRadius: " 0 5px 5px 0",
@@ -660,20 +711,27 @@ export default function Tabs(props) {
 
                         // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
                       ></Field>
-                    </div>
+                      
                   </div>
-
+                  </div>
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                    <label className="font-semibold text-lg md:md:w-2/5 mx-5">
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
                       PAN
                     </label>
+                    <div className="py-1 md:w-3/5 sm:w-4/5">
                     <Field
                       type="text"
-                      className="block border-gray-400 py-1 md:w-3/5 sm:w-4/5 mx-5"
+                      className="block border-gray-400 w-full py-1  "
                       name="pan"
 
                       // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
-                    />
+                    /> <ErrorMessage
+                    name="pan"
+                    component="div"
+                    className="text-sm text-red-600"
+                  />
+                  </div>
+                  
                   </div>
                 </div>
 
