@@ -122,7 +122,7 @@ const Panel = () => {
               </button></p></div>
           </div>
 
-          <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center lg:grid-cols-6">
+<div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center lg:grid-cols-6">
 
 
             <div className="px-5 text-center my-2 text-sm col-span-2"><p>Interview Request with Developer</p>
@@ -144,7 +144,7 @@ const Panel = () => {
               </button></p></div>
           </div>
 
-          <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center lg:grid-cols-6">
+<div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center lg:grid-cols-6">
 
 
             <div className="px-5 text-center my-2 text-sm col-span-2"><p>Interview Request with Client</p>
@@ -167,7 +167,7 @@ const Panel = () => {
           </div>
 
 
-          <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center lg:grid-cols-6">
+<div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center lg:grid-cols-6">
 
 
             <div className="px-5 text-center my-2 text-sm col-span-2"><p>Interview Request with Developer</p>

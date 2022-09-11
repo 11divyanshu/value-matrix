@@ -22,6 +22,7 @@ import EmailNotification from "./Pages/AdminDashboard/EmailNotification";
 import PushNotification from "./Pages/AdminDashboard/PushNotifications";
 import APanel from "./Pages/AdminDashboard/panel";
 import WhatsappNotification from "./Pages/AdminDashboard/WhatsappNotification";
+import ChannelNotificationPanel from "./Pages/AdminDashboard/ChannelNotification";
 
 // Company Pages
 import CJobList from "./Pages/CompanyDashboard/jobList.jsx";
@@ -151,6 +152,14 @@ export const adminDashboardRoutes = [
     name: "Notification",
     path: "/notification",
     hide: false,
+    icon: <BsFillBellFill className="text-xl" />,
+    component: <ChannelNotificationPanel/>,
+    permission: "add_notifications",
+  },
+  {
+    name: "Notification",
+    path: "/dashboardNotification",
+    hide: true,
     icon: <BsFillBellFill className="text-xl" />,
     component: <NotificationPanel />,
     permission: "add_notifications",

@@ -51,7 +51,7 @@ const PushNotification = () => {
   }, []);
 
   return (
-    <div className="p-5">
+    <div className="">
       <p className="text-2xl font-bold">Push Notifications</p>
       {Alert === true && (
         <div

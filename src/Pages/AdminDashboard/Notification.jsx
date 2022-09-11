@@ -51,7 +51,7 @@ const NotificationPanel = () => {
   }, []);
 
   return (
-    <div className="p-5 bg-white my-5 shadow-md w-4/5 mx-auto">
+    <div className="p-5 bg-white my-5 shadow-md">
       <p className="text-2xl font-bold">Notification Panel</p>
       <div className="flex my-3 flex-wrap ">
         <Link to="/admin/emailNotification">
