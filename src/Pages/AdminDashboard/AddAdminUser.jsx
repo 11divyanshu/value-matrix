@@ -124,7 +124,8 @@ const AddAdminUser = () => {
   }, []);
 
   return (
-    <div className="p-5 ">
+    <div>
+    <div className="p-5 bg-slate-100">
       <p className="text-2xl font-bold">Add Admin User</p>
       <div className="w-full">
         <Formik
@@ -169,6 +170,7 @@ const AddAdminUser = () => {
         >
           {({ values }) => {
             return (
+             
               <Form className="container bg-white p-5 my-3  w-4/5 mx-auto shadow-md">
               <div className="md:w-1/2 mx-9 flex w-full my-3 space-y-1">
                   
@@ -308,7 +310,8 @@ const AddAdminUser = () => {
                 <div className="w-full text-center justify-center">
                 <button
                   type="submit"
-                  className="my-3 px-2 py-1 bg-blue-500 text-white "
+                  className="my-3 bg-[#034388d7] px-6 rounded-sm py-1 text-white "
+                  style={{backgroundColor:"#034488"}}
                 >
                   {" "}
                   Add User
@@ -319,6 +322,7 @@ const AddAdminUser = () => {
           }}
         </Formik>
       </div>
+    </div>
     </div>
   );
 };

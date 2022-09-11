@@ -140,7 +140,9 @@ export default function Tabs(props) {
 
   //Tools
   const [tools, setTools] = React.useState([]);
-  const [error, seterror] = React.useState(null);
+  const [error, setFormError] = React.useState(false);
+  const [aserror, setAsFormError] = React.useState(false);
+  const [exerror, setExFormError] = React.useState(false);
   const [disabled, setDisabled] = React.useState(true);
 
   const inputRef = React.useRef(null);
@@ -205,6 +207,10 @@ export default function Tabs(props) {
   }, []);
 
   const updateEducation = async (values) => {
+   console.log(error)
+    if(!error){
+
+    
     let e = JSON.parse(await localStorage.getItem("user"));
     if (edit !== null) {
       const temp = [...educationalDetail];
@@ -241,9 +247,21 @@ export default function Tabs(props) {
       text: "Details Saved",
       button: "Continue",
     });
+  }else{
+
+    swal({
+      icon: "error",
+      title: "EditProfile",
+      text: "Incorrect Details",
+      button: "Continue",
+    });
+  }
   };
 
   const updateExperience = async (values) => {
+    if(!exerror){
+
+    
     let e = JSON.parse(await localStorage.getItem("user"));
     if (edit !== null) {
       const temp = [...experienceDetail];
@@ -279,9 +297,22 @@ export default function Tabs(props) {
       text: "Details Saved",
       button: "Continue",
     });
+  }else{
+
+    swal({
+      icon: "error",
+      title: "EditProfile",
+      text: "Incorrect Details",
+      button: "Continue",
+    });
+  }
   };
 
   const updateAssociation = async (values) => {
+
+    if(!aserror){
+
+    
     let e = JSON.parse(await localStorage.getItem("user"));
     if (edit !== null) {
       const temp = [...associateDetail];
@@ -317,6 +348,15 @@ export default function Tabs(props) {
       text: "Details Saved",
       button: "Continue",
     });
+  }else{
+
+    swal({
+      icon: "error",
+      title: "EditProfile",
+      text: "Incorrect Details",
+      button: "Continue",
+    });
+  }
   };
 
   const save = async (values) => {
@@ -967,10 +1007,33 @@ export default function Tabs(props) {
                             if (
                               values.field_of_study === null ||
                               values.field_of_study.trim() === ""
-                            ) {
+                            ){
                               errors.field_of_study = "Required !";
                             }
-
+                            if (values.start_date === null) {
+                              errors.start_date = "Required !";
+                            }
+                            if (values.end_date === null) {
+                              errors.end_date = "Required !";
+                            }
+                            if (values.start_date > new Date()) {
+                              errors.start_date =
+                                "Start date cannot be greater than today's date";
+                            }
+                            if (values.start_date > values.end_date) {
+                              errors.end_date = "End date cannot be less than start date";
+                            }
+                             if (values.grade === null){
+                              errors.grade = "Required !";
+                            }
+                            console.log(errors);
+if(errors.degree || errors.field_of_study || errors.end_date || errors.start_date || errors.grade){
+  setFormError(true);
+}
+else{
+  setFormError(false);
+}
+                           
                             return errors;
                           }}
                         >
@@ -1354,6 +1417,13 @@ export default function Tabs(props) {
                             if (values.start_date > values.end_date) {
                               errors.end_date =
                                 "End date cannot be less than start date";
+                            }
+                            
+                            if(errors.title || errors.employment_type|| errors.company_name || errors.end_date || errors.start_date || errors.location){
+                              setExFormError(true);
+                            }
+                            else{
+                              setExFormError(false);
                             }
 
                             return errors;
@@ -1747,7 +1817,12 @@ export default function Tabs(props) {
                               errors.end_date =
                                 "End date cannot be less than start date";
                             }
-
+                            if(errors.title || errors.employment_type|| errors.company_name || errors.end_date || errors.start_date || errors.location){
+                              setAsFormError(true);
+                            }
+                            else{
+                              setAsFormError(false);
+                            }
                             return errors;
                           }}
                         >

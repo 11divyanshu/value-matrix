@@ -126,8 +126,9 @@ const AddJob = () => {
         localStorage.removeItem("postjob");
         localStorage.removeItem("prof");
         setTimeout(() => {
-          window.location.reload();
+          window.location.href="/company/jobs"
         }, 3000);
+       
       } else {
         setAlert(false);
       }
@@ -554,6 +555,11 @@ const AddJob = () => {
                             placeholder=""
                             className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-2"
                             min={Date.now()}
+                          />
+                           <ErrorMessage
+                            name="validTill"
+                            component="div"
+                            className="text-red-600 text-sm w-full"
                           />
                         </div>
                         <div className="my-7 space-y-3 w-full">
@@ -1404,6 +1410,11 @@ const AddJob = () => {
                                 className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4"
                                 innerRef={salaryRef}
                               />
+                                <ErrorMessage
+                            name="salary"
+                            component="div"
+                            className="text-red-600 text-sm w-full"
+                          />
                             </div>
 
                             <div className="my-5 space-y-3 w-full">
@@ -1449,6 +1460,7 @@ const AddJob = () => {
                                 Prev
                               </button>
                             </div>
+                            {values.salary ? 
                             <button
                               type="button"
                               class="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
@@ -1456,7 +1468,16 @@ const AddJob = () => {
                               style={{ backgroundColor: "#034488" }}
                             >
                               Submit
-                            </button>
+                            </button> :(
+                               <button
+                               type="button"
+                               class="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
+                               disabled
+                               style={{ backgroundColor: "#034488" }}
+                             >
+                               Submit
+                             </button>
+                            )}
                           </Form>
                         </div>
                       );

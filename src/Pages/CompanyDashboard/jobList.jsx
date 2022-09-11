@@ -17,7 +17,7 @@ const JobList = () => {
   const headerso = [
     { label: "job_id", key: "_id" },
     { label: "job_title", key: "jobTitle" },
-    { label: "job_description", key: "jobDesc" },
+    // { label: "job_description", key: "jobDesc" },
     { label: "createTime", key: "createTime" },
     { label: "uploadedBy", key: "uploadBy" },
     { label: "location", key: "location" },
