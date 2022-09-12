@@ -554,5 +554,15 @@ export const archiveJob = async (data) => {
   }catch(err){
     console.log("Error : ", err);
   }
+};
 
+// List XI Interview Applications
+
+export const listXIEvaluation = async (data,token) => {
+  try {
+    return await axios.post(`${url}/listXIEvaluation`,data, {
+      headers: { authorization: token },});
+  } catch (error) {
+    console.log("Error Calling List Jobs API :", error);
+  }
 };

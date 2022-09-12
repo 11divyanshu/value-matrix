@@ -45,6 +45,9 @@ import AddAdminUser from "./Pages/AdminDashboard/AddAdminUser";
 
 // XI Pages
 import XIDashboard from "./Pages/XIDashboard/Dashboard";
+import XIEvaluationList from "./Pages/XIDashboard/EvaluationList";
+import XIJobDetails from "./Pages/XIDashboard/JobDetails.jsx";
+
 
 // SuperXIDashboard
 import SXIPanel from "./Pages/SuperXIDashboard/panel.jsx";
@@ -307,6 +310,20 @@ export const XIDashboardRoutes = [
     path: "/",
     component: <XIDashboard />,
     hide: true,
+  },
+  {
+    name: "Evaluation",
+    path: "/evaluationlist",
+    hide: false,
+    icon: <MdOutlineWorkOutline className="text-xl" />,
+    component: <XIEvaluationList />,
+    permission: "default",
+  },
+  {
+    name: "getJobById",
+    path: "/jobDetails/",
+    hide: true,
+    component: <XIJobDetails />,
   },
 ];
 
