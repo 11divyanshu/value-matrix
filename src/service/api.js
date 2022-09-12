@@ -566,3 +566,16 @@ export const listXIEvaluation = async (data,token) => {
     console.log("Error Calling List Jobs API :", error);
   }
 };
+
+
+// Add Evaulation Question
+export const addEvaluationQuestion = async (data, token) => {
+  try {
+    console.log("data", data);
+    return await axios.post(`${url}/addEvaluationQuestions`, data, {
+      headers: { authorization: token },
+    });
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}

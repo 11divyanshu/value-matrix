@@ -6,6 +6,7 @@ import { BsFillChatLeftTextFill, BsFillBellFill,BsChatRightDots } from "react-ic
 import { FaBuilding } from "react-icons/fa";
 import { FaUserFriends, FaToolbox } from "react-icons/fa";
 import { CgWorkAlt } from "react-icons/cg";
+import {BsQuestionCircleFill} from "react-icons/bs";
 
 // User Pages
 import Panel from "./Pages/UserDashboard/panel";
@@ -55,6 +56,7 @@ import SXIUserProfile from "./Pages/SuperXIDashboard/UserProfile";
 import SXIEditProfile from "./Pages/SuperXIDashboard/EditProfile";
 import SXIJobList from "./Pages/SuperXIDashboard/jobList.jsx";
 import SXIJobDetails from "./Pages/SuperXIDashboard/JobDetails.jsx";
+import AddQuestions from "./Pages/AdminDashboard/AddQuestions";
 
 // User Dashboard Routes
 export const dashboardRoutes = [
@@ -233,6 +235,14 @@ export const adminDashboardRoutes = [
     component: <AddAdminUser />,
     permission: "add_users",
   },
+  {
+    name:"Add Questions",
+    path: "/addQuestions",
+    hide:false,
+    icon : <BsQuestionCircleFill className="text-xl" />,
+    permission:"default",
+    component : <AddQuestions/>
+  }
 ];
 
 // Company Dashboard Routes

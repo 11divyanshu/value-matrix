@@ -32,7 +32,7 @@ const ChannelNotificationPanel = () => {
     setAlert(null);
     let access_token = await localStorage.getItem("access_token");
     let user = await localStorage.getItem("user");
-    
+
     selectedUser.forEach(async (user) => {
       if (values.pushNotification) {
         let res = await sendOneSignalNotification(
@@ -49,24 +49,37 @@ const ChannelNotificationPanel = () => {
       }
       if (values.emailNotification) {
         let res = sendEmailNotification(
-          { user_id: user._id, emailList: [user.email], subject: values.title, text: values.text },
+          {
+            user_id: user._id,
+            emailList: [user.email],
+            subject: values.title,
+            text: values.text,
+          },
           access_token
         );
       }
       if (values.dashboardNotification) {
         let res = await pushNotification(
-          { user_id: user._id, emailList: [user.email], title: values.title, message: values.text },
+          {
+            user_id: user._id,
+            emailList: [user.email],
+            title: values.title,
+            message: values.text,
+          },
           { access_token: user.access_token }
         );
       }
-      if(values.whatsappNotification){
-        await sendWhatsappNotification( {
-           
-            contents:  values.text,
-            contactList: [user.contact], ...values,
-          
-          user_id : user._id
-        }, access_token);
+      if (values.whatsappNotification) {
+        await sendWhatsappNotification(
+          {
+            contents: values.text,
+            contactList: [user.contact],
+            ...values,
+
+            user_id: user._id,
+          },
+          access_token
+        );
       }
     });
     // if (res) {
