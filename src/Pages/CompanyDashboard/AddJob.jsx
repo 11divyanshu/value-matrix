@@ -21,6 +21,7 @@ const AddJob = () => {
     "Job Details",
     "Eligibilty",
     "Job Invitations",
+    "Screening Questions",
     "Perks And Salary",
   ];
 
@@ -32,6 +33,16 @@ const AddJob = () => {
   const [error, setError] = React.useState(null);
   const [disabled, setDisabled] = React.useState(true);
 
+  // Screeing Questions
+  const [questions, setQuestions] = React.useState([]);
+  const [questionError, setQuestionError] = React.useState(null);
+  const [initialQuestion, setInitialQuestion] = React.useState({
+    question: "",
+    answer: "",
+  });
+  const [showQuestionForm, setShowQuestionForm] = React.useState(true);
+  const [questionEditIndex, setQuestionEditIndex] = React.useState(null);
+
   // Skills To Be Displayed
   const [roles, setRoles] = React.useState([]);
   const [showRoles, setShowRoles] = React.useState([]);
@@ -39,7 +50,7 @@ const AddJob = () => {
   const [prof, setProf] = React.useState([]);
   const [dbSkills, setDbSkills] = React.useState([]);
 
-  const inputSkillRef = React.useRef(null); 
+  const inputSkillRef = React.useRef(null);
 
   //Description
   const [desc, setDescState] = React.useState();
@@ -86,24 +97,24 @@ const AddJob = () => {
     hiringOrganization: "",
     eligibility: "",
     skills: [],
-    salary: "",
+    salary: null,
     perks: "",
     reqApp: "",
   });
 
-  const salaryRef= React.useRef(null);
+  const salaryRef = React.useRef(null);
   const [user, setUser] = React.useState(null);
 
   const postJob = async (values) => {
     try {
       setLoading(true);
-      let salary = "";
-      
-      if(salaryRef.current){
+      let salary = 0;
+
+      if (salaryRef.current && salaryRef.current.value) {
         salary = salaryRef.current.value;
         salaryRef.current.value = "";
       }
-      let skills = dbSkills.filter((el) => {
+      let skills = await dbSkills.filter((el) => {
         return el.proficiency > 0;
       });
       let access_token = localStorage.getItem("access_token");
@@ -111,9 +122,21 @@ const AddJob = () => {
 
       values.skills = skills;
       values.user_id = user._id;
+      let c = salary;
+      console.log(salary);
+      console.log(skills);
+      // return;
+      let res = await postJobAPI(
+        {
+          skills: skills,
+          user_id: user._id,
+          salary: salary,
+          questions: questions,
+          ...values,
+        },
+        access_token
+      );
 
-      let res = await postJobAPI({skills:skills,user_id: user._id,salary: salary,...values}, access_token);
-      
       if (selectedData.length > 0) {
         let res1 = sendJobInvitations(
           {
@@ -130,14 +153,12 @@ const AddJob = () => {
         localStorage.removeItem("postjob");
         localStorage.removeItem("prof");
         setTimeout(() => {
-          window.location.href="/company/jobs"
+          window.location.href = "/company/jobs";
         }, 1000);
-       
       } else {
         setAlert(false);
       }
     } catch (error) {
-      
       setAlert(false);
     }
   };
@@ -158,7 +179,7 @@ const AddJob = () => {
       let user = await JSON.parse(await localStorage.getItem("user"));
       await setUser(user);
       let res = await getSkills({ user_id: user._id }, user.access_token);
-  
+
       let roles = new Set();
       let pSkills = {};
       if (res && res.status === 200) {
@@ -181,7 +202,7 @@ const AddJob = () => {
         await setRoles(Array.from(roles));
         await setDbSkills(res.data);
         await setPrimarySkills(pSkills);
-        
+
         Array.from(roles).map((el) => {
           pSkills[el] = Array.from(pSkills[el]);
         });
@@ -196,7 +217,7 @@ const AddJob = () => {
     const initial = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       let res = await getUserFromId({ id: user._id }, user.access_token);
-      
+
       if (
         res &&
         res.data &&
@@ -230,7 +251,7 @@ const AddJob = () => {
           let d = selectedData;
           let r = rejectedData;
           const json = await xlsx.utils.sheet_to_json(worksheet);
-          
+
           json.forEach((item) => {
             const EmailIndex = d.findIndex((el) => {
               return (
@@ -355,7 +376,7 @@ const AddJob = () => {
   const convertDescToHTML = async () => {
     let currentContentAsHTML = convertToHTML(desc.getCurrentContent());
     setConvertedDesc(currentContentAsHTML);
-    
+
     const job = JSON.parse(await localStorage.getItem("postjob"));
     job.jobDesc = currentContentAsHTML;
     setJob(job);
@@ -369,24 +390,23 @@ const AddJob = () => {
     setEligibleState(state);
 
     convertElToHTML();
-    
   };
 
   const convertElToHTML = async () => {
     let currentContentAsHTML = convertToHTML(eligible.getCurrentContent());
     setConvertedEl(currentContentAsHTML);
-    
+
     const job = JSON.parse(await localStorage.getItem("postjob"));
     job.eligibility = currentContentAsHTML;
     setJob(job);
-    
+
     localStorage.setItem("postjob", JSON.stringify(job));
   };
 
   return (
     <div className=" bg-slate-100 w-full p-5">
       <p className="font-semibold">
-        {PageIndex} of 4 : {PageDetails[PageIndex - 1]}
+        {PageIndex} of 5 : {PageDetails[PageIndex - 1]}
       </p>
 
       <div className="my-2">
@@ -560,7 +580,7 @@ const AddJob = () => {
                             className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-2"
                             min={Date.now()}
                           />
-                           <ErrorMessage
+                          <ErrorMessage
                             name="validTill"
                             component="div"
                             className="text-red-600 text-sm w-full"
@@ -630,9 +650,7 @@ const AddJob = () => {
                           Next
                         </button>
                       ) : (
-                        <button
-                          className="bg-[#034388d7] px-4 py-1 text-white mx-auto block my-6 rounded-sm"
-                        >
+                        <button className="bg-[#034388d7] px-4 py-1 text-white mx-auto block my-6 rounded-sm">
                           Next
                         </button>
                       )}
@@ -722,7 +740,11 @@ const AddJob = () => {
                                   }
                                 }}
                               />
-                              <button className="h-10 bg-[#034488] text-white rounded-sm block cursor-pointer px-8 align-middle ">
+                              <button
+                                className="h-10 bg-[#034488] text-white rounded-sm block cursor-pointer px-8 align-middle"
+                                type="button"
+                                style={{ backgroundColor: "#034488" }}
+                              >
                                 Search
                               </button>
                             </div>
@@ -1025,7 +1047,7 @@ const AddJob = () => {
                         onSubmit={async (values) => {
                           let d = selectedData;
                           let r = rejectedData;
-                          
+
                           if (editIndex !== null) r.splice(editIndex, 1);
                           setEditIndex(null);
                           d.push(values);
@@ -1382,12 +1404,205 @@ const AddJob = () => {
             </div>
           )}
           {PageIndex === 4 && (
+            <div className="w-3/4 shadow-md mr-3 bg-white py-9 px-7">
+              <p className="font-semibold">Add Screening Questions</p>
+              <p className="text-gray-600">
+                We recommend adding 3 or more questions.
+              </p>
+              <div className="my-5">
+                {questions.map((question, index) => {
+                  return (
+                    <div className="my-5">
+                      <div className="flex justify-between">
+                        <p className="font-semibold">
+                          Question {index + 1} :{" "}
+                          <span className="font-normal">
+                            {question.question}
+                          </span>
+                        </p>
+                        <div className="flex space-x-3">
+                          <RiEditBoxLine
+                            className="cursor-pointer text-blue-500"
+                            onClick={() => {
+                              setShowQuestionForm(false);
+                              setInitialQuestion(question);
+                              setQuestionEditIndex(index);
+                              setShowQuestionForm(true);
+                            }}
+                          />
+                          <AiOutlineDelete
+                            className="cursor-pointer text-red-600"
+                            onClick={() => {
+                              setQuestions(
+                                questions.filter(
+                                  (item) => item.question !== question.question
+                                )
+                              );
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <p className="text-gray-600 font-semibold">
+                        Answer :{" "}
+                        <span className="font-normal">{question.answer}</span>
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+              {showQuestionForm && (
+                <Formik
+                  initialValues={initialQuestion}
+                  validate={(values) => {
+                    const errors = {};
+                    if (!values.question) {
+                      errors.question = "Required";
+                    }
+                    if (!values.answer) {
+                      errors.answer = "Required";
+                    }
+                    return errors;
+                  }}
+                  onSubmit={(values) => {
+                    if (questionEditIndex !== null) {
+                      let temp = [...questions];
+                      temp[questionEditIndex] = values;
+                      setQuestions(temp);
+                      setQuestionEditIndex(null);
+                      setShowQuestionForm(false);
+                      setInitialQuestion({
+                        question: "",
+                        answer: "",
+                      });
+                    } else {
+                      setQuestions([
+                        ...questions,
+                        { question: values.question, answer: values.answer },
+                      ]);
+                      setShowQuestionForm(false);
+                      setInitialQuestion({
+                        question: "",
+                        answer: "",
+                      });
+                    }
+                  }}
+                >
+                  {({ values }) => (
+                    <Form>
+                      <div className="my-6">
+                        <label className="font-semibold">Question</label>
+                        <Field
+                          name="question"
+                          className="w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:border-[#034488]"
+                          type="text"
+                        />
+                        <ErrorMessage
+                          component="div"
+                          name="question"
+                          className="text-red-600 text-sm"
+                        />
+                      </div>
+                      <div className="my-6">
+                        <label className="font-semibold">Ideal Answer</label>
+                        <Field
+                          name="answer"
+                          className="w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:border-[#034488]"
+                          type="text"
+                        />
+                        <ErrorMessage
+                          component="div"
+                          name="answer"
+                          className="text-red-600 text-sm"
+                        />
+                      </div>
+                      <div>
+                        <button
+                          type="submit"
+                          className="bg-[#034488] rounded-sm px-4 py-1 text-white"
+                          style={{ backgroundColor: "#034488" }}
+                        >
+                          {questionEditIndex === null
+                            ? "Add Question"
+                            : " Save Changes"}
+                        </button>
+                      </div>
+                    </Form>
+                  )}
+                </Formik>
+              )}
+             {!showQuestionForm && (
+                <div className="flex space-x-4">
+                <button
+                  type="submit"
+                  className="bg-[#034488] rounded-sm px-4 py-1 text-white"
+                  style={{ backgroundColor: "#034488" }}
+                >
+                  {questionEditIndex === null
+                    ? "Add Question"
+                    : " Save Changes"}
+                </button>
+                <button
+                  type="button"
+                  className="rounded-sm px-4 py-1 text-black border-2 rounded-sm border-black"
+                  onClick={()=>{
+                    setShowQuestionForm(false);
+                    setInitialQuestion({
+                      question: "",
+                      answer: "",
+                    });
+                  }}
+                >
+                Cancel
+                </button>
+              </div>
+              )}
+              <div className="flex space-x-3 mx-auto justify-center">
+                <button
+                  className="bg-[#034488] px-4 py-1 rounded-sm text-white"
+                  onClick={() => {
+                    if (showQuestionForm && questions.length > 0) {
+                      swal({
+                        title: "Are you sure?",
+                        text: "You have unsaved changes!",
+                        icon: "warning",
+                        buttons: true,
+                      }).then((ok) => {
+                        if (ok) setPageIndex(3);
+                      });
+                    } else setPageIndex(3);
+                  }}
+                >
+                  Prev
+                </button>
+                <button
+                  className="bg-[#034488] px-4 py-1 rounded-sm text-white"
+                  onClick={() => {
+                    if (showQuestionForm) {
+                      swal({
+                        title: "Are you sure?",
+                        text: "You have unsaved changes!",
+                        icon: "warning",
+                        buttons: true,
+                      }).then((ok) => {
+                        if (ok) setPageIndex(5);
+                      });
+                    } else {
+                      setPageIndex(5);
+                    }
+                  }}
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
+          {PageIndex === 5 && (
             <div className="w-3/4 shadow-md mr-3 bg-white">
               <div className="w-full mt-9">
                 <div className="w-full m-5 mx-7">
                   <Formik
                     initialValues={{
-                      salary: job.salary ? job.salary : "",
+                      salary: job.salary ? job.salary : null,
                     }}
                     validate={(values) => {
                       const errors = {};
@@ -1414,11 +1629,11 @@ const AddJob = () => {
                                 className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4"
                                 innerRef={salaryRef}
                               />
-                                <ErrorMessage
-                            name="salary"
-                            component="div"
-                            className="text-red-600 text-sm w-full"
-                          />
+                              <ErrorMessage
+                                name="salary"
+                                component="div"
+                                className="text-red-600 text-sm w-full"
+                              />
                             </div>
 
                             <div className="my-5 space-y-3 w-full">
@@ -1458,39 +1673,38 @@ const AddJob = () => {
                                     "postjob",
                                     JSON.stringify(job)
                                   );
-                                  setPageIndex(3);
+                                  setPageIndex(4);
                                 }}
                               >
                                 Prev
                               </button>
                             </div>
-                            {values.values.salary ? 
-                           (
-                            
-                            
-                            
-                            <button
-                              type="button"
-                              class="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
-                              onClick={() => postJob(job)}
-                              style={{ backgroundColor: "#034488" }}
-                            >
-                              {loading ? <img src={Loader} alt="loader" className="h-9 mx-auto" />
-: "Submit"}
-                            </button>
-                            
-                            
-                            
-                            
-                            ) :(
-                               <button
-                               type="button"
-                               class="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
-                               disabled
-                               style={{ backgroundColor: "#034488" }}
-                             >
-                               Submit
-                             </button>
+                            {values.values.salary ? (
+                              <button
+                                type="button"
+                                class="bg-[#4a545e] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
+                                onClick={() => postJob(job)}
+                                style={{ backgroundColor: "#034488" }}
+                              >
+                                {loading ? (
+                                  <img
+                                    src={Loader}
+                                    alt="loader"
+                                    className="h-9 mx-auto"
+                                  />
+                                ) : (
+                                  "Submit"
+                                )}
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                class="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
+                                disabled
+                                style={{ backgroundColor: "#034488" }}
+                              >
+                                Submit
+                              </button>
                             )}
                           </Form>
                         </div>
@@ -1501,7 +1715,6 @@ const AddJob = () => {
               </div>
             </div>
           )}
-
         </div>
       </div>
     </div>

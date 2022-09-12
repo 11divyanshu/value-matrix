@@ -7,7 +7,6 @@ import "../../assets/stylesheet/VerticalTabs.scss";
 import swal from "sweetalert";
 import { RiEditBoxLine } from "react-icons/ri";
 import { AiOutlineDelete } from "react-icons/ai";
-import { AiOutlineClose } from "react-icons/ai";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { convertToHTML } from "draft-convert";
@@ -33,6 +32,7 @@ const UpdateJob = () => {
     "Job Details",
     "Eligibilty",
     "Job Invitations",
+    "Screening Questions",
     "Perks And Salary",
   ];
 
@@ -49,6 +49,17 @@ const UpdateJob = () => {
   const [rolesC, setCRoles] = React.useState({});
 
   const inputSkillRef = React.useRef(null);
+
+    // Screeing Questions
+    const [questions, setQuestions] = React.useState([]);
+    const [questionError, setQuestionError] = React.useState(null);
+    const [initialQuestion, setInitialQuestion] = React.useState({
+      question: "",
+      answer: "",
+    });
+    const [showQuestionForm, setShowQuestionForm] = React.useState(false);
+    const [questionEditIndex, setQuestionEditIndex] = React.useState(null);
+  
 
   // Candidate Invitations Xl Sheet Input
   const candidateInputRef = React.useState(null);
@@ -222,6 +233,7 @@ const UpdateJob = () => {
         await localStorage.setItem("postjob", JSON.stringify(res.data.job));
         await setJob(res.data.job);
         await setJob({...res.data.job});
+        await setQuestions(res.data.job.questions);
         setState();
       } else {
         console.log("no response");
@@ -407,7 +419,7 @@ const UpdateJob = () => {
   return (
     <div className=" bg-slate-100 w-full p-5">
       <p className="font-semibold">
-        {PageIndex} of 3 : {PageDetails[PageIndex - 1]}
+        {PageIndex} of 5 : {PageDetails[PageIndex - 1]}
       </p>
 
       <div className="my-2">
@@ -1410,7 +1422,200 @@ const UpdateJob = () => {
                 </div>
               </div>
             )}
-            {PageIndex === 4 && (
+             {PageIndex === 4 && (
+            <div className="w-3/4 shadow-md mr-3 bg-white py-9 px-7">
+              <p className="font-semibold">Add Screening Questions</p>
+              <p className="text-gray-600">
+                We recommend adding 3 or more questions.
+              </p>
+              <div className="my-5">
+                {questions.map((question, index) => {
+                  return (
+                    <div className="my-5">
+                      <div className="flex justify-between">
+                        <p className="font-semibold">
+                          Question {index + 1} :{" "}
+                          <span className="font-normal">
+                            {question.question}
+                          </span>
+                        </p>
+                        <div className="flex space-x-3">
+                          <RiEditBoxLine
+                            className="cursor-pointer text-blue-500"
+                            onClick={() => {
+                              setShowQuestionForm(false);
+                              setInitialQuestion(question);
+                              setQuestionEditIndex(index);
+                              setShowQuestionForm(true);
+                            }}
+                          />
+                          <AiOutlineDelete
+                            className="cursor-pointer text-red-600"
+                            onClick={() => {
+                              setQuestions(
+                                questions.filter(
+                                  (item) => item.question !== question.question
+                                )
+                              );
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <p className="text-gray-600 font-semibold">
+                        Answer :{" "}
+                        <span className="font-normal">{question.answer}</span>
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+              {showQuestionForm && (
+                <Formik
+                  initialValues={initialQuestion}
+                  validate={(values) => {
+                    const errors = {};
+                    if (!values.question) {
+                      errors.question = "Required";
+                    }
+                    if (!values.answer) {
+                      errors.answer = "Required";
+                    }
+                    return errors;
+                  }}
+                  onSubmit={(values) => {
+                    if (questionEditIndex !== null) {
+                      let temp = [...questions];
+                      temp[questionEditIndex] = values;
+                      setQuestions(temp);
+                      setQuestionEditIndex(null);
+                      setShowQuestionForm(false);
+                      setInitialQuestion({
+                        question: "",
+                        answer: "",
+                      });
+                    } else {
+                      setQuestions([
+                        ...questions,
+                        { question: values.question, answer: values.answer },
+                      ]);
+                      setShowQuestionForm(false);
+                      setInitialQuestion({
+                        question: "",
+                        answer: "",
+                      });
+                    }
+                  }}
+                >
+                  {({ values }) => (
+                    <Form>
+                      <div className="my-6">
+                        <label className="font-semibold">Question</label>
+                        <Field
+                          name="question"
+                          className="w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:border-[#034488]"
+                          type="text"
+                        />
+                        <ErrorMessage
+                          component="div"
+                          name="question"
+                          className="text-red-600 text-sm"
+                        />
+                      </div>
+                      <div className="my-6">
+                        <label className="font-semibold">Ideal Answer</label>
+                        <Field
+                          name="answer"
+                          className="w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:border-[#034488]"
+                          type="text"
+                        />
+                        <ErrorMessage
+                          component="div"
+                          name="answer"
+                          className="text-red-600 text-sm"
+                        />
+                      </div>
+                      <div>
+                        <button
+                          type="submit"
+                          className="bg-[#034488] rounded-sm px-4 py-1 text-white"
+                          style={{ backgroundColor: "#034488" }}
+                        >
+                          {questionEditIndex === null
+                            ? "Add Question"
+                            : " Save Changes"}
+                        </button>
+                      </div>
+                    </Form>
+                  )}
+                </Formik>
+              )}
+              {!showQuestionForm && (
+                <div className="flex space-x-4">
+                <button
+                  type="submit"
+                  className="bg-[#034488] rounded-sm px-4 py-1 text-white"
+                  style={{ backgroundColor: "#034488" }}
+                >
+                  {questionEditIndex === null
+                    ? "Add Question"
+                    : " Save Changes"}
+                </button>
+                <button
+                  type="button"
+                  className="rounded-sm px-4 py-1 text-black border-2 rounded-sm border-black"
+                  onClick={()=>{
+                    setShowQuestionForm(false);
+                    setInitialQuestion({
+                      question: "",
+                      answer: "",
+                    });
+                  }}
+                >
+                Cancel
+                </button>
+              </div>
+              )}
+              <div className="flex space-x-3 mx-auto justify-center">
+                <button
+                  className="bg-[#034488] px-4 py-1 rounded-sm text-white"
+                  onClick={() => {
+                    if (showQuestionForm && questions.length > 0) {
+                      swal({
+                        title: "Are you sure?",
+                        text: "You have unsaved changes!",
+                        icon: "warning",
+                        buttons: true,
+                      }).then((ok) => {
+                        if (ok) setPageIndex(3);
+                      });
+                    } else setPageIndex(3);
+                  }}
+                >
+                  Prev
+                </button>
+                <button
+                  className="bg-[#034488] px-4 py-1 rounded-sm text-white"
+                  onClick={() => {
+                    if (showQuestionForm) {
+                      swal({
+                        title: "Are you sure?",
+                        text: "You have unsaved changes!",
+                        icon: "warning",
+                        buttons: true,
+                      }).then((ok) => {
+                        if (ok) setPageIndex(5);
+                      });
+                    } else {
+                      setPageIndex(5);
+                    }
+                  }}
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
+            {PageIndex === 5 && (
               <div className="w-3/4 shadow-md mr-3 bg-white">
                 <div className="w-full mt-9">
                   <div className="w-full m-5 mx-7">
@@ -1481,7 +1686,7 @@ const UpdateJob = () => {
                                       "postjob",
                                       JSON.stringify(job)
                                     );
-                                    setPageIndex(3);
+                                    setPageIndex(4);
                                   }}
                                 >
                                   Prev
