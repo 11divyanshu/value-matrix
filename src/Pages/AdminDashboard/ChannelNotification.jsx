@@ -49,13 +49,13 @@ const ChannelNotificationPanel = () => {
       }
       if (values.emailNotification) {
         let res = sendEmailNotification(
-          { user_id: user._id, emailList: user.email, ...values },
+          { user_id: user._id, emailList: [user.email], subject: values.title, text: values.text },
           access_token
         );
       }
       if (values.dashboardNotification) {
         let res = await pushNotification(
-          { user_id: user._id, emailList: user.email, ...values },
+          { user_id: user._id, emailList: [user.email], title: values.title, message: values.text },
           { access_token: user.access_token }
         );
       }
