@@ -124,7 +124,8 @@ const Sidebar = () => {
           <Link to="/company/jobsAdd">
             <button
               class=" hover:bg-blue-700 flex text-white font-bold py-2 w-full text-sm mt-4 text-center align-center rounded-lg"
->>>>>>> c827bec0fca0f186c865ab6e43be363b58eedecf
+              style={{backgroundColor:"#034488"}}
+
             >
              <p className="mx-auto flex"><p className="py-1 px-2 text-md"> <AiOutlinePlus/></p> Post New Job</p>
             </button>
@@ -176,10 +177,7 @@ const Sidebar = () => {
         </SidebarContent>
         <div className="mx-4 my-24">
           <div className="flex m-2">
-            <p className="text-gray-700 mx-4 py-2 font-semibold">
-              <FiSettings />{" "}
-            </p>
-            <p className="text-gray-700  font-semibold py-1">Settings</p>
+          <a href="/company/profile" className='text-gray-700 mx-4 py-2 font-semibold'><FiSettings/> </a><a href="/company/profile" className='text-gray-700  font-semibold py-1'>Settings</a>
           </div>
           <div className="flex m-2" onClick={Logout}>
             <p className="text-gray-700 mx-4 py-2 font-semibold">

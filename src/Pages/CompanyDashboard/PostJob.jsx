@@ -491,6 +491,16 @@ const AddJob = () => {
               ) {
                 errors.hiringOrganization = "Required !";
               }
+              if (
+                !values.jobType ||
+                values.jobType.trim() === ""
+              ) {
+                errors.jobType = "Required !";
+              }
+              if (values.validTill < new Date()) {
+                errors.start_date =
+                  "Valid Till Date should be greater than today's date";
+              }
               return errors;
             }}
           >

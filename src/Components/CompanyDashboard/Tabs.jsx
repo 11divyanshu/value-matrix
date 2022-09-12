@@ -287,7 +287,7 @@ export default function Tabs() {
 
 
 
-                    <div className='flex md:w-3/5 mx-5' >
+                    <div className='shadow-sm border-gray-10 md:w-3/5  flex py-2' >
 
                       <Field
 
@@ -305,13 +305,14 @@ export default function Tabs() {
 
                       <Field
                         type="text"
-                        className="block border-gray-100  py-2 px-2"
-                        style={{borderRadius:"0 5px 5px 0" , width:"76%"}}
+                        className="block border-gray-100  py-2 px-2 w-5/6"
+                        style={{borderRadius:"0 5px 5px 0" }}
                         name="gst"
                         disabled
                       // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
-                      /></div>
+                      />
+                      </div>
 
                   </div>
 
@@ -320,7 +321,7 @@ export default function Tabs() {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">PAN</label>
                     <Field
                       type="text"
-                      className="shadow-sm border-gray-10 md:w-3/5 ml-16 mr-20 px-4 py-2"
+                      className="shadow-sm border-gray-10 md:w-3/5 px-4 py-2"
                       style={{borderRadius:"5px"}}
                       name="pan"
                       disabled

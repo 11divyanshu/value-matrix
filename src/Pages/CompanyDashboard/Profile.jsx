@@ -48,7 +48,7 @@ const CompanyProfile = () => {
     <div className="">
       {/* <p className="text-2xl font-bold" style={{ color: "#3B82F6" }}>Company Details</p> */}
       {user !== null && user !== undefined && (
-        <div className="m-3">
+        <div className="my-3 mx-5">
           <div
             className="md:h-48 h-24 w-full relative"
             style={{ background: "#99DEFF" }}
@@ -73,7 +73,7 @@ const CompanyProfile = () => {
             </div>
             <div className=" mt-3 md:text-right  md:ml-auto sm:text-left ">
               <button
-                class=" hover:bg-blue-700 text-white font-bold py-2 px-8 text-xs rounded"
+                class=" hover:bg-blue-700 text-white font-bold py-2 px-8 mx-6 text-xs rounded"
                 style={{backgroundColor:"#034488"}}
                 onClick={() => {
                   let url = window.location.href;

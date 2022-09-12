@@ -101,7 +101,7 @@ export const dashboardRoutes = [
     component: <JobDetails />,
   },
   {
-    name : "Job Invitations",
+    name : "Jobs",
     path : "interviewInvitations",
     hide : false,
     icon : <CgWorkAlt className="text-xl" />,

@@ -12,6 +12,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import * as xlsx from "xlsx/xlsx.mjs";
 import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon, StarIcon } from "@heroicons/react/solid";
+import Loader from "../../assets/images/loader.gif";
 
 const AddJob = () => {
   // Page Index
@@ -71,6 +72,7 @@ const AddJob = () => {
   });
   const [showCandidateForm, setShowCandidateForm] = React.useState(false);
   const [editIndex, setEditIndex] = React.useState(null);
+  const [loading, setLoading] = React.useState(null);
 
   const inputRef = React.useRef(null);
 
@@ -94,6 +96,7 @@ const AddJob = () => {
 
   const postJob = async (values) => {
     try {
+      setLoading(true);
       let salary = "";
       
       if(salaryRef.current){
@@ -123,11 +126,13 @@ const AddJob = () => {
       }
       if (res) {
         setAlert(true);
+        setLoading(false);
         localStorage.removeItem("postjob");
         localStorage.removeItem("prof");
         setTimeout(() => {
-          window.location.reload();
-        }, 3000);
+          window.location.href="/company/jobs"
+        }, 1000);
+       
       } else {
         setAlert(false);
       }
@@ -554,6 +559,11 @@ const AddJob = () => {
                             placeholder=""
                             className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-2"
                             min={Date.now()}
+                          />
+                           <ErrorMessage
+                            name="validTill"
+                            component="div"
+                            className="text-red-600 text-sm w-full"
                           />
                         </div>
                         <div className="my-7 space-y-3 w-full">
@@ -1404,6 +1414,11 @@ const AddJob = () => {
                                 className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4"
                                 innerRef={salaryRef}
                               />
+                                <ErrorMessage
+                            name="salary"
+                            component="div"
+                            className="text-red-600 text-sm w-full"
+                          />
                             </div>
 
                             <div className="my-5 space-y-3 w-full">
@@ -1449,14 +1464,34 @@ const AddJob = () => {
                                 Prev
                               </button>
                             </div>
+                            {values.values.salary ? 
+                           (
+                            
+                            
+                            
                             <button
                               type="button"
                               class="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
                               onClick={() => postJob(job)}
                               style={{ backgroundColor: "#034488" }}
                             >
-                              Submit
+                              {loading ? <img src={Loader} alt="loader" className="h-9 mx-auto" />
+: "Submit"}
                             </button>
+                            
+                            
+                            
+                            
+                            ) :(
+                               <button
+                               type="button"
+                               class="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
+                               disabled
+                               style={{ backgroundColor: "#034488" }}
+                             >
+                               Submit
+                             </button>
+                            )}
                           </Form>
                         </div>
                       );
