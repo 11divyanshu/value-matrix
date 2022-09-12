@@ -4,7 +4,17 @@ import {
   getUserInterviewApplications,
   handleCandidateJobInvitation,
 } from "../../service/api";
-
+import { Popover, Transition } from "@headlessui/react";
+import {
+  HiOutlineLocationMarker,
+  HiOutlineCurrencyDollar,
+  HiOutlineCalendar,
+  HiOutlinePlay,
+} from "react-icons/hi";
+import { Link, useNavigate } from "react-router-dom";
+import { BsThreeDots, BsCashStack } from "react-icons/bs";
+import { CgWorkAlt } from "react-icons/cg";
+import { Fragment } from "react";
 import swal from "sweetalert";
 
 const InterviewApplication = () => {
@@ -32,19 +42,14 @@ const InterviewApplication = () => {
         {Loading && (
           <div className="text-center py-5 text-2xl">Fetching Data</div>
         )}
+        {JSON.stringify(interviews)}
         {!Loading && interviews.length === 0 && (
           <div className="text-center py-5 text-2xl">
             No Interview Invitations
           </div>
         )}
         {!Loading && interviews.length > 0 && (
-          <div>
-            <div className="my-4">
-              {interviews.map((job, index) => {
-                return <div></div>;
-              })}
-            </div>
-          </div>
+   <div></div>
         )}
       </div>
     </div>
