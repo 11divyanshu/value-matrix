@@ -108,7 +108,7 @@ const AddJob = () => {
 
       values.skills = skills;
       values.user_id = user._id;
-      
+
       let res = await postJobAPI({skills:skills,user_id: user._id,salary: salary,...values}, access_token);
       
       if (selectedData.length > 0) {

@@ -416,7 +416,7 @@ const UpdateJob = () => {
             class="bg-green-100 rounded-lg py-5 px-6 my-3 mb-4 text-base text-green-800"
             role="alert"
           >
-            Job Posted Successfully ! Check Here
+            Job Updated Successfully !
           </div>
         )}
         {Alert === false && (
