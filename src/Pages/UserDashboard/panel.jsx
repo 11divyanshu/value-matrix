@@ -82,10 +82,11 @@ const Panel = () => {
               style={{
                 margin:"auto",
                 width: '90%',
-                height: '300px'
+                height: '300px',
+                zIndex:-1,
               }}
             >
-              <Chart data={data} axes={axes} />
+              <Chart data={data} axes={axes} style={{zIndex:0}} />
             </div>
 
 

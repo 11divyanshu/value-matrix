@@ -163,7 +163,7 @@ const JobCard = (props) => {
         <Link to={`/XI/jobDetails/${job._id}`}>
             <button
               style={{ background: "#3ED3C5" }}
-              className="  rounded-3xl px-6 my-3 text-xs text-gray-900 font-semibold"
+              className="  rounded-3xl px-6 my-3 py-3 text-xs text-gray-900 font-semibold"
             >View Details </button></Link>
        
           

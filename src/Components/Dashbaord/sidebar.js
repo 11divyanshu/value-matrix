@@ -1,4 +1,5 @@
 import { ProSidebar, Menu, MenuItem, SubMenu,SidebarContent } from 'react-pro-sidebar';
+import "../../assets/stylesheet/layout.scss"
 
 import "react-pro-sidebar/dist/css/styles.css";
 import { dashboardRoutes } from "../../routes";
@@ -70,10 +71,10 @@ function handleActive(event) {
   
 
   return (
-    <div style={{width:'14%'}}>
-    <div className="h-screen fixed top-20 left-0" style={{marginTop:"-10px" , width:"14%"}}>
-      <div className="absolute  text-gray-9 left-5 top-5  visible md:invisible text-gray-700 text-xl">
-      <AiOutlineMenu className="text-md " onClick={()=>{handleToggle();}}/>
+    <div className='sidebarComponent'>
+    <div className="h-screen fixed top-20 left-0" style={{marginTop:"-10px"}}>
+      <div className="absolute  text-gray-9 left-5 -top-10  visible lg:invisible text-gray-700 text-xl menu" >
+      <AiOutlineMenu className="text-md " onClick={()=>{handleToggle();}} />
       </div>
     <ProSidebar
     // toggled={menu}
@@ -82,7 +83,7 @@ function handleActive(event) {
      
       className="fixed left-0 h-screen z-0 text-left active text-gray-500"
       style={{backgroundColor:"#FAFAFA" , zIndex:-1}}
-      breakPoint="md"
+      breakPoint="lg"
       collapsed={collapsed} toggled={toggled} onToggle={handleToggle}
     >
       <button

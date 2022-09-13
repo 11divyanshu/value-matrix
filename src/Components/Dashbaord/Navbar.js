@@ -70,7 +70,7 @@ const HorizontalNav = (props) => {
 
   return (
     <div className="flex items-center border-b-2 w-full pl-4 py-3 shadow-md">
-      <div className="text-slate-600 text-lg md:block hidden ">
+      <div className="text-slate-600 text-lg lg:block hidden ">
         <img className="h-10 mx-5" src={logo} />
       </div>
 

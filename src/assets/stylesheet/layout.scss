@@ -1,0 +1,37 @@
+.panel{
+   width:86% !important;
+    margin-top:'70px';
+   background-color:"#ffffff";
+
+   @media only screen and (max-width: 1024px){
+
+  width:100% !important;
+
+    }
+
+}
+
+
+.sidebarComponent{
+    width: 14% !important;
+    @media only screen and (max-width: 1024px){
+
+        width:0 !important;
+      
+          }
+
+}
+
+.menu{
+    display: none;
+    @media only screen and (max-width: 1024px){
+
+       display: block !important;
+       z-index: 999 !important;
+      
+          }
+}
+
+.navbar{
+    z-index:0;
+}

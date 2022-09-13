@@ -15,7 +15,7 @@ import {
   getUserIdFromToken,
 } from "../../service/api";
 import { Link } from "react-router-dom";
-
+import "../../assets/stylesheet/layout.scss"
 const Dashboard = () => {
   let [comp, setComponent] = React.useState(null);
   let { component, id } = useParams();
@@ -176,7 +176,7 @@ const Dashboard = () => {
           <CandidateResumeForm isOpen={true} setModalIsOpen={setModalIsOpen} />
         </div>
       )}
-      <div className="w-full bg-white  fixed z-50"> <HorizontalNav  user={user} /></div>
+      <div className="w-full bg-white  fixed navbar"> <HorizontalNav  user={user} /></div>
       
 
        {/* <div className="flex w-full">
@@ -197,7 +197,7 @@ const Dashboard = () => {
 <SidebarComponent>
 
 </SidebarComponent>
-<div className="justify-end ml-auto mt-20" style={{width:"86%", marginTop:'70px',backgroundColor:"#ffffff"}}>{comp}</div>
+<div className="justify-end ml-auto mt-20 panel" >{comp}</div>
 </div>
     </div>
   );

@@ -16,7 +16,7 @@ import {
 } from "react-icons/hi";
 import DOMPurify from "dompurify";
 import { Link, useNavigate } from "react-router-dom";
-import { BsThreeDots, BsCashStack } from "react-icons/bs";
+import { BsThreeDots, BsCashStack, BsQuestionSquare } from "react-icons/bs";
 import Microsoft from "../../assets/images/micro.jpg";
 import { updateJobAPI, getSkills , archiveJob } from "../../service/api";
 
@@ -33,6 +33,7 @@ function JobDetails(props) {
 
   const [skillsPrimary, setSkillsPrimary] = React.useState([]);
   const [roles, setRoles] = React.useState([]);
+  const [question, setQuestions] = React.useState([]);
 
   const [user, setUser] = React.useState(null);
   const [toggle, setToggle] = React.useState(true);
@@ -51,10 +52,7 @@ function JobDetails(props) {
         let jobDetails = res.data.job;
         await localStorage.setItem("jobDetails" , JSON.stringify(res.data.job));
         console.log(res.data.job.archived);
-        if(res.data.job.archived){
-
-          setToggle(res.data.job.archived);
-        }
+       setQuestions(res.data.job.questions)
         setCandidates(res.data.applicants);
         setDeclined(res.data.declined);
         setInvited(res.data.invited);
@@ -439,266 +437,23 @@ function JobDetails(props) {
                 {/* <p className="card-text font-semibold p-4">{job.jobDesc}</p> */}
               </div>
             </div>
-            {user._id === job.uploadBy && (
-              <div className="my-5 px-9">
-                <div className="flex items-center justify-between">
-                  <p className="font-bold text-md">
-                    Applicants{" "}
-                    <span className="text-sm">({candidates.length})</span>
-                  </p>
-                  {candidates.length > 0 && showCandidate ? (
-                    <p
-                      className="text-sm hover:underline text-blue-500 cursor-pointer"
-                      onClick={() => setShowCandidate(false)}
-                    >
-                      Hide
-                    </p>
-                  ) : (
-                    <p
-                      className="text-sm hover:underline text-blue-500 cursor-pointer"
-                      onClick={() => setShowCandidate(true)}
-                    >
-                      Show
-                    </p>
-                  )}
-                </div>
 
-                {candidates.length > 0 && showCandidate && (
-                  <table class="w-full my-5">
-                    <thead class="bg-white border-b text-left">
-                      <tr>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          #
-                        </th>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          First Name
-                        </th>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Email
-                        </th>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Contact
-                        </th>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Status
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {candidates.map((user, index) => {
-                        return (
-                          <tr
-                            class={`${
-                              index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                            } border-b`}
-                          >
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
-                              {index + 1}
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.firstName} {user.lastName}
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.email}
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.contact}
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              Pending
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                )}
-                <div className="flex items-center justify-between my-5">
-                  <p className="font-bold text-md">
-                    Invitations
-                    <span className="text-sm"> ({invited.length})</span>
-                  </p>
-                  {invited.length > 0 && showInvited ? (
-                    <p
-                      className="text-sm hover:underline text-blue-500 cursor-pointer"
-                      onClick={() => setShowInvited(false)}
-                    >
-                      Hide
-                    </p>
-                  ) : (
-                    <p
-                      className="text-sm hover:underline text-blue-500 cursor-pointer"
-                      onClick={() => setShowInvited(true)}
-                    >
-                      Show
-                    </p>
-                  )}
-                </div>
+            <div className="my-7">
+            <h5 className=" px-4 py-2 text-md text-gray-800 font-bold">
+                  Questions :
+                </h5>
+                {question && question.map((item , index)=>{
+                  return( 
+                  <div className="my-3">
+                  <div className="flex my-2 text-sm font-semibold"><p className="px-2">{index+1}.</p> <p>{item.question}</p></div>
+                  <div className="my-1"><p>Answer : {item.answer}</p></div>
+                  </div>)
 
-                {invited.length > 0 && showInvited && (
-                  <table class="w-full my-3">
-                    <thead class="bg-white border-b text-left">
-                      <tr>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          #
-                        </th>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          First Name
-                        </th>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Email
-                        </th>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Contact
-                        </th>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Status
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {invited.map((user, index) => {
-                        return (
-                          <tr
-                            class={`${
-                              index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                            } border-b`}
-                          >
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
-                              {index + 1}
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.firstName} {user.lastName}
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.email}
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.contact}
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {candidates.includes(user)
-                                ? "Accepted"
-                                : declined.includes(user)
-                                ? "Declined"
-                                : "Waiting"}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                )}
-                <div className="flex items-center justify-between my-3">
-                  <p className="font-bold text-md">
-                    Invitations Declined
-                    <span className="text-sm"> ({declined.length})</span>
-                  </p>
-                  {declined.length > 0 && showDeclined ? (
-                    <p
-                      className="text-sm hover:underline text-blue-500 cursor-pointer"
-                      onClick={() => setShowDeclined(false)}
-                    >
-                      Hide
-                    </p>
-                  ) : (
-                    <p
-                      className="text-sm hover:underline text-blue-500 cursor-pointer"
-                      onClick={() => setShowDeclined(true)}
-                    >
-                      Show
-                    </p>
-                  )}
-                </div>
+                })}
 
-                {declined.length > 0 && showDeclined && (
-                  <table class="w-full my-3">
-                    <thead class="bg-white border-b text-left">
-                      <tr>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          #
-                        </th>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          First Name
-                        </th>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Email
-                        </th>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Contact
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {declined.map((user, index) => {
-                        return (
-                          <tr
-                            class={`${
-                              index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                            } border-b`}
-                          >
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
-                              {index + 1}
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.firstName} {user.lastName}
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.email}
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.contact}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                )}
-              </div>
-            )}
+            </div>
+           
+           
           </div>
         </>
       ) : (
