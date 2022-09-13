@@ -105,12 +105,12 @@ const AddAdminUser = () => {
     }
   };
 
-  const navigate =useNavigate();
+  const navigate = useNavigate();
 
   React.useState(() => {
     const initial = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
-      let res =await  getUserFromId({ id: user._id }, user.access_token);
+      let res = await getUserFromId({ id: user._id }, user.access_token);
       console.log(res);
       if (res && res.data && res.data.user) {
         if (
@@ -120,61 +120,62 @@ const AddAdminUser = () => {
         }
       }
     };
-    initial();  
+    initial();
   }, []);
 
   return (
     <div>
-    <div className="p-5 bg-slate-100">
-      <p className="text-2xl font-bold mx-5">Add Admin User</p>
-      <div className="w-full">
-        <Formik
-          initialValues={initialValue}
-          validate={(values) => {
-            const errors = {};
-            if (!values.username) {
-              errors.username = "Username is required";
-            }
-            if (!values.firstName) {
-              errors.firstName = "First Name is required";
-            }
-            if (!values.lastName) {
-              errors.lastName = "Last Name is required";
-            }
-            if (!values.email) {
-              errors.email = "Email is required";
-            } else if (
-              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-            ) {
-              errors.email = "Invalid Email Address";
-            }
-            if (!values.password) {
-              errors.password = "Password is required";
-            }
-            if (!values.contact) {
-              errors.contact = "Contact is required";
-            } else if (
-              !/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/.test(
-                values.contact
-              )
-            ) {
-              errors.contact = "Invalid Contact Number";
-            }
-            let r = values.permission.filter((item) => item.value);
-            if (r.length === 0) {
-              errors.permission = "Please select atleast one permission";
-            }
-            return errors;
-          }}
-          onSubmit={handleSumbit}
-        >
-          {({ values }) => {
-            return (
-             
-              <Form className="container bg-white p-5 my-3  w-4/5 mx-auto shadow-md">
-              <div className="md:w-1/2 mx-9 flex w-full my-3 space-y-1">
-                  
-                    <label htmlFor="username" className="font-semibold text-lg w-2/5 mx-5">
+      <div className="bg-slate-100 p-5">
+        <div className="w-full">
+          <Formik
+            initialValues={initialValue}
+            validate={(values) => {
+              const errors = {};
+              if (!values.username) {
+                errors.username = "Username is required";
+              }
+              if (!values.firstName) {
+                errors.firstName = "First Name is required";
+              }
+              if (!values.lastName) {
+                errors.lastName = "Last Name is required";
+              }
+              if (!values.email) {
+                errors.email = "Email is required";
+              } else if (
+                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+              ) {
+                errors.email = "Invalid Email Address";
+              }
+              if (!values.password) {
+                errors.password = "Password is required";
+              }
+              if (!values.contact) {
+                errors.contact = "Contact is required";
+              } else if (
+                !/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/.test(
+                  values.contact
+                )
+              ) {
+                errors.contact = "Invalid Contact Number";
+              }
+              let r = values.permission.filter((item) => item.value);
+              if (r.length === 0) {
+                errors.permission = "Please select atleast one permission";
+              }
+              return errors;
+            }}
+            onSubmit={handleSumbit}
+          >
+            {({ values }) => {
+              return (
+                <Form className="container bg-white p-2 my-3  w-4/5 mx-auto shadow-md">
+                  <p className="text-2xl font-bold m-5 mb-9">Add Admin User</p>
+                  <div className="md:w-1/2 mx-9 flex w-full my-3 space-y-1">
+                    <label
+                      htmlFor="username"
+                      className="font-semibold text-lg w-2/5 mx-5"
+                    >
                       Username *
                     </label>
                     <Field
@@ -192,10 +193,12 @@ const AddAdminUser = () => {
                         {userNameError}
                       </div>
                     )}
-                
-                </div>
-                <div className="md:w-1/2 mx-9 my-3 flex w-full  space-y-1">
-                    <label htmlFor="firstName" className="font-semibold text-lg w-2/5 mx-5">
+                  </div>
+                  <div className="md:w-1/2 mx-9 my-3 flex w-full  space-y-1">
+                    <label
+                      htmlFor="firstName"
+                      className="font-semibold text-lg w-2/5 mx-5"
+                    >
                       First Name *
                     </label>
                     <Field
@@ -210,28 +213,35 @@ const AddAdminUser = () => {
                     />
                   </div>
                   <div className="md:w-1/2 mx-9 my-3 flex w-full  space-y-1">
-                    <label htmlFor="lastName" className="font-semibold text-lg w-2/5 mx-5">
+                    <label
+                      htmlFor="lastName"
+                      className="font-semibold text-lg w-2/5 mx-5"
+                    >
                       Last Name *
                     </label>
                     <Field
                       type="text"
                       name="lastName"
-                      className="text-600 block my-1 w-2/5"                    />
+                      className="text-600 block my-1 w-2/5"
+                    />
                     <ErrorMessage
                       name="lastName"
                       component="div"
                       className="text-sm text-red-600"
                     />
-                
-                </div>
-                <div className="md:w-1/2 mx-9 my-3 flex w-full  space-y-1">
-                    <label htmlFor="email" className="font-semibold text-lg w-2/5 mx-5">
+                  </div>
+                  <div className="md:w-1/2 mx-9 my-3 flex w-full  space-y-1">
+                    <label
+                      htmlFor="email"
+                      className="font-semibold text-lg w-2/5 mx-5"
+                    >
                       Email *
                     </label>
                     <Field
                       type="email"
                       name="email"
-                      className="text-600 block my-1 w-2/5"                    />
+                      className="text-600 block my-1 w-2/5"
+                    />
                     <ErrorMessage
                       name="email"
                       component="div"
@@ -242,13 +252,17 @@ const AddAdminUser = () => {
                     )}
                   </div>
                   <div className="md:w-1/2 mx-9 my-3 flex w-full  space-y-1">
-                    <label htmlFor="contact" className="font-semibold text-lg w-2/5 mx-5">
+                    <label
+                      htmlFor="contact"
+                      className="font-semibold text-lg w-2/5 mx-5"
+                    >
                       Contact *
                     </label>
                     <Field
                       type="text"
                       name="contact"
-                      className="text-600 block my-1 w-2/5"                    />
+                      className="text-600 block my-1 w-2/5"
+                    />
                     <ErrorMessage
                       name="contact"
                       component="div"
@@ -257,10 +271,12 @@ const AddAdminUser = () => {
                     {contactError && (
                       <div className="text-sm text-red-600">{contactError}</div>
                     )}
-                
-                </div>
-                <div className="md:w-1/2 mx-9 my-3 flex w-full  space-y-1">                  
-                    <label htmlFor="password" className="font-semibold text-lg w-2/5 mx-5">
+                  </div>
+                  <div className="md:w-1/2 mx-9 my-3 flex w-full  space-y-1">
+                    <label
+                      htmlFor="password"
+                      className="font-semibold text-lg w-2/5 mx-5"
+                    >
                       Password *
                     </label>
                     <Field
@@ -273,56 +289,58 @@ const AddAdminUser = () => {
                       component="div"
                       className="text-sm text-red-600"
                     />
-                  
-                </div>
-                <div className="text-left mx-9">
-                  <label htmlFor="permissions" className="text-gray-700 text-xl font-bold">
-                    User permissions
-                  </label>
-                  {permissions.map((item, index) => {
-                    return (
-                      <div className="mx-3 my-4">
-                        <Field
-                          type="checkbox"
-                          name={item.title}
-                          className="my-1"
-                          onClick={() => {
-                            let temp = permissions;
-                            temp[index].value = !temp[index].value;
-                            setPermissions(temp);
-                          }}
-                        />
-                        <label
-                          htmlFor="permissions"
-                          className="text-gray-700 mx-3"
-                        >
-                          {item.title}
-                        </label>
-                      </div>
-                    );
-                  })}
-                  <ErrorMessage
-                    name="permission"
-                    component="div"
-                    className="text-sm text-red-600"
-                  />
-                </div>
-                <div className="w-full text-center justify-center">
-                <button
-                  type="submit"
-                  className="my-3 bg-[#034388d7] px-6 rounded-sm py-1 text-white "
-                  style={{backgroundColor:"#034488"}}
-                >
-                  {" "}
-                  Add User
-                </button>
-                </div>
-              </Form>
-            );
-          }}
-        </Formik>
+                  </div>
+                  <div className="text-left mx-9">
+                    <label
+                      htmlFor="permissions"
+                      className="text-gray-700 text-xl font-bold"
+                    >
+                      User permissions
+                    </label>
+                    {permissions.map((item, index) => {
+                      return (
+                        <div className="mx-3 my-4">
+                          <Field
+                            type="checkbox"
+                            name={item.title}
+                            className="my-1"
+                            onClick={() => {
+                              let temp = permissions;
+                              temp[index].value = !temp[index].value;
+                              setPermissions(temp);
+                            }}
+                          />
+                          <label
+                            htmlFor="permissions"
+                            className="text-gray-700 mx-3"
+                          >
+                            {item.title}
+                          </label>
+                        </div>
+                      );
+                    })}
+                    <ErrorMessage
+                      name="permission"
+                      component="div"
+                      className="text-sm text-red-600"
+                    />
+                  </div>
+                  <div className="w-full text-center justify-center">
+                    <button
+                      type="submit"
+                      className="my-3 bg-[#034388d7] px-6 rounded-sm py-1 text-white "
+                      style={{ backgroundColor: "#034488" }}
+                    >
+                      {" "}
+                      Add User
+                    </button>
+                  </div>
+                </Form>
+              );
+            }}
+          </Formik>
+        </div>
       </div>
-    </div>
     </div>
   );
 };

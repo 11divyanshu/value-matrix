@@ -17,10 +17,12 @@ import { useNavigate } from "react-router-dom";
 import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/solid";
+import Loader from "../../assets/images/loader.gif";
+import swal from "sweetalert";
 
 const ChannelNotificationPanel = () => {
   const [Alert, setAlert] = React.useState(null);
-
+  const [loading, setLoading] = React.useState(false);
   const emailInputRef = React.useRef(null);
   const [emailList, setEmailList] = React.useState([]);
   const [users, setUser] = React.useState([]);
@@ -34,53 +36,62 @@ const ChannelNotificationPanel = () => {
     let user = await localStorage.getItem("user");
 
     selectedUser.forEach(async (user) => {
-      if (values.pushNotification) {
-        let res = await sendOneSignalNotification(
-          {
-            message: {
-              app_id: "91130518-13a8-4213-bf6c-36b55314829a",
-              contents: { en: values.text },
-              included_segments: ["Subscribed Users"],
-            },
-            user_id: user._id,
-          },
-          access_token
-        );
-      }
+      setLoading(true);
       if (values.emailNotification) {
-        let res = sendEmailNotification(
+        let res = await sendEmailNotification(
           {
             user_id: user._id,
             emailList: [user.email],
             subject: values.title,
-            text: values.text,
+            text: values.message,
           },
-          access_token
+          user.access_token
         );
+        console.log(res);
+        if (res.status !== 200) {
+          setAlert("Email Notification Failed");
+        }
       }
       if (values.dashboardNotification) {
+        console.log("Dashboard Notification");
         let res = await pushNotification(
           {
             user_id: user._id,
             emailList: [user.email],
             title: values.title,
-            message: values.text,
+            message: values.message,
           },
           { access_token: user.access_token }
         );
+        console.log(res);
+        if (res.status !== 200) {
+          setAlert("Dashboard Notification Failed");
+        }
       }
       if (values.whatsappNotification) {
-        await sendWhatsappNotification(
+        let res = await sendWhatsappNotification(
           {
-            contents: values.text,
+            contents: values.message,
             contactList: [user.contact],
             ...values,
 
             user_id: user._id,
           },
-          access_token
+          user.access_token
         );
+        console.log(res);
+        if (res.status !== 200) {
+          setAlert("Whatsapp Notification Failed");
+        }
       }
+      setLoading(false);
+      swal({
+        title: "Notification Sent",
+        text: "Notification Sent Successfully",
+        icon: "success",
+        button: "Ok",        
+      });
+      window.location.reload();
     });
     // if (res) {
     //   setAlert(true);
@@ -170,6 +181,15 @@ const ChannelNotificationPanel = () => {
           }
           if (values.title === null || values.title.trim() === "") {
             errors.title = "Title Required !";
+          }
+          if (
+            selectedUser.length > 0 &&
+            !values.whatsappNotification &&
+            !values.emailNotification &&
+            !values.dashboardNotification
+          ) {
+            errors.whatsappNotification =
+              "Select Atleast One Notification Type !";
           }
           return errors;
         }}
@@ -406,14 +426,6 @@ const ChannelNotificationPanel = () => {
                 </div>
                 <div className="flex items-center">
                   <Field
-                    name="pushNotification"
-                    type="checkbox"
-                    className="mr-2"
-                  />
-                  <label>Push Notification</label>
-                </div>
-                <div className="flex items-center">
-                  <Field
                     name="dashboardNotification"
                     type="checkbox"
                     className="mr-2"
@@ -421,6 +433,11 @@ const ChannelNotificationPanel = () => {
                   <label>Dashboard Notification</label>
                 </div>
               </div>
+              <ErrorMessage
+                component="div"
+                name="whatsappNotification"
+                className="text-red-600 text-sm mt-3"
+              />
             </div>
 
             <button
@@ -428,7 +445,11 @@ const ChannelNotificationPanel = () => {
               className="bg-blue-500 rounded-sm text-white px-4 py-1"
               style={{ backgroundColor: "#034488" }}
             >
-              Send
+              {!loading ? (
+                "Send"
+              ) : (
+                <img src={Loader} alt="loader" className="h-9 mx-auto" />
+              )}
             </button>
           </Form>
         )}

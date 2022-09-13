@@ -33,8 +33,6 @@ const Navbar = (props) => {
     const initial = async () => {
       let access_token1 = await localStorage.getItem("access_token");
       let user = JSON.parse(await localStorage.getItem("user"));
-      let user1 = await getProfileImage({ id: user._id }, user.access_token);
-      console.log(user1.data);
       if (access_token1 === "null")
         await localStorage.setItem("access_token", user.access_token);
       if (user && user.profileImg) {
@@ -54,7 +52,8 @@ const Navbar = (props) => {
   return (
     <div className="flex items-center border-b-2 w-full py-3 shadow-md">
       <div className="text-slate-600 text-lg md:block hidden ">
-      <img className="h-10 mx-5" src={logo} />      </div>
+        <img className="h-10 mx-5" src={logo} />{" "}
+      </div>
 
       <div className="md:w-3/5 mx-auto pl-7 w-1/2">
         <form>
