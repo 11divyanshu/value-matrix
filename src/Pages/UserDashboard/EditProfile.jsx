@@ -181,7 +181,7 @@ const EditProfile = () => {
                 src={
                   user && user.profileImg && ProfilePic ? ProfilePic : Avatar
                 }
-                className="sm:h-20 sm:w-20 md:h-56 md:w-56 rounded-full -z-[2] relative"
+                className="sm:h-20 sm:w-20 md:h-56 md:w-56 rounded-full -z-[3]"
                 alt="userAvatar"
               />
             </div>
