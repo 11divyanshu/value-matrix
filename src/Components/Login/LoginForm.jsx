@@ -151,9 +151,10 @@ const LoginForm = (props) => {
                     className="w-full text-600 my-1"
                     style={{ borderRadius: "8px" }}
                   />
+                  <div className="relative flex items-center">
                   {showPassword ? (
                     <p
-                      className="text-black text-sm hover:text-blue-500 cursor-pointer w-10 px-2 font-semibold"
+                      className="text-black text-sm hover:text-blue-500 cursor-pointer w-10 px-2 font-semibold  absolute right-4" 
                       onClick={() => {
                         setShowPassword(false);
                       }}
@@ -162,7 +163,7 @@ const LoginForm = (props) => {
                     </p>
                   ) : (
                     <p
-                      className="text-black text-sm hover:text-blue-500 cursor-pointer w-10 px-2  font-semibold" 
+                      className="text-black text-sm hover:text-blue-500 cursor-pointer w-10 px-2 font-semibold absolute right-4" 
                       onClick={() => {
                         setShowPassword(true);
                       }}
@@ -170,6 +171,7 @@ const LoginForm = (props) => {
                       Show
                     </p>
                   )}
+                  </div>
                 </div>
                 <ErrorMessage
                   name="password"
