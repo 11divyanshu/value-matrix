@@ -172,7 +172,7 @@ const EditProfile = () => {
       {user !== null && (
         <div className="m-2">
           <div
-            className="h-48 w-full relative"
+            className="h-48 w-full -z-[3]"
             style={{ background: "#99DEFF" }}
           ></div>
           <div className="relative  rounded-md w-full py-3 md:flex items-center ">
@@ -181,7 +181,7 @@ const EditProfile = () => {
                 src={
                   user && user.profileImg && ProfilePic ? ProfilePic : Avatar
                 }
-                className="sm:h-20 sm:w-20 md:h-56 md:w-56 rounded-full"
+                className="sm:h-20 sm:w-20 md:h-56 md:w-56 rounded-full -z-[2] relative"
                 alt="userAvatar"
               />
             </div>

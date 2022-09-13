@@ -88,22 +88,22 @@ export default function Tabs(props) {
     console.log(values);
 
     if (values.firstName) {
-      if(!conerror){
+      if (!conerror) {
+        let user = JSON.parse(localStorage.getItem("user"));
 
-      
-      let user = JSON.parse(localStorage.getItem("user"));
-
-      user.firstName = values.firstName;
-      user.lastname = values.lastName;
-      user.address = values.address;
-      setUser(user);
-      localStorage.setItem("user", JSON.stringify(user));
-      swal({
-        icon: "success",
-        title: "EditProfile",
-        text: "Details Saved",
-        button: "Continue",
-      })}else{
+        user.username = values.username;
+        user.firstName = values.firstName;
+        user.lastname = values.lastName;
+        user.address = values.address;
+        setUser(user);
+        localStorage.setItem("user", JSON.stringify(user));
+        swal({
+          icon: "success",
+          title: "EditProfile",
+          text: "Details Saved",
+          button: "Continue",
+        });
+      } else {
         swal({
           icon: "error",
           title: "EditProfile",
@@ -132,32 +132,30 @@ export default function Tabs(props) {
     }
 
     if (values.gst || values.pan) {
-      if(!error){
-
-     
-      let e = JSON.parse(await localStorage.getItem("user"));
-      const temp = [...user.billing];
-      temp[0] = values;
-      console.log(temp);
-      e.billing = temp;
-      setUser(e);
-      // update(e);
-      await localStorage.setItem("user", JSON.stringify(e));
-      await setBillingDetail(temp);
-      swal({
-        icon: "success",
-        title: "EditProfile",
-        text: "Details Saved",
-        button: "Continue",
-      });
-    }else{
-      swal({
-        icon: "error",
-        title: "EditProfile",
-        text: "Incorrect Details",
-        button: "Continue",
-      });
-    }
+      if (!error) {
+        let e = JSON.parse(await localStorage.getItem("user"));
+        const temp = [...user.billing];
+        temp[0] = values;
+        console.log(temp);
+        e.billing = temp;
+        setUser(e);
+        // update(e);
+        await localStorage.setItem("user", JSON.stringify(e));
+        await setBillingDetail(temp);
+        swal({
+          icon: "success",
+          title: "EditProfile",
+          text: "Details Saved",
+          button: "Continue",
+        });
+      } else {
+        swal({
+          icon: "error",
+          title: "EditProfile",
+          text: "Incorrect Details",
+          button: "Continue",
+        });
+      }
     }
   };
 
@@ -330,14 +328,34 @@ export default function Tabs(props) {
           <Formik
             initialValues={{
               firstName: user.firstName,
+              username: user.username,
               email: user.email ? user.email : " ",
-              contact: user.contact ? user.contact : " ",
+              contact: user.contact
+                ? [
+                    user.googleId,
+                    user.microsoftId,
+                    user.linkedInId,
+                    user.username,
+                    user.githubId,
+                  ].includes(user.contact)
+                  ? " "
+                  : user.contact
+                : " ",
               emailOTP: "",
               contactOTP: "",
               address: user.address,
             }}
-            validate={(values) => {
+            validate={async (values) => {
               const errors = {};
+              if (values.username !== user.username) {
+                let check = await validateSignupDetails({
+                  username: values.username,
+                });
+                console.log(check);
+                if (check.data.username) {
+                  errors.username = "Username already exists";
+                }
+              }
               if (!values.firstName) {
                 errors.firstName = "Required";
               }
@@ -357,10 +375,9 @@ export default function Tabs(props) {
               ) {
                 errors.contact = "Invalid Contact Number";
               }
-              if(errors.firstName || errors.email || errors.contact){
+              if (errors.firstName || errors.email || errors.contact) {
                 setConError(true);
-              }
-              else{
+              } else {
                 setConError(false);
               }
               return errors;
@@ -375,6 +392,23 @@ export default function Tabs(props) {
                   {user.username}{" "}
                 </p> */}
                 <div className="flex flex-wrap w-full gap-y-5">
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
+                      Username
+                    </label>
+                    
+                      <Field
+                        type="text"
+                        name="username"
+                        className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5"
+                        style={{ borderRadius: "5px" }}
+                      />
+                      <ErrorMessage
+                        name="username"
+                        component="div"
+                        className="text-sm text-red-600"
+                      />
+                  </div>
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Company Name
@@ -633,27 +667,18 @@ export default function Tabs(props) {
               pan: user.billing[0] ? user.billing[0].pan : "",
               location: user.billing[0] ? user.billing[0].location : "",
             }}
-
             validate={(values) => {
               const errors = {};
-              if (
-                !/^[0-9]{8}$/.test(
-                  values.pan
-                )
-              ) {
+              if (!/^[0-9]{8}$/.test(values.pan)) {
                 errors.pan = "Invalid Pan Number";
               }
 
-              if(errors.pan){
+              if (errors.pan) {
                 setFormError(true);
-              }
-              else{
+              } else {
                 setFormError(false);
               }
               return errors;
-            
-            
-            
             }}
           >
             {({ values, isSubmitting }) => (
@@ -680,7 +705,7 @@ export default function Tabs(props) {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Tax ID.
                     </label>
-                    <div className='shadow-sm border-gray-10 md:w-3/5  flex py-2' >
+                    <div className="shadow-sm border-gray-10 md:w-3/5  flex py-2">
                       <Field
                         component="select"
                         id="location"
@@ -711,27 +736,26 @@ export default function Tabs(props) {
 
                         // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
                       ></Field>
-                      
-                  </div>
+                    </div>
                   </div>
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg md:w-2/5 mx-5">
                       PAN
                     </label>
                     <div className="py-1 md:w-3/5 sm:w-4/5">
-                    <Field
-                      type="text"
-                      className="block border-gray-400 w-full py-1  "
-                      name="pan"
+                      <Field
+                        type="text"
+                        className="block border-gray-400 w-full py-1  "
+                        name="pan"
 
-                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
-                    /> <ErrorMessage
-                    name="pan"
-                    component="div"
-                    className="text-sm text-red-600"
-                  />
-                  </div>
-                  
+                        // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                      />{" "}
+                      <ErrorMessage
+                        name="pan"
+                        component="div"
+                        className="text-sm text-red-600"
+                      />
+                    </div>
                   </div>
                 </div>
 

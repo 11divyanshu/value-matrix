@@ -82,12 +82,9 @@ const AssociationDetailForm = (props) => {
                       }}
                     />
                   </div>
-                  {/* <div className="font-semibold flex space-x-2 items-center">
-                    <p>{item.title}</p> <p className="font-normal text-sm">|</p>{" "}
-                    <p className="font-normal text-sm">
-                      {item.employment_type}
-                    </p>{" "}
-                  </div> */}
+                  <div className="font-semibold flex space-x-2 items-center">
+                    <p>{item.title}</p> 
+                  </div>
                   <div className="flex flex-wrap justify-between w-full py-1 text-gray-800 ">
                     <div className="space-x-2 flex items-center">
                       <FaRegBuilding />
