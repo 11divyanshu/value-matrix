@@ -91,7 +91,7 @@ export const dashboardRoutes = [
     name: "Chat",
     icon: <BsChatRightDots className="text-xl" />,
     path: "/",
-    hide: false,
+    hide: true,
   },
   {
     name: "Edit Profile",
@@ -363,7 +363,7 @@ export const superXIDashboardRoutes = [
     name: "Chat",
     icon: <BsFillChatLeftTextFill className="text-xl" />,
     path: "/",
-    hide: false,
+    hide: true,
   },
   {
     name: "Edit Profile",

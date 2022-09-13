@@ -340,7 +340,7 @@ const SignupForm = () => {
           }).then(async () => {
             let user = res.data.user;
             let access = res.data.access_token;
-            await localStorage.setItem("user", user);
+            await localStorage.setItem("user", JSON.stringify(user));
             await localStorage.setItem("access_token", access);
             if (user.user_type === "User")
               window.location.href = "/user/profile";

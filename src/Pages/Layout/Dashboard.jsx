@@ -53,7 +53,8 @@ const Dashboard = () => {
         await localStorage.removeItem("access_token");
         access_token1 = term;
         await setAccessToken(term);
-        await localStorage.setItem("access_token", term);
+        await localStorage.setItem("access_token", term
+        );
 
         await setAccessToken(access_token1);
 

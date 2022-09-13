@@ -129,23 +129,23 @@ const ChannelNotificationPanel = () => {
   return (
     <div className=" bg-white my-5 shadow-md p-5">
       <p className="text-2xl font-bold">Notification Panel</p>
-      <div className="flex my-3 flex-wrap ">
+      {/* <div className="flex my-3 flex-wrap ">
         <Link to="/admin/emailNotification">
-          <p className="rounded-md bg-gray-200 text-gray-500 px-2 py-1 mr-3 my-2">
+          <p className="rounded-md bg-blue-100 text-blue-700 px-4 py-1 mr-3 my-2">
             Send Email Notification
           </p>
         </Link>
         <Link to="/admin/pushNotification">
-          <p className="rounded-md bg-gray-200 text-gray-500 px-2 py-1 mr-3 my-2">
+          <p className="rounded-md bg-blue-100 text-blue-500 px-4 py-1 mr-3 my-2">
             Send Push Notification
           </p>
         </Link>
         <Link to="/admin/whatsappNotification">
-          <p className="rounded-md bg-gray-200 text-gray-500 px-2 py-1 mr-3 my-2">
+          <p className="rounded-md bg-blue-100 text-blue-500 px-4 py-1 mr-3 my-2">
             Send Whatsapp Notification
           </p>
         </Link>
-      </div>
+      </div> */}
       {Alert === true && (
         <div
           class="bg-green-100 rounded-lg py-5 px-6 my-3 mb-4 text-base text-green-800"
@@ -318,7 +318,7 @@ const ChannelNotificationPanel = () => {
                 multiple
               >
                 <div className="relative mt-1 w-3/4 mb-5">
-                  <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-4 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm border-1 border-">
+                  <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-4 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-300 sm:text-sm border-1 border-">
                     <span className="block truncate">
                       {selectedUser.length === 0 && "Select"}{" "}
                       {selectedUser.map((person) => person.email).join(", ")}
