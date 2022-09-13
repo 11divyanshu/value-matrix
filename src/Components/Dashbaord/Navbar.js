@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/images/logo.png"
 import {AiOutlineUser} from "react-icons/ai";
 import { MdOutlineLogout } from "react-icons/md";
+import "../../assets/stylesheet/layout.scss"
 
 // Assets
 import { IoCall } from "react-icons/io5";
@@ -69,7 +70,7 @@ const HorizontalNav = (props) => {
   }, []);
 
   return (
-    <div className="flex items-center border-b-2 w-full pl-4 py-3 shadow-md">
+    <div className="flex items-center navbar border-b-2 w-full pl-4 py-3 shadow-md" style={{zIndex:10}}>
       <div className="text-slate-600 text-lg lg:block hidden ">
         <img className="h-10 mx-5" src={logo} />
       </div>
