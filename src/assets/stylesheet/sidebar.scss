@@ -2,15 +2,22 @@ $sidebar-bg-color: #FAFAFA;
 $sidebar-color: #333;
 $highlight-color: #333 !default;
 $icon-bg-color: transparent;
-$sidebar-width: 100% !important;
+$sidebar-width: 80% !important;
 $z-index:10 !important;
 
 .active {
+
+    @media only screen and (max-width: 1024px){
+    
+
     color: #034488;  
    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     font-weight: 500;
+    width: 50% !important;
+
     
   }
+}
   .pro-sidebar {
     width: 100%;
     position: absolute;

@@ -24,6 +24,7 @@ const Sidebar = (props) => {
   const [toggled, setToggled] = React.useState(true);
   const [collapsed, setCollapsed] =  React.useState(false);
   const [activePage, setActivePage] = React.useState(null) ;
+  const sideRef = React.useRef(null);
   const Logout = async () => {
     let user = await localStorage.getItem("user");
     user = JSON.parse(user);
@@ -34,16 +35,18 @@ const Sidebar = (props) => {
     window.location.href = "/login";
   };
 function handleActive(event) {
-  if (!event.target.classList.value.includes("active")) {
-    event.target.classList.toggle('active') ;
-    if (activePage)
-      activePage.classList.remove("active") ;
-    setActivePage(event.target) ;
-  }
+
 }
-  const handleToggle = () => {
+  const handleToggle = (event) => {
       setToggled(!toggled);
       setCollapsed(!collapsed);
+      // let side  = document.getElementById("prosidebar");
+      // if (!sideRef.current.classList.value.includes("active")) {
+      //   sideRef.current.classList.toggle('active') ;
+      //   if (activePage)
+      //     activePage.classList.remove("active") ;
+      //   setActivePage(sideRef) ;
+      // }
   }
   // const hasWindow = typeof window !== 'undefined';
 
@@ -71,16 +74,20 @@ function handleActive(event) {
   
 
   return (
-    <div className='sidebarComponent'>
+    <div className='sidebarComponent z-20'>
     <div className="h-screen fixed top-20 left-0" style={{marginTop:"-10px"}}>
-      <div className="absolute  text-gray-9 left-5 -top-10  visible lg:invisible text-gray-700 text-xl menu" >
-      <AiOutlineMenu className="text-md " onClick={()=>{handleToggle();}} />
+      <div className="absolute text-gray-9 left-5 -top-10   text-gray-800 text-xl menu" style={{zIndex:18}}>
+      <AiOutlineMenu className="text-md menu-bar" onClick={()=>{handleToggle();}}  style={{zIndex:20}}/>
       </div>
+
+
+
     <ProSidebar
     // toggled={menu}
     // onToggle={(prev)=>setMenu(!prev)}
       // width={280}
-     
+      id="prosidebar"
+      ref={sideRef}
       className="fixed left-0 h-screen z-0 text-left active text-gray-500"
       style={{backgroundColor:"#FAFAFA" , zIndex:-1}}
       breakPoint="lg"

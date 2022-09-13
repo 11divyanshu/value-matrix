@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/images/logo.png"
 import {AiOutlineUser} from "react-icons/ai";
 import { MdOutlineLogout } from "react-icons/md";
+import "../../assets/stylesheet/layout.scss"
 
 // Assets
 import { IoCall } from "react-icons/io5";

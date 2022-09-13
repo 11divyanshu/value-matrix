@@ -40,7 +40,7 @@ const Panel = () => {
 
 
   return (
-    <div className="flex w-full sm:p-1 bg-slate-100">
+    <div className="flex sm:p-1 bg-slate-100">
       {/* <Sidebar /> */}
 
       <div className="container-fluid mx-auto mt-2">
@@ -76,14 +76,14 @@ const Panel = () => {
 
         <div className="md:flex">
 
-          <div className="sm:w-full md:w-5/6 px-5 py-2 my-4 lg:mx-4 bg-white shadow-md ">
+          <div className="sm:w-full md:w-5/6 px-5 py-2 my-4 lg:mx-4 bg-white shadow-md " >
 
             <div
               style={{
                 margin:"auto",
                 width: '90%',
                 height: '300px',
-                zIndex:-1,
+                zIndex:-2,
               }}
             >
               <Chart data={data} axes={axes} style={{zIndex:0}} />
