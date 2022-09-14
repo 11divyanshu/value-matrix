@@ -89,7 +89,7 @@ const JobList = () => {
           }
         </div>
 
-        <div className="md:w-1/4 ">
+        <div className="md:w-1/4 my-3">
           <div className="shadow-lg  py-5  bg-white  justify-around  px-5 bg-white">
             <p className="text-xl mx-auto text-gray-700 font-bold  flex">
               <p className="p-1"><BsFillBookmarkFill /></p>

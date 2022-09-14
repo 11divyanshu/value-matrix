@@ -42,28 +42,28 @@ const Panel = () => {
   return (
     <div className="flex bg-slate-100 ">
 
-    <div className="container-fluid mx-5 mt-2 ">
+    <div className="container mx-auto mt-2 ">
       <p className="text-sm flex my-5 mx-5 font-semibold">Hey Andrew - <p className="text-gray-400 px-2"> here's what's happening today!</p></p>
-      <div className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-4">
-        <div className="w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
+      <div className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-4 align-items-center">
+        <div className="lg:w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
           
           <div className=" text-md font-semibold text-gray-900">
             Job Active - 120
           </div>
         </div>
-        <div className="w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
+        <div className="lg:w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
           
           <div className=" text-md font-semibold text-gray-900">
             Interview Schedule - 20
           </div>
         </div>
-        <div className="w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
+        <div className="lg:w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
           
           <div className=" text-md font-semibold text-gray-900">
             Candidate Uploaded - 18
           </div>
         </div>
-        <div className="w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
+        <div className="lg:w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
           
           <div className=" text-md font-semibold text-gray-900">
             Reschedule Interviews - 09
@@ -73,11 +73,11 @@ const Panel = () => {
 
 
 
-      <div className="md:flex w-full">
+      <div className="lg:flex">
 
        
 
-      <div className="md:w-5/6  sm:w-full rounded-lg py-5 my-4 lg:mx-3 bg-white shadow-md">
+      <div className="md:w-full  sm:w-full lg:w-5/6  rounded-lg py-5 my-4 lg:mx-3 bg-white shadow-md">
             <div className="border-b border-gray-200 my-2 px-5 mb-2 pb-2 flex justify-between">
               <div className="">
             <p className="text-lg font-bold font-gray-400">Today's Interview Request</p>
@@ -85,7 +85,7 @@ const Panel = () => {
             </div>
             <div className="text-xs text-gray-500 font-semibold mt-2">See All Logs &#12297;</div>
           </div>
-          <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center lg:grid-cols-6">
+          <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center md:grid-cols-6 sm:grid-cols-3">
 
 
             <div className="px-5 text-center my-2 text-sm col-span-2"><p>Interview Request with Developer</p>
@@ -107,7 +107,7 @@ const Panel = () => {
               </button></p></div>
           </div>
 
-          <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center lg:grid-cols-6">
+          <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center md:grid-cols-6 sm:grid-cols-3">
 
 
             <div className="px-5 text-center my-2 text-sm col-span-2"><p>Interview Request with Developer</p>
@@ -129,7 +129,7 @@ const Panel = () => {
               </button></p></div>
           </div>
 
-          <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center lg:grid-cols-6">
+          <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center md:grid-cols-6 sm:grid-cols-3">
 
 
             <div className="px-5 text-center my-2 text-sm col-span-2"><p>Interview Request with Client</p>
@@ -152,7 +152,7 @@ const Panel = () => {
           </div>
 
 
-          <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center lg:grid-cols-6">
+          <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center md:grid-cols-6 sm:grid-cols-3">
 
 
             <div className="px-5 text-center my-2 text-sm col-span-2"><p>Interview Request with Developer</p>
@@ -178,11 +178,13 @@ const Panel = () => {
 
         </div>
 
-        <div className="sm:w-full md:w-2/6 my-4 lg:mx-3 ">
-          <SessionCard />
+        <div className="sm:w-full md:flex lg:flex-wrap md:w-full lg:w-2/6 my-4 lg:mx-3 ">
 
-          <div className="shadow-lg my-5 rounded-lg py-5 bg-white">
-        <div className="flex items-start space-x-3 px-6 mx-2">
+          <div className="md:w-1/2 lg:w-full sm:w-full "><SessionCard /></div>
+          
+
+          <div className="shadow-lg my-5 md:w-1/2 lg:w-full md:mx-1 md:my-0 rounded-lg py-5 bg-white sm:w-full">
+        <div className="flex items-start space-x-3 px-6  ">
           <div className="py-5">
             <p className="text-lg text-left font-semibold">
              Credit Score $
@@ -198,9 +200,9 @@ const Panel = () => {
         </div>
 
       </div>
-      <div className="md:flex ">
+      <div className="lg:flex ">
        
-      <div className="sm:w-full md:w-5/6 rounded-lg px-5 py-2 my-4 h-80 lg:mx-4 bg-white shadow-md ">
+      <div className="sm:w-full md:w-full lg:w-5/6 rounded-lg px-5 py-2 my-4 h-80 lg:mx-4 bg-white shadow-md ">
           <div 
             style={{
               margin:"auto",
@@ -215,7 +217,7 @@ const Panel = () => {
         </div>
 
        
-        <div className="shadow-lg sm:w-full rounded-lg md:w-2/6  py-5  bg-white  justify-around lg:mx-4 my-4 h-auto  px-4 bg-white">
+        <div className="shadow-lg sm:w-full rounded-lg md:w-full lg:w-2/6  py-5  bg-white  justify-around lg:mx-4 my-4 h-auto  px-4 bg-white">
           <p className="text-xl px-4 mx-auto text-gray-700 font-bold  flex">
 
             {/* <div className=" px-6 mx-2 py-1 ml-5 text-center" ><AiOutlineUnorderedList/></div> */}

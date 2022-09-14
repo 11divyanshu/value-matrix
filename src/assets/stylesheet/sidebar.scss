@@ -2,21 +2,31 @@ $sidebar-bg-color: #FAFAFA;
 $sidebar-color: #333;
 $highlight-color: #333 !default;
 $icon-bg-color: transparent;
-$sidebar-width: 80% !important;
+$sidebar-width: 240px;
 $z-index:10 !important;
 
-.active {
+$breakpoint-xl: 1336px !default;
 
-    @media only screen and (max-width: 1024px){
-    
 
-    color: #034488;  
-   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    font-weight: 500;
-    width: 50% !important;
-
-    
+@media only screen and (max-width: 1600px) and (min-width:1336){
+  .toggled{
+    width: 80% !important;
   }
+}
+@media only screen and (max-width: 1336px){
+    
+.active{
+  color: #034488;  
+ box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  font-weight: 500;
+  
+}
+.toggled{
+  width: 350px !important;
+}
+
+.collapsed{
+  width:0% !important;
 }
   .pro-sidebar {
     width: 100%;
@@ -24,7 +34,7 @@ $z-index:10 !important;
     height: 100%;
     z-index: 10 !important;
   }
-  
+} 
   /* This is for submenu item */
   
 @import '~react-pro-sidebar/dist/scss/styles.scss';

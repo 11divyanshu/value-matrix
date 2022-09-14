@@ -5,6 +5,7 @@ import { ReactSession } from "react-client-session";
 import { LogoutAPI } from "../../service/api";
 import NotificationPopOver from "../Dashbaord/Notifications";
 import { getProfileImage } from "../../service/api";
+import "../../assets/stylesheet/layout.scss"
 
 // Assets
 import logo from "../../assets/images/logo.png";
@@ -50,8 +51,8 @@ const Navbar = (props) => {
   }, []);
 
   return (
-    <div className="flex items-center border-b-2 w-full py-3 shadow-md">
-      <div className="text-slate-600 text-lg md:block hidden ">
+    <div className="flex items-center navbar border-b-2 w-full py-3 shadow-md">
+      <div className="text-slate-600 text-lg 2xl:block hidden ">
         <img className="h-10 mx-5" src={logo} />{" "}
       </div>
 
@@ -140,7 +141,7 @@ const Navbar = (props) => {
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-1"
               >
-                <Popover.Panel className="absolute left-screen z-10 mt-3 w-max-content max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl ">
+                <Popover.Panel className="absolute left-screen z-10 mt-3 w-[150px] w-max-content max-w-sm -translate-x-1/2 transform px-4 sm:px-0  ">
                   <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                     <div className="bg-gray-50 p-4">
                       <span className="flex items-center">

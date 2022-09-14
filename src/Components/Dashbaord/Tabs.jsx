@@ -75,7 +75,7 @@ export default function Tabs() {
             setIndex(0);
           }}
         >
-          <p className="md:visible hidden content">Contact</p>
+          <p className="lg:visible hidden content">Contact</p>
           <p className="icons hidden">
             <AiOutlineHome />
           </p>
@@ -86,7 +86,7 @@ export default function Tabs() {
             setIndex(1);
           }}
         >
-          <p className="md:visible hidden content">Education</p>
+          <p className="lg:visible hidden content">Education</p>
           <p className="icons hidden">
             <IoSchoolOutline />
           </p>
@@ -97,7 +97,7 @@ export default function Tabs() {
             setIndex(2);
           }}
         >
-          <p className="md:visible hidden content">Experience</p>
+          <p className="lg:visible hidden content">Experience</p>
           <p className="icons hidden">
             <CgWorkAlt />
           </p>
@@ -108,7 +108,7 @@ export default function Tabs() {
             setIndex(3);
           }}
         >
-          <p className="md:visible hidden content">Association</p>
+          <p className="lg:visible hidden content">Association</p>
           <p className="icons hidden">
             <HiOutlineOfficeBuilding />
           </p>
@@ -119,7 +119,7 @@ export default function Tabs() {
             setIndex(4);
           }}
         >
-          <p className="md:visible hidden content">Skills</p>
+          <p className="lg:visible hidden content">Skills</p>
           <p className="icons hidden">
             <AiOutlineUnorderedList />
           </p>
@@ -154,7 +154,7 @@ export default function Tabs() {
 
                 <div className="flex flex-wrap w-70 gap-y-5">
                  
-                  <div className=" md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
+                  <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                     <label className="font-bold text-lg md:w-2/5 mx-5 mt-2">
                       Username
                     </label>
@@ -298,7 +298,7 @@ export default function Tabs() {
                 // style={{boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px"}}
               >
                 <div className="flex justify-end space-x-3 items-center"></div>
-                <div className="flex flex-wrap justify-between w-full mb-4 text-gray-800 ">
+                <div className="md:flex flex-wrap justify-between w-full mb-4 text-gray-800 ">
                 <div className="font-bold space-x-2 text-sm items-center">
                     <p className="text-lg ml-2 py-3" style={{fontWeight:"1000"}}>{item.school}</p>
                     <div className="flex font-bold space-x-2 text-sm items-center">
@@ -307,11 +307,11 @@ export default function Tabs() {
                     </div>
                   </div>
                   {item.grade && (
-                    <div className="space-x-2 flex items-center">
+                    <div className="space-x-2 ml-2 my-2 flex items-center">
                       <GrScorecard /> <p>{item.grade}</p>
                     </div>
                   )}
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center ml-2 my-2 space-x-2">
                     <BsCalendar />
                     <p className="text-sm text-gray-600 mr-5">
                       {item.start_date} to {item.end_date}
@@ -352,7 +352,7 @@ export default function Tabs() {
                   <p className="font-normal text-md">|</p>{" "}
                   <p className="font-normal text-md">{item.employment_type}</p>{" "}
                 </div>
-                <div className="flex flex-wrap justify-between w-full py-1 text-gray-800 ">
+                <div className="md:flex flex-wrap justify-between w-full py-1 text-gray-800 ">
                   <div className="space-x-2 flex items-center">
                     <FaRegBuilding />
                     <p>{item.company_name}</p>
@@ -394,7 +394,7 @@ export default function Tabs() {
                 <div className="font-semibold flex space-x-2 mt-3 items-center">
                   <p className="text-md">{item.title}</p>{" "}
                 </div>
-                <div className="flex flex-wrap justify-between w-full py-1 text-gray-800 ">
+                <div className="md:flex flex-wrap justify-between w-full py-1 text-gray-800 ">
                   <div className="space-x-2 flex items-center">
                     <FaRegBuilding />
                     <p>{item.company_name}</p>

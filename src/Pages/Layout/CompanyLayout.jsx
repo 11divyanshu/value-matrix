@@ -10,6 +10,7 @@ import CompanyForm from "../../Components/CompanyDashboard/CompanyForm";
 
 import { getUserFromId, getUserIdFromToken } from "../../service/api";
 import JobDetails from "../CompanyDashboard/JobDetails.jsx";
+import "../../assets/stylesheet/layout.scss"
 
 const CompanyDashboard = () => {
   // Component To Render
@@ -137,16 +138,16 @@ const CompanyDashboard = () => {
           <CompanyForm isOpen={true} setModalIsOpen={setModalIsOpen} />
         </div>
       )}
-      <div className="w-full bg-white  fixed z-50">
+      <div className="w-full bg-white  fixed navbar">
         {" "}
         <Navbar user={user} />
       </div>
 
       <div className="flex w-full ">
-        <Sidebar>
+        <Sidebar className="sidebarComponent">
 
         </Sidebar>
-        <div className="justify-end ml-auto mt-20" style={{width:"86%", marginTop:'70px',backgroundColor:"#ffffff"}}>{comp}</div>
+        <div className="justify-end ml-auto mt-20 panel">{comp}</div>
       </div>
     </div>
   );

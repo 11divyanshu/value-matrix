@@ -106,19 +106,25 @@ const Sidebar = () => {
   }, []);
 
   return (
-    <div style={{width:'14%'}}>
-    <div className="h-screen fixed top-20 left-0" style={{marginTop:"-10px" , width:"14%"}}>
-      <div className="absolute  text-gray-9 left-5 top-5  visible md:invisible text-gray-700 text-xl">
-        <AiOutlineMenu className="text-md " onClick={() => { handleToggle(); }} />
+    <div className='sidebarComponent z-20'>
+    <div className="h-screen fixed top-20 left-0" >
+    <div className="absolute  text-gray-9 left-5 -top-14   text-gray-700 text-xl menu" style={{zIndex:18}}>
+        <AiOutlineMenu
+          className="text-md menu-bar"
+          onClick={() => {
+            handleToggle();
+          }}
+          style={{zIndex:20}}
+        />
       </div>
       <ProSidebar
         // toggled={menu}
         // onToggle={(prev)=>setMenu(!prev)}
-        width={280}
+       // width={280}
 
         className="fixed left-0 h-screen z-10 text-left active text-gray-500"
         style={{ backgroundColor: "#FAFAFA" }}
-        breakPoint="md"
+        breakPoint="xl"
         collapsed={collapsed} toggled={toggled} onToggle={handleToggle}
       >
          <div className="w-full px-6">

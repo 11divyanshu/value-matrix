@@ -17,10 +17,10 @@ import { MdOutlineLogout } from "react-icons/md";
 
 const Navbar = (props) => {
   const Logout = async () => {
-    console.log("CHeck")
     let user = await localStorage.getItem("user");
     user = JSON.parse(user);
     let res = await LogoutAPI(user._id);
+    console.log(res);
     await localStorage.setItem("user", null);
     await localStorage.setItem("access_token", null);
     window.location.href = "/login";
@@ -53,7 +53,7 @@ const Navbar = (props) => {
 
   return (
     <div className="flex items-center border-b-2 w-full py-3 shadow-md">
-      <div className="text-slate-600 text-lg md:block hidden "> <img className="h-10 mx-5" src={logo} /></div>
+      <div className="text-slate-600 text-lg 2xl:block hidden "> <img className="h-10 mx-5" src={logo} /></div>
 
       <div className="md:w-3/5 mx-auto pl-7 w-1/2">
 

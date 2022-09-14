@@ -171,17 +171,17 @@ const AddAdminUser = () => {
               return (
                 <Form className="container bg-white p-2 my-3  w-4/5 mx-auto shadow-md">
                   <p className="text-2xl font-bold m-5 mb-9">Add Admin User</p>
-                  <div className="md:w-1/2 mx-9 flex w-full my-3 space-y-1">
+                  <div className="md:w-1/2 mx-9 md:flex w-full my-3 space-y-1">
                     <label
                       htmlFor="username"
-                      className="font-semibold text-lg w-2/5 mx-5"
+                      className="font-semibold text-lg md:w-2/5 w-4/5 mx-5"
                     >
                       Username *
                     </label>
                     <Field
                       type="text"
                       name="username"
-                      className="text-600 w-2/5 block my-1"
+                      className="text-600 md:w-2/5 w-4/5 block my-1"
                     />
                     <ErrorMessage
                       name="username"
@@ -194,17 +194,17 @@ const AddAdminUser = () => {
                       </div>
                     )}
                   </div>
-                  <div className="md:w-1/2 mx-9 my-3 flex w-full  space-y-1">
+                  <div className="md:w-1/2 mx-9 my-3 md:flex w-full  space-y-1">
                     <label
                       htmlFor="firstName"
-                      className="font-semibold text-lg w-2/5 mx-5"
+                      className="font-semibold text-lg md:w-2/5 w-4/5 mx-5"
                     >
                       First Name *
                     </label>
                     <Field
                       type="text"
                       name="firstName"
-                      className="text-600 block my-1 w-2/5"
+                      className="text-600 block my-1 md:w-2/5 w-4/5"
                     />
                     <ErrorMessage
                       name="firstName"
@@ -212,17 +212,17 @@ const AddAdminUser = () => {
                       className="text-sm text-red-600"
                     />
                   </div>
-                  <div className="md:w-1/2 mx-9 my-3 flex w-full  space-y-1">
+                  <div className="md:w-1/2 mx-9 my-3 md:flex w-full  space-y-1">
                     <label
                       htmlFor="lastName"
-                      className="font-semibold text-lg w-2/5 mx-5"
+                      className="font-semibold text-lg md:w-2/5 w-4/5 mx-5"
                     >
                       Last Name *
                     </label>
                     <Field
                       type="text"
                       name="lastName"
-                      className="text-600 block my-1 w-2/5"
+                      className="text-600 block my-1 md:w-2/5 w-4/5"
                     />
                     <ErrorMessage
                       name="lastName"
@@ -230,17 +230,17 @@ const AddAdminUser = () => {
                       className="text-sm text-red-600"
                     />
                   </div>
-                  <div className="md:w-1/2 mx-9 my-3 flex w-full  space-y-1">
+                  <div className="md:w-1/2 mx-9 my-3 md:flex w-full  space-y-1">
                     <label
                       htmlFor="email"
-                      className="font-semibold text-lg w-2/5 mx-5"
+                      className="font-semibold text-lg md:w-2/5 w-4/5 mx-5"
                     >
                       Email *
                     </label>
                     <Field
                       type="email"
                       name="email"
-                      className="text-600 block my-1 w-2/5"
+                      className="text-600 block my-1 md:w-2/5 w-4/5"
                     />
                     <ErrorMessage
                       name="email"
@@ -251,17 +251,17 @@ const AddAdminUser = () => {
                       <div className="text-sm text-red-600">{emailError}</div>
                     )}
                   </div>
-                  <div className="md:w-1/2 mx-9 my-3 flex w-full  space-y-1">
+                  <div className="md:w-1/2 mx-9 my-3 md:flex w-full  space-y-1">
                     <label
                       htmlFor="contact"
-                      className="font-semibold text-lg w-2/5 mx-5"
+                      className="font-semibold text-lg md:w-2/5 w-4/5 mx-5"
                     >
                       Contact *
                     </label>
                     <Field
                       type="text"
                       name="contact"
-                      className="text-600 block my-1 w-2/5"
+                      className="text-600 block my-1 md:w-2/5 w-4/5"
                     />
                     <ErrorMessage
                       name="contact"
@@ -272,17 +272,17 @@ const AddAdminUser = () => {
                       <div className="text-sm text-red-600">{contactError}</div>
                     )}
                   </div>
-                  <div className="md:w-1/2 mx-9 my-3 flex w-full  space-y-1">
+                  <div className="md:w-1/2 mx-9 my-3 md:flex w-full  space-y-1">
                     <label
                       htmlFor="password"
-                      className="font-semibold text-lg w-2/5 mx-5"
+                      className="font-semibold text-lg md:w-2/5 w-4/5 mx-5"
                     >
                       Password *
                     </label>
                     <Field
                       type="password"
                       name="password"
-                      className="text-600 w-2/5 block my-1"
+                      className="text-600 md:w-2/5 w-4/5 block my-1"
                     />
                     <ErrorMessage
                       name="password"

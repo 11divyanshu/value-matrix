@@ -253,7 +253,7 @@ function JobDetails(props) {
 
             <div className="w-full  bg-white border border-b">
               <div
-                className="grid px-9 grid-cols-1 gap-4 lg:grid-cols-7 py-6"
+                className="grid px-9 grid-cols-1 gap-4 lg:grid-cols-7 sm:grid-cols-4 py-6"
                 style={{ backgroundColor: "#F2F3F5" }}
               >
                 <div className="col-span-2 flex align-middle">

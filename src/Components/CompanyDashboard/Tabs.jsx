@@ -56,7 +56,7 @@ export default function Tabs() {
         <div className={`tabHead ${index === 2 && 'active'}`} onClick={() => { setIndex(2) }}> <p className="md:visible hidden content">Billing Details</p><p className="icons hidden"><RiBillLine/></p>
 </div>
       </div>
-      <div className="tabContent bg-white p-5 bg-white w-full" hidden={index != 0}>
+      <div className="tabContent p-5 bg-white w-full" hidden={index != 0}>
         {user !== null && user !== undefined && (
           <Formik
             initialValues={{
@@ -75,61 +75,60 @@ export default function Tabs() {
                   {/* <label style={{ color: "#3B82F6" }} className="py-3 text-xl font-semibold">Contact Information</label> */}
                   {/* <hr /> */}
                   {/* <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  flex w-full  space-y-1 flex">
-                    <div><label className="font-semibold text-lg md:w-2/5 mx-5">Username</label></div>
+                    <div><label className="font-semibold text-lg lg:w-2/5 md:w-full mx-5">Username</label></div>
                     <div> <Field
                       type="text"
                       name="username"
                       disabled
-                      className="shadow-sm border-gray-10 py-1 md:w-3/5 mx-5"
+                      className="shadow-sm border-gray-10 py-1 md:w-full lg:w-3/5 mx-5"
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     /></div>
                    
                   </div> */}
-                  <div className=" md:mx-2 my-1sm:mx-0  md:flex w-full  space-y-1 ">
-                    <label className="font-semibold text-lg md:md:w-2/5 mx-5">Company Name</label>
+                 <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
+                      Company Name
+                    </label>
                     <Field
                       type="text"
                       name="firstName"
-                      disabled
-                      className="shadow-sm border-gray-5 py-2 md:w-3/5 mx-5 px-4" 
-                      style={{borderRadius:"5px"}}
-                    // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
-
+                      className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5"
+                      style={{ borderRadius: "5px" }}
                     />
                   </div>
                   
-                  <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  md:flex w-full  space-y-1 ">
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Email</label>
                     <Field
                       name="email"
                       type="text"
                       disabled
-                      className="shadow-sm border-gray-5 py-2 md:w-3/5 mx-5 px-4" 
+                      className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5" 
                       style={{borderRadius:"5px"}}
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
                   </div>
-                  <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  md:flex w-full  space-y-1 ">
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Contact</label>
                     <Field
                       name="contact"
                       type="text"
                       disabled
-                      className="shadow-sm border-gray-5 py-2 md:w-3/5 mx-5 px-4" 
+                      className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5" 
                       style={{borderRadius:"5px"}}
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
                   </div>
-                  <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  md:flex w-full  space-y-1 ">
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Address</label>
                     <Field
                       name="address"
                       type="text"
                       disabled
-                      className="shadow-sm border-gray-5 py-2 md:w-3/5 mx-5 px-4" 
+                      className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5" 
                       style={{borderRadius:"5px"}}
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
@@ -164,12 +163,12 @@ export default function Tabs() {
 
                   {/* <label style={{ color: "#3B82F6" }} className="py-3 text-xl font-semibold">About</label>
                   <hr /> */}
-                  <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  md:flex w-full  space-y-1 ">
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
 
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Overview</label>
                     <p
                       type="text"
-                      className="shadow-sm border-gray-5 py-2 md:w-3/5 mx-5 px-4" 
+                      className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5" 
                       style={{borderRadius:"5px"}}
                       disabled
 
@@ -179,12 +178,12 @@ export default function Tabs() {
 
                   </div>
 
-                  <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  md:flex w-full  space-y-1">
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
 
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Motto</label>
                     <Field
                       type="text"
-                      className="shadow-sm border-gray-5 py-2 md:w-3/5 mx-5 px-4" 
+                      className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5" 
                       style={{borderRadius:"5px"}}
                       name="motto"
                       disabled
@@ -194,12 +193,12 @@ export default function Tabs() {
 
                   </div>
 
-                  <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  md:flex w-full  space-y-1">
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
 
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Website</label>
                     <Field
                       type="text"
-                      className="shadow-sm border-gray-5 py-2 md:w-3/5 mx-5 px-4" 
+                      className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5" 
                       style={{borderRadius:"5px"}}
                       name="website"
                       disabled
@@ -209,12 +208,12 @@ export default function Tabs() {
 
                   </div>
 
-                  <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  md:flex w-full  space-y-1">
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
 
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Industry</label>
                     <Field
                       type="text"
-                      className="shadow-sm border-gray-5 py-2 md:w-3/5 mx-5 px-4" 
+                      className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5" 
                       style={{borderRadius:"5px"}}
                       name="industry"
                       disabled
@@ -224,12 +223,12 @@ export default function Tabs() {
 
                   </div>
 
-                  <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  md:flex w-full  space-y-1">
+                  <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  lg:flex md:w-full w-full  space-y-1">
 
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Company Size</label>
                     <Field
                       type="text"
-                      className="shadow-sm border-gray-5 py-2 md:w-3/5 mx-5 px-4" 
+                      className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5" 
                       style={{borderRadius:"5px"}}
                       name="company_size"
                       disabled
@@ -239,12 +238,12 @@ export default function Tabs() {
 
                   </div>
 
-                  <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  md:flex w-full  space-y-1">
+                  <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  lg:flex md:w-full w-full  space-y-1">
 
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Company Founded on</label>
                     <Field
                       type="text"
-                      className="shadow-sm border-gray-5 py-2 md:w-3/5 mx-5 px-4" 
+                      className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5" 
                       style={{borderRadius:"5px"}}
                       name="found"
                       disabled
@@ -281,13 +280,13 @@ export default function Tabs() {
                   {/* <hr /> */}
 
 
-                  <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  my-5 md:flex w-full  space-y-1">
+                  <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0 md:flex w-full  space-y-1">
 
                     <label className="font-semibold text-lg md:w-2/5 mx-5">Tax ID</label>
 
 
 
-                    <div className='shadow-sm border-gray-10 md:w-3/5  flex py-2' >
+                    <div className=" border-gray-400 py-2 px-4 md:w-3/5 sm:w-full mx-5 flex" >
 
                       <Field
 
@@ -316,12 +315,12 @@ export default function Tabs() {
 
                   </div>
 
-                  <div className="md:w-1/2 md:mx-2 my-1sm:mx-0  my-5 md:flex w-full  space-y-1">
+                  <div className="md:w-1/2 md:mx-2  ml-2 my-1 sm:mx-0 md:flex w-full  space-y-1">
 
                     <label className="font-semibold text-lg md:w-2/5 mx-5">PAN</label>
                     <Field
                       type="text"
-                      className="shadow-sm border-gray-10 md:w-3/5 px-4 py-2"
+                      className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-full mx-5"
                       style={{borderRadius:"5px"}}
                       name="pan"
                       disabled

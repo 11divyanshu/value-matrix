@@ -133,17 +133,17 @@ const XIDashboard = () => {
 
 return (
   <div className="max-w-screen h-screen">
-    <div className="w-full bg-white  fixed z-50">
-      {" "}
-      <Navbar user={user} />
-    </div>
+   <div className="w-full bg-white  fixed navbar">
+        {" "}
+        <Navbar user={user} />
+      </div>
 
-    <div className="flex w-full ">
-      <Sidebar>
+      <div className="flex w-full ">
+        <Sidebar className="sidebarComponent">
 
-      </Sidebar>
-      <div className="justify-end ml-auto mt-20" style={{ width: "86%", marginTop: '70px', backgroundColor: "#ffffff" }}>{comp}</div>
-    </div>
+        </Sidebar>
+        <div className="justify-end ml-auto mt-20 panel">{comp}</div>
+      </div>
   </div>
 );
 };

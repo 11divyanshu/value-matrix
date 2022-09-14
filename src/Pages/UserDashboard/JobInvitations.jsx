@@ -112,7 +112,7 @@ const JobInvitations = () => {
               {JobInvitation.map((job, index) => {
                 return (
                   <div className="w-full px-5 bg-white py-1 border border-b">
-                  <div className="grid grid-cols-1 gap-4 lg:grid-cols-8 my-3">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-8 sm:grid-cols-4  my-3">
                     <div className="col-span-2">
                       <h5 class="text-black-900 text-md font-bold mb-1 ">{job.jobTitle}</h5>
                       <p className="text-sm font-bold  text-gray-400 font-semibold">
@@ -281,7 +281,7 @@ const JobInvitations = () => {
           (<div className="text-center w-full py-5 text-2xl"><img src={Loader} alt="loader" className="h-24 mx-auto" /></div>)
           }
 
-<div className="md:w-1/4 ">
+<div className="md:w-1/4 my-3">
           <div className="shadow-lg  py-5  bg-white  justify-around  px-5 bg-white">
             <p className="text-xl mx-auto text-gray-700 font-bold  flex">
               <p className="p-1"><BsFillBookmarkFill /></p>

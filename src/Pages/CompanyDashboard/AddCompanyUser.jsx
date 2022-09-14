@@ -159,15 +159,15 @@ const AddCompanyUser = () => {
           {({ values }) => {
             return (
               <Form className="container bg-white p-5  w-4/5 mx-auto shadow-md">
-                <div className="md:w-1/2 md:mx-9 sm:mx-0 flex w-full my-3 space-y-1">
+                <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full my-3 space-y-1">
                   
-                    <label htmlFor="username" className="font-semibold text-lg w-2/5 mx-5">
+                    <label htmlFor="username" className="font-semibold text-lg md:w-2/5 w-4/5 mx-5">
                       Username *
                     </label>
                     <Field
                       type="text"
                       name="username"
-                      className="text-600 w-2/5 block my-1"
+                      className="text-600 md:w-2/5 w-4/5 block my-1"
                     />
                     <ErrorMessage
                       name="username"
@@ -181,12 +181,12 @@ const AddCompanyUser = () => {
                     )}
                   
                 </div>
-                <div className="md:w-1/2 md:mx-9 sm:mx-0 my-3 flex w-full  space-y-1">
+                <div className="md:w-1/2 md:mx-9 sm:mx-0 my-3 md:flex w-full  space-y-1">
                   
-                    <label htmlFor="firstName" className="font-semibold text-lg w-2/5 mx-5">
+                    <label htmlFor="firstName" className="font-semibold text-lg md:w-2/5 w-4/5 mx-5">
                       First Name *
                     </label>
-                    <div className="w-2/5">
+                    <div className="md:w-2/5 w-4/5">
                     <Field
                       type="text"
                       name="firstName"
@@ -199,13 +199,13 @@ const AddCompanyUser = () => {
                     />
                  </div>
                   </div>
-                  <div className="md:w-1/2 md:mx-9 sm:mx-0 flex w-full my-3 space-y-1">
+                  <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full my-3 space-y-1">
 
                   
-                    <label htmlFor="lastName" className="font-semibold text-lg w-2/5 mx-5">
+                    <label htmlFor="lastName" className="font-semibold text-lg md:w-2/5 w-4/5 mx-5">
                       Last Name *
                     </label>
-                    <div className="w-2/5">
+                    <div className="md:w-2/5 w-4/5">
                     <Field
                       type="text"
                       name="lastName"
@@ -218,11 +218,11 @@ const AddCompanyUser = () => {
                     />
                  </div>
                 </div>
-                <div className="md:w-1/2 md:mx-9 sm:mx-0 flex w-full my-3 space-y-1">
-                    <label htmlFor="email" className="font-semibold text-lg w-2/5 mx-5">
+                <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full my-3 space-y-1">
+                    <label htmlFor="email" className="font-semibold text-lg md:w-2/5 w-4/5 mx-5">
                       Email *
                     </label>
-                    <div className="w-2/5">
+                    <div className="md:w-2/5 w-4/5">
                     <Field
                       type="email"
                       name="email"
@@ -238,12 +238,12 @@ const AddCompanyUser = () => {
                     )}
                     </div>
                   </div>
-                  <div className="md:w-1/2 md:mx-9 sm:mx-0 flex w-full my-3 space-y-1">
+                  <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full my-3 space-y-1">
 
-                    <label htmlFor="contact" className="font-semibold text-lg w-2/5 mx-5">
+                    <label htmlFor="contact" className="font-semibold text-lg md:w-2/5 w-4/5 mx-5">
                       Contact *
                     </label>
-                    <div className="w-2/5">
+                    <div className="md:w-2/5 w-4/5">
                     <Field
                       type="text"
                       name="contact"
@@ -258,11 +258,11 @@ const AddCompanyUser = () => {
                       <div className="text-sm text-red-600">{contactError}</div>
                     )}</div>
                 </div>
-                <div className="md:w-1/2 md:mx-9 sm:mx-0 flex w-full my-3 space-y-1">
-                    <label htmlFor="password" className="font-semibold text-lg w-2/5 mx-5">
+                <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full my-3 space-y-1">
+                    <label htmlFor="password" className="font-semibold text-lg md:w-2/5 w-4/5 mx-5">
                       Password *
                     </label>
-                    <div className="w-2/5">
+                    <div className="md:w-2/5 w-4/5">
                     <Field
                       type="password"
                       name="password"

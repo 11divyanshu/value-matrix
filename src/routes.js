@@ -322,6 +322,20 @@ export const XIDashboardRoutes = [
     hide: true,
   },
   {
+    name: "Profile",
+    icon: <AiOutlineUser className="text-xl" />,
+    path: "/profile",
+    component: <UserProfile />,
+    hide: false,
+    permission: "default",
+  },
+  {
+    name: "Edit Profile",
+    path: "editProfile",
+    hide: true,
+    component: <EditProfile />,
+  },
+  {
     name: "Evaluation",
     path: "/evaluationlist",
     hide: false,
