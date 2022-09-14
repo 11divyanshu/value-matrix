@@ -52,6 +52,7 @@ import CandiadateDetail from "./Pages/AdminDashboard/CandidateDetail";
 import AddCompanyUser from "./Pages/CompanyDashboard/AddCompanyUser";
 import AddSkills from "./Components/AdminDashboard/AddSkills";
 import AddAdminUser from "./Pages/AdminDashboard/AddAdminUser";
+import AddTaxId from "./Pages/AdminDashboard/AddTaxId";
 
 // XI Pages
 import XIDashboard from "./Pages/XIDashboard/Dashboard";
@@ -247,11 +248,19 @@ export const adminDashboardRoutes = [
   {
     name: "Add Questions",
     path: "/addQuestions",
-    hide: false,
-    icon: <BsQuestionCircleFill className="text-xl" />,
-    permission: "default",
-    component: <AddQuestions />,
+    hide:false,
+    icon : <BsQuestionCircleFill className="text-xl" />,
+    permission:"default",
+    component : <AddQuestions/>
   },
+  {
+    name:"Add Tax Id",
+    path: "/addtaxid",
+    hide:false,
+    icon : <BsQuestionCircleFill className="text-xl" />,
+    permission:"default",
+    component : <AddTaxId/>
+  }
 ];
 
 // Company Dashboard Routes
@@ -329,6 +338,20 @@ export const XIDashboardRoutes = [
     path: "/",
     component: <XIDashboard />,
     hide: true,
+  },
+  {
+    name: "Profile",
+    icon: <AiOutlineUser className="text-xl" />,
+    path: "/profile",
+    component: <UserProfile />,
+    hide: false,
+    permission: "default",
+  },
+  {
+    name: "Edit Profile",
+    path: "editProfile",
+    hide: true,
+    component: <EditProfile />,
   },
   {
     name: "Evaluation",

@@ -23,13 +23,13 @@
         // border:1px solid white;
         cursor:pointer;
         border-radius: 6px 6px 0 0;
-        @media only screen and (max-width: 600px){
+        @media only screen and (max-width: 1200px){
         padding:0.5rem;
         }
     }
     .icons{
         visibility: invisible;
-        @media only screen and (max-width: 600px){
+        @media only screen and (max-width: 1200px){
             visibility: visible;
             padding:0.5rem 1rem;
             margin:0;
@@ -40,7 +40,7 @@
     }
 
     .content{
-        @media only screen and (min-width: 600px){
+        @media only screen and (min-width: 1200px){
             visibility: visible;
             padding:0rem 1rem;
             margin:0;

@@ -115,62 +115,63 @@ const JobInvitations = () => {
               {JobInvitation.map((job, index) => {
                 return (
                   <div className="w-full px-5 bg-white py-1 border border-b">
-                    <div className="grid grid-cols-1 gap-4 lg:grid-cols-8 my-3">
-                      <div className="col-span-2">
-                        <h5 class="text-black-900 text-md font-bold mb-1 ">
-                          {job.jobTitle}
-                        </h5>
-                        <p className="text-sm font-bold  text-gray-400 font-semibold">
-                          {job.hiringOrganization}
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-8 sm:grid-cols-4  my-3">
+                    <div className="col-span-2">
+                      <h5 class="text-black-900 text-md font-bold mb-1 ">{job.jobTitle}</h5>
+                      <p className="text-sm font-bold  text-gray-400 font-semibold">
+                        {job.hiringOrganization}
+                      </p>
+                    </div>
+                    <div className="col-span-2">
+                      {/* <p className="px-4 text-gray-400 font-semibold text-md text-gray-400 font-semibold">Job Type</p> */}
+                      <div className="flex py-1">
+                        <div className="text-md py-1 text-gray-400 font-semibold ">
+                          <CgWorkAlt />
+                        </div>
+            
+                        <p className="px-4 text-sm text-gray-400 font-semibold">
+                          {job.jobType}
                         </p>
                       </div>
-                      <div className="col-span-2">
-                        {/* <p className="px-4 text-gray-400 font-semibold text-md text-gray-400 font-semibold">Job Type</p> */}
-                        <div className="flex py-1">
-                          <div className="text-md py-1 text-gray-400 font-semibold ">
-                            <CgWorkAlt />
-                          </div>
-
-                          <p className="px-4 text-sm text-gray-400 font-semibold">
-                            {job.jobType}
-                          </p>
+                      <div className="flex py-1">
+                        <div className="text-md py-1 text-gray-400 font-semibold ">
+                          <HiOutlineLocationMarker />
                         </div>
-                        <div className="flex py-1">
-                          <div className="text-md py-1 text-gray-400 font-semibold ">
-                            <HiOutlineLocationMarker />
-                          </div>
-
-                          <p className="px-4 text-sm text-gray-400 font-semibold">
-                            {job.location}
-                          </p>
-                        </div>
+            
+                        <p className="px-4 text-sm text-gray-400 font-semibold">
+                          {job.location}
+                        </p>
                       </div>
-                      <div className="col-span-2">
-                        <div className="flex py-1">
-                          <div className="text-md py-1 text-gray-400 font-semibold ">
-                            <HiOutlineCalendar />
-                          </div>
-
-                          <p className="px-2 text-md text-gray-400 font-semibold">
-                            {new Date(job.validTill).getDate() +
-                              "-" +
-                              (new Date(job.validTill).getMonth() + 1) +
-                              "-" +
-                              new Date(job.validTill).getFullYear()}
-                          </p>
+                    </div>
+                    <div className="col-span-2">
+                      <div className="flex py-1">
+                        <div className="text-md py-1 text-gray-400 font-semibold ">
+                          <HiOutlineCalendar />
                         </div>
-                        <div className="flex py-1">
-                          <div className="text-md py-1 text-gray-400 font-semibold ">
-                            <BsCashStack />
-                          </div>
-
-                          <p className="px-4 text-sm text-gray-400 font-semibold">
-                            {job.salary}
-                          </p>
-                        </div>
+            
+                        <p className="px-2 text-md text-gray-400 font-semibold">
+                          {new Date(job.validTill).getDate() +
+                            "-" +
+                            (new Date(job.validTill).getMonth() + 1) +
+                            "-" +
+                            new Date(job.validTill).getFullYear()}
+                        </p>
                       </div>
-                      <div className="flex col-span-2">
-                        <button
+                      <div className="flex py-1">
+                        <div className="text-md py-1 text-gray-400 font-semibold ">
+                          <BsCashStack />
+                        </div>
+            
+                        <p className="px-4 text-sm text-gray-400 font-semibold">
+                          {job.salary}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex col-span-2">
+                     
+                      
+                        
+                         <button
                           style={{ background: "#3ED3C5" }}
                           onClick={() => {
                             handleJobInvitation(job, true);
@@ -281,13 +282,7 @@ const JobInvitations = () => {
           </div>
         ) }
 
-        {Loading &&  (
-          <div className="text-center w-full py-5 text-2xl">
-            <img src={Loader} alt="loader" className="h-24 mx-auto" />
-          </div>
-        )}
-
-        <div className="md:w-1/4">
+<div className="md:w-1/4 my-3">
           <div className="shadow-lg  py-5  bg-white  justify-around  px-5 bg-white">
             <p className="text-xl mx-auto text-gray-700 font-bold  flex">
               <p className="p-1">

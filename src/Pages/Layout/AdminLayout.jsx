@@ -8,6 +8,7 @@ import Navbar from "../../Components/AdminDashboard/Navbar";
 import Sidebar from "../../Components/AdminDashboard/Sidebar";
 import { getUserFromId, getUserIdFromToken } from "../../service/api";
 import jsCookie from "js-cookie";
+import "../../assets/stylesheet/layout.scss"
 
 const AdminDashboard = () => {
   // Component To Render
@@ -116,23 +117,16 @@ const AdminDashboard = () => {
 
   return (
     <div className="max-w-screen h-screen">
-      <div className="w-full bg-white  fixed z-50">
+     <div className="w-full bg-white  fixed navbar">
         {" "}
         <Navbar user={user} />
       </div>
 
       <div className="flex w-full ">
-        <Sidebar></Sidebar>
-        <div
-          className="justify-end ml-auto mt-20"
-          style={{
-            width: "86%",
-            marginTop: "70px",
-            backgroundColor: "#ffffff",
-          }}
-        >
-          {comp}
-        </div>
+        <Sidebar className="sidebarComponent">
+
+        </Sidebar>
+        <div className="justify-end ml-auto mt-20 panel">{comp}</div>
       </div>
     </div>
   );

@@ -53,7 +53,7 @@ const Navbar = (props) => {
 
   return (
     <div className="flex items-center border-b-2 w-full py-3 shadow-md">
-      <div className="text-slate-600 text-lg md:block hidden ">
+      <div className="text-slate-600 text-lg 2xl:block hidden ">
       <img className="h-10 mx-5" src={logo} />      </div>
 
       <div className="md:w-3/5 mx-auto pl-7 w-1/2">

@@ -179,23 +179,23 @@ const EditCompanyProfile = () => {
 
           </div>
           <div className="relative  rounded-md w-full py-3 md:flex items-center ">
-            <div className="absolute  sm:left-10 -top-20 md:-top-28 md:left-20 " >
-              <img
-                src={
-                  user && user.profileImg && ProfilePic ? ProfilePic : Avatar
-                }
-                // src={Avatar}
-                className="sm:h-20 sm:w-20 md:h-56 md:w-56 rounded-full"
-                alt="userAvatar"
-              />
-            </div>
-            <div className=" md:ml-80 md:px-5 text-right md:text-left">
-              <p className="font-semibold md:text-3xl sm:text-xl ">
+          <div className="absolute  sm:left-6 sm:px-2 -top-20 md:-top-28 md:left-20 ">
+                        <img
+                          src={
+                             user && user.profileImg && ProfilePic ? ProfilePic : Avatar
+                           }
+                          //src={Avatar}
+                          className="sm:h-20 sm:w-20 md:h-56 md:w-56 rounded-full"
+                          alt="userAvatar"
+                        />
+                      </div>
+                      <div className="mt-24 md:ml-80 md:px-5 md:mt-3  sm:mx-5 md:text-left">
+              <p className="font-semibold md:text-3xl text-2xl ">
                 {user.firstName} {user.lastname}
               </p>
               <p className="text-gray-400 text-lg">{user.username}</p>
             </div>
-            <div className="ml-auto mr-0 mt-5 text-right md:text-left">
+            <div className=" mt-3 md:text-right  md:ml-auto sm:text-left ">
               <label>
                 <button
                       style={{backgroundColor:"#034488"}}

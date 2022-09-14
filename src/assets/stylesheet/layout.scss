@@ -1,11 +1,11 @@
 .panel{
-   width:86% !important;
+   width:86%;
     margin-top:'70px';
    background-color:"#ffffff";
    margin-right: 0 !important;
    margin-left: auto !important;
    justify-items: end;
-   @media only screen and (max-width: 1024px){
+   @media only screen and (max-width: 1336px){
 
   width:100% !important;
 
@@ -20,17 +20,18 @@
         display: none;
       
     }
-    @media only screen and (max-width: 1024px){
-
-        width:0 !important;
-        .menu{
-            display: block !important;
-            z-index: 200 !important;
-        }
-      
-    }
+   
          
 
+}
+@media only screen and (max-width: 1336px){
+    .sidebarComponent{
+    width:0 !important;
+    .menu{
+        display: block !important;
+        z-index: 200 !important;
+    }
+}
 }
 
 

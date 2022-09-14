@@ -15,6 +15,8 @@ import {
   fetchCountry,
 } from "../../service/api";
 import ReactCropper from "../../Pages/UserDashboard/ReactCrop";
+import { AiOutlineHome,AiOutlineUser ,AiOutlineFolderAdd} from "react-icons/ai";
+import { RiBillLine} from "react-icons/ri";
 
 // Assets
 import Avatar from "../../assets/images/UserAvatar.png";
@@ -78,7 +80,7 @@ export default function Tabs(props) {
 
       const res = await fetchCountry();
       // console.log(res.data.countries[0].country);
-      setCountry(res.data.countries[0].country);
+      setCountry(res.data.countries);
       // console.log(country)
     };
     initial();
@@ -298,30 +300,13 @@ export default function Tabs(props) {
   return (
     <div className="Tabs w-full">
       <div className="tabList flex w-full">
-        <div
-          className={`tabHead ${index === 0 && "active"}`}
-          onClick={() => {
-            setIndex(0);
-          }}
-        >
-          Contact
-        </div>
-        <div
-          className={`tabHead ${index === 1 && "active"}`}
-          onClick={() => {
-            setIndex(1);
-          }}
-        >
-          About
-        </div>
-        <div
-          className={`tabHead ${index === 2 && "active"}`}
-          onClick={() => {
-            setIndex(2);
-          }}
-        >
-          Billing Details
-        </div>
+      <div className={`tabHead ${index === 0 && 'active'}`} onClick={() => { setIndex(0) }}> 
+        <p className="md:visible hidden content">Contact</p><p className="icons hidden"><AiOutlineHome/></p>
+</div>
+        <div className={`tabHead ${index === 1 && 'active'}`} onClick={() => { setIndex(1) }}><p className="md:visible hidden content">About</p><p className="icons hidden"><AiOutlineUser/></p>
+</div>
+        <div className={`tabHead ${index === 2 && 'active'}`} onClick={() => { setIndex(2) }}> <p className="md:visible hidden content">Billing Details</p><p className="icons hidden"><RiBillLine/></p>
+</div>
       </div>
       <div className="tabContent bg-white w-full p-5" hidden={index != 0}>
         {user !== null && user !== undefined && (
@@ -705,7 +690,7 @@ export default function Tabs(props) {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Tax ID.
                     </label>
-                    <div className="shadow-sm border-gray-10 md:w-3/5  flex py-2">
+                    <div className='shadow-sm border-gray-10 md:w-4/5  flex py-2' >
                       <Field
                         component="select"
                         id="location"
@@ -720,7 +705,7 @@ export default function Tabs(props) {
                         {country &&
                           country.map((item) => {
                             return (
-                              <option value={item.code}>{item.name}</option>
+                              <option value={item.country.tax_id}>{item.country.country}</option>
                             );
                           })}
                       </Field>

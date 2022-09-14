@@ -90,7 +90,7 @@ function handleActive(event) {
       ref={sideRef}
       className="fixed left-0 h-screen z-0 text-left active text-gray-500"
       style={{backgroundColor:"#FAFAFA" , zIndex:-1}}
-      breakPoint="lg"
+      breakPoint="xl"
       collapsed={collapsed} toggled={toggled} onToggle={handleToggle}
     >
       <button
