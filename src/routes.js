@@ -1,12 +1,21 @@
 import { ImHome } from "react-icons/im";
-import { MdGroups,MdOutlineWorkOutline } from "react-icons/md";
+import { MdGroups, MdOutlineWorkOutline } from "react-icons/md";
 import { RiFileUserFill, RiFolderUserFill } from "react-icons/ri";
-import { AiOutlineHome,AiOutlineUser ,AiOutlineFolderAdd,AiOutlineUserAdd} from "react-icons/ai";
-import { BsFillChatLeftTextFill, BsFillBellFill,BsChatRightDots } from "react-icons/bs";
+import {
+  AiOutlineHome,
+  AiOutlineUser,
+  AiOutlineFolderAdd,
+  AiOutlineUserAdd,
+} from "react-icons/ai";
+import {
+  BsFillChatLeftTextFill,
+  BsFillBellFill,
+  BsChatRightDots,
+} from "react-icons/bs";
 import { FaBuilding } from "react-icons/fa";
 import { FaUserFriends, FaToolbox } from "react-icons/fa";
 import { CgWorkAlt } from "react-icons/cg";
-import {BsQuestionCircleFill} from "react-icons/bs";
+import { BsQuestionCircleFill } from "react-icons/bs";
 
 // User Pages
 import Panel from "./Pages/UserDashboard/panel";
@@ -49,7 +58,6 @@ import XIDashboard from "./Pages/XIDashboard/Dashboard";
 import XIEvaluationList from "./Pages/XIDashboard/EvaluationList";
 import XIJobDetails from "./Pages/XIDashboard/JobDetails.jsx";
 
-
 // SuperXIDashboard
 import SXIPanel from "./Pages/SuperXIDashboard/panel.jsx";
 import SXIUserProfile from "./Pages/SuperXIDashboard/UserProfile";
@@ -57,6 +65,7 @@ import SXIEditProfile from "./Pages/SuperXIDashboard/EditProfile";
 import SXIJobList from "./Pages/SuperXIDashboard/jobList.jsx";
 import SXIJobDetails from "./Pages/SuperXIDashboard/JobDetails.jsx";
 import AddQuestions from "./Pages/AdminDashboard/AddQuestions";
+import UpdateInterviewApplication from "./Pages/XIDashboard/UpdateInterviewApplication";
 
 // User Dashboard Routes
 export const dashboardRoutes = [
@@ -84,7 +93,7 @@ export const dashboardRoutes = [
     name: "Jobs",
     icon: <CgWorkAlt className="text-xl" />,
     path: "jobs",
-    component: <JobList/>,
+    component: <JobList />,
     hide: true,
   },
   {
@@ -106,19 +115,19 @@ export const dashboardRoutes = [
     component: <JobDetails />,
   },
   {
-    name : "Interview Invitations",
-    path : "interviewInvitations",
-    hide : false,
-    icon : <CgWorkAlt className="text-xl" />,
-    component : <JobInvitations/>,
+    name: "Interview Invitations",
+    path: "interviewInvitations",
+    hide: false,
+    icon: <CgWorkAlt className="text-xl" />,
+    component: <JobInvitations />,
   },
   {
-    name : "Interview Applications",
+    name: "Interview Applications",
     path: "interviewApplications",
     hide: true,
-    icon:<CgWorkAlt className="text-xl" />,
-    component : <InterviewApplication/>,
-  }
+    icon: <CgWorkAlt className="text-xl" />,
+    component: <InterviewApplication />,
+  },
 ];
 
 // Admin Dashboard Routes
@@ -158,7 +167,7 @@ export const adminDashboardRoutes = [
     path: "/notification",
     hide: false,
     icon: <BsFillBellFill className="text-xl" />,
-    component: <ChannelNotificationPanel/>,
+    component: <ChannelNotificationPanel />,
     permission: "add_notifications",
   },
   {
@@ -236,13 +245,13 @@ export const adminDashboardRoutes = [
     permission: "add_users",
   },
   {
-    name:"Add Questions",
+    name: "Add Questions",
     path: "/addQuestions",
-    hide:false,
-    icon : <BsQuestionCircleFill className="text-xl" />,
-    permission:"default",
-    component : <AddQuestions/>
-  }
+    hide: false,
+    icon: <BsQuestionCircleFill className="text-xl" />,
+    permission: "default",
+    component: <AddQuestions />,
+  },
 ];
 
 // Company Dashboard Routes
@@ -275,7 +284,7 @@ export const companyDashboardRoutes = [
     path: "/jobsAdd",
     icon: <AiOutlineUserAdd className="text-xl" />,
     hide: false,
-    component: <AddJob/>,
+    component: <AddJob />,
     permission: "add_jobs",
   },
   {
@@ -334,6 +343,12 @@ export const XIDashboardRoutes = [
     path: "/jobDetails/",
     hide: true,
     component: <XIJobDetails />,
+  },
+  {
+    name: "Evaluation Details",
+    path: "/updateEvaluationDetails",
+    hide: true,
+    component: <UpdateInterviewApplication />,
   },
 ];
 

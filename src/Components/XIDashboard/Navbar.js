@@ -100,9 +100,9 @@ const HorizontalNav = (props) => {
               >
                 <div className="flex space-x-3 items-center cursor-pointer">
                   <div className="text-xs text-start md:block hidden">
-                    {props.user ? (
+                    {user.firstName ? (
                       <p className="text-md text-semibold">
-                        {props.user.firstName}
+                        {user.firstName}
                       </p>
                     ) : (
                       <p className="text-md text-semibold">User</p>

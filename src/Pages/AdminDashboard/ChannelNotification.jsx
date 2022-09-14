@@ -60,6 +60,7 @@ const ChannelNotificationPanel = () => {
             emailList: [user.email],
             title: values.title,
             message: values.message,
+            forAll : emailList > 0 ? false :true
           },
           { access_token: user.access_token }
         );

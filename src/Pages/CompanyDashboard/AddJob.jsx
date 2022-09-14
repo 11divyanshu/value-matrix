@@ -105,15 +105,15 @@ const AddJob = () => {
   const salaryRef = React.useRef(null);
   const [user, setUser] = React.useState(null);
 
-  const postJob = async (values) => {
+  const postJob = async (values, salary) => {
     try {
-      setLoading(true);
-      let salary = 0;
+      // setLoading(true);
+      // let salary = 0;
 
-      if (salaryRef.current && salaryRef.current.value) {
-        salary = salaryRef.current.value;
-        salaryRef.current.value = "";
-      }
+      // if (salaryRef.current && salaryRef.current.value) {
+      //   salary = salaryRef.current.value;
+      //   salaryRef.current.value = "";
+      // }
       let skills = await dbSkills.filter((el) => {
         return el.proficiency > 0;
       });
@@ -122,6 +122,7 @@ const AddJob = () => {
 
       values.skills = skills;
       values.user_id = user._id;
+      values.salary = salary;
       let c = salary;
       console.log(salary);
       console.log(skills);
@@ -452,6 +453,9 @@ const AddJob = () => {
 
                   if (!values.location || values.location.trim() === "") {
                     errors.location = "Required !";
+                  }
+                  if(values.validTill && values.validTill < new Date().toISOString().split('T')[0]){
+                    errors.validTill = "Date should be greater than current date !"
                   }
                   if (
                     !values.hiringOrganization ||
@@ -1423,11 +1427,11 @@ const AddJob = () => {
                         <div className="flex space-x-3">
                           <RiEditBoxLine
                             className="cursor-pointer text-blue-500"
-                            onClick={() => {
-                              setShowQuestionForm(false);
-                              setInitialQuestion(question);
-                              setQuestionEditIndex(index);
-                              setShowQuestionForm(true);
+                            onClick={async() => {
+                              await setShowQuestionForm(false);
+                                await setInitialQuestion(question);
+                                await setQuestionEditIndex(index);
+                                setShowQuestionForm(true);
                             }}
                           />
                           <AiOutlineDelete
@@ -1515,47 +1519,53 @@ const AddJob = () => {
                           className="text-red-600 text-sm"
                         />
                       </div>
-                      <div>
-                        <button
-                          type="submit"
-                          className="bg-[#034488] rounded-sm px-4 py-1 text-white"
-                          style={{ backgroundColor: "#034488" }}
-                        >
-                          {questionEditIndex === null
-                            ? "Add Question"
-                            : " Save Changes"}
-                        </button>
-                      </div>
+                      <div className="flex space-x-4">
+                          <button
+                            type="submit"
+                            className="bg-[#034488] rounded-sm px-4 py-1 text-white"
+                            style={{ backgroundColor: "#034488" }}
+                          >
+                            {questionEditIndex === null
+                              ? "Add Question"
+                              : " Save Changes"}
+                          </button>
+                          <button
+                      type="button"
+                      className="rounded-sm px-4 py-1 text-black border-2 rounded-sm border-black"
+                      onClick={() => {
+                        setShowQuestionForm(false);
+                        setInitialQuestion({
+                          question: "",
+                          answer: "",
+                        });
+                      }}
+                    >
+                      Cancel
+                    </button>
+                        </div>
                     </Form>
                   )}
                 </Formik>
               )}
-             {!showQuestionForm && (
-                <div className="flex space-x-4">
-                <button
-                  type="submit"
-                  className="bg-[#034488] rounded-sm px-4 py-1 text-white"
-                  style={{ backgroundColor: "#034488" }}
-                >
-                  {questionEditIndex === null
-                    ? "Add Question"
-                    : " Save Changes"}
-                </button>
-                <button
-                  type="button"
-                  className="rounded-sm px-4 py-1 text-black border-2 rounded-sm border-black"
-                  onClick={()=>{
-                    setShowQuestionForm(false);
-                    setInitialQuestion({
-                      question: "",
-                      answer: "",
-                    });
-                  }}
-                >
-                Cancel
-                </button>
-              </div>
-              )}
+          {!showQuestionForm && (
+                  <div className="flex space-x-4">
+                    <button
+                      type="submit"
+                      className="bg-[#034488] rounded-sm px-4 py-1 text-white"
+                      style={{ backgroundColor: "#034488" }}
+                      onClick={()=>{
+                        setInitialQuestion({
+                          question: "",
+                          answer: "",
+                        })
+                        setShowQuestionForm(true)
+                      }}
+                    >
+                      Add Question
+                    </button>
+                 
+                  </div>
+                )}
               <div className="flex space-x-3 mx-auto justify-center">
                 <button
                   className="bg-[#034488] px-4 py-1 rounded-sm text-white"
@@ -1683,7 +1693,7 @@ const AddJob = () => {
                               <button
                                 type="button"
                                 class="bg-[#4a545e] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
-                                onClick={() => postJob(job)}
+                                onClick={async() =>{ postJob(job, values.values.salary)}}
                                 style={{ backgroundColor: "#034488" }}
                               >
                                 {loading ? (
@@ -1701,7 +1711,7 @@ const AddJob = () => {
                                 type="button"
                                 class="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
                                 disabled
-                                style={{ backgroundColor: "#034488" }}
+                                style={{ backgroundColor: "#034388d7" }}
                               >
                                 Submit
                               </button>

@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import swal from "sweetalert";
 
 // Assets
+import {AiFillEye,AiFillEyeInvisible} from "react-icons/ai";
 import Microsoft from "../../assets/images/Social/microsoft.svg";
 import Google from "../../assets/images/Social/google.svg";
 import Linkedin from "../../assets/images/Social/linkedin.svg";
@@ -154,21 +155,21 @@ const LoginForm = (props) => {
                   <div className="relative flex items-center">
                   {showPassword ? (
                     <p
-                      className="text-black text-sm hover:text-blue-500 cursor-pointer w-10 px-2 font-semibold  absolute right-4" 
+                      className="text-black text-sm hover:text-blue-500 cursor-pointer w-10 px-2 font-semibold  absolute right-3" 
                       onClick={() => {
                         setShowPassword(false);
                       }}
                     >
-                      Hide
+                      <AiFillEyeInvisible className="text-xl" />
                     </p>
                   ) : (
                     <p
-                      className="text-black text-sm hover:text-blue-500 cursor-pointer w-10 px-2 font-semibold absolute right-4" 
+                      className="text-black text-sm hover:text-blue-500 cursor-pointer w-10 px-2 font-semibold absolute right-3" 
                       onClick={() => {
                         setShowPassword(true);
                       }}
                     >
-                      Show
+                      <AiFillEye className="text-xl"/>
                     </p>
                   )}
                   </div>
@@ -212,7 +213,7 @@ const LoginForm = (props) => {
                 </button>
               )}
               {loading && (
-                <button className="h-8 bg-blue-600 rounded-sm block mx-auto cursor-pointer w-1/2 px-8 align-middle">
+                <button className="h-8 bg-blue-600 rounded-sm block mx-auto cursor-pointer w-1/2 px-8 align-middle" style={{ backgroundColor: "#01458C" }}>
                   <img src={Loader} alt="loader" className="h-9 mx-auto" />
                 </button>
               )}

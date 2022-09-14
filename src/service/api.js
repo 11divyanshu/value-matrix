@@ -563,7 +563,7 @@ export const listXIEvaluation = async (data,token) => {
     return await axios.post(`${url}/listXIEvaluation`,data, {
       headers: { authorization: token },});
   } catch (error) {
-    console.log("Error Calling List Jobs API :", error);
+    console.log("Error Calling List Evaluation API :", error);
   }
 };
 
@@ -573,6 +573,17 @@ export const addEvaluationQuestion = async (data, token) => {
   try {
     console.log("data", data);
     return await axios.post(`${url}/addEvaluationQuestions`, data, {
+      headers: { authorization: token },
+    });
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
+
+// Get Interview Application
+export const getInterviewApplication = async (data, token) => {
+  try {
+    return await axios.post(`${url}/getInterviewApplication`, data, {
       headers: { authorization: token },
     });
   } catch (err) {

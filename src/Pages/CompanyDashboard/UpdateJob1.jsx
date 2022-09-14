@@ -50,16 +50,15 @@ const UpdateJob = () => {
 
   const inputSkillRef = React.useRef(null);
 
-    // Screeing Questions
-    const [questions, setQuestions] = React.useState([]);
-    const [questionError, setQuestionError] = React.useState(null);
-    const [initialQuestion, setInitialQuestion] = React.useState({
-      question: "",
-      answer: "",
-    });
-    const [showQuestionForm, setShowQuestionForm] = React.useState(false);
-    const [questionEditIndex, setQuestionEditIndex] = React.useState(null);
-  
+  // Screeing Questions
+  const [questions, setQuestions] = React.useState([]);
+  const [questionError, setQuestionError] = React.useState(null);
+  const [initialQuestion, setInitialQuestion] = React.useState({
+    question: "",
+    answer: "",
+  });
+  const [showQuestionForm, setShowQuestionForm] = React.useState(false);
+  const [questionEditIndex, setQuestionEditIndex] = React.useState(null);
 
   // Candidate Invitations Xl Sheet Input
   const candidateInputRef = React.useState(null);
@@ -232,7 +231,7 @@ const UpdateJob = () => {
         res.data.job.validTill = res.data.job.validTill.split("T")[0];
         await localStorage.setItem("postjob", JSON.stringify(res.data.job));
         await setJob(res.data.job);
-        await setJob({...res.data.job});
+        await setJob({ ...res.data.job });
         await setQuestions(res.data.job.questions);
         setState();
       } else {
@@ -290,7 +289,7 @@ const UpdateJob = () => {
       let user = await JSON.parse(await localStorage.getItem("user"));
       await setUser(user);
       let res = await getSkills({ user_id: user._id }, user.access_token);
-      
+
       let roles = new Set();
       let pSkills = {};
       if (res && res.status === 200) {
@@ -340,7 +339,7 @@ const UpdateJob = () => {
 
   const title = require.jobTitle;
 
-  const postJob = async (values) => {
+  const postJob = async (values, salary) => {
     let access_token = localStorage.getItem("access_token");
     let jobs = JSON.parse(await localStorage.getItem("postjob"));
     let skills = dbSkills.filter((el) => {
@@ -348,12 +347,14 @@ const UpdateJob = () => {
     });
     values.skills = skills;
     values.user_id = user._id;
-    console.log(values);
-    console.log(skills);
+    values.salary = salary;
     const job_id = localStorage.getItem("ids");
-    console.log({ skills: skills, ...values });
-
-    let res = await updateJobAPI({ skills: skills, ...values }, access_token);
+    values.questions = questions;
+    let res = await updateJobAPI(
+      { skills: skills, salary: salary,questions:questions, ...values },
+      access_token
+    );
+    console.log(res);
     if (res) {
       setAlert(true);
       setTimeout(() => {
@@ -436,7 +437,7 @@ const UpdateJob = () => {
             class="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700"
             role="alert"
           >
-            Problem Uploading Job ! Try Again Later !
+            Problem Updating Job ! Try Again Later !
           </div>
         )}
       </div>
@@ -1422,199 +1423,206 @@ const UpdateJob = () => {
                 </div>
               </div>
             )}
-             {PageIndex === 4 && (
-            <div className="w-3/4 shadow-md mr-3 bg-white py-9 px-7">
-              <p className="font-semibold">Add Screening Questions</p>
-              <p className="text-gray-600">
-                We recommend adding 3 or more questions.
-              </p>
-              <div className="my-5">
-                {questions.map((question, index) => {
-                  return (
-                    <div className="my-5">
-                      <div className="flex justify-between">
-                        <p className="font-semibold">
-                          Question {index + 1} :{" "}
-                          <span className="font-normal">
-                            {question.question}
-                          </span>
+            {PageIndex === 4 && (
+              <div className="w-3/4 shadow-md mr-3 bg-white py-9 px-7">
+                <p className="font-semibold">Add Screening Questions</p>
+                <p className="text-gray-600">
+                  We recommend adding 3 or more questions.
+                </p>
+                <div className="my-5">
+                  {questions.map((question, index) => {
+                    return (
+                      <div className="my-5">
+                        <div className="flex justify-between">
+                          <p className="font-semibold">
+                            Question {index + 1} :{" "}
+                            <span className="font-normal">
+                              {question.question}
+                            </span>
+                          </p>
+                          <div className="flex space-x-3">
+                            <RiEditBoxLine
+                              className="cursor-pointer text-blue-500"
+                              onClick={async() => {
+                                await setShowQuestionForm(false);
+                                await setInitialQuestion(question);
+                                await setQuestionEditIndex(index);
+                                setShowQuestionForm(true);
+                              }}
+                            />
+                            <AiOutlineDelete
+                              className="cursor-pointer text-red-600"
+                              onClick={() => {
+                                setQuestions(
+                                  questions.filter(
+                                    (item) =>
+                                      item.question !== question.question
+                                  )
+                                );
+                              }}
+                            />
+                          </div>
+                        </div>
+                        <p className="text-gray-600 font-semibold">
+                          Answer :{" "}
+                          <span className="font-normal">{question.answer}</span>
                         </p>
-                        <div className="flex space-x-3">
-                          <RiEditBoxLine
-                            className="cursor-pointer text-blue-500"
-                            onClick={() => {
-                              setShowQuestionForm(false);
-                              setInitialQuestion(question);
-                              setQuestionEditIndex(index);
-                              setShowQuestionForm(true);
-                            }}
+                      </div>
+                    );
+                  })}
+                </div>
+                {showQuestionForm && (
+                  <Formik
+                    initialValues={initialQuestion}
+                    validate={(values) => {
+                      const errors = {};
+                      if (!values.question) {
+                        errors.question = "Required";
+                      }
+                      if (!values.answer) {
+                        errors.answer = "Required";
+                      }
+                      return errors;
+                    }}
+                    onSubmit={(values) => {
+                      if (questionEditIndex !== null) {
+                        let temp = [...questions];
+                        temp[questionEditIndex] = values;
+                        setQuestions(temp);
+                        setQuestionEditIndex(null);
+                        setShowQuestionForm(false);
+                        setInitialQuestion({
+                          question: "",
+                          answer: "",
+                        });
+                      } else {
+                        setQuestions([
+                          ...questions,
+                          { question: values.question, answer: values.answer },
+                        ]);
+                        setShowQuestionForm(false);
+                        setInitialQuestion({
+                          question: "",
+                          answer: "",
+                        });
+                      }
+                    }}
+                  >
+                    {({ values }) => (
+                      <Form>
+                        <div className="my-6">
+                          <label className="font-semibold">Question</label>
+                          <Field
+                            name="question"
+                            className="w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:border-[#034488]"
+                            type="text"
                           />
-                          <AiOutlineDelete
-                            className="cursor-pointer text-red-600"
-                            onClick={() => {
-                              setQuestions(
-                                questions.filter(
-                                  (item) => item.question !== question.question
-                                )
-                              );
-                            }}
+                          <ErrorMessage
+                            component="div"
+                            name="question"
+                            className="text-red-600 text-sm"
                           />
                         </div>
-                      </div>
-                      <p className="text-gray-600 font-semibold">
-                        Answer :{" "}
-                        <span className="font-normal">{question.answer}</span>
-                      </p>
-                    </div>
-                  );
-                })}
+                        <div className="my-6">
+                          <label className="font-semibold">Ideal Answer</label>
+                          <Field
+                            name="answer"
+                            className="w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:border-[#034488]"
+                            type="text"
+                          />
+                          <ErrorMessage
+                            component="div"
+                            name="answer"
+                            className="text-red-600 text-sm"
+                          />
+                        </div>
+                        <div className="flex space-x-4">
+                          <button
+                            type="submit"
+                            className="bg-[#034488] rounded-sm px-4 py-1 text-white"
+                            style={{ backgroundColor: "#034488" }}
+                          >
+                            {questionEditIndex === null
+                              ? "Add Question"
+                              : " Save Changes"}
+                          </button>
+                          <button
+                      type="button"
+                      className="rounded-sm px-4 py-1 text-black border-2 rounded-sm border-black"
+                      onClick={() => {
+                        setShowQuestionForm(false);
+                        setInitialQuestion({
+                          question: "",
+                          answer: "",
+                        });
+                      }}
+                    >
+                      Cancel
+                    </button>
+                        </div>
+                      </Form>
+                    )}
+                  </Formik>
+                )}
+                {!showQuestionForm && (
+                  <div className="flex space-x-4">
+                    <button
+                      type="submit"
+                      className="bg-[#034488] rounded-sm px-4 py-1 text-white"
+                      style={{ backgroundColor: "#034488" }}
+                      onClick={()=>{
+                        setInitialQuestion({
+                          question: "",
+                          answer: "",
+                        })
+                        setShowQuestionForm(true)
+                      }}
+                    >
+                      Add Question
+                    </button>
+                 
+                  </div>
+                )}
+                <div className="flex space-x-3 mx-auto justify-center">
+                  <button
+                    className="bg-[#034488] px-4 py-1 rounded-sm text-white"
+                    onClick={() => {
+                      if (showQuestionForm && questions.length > 0) {
+                        swal({
+                          title: "Are you sure?",
+                          text: "You have unsaved changes!",
+                          icon: "warning",
+                          buttons: true,
+                        }).then((ok) => {
+                          if (ok) setPageIndex(3);
+                        });
+                      } else setPageIndex(3);
+                    }}
+                  >
+                    Prev
+                  </button>
+                  <button
+                    className="bg-[#034488] px-4 py-1 rounded-sm text-white"
+                    onClick={() => {
+                      if (showQuestionForm) {
+                        swal({
+                          title: "Are you sure?",
+                          text: "You have unsaved changes!",
+                          icon: "warning",
+                          buttons: true,
+                        }).then((ok) => {
+                          if (ok) setPageIndex(5);
+                        });
+                      } else {
+                        setPageIndex(5);
+                      }
+                    }}
+                  >
+                    Next
+                  </button>
+                </div>
               </div>
-              {showQuestionForm && (
-                <Formik
-                  initialValues={initialQuestion}
-                  validate={(values) => {
-                    const errors = {};
-                    if (!values.question) {
-                      errors.question = "Required";
-                    }
-                    if (!values.answer) {
-                      errors.answer = "Required";
-                    }
-                    return errors;
-                  }}
-                  onSubmit={(values) => {
-                    if (questionEditIndex !== null) {
-                      let temp = [...questions];
-                      temp[questionEditIndex] = values;
-                      setQuestions(temp);
-                      setQuestionEditIndex(null);
-                      setShowQuestionForm(false);
-                      setInitialQuestion({
-                        question: "",
-                        answer: "",
-                      });
-                    } else {
-                      setQuestions([
-                        ...questions,
-                        { question: values.question, answer: values.answer },
-                      ]);
-                      setShowQuestionForm(false);
-                      setInitialQuestion({
-                        question: "",
-                        answer: "",
-                      });
-                    }
-                  }}
-                >
-                  {({ values }) => (
-                    <Form>
-                      <div className="my-6">
-                        <label className="font-semibold">Question</label>
-                        <Field
-                          name="question"
-                          className="w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:border-[#034488]"
-                          type="text"
-                        />
-                        <ErrorMessage
-                          component="div"
-                          name="question"
-                          className="text-red-600 text-sm"
-                        />
-                      </div>
-                      <div className="my-6">
-                        <label className="font-semibold">Ideal Answer</label>
-                        <Field
-                          name="answer"
-                          className="w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:border-[#034488]"
-                          type="text"
-                        />
-                        <ErrorMessage
-                          component="div"
-                          name="answer"
-                          className="text-red-600 text-sm"
-                        />
-                      </div>
-                      <div>
-                        <button
-                          type="submit"
-                          className="bg-[#034488] rounded-sm px-4 py-1 text-white"
-                          style={{ backgroundColor: "#034488" }}
-                        >
-                          {questionEditIndex === null
-                            ? "Add Question"
-                            : " Save Changes"}
-                        </button>
-                      </div>
-                    </Form>
-                  )}
-                </Formik>
-              )}
-              {!showQuestionForm && (
-                <div className="flex space-x-4">
-                <button
-                  type="submit"
-                  className="bg-[#034488] rounded-sm px-4 py-1 text-white"
-                  style={{ backgroundColor: "#034488" }}
-                >
-                  {questionEditIndex === null
-                    ? "Add Question"
-                    : " Save Changes"}
-                </button>
-                <button
-                  type="button"
-                  className="rounded-sm px-4 py-1 text-black border-2 rounded-sm border-black"
-                  onClick={()=>{
-                    setShowQuestionForm(false);
-                    setInitialQuestion({
-                      question: "",
-                      answer: "",
-                    });
-                  }}
-                >
-                Cancel
-                </button>
-              </div>
-              )}
-              <div className="flex space-x-3 mx-auto justify-center">
-                <button
-                  className="bg-[#034488] px-4 py-1 rounded-sm text-white"
-                  onClick={() => {
-                    if (showQuestionForm && questions.length > 0) {
-                      swal({
-                        title: "Are you sure?",
-                        text: "You have unsaved changes!",
-                        icon: "warning",
-                        buttons: true,
-                      }).then((ok) => {
-                        if (ok) setPageIndex(3);
-                      });
-                    } else setPageIndex(3);
-                  }}
-                >
-                  Prev
-                </button>
-                <button
-                  className="bg-[#034488] px-4 py-1 rounded-sm text-white"
-                  onClick={() => {
-                    if (showQuestionForm) {
-                      swal({
-                        title: "Are you sure?",
-                        text: "You have unsaved changes!",
-                        icon: "warning",
-                        buttons: true,
-                      }).then((ok) => {
-                        if (ok) setPageIndex(5);
-                      });
-                    } else {
-                      setPageIndex(5);
-                    }
-                  }}
-                >
-                  Next
-                </button>
-              </div>
-            </div>
-          )}
+            )}
             {PageIndex === 5 && (
               <div className="w-3/4 shadow-md mr-3 bg-white">
                 <div className="w-full mt-9">
@@ -1692,14 +1700,27 @@ const UpdateJob = () => {
                                   Prev
                                 </button>
                               </div>
-                              <button
-                                type="button"
-                                class="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
-                                onClick={() => postJob(job)}
-                                style={{ backgroundColor: "#034488" }}
-                              >
-                                Submit
-                              </button>
+                              {values.values.salary ? (
+                                <button
+                                  type="button"
+                                  class="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
+                                  onClick={() =>
+                                    postJob(job, values.values.salary)
+                                  }
+                                  style={{ backgroundColor: "#034488" }}
+                                >
+                                  Submit
+                                </button>
+                              ) : (
+                                <button
+                                  type="button"
+                                  class="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
+                                  style={{ backgroundColor: "#034388d7" }}
+                                  disabled
+                                >
+                                  Submit
+                                </button>
+                              )}
                             </Form>
                           </div>
                         );
