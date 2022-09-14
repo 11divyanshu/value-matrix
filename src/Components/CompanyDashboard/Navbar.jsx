@@ -141,11 +141,8 @@ const Navbar = (props) => {
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-1"
               >
-<<<<<<< HEAD
                 <Popover.Panel className="absolute left-screen z-10 mt-3 w-[150px] w-max-content max-w-sm -translate-x-1/2 transform px-4 sm:px-0  ">
-=======
-                <Popover.Panel className="absolute left-screen z-100 mt-3 w-max-content max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl ">
->>>>>>> ef331a8192e5ce781ea0ca1e2ef48a7438a0a426
+                {/* <Popover.Panel className="absolute left-screen z-100 mt-3 w-max-content max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl "> */}
                   <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                     <div className="bg-gray-50 p-4">
                       <span className="flex items-center">
