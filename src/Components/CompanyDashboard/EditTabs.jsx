@@ -80,7 +80,7 @@ export default function Tabs(props) {
 
       const res = await fetchCountry();
       // console.log(res.data.countries[0].country);
-      setCountry(res.data.countries[0].country);
+      setCountry(res.data.countries);
       // console.log(country)
     };
     initial();
@@ -705,7 +705,7 @@ export default function Tabs(props) {
                         {country &&
                           country.map((item) => {
                             return (
-                              <option value={item.code}>{item.name}</option>
+                              <option value={item.country.tax_id}>{item.country.country}</option>
                             );
                           })}
                       </Field>

@@ -39,7 +39,10 @@ const AddQuestions = () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       if (access_token1 === "null" || access_token === "undefined")
         await localStorage.setItem("access_token", user.access_token);
-    
+        
+        const res = await fetchCountry();
+        // console.log(res.data.countries[0].country);
+        setCountries(res.data.countries);
       console.log(user);
       await setUser(user);
       await setToken(access_token1);
