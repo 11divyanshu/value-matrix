@@ -43,6 +43,7 @@ import CandiadateDetail from "./Pages/AdminDashboard/CandidateDetail";
 import AddCompanyUser from "./Pages/CompanyDashboard/AddCompanyUser";
 import AddSkills from "./Components/AdminDashboard/AddSkills";
 import AddAdminUser from "./Pages/AdminDashboard/AddAdminUser";
+import AddTaxId from "./Pages/AdminDashboard/AddTaxId";
 
 // XI Pages
 import XIDashboard from "./Pages/XIDashboard/Dashboard";
@@ -242,6 +243,14 @@ export const adminDashboardRoutes = [
     icon : <BsQuestionCircleFill className="text-xl" />,
     permission:"default",
     component : <AddQuestions/>
+  },
+  {
+    name:"Add Tax Id",
+    path: "/addtaxid",
+    hide:false,
+    icon : <BsQuestionCircleFill className="text-xl" />,
+    permission:"default",
+    component : <AddTaxId/>
   }
 ];
 
