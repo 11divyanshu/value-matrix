@@ -6,6 +6,7 @@ import {
   sendResetPasswordMail,
   sendResetPasswordSMS,
   sendResetPasswordByUsername,
+  validateSignupDetails,
 } from "../../service/api";
 import swal from "sweetalert";
 
@@ -66,9 +67,24 @@ const ResetPassword = () => {
     }
     setLoading(true);
     setAlert(null);
+    let check = await validateSignupDetails({contact: values.contact, username: values.contact, email: values.contact});
+    check = check.data;
+    if(!check.username && !check.email && !check.contact){
+      swal({
+        title : "Error",
+        text : "User Not Found",
+        icon : "error",
+        button : "Ok"
+      })
+      setAlert({
+        success: false,
+        message: "User Not Found",
+      });
+      setLoading(false);
+      return;
+    }
     try {
       if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.contact)) {
-        
         let res = await sendResetPasswordMail(values);
         console.log(res);
         if (res && res.status === 200) {
@@ -123,6 +139,7 @@ const ResetPassword = () => {
           });
         }
       } else {
+      
         let res = await sendResetPasswordByUsername(values);
         if (res && res.status === 200) {
           swal({
@@ -236,6 +253,7 @@ const ResetPassword = () => {
                               <img
                                 src={Loader}
                                 className="h-9 mx-auto"
+                                style={{backgroundColor:"#034488"}}
                                 alt="loader"
                               />
                             </button>
@@ -243,7 +261,8 @@ const ResetPassword = () => {
                             <button
                               type="submit"
                               disabled={disabled}
-                              className="mt-6 bg-blue-600 p-3 text-white rounded-lg"
+                              className={`mt-6  p-3 text-white rounded-lg ${disabled ? "cursor-not-allowed" : ""}`}
+                              style={{backgroundColor: disabled?"#034388d7":"#034488"}}
                             >
                               {" "}
                               Send Link

@@ -2,7 +2,7 @@ import React from "react";
 import swal from "sweetalert";
 import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon, StarIcon } from "@heroicons/react/solid";
-
+import Loader from "../../../assets/images/loader.gif";
 import { AiOutlineClose, AiOutlineStar, AiFillStar } from "react-icons/ai";
 import { RiContactsBookLine } from "react-icons/ri";
 
@@ -29,6 +29,7 @@ const Tools = (props) => {
 
   const inputRef = React.useRef(null);
 
+  const [loadingSubmit, setLoadingSubmit] = React.useState(false);
   const [submitError, setSubmitError] = React.useState(null);
 
   React.useEffect(() => {
@@ -79,6 +80,7 @@ const Tools = (props) => {
   }, []);
 
   const handleSubmit = async () => {
+    setLoadingSubmit(true);
     let res = JSON.parse(await localStorage.getItem("candidateDetails"));
     let user = JSON.parse(await localStorage.getItem("user"));
     res.user_id = user._id;
@@ -100,6 +102,7 @@ const Tools = (props) => {
         button: false,
       });
       setTimeout(() => {
+        setLoadingSubmit(false);
         localStorage.setItem("modalOnce", true);
         window.location.reload();
       }, 2000);
@@ -448,7 +451,8 @@ const Tools = (props) => {
               handleSubmit();
             }}
           >
-            Submit
+            {!loadingSubmit ? "Submit":                <img src={Loader} alt="loader" className="h-9 mx-auto" />
+}
           </button>
       </div>
     </div>

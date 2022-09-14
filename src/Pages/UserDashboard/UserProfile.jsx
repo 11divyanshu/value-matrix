@@ -26,13 +26,12 @@ const UserProfile = () => {
       if (user && user.profileImg) {
         let image = await getProfileImage({ id: user._id }, user.access_token);
         await localStorage.setItem("profileImg", JSON.stringify(image));
-        if (image && image.data) {
-          let base64string = btoa(
-            String.fromCharCode(...new Uint8Array(image.data.Image.data))
-          );
-          let src = `data:image/png;base64,${base64string}`;
-          await setProfileImg(src);
-        }
+
+        let base64string = btoa(
+          String.fromCharCode(...new Uint8Array(image.data.Image.data))
+        );
+        let src = `data:image/png;base64,${base64string}`;
+        await setProfileImg(src);
       }
       if (access_token === null) window.location.href = "/login";
 
@@ -47,7 +46,7 @@ const UserProfile = () => {
       {user !== null && user !== undefined && (
         <div className="m-1">
           <div
-            className="md:h-48 h-24 w-full relative"
+            className="md:h-48 h-24 w-full relative -z-[3]"
             style={{ background: "#99DEFF" }}
           ></div>
           <div className="relative  rounded-md w-full py-3 md:flex  ">
@@ -57,7 +56,7 @@ const UserProfile = () => {
                   user && user.profileImg && profileImg ? profileImg : Avatar
                 }
                 //src={Avatar}
-                className="sm:h-20 sm:w-20 md:h-56 md:w-56 rounded-full"
+                className="sm:h-20 sm:w-20 md:h-56 md:w-56 rounded-full relative -z-[3]"
                 alt="userAvatar"
               />
             </div>

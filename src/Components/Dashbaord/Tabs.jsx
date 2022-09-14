@@ -141,6 +141,7 @@ export default function Tabs() {
                     user.googleId,
                     user.microsoftId,
                     user.linkedInId,
+                    user.username,
                     user.githubId,
                   ].includes(user.contact)
                   ? " "
