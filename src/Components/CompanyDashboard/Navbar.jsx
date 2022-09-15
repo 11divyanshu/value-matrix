@@ -111,12 +111,10 @@ const Navbar = (props) => {
               >
                 <div className="flex space-x-3 items-center cursor-pointer">
                   <div className="text-xs text-start md:block hidden">
-                    {user && user.firstName ? (
+                    {user && user.firstName && (
                       <p className="text-md text-semibold">
                         {user.firstName}
                       </p>
-                    ) : (
-                      <p className="text-md text-semibold">Company</p>
                     )}
                     {/* <p className="text-xs text-gray-600">View Profile</p> */}
                   </div>

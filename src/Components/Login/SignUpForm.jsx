@@ -737,19 +737,6 @@ const SignupForm = () => {
               </div>
               </button>
           </form>
-          <form action={`${url}/auth/github`}>
-          <button type="submit" className="my-0.5">
-          <div className="flex px-2 py-1 border border-gray-300">
-
-              <img
-                src={Github}
-                alt="github-login"
-                className="cursor-pointer h-3 my-px"
-              />
-              <p className="text-xs font-semibold px-2">Github</p>
-              </div>
-              </button>
-          </form>
         </div>
         <div className="lg:h-5 h-0 block"></div>
       </div>

@@ -51,6 +51,7 @@ const LoginForm = (props) => {
         icon: "success",
         button: "Continue",
       }).then(() => {
+
         if (res.data.user.invite) {
           window.location.href = "/setProfile/" + res.data.user.resetPassId;
         } else if (res.data.user.user_type === "User")
@@ -265,20 +266,7 @@ const LoginForm = (props) => {
               <p className="text-xs font-semibold px-2">Linkedin</p>
               </div>
               </button>
-          </form>
-          <form action={`${url}/auth/github`}>
-          <button type="submit" className="my-0.5">
-          <div className="flex px-2 py-1 border border-gray-300">
-
-              <img
-                src={Github}
-                alt="github-login"
-                className="cursor-pointer h-3 my-px"
-              />
-              <p className="text-xs font-semibold px-2">Github</p>
-              </div>
-              </button>
-          </form>
+          </form>       
         </div>
         <div className="h-5 block"></div>
       </div>

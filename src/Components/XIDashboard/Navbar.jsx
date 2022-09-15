@@ -27,12 +27,26 @@ const Navbar = (props) => {
   };
 
   const [ProfilePic, setProfilePic] = React.useState(undefined);
-  const [user, setUser] = React.useState(null);
+  const [firstName, setFirstName] = React.useState("");
+  let u = JSON.parse(localStorage.getItem("user"));
+  const [user, setUser] = React.useState(props.user);
+
+  React.useEffect(() => {
+    const initial = async () => {
+      let u = JSON.parse(localStorage.getItem("user"));
+      if (u) {
+        setUser(u);
+        setFirstName(u.firstName);
+      }
+    };
+    initial();
+  }, []);
 
   React.useEffect(() => {
     const initial = async () => {
       let access_token1 = await localStorage.getItem("access_token");
       let user = JSON.parse(await localStorage.getItem("user"));
+      await setFirstName(user.firstName);
       // let user1 = await getProfileImage({ id: user._id }, user.access_token);
       // console.log(user1.data);
       if (access_token1 === "null")
@@ -54,7 +68,8 @@ const Navbar = (props) => {
   return (
     <div className="flex items-center border-b-2 w-full py-3 shadow-md">
       <div className="text-slate-600 text-lg 2xl:block hidden ">
-      <img className="h-10 mx-5" src={logo} />      </div>
+        <img className="h-10 mx-5" src={logo} />{" "}
+      </div>
 
       <div className="md:w-3/5 mx-auto pl-7 w-1/2">
         <form>
@@ -111,12 +126,8 @@ const Navbar = (props) => {
               >
                 <div className="flex space-x-3 items-center cursor-pointer">
                   <div className="text-xs text-start md:block hidden">
-                    {props.user ? (
-                      <p className="text-md text-semibold">
-                        {props.user.firstName}
-                      </p>
-                    ) : (
-                      <p className="text-md text-semibold">Company</p>
+                    {user && (
+                      <p className="text-md text-semibold">{user.firstName}</p>
                     )}
                     {/* <p className="text-xs text-gray-600">View Profile</p> */}
                   </div>

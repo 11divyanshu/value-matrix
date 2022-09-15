@@ -6,8 +6,10 @@ import {
   resetPassword,
   setProfile,
   validateSignupDetails,
+  OTPMail,
+  OTPSms,
 } from "../../service/api";
-
+import swal from "sweetalert";
 // Assets
 import styles from "../../assets/stylesheet/login.module.css";
 import Loader from "../../assets/images/loader.gif";
@@ -19,11 +21,31 @@ const SetProfile = () => {
   const [loading, setLoading] = React.useState(false);
   const [usernameError, setUsernameError] = React.useState(null);
 
+  const [OTPEmail, setOTPEmail] = React.useState(null);
+  const [OTPContact, setOTPContact] = React.useState(null);
+
+  const [EmailVerify, setEmailVerify] = React.useState(false);
+  const [ContactVerify, setContactVerify] = React.useState(false);
+
+  const [emailLoading, setEmailLoading] = React.useState(false);
+  const [contactLoading, setContactLoading] = React.useState(false);
+
+  const [disableEmail, setDisableEmail] = React.useState(false);
+  const [disableContact, setDisableContact] = React.useState(false);
+
+  const [emailError, setEmailError] = React.useState(null);
+  const [contactError, setContactError] = React.useState(null);
+
+  const [userEmail, setUserEmail] = React.useState(null);
+  const [userContact, setUserContact] = React.useState(null);
+
   const navigate = useNavigate();
 
   React.useEffect(() => {
     const initial = async () => {
       let res = await getUserInviteFromResetPassId({ reset_id: id });
+      await setUserEmail(res.data.email);
+      await setUserContact(res.data.contact);
       if (res && res.data.user_invite === 0) {
         try {
           navigate(-1);
@@ -36,9 +58,76 @@ const SetProfile = () => {
   }, []);
   const { id } = useParams();
 
+  const sendEmailOTP = async () => {
+    setEmailError(null);
+    setEmailLoading(true);
+    setDisableEmail(true);
+    let res = await OTPMail({ mail: userEmail });
+    if (res) {
+      setEmailLoading(false);
+      setOTPEmail(res);
+    }
+    setTimeout(() => {
+      setDisableEmail(false);
+    }, 30000);
+  };
+
+  const sendContactOTP = async (v) => {
+    if(!userContact){
+      if(!/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/.test(v)
+      ){
+        setContactError("Invalid Contact Number");
+        return;
+      }
+    }
+    let res1 = await validateSignupDetails({contact: userContact});
+    if(!userContact && res1 && res1.data.contact){
+      setContactError("Contact already exists");
+      return;
+    }
+    setContactError(null);
+    setContactLoading(true);
+    setDisableContact(true);
+    let res = await OTPSms({ contact: userContact });
+    if (res) {
+      setContactLoading(false);
+      setOTPContact(res);
+    }
+    setTimeout(() => {
+      setDisableContact(false);
+    }, 30000);
+  };
+
+  const verifyEmailOTP = async (otp) => {
+    setEmailError(null);
+    
+    if (otp === OTPEmail) {
+      swal("Email Verified", "Success", "success");
+      setEmailVerify(true);
+    } else {
+      setEmailError("Invalid OTP");
+    }
+  };
+
+  const verifyContactOTP = async (otp) => {
+    setContactError(null);
+    if (otp === OTPContact) {
+      swal("Contact Verified", "Success", "success");
+      setContactVerify(true);
+    } else {
+      setContactError("Invalid OTP");
+    }
+  };
+
   const resetPasswordHandle = async (values) => {
     setLoading(true);
     setAlert(null);
+    if(!EmailVerify || !ContactVerify){
+      setAlert("Please verify your email and contact");
+      swal("Please verify your email and contact", "Error", "error");
+      setLoading(false);
+      return;
+    }
     try {
       let res2 = await validateSignupDetails({
         username: values.username,
@@ -70,9 +159,6 @@ const SetProfile = () => {
   return (
     <div className={styles.loginLanding}>
       <div className="container w-2/3 flex bg-white rounded-lg h-2/3">
-        <div className="md:w-1/2 w-full">
-          <div className={styles.Card1}></div>
-        </div>
         <div className="md:w-1/2 w-full flex flex-col">
           <div className="p-5 pt-5 pb-2 lg:p-9 text-left">
             <span
@@ -107,11 +193,15 @@ const SetProfile = () => {
                     username: null,
                     newPassword: null,
                     newPassword2: null,
+                    EmailOTP: null,
+                    ContactOTP: null,
+                    Email: userEmail,
+                    Contact: userContact,
                   }}
                   validate={(values) => {
                     const errors = {};
                     if (!values.username) {
-                      errors.username = "Required";
+                      errors.username = "Required !";
                     }
                     if (!values.newPassword) {
                       errors.newPassword = "Required !";
@@ -144,7 +234,7 @@ const SetProfile = () => {
                           <ErrorMessage
                             name="username"
                             component="div"
-                            classsName="text-red-500 text-sm"
+                            className="text-red-500 text-sm"
                           />
                           {usernameError && (
                             <div className="text-red-500 text-sm">
@@ -152,6 +242,142 @@ const SetProfile = () => {
                             </div>
                           )}
                         </div>
+                        {userEmail && (
+                          <div className="w-3/4 text-start mt-5">
+                            <label>Email</label>
+                            <Field
+                              value={userEmail}
+                              type="email"
+                              name="Email"
+                              className="w-full text-black"
+                              style={{ borderRadius: "5px" }}
+                              disabled
+                            />
+                            {EmailVerify && (
+                              <div className="text-green-500 text-sm">
+                                Email Verified
+                              </div>
+                            )}
+                            {OTPEmail && EmailVerify === false && (
+                              <div className="w-full text-start my-3">
+                                <label>Enter Email OTP</label>
+                                <Field
+                                  type="text"
+                                  name="EmailOTP"
+                                  className="w-full"
+                                  style={{ borderRadius: "5px" }}
+                                />
+                              </div>
+                            )}
+                            {emailError && (
+                              <div className="text-red-500 text-sm">
+                                {emailError}
+                              </div>
+                            )}
+                            <div className="flex space-x-4 my-3">
+                              {EmailVerify === false && (
+                                <button
+                                  className="px-4 py-1 rounded-sm text-white"
+                                  style={{ backgroundColor: "#034488" }}
+                                  type="button"
+                                  onClick={sendEmailOTP}
+                                  disabled={disableEmail}
+                                >
+                                  {!emailLoading && (OTPEmail === null
+                                    ? "Send OTP"
+                                    : "Resend OTP")}
+                                  {emailLoading && (
+                                    <img
+                                      src={Loader}
+                                      alt="Loader"
+                                      className="mx-auto h-8"
+                                    />
+                                  )}
+                                </button>
+                              )}
+                              {EmailVerify === false && OTPEmail && (
+                                <button
+                                  className="px-4 py-1 rounded-sm text-white"
+                                  type="button"
+                                  style={{ backgroundColor: "#034488" }}
+                                  onClick={() => {
+                                    verifyEmailOTP(values.EmailOTP);
+                                  }}
+                                >
+                                  Verify OTP
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                        {userContact && (
+                          <div className="w-3/4 text-start mt-5">
+                            <label>Contact</label>
+                            <Field
+                              value={userContact}
+                              type="text"
+                              name="Contact"
+                              className="w-full"
+                              style={{ borderRadius: "5px" }}
+                              disabled={userContact ? true : false}
+                            />
+                            { ContactVerify && (
+                              <div className="text-green-500 text-sm">
+                                Contact Verified
+                                </div>)
+                            }
+                            {OTPContact && ContactVerify === false && (
+                              <div className="w-full text-start my-3">
+                                <label>Enter Contact OTP</label>
+                                <Field
+                                  type="text"
+                                  name="ContactOTP"
+                                  className="w-full"
+                                  style={{ borderRadius: "5px" }}
+                                />
+                              </div>
+                            )}
+                            {contactError && (
+                              <div className="text-red-500 text-sm">
+                                {contactError}
+                              </div>
+                            )}
+                            <div className="flex space-x-4 my-3">
+                              {ContactVerify === false && (
+                                <button
+                                  className="px-4 py-1 rounded-sm text-white"
+                                  type="button"
+                                  style={{ backgroundColor: "#034488" }}
+                                  onClick={()=>sendContactOTP(values.Contact)}
+                                  disabled={disableContact}
+                                >
+                                  {!contactLoading && (OTPContact === null
+                                    ? "Send OTP"
+                                    : "Resend OTP")}
+                                  {contactLoading && (
+                                    <img
+                                      src={Loader}
+                                      alt="Loader"
+                                      className="mx-auto h-8"
+                                    />
+                                  )}
+                                </button>
+                              )}
+                              {ContactVerify === false && OTPContact && (
+                                <button
+                                  className="px-4 py-1 rounded-sm text-white"
+                                  type="button"
+                                  style={{ backgroundColor: "#034488" }}
+                                  onClick={() => {
+                                    verifyContactOTP(values.ContactOTP);
+                                  }}
+                                >
+                                  Verify OTP
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        )}
                         <div className="w-3/4 text-start mt-5">
                           <label className="">Enter New Password </label>
                           <Field
@@ -191,7 +417,8 @@ const SetProfile = () => {
                         ) : (
                           <button
                             type="submit"
-                            className="mt-6 bg-blue-600 p-3 text-white rounded-lg"
+                            className="mt-6 bg-blue-600 p-3 text-white rounded-sm px-4 py-1"
+                            style={{ backgroundColor: "#034488" }}
                           >
                             {" "}
                             Set Profile

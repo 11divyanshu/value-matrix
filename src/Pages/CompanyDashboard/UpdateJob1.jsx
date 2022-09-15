@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { useParams } from "react-router-dom";
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import { postJobAPI } from "../../service/api";
@@ -17,6 +17,9 @@ import DOMPurify from "dompurify";
 import { EditorState, convertToRaw, ContentState } from "draft-js";
 import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon, StarIcon } from "@heroicons/react/solid";
+import { Listbox, Transition } from "@headlessui/react";
+import { CheckIcon, ChevronDownIcon } from "@heroicons/react/solid";
+import currencies from "currencies.json";
 
 // const Editor = dynamic(
 //   () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
@@ -33,7 +36,7 @@ const UpdateJob = () => {
     "Eligibilty",
     "Job Invitations",
     "Screening Questions",
-    "Perks And Salary",
+    "Remunerations And Pay Range",
   ];
 
   const { id } = useParams();
@@ -69,6 +72,8 @@ const UpdateJob = () => {
 
   const [showRejected, setShowRejected] = React.useState(false);
   const [showCandidate, setShowCandidate] = React.useState(false);
+
+  const [currency, setCurrency] = React.useState(currencies.currencies[0]);
 
   const [candidateInitial, setCandidateInitial] = React.useState({
     FirstName: "",
@@ -339,7 +344,7 @@ const UpdateJob = () => {
 
   const title = require.jobTitle;
 
-  const postJob = async (values, salary) => {
+  const postJob = async (values, salary, maxSalary) => {
     let access_token = localStorage.getItem("access_token");
     let jobs = JSON.parse(await localStorage.getItem("postjob"));
     let skills = dbSkills.filter((el) => {
@@ -347,11 +352,16 @@ const UpdateJob = () => {
     });
     values.skills = skills;
     values.user_id = user._id;
-    values.salary = salary;
+    values.salary = [currency, salary, maxSalary];
     const job_id = localStorage.getItem("ids");
     values.questions = questions;
     let res = await updateJobAPI(
-      { skills: skills, salary: salary,questions:questions, ...values },
+      {
+        skills: skills,
+        salary: [currency, salary, maxSalary],
+        questions: questions,
+        ...values,
+      },
       access_token
     );
     console.log(res);
@@ -414,6 +424,7 @@ const UpdateJob = () => {
     const job = JSON.parse(await localStorage.getItem("postjob"));
     job.eligibility = currentContentAsHTML;
     setJob(job);
+    setCurrency(job.salary[0]);
     localStorage.setItem("postjob", JSON.stringify(job));
   };
 
@@ -773,7 +784,7 @@ const UpdateJob = () => {
                                                 }`}
                                               >
                                                 <Disclosure.Button
-                                                  className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-2 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${
+                                                  className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-3 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${
                                                     open ? "shadow-lg " : ""
                                                   }`}
                                                 >
@@ -801,7 +812,7 @@ const UpdateJob = () => {
                                                                 }`}
                                                               >
                                                                 <Disclosure.Button
-                                                                  className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-2 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${
+                                                                  className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-3 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${
                                                                     open
                                                                       ? "shadow-lg"
                                                                       : ""
@@ -851,7 +862,7 @@ const UpdateJob = () => {
                                                                             }
                                                                           );
                                                                         return (
-                                                                          <div className="flex my-2 text-sm justify-between items-center">
+                                                                          <div className="flex my-2 text-sm justify-between items-center py-1">
                                                                             <p>
                                                                               {
                                                                                 secSkill.secondarySkill
@@ -1443,7 +1454,7 @@ const UpdateJob = () => {
                           <div className="flex space-x-3">
                             <RiEditBoxLine
                               className="cursor-pointer text-blue-500"
-                              onClick={async() => {
+                              onClick={async () => {
                                 await setShowQuestionForm(false);
                                 await setInitialQuestion(question);
                                 await setQuestionEditIndex(index);
@@ -1547,18 +1558,18 @@ const UpdateJob = () => {
                               : " Save Changes"}
                           </button>
                           <button
-                      type="button"
-                      className="rounded-sm px-4 py-1 text-black border-2 rounded-sm border-black"
-                      onClick={() => {
-                        setShowQuestionForm(false);
-                        setInitialQuestion({
-                          question: "",
-                          answer: "",
-                        });
-                      }}
-                    >
-                      Cancel
-                    </button>
+                            type="button"
+                            className="rounded-sm px-4 py-1 text-black border-2 rounded-sm border-black"
+                            onClick={() => {
+                              setShowQuestionForm(false);
+                              setInitialQuestion({
+                                question: "",
+                                answer: "",
+                              });
+                            }}
+                          >
+                            Cancel
+                          </button>
                         </div>
                       </Form>
                     )}
@@ -1570,17 +1581,16 @@ const UpdateJob = () => {
                       type="submit"
                       className="bg-[#034488] rounded-sm px-4 py-1 text-white"
                       style={{ backgroundColor: "#034488" }}
-                      onClick={()=>{
+                      onClick={() => {
                         setInitialQuestion({
                           question: "",
                           answer: "",
-                        })
-                        setShowQuestionForm(true)
+                        });
+                        setShowQuestionForm(true);
                       }}
                     >
                       Add Question
                     </button>
-                 
                   </div>
                 )}
                 <div className="flex space-x-3 mx-auto justify-center">
@@ -1629,14 +1639,25 @@ const UpdateJob = () => {
                   <div className="w-full m-5 mx-7">
                     <Formik
                       initialValues={{
-                        salary: job.salary ? job.salary : "",
+                        salary: job.salary[1] ? job.salary[1] : "",
+                        maxSalary: job.salary[2] ? job.salary[2] : "",
                       }}
                       validate={(values) => {
                         const errors = {};
+                        if (
+                          values.salary &&
+                          values.maxSalary &&
+                          values.maxSalary < values.salary
+                        ) {
+                          errors.maxSalary =
+                            "Max Salary should be greater than Salary";
+                        }
                         if (!values.salary) {
                           errors.salary = "Required !";
                         }
-
+                        if (!values.maxSalary) {
+                          errors.maxSalary = "Required !";
+                        }
                         return errors;
                       }}
                       // onSubmit={postJob}
@@ -1645,21 +1666,9 @@ const UpdateJob = () => {
                         return (
                           <div>
                             <Form className="w-full mt-9">
-                              <div className="my-7 mt-9 space-y-3 w-3/4">
-                                <label className="text-left w-3/4 font-semibold block">
-                                  Salary
-                                </label>
-                                <Field
-                                  name="salary"
-                                  type="number"
-                                  placeholder=""
-                                  className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4"
-                                />
-                              </div>
-
                               <div className="my-5 space-y-3 w-full">
                                 <label className="text-left w-3/4 mb-3 font-semibold block">
-                                  Perks
+                                  Remunerations
                                 </label>
 
                                 <Editor
@@ -1668,6 +1677,7 @@ const UpdateJob = () => {
                                   wrapperClassName="wrapperClassName"
                                   editorClassName="editorClassName"
                                   wrapperStyle={{
+                                    zIndex: "10",
                                     width: "75%",
                                     border: "1px solid rgb(156 163 175 / 1)",
                                     borderRadius: "5px",
@@ -1679,16 +1689,130 @@ const UpdateJob = () => {
                                   onEditorStateChange={onPerksEditorStateChange}
                                 />
                               </div>
+                              <div className="my-7 mt-9 space-y-3 w-3/4">
+                                <label className="text-left w-3/4 font-semibold block">
+                                  Pay Range
+                                </label>
+                                <div className="items-center space-x-3">
+                                  <label>Currency</label>
+                                  <Listbox
+                                    onChange={setCurrency}
+                                    value={currency}
+                                  >
+                                    <div className="relative mt-1 w-1/3 mb-5 z-100">
+                                      <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-4 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-300 sm:text-sm border-1 border-">
+                                        <span className="block truncate">
+                                          {currency.symbol} - {currency.name}
+                                        </span>
+                                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                                          <ChevronDownIcon
+                                            className="h-5 w-5 text-gray-400"
+                                            aria-hidden="true"
+                                          />
+                                        </span>
+                                      </Listbox.Button>
+                                      <Transition
+                                        as={Fragment}
+                                        leave="transition ease-in duration-100"
+                                        leaveFrom="opacity-100"
+                                        leaveTo="opacity-0"
+                                      >
+                                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-100">
+                                          {currencies.currencies.map(
+                                            (currency, currencyIdx) => (
+                                              <Listbox.Option
+                                                key={currencyIdx}
+                                                className={({ active }) =>
+                                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                                    active
+                                                      ? "bg-blue-100 text-blue-900"
+                                                      : "text-gray-900"
+                                                  }`
+                                                }
+                                                value={currency}
+                                              >
+                                                {({ selected }) => (
+                                                  <>
+                                                    <span
+                                                      className={`block truncatez-100 ${
+                                                        selected
+                                                          ? "font-medium"
+                                                          : "font-normal"
+                                                      }`}
+                                                    >
+                                                      {currency.symbol} -{" "}
+                                                      {currency.name}
+                                                    </span>
+                                                    {selected ? (
+                                                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-600 z-100">
+                                                        <CheckIcon
+                                                          className="h-5 w-5"
+                                                          aria-hidden="true"
+                                                        />
+                                                      </span>
+                                                    ) : null}
+                                                  </>
+                                                )}
+                                              </Listbox.Option>
+                                            )
+                                          )}
+                                        </Listbox.Options>
+                                      </Transition>
+                                    </div>
+                                  </Listbox>
+                                </div>
+                                <div className="flex items-center space-x-2 flex-wrap">
+                                  <div className="block w-1/3">
+                                    <label className="block">Minimum</label>
+                                    <Field
+                                      name="salary"
+                                      type="number"
+                                      placeholder=""
+                                      className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 focus:outline-0 focus:border-0 px-4"
+                                    />
+                                    <ErrorMessage
+                                      name="salary"
+                                      component="div"
+                                      className="text-red-500 text-sm"
+                                    />
+                                  </div>
+                                  <div>
+                                    <label>Maximum</label>
+                                    <Field
+                                      name="maxSalary"
+                                      type="number"
+                                      placeholder=""
+                                      className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4"
+                                    />
+                                    <ErrorMessage
+                                      name="maxSalary"
+                                      component="div"
+                                      className="text-red-500 text-sm"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+
                               <div className="">
                                 <button
                                   className="mx-auto bg-[#034488] px-4 py-1 text-white rounded-sm"
                                   style={{ backgroundColor: "#034488" }}
                                   type="button"
                                   onClick={async () => {
+                                    if (
+                                      values.values.salary >
+                                      values.values.maxSalary
+                                    ) {
+                                      return;
+                                    }
                                     let job = await JSON.parse(
                                       await localStorage.getItem("postjob")
                                     );
-                                    job.salary = values.values.salary;
+                                    job.salary = [
+                                      currency,
+                                      values.values.salary,
+                                      values.values.maxSalary,
+                                    ];
                                     await setJob(job);
                                     localStorage.setItem(
                                       "postjob",
@@ -1700,13 +1824,24 @@ const UpdateJob = () => {
                                   Prev
                                 </button>
                               </div>
-                              {values.values.salary ? (
+                              {values.values.salary &&
+                              values.values.maxSalary ? (
                                 <button
                                   type="button"
                                   class="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
-                                  onClick={() =>
-                                    postJob(job, values.values.salary)
-                                  }
+                                  onClick={() => {
+                                    if (
+                                      values.values.salary >
+                                      values.values.maxSalary
+                                    ) {
+                                      return;
+                                    }
+                                    postJob(
+                                      job,
+                                      values.values.salary,
+                                      values.values.maxSalary
+                                    );
+                                  }}
                                   style={{ backgroundColor: "#034488" }}
                                 >
                                   Submit

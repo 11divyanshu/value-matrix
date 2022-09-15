@@ -69,7 +69,8 @@ const CompanyDashboard = () => {
           )
             window.location.href = "/login";
           await localStorage.setItem("user", JSON.stringify(user.data.user));
-          window.history.pushState({ url: "/user" }, "", "/user");
+          // window.history.pushState({ url: "/user" }, "", "/user");
+          window.location.href="/superXI";
         } else {
           window.location.href = "/login";
         }
@@ -95,7 +96,8 @@ const CompanyDashboard = () => {
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
       if (term) {
-        window.history.pushState({ path: "/user" }, "", "/user");
+        // window.history.pushState({ path: "/user" }, "", "/user");
+        window.location.href="/superXI";
       }
     };
     func();

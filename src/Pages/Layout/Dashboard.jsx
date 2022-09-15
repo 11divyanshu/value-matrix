@@ -9,13 +9,14 @@ import CandidateResumeForm from "../../Components/Dashbaord/CandidateForm.jsx";
 import { dashboardRoutes } from "../../routes";
 import HorizontalNav from "../../Components/Dashbaord/Navbar";
 import SidebarComponent from "../../Components/Dashbaord/sidebar";
+import DetailForm from "../../Components/Dashbaord/DetailsForm.jsx";
 import {
   getProfileImage,
   getUserFromId,
   getUserIdFromToken,
 } from "../../service/api";
 import { Link } from "react-router-dom";
-import "../../assets/stylesheet/layout.scss"
+import "../../assets/stylesheet/layout.scss";
 const Dashboard = () => {
   let [comp, setComponent] = React.useState(null);
   let { component, id } = useParams();
@@ -28,7 +29,7 @@ const Dashboard = () => {
 
   // Form to get User details
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
-
+  const [detailForm, setDetailForm] = React.useState(false);
   React.useEffect(() => {
     OneSignal.init({
       appId: "91130518-13a8-4213-bf6c-36b55314829a",
@@ -53,8 +54,7 @@ const Dashboard = () => {
         await localStorage.removeItem("access_token");
         access_token1 = term;
         await setAccessToken(term);
-        await localStorage.setItem("access_token", term
-        );
+        await localStorage.setItem("access_token", term);
 
         await setAccessToken(access_token1);
 
@@ -68,12 +68,11 @@ const Dashboard = () => {
           let user = await getUserFromId(
             { id: user_id.data.user.user },
             access_token1
-            );
-            
-            
+          );
+
           await setUser(user.data.user.user);
           if (user.invite) {
-            window.location.href = "/setProfile" + user.resetPassId;
+            window.location.href = "/setProfile/" + user.resetPassId;
           }
           if (user.profileImg) {
             let image = await getProfileImage(
@@ -93,7 +92,8 @@ const Dashboard = () => {
           )
             window.location.href = "/login";
           await localStorage.setItem("user", JSON.stringify(user.data.user));
-          window.history.pushState({ url: "/user" }, "", "/user");
+          // window.history.pushState({ url: "/user" }, "", "/user");
+          window.location.href="/superXI";
         } else {
           window.location.href = "/login";
         }
@@ -101,6 +101,9 @@ const Dashboard = () => {
         let access_token = await localStorage.getItem("access_token");
         await setAccessToken(access_token);
         let user = JSON.parse(localStorage.getItem("user"));
+        if (user.invite) {
+          window.location.href = "/setProfile/" + user.resetPassId;
+        }
         await setUser(user);
 
         if (user.access_valid === false || user.user_type !== "User") {
@@ -113,15 +116,20 @@ const Dashboard = () => {
       if (!user || !token) {
         window.location.href = "/login";
       }
-      if (
+      if(!user.profileImg || user.tools.length === 0){
+        setDetailForm(true);
+      }
+      else if (
         user.tools.length === 0 ||
-        user.education === [] || user.education.length === 0 ||
-        user.association === [] || user.association.length === 0 ||
-        user.experience === [] || user.experience.length === 0
+        user.education === [] ||
+        user.education.length === 0 ||
+        user.association === [] ||
+        user.association.length === 0 ||
+        user.experience === [] ||
+        user.experience.length === 0
       ) {
-        console.log("GR")
         let modalOnce = await localStorage.getItem("modalOnce");
-        console.log(modalOnce)
+        console.log(modalOnce);
         if (modalOnce === "null" || modalOnce === null) {
           setModalIsOpen(true);
         }
@@ -134,7 +142,8 @@ const Dashboard = () => {
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
       if (term) {
-        window.history.pushState({ path: "/user" }, "", "/user");
+        // window.history.pushState({ path: "/user" }, "", "/user");
+        window.location.href="/user";
       }
     };
     func();
@@ -150,7 +159,7 @@ const Dashboard = () => {
       // console.log(c)
       if (c[0]) setComponent(c[0].component);
       else {
-        let c1 = component.split("/"); 
+        let c1 = component.split("/");
 
         if (c1[1] === "jobDetails") setComponent(<JobDetails id={id} />);
         else {
@@ -168,19 +177,24 @@ const Dashboard = () => {
     }
   }, [component]);
 
- 
-
   return (
     <div className="max-w-screen h-screen">
+      {
+        detailForm &&  (component !== '/editProfile') && (
+          <DetailForm isOpen={true} setModalIsOpen={setDetailForm} user={user}/>
+        )
+      }
       {modalIsOpen && (
         <div>
           <CandidateResumeForm isOpen={true} setModalIsOpen={setModalIsOpen} />
         </div>
       )}
-      <div className="w-full bg-white fixed navbar"> <HorizontalNav  user={user} /></div>
-      
+      <div className="w-full bg-white fixed navbar">
+        {" "}
+        <HorizontalNav user={user} />
+      </div>
 
-       {/* <div className="flex w-full">
+      {/* <div className="flex w-full">
       <div className=" h-screen">
         <Sidebar
         breakPoint="768"
@@ -194,12 +208,10 @@ const Dashboard = () => {
         <div className="">{comp}</div>
       </div>
       </div> */}
-<div className="flex w-full">
-<SidebarComponent className="sidebarComponent">
-
-</SidebarComponent>
-<div className="justify-end ml-auto mt-20 panel" >{comp}</div>
-</div>
+      <div className="flex w-full">
+        <SidebarComponent className="sidebarComponent"></SidebarComponent>
+        <div className="justify-end ml-auto mt-20 panel">{comp}</div>
+      </div>
     </div>
   );
 };

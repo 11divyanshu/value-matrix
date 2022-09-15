@@ -36,9 +36,9 @@ const HorizontalNav = (props) => {
   React.useEffect(() => {
     const initial = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
+      await setUser(user);
       let step = 0;
       console.log(user);
-      await setUser(user);
       if (user && user.profileImg) {
         let image = await getProfileImage({ id: user._id }, user.access_token);
         await localStorage.setItem("profileImg", JSON.stringify(image));

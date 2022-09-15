@@ -76,7 +76,7 @@ const CandidateResumeForm = (props) => {
       ),
     },
     {
-      name: "Tools",
+      name: "Sills",
       component: (
         <Tools
           setCandidateDetails={setCandidateDetails}

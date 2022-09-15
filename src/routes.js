@@ -349,7 +349,7 @@ export const XIDashboardRoutes = [
   },
   {
     name: "Edit Profile",
-    path: "editProfile",
+    path: "/editProfile",
     hide: true,
     component: <EditProfile />,
   },

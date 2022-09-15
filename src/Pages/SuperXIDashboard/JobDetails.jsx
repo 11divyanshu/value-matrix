@@ -137,7 +137,10 @@ function JobDetails(props) {
                 </p>
                 <div>
                 <p className="px-4 text-lg text-gray-400 ">Pay Range</p>
-                <p className="px-4 text-md">{job.salary}</p>
+                {job.salary && job.salary.length >= 2 && (
+                    <p className="px-4 text-md text-gray-400 font-semibold">
+                    {job.salary[0].symbol} {job.salary[1]} {job.salary.length ===3 &&(<span>- {job.salary[2]}</span>) }
+                    </p>)}
                 </div>
             </div>
 
@@ -195,7 +198,7 @@ function JobDetails(props) {
 })}
 </div>
 <div className="my-7">
-<h5 className=" px-4 py-2 text-xl text-gray-800 font-bold">Perks :</h5>
+<h5 className=" px-4 py-2 text-xl text-gray-800 font-bold">Remunerations :</h5>
 <h6 className="px-4 mb-2 text-lg text-gray-500">{job.perks}</h6>
 {/* <p className="card-text font-semibold p-4">{job.jobDesc}</p> */}
 </div>

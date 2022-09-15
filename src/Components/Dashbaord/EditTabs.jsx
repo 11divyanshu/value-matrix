@@ -5,13 +5,14 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { FiInfo } from "react-icons/fi";
 import { BsCalendar } from "react-icons/bs";
 import { GrScorecard } from "react-icons/gr";
-import { AiOutlineDelete } from "react-icons/ai";
-import { RiEditBoxLine } from "react-icons/ri";
-import { AiOutlineClose } from "react-icons/ai";
 import { Disclosure } from "@headlessui/react";
-import { getSkills } from "../../service/api";
+import { getSkills, url } from "../../service/api";
 import { ChevronUpIcon, StarIcon } from "@heroicons/react/solid";
 import { IoSchoolOutline } from "react-icons/io5";
+import Microsoft from "../../assets/images/Social/microsoft.svg";
+import Google from "../../assets/images/Social/google.svg";
+import Linkedin from "../../assets/images/Social/linkedin.svg";
+import { Link } from "react-router-dom";
 import {
   AiOutlineHome,
   AiOutlineUser,
@@ -57,6 +58,8 @@ export default function Tabs(props) {
   const [secondarySkills, setSecondarySkills] = React.useState([]);
   const [prof, setProf] = React.useState([]);
   const [dbSkills, setDbSkills] = React.useState([]);
+  const [rolesProf, setRolesProf] = React.useState([]);
+  const [dbCopy, setDbCopy] = React.useState([]);
 
   const inputSkillRef = React.useRef(null);
   // Updates Any Error during the Editing Profile
@@ -363,12 +366,12 @@ export default function Tabs(props) {
           return;
         }
       }
-      console.log("values");
+      
       if (EmailOTP && values.emailOTP !== EmailOTP) {
         setError("Invalid Email OTP");
         return;
       }
-      console.log("values");
+      
       if (ContactOTP && values.contactOTP !== ContactOTP) {
         setError("Invalid Contact OTP");
         return;
@@ -493,11 +496,12 @@ export default function Tabs(props) {
     const initial = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       let p = JSON.parse(await localStorage.getItem("prof"));
+      let pr1 = JSON.parse(await localStorage.getItem("RolesProf"));
       let res = await getSkills({ user_id: user._id }, user.access_token);
       let roles = new Set();
       let pSkills = {};
       if (res && res.status === 200) {
-        res.data.map((el) => {
+        await res.data.map((el) => {
           el.proficiency = 0;
           roles.add(el.role);
           if (pSkills[el.role]) {
@@ -507,9 +511,9 @@ export default function Tabs(props) {
           }
           return null;
         });
-        console.log(user.tools);
         let pr = new Array(res.data.length).fill(0);
-        console.log(res.data[221]);
+        if (!pr1) pr1 = new Array(roles.size).fill(0);
+
         if (user.tools.length > 0) {
           await user.tools.forEach(async (skill) => {
             let index = res.data.findIndex(
@@ -519,16 +523,15 @@ export default function Tabs(props) {
                 el.secondarySkill === skill.secondarySkill
             );
             pr[index] = skill.proficiency;
-            console.log(index);
           });
-          console.log(pr);
           await setProf([...pr]);
-          console.log(prof);
         } else if (p) {
           await setProf(p);
         } else {
           await setProf(pr);
         }
+        await setDbCopy(res.data);
+        await setRolesProf(pr1);
         await setShowRoles(Array.from(roles));
         await setRoles(Array.from(roles));
         await setDbSkills(res.data);
@@ -542,10 +545,15 @@ export default function Tabs(props) {
   }, []);
 
   const update = async (ed) => {
-    console.log(ed);
-    let skills = dbSkills.filter((el) => {
-      return el.proficiency > 0;
-    });
+    let skills = [];
+    
+    dbSkills.forEach((el,index)=>{
+      if(prof[index]>0){
+        el.proficiency = prof[index];
+        skills.push(el);
+      }
+    })
+    
     let data = {
       firstName: ed.firstName,
       lastname: ed.lastName,
@@ -579,6 +587,8 @@ export default function Tabs(props) {
       }
     } else if (res) {
       await localStorage.setItem("user", JSON.stringify(res.data.user));
+      await localStorage.removeItem("prof");
+      await localStorage.removeItem("RolesProf");
       window.location.href = "/user/profile";
     } else {
       console.log("Error");
@@ -605,7 +615,6 @@ export default function Tabs(props) {
           String.fromCharCode(...new Uint8Array(image.data))
         );
         let src = `data:image/png;base64,${base64string}`;
-        console.log(src);
         await setProfilePic(src);
       }
       console.log(user);
@@ -693,16 +702,18 @@ export default function Tabs(props) {
                   : user.contact
                 : " ",
               emailOTP: "",
-              contactOTP:"",
+              contactOTP: "",
               address: user.address,
             }}
             onSubmit={(values) => save(values)}
-            validate={async(values) => {
+            validate={async (values) => {
               const errors = {};
-              if(values.username !== user.username){
-                let check = await validateSignupDetails({username: values.username});
+              if (values.username !== user.username) {
+                let check = await validateSignupDetails({
+                  username: values.username,
+                });
                 console.log(check);
-                if(check.data.username){
+                if (check.data.username) {
                   errors.username = "Username already exists";
                 }
               }
@@ -734,7 +745,7 @@ export default function Tabs(props) {
                 <span className="font-semibold text-lg w-2/5 mx-2"> Username :</span>{" "}
                 {user.username}{" "}
               </p> */}
-              
+
                 <div className="flex flex-wrap mt-2 w-full gap-y-5">
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg md:w-2/5 mx-2">
@@ -848,8 +859,25 @@ export default function Tabs(props) {
                       />
                     </div>
                   )}
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
+                    <label className="font-semibold text-lg md:w-2/5 mx-2">
+                      Connect Social Account
+                    </label>
+                    <div className="w-4/5 flex items-center px-4">
+                      {user && !user.linkedInId && (
+                        <a href={`${url}/auth/linkedin`} target="_blank">
+                          <img
+                            src={Linkedin}
+                            className="h-5 ml-1"
+                            alt="socialauthLinkedIn"
+                          />
+                        </a>
+                      )}
+                    </div>
+                  </div>
                   {Error && <p className="text-sm text-red-500">{Error}</p>}
                 </div>
+
                 <div className="w-full text-center">
                   <button
                     className="bg-blue-500 px-4 mx-2 py-2 text-white rounded-lg my-5"
@@ -859,8 +887,8 @@ export default function Tabs(props) {
                     Save
                   </button>
 
-                  <button 
-                  type="button"                    
+                  <button
+                    type="button"
                     className="bg-blue-500 px-4 mx-2 py-2 text-white rounded-lg my-5"
                     style={{ backgroundColor: "#034488" }}
                     onClick={() => update(user)}
@@ -996,8 +1024,8 @@ export default function Tabs(props) {
                 <div className="fixed inset-0 bg-black bg-opacity-25" />
               </Transition.Child>
 
-              <div className="fixed inset-0 overflow-y-auto " >
-                <div className="flex min-h-full items-center justify-center p-4 text-center max-w-4xl mx-auto" >
+              <div className="fixed inset-0 overflow-y-auto ">
+                <div className="flex min-h-full items-center justify-center p-4 text-center max-w-4xl mx-auto">
                   <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"
@@ -1007,7 +1035,7 @@ export default function Tabs(props) {
                     leaveFrom="opacity-100 scale-100"
                     leaveTo="opacity-0 scale-95"
                   >
-                    <Dialog.Panel className="w-full  px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all" >
+                    <Dialog.Panel className="w-full  px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                       {/* <Dialog.Title
                         as="h3"
                         className="text-2xl font-bold leading-6 text-gray-900"
@@ -1082,17 +1110,18 @@ export default function Tabs(props) {
                                     School{" "}
                                   </label>
 
-                                  <div className="w-full md:w-4/5"><Field
-                                    name="school"
-                                    type="text"
-                                    placeholder="Ex. Boston University"
-                                    className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
-                                    style={{
-                                      borderRadius: "4px",
-                                      border: "0.5px solid",
-                                    }}
-                                    value={values.school}
-                                  />
+                                  <div className="w-full md:w-4/5">
+                                    <Field
+                                      name="school"
+                                      type="text"
+                                      placeholder="Ex. Boston University"
+                                      className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
+                                      style={{
+                                        borderRadius: "4px",
+                                        border: "0.5px solid",
+                                      }}
+                                      value={values.school}
+                                    />
                                     <ErrorMessage
                                       name="school"
                                       component="div"
@@ -1105,17 +1134,18 @@ export default function Tabs(props) {
                                     Degree{" "}
                                   </label>
 
-                                  <div className="w-full md:w-4/5"><Field
-                                    name="degree"
-                                    type="text"
-                                    placeholder="Ex. Bachelor's"
-                                    className="block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
-                                    style={{
-                                      borderRadius: "4px",
-                                      border: "0.5px solid",
-                                    }}
-                                    value={values.degree}
-                                  />
+                                  <div className="w-full md:w-4/5">
+                                    <Field
+                                      name="degree"
+                                      type="text"
+                                      placeholder="Ex. Bachelor's"
+                                      className="block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
+                                      style={{
+                                        borderRadius: "4px",
+                                        border: "0.5px solid",
+                                      }}
+                                      value={values.degree}
+                                    />
                                     <ErrorMessage
                                       name="degree"
                                       component="div"
@@ -1128,17 +1158,18 @@ export default function Tabs(props) {
                                     Field{" "}
                                   </label>
 
-                                  <div className="w-full md:w-4/5"><Field
-                                    name="field_of_study"
-                                    type="text"
-                                    placeholder="Ex. Business"
-                                    className="block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
-                                    style={{
-                                      borderRadius: "4px",
-                                      border: "0.5px solid",
-                                    }}
-                                    value={values.field_of_study}
-                                  />
+                                  <div className="w-full md:w-4/5">
+                                    <Field
+                                      name="field_of_study"
+                                      type="text"
+                                      placeholder="Ex. Business"
+                                      className="block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
+                                      style={{
+                                        borderRadius: "4px",
+                                        border: "0.5px solid",
+                                      }}
+                                      value={values.field_of_study}
+                                    />
                                     <ErrorMessage
                                       name="field_of_study"
                                       component="div"
@@ -1151,50 +1182,58 @@ export default function Tabs(props) {
                                     Work Period{" "}
                                   </label>
 
+                                  <label className="font-semibold text-lg w-2/5 mx-2 md:mx-0 sm:mt-4">
+                                    Work Period{" "}
+                                  </label>
 
-                                  <label className="font-semibold text-lg w-2/5 mx-2 md:mx-0 sm:mt-4">Work Period </label>
-
-<div className="w-4/5 md:flex w-full" style={{justifyContent:"space-between"}}>
-                                  <div className=" my-1  md:flex md:mr-5 align-middle">
-                                    <label className="font-semibold text-md md:ml-0 py-2 ml-2">Start From</label>
-                                    <div className="">
-                                      <Field
-                                        name="start_date"
-                                        type="month"
-                                        className="block border-gray-400 py-2 w-full md:w-4/5 mx-2 border-[0.5px] border-[#6b7280]"
-                                        style={{
-                                          borderRadius: "4px",
-                                          border: "0.5px solid",
-                                        }}
-                                        value={values.start_date}
-                                      />
-                                      <ErrorMessage
-                                        name="start_date"
-                                        component="div"
-                                        className="text-sm text-red-600"
-                                      />
+                                  <div
+                                    className="w-4/5 md:flex w-full"
+                                    style={{ justifyContent: "space-between" }}
+                                  >
+                                    <div className=" my-1  md:flex md:mr-5 align-middle">
+                                      <label className="font-semibold text-md md:ml-0 py-2 ml-2">
+                                        Start From
+                                      </label>
+                                      <div className="">
+                                        <Field
+                                          name="start_date"
+                                          type="month"
+                                          className="block border-gray-400 py-2 w-full md:w-4/5 mx-2 border-[0.5px] border-[#6b7280]"
+                                          style={{
+                                            borderRadius: "4px",
+                                            border: "0.5px solid",
+                                          }}
+                                          value={values.start_date}
+                                        />
+                                        <ErrorMessage
+                                          name="start_date"
+                                          component="div"
+                                          className="text-sm text-red-600"
+                                        />
+                                      </div>
                                     </div>
-                                  </div>
-                                  <div className=" my-1  md:flex md:ml-2  align-middle">
-                                    <label className="font-semibold text-md ml-2 py-2">End At</label>
-                                    <div className="">
-                                      <Field
-                                        name="end_date"
-                                        type="month"
-                                        className="block border-gray-400 py-2 mx-2 border-[0.5px] w-full border-[#6b7280]"
-                                        style={{
-                                          borderRadius: "4px",
-                                          border: "0.5px solid",
-                                        }}
-                                        value={values.end_date}
-                                      />
-                                      <ErrorMessage
-                                        name="end_date"
-                                        component="div"
-                                        className="text-sm text-red-600"
-                                      />
+                                    <div className=" my-1  md:flex md:ml-2  align-middle">
+                                      <label className="font-semibold text-md ml-2 py-2">
+                                        End At
+                                      </label>
+                                      <div className="">
+                                        <Field
+                                          name="end_date"
+                                          type="month"
+                                          className="block border-gray-400 py-2 mx-2 border-[0.5px] w-full border-[#6b7280]"
+                                          style={{
+                                            borderRadius: "4px",
+                                            border: "0.5px solid",
+                                          }}
+                                          value={values.end_date}
+                                        />
+                                        <ErrorMessage
+                                          name="end_date"
+                                          component="div"
+                                          className="text-sm text-red-600"
+                                        />
+                                      </div>
                                     </div>
-                                  </div>
                                   </div>
                                 </div>
                                 <div className="md:w-1/2  md:flex w-full justify-between space-y-1 my-2">
@@ -1202,16 +1241,17 @@ export default function Tabs(props) {
                                     Grade
                                   </label>
 
-                                  <div className="w-full md:w-4/5"><Field
-                                    name="grade"
-                                    type="text"
-                                    className="block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
-                                    style={{
-                                      borderRadius: "4px",
-                                      border: "0.5px solid",
-                                    }}
-                                    value={values.grade}
-                                  />
+                                  <div className="w-full md:w-4/5">
+                                    <Field
+                                      name="grade"
+                                      type="text"
+                                      className="block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
+                                      style={{
+                                        borderRadius: "4px",
+                                        border: "0.5px solid",
+                                      }}
+                                      value={values.grade}
+                                    />
                                     <ErrorMessage
                                       name="grade"
                                       component="div"
@@ -1224,16 +1264,17 @@ export default function Tabs(props) {
                                     Description
                                   </label>
 
-                                  <div className="w-full md:w-4/5"><Field
-                                    name="description"
-                                    type="textarea"
-                                    className="block border-gray-400 py-2 w-full h-20 border-[0.5px] border-[#6b7280] p-2"
-                                    style={{
-                                      borderRadius: "4px",
-                                      border: "0.5px solid",
-                                    }}
-                                    value={values.description}
-                                  />
+                                  <div className="w-full md:w-4/5">
+                                    <Field
+                                      name="description"
+                                      type="textarea"
+                                      className="block border-gray-400 py-2 w-full h-20 border-[0.5px] border-[#6b7280] p-2"
+                                      style={{
+                                        borderRadius: "4px",
+                                        border: "0.5px solid",
+                                      }}
+                                      value={values.description}
+                                    />
                                     <ErrorMessage
                                       name="description"
                                       component="div"
@@ -1424,7 +1465,7 @@ export default function Tabs(props) {
                     leaveFrom="opacity-100 scale-100"
                     leaveTo="opacity-0 scale-95"
                   >
-                    <Dialog.Panel className="w-full  px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all max-w-4xl mx-auto" >
+                    <Dialog.Panel className="w-full  px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all max-w-4xl mx-auto">
                       {/* <Dialog.Title
                         as="h3"
                         className="text-2xl font-bold leading-6 text-gray-900"
@@ -1487,15 +1528,18 @@ export default function Tabs(props) {
                             return (
                               <Form className="w-full py-4">
                                 <div className="md:w-1/2  md:flex w-full  space-y-1 my-5">
-                                  <label className="font-semibold text-lg w-2/5 mx-2">Title </label>
-                                  <div className="w-full md:w-4/5"><Field
-                                    name="title"
-                                    type="text"
-                                    placeholder="Ex. Manager"
-                                    className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
-                                    style={{ borderRadius: "4px" }}
-                                    value={values.title}
-                                  />
+                                  <label className="font-semibold text-lg w-2/5 mx-2">
+                                    Title{" "}
+                                  </label>
+                                  <div className="w-full md:w-4/5">
+                                    <Field
+                                      name="title"
+                                      type="text"
+                                      placeholder="Ex. Manager"
+                                      className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
+                                      style={{ borderRadius: "4px" }}
+                                      value={values.title}
+                                    />
                                     <ErrorMessage
                                       name="title"
                                       component="div"
@@ -1504,27 +1548,34 @@ export default function Tabs(props) {
                                   </div>
                                 </div>
                                 <div className="w-full md:w-4/5  md:flex   space-y-1 my-5">
-                                  <label className="font-semibold text-lg w-2/5 mx-2">Employment Type </label>
+                                  <label className="font-semibold text-lg w-2/5 mx-2">
+                                    Employment Type{" "}
+                                  </label>
 
-                                  <div className="w-full md:w-4/5"><Field
-                                    name="employment_type"
-                                    as="select"
-                                    className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
-                                    style={{ borderRadius: "4px" }}
-                                  >
-                                    <option value="">Please Select</option>
-                                    <option value="Full Time">Full Time</option>
-                                    <option value="Part Time">Part Time</option>
-                                    <option value="Self Employed">
-                                      Self Employed
-                                    </option>
-                                    <option value="Internship">
-                                      Internship
-                                    </option>
-                                    <option value="Free Lancer">
-                                      Free Lancer
-                                    </option>
-                                  </Field>
+                                  <div className="w-full md:w-4/5">
+                                    <Field
+                                      name="employment_type"
+                                      as="select"
+                                      className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
+                                      style={{ borderRadius: "4px" }}
+                                    >
+                                      <option value="">Please Select</option>
+                                      <option value="Full Time">
+                                        Full Time
+                                      </option>
+                                      <option value="Part Time">
+                                        Part Time
+                                      </option>
+                                      <option value="Self Employed">
+                                        Self Employed
+                                      </option>
+                                      <option value="Internship">
+                                        Internship
+                                      </option>
+                                      <option value="Free Lancer">
+                                        Free Lancer
+                                      </option>
+                                    </Field>
                                     <ErrorMessage
                                       name="employment_type"
                                       component="div"
@@ -1533,16 +1584,19 @@ export default function Tabs(props) {
                                   </div>
                                 </div>
                                 <div className=" md:w-4/5  md:flex w-full  space-y-1 my-5">
-                                  <label className="font-semibold text-lg w-2/5 mx-2">Company </label>
+                                  <label className="font-semibold text-lg w-2/5 mx-2">
+                                    Company{" "}
+                                  </label>
 
-                                  <div className="w-full md:w-4/5"><Field
-                                    name="company_name"
-                                    type="text"
-                                    placeholder="Ex. Microsoft"
-                                    className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
-                                    style={{ borderRadius: "4px" }}
-                                    value={values.company_name}
-                                  />
+                                  <div className="w-full md:w-4/5">
+                                    <Field
+                                      name="company_name"
+                                      type="text"
+                                      placeholder="Ex. Microsoft"
+                                      className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
+                                      style={{ borderRadius: "4px" }}
+                                      value={values.company_name}
+                                    />
                                     <ErrorMessage
                                       name="company_name"
                                       component="div"
@@ -1551,15 +1605,18 @@ export default function Tabs(props) {
                                   </div>
                                 </div>
                                 <div className="md:w-1/2  md:flex w-full  space-y-1 my-5">
-                                  <label className="font-semibold text-lg w-2/5 mx-2">Location </label>
-                                  <div className="w-full md:w-4/5"><Field
-                                    name="location"
-                                    type="text"
-                                    placeholder="Ex. London"
-                                    className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
-                                    style={{ borderRadius: "4px" }}
-                                    value={values.location}
-                                  />
+                                  <label className="font-semibold text-lg w-2/5 mx-2">
+                                    Location{" "}
+                                  </label>
+                                  <div className="w-full md:w-4/5">
+                                    <Field
+                                      name="location"
+                                      type="text"
+                                      placeholder="Ex. London"
+                                      className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
+                                      style={{ borderRadius: "4px" }}
+                                      value={values.location}
+                                    />
                                     <ErrorMessage
                                       name="location"
                                       component="div"
@@ -1572,58 +1629,68 @@ export default function Tabs(props) {
                                     Work Period{" "}
                                   </label>
 
-<div className="w-4/5 md:flex w-full" style={{justifyContent:"space-between"}}>
-                                  <div className=" my-1  md:flex md:mr-5 align-middle">
-                                    <label className="font-semibold text-md md:ml-0 py-2 ml-2">Start From</label>
-                                    <div className="">
-                                      <Field
-                                        name="start_date"
-                                        type="month"
-                                        className="block border-gray-400 py-2 w-full md:w-4/5 mx-2 border-[0.5px] border-[#6b7280]"
-                                        style={{
-                                          borderRadius: "4px",
-                                          border: "0.5px solid",
-                                        }}
-                                        value={values.start_date}
-                                      />
-                                      <ErrorMessage
-                                        name="start_date"
-                                        component="div"
-                                        className="text-sm text-red-600"
-                                      />
+                                  <div
+                                    className="w-4/5 md:flex w-full"
+                                    style={{ justifyContent: "space-between" }}
+                                  >
+                                    <div className=" my-1  md:flex md:mr-5 align-middle">
+                                      <label className="font-semibold text-md md:ml-0 py-2 ml-2">
+                                        Start From
+                                      </label>
+                                      <div className="">
+                                        <Field
+                                          name="start_date"
+                                          type="month"
+                                          className="block border-gray-400 py-2 w-full md:w-4/5 mx-2 border-[0.5px] border-[#6b7280]"
+                                          style={{
+                                            borderRadius: "4px",
+                                            border: "0.5px solid",
+                                          }}
+                                          value={values.start_date}
+                                        />
+                                        <ErrorMessage
+                                          name="start_date"
+                                          component="div"
+                                          className="text-sm text-red-600"
+                                        />
+                                      </div>
                                     </div>
-                                  </div>
-                                  <div className=" my-1  md:flex md:ml-2  align-middle">
-                                    <label className="font-semibold text-md ml-2 py-2">End At</label>
-                                    <div className="">
-                                      <Field
-                                        name="end_date"
-                                        type="month"
-                                        className="block border-gray-400 py-2 mx-2 border-[0.5px] w-full border-[#6b7280]"
-                                        style={{
-                                          borderRadius: "4px",
-                                          border: "0.5px solid",
-                                        }}
-                                        value={values.end_date}
-                                      />
-                                      <ErrorMessage
-                                        name="end_date"
-                                        component="div"
-                                        className="text-sm text-red-600"
-                                      />
+                                    <div className=" my-1  md:flex md:ml-2  align-middle">
+                                      <label className="font-semibold text-md ml-2 py-2">
+                                        End At
+                                      </label>
+                                      <div className="">
+                                        <Field
+                                          name="end_date"
+                                          type="month"
+                                          className="block border-gray-400 py-2 mx-2 border-[0.5px] w-full border-[#6b7280]"
+                                          style={{
+                                            borderRadius: "4px",
+                                            border: "0.5px solid",
+                                          }}
+                                          value={values.end_date}
+                                        />
+                                        <ErrorMessage
+                                          name="end_date"
+                                          component="div"
+                                          className="text-sm text-red-600"
+                                        />
+                                      </div>
                                     </div>
-                                  </div>
                                   </div>
                                 </div>
                                 <div className="  md:flex w-full md:w-4/5  space-y-1 my-5">
-                                  <label className="font-semibold text-lg w-2/5 mx-2">Industry </label>
-                                  <div className="w-full md:w-4/5"><Field
-                                    name="industry"
-                                    type="text"
-                                    className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
-                                    style={{ borderRadius: "4px" }}
-                                    value={values.industry}
-                                  />
+                                  <label className="font-semibold text-lg w-2/5 mx-2">
+                                    Industry{" "}
+                                  </label>
+                                  <div className="w-full md:w-4/5">
+                                    <Field
+                                      name="industry"
+                                      type="text"
+                                      className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
+                                      style={{ borderRadius: "4px" }}
+                                      value={values.industry}
+                                    />
                                     <ErrorMessage
                                       name="industry"
                                       component="div"
@@ -1632,17 +1699,20 @@ export default function Tabs(props) {
                                   </div>
                                 </div>
                                 <div className="w-full md:w-4/5  md:flex   space-y-1 my-5">
-                                  <label className="font-semibold text-lg w-2/5 mx-2">Description</label>
-                                  <div className="w-full md:w-4/5"><Field
-                                    name="description"
-                                    type="textarea"
-                                    className="block border-gray-400 py-1 w-full border-[0.5px] border-[#6b7280] p-2"
-                                    style={{
-                                      borderRadius: "4px",
-                                      border: "0.5px solid",
-                                    }}
-                                    value={values.description}
-                                  />
+                                  <label className="font-semibold text-lg w-2/5 mx-2">
+                                    Description
+                                  </label>
+                                  <div className="w-full md:w-4/5">
+                                    <Field
+                                      name="description"
+                                      type="textarea"
+                                      className="block border-gray-400 py-1 w-full border-[0.5px] border-[#6b7280] p-2"
+                                      style={{
+                                        borderRadius: "4px",
+                                        border: "0.5px solid",
+                                      }}
+                                      value={values.description}
+                                    />
                                     <ErrorMessage
                                       name="description"
                                       component="div"
@@ -1831,7 +1901,7 @@ export default function Tabs(props) {
                     leaveFrom="opacity-100 scale-100"
                     leaveTo="opacity-0 scale-95"
                   >
-                    <Dialog.Panel className="w-full  px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all max-w-4xl mx-auto" >
+                    <Dialog.Panel className="w-full  px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all max-w-4xl mx-auto">
                       {/* <Dialog.Title
                         as="h3"
                         className="text-2xl font-bold leading-6 text-gray-900"
@@ -1890,15 +1960,18 @@ export default function Tabs(props) {
                             return (
                               <Form className="w-full py-4">
                                 <div className="md:w-1/2  md:flex w-full  space-y-1 my-5">
-                                  <label className="font-semibold text-lg w-2/5 mx-2">Title </label>
-                                  <div className="w-full md:w-4/5"><Field
-                                    name="title"
-                                    type="text"
-                                    placeholder="Ex. Manager"
-                                    className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
-                                    style={{ borderRadius: "4px" }}
-                                    value={values.title}
-                                  />
+                                  <label className="font-semibold text-lg w-2/5 mx-2">
+                                    Title{" "}
+                                  </label>
+                                  <div className="w-full md:w-4/5">
+                                    <Field
+                                      name="title"
+                                      type="text"
+                                      placeholder="Ex. Manager"
+                                      className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
+                                      style={{ borderRadius: "4px" }}
+                                      value={values.title}
+                                    />
                                     <ErrorMessage
                                       name="title"
                                       component="div"
@@ -1908,16 +1981,18 @@ export default function Tabs(props) {
                                 </div>
 
                                 <div className="md:w-1/2  md:flex w-full  space-y-1 my-5">
-
-                                  <label className="font-semibold text-lg w-2/5 mx-2">Company </label>
-                                  <div className="w-full md:w-4/5"><Field
-                                    name="company_name"
-                                    type="text"
-                                    placeholder="Ex. Microsoft"
-                                    className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
-                                    style={{ borderRadius: "4px" }}
-                                    value={values.company_name}
-                                  />
+                                  <label className="font-semibold text-lg w-2/5 mx-2">
+                                    Company{" "}
+                                  </label>
+                                  <div className="w-full md:w-4/5">
+                                    <Field
+                                      name="company_name"
+                                      type="text"
+                                      placeholder="Ex. Microsoft"
+                                      className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
+                                      style={{ borderRadius: "4px" }}
+                                      value={values.company_name}
+                                    />
                                     <ErrorMessage
                                       name="company_name"
                                       component="div"
@@ -1926,15 +2001,18 @@ export default function Tabs(props) {
                                   </div>
                                 </div>
                                 <div className="w-full md:w-4/5 md:flex w-full  space-y-1 my-5">
-                                  <label className="font-semibold text-lg w-2/5 mx-2">Location </label>
-                                  <div className="w-full md:w-4/5"><Field
-                                    name="location"
-                                    type="text"
-                                    placeholder="Ex. London"
-                                    className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
-                                    style={{ borderRadius: "4px" }}
-                                    value={values.location}
-                                  />
+                                  <label className="font-semibold text-lg w-2/5 mx-2">
+                                    Location{" "}
+                                  </label>
+                                  <div className="w-full md:w-4/5">
+                                    <Field
+                                      name="location"
+                                      type="text"
+                                      placeholder="Ex. London"
+                                      className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
+                                      style={{ borderRadius: "4px" }}
+                                      value={values.location}
+                                    />
                                     <ErrorMessage
                                       name="location"
                                       component="div"
@@ -1947,58 +2025,68 @@ export default function Tabs(props) {
                                     Work Period{" "}
                                   </label>
 
-<div className="w-4/5 md:flex w-full" style={{justifyContent:"space-between"}}>
-                                  <div className=" my-1  md:flex md:mr-5 align-middle">
-                                    <label className="font-semibold text-md md:ml-0 py-2 ml-2">Start From</label>
-                                    <div className="">
-                                      <Field
-                                        name="start_date"
-                                        type="month"
-                                        className="block border-gray-400 py-2 w-full md:w-4/5 mx-2 border-[0.5px] border-[#6b7280]"
-                                        style={{
-                                          borderRadius: "4px",
-                                          border: "0.5px solid",
-                                        }}
-                                        value={values.start_date}
-                                      />
-                                      <ErrorMessage
-                                        name="start_date"
-                                        component="div"
-                                        className="text-sm text-red-600"
-                                      />
+                                  <div
+                                    className="w-4/5 md:flex w-full"
+                                    style={{ justifyContent: "space-between" }}
+                                  >
+                                    <div className=" my-1  md:flex md:mr-5 align-middle">
+                                      <label className="font-semibold text-md md:ml-0 py-2 ml-2">
+                                        Start From
+                                      </label>
+                                      <div className="">
+                                        <Field
+                                          name="start_date"
+                                          type="month"
+                                          className="block border-gray-400 py-2 w-full md:w-4/5 mx-2 border-[0.5px] border-[#6b7280]"
+                                          style={{
+                                            borderRadius: "4px",
+                                            border: "0.5px solid",
+                                          }}
+                                          value={values.start_date}
+                                        />
+                                        <ErrorMessage
+                                          name="start_date"
+                                          component="div"
+                                          className="text-sm text-red-600"
+                                        />
+                                      </div>
                                     </div>
-                                  </div>
-                                  <div className=" my-1  md:flex md:ml-2  align-middle">
-                                    <label className="font-semibold text-md ml-2 py-2">End At</label>
-                                    <div className="">
-                                      <Field
-                                        name="end_date"
-                                        type="month"
-                                        className="block border-gray-400 py-2 mx-2 border-[0.5px] w-full border-[#6b7280]"
-                                        style={{
-                                          borderRadius: "4px",
-                                          border: "0.5px solid",
-                                        }}
-                                        value={values.end_date}
-                                      />
-                                      <ErrorMessage
-                                        name="end_date"
-                                        component="div"
-                                        className="text-sm text-red-600"
-                                      />
+                                    <div className=" my-1  md:flex md:ml-2  align-middle">
+                                      <label className="font-semibold text-md ml-2 py-2">
+                                        End At
+                                      </label>
+                                      <div className="">
+                                        <Field
+                                          name="end_date"
+                                          type="month"
+                                          className="block border-gray-400 py-2 mx-2 border-[0.5px] w-full border-[#6b7280]"
+                                          style={{
+                                            borderRadius: "4px",
+                                            border: "0.5px solid",
+                                          }}
+                                          value={values.end_date}
+                                        />
+                                        <ErrorMessage
+                                          name="end_date"
+                                          component="div"
+                                          className="text-sm text-red-600"
+                                        />
+                                      </div>
                                     </div>
-                                  </div>
                                   </div>
                                 </div>
                                 <div className="md:w-1/2  md:flex w-full  space-y-1 my-5">
-                                  <label className="font-semibold text-lg w-2/5 mx-2">Industry </label>
-                                  <div className="w-full md:w-4/5"><Field
-                                    name="industry"
-                                    type="text"
-                                    className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
-                                    style={{ borderRadius: "4px" }}
-                                    value={values.industry}
-                                  />
+                                  <label className="font-semibold text-lg w-2/5 mx-2">
+                                    Industry{" "}
+                                  </label>
+                                  <div className="w-full md:w-4/5">
+                                    <Field
+                                      name="industry"
+                                      type="text"
+                                      className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
+                                      style={{ borderRadius: "4px" }}
+                                      value={values.industry}
+                                    />
                                     <ErrorMessage
                                       name="industry"
                                       component="div"
@@ -2007,17 +2095,20 @@ export default function Tabs(props) {
                                   </div>
                                 </div>
                                 <div className="md:w-1/2  md:flex w-full  space-y-1 my-5">
-                                  <label className="font-semibold text-lg w-2/5 mx-2">Description</label>
-                                  <div className="w-full md:w-4/5"><Field
-                                    name="description"
-                                    type="textarea"
-                                    className="block border-gray-400 py-1 w-full border-[0.5px] border-[#6b7280] p-2"
-                                    style={{
-                                      borderRadius: "4px",
-                                      border: "0.5px solid",
-                                    }}
-                                    value={values.description}
-                                  />
+                                  <label className="font-semibold text-lg w-2/5 mx-2">
+                                    Description
+                                  </label>
+                                  <div className="w-full md:w-4/5">
+                                    <Field
+                                      name="description"
+                                      type="textarea"
+                                      className="block border-gray-400 py-1 w-full border-[0.5px] border-[#6b7280] p-2"
+                                      style={{
+                                        borderRadius: "4px",
+                                        border: "0.5px solid",
+                                      }}
+                                      value={values.description}
+                                    />
 
                                     <ErrorMessage
                                       name="description"
@@ -2103,7 +2194,10 @@ export default function Tabs(props) {
                   }
                 }}
               />
-              <button className="h-10 bg-blue-600 text-white rounded-lg block cursor-pointer px-8 align-middle ml-3">
+              <button
+                className="h-10 bg-blue-600 text-white rounded-lg block cursor-pointer px-8 align-middle ml-3"
+                style={{ backgroundColor: "#034488" }}
+              >
                 Search
               </button>
             </div>
@@ -2117,11 +2211,46 @@ export default function Tabs(props) {
                           {({ open }) => (
                             <div className={`${open ? "shadow-md" : ""}`}>
                               <Disclosure.Button
-                                className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-2 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${
+                                className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-3 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${
                                   open ? "shadow-lg " : ""
                                 }`}
                               >
                                 <span>{el}</span>
+                                <div className="ml-auto mr-5 flex items-center space-x-2">
+                                  <p>0</p>
+                                  <input
+                                    type="range"
+                                    min="0"
+                                    max="5"
+                                    value={rolesProf[index]}
+                                    onChange={(e) => {
+                                      console.log(dbSkills);
+                                      dbSkills.forEach((skill) => {
+                                        if (skill.role === el) {
+                                          skill.proficiency = e.target.value;
+                                          let inde = dbSkills.findIndex(
+                                            (el) => {
+                                              return el === skill;
+                                            }
+                                          );
+                                          let p = prof;
+                                          p[inde] = e.target.value;
+                                          setProf(p);
+                                          skill.rating = e.target.value;
+                                        }
+                                      });
+                                      console.log(dbSkills);
+                                      let rp = rolesProf;
+                                      rp[index] = e.target.value;
+                                      setRolesProf(rp);
+                                      localStorage.setItem(
+                                        "RolesProf",
+                                        JSON.stringify(rolesProf)
+                                      );
+                                    }}
+                                  />
+                                  <p>5</p>
+                                </div>
                                 <ChevronUpIcon
                                   className={`${
                                     !open ? "rotate-180 transform" : ""
@@ -2140,7 +2269,7 @@ export default function Tabs(props) {
                                             }`}
                                           >
                                             <Disclosure.Button
-                                              className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-2 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${
+                                              className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-3 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${
                                                 open ? "shadow-lg" : ""
                                               } `}
                                             >
@@ -2170,7 +2299,7 @@ export default function Tabs(props) {
                                                     }
                                                   );
                                                   return (
-                                                    <div className="flex my-2 text-sm justify-between items-center px-3">
+                                                    <div className="flex my-2 text-sm justify-between items-center px-3 py-1">
                                                       <p>
                                                         {
                                                           secSkill.secondarySkill
@@ -2225,6 +2354,11 @@ export default function Tabs(props) {
                                                           }}
                                                         />
                                                         <p>5</p>
+                                                        <p className="text-xs font-italics">
+                                                          {prof[index1] > 0
+                                                            ? "Self-assetsted"
+                                                            : "Unassested"}
+                                                        </p>
                                                       </div>
                                                     </div>
                                                   );
@@ -2251,24 +2385,26 @@ export default function Tabs(props) {
                 ? rolesC.map((item, index) => {
                     return (
                       <div>
-                        <p className="font-semibold text-md md:w-1/2  flex w-full  space-y-1 my-5">
+                        <p className="font-semibold text-md md:w-1/2  flex w-full  space-y-2 my-5">
                           {item}
                         </p>
                         {skillsPrimary[item].map((el) => (
                           <div>
                             <p className="text-sm my-2">{el}</p>
+                            <div className="flex flex-wrap">
                             {user.tools
                               .filter(
                                 (tool) =>
                                   tool.role === item && tool.primarySkill === el
                               )
                               .map((item1, index) => (
-                                <span class="bg-blue-100 text-blue-800 text-xs my-4 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
+                                <p class="bg-blue-100 text-blue-800 text-xs mb-2 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
                                   {item1.secondarySkill}{" "}
                                   {item1.proficiency &&
                                     `(${item1.proficiency})`}
-                                </span>
+                                </p>
                               ))}
+                          </div>
                           </div>
                         ))}
                       </div>
@@ -2285,8 +2421,8 @@ export default function Tabs(props) {
         </div>
 
         <button
-          className="bg-blue-500 px-2 mx-2 py-1 text-white rounded-lg my-5"
-          style={{ backgroundColor: " rgb(59 130 246)" }}
+          className="bg-blue-500 px-4 mx-2 py-1 text-white rounded-sm my-5"
+          style={{ backgroundColor: "#034488" }}
           onClick={() => update(user)}
         >
           Submit

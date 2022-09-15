@@ -50,6 +50,7 @@ const ReactCropper = (props) => {
       blob.originalname = user._id + "-profile";
       formData.append("user_id", user._id);
       formData.append("file" , blob);
+      console.log(formData.files);
       let res = await updateProfileImage(formData, access_token1);
       let image = await getProfileImage(
         {id : user._id},

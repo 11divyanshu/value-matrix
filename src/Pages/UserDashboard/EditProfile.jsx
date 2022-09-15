@@ -154,15 +154,15 @@ const EditProfile = () => {
       await setToken(access_token1);
       if (access_token1 === "null")
         await localStorage.setItem("access_token", user.access_token);
-      if (user && user.profileImg) {
-        let image = await getProfileImage({ id: user._id }, user.access_token);
-        await localStorage.setItem("profileImg", JSON.stringify(image));
-        let base64string = btoa(
-          String.fromCharCode(...new Uint8Array(image.data.Image.data))
-        );
-        let src = `data:image/png;base64,${base64string}`;
-        await setProfilePic(src);
-      }
+        if (user && user.profileImg) {
+          let image = await getProfileImage({id: user._id}, user.access_token);
+            await localStorage.setItem("profileImg", JSON.stringify(image));
+          let base64string = btoa(
+            String.fromCharCode(...new Uint8Array(image.data.Image.data))
+          );
+          let src = `data:image/png;base64,${base64string}`;
+          await setProfilePic(src);
+        }
     };
     getData();
   }, []);

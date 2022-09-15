@@ -55,7 +55,8 @@ const AdminDashboard = () => {
             window.location.href = "/login";
           }
           await localStorage.setItem("user", JSON.stringify(user.data.user));
-          window.history.pushState({ url: "/admin" }, "", "/admin");
+          // window.history.pushState({ url: "/admin" }, "", "/admin");
+          window.location.href="/admin";
         } else {
           window.location.href = "/login";
         }
@@ -88,7 +89,8 @@ const AdminDashboard = () => {
       const queryParams = new URLSearchParams(location);
       const term = queryParams.get("a");
       if (term) {
-        window.history.pushState({ path: "/admin" }, "", "/admin");
+        // window.history.pushState({ path: "/admin" }, "", "/admin");
+        window.location.href="/admin";
       }
     };
     func();

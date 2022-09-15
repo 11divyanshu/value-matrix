@@ -14,11 +14,11 @@ const Tools = (props) => {
   const [primarySkills, setPrimarySkills] = React.useState([]);
   const [secondarySkills, setSecondarySkills] = React.useState([]);
   const [prof, setProf] = React.useState([]);
+  const [rolesProf, setRolesProf] = React.useState([]);
 
   const [loading, setLoading] = React.useState(true);
 
   const inputSkillRef = React.useRef(null);
-
 
   const [tools, setTools] = React.useState([]);
   const [error, setError] = React.useState(null);
@@ -47,6 +47,7 @@ const Tools = (props) => {
     const initial = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       let p = JSON.parse(await localStorage.getItem("prof"));
+      let pr1 = JSON.parse(await localStorage.getItem("RolesProf"));
       let res = await getSkills({ user_id: user._id }, user.access_token);
       let roles = new Set();
       let pSkills = {};
@@ -61,11 +62,14 @@ const Tools = (props) => {
           }
           return null;
         });
+        if (!pr1) pr1 = new Array(roles.size).fill(0);
+
         if (p) {
           setProf(p);
         } else {
           await setProf(new Array(res.data.length).fill(0));
         }
+        await setRolesProf(pr1);
         await setShowRoles(Array.from(roles));
         await setRoles(Array.from(roles));
         await setDbSkills(res.data);
@@ -84,17 +88,28 @@ const Tools = (props) => {
     let res = JSON.parse(await localStorage.getItem("candidateDetails"));
     let user = JSON.parse(await localStorage.getItem("user"));
     res.user_id = user._id;
-    let skills = dbSkills.filter((el)=>{
-      return el.proficiency > 0;
-    })
+    let skills = [];
+
+    dbSkills.forEach((el, index) => {
+      if (prof[index] > 0) {
+        el.proficiency = prof[index];
+        skills.push(el);
+      }
+    });
+
     let access_token = await localStorage.getItem("access_token");
     console.log(res);
     console.log(skills);
     console.log(user._id);
-    let response = await submitCandidateDetails({res, tools : skills, user_id : user._id}, access_token);
+    let response = await submitCandidateDetails(
+      { res, tools: skills, user_id: user._id },
+      access_token
+    );
     if (response && response.status === 200) {
       await localStorage.setItem("user", JSON.stringify(response.data.user));
       await localStorage.removeItem("candidateDetails");
+      await localStorage.removeItem("prof");
+      await localStorage.removeItem("RolesProf");
       swal({
         title: "Candidate Details",
         text: "Details Updated",
@@ -285,49 +300,52 @@ const Tools = (props) => {
       <p className="font-bold text-lg">Skills</p>
       {loading && <div className="w-full text-center">Loading Data ...</div>}
       <div className="my-3 px-4 flex items-center flex-wrap">
-              <input
-                type="text"
-                className="w-3/4 text-600 border-[0.5px] border-[#6b7280] p-2"
-                placeholder="Search Skill..."
-                ref={inputSkillRef}
-                onChange={async () => {
-                  let role = new Set([]);
-                  if (
-                    inputSkillRef.current.value.trim() !== "" ||
-                    !inputSkillRef ||
-                    !inputSkillRef.current.value
-                  ) {
-                    dbSkills.forEach((el) => {
-                      if (
-                        el.role
-                          .toLowerCase()
-                          .includes(inputSkillRef.current.value.toLowerCase())
-                      ) {
-                        role.add(el.role);
-                      } else if (
-                        el.primarySkill
-                          .toLowerCase()
-                          .includes(inputSkillRef.current.value.toLowerCase())
-                      ) {
-                        role.add(el.role);
-                      } else if (
-                        el.secondarySkill
-                          .toLowerCase()
-                          .includes(inputSkillRef.current.value.toLowerCase())
-                      ) {
-                        role.add(el.role);
-                      }
-                    });
-                    await setShowRoles(Array.from(role));
-                  } else {
-                    await setShowRoles(roles);
-                  }
-                }}
-              />
-              <button className="h-10 bg-blue-600 text-white rounded-sm block cursor-pointer px-8 align-middle ml-3" style={{backgroundColor:"#034488"}}>
-                Search
-              </button>
-            </div>
+        <input
+          type="text"
+          className="w-3/4 text-600 border-[0.5px] border-[#6b7280] p-2"
+          placeholder="Search Skill..."
+          ref={inputSkillRef}
+          onChange={async () => {
+            let role = new Set([]);
+            if (
+              inputSkillRef.current.value.trim() !== "" ||
+              !inputSkillRef ||
+              !inputSkillRef.current.value
+            ) {
+              dbSkills.forEach((el) => {
+                if (
+                  el.role
+                    .toLowerCase()
+                    .includes(inputSkillRef.current.value.toLowerCase())
+                ) {
+                  role.add(el.role);
+                } else if (
+                  el.primarySkill
+                    .toLowerCase()
+                    .includes(inputSkillRef.current.value.toLowerCase())
+                ) {
+                  role.add(el.role);
+                } else if (
+                  el.secondarySkill
+                    .toLowerCase()
+                    .includes(inputSkillRef.current.value.toLowerCase())
+                ) {
+                  role.add(el.role);
+                }
+              });
+              await setShowRoles(Array.from(role));
+            } else {
+              await setShowRoles(roles);
+            }
+          }}
+        />
+        <button
+          className="h-10 bg-blue-600 text-white rounded-sm block cursor-pointer px-8 align-middle ml-3"
+          style={{ backgroundColor: "#034488" }}
+        >
+          Search
+        </button>
+      </div>
 
       <div className="my-3">
         <div className="w-full">
@@ -337,9 +355,44 @@ const Tools = (props) => {
                 <div key={index}>
                   <Disclosure>
                     {({ open }) => (
-                      <div className={`${open ? "shadow-md":""}`}>
-                        <Disclosure.Button className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-2 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${open ? "shadow-lg ":""}`}>
+                      <div className={`${open ? "shadow-md" : ""}`}>
+                        <Disclosure.Button
+                          className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-3 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${
+                            open ? "shadow-lg " : ""
+                          }`}
+                        >
                           <span>{el}</span>
+                          <div className="ml-auto mr-5 flex items-center space-x-2">
+                            <p>0</p>
+                            <input
+                              type="range"
+                              min="0"
+                              max="5"
+                              value={rolesProf[index]}
+                              onChange={(e) => {
+                                dbSkills.forEach((skill) => {
+                                  if (skill.role === el) {
+                                    skill.proficiency = e.target.value;
+                                    let inde = dbSkills.findIndex((el) => {
+                                      return el === skill;
+                                    });
+                                    let p = prof;
+                                    p[inde] = e.target.value;
+                                    setProf(p);
+                                    skill.rating = e.target.value;
+                                  }
+                                });
+                                let rp = rolesProf;
+                                rp[index] = e.target.value;
+                                setRolesProf(rp);
+                                localStorage.setItem(
+                                  "RolesProf",
+                                  JSON.stringify(rolesProf)
+                                );
+                              }}
+                            />
+                            <p>5</p>
+                          </div>
                           <ChevronUpIcon
                             className={`${
                               !open ? "rotate-180 transform" : ""
@@ -352,8 +405,14 @@ const Tools = (props) => {
                               <div>
                                 <Disclosure>
                                   {({ open }) => (
-                                    <div className={`${open ? "shadow-md":""}`}>
-                                      <Disclosure.Button className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-2 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${open ? "shadow-lg":""} `}>
+                                    <div
+                                      className={`${open ? "shadow-md" : ""}`}
+                                    >
+                                      <Disclosure.Button
+                                        className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-3 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${
+                                          open ? "shadow-lg" : ""
+                                        } `}
+                                      >
                                         <span>{skill}</span>
                                         <ChevronUpIcon
                                           className={`${
@@ -375,9 +434,9 @@ const Tools = (props) => {
                                               return el === secSkill;
                                             });
                                             return (
-                                              <div className="flex my-2 text-sm justify-between items-center">
+                                              <div className="flex my-2 text-sm justify-between items-center py-1">
                                                 <p>{secSkill.secondarySkill}</p>
-                                               
+
                                                 <div className="flex items-center space-x-2">
                                                   0
                                                   <input
@@ -404,6 +463,11 @@ const Tools = (props) => {
                                                     }}
                                                   />
                                                   5
+                                                  <p className="text-xs font-italics ml-3">
+                                                    {prof[index1] > 0
+                                                      ? "Self-assetsted"
+                                                      : "Unassested"}
+                                                  </p>
                                                 </div>
                                               </div>
                                             );
@@ -427,7 +491,7 @@ const Tools = (props) => {
       <div className="pt-5 flex w-full">
         <button
           className="bg-blue-600 py-2 px-3 rounded-sm text-white"
-          style={{backgroundColor:"#034488"}}
+          style={{ backgroundColor: "#034488" }}
           onClick={async () => {
             let access = await localStorage.getItem("access_token");
             let details = JSON.parse(
@@ -443,17 +507,20 @@ const Tools = (props) => {
         >
           Prev
         </button>
-        
-          <button
-            className="bg-blue-600 py-2 px-3 rounded-sm ml-auto text-white"
-            style={{backgroundColor:"#034488"}}
-            onClick={() => {
-              handleSubmit();
-            }}
-          >
-            {!loadingSubmit ? "Submit":                <img src={Loader} alt="loader" className="h-9 mx-auto" />
-}
-          </button>
+
+        <button
+          className="bg-blue-600 py-2 px-3 rounded-sm ml-auto text-white"
+          style={{ backgroundColor: "#034488" }}
+          onClick={() => {
+            handleSubmit();
+          }}
+        >
+          {!loadingSubmit ? (
+            "Submit"
+          ) : (
+            <img src={Loader} alt="loader" className="h-9 mx-auto" />
+          )}
+        </button>
       </div>
     </div>
   );

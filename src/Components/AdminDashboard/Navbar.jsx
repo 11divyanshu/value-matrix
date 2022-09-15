@@ -33,6 +33,7 @@ const Navbar = (props) => {
     const initial = async () => {
       let access_token1 = await localStorage.getItem("access_token");
       let user = JSON.parse(await localStorage.getItem("user"));
+      await setUser(user);
       let user1 = await getProfileImage({ id: user._id }, user.access_token);
       console.log(user1.data);
       if (access_token1 === "null")
@@ -84,12 +85,10 @@ const Navbar = (props) => {
                 <div className="flex space-x-3 items-center cursor-pointer">
 
                   <div className="text-xs text-start md:block hidden">
-                    {props.user ? (
+                    { user && (
                       <p className="text-md text-semibold">
-                        {props.user.firstName}
+                        {user.firstName}
                       </p>
-                    ) : (
-                      <p className="text-md text-semibold">Admin</p>
                     )}
                     {/* <p className="text-xs text-gray-600">View Profile</p> */}
                   </div>
