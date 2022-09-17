@@ -60,14 +60,14 @@ const DetailForm = (props) => {
                         )}
                         <p>Uploaded Profile Image</p>
                       </div>
-                      {/* <div className="flex items-center space-x-5">
+                      <div className="flex items-center space-x-5">
                         {props.user && props.user.linkedInId ? (
                           <TiTick className="text-green-500 text-2xl" />
                         ) : (
                           <BiErrorCircle className="text-red-500 text-2xl" />
                         )}
                         <p>Connected LinkedIn Profile</p>
-                      </div> */}
+                      </div>
                       <div className="flex items-center space-x-5">
                         {props.user && props.user.tools.length > 0 ? (
                           <TiTick className="text-green-500 text-2xl" />

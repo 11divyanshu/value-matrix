@@ -599,3 +599,23 @@ export const getInterviewApplication = async (data, token) => {
     console.log("Error : ", err);
   }
 };
+
+// get Company List
+export const getDBCompanyList = async (data, token) => {
+  try {
+    return await axios.get(`${url}/getCompanyList`);
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
+
+// Update Evaluation Details
+export const updateEvaluation = async(data, token) => {
+  try {
+    return await axios.post(`${url}/updateEvaluation`, data, {
+      headers: { authorization: token },
+    });
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}

@@ -7,6 +7,7 @@ import { GrScorecard } from "react-icons/gr";
 import { AiOutlineDelete } from "react-icons/ai";
 import { RiEditBoxLine } from "react-icons/ri";
 import { submitCandidateDetails } from "../../../service/api";
+import cities from "cities.json";
 
 const EducationDetailForm = (props) => {
   const [educationalDetail, setEducationalDetail] = React.useState([]);

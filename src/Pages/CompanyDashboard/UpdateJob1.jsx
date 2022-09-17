@@ -20,6 +20,8 @@ import { ChevronUpIcon, StarIcon } from "@heroicons/react/solid";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/solid";
 import currencies from "currencies.json";
+import { Combobox } from "@headlessui/react";
+import cities from "cities.json";
 
 // const Editor = dynamic(
 //   () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
@@ -47,6 +49,7 @@ const UpdateJob = () => {
   const [primarySkills, setPrimarySkills] = React.useState([]);
   const [prof, setProf] = React.useState([]);
   const [dbSkills, setDbSkills] = React.useState([]);
+  const [rolesProf, setRolesProf] = React.useState([]);
 
   const [skillsPrimary, setSkillsPrimary] = React.useState([]);
   const [rolesC, setCRoles] = React.useState({});
@@ -84,6 +87,21 @@ const UpdateJob = () => {
   });
   const [showCandidateForm, setShowCandidateForm] = React.useState(false);
   const [editIndex, setEditIndex] = React.useState(null);
+
+  // City Autocomplete
+  const [selectedCity, setSelectedCity] = React.useState();
+  const [query, setQuery] = React.useState("");
+  const filteredCity =
+    query === ""
+      ? cities.slice(0, 10)
+      : cities
+          .filter((city) => {
+            return (
+              city.country.toLowerCase().includes(query.toLowerCase()) ||
+              city.name.toLowerCase().includes(query.toLowerCase())
+            );
+          })
+          .slice(0, 10);
 
   const [Alert, setAlert] = React.useState(null);
   const [skills, setSkills] = React.useState([]);
@@ -235,6 +253,17 @@ const UpdateJob = () => {
       if (res) {
         res.data.job.validTill = res.data.job.validTill.split("T")[0];
         await localStorage.setItem("postjob", JSON.stringify(res.data.job));
+        let city = res.data.job.location.split(",")[0];
+        if(res.data.job.location.includes(",")){
+          let country = res.data.job.location.split(",")[1].trim();
+          let c = cities.filter((el) => {
+            return el.name === city && el.country === country;
+          });
+          await setSelectedCity(c[0]);
+        }
+        else{
+          setSelectedCity({name:city});
+        }
         await setJob(res.data.job);
         await setJob({ ...res.data.job });
         await setQuestions(res.data.job.questions);
@@ -291,6 +320,7 @@ const UpdateJob = () => {
       await setJob(null);
       let access_token = localStorage.getItem("access_token");
       let p = JSON.parse(await localStorage.getItem("prof"));
+      let pr1 = JSON.parse(await localStorage.getItem("RolesProf"));
       let user = await JSON.parse(await localStorage.getItem("user"));
       await setUser(user);
       let res = await getSkills({ user_id: user._id }, user.access_token);
@@ -308,6 +338,8 @@ const UpdateJob = () => {
           }
           return null;
         });
+        if (!pr1) pr1 = new Array(roles.size).fill(0);
+
         let res1 = await getJobById(id, access_token);
         let pr = new Array(res.data.length).fill(0);
         if (res1.data.job.skills.length > 0) {
@@ -329,6 +361,7 @@ const UpdateJob = () => {
         } else {
           await setProf(pr);
         }
+        await setRolesProf(pr1);
         await setShowRoles(Array.from(roles));
         await setRoles(Array.from(roles));
         await setDbSkills(res.data);
@@ -347,9 +380,15 @@ const UpdateJob = () => {
   const postJob = async (values, salary, maxSalary) => {
     let access_token = localStorage.getItem("access_token");
     let jobs = JSON.parse(await localStorage.getItem("postjob"));
-    let skills = dbSkills.filter((el) => {
-      return el.proficiency > 0;
+    let skills = [];
+
+    dbSkills.forEach((el, index) => {
+      if (prof[index] > 0) {
+        el.proficiency = prof[index];
+        skills.push(el);
+      }
     });
+    values.location = selectedCity;
     values.skills = skills;
     values.user_id = user._id;
     values.salary = [currency, salary, maxSalary];
@@ -366,12 +405,21 @@ const UpdateJob = () => {
     );
     console.log(res);
     if (res) {
-      setAlert(true);
-      setTimeout(() => {
+      swal({
+        title: "Job Updated Successfully !",
+        message: "Success",
+        icon: "success",
+        button: "Continue",
+      }).then((result) => {
         window.location.href = "/company/jobDetails/" + id;
-      }, 1000);
+      });
     } else {
-      setAlert(false);
+      swal({
+        title: " Error Updatings Job !",
+        message: "OOPS! Error Occured",
+        icon: "Error",
+        button: "Ok",
+      });
     }
     localStorage.removeItem("prof");
     localStorage.removeItem("postjob");
@@ -473,7 +521,7 @@ const UpdateJob = () => {
                       errors.jobTitle = "Required !";
                     }
 
-                    if (!values.location || values.location.trim() === "") {
+                    if (!selectedCity || selectedCity === " ") {
                       errors.location = "Required !";
                     }
                     if (
@@ -532,13 +580,41 @@ const UpdateJob = () => {
                             <label className="text-left w-3/4 block font-semibold">
                               Job Location
                             </label>
-                            <Field
+                            {/* <Field
                               name="location"
                               type="text"
                               placeholder=""
                               className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-2"
                               style={{ borderRadius: "5px" }}
-                            />
+                            /> */}
+                            <p>Current Location : {job.location}</p>
+                            <Combobox
+                              value={selectedCity}
+                              onChange={setSelectedCity}
+                            >
+                              <Combobox.Input
+                                onChange={(event) =>
+                                  setQuery(event.target.value)
+                                }
+                                className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-2"
+                                style={{ borderRadius: "5px" }}
+                              />
+                              <Combobox.Options className="absolute bg-white">
+                                {query.length > 0 && (
+                                  <Combobox.Option value={`${query}`}>
+                                    Create "{query}"
+                                  </Combobox.Option>
+                                )}
+                                {filteredCity.map((city) => (
+                                  <Combobox.Option
+                                    key={city.name}
+                                    value={`${city.name}, ${city.country}`}
+                                  >
+                                    {city.name}, {city.country}
+                                  </Combobox.Option>
+                                ))}
+                              </Combobox.Options>
+                            </Combobox>
                             <ErrorMessage
                               name="location"
                               component="div"
@@ -789,6 +865,55 @@ const UpdateJob = () => {
                                                   }`}
                                                 >
                                                   <span>{el}</span>
+                                                  <div className="ml-auto mr-5 flex items-center space-x-2">
+                                                    <p>0</p>
+                                                    <input
+                                                      type="range"
+                                                      min="0"
+                                                      max="5"
+                                                      value={rolesProf[index]}
+                                                      onChange={(e) => {
+                                                        console.log(dbSkills);
+                                                        dbSkills.forEach(
+                                                          (skill) => {
+                                                            if (
+                                                              skill.role === el
+                                                            ) {
+                                                              skill.proficiency =
+                                                                e.target.value;
+                                                              let inde =
+                                                                dbSkills.findIndex(
+                                                                  (el) => {
+                                                                    return (
+                                                                      el ===
+                                                                      skill
+                                                                    );
+                                                                  }
+                                                                );
+                                                              let p = prof;
+                                                              p[inde] =
+                                                                e.target.value;
+                                                              setProf(p);
+                                                              skill.rating =
+                                                                e.target.value;
+                                                            }
+                                                          }
+                                                        );
+                                                        console.log(dbSkills);
+                                                        let rp = rolesProf;
+                                                        rp[index] =
+                                                          e.target.value;
+                                                        setRolesProf(rp);
+                                                        localStorage.setItem(
+                                                          "RolesProf",
+                                                          JSON.stringify(
+                                                            rolesProf
+                                                          )
+                                                        );
+                                                      }}
+                                                    />
+                                                    <p>5</p>
+                                                  </div>
                                                   <ChevronUpIcon
                                                     className={`${
                                                       !open
