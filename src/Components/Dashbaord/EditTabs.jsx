@@ -22,6 +22,8 @@ import {
 import { CgWorkAlt } from "react-icons/cg";
 import { FaRegBuilding } from "react-icons/fa";
 import { HiOutlineOfficeBuilding } from "react-icons/hi";
+import { Combobox } from "@headlessui/react";
+import cities from "cities.json";
 
 // Assets
 import swal from "sweetalert";
@@ -64,6 +66,24 @@ export default function Tabs(props) {
   const inputSkillRef = React.useRef(null);
   // Updates Any Error during the Editing Profile
   const [Error, setError] = React.useState(null);
+
+  // City Autocomplete
+  const [selectedCity, setSelectedCity] = React.useState(cities[103]);
+  const [query, setQuery] = React.useState("");
+  const filteredCity =
+    query === ""
+      ? cities.slice(0, 5)
+      : cities
+          .filter((city) => {
+            return (
+              city.country.toLowerCase().includes(query.toLowerCase()) ||
+              city.name.toLowerCase().replace("ā", "a")
+              .replace("ò", "o")
+              .replace("à", "a").includes(query.toLowerCase())
+            );
+          })
+          .slice(0, 5);
+          
 
   // OTPs State
   const [EmailOTP, setEmailOTP] = React.useState(null);
@@ -262,8 +282,12 @@ export default function Tabs(props) {
     if (!exerror) {
       let e = JSON.parse(await localStorage.getItem("user"));
       if (edit !== null) {
+        let city = selectedCity;
+        if(selectedCity.name){
+          city = selectedCity.name +", "+selectedCity.country;
+        }
         const temp = [...experienceDetail];
-        temp[edit] = values;
+        temp[edit] = { ...values, location: city };
         await setExperienceDetail(temp);
         e.experience = temp;
         setUser(e);
@@ -272,8 +296,12 @@ export default function Tabs(props) {
         resetBtn.current.click();
         return;
       }
+      let city = selectedCity;
+      if(selectedCity.name){
+        city = selectedCity.name +", "+selectedCity.country;
+      }
       let temp = experienceDetail;
-      temp = [...experienceDetail, values];
+      temp = [...experienceDetail, { ...values, location: city }];
       await setExperienceDetail(temp);
       e.experience = temp;
       setUser(e);
@@ -310,7 +338,7 @@ export default function Tabs(props) {
       let e = JSON.parse(await localStorage.getItem("user"));
       if (edit !== null) {
         const temp = [...associateDetail];
-        temp[edit] = values;
+        temp[edit] = { ...values, location: selectedCity };
         await setAssociateDetail(temp);
         e.associate = temp;
         setUser(e);
@@ -320,7 +348,9 @@ export default function Tabs(props) {
         return;
       }
       let temp = associateDetail;
-      temp ? (temp = [...associateDetail, values]) : (temp = [values]);
+      temp
+        ? (temp = [...associateDetail, { ...values, location: selectedCity }])
+        : (temp = [{ ...values, location: selectedCity }]);
       await setAssociateDetail(temp);
       e.associate = temp;
       setUser(e);
@@ -366,12 +396,12 @@ export default function Tabs(props) {
           return;
         }
       }
-      
+
       if (EmailOTP && values.emailOTP !== EmailOTP) {
         setError("Invalid Email OTP");
         return;
       }
-      
+
       if (ContactOTP && values.contactOTP !== ContactOTP) {
         setError("Invalid Contact OTP");
         return;
@@ -530,7 +560,7 @@ export default function Tabs(props) {
         } else {
           await setProf(pr);
         }
-        await setDbCopy(res.data);
+
         await setRolesProf(pr1);
         await setShowRoles(Array.from(roles));
         await setRoles(Array.from(roles));
@@ -546,14 +576,14 @@ export default function Tabs(props) {
 
   const update = async (ed) => {
     let skills = [];
-    
-    dbSkills.forEach((el,index)=>{
-      if(prof[index]>0){
+
+    dbSkills.forEach((el, index) => {
+      if (prof[index] > 0) {
         el.proficiency = prof[index];
         skills.push(el);
       }
-    })
-    
+    });
+
     let data = {
       firstName: ed.firstName,
       lastname: ed.lastName,
@@ -859,22 +889,24 @@ export default function Tabs(props) {
                       />
                     </div>
                   )}
+                  {user && !user.linkedInId && (
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg md:w-2/5 mx-2">
                       Connect Social Account
+                      <p className="text-sm">Connect Account Associated With Provided Email Address Only !</p>
                     </label>
                     <div className="w-4/5 flex items-center px-4">
-                      {user && !user.linkedInId && (
-                        <a href={`${url}/auth/linkedin`} target="_blank">
+                      
+                        <a href={`${url}/auth/linkedin`}>
                           <img
                             src={Linkedin}
                             className="h-5 ml-1"
                             alt="socialauthLinkedIn"
                           />
                         </a>
-                      )}
                     </div>
                   </div>
+                      )}
                   {Error && <p className="text-sm text-red-500">{Error}</p>}
                 </div>
 
@@ -957,6 +989,7 @@ export default function Tabs(props) {
                       onClick={() => {
                         setEdit(index);
                         setEduInitialValues(item);
+                        setSelectedCity(cities[0]);
                         setShowEduForm(true);
                       }}
                     >
@@ -1397,10 +1430,10 @@ export default function Tabs(props) {
               style={{ backgroundColor: "#034488" }}
               onClick={async () => {
                 await setShowError(true);
-
+                await setSelectedCity(null);
+                await setEdit(null);
                 await setExInitialValues({
                   title: null,
-
                   company_name: null,
                   location: null,
                   start_date: null,
@@ -1490,7 +1523,7 @@ export default function Tabs(props) {
                             if (!values.company_name) {
                               errors.company_name = "Required";
                             }
-                            if (!values.location) {
+                            if (!selectedCity || selectedCity === " ") {
                               errors.location = "Required";
                             }
                             if (values.start_date === null) {
@@ -1609,14 +1642,51 @@ export default function Tabs(props) {
                                     Location{" "}
                                   </label>
                                   <div className="w-full md:w-4/5">
-                                    <Field
+                                    {edit !== null && (
+                                      <p>
+                                        Current Location :{" "}
+                                        {`${values.location}`}
+                                      </p>
+                                    )}
+                                    {/* <Field
                                       name="location"
                                       type="text"
                                       placeholder="Ex. London"
                                       className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
                                       style={{ borderRadius: "4px" }}
                                       value={values.location}
-                                    />
+                                    /> */}
+                                    <Combobox
+                                      value={selectedCity}
+                                      onChange={setSelectedCity}
+                                    >
+                                      <Combobox.Input
+                                        onChange={(event) =>
+                                          setQuery(event.target.value)
+                                        }
+                                        className="border-[0.5px] rounded-lg w-full border-gray-400 focus:outline-0 focus:border-0 px-4 py-2"
+                                        style={{ borderRadius: "5px" }}
+                                      />
+                                      <Combobox.Options className="absolute z-100 bg-white">
+                                        {query.length > 0 && (
+                                          <Combobox.Option value={`${query}`}>
+                                            Create "{query}"
+                                          </Combobox.Option>
+                                        )}
+                                        {filteredCity.map((city) => (
+                                          <Combobox.Option
+                                            key={city.name}
+                                            value={`${city.name.replace("ā", "a")
+                                            .replace("ò", "o")
+                                            .replace("à", "a")}, ${city.country}`}
+                                          >
+                                            {city.name.replace("ā", "a")
+                .replace("ò", "o")
+                .replace("à", "a")}, {city.country}
+                                          </Combobox.Option>
+                                        ))}
+                                      </Combobox.Options>
+                                    </Combobox>
                                     <ErrorMessage
                                       name="location"
                                       component="div"
@@ -1720,7 +1790,7 @@ export default function Tabs(props) {
                                     />
                                   </div>
                                 </div>
-                                <div className="flex flex-wrap flex justify-center text-center">
+                                <div className="flex-wrap flex justify-center text-center">
                                   <button
                                     onClick={() => updateExperience(values)}
                                     className=" bg-blue-600  text-white rounded-lg block cursor-pointer py-2 px-8 align-middle"
@@ -1734,6 +1804,8 @@ export default function Tabs(props) {
                                     ref={resetBtn}
                                     onClick={async () => {
                                       await setShowError(false);
+                                      await setEdit(null);
+                                      await setSelectedCity(cities[0]);
                                       await setShowExForm(false);
                                     }}
                                   >
@@ -1836,7 +1908,8 @@ export default function Tabs(props) {
               style={{ backgroundColor: "#034488" }}
               onClick={async () => {
                 await setShowError(true);
-
+                await setSelectedCity(null);
+                await setEdit(null);
                 await setAsInitialValues({
                   title: null,
 
@@ -1924,7 +1997,7 @@ export default function Tabs(props) {
                             if (!values.company_name) {
                               errors.company_name = "Required";
                             }
-                            if (!values.location) {
+                            if (!selectedCity || selectedCity === " ") {
                               errors.location = "Required";
                             }
                             if (values.start_date === null) {
@@ -2005,14 +2078,51 @@ export default function Tabs(props) {
                                     Location{" "}
                                   </label>
                                   <div className="w-full md:w-4/5">
-                                    <Field
+                                  {edit !== null && (
+                                      <p>
+                                        Current Location :{" "}
+                                        {`${values.location}`}
+                                      </p>
+                                    )}
+                                    {/* <Field
                                       name="location"
                                       type="text"
                                       placeholder="Ex. London"
                                       className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
                                       style={{ borderRadius: "4px" }}
                                       value={values.location}
-                                    />
+                                    /> */}
+                                    <Combobox
+                                      value={selectedCity}
+                                      onChange={setSelectedCity}
+                                    >
+                                      <Combobox.Input
+                                        onChange={(event) =>
+                                          setQuery(event.target.value)
+                                        }
+                                        className="border-[0.5px] rounded-lg border-gray-400 focus:outline-0 w-full focus:border-0 px-4 py-2"
+                                        style={{ borderRadius: "5px" }}
+                                      />
+                                      <Combobox.Options className="absolute bg-white">
+                                        {query.length > 0 && (
+                                          <Combobox.Option value={`${query}`}>
+                                            Create "{query}"
+                                          </Combobox.Option>
+                                        )}
+                                        {filteredCity.map((city) => (
+                                          <Combobox.Option
+                                            key={city.name}
+                                            value={`${city.name.replace("ā", "a")
+                                            .replace("ò", "o")
+                                            .replace("à", "a")}, ${city.country}`}
+                                          >
+                                            {city.name.replace("ā", "a")
+                .replace("ò", "o")
+                .replace("à", "a")}, {city.country}
+                                          </Combobox.Option>
+                                        ))}
+                                      </Combobox.Options>
+                                    </Combobox>
                                     <ErrorMessage
                                       name="location"
                                       component="div"
@@ -2392,19 +2502,20 @@ export default function Tabs(props) {
                           <div>
                             <p className="text-sm my-2">{el}</p>
                             <div className="flex flex-wrap">
-                            {user.tools
-                              .filter(
-                                (tool) =>
-                                  tool.role === item && tool.primarySkill === el
-                              )
-                              .map((item1, index) => (
-                                <p class="bg-blue-100 text-blue-800 text-xs mb-2 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
-                                  {item1.secondarySkill}{" "}
-                                  {item1.proficiency &&
-                                    `(${item1.proficiency})`}
-                                </p>
-                              ))}
-                          </div>
+                              {user.tools
+                                .filter(
+                                  (tool) =>
+                                    tool.role === item &&
+                                    tool.primarySkill === el
+                                )
+                                .map((item1, index) => (
+                                  <p class="bg-blue-100 text-blue-800 text-xs mb-2 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
+                                    {item1.secondarySkill}{" "}
+                                    {item1.proficiency &&
+                                      `(${item1.proficiency})`}
+                                  </p>
+                                ))}
+                            </div>
                           </div>
                         ))}
                       </div>

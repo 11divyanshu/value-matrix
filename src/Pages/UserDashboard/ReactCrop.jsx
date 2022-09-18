@@ -56,6 +56,8 @@ const ReactCropper = (props) => {
         {id : user._id},
         access_token1
       );
+      user.profileImg = user._id +"-profile";
+      await localStorage.setItem("user", JSON.stringify(user));
       await localStorage.setItem("profileImg", JSON.stringify(image.data.Image));
 
       if (res) {

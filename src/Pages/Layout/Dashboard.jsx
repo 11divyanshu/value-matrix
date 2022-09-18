@@ -93,7 +93,7 @@ const Dashboard = () => {
             window.location.href = "/login";
           await localStorage.setItem("user", JSON.stringify(user.data.user));
           // window.history.pushState({ url: "/user" }, "", "/user");
-          window.location.href="/superXI";
+          window.location.href="/user";
         } else {
           window.location.href = "/login";
         }
@@ -116,16 +116,19 @@ const Dashboard = () => {
       if (!user || !token) {
         window.location.href = "/login";
       }
-      if(!user.profileImg || user.tools.length === 0){
+      if(!user.profileImg || user.tools.length === 0 || !user.linkedInId){
         setDetailForm(true);
       }
       else if (
         user.tools.length === 0 ||
         user.education === [] ||
+        !user.education ||
         user.education.length === 0 ||
         user.association === [] ||
+        !user.asscoiation ||
         user.association.length === 0 ||
         user.experience === [] ||
+        !user.experience ||
         user.experience.length === 0
       ) {
         let modalOnce = await localStorage.getItem("modalOnce");

@@ -213,7 +213,7 @@ const JobCard = (props) => {
                           <div className="flex items-center text-gray-800 space-x-2">
                             {/* <BsThreeDots className="text-md" /> */}
                             <p className="text-sm font-semibold py-1">
-                              <Link to={`/company/jobDetails/${job._id}`}>
+                              <Link to={`/company/jobUpdate/${job._id}`}>
                                 Edit{" "}
                               </Link>
                             </p>{" "}

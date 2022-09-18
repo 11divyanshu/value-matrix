@@ -28,6 +28,8 @@ const AddJob = () => {
   const [primarySkills, setPrimarySkills] = React.useState([]);
   const [prof, setProf] = React.useState([]);
   const [dbSkills, setDbSkills] = React.useState([]);
+  const [rolesProf, setRolesProf] = React.useState([]);
+  
 
   const inputSkillRef = React.useRef(null);
 
