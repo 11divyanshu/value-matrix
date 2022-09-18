@@ -141,6 +141,7 @@ const Sidebar = () => {
           <Menu iconShape="square">
 
             <MenuItem className='text-gray-700 font-semibold flex' active={window.location.pathname === `/admin/` || window.location.pathname === `/admin`}
+            //  onClick={()=>{ handleToggle()}}
             > <p className='text-xl flex mx-2'><AiOutlineHome /><p className='text-sm mx-4 text-gray-700 font-semibold'>Dashboard </p></p><Link to={`/admin/`} /></MenuItem>
 
 <p className='text-gray-400 font-semibold font-sm mx-4 my-5'>Analytics</p>
@@ -148,7 +149,10 @@ const Sidebar = () => {
               if (item.hide === false && permission[item.permission] !== false)
                 return (
                   <MenuItem className='text-gray-700 font-semibold' active={window.location.pathname === `/admin${item.path}`}
-                    icon={item.icon}>{item.name} <Link to={`/admin${item.path}`} onClick={() => { setOpen(true) }
+                    icon={item.icon}>{item.name} <Link to={`/admin${item.path}`}
+                     onClick={() => { setOpen(true);
+                      // handleToggle()
+                    }
 
 
                     } /></MenuItem>

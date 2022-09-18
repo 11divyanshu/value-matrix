@@ -705,7 +705,7 @@ export default function Tabs(props) {
                         {country &&
                           country.map((item) => {
                             return (
-                              <option value={item.country.tax_id}>{item.country.country}</option>
+                              <option value={item.tax_id}>{item.country}</option>
                             );
                           })}
                       </Field>

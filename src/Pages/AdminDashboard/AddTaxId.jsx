@@ -1,26 +1,30 @@
 import React from "react";
 import * as xlsx from "xlsx/xlsx.mjs";
 import { AiOutlineClose } from "react-icons/ai";
-import { addTaxId,fetchCountry } from "../../service/api";
+import { addTaxId,fetchCountry,findAndUpdateTax,findAndDeleteTax } from "../../service/api";
 import swal from "sweetalert";
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import { RiEditBoxLine } from "react-icons/ri";
 import { AiOutlineDelete } from "react-icons/ai";
 import Loader from "../../assets/images/loader.gif";
+import { Dialog, Transition } from '@headlessui/react'
+import { Fragment, useState } from 'react'
 
 const AddQuestions = () => {
   const inputRef = React.useRef(null);
   const fileRef = React.useRef(null);
+  let [isOpen, setIsOpen] = useState(true)
+
 
   // Screeing Questions
   const [countries, setCountries] = React.useState([]);
-  const [questionError, setQuestionError] = React.useState(null);
+  // const [questionError, setQuestionError] = React.useState(null);
   const [initialData, setInitialData] = React.useState({
     country: "",
     id: "",
   });
   const [showQuestionForm, setShowQuestionForm] = React.useState(false);
-  const [questionEditIndex, setQuestionEditIndex] = React.useState(null);
+  const [editIndex, setEditIndex] = React.useState(null);
 
   const [user, setUser] = React.useState(null);
   const [access_token, setToken] = React.useState(null);
@@ -29,10 +33,14 @@ const AddQuestions = () => {
 
   const [loading, setLoading] = React.useState(false);
 
-  const changeHandler = async (e) => {
-    e.preventDefault();
-  
-  };
+ 
+  function closeModal() {
+    setIsOpen(false)
+  }
+
+  function openModal() {
+    setIsOpen(true)
+  }
   React.useEffect(() => {
     const initial = async () => {
       let access_token1 = await localStorage.getItem("access_token");
@@ -41,6 +49,8 @@ const AddQuestions = () => {
         await localStorage.setItem("access_token", user.access_token);
         
         const res = await fetchCountry();
+        localStorage.setItem("taxid",JSON.stringify(res.data.countries))
+
         // console.log(res.data.countries[0].country);
         setCountries(res.data.countries);
       console.log(user);
@@ -49,6 +59,41 @@ const AddQuestions = () => {
     };
     initial();
   }, []);
+  const DeleteTax = async(id)=>{
+    console.log("delete");
+                       
+    const taxid = id;
+    let user = JSON.parse(await localStorage.getItem("user"));
+    let token = user.access_token;
+console.log(token);
+    let res = await findAndDeleteTax( taxid, token);
+
+    if (res  && res.status === 200) {
+      setCountries(res.data.countries);
+
+    swal({
+      title: "Success",
+      text: "Tax ID Deleted Successfully",
+      icon: "success",
+      button: "Ok",
+    });
+   
+    
+  //   setTimeout(() => {
+  //     window.location.reload();
+  //   }, 1000);
+  }
+  else{
+    swal({
+      title: "Error",
+      text: "Something went wrong",
+      icon: "error",
+      button: "Ok",
+    });
+   
+  }
+
+  }
 
 //   const handleUpload = async () => {
     
@@ -76,11 +121,41 @@ const AddQuestions = () => {
         )} */}
         <div className="my-5">
           {showQuestionForm && (
+
+<Transition appear show={isOpen} as={Fragment} className="relative z-10000">
+<Dialog as="div" className="relative z-10000" onClose={closeModal}>
+  <Transition.Child
+    as={Fragment}
+    enter="ease-out duration-300"
+    enterFrom="opacity-0"
+    enterTo="opacity-100"
+    leave="ease-in duration-200"
+    leaveFrom="opacity-100"
+    leaveTo="opacity-0"
+  >
+    <div className="fixed inset-0 bg-black bg-opacity-25" />
+  </Transition.Child>
+
+  <div className="fixed inset-0 overflow-y-auto">
+    <div className="flex min-h-full items-center justify-center p-4 text-center">
+      <Transition.Child
+        as={Fragment}
+        enter="ease-out duration-300"
+        enterFrom="opacity-0 scale-95"
+        enterTo="opacity-100 scale-100"
+        leave="ease-in duration-200"
+        leaveFrom="opacity-100 scale-100"
+        leaveTo="opacity-0 scale-95"
+      >
+        <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+          <Dialog.Title
+            as="h3"
+            className="text-lg font-medium leading-6 text-gray-900"
+          >
+            Add Tax ID
+          </Dialog.Title>
             <Formik
-              initialValues={{
-                country: "",
-                tax_id: "",
-              }}
+              initialValues={initialData}
               validate={(values) => {
                 const errors = {};
                 if (!values.country) {
@@ -93,26 +168,73 @@ const AddQuestions = () => {
               }}
               onSubmit={(values) => {
                 console.log(values);
+
                 const submit = async(values)=>{
+
+
                     setLoading(true);
                     let user = JSON.parse(await localStorage.getItem("user"));
                     let token = user.access_token;
+
+                    if (editIndex !== null) {
+                        const taxid = editIndex;
+                           let res = await findAndUpdateTax(
+                            taxid,{ data: values }, token
+                           );
+                           localStorage.setItem("taxid",JSON.stringify(res.data.countries));
+
+                           console.log(res.data);
+                           if (res) {
+                               setCountries(res.data.countries);
+       
+                             swal({
+                               title: "Success",
+                               text: "Tax ID Updated Successfully",
+                               icon: "success",
+                               button: "Ok",
+                             });
+                             setLoading(false);
+                             setShowQuestionForm(false)
+                             setIsOpen(false)
+                             
+                           //   setTimeout(() => {
+                           //     window.location.reload();
+                           //   }, 1000);
+                           }
+                           else{
+                             swal({
+                               title: "Error",
+                               text: "Something went wrong",
+                               icon: "error",
+                               button: "Ok",
+                             });
+                             setLoading(false);
+                            
+                           }
+
+
+
+return;
+                    }
                     let res = await addTaxId(
                         { data: values },
                         token 
                     );
+                    localStorage.setItem("taxid",JSON.stringify(res.data.countries));
                     console.log(res.data);
                     if (res && res.status === 200) {
                         setCountries(res.data.countries);
 
                       swal({
                         title: "Success",
-                        text: "Questions Added Successfully",
+                        text: "Tax ID Added Successfully",
                         icon: "success",
                         button: "Ok",
                       });
-                      
                       setLoading(false);
+                      setShowQuestionForm(false)
+                      setIsOpen(false)
+                      
                     //   setTimeout(() => {
                     //     window.location.reload();
                     //   }, 1000);
@@ -125,12 +247,13 @@ const AddQuestions = () => {
                         button: "Ok",
                       });
                       setLoading(false);
+                     
                     }
                 }
                 submit(values);
-                // if (questionEditIndex !== null) {
+                // if (EditIndex !== null) {
                 //   let temp = [...questions];
-                //   temp[questionEditIndex] = values;
+                //   temp[EditIndex] = values;
                 //   setQuestions(temp);
                 //   setQuestionEditIndex(null);
                 //   setShowQuestionForm(false);
@@ -180,15 +303,23 @@ const AddQuestions = () => {
                     />
                   </div>
                   <div className="flex space-x-4">
-                    <button
+                  {loading && <button
                       type="submit"
                       className="bg-[#034488] rounded-sm px-4 py-1 text-white"
                       style={{ backgroundColor: "#034488" }}
                     >
-                      {questionEditIndex === null
+                      <img src={Loader} alt="loader" className="h-9 mx-auto" />
+                    </button>}
+
+                    {!loading && <button
+                      type="submit"
+                      className="bg-[#034488] rounded-sm px-4 py-1 text-white"
+                      style={{ backgroundColor: "#034488" }}
+                    >
+                      {editIndex === null
                         ? "Add Tax Id"
                         : " Save Changes"}
-                    </button>
+                    </button>}
                     <button
                       type="button"
                       className="rounded-sm px-4 py-1 text-black border-2 rounded-sm border-black"
@@ -206,6 +337,12 @@ const AddQuestions = () => {
                 </Form>
               )}
             </Formik>
+            </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
           )}
           {!showQuestionForm && (
             <div>
@@ -213,6 +350,7 @@ const AddQuestions = () => {
                 className="bg-[#034488] rounded-sm px-4 py-1 text-white"
                 style={{ backgroundColor: "#034488" }}
                 onClick={() => {
+                  setIsOpen(true)
                   setShowQuestionForm(true);
                 }}
               >
@@ -226,43 +364,31 @@ const AddQuestions = () => {
                 <div className="my-5">
                   <div className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-3">
                     <div>
-                    <span className="font-normal mx-2 w-1/2">Country :{item.country.country}</span>
+                    <span className="font-normal mx-2 w-1/2">Country :{item.country}</span>
 </div>
                     <div className="font-semibold ">
-                      <span className="font-normal mx-2 w-1/2">Tax ID : {item.country.tax_id}</span>
+                      <span className="font-normal mx-2 w-1/2">Tax ID : {item.tax_id}</span>
                     </div>
                     <div className=" flex">
-                        <div className="mx-2">
-                      <RiEditBoxLine
-                        className="cursor-pointer text-blue-500"
-                        // onClick={() => {
-                        //   setShowQuestionForm(false);
-                        //   setInitialQuestion(question);
-                        //   setQuestionEditIndex(index);
-                        //   setShowQuestionForm(true);
-                        // }}
-                      />
-                      </div>
-                      <div className="mx-2">
-                      <AiOutlineDelete
-                        className="cursor-pointer text-red-600"
-                        // onClick={() => {
-                        //   setQuestions(
-                        //     questions.filter(
-                        //       (item) => item.question !== question.question
-                        //     )
-                        //   );
-                        // }}
-                      />
-                      </div>
+                        <RiEditBoxLine
+                      className="cursor-pointer"
+                      onClick={() => {
+                        //  setEdit(index);
+                        setInitialData(
+                          item
+                        );
+                        setIsOpen(true);
+                        setShowQuestionForm(true);
+                        setEditIndex(item._id)
+                      }}
+                    />
+                    <AiOutlineDelete
+                      className="text-red-600 cursor-pointer mx-3"
+                      onClick={ () => {DeleteTax(item._id) }}
+                    />
                     </div>
                   </div>
-                  {/* {question.answer && (
-                    <p className="text-gray-600 font-semibold">
-                      Answer :{" "}
-                      <span className="font-normal">{question.answer}</span>
-                    </p>
-                  )} */}
+                
                 </div>
               );
             })}

@@ -48,25 +48,25 @@ const Panel = () => {
         <div className="lg:w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
           
           <div className=" text-md font-semibold text-gray-900">
-            Job Active - 120
+            Job Active - 00
           </div>
         </div>
         <div className="lg:w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
           
           <div className=" text-md font-semibold text-gray-900">
-            Interview Schedule - 20
+            Interview Schedule - 00
           </div>
         </div>
         <div className="lg:w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
           
           <div className=" text-md font-semibold text-gray-900">
-            Candidate Uploaded - 18
+            Candidate Uploaded - 00
           </div>
         </div>
         <div className="lg:w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
           
           <div className=" text-md font-semibold text-gray-900">
-            Reschedule Interviews - 09
+            Reschedule Interviews - 00
           </div>
         </div>
       </div>
@@ -156,12 +156,14 @@ const Panel = () => {
 
 
             <div className="px-5 text-center my-2 text-sm col-span-2"><p>Interview Request with Developer</p>
-
+<div className="w-full justify-between">
               <button  className=" rounded-3xl my-2 border border-gray-500 px-6 mx-2 py-2 text-xs text-gray-900 font-semibold">
                 Inprogress
-              </button> <button className="bg-white border border-gray-500  rounded-3xl px-6 mx-2 my-2  py-2 text-xs text-gray">
+              </button> 
+              <button className="bg-white border border-gray-500  rounded-3xl px-6 mx-2 my-2  py-2 text-xs text-gray">
                 Reject
               </button>
+              </div>
             </div>
             <div className="px-5 text-center my-2 text-sm"><p>Tuesday</p>
               <p className="text-gray-400 text-sm"> Jan 17,2022</p>

@@ -58,6 +58,7 @@ import AddTaxId from "./Pages/AdminDashboard/AddTaxId";
 import XIDashboard from "./Pages/XIDashboard/Dashboard";
 import XIEvaluationList from "./Pages/XIDashboard/EvaluationList";
 import XIJobDetails from "./Pages/XIDashboard/JobDetails.jsx";
+import XIEvaluatedList from "./Pages/XIDashboard/EvaluatedList.jsx";
 
 // SuperXIDashboard
 import SXIPanel from "./Pages/SuperXIDashboard/panel.jsx";
@@ -359,6 +360,14 @@ export const XIDashboardRoutes = [
     hide: false,
     icon: <MdOutlineWorkOutline className="text-xl" />,
     component: <XIEvaluationList />,
+    permission: "default",
+  },
+  {
+    name: "Evaluated Reports",
+    path: "/evaluatedlist",
+    hide: false,
+    icon: <MdOutlineWorkOutline className="text-xl" />,
+    component: <XIEvaluatedList />,
     permission: "default",
   },
   {

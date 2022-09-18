@@ -132,6 +132,7 @@ const Sidebar = () => {
             <MenuItem
               className="text-gray-700 font-semibold flex"
               active={window.location.pathname === `/XI/` || window.location.pathname === `/XI`}
+              // onClick={()=>{ handleToggle();}}
             >
               {" "}
               <p className="text-xl flex mx-2">
@@ -164,6 +165,7 @@ const Sidebar = () => {
                       to={`/XI${item.path}`}
                       onClick={() => {
                         setOpen(true);
+                        // handleToggle();
                       }}
                     />
                   </MenuItem>

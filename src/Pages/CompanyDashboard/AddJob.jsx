@@ -434,9 +434,9 @@ const AddJob = () => {
         )}
       </div>
       <div className="my-3">
-        <div className="flex w-full">
+        <div className="md:flex w-full">
           {PageIndex === 1 && (
-            <div className="w-3/4 shadow-md mr-3 bg-white">
+            <div className="md:w-3/4 py-3 shadow-md mr-3 bg-white">
               <Formik
                 initialValues={{
                   jobTitle: job ? job.jobTitle : "",
@@ -480,7 +480,7 @@ const AddJob = () => {
                     <div className="w-full mt-9">
                       <Form className="w-full m-5 mx-7">
                         <div className="my-7 space-y-3 w-full">
-                          <label className="text-left w-3/4 block font-semibold">
+                          <label className="text-left w-3/4  block font-semibold">
                             Job Title
                           </label>
                           <Field
@@ -542,8 +542,9 @@ const AddJob = () => {
                           <div
                             role="group"
                             aria-labelledby="my-radio-group"
-                            className="space-x-5 my-3 w-3/4 mr-auto "
+                            className="md:space-x-5 space-x-2 md:flex  my-3 w-3/4 md:mr-auto "
                           >
+                            <div className="ml-2">
                             <label>
                               <Field
                                 type="radio"
@@ -553,6 +554,8 @@ const AddJob = () => {
                               />
                               Full-Time
                             </label>
+                            </div>
+                            <div>
                             <label>
                               <Field
                                 type="radio"
@@ -562,6 +565,8 @@ const AddJob = () => {
                               />
                               Part-Time
                             </label>
+                            </div>
+                            <div>
                             <label>
                               <Field
                                 type="radio"
@@ -571,6 +576,8 @@ const AddJob = () => {
                               />
                               Internship
                             </label>
+                            </div>
+                            <div>
                             <label>
                               <Field
                                 type="radio"
@@ -580,6 +587,7 @@ const AddJob = () => {
                               />
                               Freelancing
                             </label>
+                            </div>
                           </div>
                         </div>
                         <div className="my-7 space-y-3 w-full">
@@ -674,7 +682,7 @@ const AddJob = () => {
             </div>
           )}
           {PageIndex === 2 && (
-            <div className="w-3/4 shadow-md mr-3 bg-white">
+            <div className="lg:w-3/4 py-3 shadow-md mr-3 bg-white">
               <Formik>
                 {(values) => {
                   return (
@@ -854,14 +862,14 @@ const AddJob = () => {
                                                                           }
                                                                         );
                                                                       return (
-                                                                        <div className="flex my-2 text-sm justify-between items-center py-1">
+                                                                        <div className="md:flex my-2 text-sm justify-between items-center py-1">
                                                                           <p>
                                                                             {
                                                                               secSkill.secondarySkill
                                                                             }
                                                                           </p>
 
-                                                                          <div className="flex items-center space-x-2">
+                                                                          <div className="flex my-2 items-center space-x-2">
                                                                             0
                                                                             <input
                                                                               type="range"
@@ -964,16 +972,16 @@ const AddJob = () => {
             </div>
           )}
           {PageIndex === 3 && (
-            <div className="w-3/4 shadow-md mr-3 bg-white">
+            <div className="lg:w-3/4 py-3 shadow-md mr-3 bg-white">
               <div className="w-full mt-9">
                 <div className="w-full m-5 mx-7">
-                  <div className="my-3 text-left">
+                  <div className="my-3 w-3/4 md:w-full text-left">
                     <p className="font-semibold">Add Candidate Details Sheet</p>
-                    <p className="text-sm mt-3 mb-1">
+                    <p className="text-sm mt-3 mb-1 break-words">
                       ( Headers Conventions: FirstName, LastName, Email,
                       Contact, Address)
                     </p>
-                    <p className="text-sm">
+                    <p className="text-sm break-words">
                       (Data must contain candidate's Email Address and Contact
                       Number)
                     </p>
@@ -1175,7 +1183,7 @@ const AddJob = () => {
                       </Formik>
                     </div>
                   )}
-                  <div className="my-9 w-3/4">
+                  <div className="my-9 lg:w-3/4">
                     {rejectedData.length > 0 && (
                       <div className="flex items-center w-full justify-between">
                         <p>Rejected Data ({rejectedData.length})</p>
@@ -1273,7 +1281,7 @@ const AddJob = () => {
                   </div>
                   <div className="my-9">
                     {candidateData.length > 0 && (
-                      <div className="flex items-center w-3/4 justify-between">
+                      <div className="flex items-center lg:w-3/4 justify-between">
                         <p className="font-semibold">
                           Candidate Data ({candidateData.length})
                         </p>
@@ -1417,7 +1425,7 @@ const AddJob = () => {
             </div>
           )}
           {PageIndex === 4 && (
-            <div className="w-3/4 shadow-md mr-3 bg-white py-9 px-7">
+            <div className="lg:w-3/4  shadow-md mr-3 bg-white py-9 px-7">
               <p className="font-semibold">Add Screening Questions</p>
               <p className="text-gray-600">
                 We recommend adding 3 or more questions.
@@ -1528,7 +1536,7 @@ const AddJob = () => {
                           className="text-red-600 text-sm"
                         />
                       </div>
-                      <div className="flex space-x-4">
+                      <div className="flex space-x-4 my-2">
                         <button
                           type="submit"
                           className="bg-[#034488] rounded-sm px-4 py-1 text-white"
@@ -1557,7 +1565,7 @@ const AddJob = () => {
                 </Formik>
               )}
               {!showQuestionForm && (
-                <div className="flex space-x-4">
+                <div className="flex space-x-4 my-2">
                   <button
                     type="submit"
                     className="bg-[#034488] rounded-sm px-4 py-1 text-white"
@@ -1615,7 +1623,7 @@ const AddJob = () => {
             </div>
           )}
           {PageIndex === 5 && (
-            <div className="w-3/4 shadow-md mr-3 bg-white">
+            <div className="lg:w-3/4 py-3 shadow-md mr-3 bg-white">
               <div className="w-full mt-9">
                 <div className="w-full m-5 mx-7">
                   <Formik
@@ -1743,7 +1751,7 @@ const AddJob = () => {
                                   </div>
                                 </Listbox>
                               </div>
-                              <div className="flex items-center space-x-2 flex-wrap">
+                              <div className="md:flex items-center space-x-2 flex-wrap">
                                 <div className="block w-1/3">
                                   <label className="block">Minimum</label>
                                   <Field
@@ -1758,13 +1766,13 @@ const AddJob = () => {
                                     className="text-red-500 text-sm"
                                   />
                                 </div>
-                                <div>
+                                <div className="block w-1/3">
                                   <label>Maximum</label>
                                   <Field
                                     name="maxSalary"
                                     type="number"
                                     placeholder=""
-                                    className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4"
+                                    className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 focus:outline-0 focus:border-0 px-4"
                                   />
                                   <ErrorMessage
                                     name="maxSalary"

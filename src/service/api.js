@@ -566,6 +566,15 @@ export const listXIEvaluation = async (data, token) => {
     console.log("Error Calling List Evaluation API :", error);
   }
 };
+export const listXIEvaluatedReports = async (data, token) => {
+  try {
+    return await axios.post(`${url}/listXIEvaluatedReports`, data, {
+      headers: { authorization: token },
+    });
+  } catch (error) {
+    console.log("Error Calling List Evaluation API :", error);
+  }
+};
 
 // Add Evaulation Question
 export const addEvaluationQuestion = async (data, token) => {
@@ -589,6 +598,27 @@ export const addTaxId = async (data, token) => {
     console.log("Error : ", err);
   }
 };
+export const findAndUpdateTax = async (id,data, token) => {
+  try {
+    console.log("data", data);
+    return await axios.post(`${url}/updateTaxId/${id}`, data, {
+      headers: { authorization: token },
+    });
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+};
+export const findAndDeleteTax = async (id, token) => {
+  try {
+    console.log(id);
+  
+    return await axios.post(`${url}/deleteTaxId/${id}`, {
+      headers: { authorization: token },
+    });
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+};
 // Get Interview Application
 export const getInterviewApplication = async (data, token) => {
   try {
@@ -599,3 +629,23 @@ export const getInterviewApplication = async (data, token) => {
     console.log("Error : ", err);
   }
 };
+
+// get Company List
+export const getDBCompanyList = async (data, token) => {
+  try {
+    return await axios.get(`${url}/getCompanyList`);
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
+
+// Update Evaluation Details
+export const updateEvaluation = async(data, token) => {
+  try {
+    return await axios.post(`${url}/updateEvaluation`, data, {
+      headers: { authorization: token },
+    });
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}

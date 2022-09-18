@@ -44,7 +44,7 @@ const AddCompanyUser = () => {
   React.useState(() => {
     const initial = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
-      let res =await  getUserFromId({ id: user._id }, user.access_token);
+      let res = await getUserFromId({ id: user._id }, user.access_token);
       if (res && res.data && res.data.user) {
         if (
           res.data.user.permissions[0].company_permissions.add_users === false
@@ -53,7 +53,7 @@ const AddCompanyUser = () => {
         }
       }
     };
-    initial();  
+    initial();
   }, []);
 
 
@@ -89,7 +89,7 @@ const AddCompanyUser = () => {
         { ...values, company_id: user._id },
         token
       );
-      if (res && res.status===200) {
+      if (res && res.status === 200) {
         swal({
           title: "User Added",
           text: "User Added Successfully",
@@ -97,7 +97,7 @@ const AddCompanyUser = () => {
           button: "Continue",
         });
         setTimeout(() => {
-            window.location.reload();
+          window.location.reload();
         }, 2000);
       } else {
         swal({
@@ -160,69 +160,71 @@ const AddCompanyUser = () => {
             return (
               <Form className="container bg-white p-5  w-4/5 mx-auto shadow-md">
                 <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full my-3 space-y-1">
-                  
-                    <label htmlFor="username" className="font-semibold text-lg md:w-2/5 w-4/5 mx-5">
-                      Username *
-                    </label>
-                    <Field
-                      type="text"
-                      name="username"
-                      className="text-600 md:w-2/5 w-4/5 block my-1"
-                    />
-                    <ErrorMessage
-                      name="username"
-                      component="div"
-                      className="text-sm text-red-600"
-                    />
-                    {userNameError && (
-                      <div className="text-sm text-red-600">
-                        {userNameError}
-                      </div>
-                    )}
-                  
+
+                  <label htmlFor="username" className="font-semibold text-lg md:w-2/5 w-4/5 lg:mx-5">
+                    Username *
+                  </label>
+                  <div className="  md:w-2/5 w-11/12">
+                  <Field
+                    type="text"
+                    name="username"
+                    className="text-600 block my-1 w-full mr-4"
+                  />
+                  <ErrorMessage
+                    name="username"
+                    component="div"
+                    className="text-sm text-red-600"
+                  />
+                  {userNameError && (
+                    <div className="text-sm text-red-600">
+                      {userNameError}
+                    </div>
+                  )}
+                  </div>
+
                 </div>
                 <div className="md:w-1/2 md:mx-9 sm:mx-0 my-3 md:flex w-full  space-y-1">
-                  
-                    <label htmlFor="firstName" className="font-semibold text-lg md:w-2/5 w-4/5 mx-5">
-                      First Name *
-                    </label>
-                    <div className="md:w-2/5 w-4/5">
-                    <Field
-                      type="text"
-                      name="firstName"
-                      className="text-600 block my-1 w-full"
-                    />
-                    <ErrorMessage
-                      name="firstName"
-                      component="div"
-                      className="text-sm text-red-600"
-                    />
-                 </div>
-                  </div>
-                  <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full my-3 space-y-1">
 
-                  
-                    <label htmlFor="lastName" className="font-semibold text-lg md:w-2/5 w-4/5 mx-5">
-                      Last Name *
-                    </label>
-                    <div className="md:w-2/5 w-4/5">
+                  <label htmlFor="firstName" className="font-semibold text-lg md:w-2/5 w-4/5 lg:mx-5">
+                    First Name *
+                  </label>
+                  <div className="md:w-2/5 w-11/12">
                     <Field
                       type="text"
-                      name="lastName"
+                      name="firstName"
                       className="text-600 block my-1 w-full"
                     />
                     <ErrorMessage
-                      name="lastName"
+                      name="firstName"
                       component="div"
                       className="text-sm text-red-600"
                     />
-                 </div>
+                  </div>
                 </div>
                 <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full my-3 space-y-1">
-                    <label htmlFor="email" className="font-semibold text-lg md:w-2/5 w-4/5 mx-5">
-                      Email *
-                    </label>
-                    <div className="md:w-2/5 w-4/5">
+
+
+                  <label htmlFor="lastName" className="font-semibold text-lg md:w-2/5 w-4/5 lg:mx-5">
+                    Last Name *
+                  </label>
+                  <div className="md:w-2/5 w-11/12">
+                    <Field
+                      type="text"
+                      name="lastName"
+                      className="text-600 block my-1 w-full"
+                    />
+                    <ErrorMessage
+                      name="lastName"
+                      component="div"
+                      className="text-sm text-red-600"
+                    />
+                  </div>
+                </div>
+                <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full my-3 space-y-1">
+                  <label htmlFor="email" className="font-semibold text-lg md:w-2/5 w-4/5 lg:mx-5">
+                    Email *
+                  </label>
+                  <div className="md:w-2/5 w-11/12">
                     <Field
                       type="email"
                       name="email"
@@ -236,14 +238,14 @@ const AddCompanyUser = () => {
                     {emailError && (
                       <div className="text-sm text-red-600">{emailError}</div>
                     )}
-                    </div>
                   </div>
-                  <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full my-3 space-y-1">
+                </div>
+                <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full my-3 space-y-1">
 
-                    <label htmlFor="contact" className="font-semibold text-lg md:w-2/5 w-4/5 mx-5">
-                      Contact *
-                    </label>
-                    <div className="md:w-2/5 w-4/5">
+                  <label htmlFor="contact" className="font-semibold text-lg md:w-2/5 w-4/5 lg:mx-5">
+                    Contact*
+                  </label>
+                  <div className="md:w-2/5 w-11/12">
                     <Field
                       type="text"
                       name="contact"
@@ -259,10 +261,10 @@ const AddCompanyUser = () => {
                     )}</div>
                 </div>
                 <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full my-3 space-y-1">
-                    <label htmlFor="password" className="font-semibold text-lg md:w-2/5 w-4/5 mx-5">
-                      Password *
-                    </label>
-                    <div className="md:w-2/5 w-4/5">
+                  <label htmlFor="password" className="font-semibold text-lg md:w-2/5 w-4/5 lg:mx-5">
+                    Password*
+                  </label>
+                  <div className="md:w-2/5 w-11/12">
                     <Field
                       type="password"
                       name="password"
@@ -307,14 +309,14 @@ const AddCompanyUser = () => {
                   />
                 </div>
                 <div className="w-full text-center justify-center">
-                <button
-                  type="submit"
-                  className="my-3 px-3 py-2 mx-auto rounded-lg text-center bg-[#034488] text-white "
-                  style={{backgroundColor:"#034488"}}
-                >
-                  {" "}
-                  Add User
-                </button>
+                  <button
+                    type="submit"
+                    className="my-3 px-3 py-2 mx-auto rounded-lg text-center bg-[#034488] text-white "
+                    style={{ backgroundColor: "#034488" }}
+                  >
+                    {" "}
+                    Add User
+                  </button>
                 </div>
               </Form>
             );
