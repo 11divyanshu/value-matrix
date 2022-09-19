@@ -24,7 +24,7 @@ const JobList = () => {
         { user_id: user._id },
         user.access_token
       );
-      // console.log(res)
+       console.log(res)
       if (res && res.data) {
         setJobs(res.data.jobs);
         setLoader(false);

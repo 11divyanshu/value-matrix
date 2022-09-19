@@ -23,7 +23,7 @@ const InterviewListCard = (props) => {
     setUser(JSON.parse(localStorage.getItem("user")));
   }, []);
 
-  localStorage.setItem("ids", JSON.stringify(job._id));
+//   localStorage.setItem("ids", JSON.stringify(job._id));
   return (
     <div className="w-full px-5 bg-white py-1 my-2">
       <div className="grid grid-cols-1  items-center lg:grid-cols-6 relative py-3">
@@ -55,7 +55,7 @@ const InterviewListCard = (props) => {
           </span>
         </div>
         <div className="px-5 text-center my-5 text-md">
-            <Link to={`/XI/updateEvaluationDetails/${job.application._id}`}>
+            <Link to={`/XI/reportDetails/${job.application._id}`}>
           <span class="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
             View
           </span></Link>

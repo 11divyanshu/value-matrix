@@ -8,7 +8,7 @@ import Avatar from "../../assets/images/UserAvatar.png";
 import { BsFillBookmarkFill } from "react-icons/bs";
 import { HiOutlineUser } from "react-icons/hi";
 import { Popover, Transition } from "@headlessui/react";
-import InterviewListCard from "../../Components/XIDashboard/InterviewListCard.jsx";
+import InterviewListCard from "../../Components/XIDashboard/ReportCards.jsx";
 
 const JobList = () => {
   const [jobs, setJobs] = React.useState([]);

@@ -59,6 +59,7 @@ import XIDashboard from "./Pages/XIDashboard/Dashboard";
 import XIEvaluationList from "./Pages/XIDashboard/EvaluationList";
 import XIJobDetails from "./Pages/XIDashboard/JobDetails.jsx";
 import XIEvaluatedList from "./Pages/XIDashboard/EvaluatedList.jsx";
+import EvaluatedReport from "./Pages/XIDashboard/EvaluationReports.jsx";
 
 // SuperXIDashboard
 import SXIPanel from "./Pages/SuperXIDashboard/panel.jsx";
@@ -381,6 +382,12 @@ export const XIDashboardRoutes = [
     path: "/updateEvaluationDetails",
     hide: true,
     component: <UpdateInterviewApplication />,
+  },
+  {
+    name: "Reports Details",
+    path: "/reportDetails",
+    hide: true,
+    component: <EvaluatedReport />,
   },
 ];
 
