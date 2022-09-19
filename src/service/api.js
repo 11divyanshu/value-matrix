@@ -638,6 +638,14 @@ export const getDBCompanyList = async (data, token) => {
     console.log("Error : ", err);
   }
 }
+// Get School List
+export const getDBSchoolList = async (data, token) => {
+  try {
+    return await axios.get(`${url}/getSchoolList`);
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
 
 // Update Evaluation Details
 export const updateEvaluation = async(data, token) => {

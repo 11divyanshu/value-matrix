@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import "../../assets/stylesheet/Tabs.scss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { FiInfo } from "react-icons/fi";
-import { BsCalendar } from "react-icons/bs";
+import { BsCalendar,BsLinkedin } from "react-icons/bs";
 import { GrScorecard } from "react-icons/gr";
 import { Disclosure } from "@headlessui/react";
 import { getSkills, url } from "../../service/api";
@@ -35,6 +35,8 @@ import {
   updateEmailOTP,
   updateUserDetails,
   validateSignupDetails,
+  getDBCompanyList,
+  getDBSchoolList
 } from "../../service/api";
 import ReactCropper from "../../Pages/UserDashboard/ReactCrop";
 
@@ -74,16 +76,62 @@ export default function Tabs(props) {
     query === ""
       ? cities.slice(0, 5)
       : cities
-          .filter((city) => {
-            return (
-              city.country.toLowerCase().includes(query.toLowerCase()) ||
-              city.name.toLowerCase().replace("ā", "a")
+        .filter((city) => {
+          return (
+            city.country.toLowerCase().includes(query.toLowerCase()) ||
+            city.name.toLowerCase().replace("ā", "a")
               .replace("ò", "o")
               .replace("à", "a").includes(query.toLowerCase())
-            );
-          })
-          .slice(0, 5);
-          
+          );
+        })
+        .slice(0, 5);
+
+
+
+         React.useEffect(() => {
+    const initial = async () => {
+      let res = await getDBCompanyList();
+      setCompanyList(res.data);
+    };
+    initial();
+  }, []);
+
+
+          const [companyList, setCompanyList] = React.useState([]);
+  const [selectedCompany, setSelectedCompany] = React.useState(null);
+  const [companyQuery, setCompanyQuery] = React.useState("");
+  const filteredCompany =
+    companyQuery === ""
+      ? companyList.slice(0, 10)
+      : companyList
+          .filter((company) =>
+            company.name.toLowerCase().includes(companyQuery.toLowerCase())
+          )
+          .slice(0, 10);
+
+
+          React.useEffect(() => {
+            const initial = async () => {
+              let res = await getDBSchoolList();
+              console.log(res);
+              setSchoolList(res.data);
+            };
+            initial();
+          }, []);
+
+
+          const [schoolList, setSchoolList] = React.useState([]);
+  const [selectedSchool, setSelectedSchool] = React.useState(null);
+  const [schoolQuery, setSchoolQuery] = React.useState("");
+  const filteredSchool =
+    schoolQuery === ""
+      ? schoolList.slice(0, 10)
+      : schoolList
+          .filter((school) =>
+            school.name.toLowerCase().includes(schoolQuery.toLowerCase())
+          )
+          .slice(0, 10);
+
 
   // OTPs State
   const [EmailOTP, setEmailOTP] = React.useState(null);
@@ -235,7 +283,8 @@ export default function Tabs(props) {
       let e = JSON.parse(await localStorage.getItem("user"));
       if (edit !== null) {
         const temp = [...educationalDetail];
-        temp[edit] = values;
+        let school =selectedSchool;
+        temp[edit] = {...values, school : school};
         await setEducationalDetail(temp);
         await setEdit(null);
         resetBtn.current.click();
@@ -246,7 +295,9 @@ export default function Tabs(props) {
         return;
       }
       let temp = educationalDetail;
-      temp = [...educationalDetail, values];
+      let school =selectedSchool;
+
+      temp = [...educationalDetail, {...values, school : school}];
       await setEducationalDetail(temp);
       e.education = temp;
       setUser(e);
@@ -260,7 +311,7 @@ export default function Tabs(props) {
         grade: null,
         description: null,
       });
-
+setSelectedSchool(null);
       resetBtn.current.click();
       swal({
         icon: "success",
@@ -283,11 +334,12 @@ export default function Tabs(props) {
       let e = JSON.parse(await localStorage.getItem("user"));
       if (edit !== null) {
         let city = selectedCity;
-        if(selectedCity.name){
-          city = selectedCity.name +", "+selectedCity.country;
+        if (selectedCity.name) {
+          city = selectedCity.name + ", " + selectedCity.country;
         }
+        let company =selectedCompany;
         const temp = [...experienceDetail];
-        temp[edit] = { ...values, location: city };
+        temp[edit] = { ...values, location: city,company_name : company };
         await setExperienceDetail(temp);
         e.experience = temp;
         setUser(e);
@@ -297,11 +349,13 @@ export default function Tabs(props) {
         return;
       }
       let city = selectedCity;
-      if(selectedCity.name){
-        city = selectedCity.name +", "+selectedCity.country;
+      if (selectedCity.name) {
+        city = selectedCity.name + ", " + selectedCity.country;
       }
+      let company =selectedCompany;
+
       let temp = experienceDetail;
-      temp = [...experienceDetail, { ...values, location: city }];
+      temp = [...experienceDetail, { ...values, location: city,company_name : company }];
       await setExperienceDetail(temp);
       e.experience = temp;
       setUser(e);
@@ -316,6 +370,7 @@ export default function Tabs(props) {
         industry: null,
         description: null,
       });
+      setSelectedCompany(null);
       resetBtn.current.click();
       swal({
         icon: "success",
@@ -338,7 +393,9 @@ export default function Tabs(props) {
       let e = JSON.parse(await localStorage.getItem("user"));
       if (edit !== null) {
         const temp = [...associateDetail];
-        temp[edit] = { ...values, location: selectedCity };
+        let company =selectedCompany;
+
+        temp[edit] = { ...values, location: selectedCity ,company_name : company  };
         await setAssociateDetail(temp);
         e.associate = temp;
         setUser(e);
@@ -347,10 +404,12 @@ export default function Tabs(props) {
         resetBtn.current.click();
         return;
       }
+      let company =selectedCompany;
+
       let temp = associateDetail;
       temp
-        ? (temp = [...associateDetail, { ...values, location: selectedCity }])
-        : (temp = [{ ...values, location: selectedCity }]);
+        ? (temp = [...associateDetail, { ...values, location: selectedCity,company_name : company }])
+        : (temp = [{ ...values, location: selectedCity,company_name : company }]);
       await setAssociateDetail(temp);
       e.associate = temp;
       setUser(e);
@@ -365,6 +424,8 @@ export default function Tabs(props) {
         industry: null,
         description: null,
       });
+      setSelectedCompany(null);
+
       resetBtn.current.click();
       swal({
         icon: "success",
@@ -722,12 +783,12 @@ export default function Tabs(props) {
               email: user.email ? user.email : " ",
               contact: user.contact
                 ? [
-                    user.googleId,
-                    user.microsoftId,
-                    user.linkedInId,
-                    user.username,
-                    user.githubId,
-                  ].includes(user.contact)
+                  user.googleId,
+                  user.microsoftId,
+                  user.linkedInId,
+                  user.username,
+                  user.githubId,
+                ].includes(user.contact)
                   ? " "
                   : user.contact
                 : " ",
@@ -889,24 +950,33 @@ export default function Tabs(props) {
                       />
                     </div>
                   )}
-                  {user && !user.linkedInId && (
-                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                    <label className="font-semibold text-lg md:w-2/5 mx-2">
-                      Connect Social Account
-                      <p className="text-sm">Connect Account Associated With Provided Email Address Only !</p>
-                    </label>
-                    <div className="w-4/5 flex items-center px-4">
-                      
+                  {user && !user.linkedInId ? (
+                    <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
+                      <label className="font-semibold text-lg md:w-2/5 mx-2">
+                        Connect Social Account
+                        <p className="text-sm">Connect Account Associated With Provided Email Address Only !</p>
+                      </label>
+                      <div className="w-4/5 flex items-center px-4">
+
                         <a href={`${url}/auth/linkedin`}>
-                          <img
-                            src={Linkedin}
-                            className="h-5 ml-1"
-                            alt="socialauthLinkedIn"
-                          />
+                          <button className=" color-white py-2 px-8 flex rounded-lg"
+                            style={{ backgroundColor: "#034488" }}
+                          >
+                            {/* <img
+                              src={Linkedin}
+                              className="h-5 ml-1"
+                              alt="socialauthLinkedIn"
+                            /> */}
+                            <p className="text-lg py-1" style={{color: "#fff" }}>
+                            <BsLinkedin/>
+                            </p>
+                            
+                            <p className="text-white font-semibold mx-2">LinkedIn</p>
+                          </button>
                         </a>
+                      </div>
                     </div>
-                  </div>
-                      )}
+                  ) : <p>Connected</p>}
                   {Error && <p className="text-sm text-red-500">{Error}</p>}
                 </div>
 
@@ -1041,7 +1111,7 @@ export default function Tabs(props) {
             <Dialog
               as="div"
               className="relative z-1050 w-5/6"
-              onClose={() => {}}
+              onClose={() => { }}
               static={true}
             >
               <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
@@ -1084,11 +1154,8 @@ export default function Tabs(props) {
                           validate={(values) => {
                             if (showEduForm === false) return {};
                             const errors = {};
-                            if (
-                              values.school === null ||
-                              values.school.trim() === ""
-                            ) {
-                              errors.school = "Required !";
+                            if (!selectedSchool || selectedSchool === " ") {
+                              errors.school = "Required";
                             }
                             if (
                               values.degree === null ||
@@ -1144,7 +1211,7 @@ export default function Tabs(props) {
                                   </label>
 
                                   <div className="w-full md:w-4/5">
-                                    <Field
+                                    {/* <Field
                                       name="school"
                                       type="text"
                                       placeholder="Ex. Boston University"
@@ -1154,7 +1221,41 @@ export default function Tabs(props) {
                                         border: "0.5px solid",
                                       }}
                                       value={values.school}
-                                    />
+                                    /> */}
+                                      {edit !== null && (
+                          <p>Current University : {values.school}</p>
+                        )}
+                        <Combobox
+                          value={selectedSchool}
+                          onChange={setSelectedSchool}
+                        >
+                          <Combobox.Input
+                            onChange={(event) =>
+                              setSchoolQuery(event.target.value)
+                            }
+                            className="border-[0.5px] rounded-lg border-gray-400 focus:outline-0 focus:border-0 px-4 py-2 w-full"
+                            style={{ borderRadius: "5px" }}
+                          />
+                          <Combobox.Options className="absolute z-100 bg-white">
+                            {schoolQuery.length > 0 && (
+                              <Combobox.Option
+                                value={`${schoolQuery}`}
+                                className="cursor-pointer"
+                              >
+                                Create "{schoolQuery}"
+                              </Combobox.Option>
+                            )}
+                            {filteredSchool.map((school) => (
+                              <Combobox.Option
+                                key={school.name}
+                                value={`${school.name}`}
+                                className="cursor-pointer"
+                              >
+                                {school.name}
+                              </Combobox.Option>
+                            ))}
+                          </Combobox.Options>
+                        </Combobox> 
                                     <ErrorMessage
                                       name="school"
                                       component="div"
@@ -1211,9 +1312,9 @@ export default function Tabs(props) {
                                   </div>
                                 </div>
                                 <div className="md:w-1/2  md:flex w-full  space-y-1 my-2">
-                                  <label className="font-semibold text-lg w-2/5 mx-2">
+                                  {/* <label className="font-semibold text-lg w-2/5 mx-2">
                                     Work Period{" "}
-                                  </label>
+                                  </label> */}
 
                                   <label className="font-semibold text-lg w-2/5 mx-2 md:mx-0 sm:mt-4">
                                     Work Period{" "}
@@ -1468,7 +1569,7 @@ export default function Tabs(props) {
             <Dialog
               as="div"
               className="relative z-10000"
-              onClose={() => {}}
+              onClose={() => { }}
               static={true}
             >
               <div
@@ -1520,7 +1621,7 @@ export default function Tabs(props) {
                             if (!values.employment_type) {
                               errors.employment_type = "Required";
                             }
-                            if (!values.company_name) {
+                            if (!selectedCompany || selectedCompany === " ") {
                               errors.company_name = "Required";
                             }
                             if (!selectedCity || selectedCity === " ") {
@@ -1622,14 +1723,48 @@ export default function Tabs(props) {
                                   </label>
 
                                   <div className="w-full md:w-4/5">
-                                    <Field
+                                    {/* <Field
                                       name="company_name"
                                       type="text"
                                       placeholder="Ex. Microsoft"
                                       className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
                                       style={{ borderRadius: "4px" }}
                                       value={values.company_name}
-                                    />
+                                    /> */}
+                                     {edit !== null && (
+                          <p>Current Company : {values.company_name}</p>
+                        )}
+                        <Combobox
+                          value={selectedCompany}
+                          onChange={setSelectedCompany}
+                        >
+                          <Combobox.Input
+                            onChange={(event) =>
+                              setCompanyQuery(event.target.value)
+                            }
+                            className="border-[0.5px] rounded-lg border-gray-400 focus:outline-0 focus:border-0 px-4 py-2 w-full"
+                            style={{ borderRadius: "5px" }}
+                          />
+                          <Combobox.Options className="absolute z-100 bg-white">
+                            {companyQuery.length > 0 && (
+                              <Combobox.Option
+                                value={`${companyQuery}`}
+                                className="cursor-pointer"
+                              >
+                                Create "{companyQuery}"
+                              </Combobox.Option>
+                            )}
+                            {filteredCompany.map((company) => (
+                              <Combobox.Option
+                                key={company.name}
+                                value={`${company.name}`}
+                                className="cursor-pointer"
+                              >
+                                {company.name}
+                              </Combobox.Option>
+                            ))}
+                          </Combobox.Options>
+                        </Combobox> 
                                     <ErrorMessage
                                       name="company_name"
                                       component="div"
@@ -1677,12 +1812,12 @@ export default function Tabs(props) {
                                           <Combobox.Option
                                             key={city.name}
                                             value={`${city.name.replace("ā", "a")
-                                            .replace("ò", "o")
-                                            .replace("à", "a")}, ${city.country}`}
+                                              .replace("ò", "o")
+                                              .replace("à", "a")}, ${city.country}`}
                                           >
                                             {city.name.replace("ā", "a")
-                .replace("ò", "o")
-                .replace("à", "a")}, {city.country}
+                                              .replace("ò", "o")
+                                              .replace("à", "a")}, {city.country}
                                           </Combobox.Option>
                                         ))}
                                       </Combobox.Options>
@@ -1947,7 +2082,7 @@ export default function Tabs(props) {
             <Dialog
               as="div"
               className="relative z-10000"
-              onClose={() => {}}
+              onClose={() => { }}
               static={true}
             >
               <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
@@ -1994,7 +2129,7 @@ export default function Tabs(props) {
                               errors.title = "Required";
                             }
 
-                            if (!values.company_name) {
+                            if (!selectedCompany || selectedCompany === " ") {
                               errors.company_name = "Required";
                             }
                             if (!selectedCity || selectedCity === " ") {
@@ -2058,14 +2193,48 @@ export default function Tabs(props) {
                                     Company{" "}
                                   </label>
                                   <div className="w-full md:w-4/5">
-                                    <Field
+                                    {/* <Field
                                       name="company_name"
                                       type="text"
                                       placeholder="Ex. Microsoft"
                                       className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
                                       style={{ borderRadius: "4px" }}
                                       value={values.company_name}
-                                    />
+                                    /> */}
+                                     {edit !== null && (
+                          <p>Current Company : {values.company_name}</p>
+                        )}
+                        <Combobox
+                          value={selectedCompany}
+                          onChange={setSelectedCompany}
+                        >
+                          <Combobox.Input
+                            onChange={(event) =>
+                              setCompanyQuery(event.target.value)
+                            }
+                            className="border-[0.5px] rounded-lg border-gray-400 focus:outline-0 focus:border-0 px-4 py-2 w-full"
+                            style={{ borderRadius: "5px" }}
+                          />
+                          <Combobox.Options className="absolute z-100 bg-white">
+                            {companyQuery.length > 0 && (
+                              <Combobox.Option
+                                value={`${companyQuery}`}
+                                className="cursor-pointer"
+                              >
+                                Create "{companyQuery}"
+                              </Combobox.Option>
+                            )}
+                            {filteredCompany.map((company) => (
+                              <Combobox.Option
+                                key={company.name}
+                                value={`${company.name}`}
+                                className="cursor-pointer"
+                              >
+                                {company.name}
+                              </Combobox.Option>
+                            ))}
+                          </Combobox.Options>
+                        </Combobox> 
                                     <ErrorMessage
                                       name="company_name"
                                       component="div"
@@ -2078,7 +2247,7 @@ export default function Tabs(props) {
                                     Location{" "}
                                   </label>
                                   <div className="w-full md:w-4/5">
-                                  {edit !== null && (
+                                    {edit !== null && (
                                       <p>
                                         Current Location :{" "}
                                         {`${values.location}`}
@@ -2113,12 +2282,12 @@ export default function Tabs(props) {
                                           <Combobox.Option
                                             key={city.name}
                                             value={`${city.name.replace("ā", "a")
-                                            .replace("ò", "o")
-                                            .replace("à", "a")}, ${city.country}`}
+                                              .replace("ò", "o")
+                                              .replace("à", "a")}, ${city.country}`}
                                           >
                                             {city.name.replace("ā", "a")
-                .replace("ò", "o")
-                .replace("à", "a")}, {city.country}
+                                              .replace("ò", "o")
+                                              .replace("à", "a")}, {city.country}
                                           </Combobox.Option>
                                         ))}
                                       </Combobox.Options>
@@ -2321,9 +2490,8 @@ export default function Tabs(props) {
                           {({ open }) => (
                             <div className={`${open ? "shadow-md" : ""}`}>
                               <Disclosure.Button
-                                className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-3 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${
-                                  open ? "shadow-lg " : ""
-                                }`}
+                                className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-3 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${open ? "shadow-lg " : ""
+                                  }`}
                               >
                                 <span>{el}</span>
                                 <div className="ml-auto mr-5 flex items-center space-x-2">
@@ -2362,9 +2530,8 @@ export default function Tabs(props) {
                                   <p>5</p>
                                 </div>
                                 <ChevronUpIcon
-                                  className={`${
-                                    !open ? "rotate-180 transform" : ""
-                                  } h-5 w-5 text-blue-500`}
+                                  className={`${!open ? "rotate-180 transform" : ""
+                                    } h-5 w-5 text-blue-500`}
                                 />
                               </Disclosure.Button>
                               <Disclosure.Panel className="p-3 px-4">
@@ -2374,22 +2541,19 @@ export default function Tabs(props) {
                                       <Disclosure>
                                         {({ open }) => (
                                           <div
-                                            className={`${
-                                              open ? "shadow-md" : ""
-                                            }`}
+                                            className={`${open ? "shadow-md" : ""
+                                              }`}
                                           >
                                             <Disclosure.Button
-                                              className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-3 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${
-                                                open ? "shadow-lg" : ""
-                                              } `}
+                                              className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-3 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${open ? "shadow-lg" : ""
+                                                } `}
                                             >
                                               <span>{skill}</span>
                                               <ChevronUpIcon
-                                                className={`${
-                                                  !open
+                                                className={`${!open
                                                     ? "rotate-180 transform"
                                                     : ""
-                                                } h-5 w-5 text-blue-500`}
+                                                  } h-5 w-5 text-blue-500`}
                                               />
                                             </Disclosure.Button>
                                             <Disclosure.Panel className="p-3 px-12">
@@ -2397,7 +2561,7 @@ export default function Tabs(props) {
                                                 .filter((secSkill) => {
                                                   return (
                                                     secSkill.primarySkill ===
-                                                      skill &&
+                                                    skill &&
                                                     secSkill.role === el
                                                   );
                                                 })
@@ -2493,34 +2657,34 @@ export default function Tabs(props) {
             <div className="p-5">
               {rolesC
                 ? rolesC.map((item, index) => {
-                    return (
-                      <div>
-                        <p className="font-semibold text-md md:w-1/2  flex w-full  space-y-2 my-5">
-                          {item}
-                        </p>
-                        {skillsPrimary[item].map((el) => (
-                          <div>
-                            <p className="text-sm my-2">{el}</p>
-                            <div className="flex flex-wrap">
-                              {user.tools
-                                .filter(
-                                  (tool) =>
-                                    tool.role === item &&
-                                    tool.primarySkill === el
-                                )
-                                .map((item1, index) => (
-                                  <p class="bg-blue-100 text-blue-800 text-xs mb-2 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
-                                    {item1.secondarySkill}{" "}
-                                    {item1.proficiency &&
-                                      `(${item1.proficiency})`}
-                                  </p>
-                                ))}
-                            </div>
+                  return (
+                    <div>
+                      <p className="font-semibold text-md md:w-1/2  flex w-full  space-y-2 my-5">
+                        {item}
+                      </p>
+                      {skillsPrimary[item].map((el) => (
+                        <div>
+                          <p className="text-sm my-2">{el}</p>
+                          <div className="flex flex-wrap">
+                            {user.tools
+                              .filter(
+                                (tool) =>
+                                  tool.role === item &&
+                                  tool.primarySkill === el
+                              )
+                              .map((item1, index) => (
+                                <p class="bg-blue-100 text-blue-800 text-xs mb-2 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
+                                  {item1.secondarySkill}{" "}
+                                  {item1.proficiency &&
+                                    `(${item1.proficiency})`}
+                                </p>
+                              ))}
                           </div>
-                        ))}
-                      </div>
-                    );
-                  })
+                        </div>
+                      ))}
+                    </div>
+                  );
+                })
                 : "No Skills"}
             </div>
           </div>
