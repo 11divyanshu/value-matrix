@@ -6,8 +6,9 @@ import { BsCalendar } from "react-icons/bs";
 import { GrScorecard } from "react-icons/gr";
 import { AiOutlineDelete } from "react-icons/ai";
 import { RiEditBoxLine } from "react-icons/ri";
-import { submitCandidateDetails } from "../../../service/api";
+import { submitCandidateDetails, getDBSchoolList } from "../../../service/api";
 import cities from "cities.json";
+import { Combobox } from "@headlessui/react";
 
 const EducationDetailForm = (props) => {
   const [educationalDetail, setEducationalDetail] = React.useState([]);
@@ -26,6 +27,30 @@ const EducationDetailForm = (props) => {
     grade: null,
     description: null,
   });
+
+  React.useEffect(() => {
+    const initial = async () => {
+      let res = await getDBSchoolList();
+      console.log(res);
+      setSchoolList(res.data);
+    };
+    initial();
+  }, []);
+
+
+  const [schoolList, setSchoolList] = React.useState([]);
+const [selectedSchool, setSelectedSchool] = React.useState(null);
+const [schoolQuery, setSchoolQuery] = React.useState("");
+const filteredSchool =
+schoolQuery === ""
+? schoolList.slice(0, 10)
+: schoolList
+  .filter((school) =>
+    school.name.toLowerCase().includes(schoolQuery.toLowerCase())
+  )
+  .slice(0, 10);
+
+
 
   React.useEffect(() => {
     const initial = async () => {
@@ -116,8 +141,8 @@ const EducationDetailForm = (props) => {
               validate={(values) => {
                 if (showForm === false) return {};
                 const errors = {};
-                if (values.school === null || values.school.trim() === "") {
-                  errors.school = "Required !";
+                if (!selectedSchool || selectedSchool === " ") {
+                  errors.school = "Required";
                 }
                 if (values.degree === null || values.degree.trim() === "") {
                   errors.degree = "Required !";
@@ -149,7 +174,8 @@ const EducationDetailForm = (props) => {
                 );
                 if (edit !== null) {
                   const temp = [...educationalDetail];
-                  temp[edit] = values;
+                  let school =selectedSchool;
+                  temp[edit] = {...values, school : school};
                   await setEducationalDetail(temp);
                   await setEdit(null);
                   resetBtn.current.click();
@@ -165,8 +191,9 @@ const EducationDetailForm = (props) => {
                   return;
                 }
                 let temp = educationalDetail;
-                temp = [...educationalDetail, values];
-                await setEducationalDetail(temp);
+                let school =selectedSchool;
+
+                temp = [...educationalDetail, {...values, school : school}];                await setEducationalDetail(temp);
                 e.education = temp;
                 await localStorage.setItem(
                   "candidateDetails",
@@ -338,7 +365,8 @@ const EducationDetailForm = (props) => {
                                 <div className="md:w-1/2  md:flex w-full  space-y-1 my-2">
                                   <label className="font-semibold text-lg w-2/5 mx-2">School </label>
 
-                                  <div className="w-4/5"><Field
+                                  <div className="w-4/5">
+                                    {/* <Field
                                     name="school"
                                     type="text"
                                     placeholder="Ex. Boston University"
@@ -348,7 +376,41 @@ const EducationDetailForm = (props) => {
                                       border: "0.5px solid",
                                     }}
                                     value={values.school}
-                                  />
+                                  /> */}
+                                    {edit !== null && (
+                          <p>Current University : {values.school}</p>
+                        )}
+                        <Combobox
+                          value={selectedSchool}
+                          onChange={setSelectedSchool}
+                        >
+                          <Combobox.Input
+                            onChange={(event) =>
+                              setSchoolQuery(event.target.value)
+                            }
+                            className="border-[0.5px] rounded-lg border-gray-400 focus:outline-0 focus:border-0 px-4 py-2 w-full"
+                            style={{ borderRadius: "5px" }}
+                          />
+                          <Combobox.Options className="absolute z-100 bg-white">
+                            {schoolQuery.length > 0 && (
+                              <Combobox.Option
+                                value={`${schoolQuery}`}
+                                className="cursor-pointer"
+                              >
+                                Create "{schoolQuery}"
+                              </Combobox.Option>
+                            )}
+                            {filteredSchool.map((school) => (
+                              <Combobox.Option
+                                key={school.name}
+                                value={`${school.name}`}
+                                className="cursor-pointer"
+                              >
+                                {school.name}
+                              </Combobox.Option>
+                            ))}
+                          </Combobox.Options>
+                        </Combobox> 
                                     <ErrorMessage
                                       name="school"
                                       component="div"

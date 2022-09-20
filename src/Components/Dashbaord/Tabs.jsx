@@ -299,31 +299,31 @@ export default function Tabs() {
                 // style={{boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px"}}
               >
                 <div className="flex justify-end space-x-3 items-center"></div>
-                <div className="md:flex flex-wrap justify-between w-full mb-4 text-gray-800 ">
-                <div className="font-bold space-x-2 text-sm items-center">
-                    <p className="text-lg ml-2 py-3" style={{fontWeight:"1000"}}>{item.school}</p>
-                    <div className="flex font-bold space-x-2 text-sm items-center">
-                      <FiInfo />
-                      <p>{item.degree}</p> <p>|</p> <p>{item.field_of_study}</p>
-                    </div>
+                <p className="font-semibold text-md md:w-2/5 ">{item.school}</p>
+                <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 align-items-right">
+                  <div className="flex my-2 space-x-2 text-sm items-center">
+                    <FiInfo />
+                    <p>{item.degree}</p> <p>|</p> <p>{item.field_of_study}</p>
                   </div>
                   {item.grade && (
-                    <div className="space-x-2 ml-2 my-2 flex items-center">
+                    <div className="space-x-2 my-2 flex items-center">
                       <GrScorecard /> <p>{item.grade}</p>
                     </div>
                   )}
-                  <div className="flex items-center ml-2 my-2 space-x-2">
+                  <div className="flex items-center my-2 space-x-2">
                     <BsCalendar />
                     <p className="text-sm text-gray-600 mr-5">
-                      {item.start_date} to {item.end_date}
+                      {item.start_date} - {item.end_date}
                     </p>
                   </div>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex text-right mr-auto space-x-2 justify-end">
                     <button
-                      class=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-4 text-xs rounded"
-                      style={{backgroundColor:"#034488"}}
-                      onClick={()=>{
-                        window.location.href="/user/editProfile"
+                      class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded ml-auto content-end"
+                      style={{ backgroundColor: "#034488" }}
+                     
+                        onClick={()=>{
+                          window.location.href="/user/editProfile"
+                        
                       }}
                     >
                       Edit
@@ -348,27 +348,40 @@ export default function Tabs() {
                 className=" rounded-md px-5 py-3 bg-white border border-gray-400 my-5 h-35  md:w-full mx-auto"
                 key={index}
               >
-                <div className="font-semibold flex space-x-2 mt-3 text-md items-center">
-                  <p className="text-md">{item.title}</p>{" "}
-                  <p className="font-normal text-md">|</p>{" "}
-                  <p className="font-normal text-md">{item.employment_type}</p>{" "}
-                </div>
-                <div className="md:flex flex-wrap justify-between w-full py-1 text-gray-800 ">
-                  <div className="space-x-2 flex items-center">
-                    <FaRegBuilding />
-                    <p>{item.company_name}</p>
+                 <div className="font-semibold flex space-x-2 items-center">
+                    <p>{item.title}</p> <p className="font-normal text-sm">|</p>{" "}
+                    <p className="font-normal text-sm">
+                      {item.employment_type}
+                    </p>{" "}
                   </div>
-                  <div className="space-x-2 flex items-center">
-                    <CgWorkAlt />
-                    <p>{item.industry}</p>
+                  <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 align-items-right">
+                    <div className="space-x-2 my-2 flex items-center ">
+                      <FaRegBuilding />
+                      <p>{item.company_name}</p>
+                    </div>
+                    <div className="space-x-2 my-2 flex items-center">
+                      <CgWorkAlt />
+                      <p>{item.industry}</p>
+                    </div>
+                    <div className="flex items-center space-x-2 my-2">
+                      <BsCalendar />
+                      <p className="text-sm text-gray-600 mr-5">
+                        {item.start_date} - {item.end_date}
+                      </p>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <button
+                        class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
+                        style={{ backgroundColor: "#034488" }}
+                        onClick={()=>{
+                          window.location.href="/user/editProfile"
+                        
+                      }}
+                      >
+                        Edit
+                      </button>
+                    </div>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <BsCalendar />
-                    <p className="text-sm text-gray-600 mr-5">
-                      {item.start_date} - {item.end_date}
-                    </p>
-                  </div>
-                </div>
                 {item.description && (
                   <div className="py-2">{item.description}</div>
                 )}
@@ -392,25 +405,40 @@ export default function Tabs() {
                 className=" rounded-md px-5 py-3 bg-white border border-gray-400 my-5 h-35  md:w-full mx-auto"
                 key={index}
               >
-                <div className="font-semibold flex space-x-2 mt-3 items-center">
-                  <p className="text-md">{item.title}</p>{" "}
-                </div>
-                <div className="md:flex flex-wrap justify-between w-full py-1 text-gray-800 ">
-                  <div className="space-x-2 flex items-center">
-                    <FaRegBuilding />
-                    <p>{item.company_name}</p>
+                <div className="font-semibold flex space-x-2 items-center">
+                    <p>{item.title}</p> <p className="font-normal text-sm">|</p>{" "}
+                    <p className="font-normal text-sm">{item.location}</p>{" "}
                   </div>
-                  <div className="space-x-2 flex items-center">
-                    <CgWorkAlt />
-                    <p>{item.industry}</p>
+                  <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 align-items-right">
+                    <div className="space-x-2 flex items-center">
+                      <FaRegBuilding />
+                      <p>{item.company_name}</p>
+                    </div>
+
+                    <div className="space-x-2 flex items-center">
+                      <CgWorkAlt />
+                      <p>{item.industry}</p>
+                    </div>
+
+                    <div className="flex items-center space-x-2 my-2">
+                      <BsCalendar />
+                      <p className="text-sm text-gray-600 mr-5">
+                        {item.start_date} - {item.end_date}
+                      </p>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <button
+                        class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
+                        style={{ backgroundColor: "#034488" }}
+                        onClick={()=>{
+                          window.location.href="/user/editProfile"
+                        
+                      }}
+                      >
+                        Edit
+                      </button>
+                    </div>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <BsCalendar />
-                    <p className="text-sm text-gray-600 mr-5">
-                      {item.start_date} - {item.end_date}
-                    </p>
-                  </div>
-                </div>
                 {item.description && (
                   <div className="py-2">{item.description}</div>
                 )}

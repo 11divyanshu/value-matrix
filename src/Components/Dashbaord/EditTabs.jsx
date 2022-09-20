@@ -950,34 +950,38 @@ setSelectedSchool(null);
                       />
                     </div>
                   )}
-                  {user && !user.linkedInId ? (
+                 
                     <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                       <label className="font-semibold text-lg md:w-2/5 mx-2">
                         Connect Social Account
                         <p className="text-sm">Connect Account Associated With Provided Email Address Only !</p>
                       </label>
+                      {user && !user.linkedInId ? (
                       <div className="w-4/5 flex items-center px-4">
 
                         <a href={`${url}/auth/linkedin`}>
-                          <button className=" color-white py-2 px-8 flex rounded-lg"
+                          {/* <button className=" color-white py-2 px-8 flex rounded-lg"
                             style={{ backgroundColor: "#034488" }}
-                          >
+                          > */}
                             {/* <img
                               src={Linkedin}
                               className="h-5 ml-1"
                               alt="socialauthLinkedIn"
                             /> */}
+                            <div className="flex rounded-lg shadow-md px-8 py-2" style={{ backgroundColor: "#034488" }}>
                             <p className="text-lg py-1" style={{color: "#fff" }}>
                             <BsLinkedin/>
                             </p>
                             
                             <p className="text-white font-semibold mx-2">LinkedIn</p>
-                          </button>
+                            </div>
+                          {/* </button> */}
                         </a>
                       </div>
-                    </div>
-                  ) : <p>Connected</p>}
+                   
+                  ) : <p className="w-4/5 flex items-center px-4 text-green-600 font-semibold">Connected</p>}
                   {Error && <p className="text-sm text-red-500">{Error}</p>}
+                  </div>
                 </div>
 
                 <div className="w-full text-center">

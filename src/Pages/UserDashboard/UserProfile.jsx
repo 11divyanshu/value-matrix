@@ -42,7 +42,7 @@ const UserProfile = () => {
   }, []);
 
   return (
-    <div className="px-3 h-100">
+    <div className="px-3 h-100 -z-[10]">
       {/* <p className="text-2xl font-bold" style={{ color: "#3B82F6" }}>Company Details</p> */}
       {user !== null && user !== undefined && (
         <div className="m-1">
@@ -83,7 +83,7 @@ const UserProfile = () => {
             </div>
           </div>
 
-          <div className="mx-3">
+          <div className="mx-3 my-2">
           <div className="flex items-center space-x-3 py-1">
                         {user && user.profileImg ? (
                           <TiTick className="text-green-500 text-2xl" />

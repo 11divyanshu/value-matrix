@@ -6,8 +6,9 @@ import { FaRegBuilding } from "react-icons/fa";
 import { BsCalendar } from "react-icons/bs";
 import { AiOutlineDelete } from "react-icons/ai";
 import { RiEditBoxLine } from "react-icons/ri";
-import { submitCandidateDetails } from "../../../service/api";
-
+import { submitCandidateDetails ,getDBCompanyList} from "../../../service/api";
+import { Combobox } from "@headlessui/react";
+import cities from "cities.json";
 const ExperienceDetailForm = (props) => {
   const [experienceDetail, setExperienceDetail] = React.useState([]);
   const [showForm, setShowForm] = React.useState(false);
@@ -26,6 +27,44 @@ const ExperienceDetailForm = (props) => {
     industry: null,
     description: null,
   });
+  const [selectedCity, setSelectedCity] = React.useState(cities[103]);
+  const [query, setQuery] = React.useState("");
+  const filteredCity =
+    query === ""
+      ? cities.slice(0, 5)
+      : cities
+        .filter((city) => {
+          return (
+            city.country.toLowerCase().includes(query.toLowerCase()) ||
+            city.name.toLowerCase().replace("ā", "a")
+              .replace("ò", "o")
+              .replace("à", "a").includes(query.toLowerCase())
+          );
+        })
+        .slice(0, 5);
+
+
+
+         React.useEffect(() => {
+    const initial = async () => {
+      let res = await getDBCompanyList();
+      setCompanyList(res.data);
+    };
+    initial();
+  }, []);
+
+
+          const [companyList, setCompanyList] = React.useState([]);
+  const [selectedCompany, setSelectedCompany] = React.useState(null);
+  const [companyQuery, setCompanyQuery] = React.useState("");
+  const filteredCompany =
+    companyQuery === ""
+      ? companyList.slice(0, 10)
+      : companyList
+          .filter((company) =>
+            company.name.toLowerCase().includes(companyQuery.toLowerCase())
+          )
+          .slice(0, 10);
 
   React.useEffect(() => {
     const initial = async () => {
@@ -125,10 +164,10 @@ const ExperienceDetailForm = (props) => {
                 if (!values.employment_type) {
                   errors.employment_type = "Required";
                 }
-                if (!values.company_name) {
+                if (!selectedCompany || selectedCompany === " ") {
                   errors.company_name = "Required";
                 }
-                if (!values.location) {
+                if (!selectedCity || selectedCity === " ") {
                   errors.location = "Required";
                 }
                 if (values.start_date === null) {
@@ -155,8 +194,9 @@ const ExperienceDetailForm = (props) => {
                 );
                 if (edit !== null) {
                   const temp = [...experienceDetail];
-                  temp[edit] = values;
-                  await setExperienceDetail(temp);
+                          let company =selectedCompany;
+
+                          temp[edit] = { ...values, location: city,company_name : company };                  await setExperienceDetail(temp);
                   e.experience = temp;
                   await localStorage.setItem(
                     "candidateDetails",
@@ -166,8 +206,14 @@ const ExperienceDetailForm = (props) => {
                   resetBtn.current.click();
                   return;
                 }
+
+                let city = selectedCity;
+                if (selectedCity.name) {
+                  city = selectedCity.name + ", " + selectedCity.country;
+                }
+                let company =selectedCompany;
                 let temp = experienceDetail;
-                temp = [...experienceDetail, values];
+                temp = [...experienceDetail, { ...values, location: city,company_name : company }];
                 await setExperienceDetail(temp);
                 e.experience = temp;
                 await localStorage.setItem(
@@ -402,14 +448,50 @@ const ExperienceDetailForm = (props) => {
                   <div className="md:w-1/2  flex w-full  space-y-1 my-5">
                     <label className="font-semibold text-lg w-2/5 mx-2">Company </label>
 
-                    <div className="w-4/5"><Field
+                    <div className="w-4/5">
+                      
+                      {/* <Field
                       name="company_name"
                       type="text"
                       placeholder="Ex. Microsoft"
                       className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
                       style={{ borderRadius: "4px" }}
                       value={values.company_name}
-                    />
+                    /> */}
+                    {edit !== null && (
+                          <p>Current Company : {values.company_name}</p>
+                        )}
+                        <Combobox
+                          value={selectedCompany}
+                          onChange={setSelectedCompany}
+                        >
+                          <Combobox.Input
+                            onChange={(event) =>
+                              setCompanyQuery(event.target.value)
+                            }
+                            className="border-[0.5px] rounded-lg border-gray-400 focus:outline-0 focus:border-0 px-4 py-2 w-full"
+                            style={{ borderRadius: "5px" }}
+                          />
+                          <Combobox.Options className="absolute z-100 bg-white">
+                            {companyQuery.length > 0 && (
+                              <Combobox.Option
+                                value={`${companyQuery}`}
+                                className="cursor-pointer"
+                              >
+                                Create "{companyQuery}"
+                              </Combobox.Option>
+                            )}
+                            {filteredCompany.map((company) => (
+                              <Combobox.Option
+                                key={company.name}
+                                value={`${company.name}`}
+                                className="cursor-pointer"
+                              >
+                                {company.name}
+                              </Combobox.Option>
+                            ))}
+                          </Combobox.Options>
+                        </Combobox> 
                       <ErrorMessage
                         name="company_name"
                         component="div"
@@ -419,14 +501,52 @@ const ExperienceDetailForm = (props) => {
                   </div>
                   <div className="md:w-1/2  flex w-full  space-y-1 my-5">
                     <label className="font-semibold text-lg w-2/5 mx-2">Location </label>
-                    <div className="w-4/5"><Field
+                    <div className="w-4/5">
+                      {/* <Field
                       name="location"
                       type="text"
                       placeholder="Ex. London"
                       className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
                       style={{ borderRadius: "4px" }}
                       value={values.location}
-                    />
+                    /> */}
+                     {edit !== null && (
+                                      <p>
+                                        Current Location :{" "}
+                                        {`${values.location}`}
+                                      </p>
+                                    )}
+                                     <Combobox
+                                      value={selectedCity}
+                                      onChange={setSelectedCity}
+                                    >
+                                      <Combobox.Input
+                                        onChange={(event) =>
+                                          setQuery(event.target.value)
+                                        }
+                                        className="border-[0.5px] rounded-lg w-full border-gray-400 focus:outline-0 focus:border-0 px-4 py-2"
+                                        style={{ borderRadius: "5px" }}
+                                      />
+                                      <Combobox.Options className="absolute z-100 bg-white">
+                                        {query.length > 0 && (
+                                          <Combobox.Option value={`${query}`}>
+                                            Create "{query}"
+                                          </Combobox.Option>
+                                        )}
+                                        {filteredCity.map((city) => (
+                                          <Combobox.Option
+                                            key={city.name}
+                                            value={`${city.name.replace("ā", "a")
+                                              .replace("ò", "o")
+                                              .replace("à", "a")}, ${city.country}`}
+                                          >
+                                            {city.name.replace("ā", "a")
+                                              .replace("ò", "o")
+                                              .replace("à", "a")}, {city.country}
+                                          </Combobox.Option>
+                                        ))}
+                                      </Combobox.Options>
+                                    </Combobox>
                       <ErrorMessage
                         name="location"
                         component="div"

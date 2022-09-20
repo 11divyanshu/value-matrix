@@ -19,17 +19,25 @@ const AssociationDetailForm = (props) => {
 
   const resetBtn = React.useRef(null);
 
-  // const [companyList, setCompanyList] = React.useState([]);
-  // const [selectedCompany, setSelectedCompany] = React.useState(null);
-  // const [companyQuery, setCompanyQuery] = React.useState("");
-  // const filteredCompany =
-  //   companyQuery === ""
-  //     ? companyList.slice(0, 10)
-  //     : companyList
-  //         .filter((company) =>
-  //           company.name.toLowerCase().includes(companyQuery.toLowerCase())
-  //         )
-  //         .slice(0, 10);
+  const [companyList, setCompanyList] = React.useState([]);
+  const [selectedCompany, setSelectedCompany] = React.useState(null);
+  const [companyQuery, setCompanyQuery] = React.useState("");
+  const filteredCompany =
+    companyQuery === ""
+      ? companyList.slice(0, 10)
+      : companyList
+          .filter((company) =>
+            company.name.toLowerCase().includes(companyQuery.toLowerCase())
+          )
+          .slice(0, 10);
+
+          React.useEffect(() => {
+            const initial = async () => {
+              let res = await getDBCompanyList();
+              setCompanyList(res.data);
+            };
+            initial();
+          }, []);
 
   const [initialValues, setInitialValues] = React.useState({
     title: null,
@@ -57,13 +65,7 @@ const AssociationDetailForm = (props) => {
           })
           .slice(0, 10);
 
-  // React.useEffect(() => {
-  //   const initial = async () => {
-  //     let res = await getDBCompanyList();
-  //     setCompanyList(res.data);
-  //   };
-  //   initial();
-  // }, []);
+
 
   React.useEffect(() => {
     const initial = async () => {
@@ -170,7 +172,7 @@ const AssociationDetailForm = (props) => {
                 // if (!values.employment_type) {
                 //   errors.employment_type = "Required";
                 // }
-                if (values.comapny_name) {
+                if (!selectedCompany || selectedCompany === " ") {
                   errors.company_name = "Required";
                 }
                 if (!selectedCity || selectedCity === " ") {
@@ -200,7 +202,9 @@ const AssociationDetailForm = (props) => {
                 );
                 if (edit !== null) {
                   const temp = [...associateDetail];
-                  temp[edit] = { ...values, location: selectedCity};
+                  let company =selectedCompany;
+
+                  temp[edit] = { ...values, location: selectedCity,company_name : company };
                   await setAssociateDetail(temp);
                   e.associate = temp;
                   await localStorage.setItem(
@@ -214,7 +218,9 @@ const AssociationDetailForm = (props) => {
                 let temp = associateDetail;
                 temp = temp === undefined ? [] : temp;
                 console.log(temp);
-                temp.push({ ...values, location: selectedCity});
+                let company =selectedCompany;
+
+                temp.push({ ...values, location: selectedCity,company_name : company });
                 await setAssociateDetail(temp);
                 e.associate = temp;
                 await localStorage.setItem(
@@ -231,6 +237,7 @@ const AssociationDetailForm = (props) => {
                   industry: null,
                   description: null,
                 });
+                setSelectedCompany(null);
                 resetBtn.current.click();
               }}
             >
@@ -263,18 +270,18 @@ const AssociationDetailForm = (props) => {
                         Company{" "}
                       </label>
                       <div className="w-4/5">
-                        <Field
+                        {/* <Field
                           name="company_name"
                           type="text"
                           placeholder="Ex. Microsoft"
                           className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
                           style={{ borderRadius: "4px" }}
                           value={values.company_name}
-                        />
-                         {/* {edit !== null && (
+                        /> */}
+                         {edit !== null && (
                           <p>Current Company : {values.company_name}</p>
-                        )} */}
-                        {/* <Combobox
+                        )}
+                        <Combobox
                           value={selectedCompany}
                           onChange={setSelectedCompany}
                         >
@@ -304,7 +311,7 @@ const AssociationDetailForm = (props) => {
                               </Combobox.Option>
                             ))}
                           </Combobox.Options>
-                        </Combobox>  */}
+                        </Combobox> 
                         <ErrorMessage
                           name="company_name"
                           component="div"
