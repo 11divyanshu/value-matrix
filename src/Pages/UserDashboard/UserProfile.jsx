@@ -2,7 +2,8 @@ import React from "react";
 import { ReactSession } from "react-client-session";
 import { Formik, Form, Field } from "formik";
 import { getProfileImage } from "../../service/api";
-
+import { BiErrorCircle } from "react-icons/bi";
+import { TiTick } from "react-icons/ti";
 // Assets
 import Avatar from "../../assets/images/UserAvatar.png";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -81,6 +82,33 @@ const UserProfile = () => {
               </button>
             </div>
           </div>
+
+          <div className="mx-3">
+          <div className="flex items-center space-x-3 py-1">
+                        {user && user.profileImg ? (
+                          <TiTick className="text-green-500 text-2xl" />
+                        ) : (
+                          <BiErrorCircle className="text-red-500 text-2xl" />
+                        )}
+                        <p>Uploaded Profile Image</p>
+                      </div>
+                      <div className="flex items-center space-x-3 py-1">
+                        {user && user.linkedInId ? (
+                          <TiTick className="text-green-500 text-2xl" />
+                        ) : (
+                          <BiErrorCircle className="text-red-500 text-2xl" />
+                        )}
+                        <p>Connected LinkedIn Profile</p>
+                      </div>
+                      <div className="flex items-center space-x-3 py-1">
+                        {user && user.tools.length > 0 ? (
+                          <TiTick className="text-green-500 text-2xl" />
+                        ) : (
+                          <BiErrorCircle className="text-red-500 text-2xl" />
+                        )}
+                        <p>Updated Skills</p>
+                      </div>
+            </div>
 
           <div
             className="my-7 rounded-lg pt-3 w-full"

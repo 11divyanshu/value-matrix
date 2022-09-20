@@ -1036,7 +1036,7 @@ setSelectedSchool(null);
                   /> */}
                 </div>
                 <p className="font-semibold text-md md:w-2/5 ">{item.school}</p>
-                <div className="md:flex flex-wrap justify-between w-full  text-gray-800 ">
+                <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 align-items-right">
                   <div className="flex my-2 space-x-2 text-sm items-center">
                     <FiInfo />
                     <p>{item.degree}</p> <p>|</p> <p>{item.field_of_study}</p>
@@ -1052,9 +1052,9 @@ setSelectedSchool(null);
                       {item.start_date} - {item.end_date}
                     </p>
                   </div>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex text-right mr-auto space-x-2 justify-end">
                     <button
-                      class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
+                      class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded ml-auto content-end"
                       style={{ backgroundColor: "#034488" }}
                       onClick={() => {
                         setEdit(index);
@@ -1489,8 +1489,8 @@ setSelectedSchool(null);
                       {item.employment_type}
                     </p>{" "}
                   </div>
-                  <div className="md:flex flex-wrap justify-between w-full py-1 text-gray-800 ">
-                    <div className="space-x-2 my-2 flex items-center">
+                  <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 align-items-right">
+                    <div className="space-x-2 my-2 flex items-center ">
                       <FaRegBuilding />
                       <p>{item.company_name}</p>
                     </div>
@@ -1999,7 +1999,7 @@ setSelectedSchool(null);
                     <p>{item.title}</p> <p className="font-normal text-sm">|</p>{" "}
                     <p className="font-normal text-sm">{item.location}</p>{" "}
                   </div>
-                  <div className="md:flex flex-wrap justify-between w-full py-1 text-gray-800 ">
+                  <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 align-items-right">
                     <div className="space-x-2 flex items-center">
                       <FaRegBuilding />
                       <p>{item.company_name}</p>
