@@ -1,0 +1,22 @@
+.icons{
+    visibility: invisible;
+    @media only screen and (max-width: 1200px){
+        visibility: visible;
+        padding:0.5rem 1rem;
+        margin:0;
+        display: block;
+       
+
+        }
+}
+
+.content{
+    @media only screen and (min-width: 1200px){
+        visibility: visible;
+        padding:0rem 1rem;
+        margin:0;
+        display: block;
+       
+
+        }
+}

@@ -34,6 +34,13 @@ $breakpoint-xl: 1336px !default;
     height: 100%;
     z-index: 10 !important;
   }
+
+  *{
+    -ms-overflow-style: none;
+}
+::-webkit-scrollbar {
+    display: none;
+}
 } 
   /* This is for submenu item */
   

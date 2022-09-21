@@ -27,11 +27,9 @@ const Sidebar = () => {
   const [open, setOpen] = React.useState(true);
   const [toggled, setToggled] = React.useState(true);
   const [collapsed, setCollapsed] = React.useState(false);
-  // const hasWindow = typeof window !== "undefined";
-  const handleToggle = () => {
-    setToggled(!toggled);
-    setCollapsed(!collapsed);
-  };
+   const hasWindow = typeof window !== "undefined";
+   const [close, setClose] = React.useState(null);
+
 
   const Logout = async () => {
     console.log("CHeck");
@@ -49,29 +47,37 @@ const Sidebar = () => {
     default: true,
   });
 
-  // function getWindowDimensions() {
-  //   const width = hasWindow ? window.innerWidth : null;
-  //   const height = hasWindow ? window.innerHeight : null;
-  //   return {
-  //     width,
-  //     height,
-  //   };
-  // }
+  function getWindowDimensions() {
+    const width = hasWindow ? window.innerWidth : null;
+    const height = hasWindow ? window.innerHeight : null;
+    console.log(width);
+    return {
+      width,
+      height,
+    };
+  }
 
-  // const [windowDimensions, setWindowDimensions] = React.useState(
-  //   getWindowDimensions()
-  // );
+  const [windowDimensions, setWindowDimensions] = React.useState(
+    getWindowDimensions()
+  );
 
-  // React.useEffect(() => {
-  //   if (hasWindow) {
-  //     function handleResize() {
-  //       setWindowDimensions(getWindowDimensions());
-  //     }
+  React.useEffect(() => {
+    if (hasWindow) {
+      function handleResize() {
+        setWindowDimensions(getWindowDimensions());
+      }
+      setClose(getWindowDimensions().width)
 
-  //     window.addEventListener("resize", handleResize);
-  //     return () => window.removeEventListener("resize", handleResize);
-  //   }
-  // }, [hasWindow]);
+
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }
+  }, [hasWindow]);
+  const handleToggle = () => {
+    if(close < 1336){
+      setToggled(!toggled);
+      setCollapsed(!collapsed);}
+     };
 
   React.useEffect(() => {
     const initial = async () => {
@@ -165,7 +171,7 @@ const Sidebar = () => {
                       to={`/XI${item.path}`}
                       onClick={() => {
                         setOpen(true);
-                        // handleToggle();
+                         handleToggle();
                       }}
                     />
                   </MenuItem>

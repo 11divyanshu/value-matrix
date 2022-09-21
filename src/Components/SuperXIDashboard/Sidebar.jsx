@@ -20,6 +20,7 @@ const Sidebar = () => {
   const [collapsed, setCollapsed] =  React.useState(false);
   const [activePage, setActivePage] = React.useState(null) ;
   const hasWindow = typeof window !== "undefined";
+  const [close, setClose] = React.useState(null);
 
   const [permission, setPermissions] = React.useState({
     add_skills: false,
@@ -29,10 +30,7 @@ const Sidebar = () => {
     add_notifications: false,
     default: true,
   });
-  const handleToggle = () => {
-    setToggled(!toggled);
-    setCollapsed(!collapsed);
-}
+ 
   function getWindowDimensions() {
     const width = hasWindow ? window.innerWidth : null;
     const height = hasWindow ? window.innerHeight : null;
@@ -56,6 +54,11 @@ const Sidebar = () => {
       return () => window.removeEventListener("resize", handleResize);
     }
   }, [hasWindow]);
+  const handleToggle = () => {
+    if(close < 1336){
+      setToggled(!toggled);
+      setCollapsed(!collapsed);}
+     };
 
   React.useEffect(() => {
     const initial = async () => {
@@ -129,7 +132,7 @@ const Sidebar = () => {
                     return (
                       <MenuItem className='text-gray-700 font-semibold' active={window.location.pathname === `/superXI${item.path}`}
                       icon={item.icon}>{item.name} <Link to={`/superXI${item.path}`} onClick={()=> {setOpen(true)
-                        // handleToggle();
+                       handleToggle();
                       } 
                       
                     

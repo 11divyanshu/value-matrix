@@ -24,6 +24,9 @@ const Sidebar = (props) => {
   const [toggled, setToggled] = React.useState(true);
   const [collapsed, setCollapsed] =  React.useState(false);
   const [activePage, setActivePage] = React.useState(null) ;
+  const [close, setClose] = React.useState(null);
+  const hasWindow = typeof window !== "undefined";
+
   const sideRef = React.useRef(null);
   const Logout = async () => {
     let user = await localStorage.getItem("user");
@@ -34,43 +37,40 @@ const Sidebar = (props) => {
     await localStorage.setItem("access_token", null);
     window.location.href = "/login";
   };
-function handleActive(event) {
 
-}
-  const handleToggle = (event) => {
-      setToggled(!toggled);
-      setCollapsed(!collapsed);
-      // let side  = document.getElementById("prosidebar");
-      // if (!sideRef.current.classList.value.includes("active")) {
-      //   sideRef.current.classList.toggle('active') ;
-      //   if (activePage)
-      //     activePage.classList.remove("active") ;
-      //   setActivePage(sideRef) ;
-      // }
+  function getWindowDimensions() {
+    const width = hasWindow ? window.innerWidth : null;
+    const height = hasWindow ? window.innerHeight : null;
+    // console.log(width);
+    return {
+      width,
+      height,
+    };
   }
-  // const hasWindow = typeof window !== 'undefined';
 
-  // function getWindowDimensions() {
-  //   const width = hasWindow ? window.innerWidth : null;
-  //   const height = hasWindow ? window.innerHeight : null;
-  //   return {
-  //     width,
-  //     height,
-  //   };
-  // }
+  const [windowDimensions, setWindowDimensions] = React.useState(
+    getWindowDimensions()
+  );
 
-  // const [windowDimensions, setWindowDimensions] = React.useState(getWindowDimensions());
+  React.useEffect(() => {
+    if (hasWindow) {
+      function handleResize() {
+        setWindowDimensions(getWindowDimensions());
+      }
+setClose(getWindowDimensions().width)
+      console.log(getWindowDimensions().width);
 
-  // React.useEffect(() => {
-  //   if (hasWindow) {
-  //     function handleResize() {
-  //       setWindowDimensions(getWindowDimensions());
-  //     }
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }
+  }, [hasWindow]);
 
-  //     window.addEventListener('resize', handleResize);
-  //     return () => window.removeEventListener('resize', handleResize);
-  //   }
-  // }, [hasWindow]);
+  const handleToggle = () => {
+    if(close < 1336){
+      setToggled(!toggled);
+      setCollapsed(!collapsed);}
+     };
+ 
   
 
   return (
@@ -109,7 +109,7 @@ function handleActive(event) {
            Value matrix
           </MenuItem> */}
            <MenuItem className='text-gray-700 font-semibold flex' active={window.location.pathname === `/user/` || window.location.pathname === `/user`}
-            // onClick={()=> handleToggle()}
+            onClick={()=> handleToggle()}
                        > <p className='text-xl flex mx-2'><AiOutlineHome/><p className='text-sm mx-4 text-gray-700 font-semibold'>Dashboard </p></p><Link to={`/user/`} /></MenuItem>
 
 <p className='text-gray-400 font-bold text-xs mx-4 my-5'>ANALYTICS</p>
@@ -119,7 +119,7 @@ function handleActive(event) {
                 <MenuItem className='text-gray-700 font-semibold' active={window.location.pathname === `/user/${item.path}`}
                 icon={item.icon}>{item.name} <Link to={`/user/${item.path}`} onClick={()=> {
                   setOpen(true)  
-                  // handleToggle();
+                   handleToggle();
                 } 
                 
               

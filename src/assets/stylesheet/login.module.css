@@ -27,6 +27,16 @@
   background: #2563eb;
 }
 
+@media only screen and (max-width: 1336px){
+  
+  *{
+    -ms-overflow-style: none;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+}
+
 .loginLanding {
   /* background: url("../images/loginBackground.jpeg"); */
   background: linear-gradient(150deg,#40D2C7,#96DDFD,#01458C);

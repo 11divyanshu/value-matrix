@@ -1,5 +1,7 @@
 import React, { useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import "../../assets/stylesheet/detailForm.scss";
+
 import "tw-elements";
 import ResumeForm from "./CandidateFormComponent/ResumeForm";
 import EducationDetailForm from "./CandidateFormComponent/EducationalDetails";
@@ -7,7 +9,18 @@ import ExperienceDetailForm from "./CandidateFormComponent/ExperienceDetail";
 import AssociationDetailForm from "./CandidateFormComponent/Association";
 import ContactDetailForm from "./CandidateFormComponent/ContactDetails";
 import Tools from "./CandidateFormComponent/Tools";
-
+import {
+  AiOutlineHome,
+  AiOutlineUser,
+  AiOutlineFolderAdd,
+  AiOutlineUnorderedList,
+} from "react-icons/ai";
+import { CgWorkAlt } from "react-icons/cg";
+import { IoSchoolOutline } from "react-icons/io5";
+import { FaRegBuilding } from "react-icons/fa";
+import { FiInfo } from "react-icons/fi";
+import { BsCalendar } from "react-icons/bs";
+import { GrScorecard } from "react-icons/gr";
 const CandidateResumeForm = (props) => {
   let [isOpen, setIsOpen] = useState(props.isOpen);
   let [step, setStep] = useState(0);
@@ -27,6 +40,7 @@ const CandidateResumeForm = (props) => {
   let components = [
     {
       name: "Upload Resume",
+      icon: <IoSchoolOutline  />,
       component: (
         <ResumeForm
           setCandidateDetails={setCandidateDetails}
@@ -37,6 +51,7 @@ const CandidateResumeForm = (props) => {
     },
     {
       name: "Educational Details",
+      icon: <FaRegBuilding  />,
       component: (
         <EducationDetailForm
           setCandidateDetails={setCandidateDetails}
@@ -47,6 +62,7 @@ const CandidateResumeForm = (props) => {
     },
     {
       name: "Experience",
+      icon: <CgWorkAlt  />,
       component: (
         <ExperienceDetailForm
           setCandidateDetails={setCandidateDetails}
@@ -57,6 +73,7 @@ const CandidateResumeForm = (props) => {
     },
     {
       name: "Association",
+      icon: <CgWorkAlt  />,
       component: (
         <AssociationDetailForm
           setCandidateDetails={setCandidateDetails}
@@ -67,6 +84,7 @@ const CandidateResumeForm = (props) => {
     },
     {
       name: "Contact Details",
+      icon: <FiInfo  />,
       component: (
         <ContactDetailForm
           setCandidateDetails={setCandidateDetails}
@@ -77,6 +95,7 @@ const CandidateResumeForm = (props) => {
     },
     {
       name: "Skills",
+      icon: <GrScorecard />,
       component: (
         <Tools
           setCandidateDetails={setCandidateDetails}
@@ -120,10 +139,10 @@ const CandidateResumeForm = (props) => {
 
   return (
     <>
-      <Transition appear show={isOpen} as={Fragment} className="relative z-50">
+      <Transition appear show={isOpen} as={Fragment} className="relative z-50 w-full">
         <Dialog
           as="div"
-          className="relative z-120"
+          className="relative z-120  w-5/6"
           onClose={() => {}}
           static={true}
         >
@@ -141,7 +160,7 @@ const CandidateResumeForm = (props) => {
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <div className="flex min-h-full items-center justify-center p-4 text-center max-w-4xl">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -151,7 +170,7 @@ const CandidateResumeForm = (props) => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full  transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all" style={{ width: '62%' }}>
+                <Dialog.Panel className="w-full  transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all" >
                   <Dialog.Title
                     as="h3"
                     className="text-2xl font-bold leading-6 text-gray-900 flex"
@@ -171,7 +190,10 @@ const CandidateResumeForm = (props) => {
                                 index < step && "text-green-600"
                               }`}
                             >
-                              {item.name}
+                               <p className="lg:visible hidden content">{item.name}</p>
+          <p className="icons hidden">
+           {item.icon}
+          </p>
                             </div>
                           );
                         })}

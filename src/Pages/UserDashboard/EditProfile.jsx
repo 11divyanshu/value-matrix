@@ -19,9 +19,31 @@ import EditTabs from "../../Components/Dashbaord/EditTabs";
 
 const EditProfile = () => {
   // Sets OTPs to NULL
+  // const [user, setUser] = React.useState();
+  const [profileImg, setProfileImg] = React.useState(null);
   React.useEffect(() => {
     setEmailOTP(null);
     setContactOTP(null);
+  }, []);
+  React.useEffect(() => {
+    const func = async () => {
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let access_token = localStorage.getItem("access_token");
+      if (user && user.profileImg) {
+        let image = await getProfileImage({ id: user._id }, user.access_token);
+        await localStorage.setItem("profileImg", JSON.stringify(image));
+
+        let base64string = btoa(
+          String.fromCharCode(...new Uint8Array(image.data.Image.data))
+        );
+        let src = `data:image/png;base64,${base64string}`;
+        await setProfileImg(src);
+      }
+      if (access_token === null) window.location.href = "/login";
+
+      await setUser(user);
+    };
+    func();
   }, []);
 
   // States for the Page
@@ -146,32 +168,32 @@ const EditProfile = () => {
   };
 
   // Sets User And Access_token
-  React.useEffect(() => {
-    const getData = async () => {
-      let access_token1 = await localStorage.getItem("access_token");
-      let user = await JSON.parse(localStorage.getItem("user"));
-      await setUser(user);
-      await setToken(access_token1);
-      if (access_token1 === "null")
-        await localStorage.setItem("access_token", user.access_token);
-        if (user && user.profileImg) {
-          let image = await getProfileImage({id: user._id}, user.access_token);
-            await localStorage.setItem("profileImg", JSON.stringify(image));
-          let base64string = btoa(
-            String.fromCharCode(...new Uint8Array(image.data.Image.data))
-          );
-          let src = `data:image/png;base64,${base64string}`;
-          await setProfilePic(src);
-        }
-    };
-    getData();
-  }, []);
+  // React.useEffect(() => {
+  //   const getData = async () => {
+  //     let access_token1 = await localStorage.getItem("access_token");
+  //     let user = await JSON.parse(localStorage.getItem("user"));
+  //     await setUser(user);
+  //     await setToken(access_token1);
+  //     if (access_token1 === "null")
+  //       await localStorage.setItem("access_token", user.access_token);
+  //       if (user && user.profileImg) {
+  //         let image = await getProfileImage({id: user._id}, user.access_token);
+  //           await localStorage.setItem("profileImg", JSON.stringify(image));
+  //         let base64string = btoa(
+  //           String.fromCharCode(...new Uint8Array(image.data.Image.data))
+  //         );
+  //         let src = `data:image/png;base64,${base64string}`;
+  //         await setProfilePic(src);
+  //       }
+  //   };
+  //   getData();
+  // }, []);
 
   return (
-    <div className="pl-10 bg-slate-100">
+    <div className="px-3 h-100 bg-slate-100">
       {user !== null && (
-        <div className="m-2">
-          <div
+        <div className="m-1">
+          {/* <div
             className="h-48 w-full -z-[3]"
             style={{ background: "#99DEFF" }}
           ></div>
@@ -201,6 +223,42 @@ const EditProfile = () => {
                   Upload Image
                 </button>
               </label>
+            </div> */}
+          {/* </div> */}
+
+          <div
+            className="md:h-48 h-24 w-full relative -z-[3]"
+            style={{ background: "#99DEFF" }}
+          ></div>
+          <div className="relative  rounded-md w-full py-3 md:flex  ">
+            <div className="absolute  sm:left-6 sm:px-2 -top-20 md:-top-28 md:left-20 ">
+              <img
+                src={
+                  user && user.profileImg && profileImg ? profileImg : Avatar
+                }
+                //src={Avatar}
+                className=" h-36 w-36 md:h-32 md:w-32 lg:h-56 lg:w-56 rounded-full relative"
+                alt="userAvatar"
+              />
+            </div>
+
+            <div className="mt-16 md:ml-80 md:px-5 md:mt-3  sm:mx-5 md:text-left">
+              <p className="font-semibold md:text-3xl text-2xl ">
+                {user.firstName} {user.lastname}
+              </p>
+              <p className="text-gray-400 text-lg">{user.username}</p>
+            </div>
+            <div className=" mt-3 md:text-right  md:ml-auto sm:text-left ">
+              <button
+                class=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
+                style={{ backgroundColor: "#034488" }}
+               
+                  onClick={() => ModalBtnRef.current.click()}
+
+              
+              >
+                Upload Image
+              </button>
             </div>
           </div>
 

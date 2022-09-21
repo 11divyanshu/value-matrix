@@ -380,7 +380,7 @@ const UpdateInterviewApplication = () => {
                       Evaluation Details
                     </p>
                     <div className="w-full  bg-white border border-b bg-white px-9 py-6 border space-y-2">
-                      {interview.job &&
+                      {/* {interview.job &&
                         interview.job.questions &&
                         interview.job.questions.map((question, index) => {
                           return (
@@ -403,11 +403,8 @@ const UpdateInterviewApplication = () => {
                                 <textarea
                                   className="px-4 py-1 my-3 w-3/4"
                                   style={{ borderRadius: "5px" }}
-                                  // onChange={(e) => {
-                                  //   let temp = [...evaluation];
-                                  //   temp[index] = e.target.value;
-                                  //   setEvaluation(temp);
-                                  // }}
+                                  disabled
+                                  
                                 >
                                   {interview &&
                                   user &&
@@ -426,7 +423,7 @@ const UpdateInterviewApplication = () => {
                               </div>
                             </div>
                           );
-                        })}
+                        })} */}
                         {
                           interview && interview.application && interview.application.evaluations && interview.application.evaluations[user._id] && interview.application.evaluations[user._id].questions && 
                           interview.application.evaluations[user._id].questions.map((question,index) => {
@@ -438,14 +435,16 @@ const UpdateInterviewApplication = () => {
                                     {question.question}
                                   </span>
                                 </p>
+                                <p className="font-semibold text-gray-600 text-md my-1">
+                                  Ideal Answer :{" "}
+                                  <span className="font-normal">
+                                    {question.idealAnswer}
+                                  </span>
+                                </p>
                                   <textarea
                                     className="px-4 py-1 my-3 w-3/4"
                                     style={{ borderRadius: "5px" }}
-                                    onChange={(e) => {
-                                      let temp = [...evaluation];
-                                      temp[index] = e.target.value;
-                                      setEvaluation(temp);
-                                    }}
+                                  disabled
                                   >
                                     {question.answer}
                                   </textarea>
@@ -453,7 +452,7 @@ const UpdateInterviewApplication = () => {
                             );
                           }
                         )}
-                      {XIEvaluations &&
+                      {/* {XIEvaluations &&
                         XIEvaluations.map((question, index) => {
                           let i = index;
                           if (interview.job && interview.job.questions)
@@ -504,115 +503,9 @@ const UpdateInterviewApplication = () => {
                               </div>
                             </div>
                           );
-                        })}
-                      {showEvalForm && (
-                        <div>
-                          <Formik
-                            initialValues={initialQuestion}
-                            validate={(values) => {
-                              const errors = {};
-                              if (!values.question) {
-                                errors.question = "Required !";
-                              }
-                              if (!values.answer) {
-                                errors.answer = "Required !";
-                              }
-                              return errors;
-                            }}
-                            onSubmit={async (values) => {
-                              setShowEvalForm(false);
-                              if (editIndex) {
-                                let temp = [...XIEvaluations];
-                                temp[editIndex] = {
-                                  question: values.question,
-                                  answer: values.answer,
-                                };
-                                await setXIEvaluations(temp);
-                                setEditIndex(null);
-                              } else {
-                                setXIEvaluations([
-                                  ...XIEvaluations,
-                                  {
-                                    question: values.question,
-                                    answer: values.answer,
-                                  },
-                                ]);
-                              }
-                              setInitialQuestion({
-                                question: "",
-                                answer: "",
-                              });
-                            }}
-                          >
-                            {(values) => {
-                              return (
-                                <Form>
-                                  <p className="font-semibold">
-                                    Add Evaluation Response
-                                  </p>
-                                  <div className="my-3">
-                                    <label className="font-semibold block">
-                                      Question
-                                    </label>
-                                    <Field
-                                      name="question"
-                                      className="w-3/4 px-4 py-1"
-                                      style={{ borderRadius: "5px" }}
-                                      type="text"
-                                    />
-                                    <ErrorMessage
-                                      name="question"
-                                      component="div"
-                                      className="text-red-600 text-sm"
-                                    />
-                                  </div>
-                                  <div className="my-3 ">
-                                    <label className="font-semibold block">
-                                      Answer
-                                    </label>
-                                    <Field
-                                      name="answer"
-                                      className="w-3/4 px-4 py-1 border-1 border-black"
-                                      row="2"
-                                      style={{
-                                        borderRadius: "5px",
-                                        border: "solid #6b7280 1px",
-                                      }}
-                                      as="textarea"
-                                    />
-                                    <ErrorMessage
-                                      name="answer"
-                                      component="div"
-                                      className="text-red-600 text-sm"
-                                    />
-                                  </div>
-                                  <div className="flex space-x-3">
-                                    <button
-                                      className="px-4 py-1 text-white rounded-md"
-                                      style={{ backgroundColor: "#034488" }}
-                                    >
-                                      {editIndex === null ? "Add" : "Update"}
-                                    </button>
-                                    <button
-                                      className="px-4 py-1 border-2 border-black rounded-md"
-                                      onClick={async () => {
-                                        await setShowEvalForm(false);
-                                        setInitialQuestion({
-                                          question: "",
-                                          answer: "",
-                                        });
-                                        await setEditIndex(null);
-                                      }}
-                                    >
-                                      Cancel
-                                    </button>
-                                  </div>
-                                </Form>
-                              );
-                            }}
-                          </Formik>
-                        </div>
-                      )}
+                        })} */}
+                     
+                         
                       {/* {!showEvalForm && (
                         <button
                           className="px-4 py-1 bg-blue-500 text-white rounded-md block my-3"

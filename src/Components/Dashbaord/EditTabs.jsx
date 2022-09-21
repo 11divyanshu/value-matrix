@@ -954,7 +954,7 @@ setSelectedSchool(null);
                     <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                       <label className="font-semibold text-lg md:w-2/5 mx-2">
                         Connect Social Account
-                        <p className="text-sm">Connect Account Associated With Provided Email Address Only !</p>
+                        <p className="text-sm mx-2 text-gray-500">Connect Account Associated With Provided Email Address Only !</p>
                       </label>
                       {user && !user.linkedInId ? (
                       <div className="w-4/5 flex items-center px-4">
@@ -1040,7 +1040,7 @@ setSelectedSchool(null);
                   /> */}
                 </div>
                 <p className="font-semibold text-md md:w-2/5 ">{item.school}</p>
-                <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 align-items-right">
+                <div className="grid grid-cols-1 md:gap-2 gap-0 lg:grid-cols-4 align-items-right">
                   <div className="flex my-2 space-x-2 text-sm items-center">
                     <FiInfo />
                     <p>{item.degree}</p> <p>|</p> <p>{item.field_of_study}</p>
@@ -1493,7 +1493,7 @@ setSelectedSchool(null);
                       {item.employment_type}
                     </p>{" "}
                   </div>
-                  <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 align-items-right">
+                  <div className="grid grid-cols-1 md:gap-2 gap-0 lg:grid-cols-4 align-items-right">
                     <div className="space-x-2 my-2 flex items-center ">
                       <FaRegBuilding />
                       <p>{item.company_name}</p>
@@ -1999,11 +1999,11 @@ setSelectedSchool(null);
                       }}
                     /> */}
                   </div>
-                  <div className="font-semibold flex space-x-2 items-center">
+                  <div className="font-semibold my-1 flex space-x-2 items-center">
                     <p>{item.title}</p> <p className="font-normal text-sm">|</p>{" "}
                     <p className="font-normal text-sm">{item.location}</p>{" "}
                   </div>
-                  <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 align-items-right">
+                  <div className="grid grid-cols-1 md:gap-2 gap-1 lg:grid-cols-4 align-items-right">
                     <div className="space-x-2 flex items-center">
                       <FaRegBuilding />
                       <p>{item.company_name}</p>
@@ -2478,7 +2478,7 @@ setSelectedSchool(null);
                 }}
               />
               <button
-                className="h-10 bg-blue-600 text-white rounded-lg block cursor-pointer px-8 align-middle ml-3"
+                className="h-10 bg-blue-600 text-white rounded-lg block cursor-pointer px-8 align-middle ml-3 my-2"
                 style={{ backgroundColor: "#034488" }}
               >
                 Search
@@ -2662,14 +2662,14 @@ setSelectedSchool(null);
               {rolesC
                 ? rolesC.map((item, index) => {
                   return (
-                    <div>
-                      <p className="font-semibold text-md md:w-1/2  flex w-full  space-y-2 my-5">
+                    <div className="py-2">
+                      <p className="font-semibold text-md md:w-1/2  md:flex w-full  space-y-2 my-5">
                         {item}
                       </p>
                       {skillsPrimary[item].map((el) => (
-                        <div>
+                        <div className="py-1">
                           <p className="text-sm my-2">{el}</p>
-                          <div className="flex flex-wrap">
+                          <div className="md:flex ">
                             {user.tools
                               .filter(
                                 (tool) =>
@@ -2677,7 +2677,7 @@ setSelectedSchool(null);
                                   tool.primarySkill === el
                               )
                               .map((item1, index) => (
-                                <p class="bg-blue-100 text-blue-800 text-xs mb-2 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
+                                <p class="bg-blue-100 text-blue-800 text-xs mb-2 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800 ">
                                   {item1.secondarySkill}{" "}
                                   {item1.proficiency &&
                                     `(${item1.proficiency})`}

@@ -54,18 +54,18 @@ const CompanyProfile = () => {
             style={{ background: "#99DEFF" }}
           ></div>
           <div className="relative  rounded-md w-full py-3 md:flex  ">
-                      <div className="absolute  sm:left-6 sm:px-2 -top-20 md:-top-28 md:left-20 ">
-                        <img
-                          src={
-                             user && user.profileImg && profileImg ? profileImg : Avatar
-                           }
-                          //src={Avatar}
-                          className="sm:h-20 sm:w-20 md:h-56 md:w-56 rounded-full"
-                          alt="userAvatar"
-                        />
-                      </div>
+          <div className="absolute  sm:left-6 sm:px-2 -top-20 md:-top-28 md:left-20 ">
+              <img
+                src={
+                  user && user.profileImg && profileImg ? profileImg : Avatar
+                }
+                //src={Avatar}
+                className=" h-36 w-36 md:h-32 md:w-32 lg:h-56 lg:w-56 rounded-full relative"
+                alt="userAvatar"
+              />
+            </div>
 
-            <div className="mt-20 md:ml-80 md:px-5 md:mt-3  sm:mx-5 md:text-left">
+            <div className="mt-16 md:ml-80 md:px-5 md:mt-3  sm:ml-7 md:text-left">
               <p className="font-semibold md:text-3xl text-2xl ">
                 {user.firstName} {user.lastname}
               </p>

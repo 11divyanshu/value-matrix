@@ -57,12 +57,12 @@ const UserProfile = () => {
                   user && user.profileImg && profileImg ? profileImg : Avatar
                 }
                 //src={Avatar}
-                className="sm:h-20 sm:w-20 md:h-56 md:w-56 rounded-full relative -z-[3]"
+                className=" h-36 w-36 md:h-32 md:w-32 lg:h-56 lg:w-56 rounded-full relative"
                 alt="userAvatar"
               />
             </div>
 
-            <div className="mt-24 md:ml-80 md:px-5 md:mt-3  sm:mx-5 md:text-left">
+            <div className="mt-16 md:ml-80 md:px-5 md:mt-3  sm:mx-5 md:text-left">
               <p className="font-semibold md:text-3xl text-2xl ">
                 {user.firstName} {user.lastname}
               </p>

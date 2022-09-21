@@ -45,27 +45,27 @@ const Panel = () => {
     <div className="container mx-auto mt-2 ">
       <p className="text-sm flex my-5 mx-5 font-semibold">Hey Andrew - <p className="text-gray-400 px-2"> here's what's happening today!</p></p>
       <div className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-4 align-items-center">
-        <div className="lg:w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
+        <div className="lg:w-5/6 px-4 mx-5 py-3 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
           
-          <div className=" text-md font-semibold text-gray-900">
+          <p className=" text-md font-bold text-gray-900">
             Job Active - 00
-          </div>
+          </p>
         </div>
-        <div className="lg:w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
+        <div className="lg:w-5/6 px-4 mx-5 py-3 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
           
-          <div className=" text-md font-semibold text-gray-900">
+          <div className=" text-md font-black text-gray-900">
             Interview Schedule - 00
           </div>
         </div>
-        <div className="lg:w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
+        <div className="lg:w-5/6 px-4 mx-5 py-3 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
           
-          <div className=" text-md font-semibold text-gray-900">
+          <div className=" text-md font-black text-gray-900">
             Candidate Uploaded - 00
           </div>
         </div>
-        <div className="lg:w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
+        <div className="lg:w-5/6 px-4 mx-5 py-3 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
           
-          <div className=" text-md font-semibold text-gray-900">
+          <div className=" text-md font-black text-gray-900">
             Reschedule Interviews - 00
           </div>
         </div>
@@ -185,9 +185,9 @@ const Panel = () => {
           <div className="md:w-1/2 lg:w-full sm:w-full "><SessionCard /></div>
           
 
-          <div className="shadow-lg my-5 md:w-1/2 lg:w-full md:mx-1 md:my-0 rounded-lg py-5 bg-white sm:w-full">
+          <div className="shadow-lg my-5 md:w-1/2 lg:w-full md:mx-1 md:my-0 rounded-lg py-5 bg-white sm:w-full h-40">
         <div className="flex items-start space-x-3 px-6  ">
-          <div className="py-5">
+          <div className="py-3">
             <p className="text-lg text-left font-semibold">
              Credit Score $
             </p>
