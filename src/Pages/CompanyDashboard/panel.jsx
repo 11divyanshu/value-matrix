@@ -17,6 +17,12 @@ import LGraph from "../../assets/images/lgraph.png";
 import { BsThreeDots } from "react-icons/bs";
 
 const Panel = () => {
+  const [user, setUser] = React.useState(null);
+
+  React.useEffect(()=>{
+    let user = JSON.parse(localStorage.getItem("user"));
+    setUser(user);
+  })
   const data = React.useMemo(
     () => [
       {
@@ -43,7 +49,7 @@ const Panel = () => {
     <div className="flex bg-slate-100 ">
 
     <div className="container mx-auto mt-2 ">
-      <p className="text-sm flex my-5 mx-5 font-semibold">Hey Andrew - <p className="text-gray-400 px-2"> here's what's happening today!</p></p>
+      <p className="text-sm flex my-5 mx-5 font-semibold">Hey {user && user.firstName ? user.firstName :"Company" } - <p className="text-gray-400 px-2"> here's what's happening today!</p></p>
       <div className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-4 align-items-center">
         <div className="lg:w-5/6 px-4 mx-5 py-3 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
           
