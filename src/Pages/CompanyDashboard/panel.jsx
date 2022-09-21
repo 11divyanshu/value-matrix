@@ -185,7 +185,7 @@ const Panel = () => {
           <div className="md:w-1/2 lg:w-full sm:w-full "><SessionCard /></div>
           
 
-          <div className="shadow-lg my-5 md:w-1/2 lg:w-full md:mx-1 md:my-0 rounded-lg py-5 bg-white sm:w-full h-40">
+          <div className="shadow-lg my-5 md:w-1/2 lg:w-full md:mx-1 md:my-0 rounded-lg py-5 bg-white sm:w-full h-28">
         <div className="flex items-start space-x-3 px-6  ">
           <div className="py-3">
             <p className="text-lg text-left font-semibold">
