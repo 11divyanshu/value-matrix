@@ -1929,7 +1929,7 @@ setSelectedSchool(null);
                                     />
                                   </div>
                                 </div>
-                                <div className="flex-wrap flex justify-center text-center">
+                                <div className=" flex mt-4 justify-center text-center">
                                   <button
                                     onClick={() => updateExperience(values)}
                                     className=" bg-blue-600  text-white rounded-lg block cursor-pointer py-2 px-8 align-middle"

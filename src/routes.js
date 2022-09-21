@@ -37,6 +37,7 @@ import ChannelNotificationPanel from "./Pages/AdminDashboard/ChannelNotification
 // Company Pages
 import CJobList from "./Pages/CompanyDashboard/jobList.jsx";
 import CPanel from "./Pages/CompanyDashboard/panel";
+import CEvalDetails from "./Pages/CompanyDashboard/evaluationDetails";
 
 import AddJob from "./Pages/CompanyDashboard/AddJob.jsx";
 // import AddJob from "./Pages/CompanyDashboard/PostJob.jsx";
@@ -320,6 +321,13 @@ export const companyDashboardRoutes = [
     path: "/jobDetails/",
     hide: true,
     component: <CJobDetails />,
+    permission: "default",
+  },
+  {
+    name: "candidateEvaluation",
+    path: "/evaluationDetails/",
+    hide: true,
+    component: <CEvalDetails />,
     permission: "default",
   },
   {

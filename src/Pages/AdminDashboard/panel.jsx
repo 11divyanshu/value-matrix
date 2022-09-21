@@ -17,6 +17,12 @@ import LGraph from "../../assets/images/lgraph.png";
 import { BsThreeDots } from "react-icons/bs";
 
 const Panel = () => {
+  const [user, setUser] = React.useState(null);
+
+  React.useEffect(()=>{
+    let user = JSON.parse(localStorage.getItem("user"));
+    setUser(user);
+  })
   const data = React.useMemo(
     () => [
       {
@@ -43,7 +49,7 @@ const Panel = () => {
     <div className="flex bg-slate-100 ">
 
     <div className="container mx-auto mt-2 ">
-      <p className="text-sm flex my-5 mx-5 font-semibold">Hey Andrew - <p className="text-gray-400 px-2"> here's what's happening today!</p></p>
+      <p className="text-sm flex my-5 mx-5 font-semibold">Hey  {user && user.firstName ? user.firstName :"Company" }  - <p className="text-gray-400 px-2"> here's what's happening today!</p></p>
       <div className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-4 align-items-center">
         <div className="lg:w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
           
@@ -167,7 +173,7 @@ const Panel = () => {
               <p className="text-gray-400 text-sm"> Jan 17,2022</p>
             </div>
             <div className="px-5 text-center my-2 text-sm"><p>12am  - 1am</p><p className="text-gray-400 text-sm"> 03 Minutes Remaining</p></div>
-            <div className="px-5 text-center my-5 text-sm"><span class="bg-gray-400 text-gray-800 text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl dark:bg-yellow-200 dark:text-gray-900 my-2 py-2">Inprogress</span>
+            <div className="px-5 text-center my-5 text-sm"><span class=" text-gray-800 text-xs font-semibold mr-2 px-6 py-0.5  rounded-3xl  my-2 py-2" style={{backgroundColor:"#A5C0BD"}}>Inprogress</span>
             </div>
             <div className="px-5 text-center my-2 text-sm"><p><button style={{ background: "#3ED3C5" }} className=" rounded-lg my-2  px-6 mx-2 py-2 text-xs text-gray-900 font-semibold">
                 More

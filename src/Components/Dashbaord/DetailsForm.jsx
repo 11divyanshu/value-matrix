@@ -30,7 +30,7 @@ const DetailForm = (props) => {
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center max-w-4xl">
+            <div className="flex min-h-full items-center justify-center p-4 text-center max-w-4xl mx-auto">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"

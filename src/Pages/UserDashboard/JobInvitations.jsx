@@ -25,7 +25,12 @@ const JobInvitations = () => {
   const [JobInvitation, setJobInvitation] = React.useState([]);
   const [Loading, setLoading] = React.useState(true);
   const [Error, setError] = React.useState(null);
+  const [user, setUser] = React.useState(null);
 
+  React.useEffect(()=>{
+    let user = JSON.parse(localStorage.getItem("user"));
+    setUser(user);
+  })
   React.useEffect(() => {
     const initial = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
@@ -88,7 +93,7 @@ const JobInvitations = () => {
       >
         {/* <p className="text-2xl mx-3 font-semibold pl-3 mt-5">All Jobs</p> */}
         <p className="text-sm flex my-5 mx-5 font-semibold">
-          Hey Andrew -{" "}
+          Hey  {user && user.firstName ? user.firstName :"User" }  -{" "}
           <p className="text-gray-400 px-2"> here's what's happening today!</p>
         </p>
       </div>

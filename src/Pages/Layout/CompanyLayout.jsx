@@ -10,6 +10,7 @@ import CompanyForm from "../../Components/CompanyDashboard/CompanyForm";
 
 import { getUserFromId, getUserIdFromToken } from "../../service/api";
 import JobDetails from "../CompanyDashboard/JobDetails.jsx";
+import EvaluationDetails from "../CompanyDashboard/evaluationDetails.jsx";
 import "../../assets/stylesheet/layout.scss"
 
 const CompanyDashboard = () => {
@@ -112,12 +113,17 @@ const CompanyDashboard = () => {
       if (c[0]) setComponent(c[0].component);
       else {
         let c1 = component.split("/");
-        console.log(c1);
+        console.log(id);
         if (c1[1] === "jobDetails") setComponent(<JobDetails id={id} />);
+       else if (c1[1] === "evaluationDetails") setComponent(<EvaluationDetails id={id} />);
+
+
         else {
           let c = companyDashboardRoutes.filter(
             (route) => route.path === component.split("company/")[1]
+           
           );
+           console.log(c);
           if (c.length > 0 && c[0]) setComponent(c[0].component);
           else
             setComponent(

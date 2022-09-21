@@ -145,100 +145,13 @@ function JobDetails(props) {
     //     </div>
     //   )}
     // </div>
-    <div className="w-full p-5 " style={{ backgroundColor: "#F2F3F5" }}>
+    <div className="w-full p-5  overflow-hidden" style={{ backgroundColor: "#F2F3F5" }}>
       {job ? (
         <>
-          {/* 
-          <div className="card my-5 mx-auto w-4/5 p-5 bg-white " style={{ "boxShadow": "rgba(0, 0, 0, 0.1) 0px 4px 12px" }}>
-
-
-
-
-            <div className="card-body px-5 w-4/5">
-
-              <h5 className=" px-4 py-2 text-4xl text-gray-900 font-extrabold">{job.jobTitle}</h5>
-              <h6 className="px-4 mb-2 text-md text-blue-600 font-extrabold">{job.hiringOrganization} . {job.location}</h6>
-             
-
-            </div>
-           
-
-            <div className="flex mt-5 px-3">
-              {job.salary && (
-                <div className="flex mt-5 px-5">
-                  <p className="">
-
-                    <div className="shadow-lg p-3 rounded-full">
-                      <p className="text-3xl text-blue-500">
-                        <HiOutlineCalendar />
-                      </p>
-                    </div>
-                  </p>
-                  <div>
-                    <p className="px-4 text-gray-400 text-md text-gray-400">
-                      Job Type
-                    </p>
-                    <p className="px-4 text-md">{job.jobType}</p>
-                  </div>
-                </div>
-              )}
-
-             
-
-
-              <div className="flex px-5 mt-5">
-                <p className="text-sm  ">
-
-                  <div className="shadow-lg p-3 rounded-full">
-                    <div className="text-3xl text-blue-500 ">
-                      <HiOutlineCurrencyDollar />
-                    </div>
-                  </div>
-                </p>
-                <div>
-                  <p className="px-4 text-md text-gray-400 ">Pay Range</p>
-                  <p className="px-4 text-md">{job.salary}</p>
-                </div>
-              </div>
-
-              <div className="flex px-5 mt-5">
-                <p className="text-sm  ">
-                  <div className="shadow-lg p-3 rounded-full">
-                    <div className="text-3xl text-blue-500 ">
-                      <HiOutlineLocationMarker />
-                    </div>
-                  </div>
-                </p>
-                <div>
-                  <p className="px-4 text-md text-gray-400 ">Location</p>
-                  <p className="px-4 text-md">{job.location}</p>
-                </div>
-              </div>
-
-              <div className="flex px-5 mt-5">
-                <p className="text-sm  ">
-                  <div className="shadow-lg p-3 rounded-full">
-                    <div className="text-3xl text-blue-500 ">
-                      <HiOutlinePlay />
-                    </div>
-                  </div>
-                </p>
-                <div>
-                  <p className="px-4 text-md text-gray-400 ">Apply By</p>
-                  <p className="px-4 text-md">
-                    {new Date(job.validTill).getDate() +
-                      "-" +
-                      new Date(job.validTill).getMonth() +
-                      "-" +
-                      new Date(job.validTill).getFullYear()}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div> */}
+         
 
           <div
-            className="card my-5 w-full p-5 bg-white "
+            className="card my-5 w-full md:p-5 p-2 bg-white "
             style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px" }}
           >
             <p className="text-center text-3xl font-black py-2 mb-3">
@@ -248,17 +161,17 @@ function JobDetails(props) {
 
             <div className="w-full  bg-white border border-b">
               <div
-                className="grid px-9 grid-cols-1 gap-4 lg:grid-cols-7 sm:grid-cols-4 py-6"
+                className="grid md:px-9 px-3 grid-cols-1 gap-4 lg:grid-cols-7 sm:grid-cols-4 py-6"
                 style={{ backgroundColor: "#F2F3F5" }}
               >
-                <div className="col-span-2 flex align-middle">
+                <div className="col-span-2 flex align-middle justify-between">
                   <div className="">
                     <img
                       src={Microsoft}
-                      className="h-20 w-20 text-center rounded-full mx-3 bg-white border border-gray-700"
+                      className="h-16 w-16 md:h-20 md:w-20 text-center rounded-full my-3 bg-white border border-gray-700"
                     />
                   </div>
-                  <div className="pt-3">
+                  <div className="pt-3 ">
                     <h5 class="text-black-900 text-lg font-bold mb-1 ">
                       {job.jobTitle}
                     </h5>
@@ -372,7 +285,7 @@ function JobDetails(props) {
                 )}
               </div>
             </div>
-            <div className="card-body px-7 w-4/5">
+            <div className="card-body md:px-7 md:w-4/5">
               <div className="my-7">
                 <h5 className=" px-4 py-2 text-lg text-gray-800 font-bold">
                   {" "}
@@ -451,7 +364,7 @@ function JobDetails(props) {
               )}
             </div>
             {user._id === job.uploadBy && (
-              <div className="my-5 px-9">
+              <div className="my-5 px-3 md:px-9">
                 <div className="flex items-center justify-between">
                   <p className="font-bold text-md">
                     Applicants{" "}
@@ -475,7 +388,8 @@ function JobDetails(props) {
                 </div>
 
                 {candidates.length > 0 && showCandidate && (
-                  <table class="w-full my-5">
+                 <div className="overflow-x-auto">
+                  <table class="w-full my-5 ">
                     <thead class="bg-white border-b text-left">
                       <tr>
                         <th
@@ -508,6 +422,13 @@ function JobDetails(props) {
                         >
                           Status
                         </th>
+                        <th
+                          scope="col"
+                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                        >
+                          
+                        </th>
+                       
                       </tr>
                     </thead>
                     <tbody>
@@ -531,13 +452,21 @@ function JobDetails(props) {
                               {user.contact}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              Pending
+                              {user.status}
+                            </td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                            <p className="text-sm font-semibold py-2">
+                              <Link to={`/company/evaluationDetails/${user._id}`}>
+                                View Details{" "}
+                              </Link>
+                            </p>{" "}
                             </td>
                           </tr>
                         );
                       })}
                     </tbody>
                   </table>
+                  </div>
                 )}
                 <div className="flex items-center justify-between my-5">
                   <p className="font-bold text-md">
@@ -562,6 +491,8 @@ function JobDetails(props) {
                 </div>
 
                 {invited.length > 0 && showInvited && (
+                <div className="overflow-x-auto">
+
                   <table class="w-full my-3">
                     <thead class="bg-white border-b text-left">
                       <tr>
@@ -629,6 +560,7 @@ function JobDetails(props) {
                       })}
                     </tbody>
                   </table>
+                  </div>
                 )}
                 <div className="flex items-center justify-between my-3">
                   <p className="font-bold text-md">
@@ -653,6 +585,8 @@ function JobDetails(props) {
                 </div>
 
                 {declined.length > 0 && showDeclined && (
+                                   <div className="overflow-x-auto">
+
                   <table class="w-full my-3">
                     <thead class="bg-white border-b text-left">
                       <tr>
@@ -707,6 +641,7 @@ function JobDetails(props) {
                       })}
                     </tbody>
                   </table>
+                  </div>
                 )}
               </div>
             )}

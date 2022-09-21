@@ -85,6 +85,16 @@ export const getUserFromId = async (data, token) => {
     console.log("Error while calling SearchUserFromId: ", error);
   }
 };
+export const getUser = async (data, token) => {
+  try {
+    let c = await axios.post(`${url}/getUser`, data, {
+      headers: { authorization: token },
+    });
+    return c;
+  } catch (error) {
+    console.log("Error while calling SearchUserFromId: ", error);
+  }
+};
 
 export const getProfileImage = async (data, token) => {
   try {
@@ -651,6 +661,15 @@ export const getDBSchoolList = async (data, token) => {
 export const updateEvaluation = async(data, token) => {
   try {
     return await axios.post(`${url}/updateEvaluation`, data, {
+      headers: { authorization: token },
+    });
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
+export const getCandidateEvaluation = async(data, token) => {
+  try {
+    return await axios.post(`${url}/getCandidateEvaluation`, data, {
       headers: { authorization: token },
     });
   } catch (err) {

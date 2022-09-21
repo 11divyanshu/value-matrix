@@ -13,7 +13,12 @@ import { Popover, Transition } from "@headlessui/react";
 const JobList = () => {
   const [jobs, setJobs] = React.useState([]);
   const [loader, setLoader] = React.useState(false);
+  const [user, setUser] = React.useState(null);
 
+  React.useEffect(()=>{
+    let user = JSON.parse(localStorage.getItem("user"));
+    setUser(user);
+  })
   const headerso = [
     { label: "job_id", key: "_id" },
     { label: "job_title", key: "jobTitle" },
@@ -110,7 +115,7 @@ const JobList = () => {
     <div className="bg-slate-100">
       <div className="flex mx-5 mt-3" style={{ justifyContent: 'space-between' }}>
         {/* <p className="text-2xl mx-3 font-semibold pl-3 mt-5">All Jobs</p> */}
-        <p className="text-sm flex my-5 mx-5 font-semibold">Hey Andrew - <p className="text-gray-400 px-2"> here's what's happening today!</p></p>
+        <p className="text-sm flex my-5 mx-5 font-semibold">Hey {user && user.firstName ? user.firstName :"Company" } - <p className="text-gray-400 px-2"> here's what's happening today!</p></p>
 
         <div className="py-3">
 
