@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useRef} from "react";
 import { Link, useParams } from "react-router-dom";
 import { getInterviewApplication, updateEvaluation } from "../../service/api";
 import { CgWorkAlt } from "react-icons/cg";
@@ -8,7 +8,7 @@ import { Formik, Form, ErrorMessage, Field } from "formik";
 import { AiTwotoneStar, AiOutlineStar } from "react-icons/ai";
 import { RiEditBoxLine } from "react-icons/ri";
 import { AiOutlineDelete } from "react-icons/ai";
-
+import { useReactToPrint } from "react-to-print";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import swal from "sweetalert";
 
@@ -35,6 +35,11 @@ const UpdateInterviewApplication = () => {
   });
   const [editIndex, setEditIndex] = React.useState(null);
 
+  const componentRef = useRef();
+  const openPdf = useReactToPrint({
+    content: () => componentRef.current,
+    documentTitle: "Evaluation Report"
+  })
   React.useEffect(() => {
     let initial = async () => {
       let user = await JSON.parse(localStorage.getItem("user"));
@@ -91,13 +96,17 @@ const UpdateInterviewApplication = () => {
     initial();
   }, []);
 
+
   return (
-    <div className="bg-slate-100">
+    <div className="bg-slate-100" ref={componentRef}>
       <div className="mx-5 mt-3 p-5">
         <p className="font-bold text-2xl ">Interview Details</p>
         {loading && (
           <p className="text-center font-semibold text-lg">Loading Data...</p>
         )}
+        <div>
+          <button onClick={openPdf} >Print</button>
+          </div>
         {!loading && (
           <div>
             {interview && (
