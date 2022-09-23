@@ -329,7 +329,7 @@ const UpdateInterviewApplication = () => {
                   </div>
 
 
-                  {/* <div>
+                  <div>
                     <div className="flex justify-between md:w-3/4 px-3">
                     <p className="font-semibold text-lg my-3">Skills</p><button
                       class=" hover:bg-blue-700 text-white font-bold px-8 md:mx-6 sm:mx-0 text-xs rounded"
@@ -447,19 +447,17 @@ let skills = [];
                       <div className="p-3">
                        {skillSet
                 ? skillSet.map((item, index) => {
-                  // console.log(item);
-                  return (
-                    <div className="">
+                  return ( <div className="">
                       <div className="flex justify-between md:w-3/4 px-3 ">
                       <p className="font-semibold text-md md:w-1/2  md:flex w-full   my-2">
-                       
+                        {/* {item[0].role} */}
                       </p>
                    
              
                     </div>
-                {    item.forEach((value, key) => {
+                { item.forEach((value, key) => {
 
-<div className="py-1">
+<div className="py-1 block">
                           <p className="text-sm my-2">{key}</p>
                         
                           <div className="md:flex flex-wrap">
@@ -484,7 +482,7 @@ let skills = [];
                       </div>
 
                     </div>
-                  </div> */}
+                  </div>
 
                   <div className="my-2 bg-white ">
                     <p className="font-semibold text-lg my-1 mx-2">Feedback</p>

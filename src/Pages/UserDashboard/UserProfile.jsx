@@ -84,7 +84,9 @@ const UserProfile = () => {
           </div>
 
           <div className="mx-3 my-2">
-          <div className="flex items-center space-x-3 py-1">
+          { !user.profileImg && !user.linkedInId && !user.tools.length ? 
+          (
+            <><div className ="flex items-center space-x-3 py-1">
                         {user && user.profileImg ? (
                           <TiTick className="text-green-500 text-2xl" />
                         ) : (
@@ -108,8 +110,11 @@ const UserProfile = () => {
                         )}
                         <p>Updated Skills</p>
                       </div>
-            </div>
-
+            
+            </>
+            ): null}
+</div>
+            
           <div
             className="my-7 rounded-lg pt-3 w-full"
             style={{ borderRadius: "12px" }}
