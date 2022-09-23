@@ -84,7 +84,7 @@ const UserProfile = () => {
           </div>
 
           <div className="mx-3 my-2">
-          { !user.profileImg && !user.linkedInId && !user.tools.length ? 
+          { !user.profileImg || !user.linkedInId || !user.tools.length ? 
           (
             <><div className ="flex items-center space-x-3 py-1">
                         {user && user.profileImg ? (
