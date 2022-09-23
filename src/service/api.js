@@ -117,6 +117,15 @@ export const updateUserDetails = async (data, token) => {
     console.log("Error while calling UpdateUserDetails : ", error);
   }
 };
+export const updateSkills = async (data, token) => {
+  try {
+    return await axios.post(`${url}/updateSkills`, data, {
+      headers: { authorization: token.access_token },
+    });
+  } catch (error) {
+    console.log("Error while calling updateSkills : ", error);
+  }
+};
 
 // Admin Login
 export const adminLogin = async (user) => {

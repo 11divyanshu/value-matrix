@@ -1,6 +1,6 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Link, useParams } from "react-router-dom";
-import { getInterviewApplication, updateEvaluation } from "../../service/api";
+import { getInterviewApplication, updateEvaluation ,getUser ,getSkills,updateSkills} from "../../service/api";
 import { CgWorkAlt } from "react-icons/cg";
 import { BsCashStack } from "react-icons/bs";
 import Microsoft from "../../assets/images/micro.jpg";
@@ -11,7 +11,8 @@ import { AiOutlineDelete } from "react-icons/ai";
 
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import swal from "sweetalert";
-
+import { ChevronUpIcon, StarIcon } from "@heroicons/react/solid";
+import { Disclosure } from "@headlessui/react";
 const UpdateInterviewApplication = () => {
   const { id } = useParams();
   const [interview, setInterview] = React.useState(null);
@@ -34,12 +35,49 @@ const UpdateInterviewApplication = () => {
   });
   const [editIndex, setEditIndex] = React.useState(null);
 
+  // skills
+  const [skillsPrimary, setSkillsPrimary] = React.useState([]);
+  const [rolesC, setCRoles] = React.useState({});
+
+  const [roles, setRoles] = React.useState([]);
+  const [showRoles, setShowRoles] = React.useState([]);
+  const [primarySkills, setPrimarySkills] = React.useState([]);
+  const [secondarySkills, setSecondarySkills] = React.useState([]);
+  const [prof, setProf] = React.useState([]);
+  const [dbSkills, setDbSkills] = React.useState([]);
+  const [rolesProf, setRolesProf] = React.useState([]);
+  const [skillSet, setSkillSet] = React.useState([]);
+  const [candidate, setCandidate] = React.useState([]);
+
   React.useEffect(() => {
     let initial = async () => {
       let user = await JSON.parse(localStorage.getItem("user"));
       await setUser(user);
       let res = await getInterviewApplication({ id: id }, user.access_token);
       if (res.data.data) {
+        console.log(res.data.data);
+        let candidate = await getUser({ id: res.data.data.applicant._id }, user.access_token);
+        
+        setCandidate(candidate.data.user);
+        setSkillSet(res.data.data.application.evaluations[user._id].skills)
+
+        let primarySkills = {};
+    let roles = new Set([]);
+    res.data.data.application.evaluations[user._id].skills.forEach((skill) => {
+      roles.add(skill.role);
+      if (primarySkills[skill.role]) {
+        primarySkills[skill.role].add(skill.primarySkill);
+      } else {
+        primarySkills[skill.role] = new Set([skill.primarySkill]);
+      }
+    });
+    setCRoles(Array.from(roles));
+    console.log(Array.from(roles))
+    Array.from(roles).map((el) => {
+      primarySkills[el] = Array.from(primarySkills[el]);
+    });
+    setSkillsPrimary(primarySkills);
+
         if (res.data.data.job.questions) {
           let answers = new Array(res.data.data.job.questions.length).fill("");
           setEvaluation(answers);
@@ -57,9 +95,7 @@ const UpdateInterviewApplication = () => {
           if (
             res.data.data.application.evaluations[user._id].candidate_rating
           ) {
-            alert(
-              res.data.data.application.evaluations[user._id].candidate_rating
-            );
+           
             setInitialRating(
               res.data.data.application.evaluations[user._id].candidate_rating
             );
@@ -84,6 +120,120 @@ const UpdateInterviewApplication = () => {
     };
     initial();
   }, []);
+  useEffect(() => {
+    const initial = async () => {
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let p = JSON.parse(await localStorage.getItem("prof"));
+      let pr1 = JSON.parse(await localStorage.getItem("RolesProf"));
+      let res = await getSkills({ user_id: user._id }, user.access_token);
+      let roles = new Set();
+      let pSkills = {};
+      if (res && res.status === 200) {
+        await res.data.map((el) => {
+          el.proficiency = 0;
+          roles.add(el.role);
+          if (pSkills[el.role]) {
+            pSkills[el.role].add(el.primarySkill);
+          } else {
+            pSkills[el.role] = new Set([el.primarySkill]);
+          }
+          return null;
+        });
+        let pr = new Array(res.data.length).fill(0);
+        if (!pr1) pr1 = new Array(roles.size).fill(0);
+
+        if (user.tools.length > 0) {
+          await user.tools.forEach(async (skill) => {
+            let index = res.data.findIndex(
+              (el) =>
+                el.primarySkill === skill.primarySkill &&
+                el.role === skill.role &&
+                el.secondarySkill === skill.secondarySkill
+            );
+            pr[index] = skill.proficiency;
+          });
+          await setProf([...pr]);
+        } else if (p) {
+          await setProf(p);
+        } else {
+          await setProf(pr);
+        }
+
+        await setRolesProf(pr1);
+        await setShowRoles(Array.from(roles));
+        await setRoles(Array.from(roles));
+        await setDbSkills(res.data);
+        await setPrimarySkills(pSkills);
+        Array.from(roles).map((el) => {
+          pSkills[el] = Array.from(pSkills[el]);
+        });
+      }
+    };
+    initial();
+  }, []);
+
+  const updateSkill = async ()=>{
+    let skills = [];
+
+    dbSkills.forEach((el, index) => {
+      if (prof[index] > 0) {
+        el.proficiency = prof[index];
+        skills.push(el);
+      }
+    });
+
+    // let data = {
+      
+    //   tools: skills,
+    // };
+    // let res = await updateSkills(
+    //   { user_id: candidate._id, skills: skills },
+    //   { access_token: user.access_token }
+    // );
+    let res = await updateEvaluation({
+      updates: { skills: skills },
+      user_id: user._id,
+      application_id: interview.application._id,
+    });
+    console.log(res);
+    setSkillSet(res.data.evaluations.skills)
+    let primarySkills = {};
+    let roles = new Set([]);
+    res.data.evaluations.skills.forEach((skill) => {
+      roles.add(skill.role);
+      if (primarySkills[skill.role]) {
+        primarySkills[skill.role].add(skill.primarySkill);
+      } else {
+        primarySkills[skill.role] = new Set([skill.primarySkill]);
+      }
+    });
+    setCRoles(Array.from(roles));
+    console.log(Array.from(roles))
+    Array.from(roles).map((el) => {
+      primarySkills[el] = Array.from(primarySkills[el]);
+    });
+    setSkillsPrimary(primarySkills);
+
+    
+    if (res.status !== 200) {
+      swal({
+        icon: "error",
+        title: "Evaluation",
+        text: "Something went wrong",
+        button: "Continue",
+      });
+    }else{
+      await localStorage.removeItem("prof");
+      await localStorage.removeItem("RolesProf");
+      swal({
+        icon: "success",
+        title: "Evaluation",
+        text: "Skills Evaluated Succesfully",
+        button: "Continue",
+      });
+    }
+  }
+
 
   return (
     <div className="bg-slate-100">
@@ -389,6 +539,234 @@ const UpdateInterviewApplication = () => {
                       {currStatus}
                     </p>
                   </div>
+                  <div className="w-full bg-white p-2">
+              <p className="font-semibold text-lg my-3">Skills</p>
+                {showRoles ? (
+                  <>
+                  {showRoles.map((el, index) => {
+                    return (
+                      <div key={index}>
+                        <Disclosure>
+                          {({ open }) => (
+                            <div className={`${open ? "shadow-md" : ""}`}>
+                              <Disclosure.Button
+                                className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-3 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${open ? "shadow-lg " : ""
+                                  }`}
+                              >
+                                <span>{el}</span>
+                                <div className="ml-auto mr-5 flex items-center space-x-2">
+                                  <p>0</p>
+                                  <input
+                                    type="range"
+                                    min="0"
+                                    max="5"
+                                    value={rolesProf[index]}
+                                    onChange={(e) => {
+                                      console.log(dbSkills);
+                                      dbSkills.forEach((skill) => {
+                                        if (skill.role === el) {
+                                          skill.proficiency = e.target.value;
+                                          let inde = dbSkills.findIndex(
+                                            (el) => {
+                                              return el === skill;
+                                            }
+                                          );
+                                          let p = prof;
+                                          p[inde] = e.target.value;
+                                          setProf(p);
+                                          skill.rating = e.target.value;
+                                        }
+                                      });
+                                      console.log(dbSkills);
+                                      let rp = rolesProf;
+                                      rp[index] = e.target.value;
+                                      setRolesProf(rp);
+                                      localStorage.setItem(
+                                        "RolesProf",
+                                        JSON.stringify(rolesProf)
+                                      );
+                                    }}
+                                  />
+                                  <p>5</p>
+                                </div>
+                                <ChevronUpIcon
+                                  className={`${!open ? "rotate-180 transform" : ""
+                                    } h-5 w-5 text-blue-500`}
+                                />
+                              </Disclosure.Button>
+                              <Disclosure.Panel className="p-3 px-4">
+                                {primarySkills[el].map((skill, index) => {
+                                  return (
+                                    <div>
+                                      <Disclosure>
+                                        {({ open }) => (
+                                          <div
+                                            className={`${open ? "shadow-md" : ""
+                                              }`}
+                                          >
+                                            <Disclosure.Button
+                                              className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-3 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${open ? "shadow-lg" : ""
+                                                } `}
+                                            >
+                                              <span>{skill}</span>
+                                              <ChevronUpIcon
+                                                className={`${!open
+                                                    ? "rotate-180 transform"
+                                                    : ""
+                                                  } h-5 w-5 text-blue-500`}
+                                              />
+                                            </Disclosure.Button>
+                                            <Disclosure.Panel className="p-3 px-12">
+                                              {dbSkills
+                                                .filter((secSkill) => {
+                                                  return (
+                                                    secSkill.primarySkill ===
+                                                    skill &&
+                                                    secSkill.role === el
+                                                  );
+                                                })
+                                                .map((secSkill, index) => {
+                                                  let d = dbSkills;
+                                                  let index1 = d.findIndex(
+                                                    (el) => {
+                                                      return el === secSkill;
+                                                    }
+                                                  );
+                                                  return (
+                                                    <div className="flex my-2 text-sm justify-between items-center px-3 py-1">
+                                                      <p>
+                                                        {
+                                                          secSkill.secondarySkill
+                                                        }
+                                                      </p>
+
+                                                      <div className="flex items-center space-x-2">
+                                                        <p>0</p>
+                                                        <input
+                                                          type="range"
+                                                          min="0"
+                                                          max="5"
+                                                          value={prof[index1]}
+                                                          onChange={async (
+                                                            e
+                                                          ) => {
+                                                            let d = dbSkills;
+                                                            d[index1] = {
+                                                              ...d[index1],
+                                                              proficiency:
+                                                                e.target.value,
+                                                            };
+                                                            let p = prof;
+                                                            prof[index1] =
+                                                              e.target.value;
+                                                            await localStorage.setItem(
+                                                              "prof",
+                                                              JSON.stringify(p)
+                                                            );
+                                                            await setProf([
+                                                              ...p,
+                                                            ]);
+                                                            await setDbSkills([
+                                                              ...d,
+                                                            ]);
+                                                            if (
+                                                              e.target.value > 0
+                                                            ) {
+                                                              let u = user;
+                                                              let to = u.tools;
+                                                              to.push({
+                                                                proficiency:
+                                                                  e.target
+                                                                    .value,
+                                                                ...secSkill,
+                                                              });
+                                                              u.tools = to;
+                                                              await setUser({
+                                                                ...u,
+                                                              });
+                                                            }
+                                                          }}
+                                                        />
+                                                        <p>5</p>
+                                                        <p className="text-xs font-italics">
+                                                          {prof[index1] > 0
+                                                            ? "Self-assetsted"
+                                                            : "Unassested"}
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  );
+                                                })}
+                                            </Disclosure.Panel>
+                                          </div>
+                                        )}
+                                      </Disclosure>
+                                    </div>
+                                  );
+                                })}
+                              </Disclosure.Panel>
+                            </div>
+                          )}
+                        </Disclosure>
+                      </div>
+                    );
+
+                   
+                  })}
+                  
+                  <button
+                  className=" hover:bg-blue-700 text-white font-bold py-2 px-8 md:mx-6 sm:mx-0 text-xs rounded"
+                  style={{backgroundColor:"#034488"}}
+                  onClick={()=>updateSkill()}
+                >
+                  Update Skills
+            </button> 
+
+            <div className="p-5">
+              {rolesC
+                ? rolesC.map((item, index) => {
+                  return (
+                    <div className="py-2">
+                      <p className="font-semibold text-md md:w-1/2  md:flex w-full  space-y-2 my-5">
+                        {item}
+                      </p>
+                      {skillsPrimary[item].map((el) => (
+                        <div className="py-1">
+                          <p className="text-sm my-2">{el}</p>
+                          <div className="md:flex flex-wrap">
+                            {skillSet
+                              .filter(
+                                (tool) =>
+                                  tool.role === item &&
+                                  tool.primarySkill === el
+                              )
+                              .map((item1, index) => (
+                                <p class="bg-blue-100 text-blue-800 text-xs mb-2 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800 ">
+                                  {item1.secondarySkill}{" "}
+                                  {item1.proficiency &&
+                                    `(${item1.proficiency})`}
+                                </p>
+                              ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  );
+                })
+                : "No Skills"}
+            </div>
+
+
+
+
+
+
+            </>)
+            
+            :null
+                  
+                  }
+              </div>
                   <div className="my-5">
                     <p className="font-semibold text-lg my-3">
                       Evaluation Details
