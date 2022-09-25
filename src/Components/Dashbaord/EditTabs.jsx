@@ -1321,7 +1321,7 @@ setSelectedSchool(null);
                                   </label> */}
 
                                   <label className="font-semibold text-lg w-2/5 mx-2 md:mx-0 sm:mt-4">
-                                    Work Period{" "}
+                                    Study Period{" "}
                                   </label>
 
                                   <div
