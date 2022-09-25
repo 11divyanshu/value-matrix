@@ -382,22 +382,27 @@ let skills = [];
     var  data = map1.get(item.primarySkill);
     if(data == undefined){
      let arr = new Array();
-     arr.push({secondarySkill:item.secondarySkill,proficiency:item.proficiency});
+     arr.push({secondarySkill:item.secondarySkill,proficiency:item.proficiency,role:item.role});
          map1.set(item.primarySkill, arr);
     }else{
-        data.push({secondarySkill:item.secondarySkill,proficiency:item.proficiency});
+        data.push({secondarySkill:item.secondarySkill,proficiency:item.proficiency,role:item.role});
         map1.set(item.primarySkill, data);
     }
 
   })
-  skills.push(map1)
+ var array = [];
+  map1.forEach((value,key)=>{
+    array.push({value:value , key:key})
+  })
+  skills.push(array);
+  
 
                              
                               // }
   
                           }
 
-                          // console.log(skills);
+                           console.log(skills);
 
 
                           
@@ -451,17 +456,18 @@ let skills = [];
                       <div className="flex justify-between md:w-3/4 px-3 ">
                       <p className="font-semibold text-md md:w-1/2  md:flex w-full   my-2">
                         {/* {item[0].role} */}
+                       {item[0].value[0].role}
                       </p>
                    
              
                     </div>
-                { item.forEach((value, key) => {
 
-<div className="py-1 block">
-                          <p className="text-sm my-2">{key}</p>
+                { item.map((item)=>{
+return (<div className="py-1 block">
+                          <p className="text-sm my-2">{item.key}</p>
                         
                           <div className="md:flex flex-wrap">
-                          {value && value.map((e) => (
+                          {item.value && item.value.map((e) => (
                                 <p class="bg-blue-100 text-blue-800 text-xs mb-2 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800 ">
                                   {e.secondarySkill}{" "}
                                   {e.proficiency &&
@@ -469,7 +475,7 @@ let skills = [];
                                 </p>
                              ))}
                           </div>
-                        </div>
+                        </div>)
   //  console.log(value, key); // 
 })}
                       

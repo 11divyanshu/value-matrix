@@ -6,6 +6,7 @@ import {
   AiOutlineUser,
   AiOutlineFolderAdd,
   AiOutlineUserAdd,
+  AiOutlineUnorderedList
 } from "react-icons/ai";
 import {
   BsFillChatLeftTextFill,
@@ -51,6 +52,7 @@ import CompanyDetails from "./Pages/AdminDashboard/CompanyDetails";
 import CandiadateList from "./Pages/AdminDashboard/CandidatesList";
 import CandiadateDetail from "./Pages/AdminDashboard/CandidateDetail";
 import AddCompanyUser from "./Pages/CompanyDashboard/AddCompanyUser";
+import CandidateList from "./Pages/CompanyDashboard/CandidateList";
 import AddSkills from "./Components/AdminDashboard/AddSkills";
 import AddAdminUser from "./Pages/AdminDashboard/AddAdminUser";
 import AddTaxId from "./Pages/AdminDashboard/AddTaxId";
@@ -337,6 +339,14 @@ export const companyDashboardRoutes = [
     component: <AddCompanyUser />,
     icon: <AiOutlineFolderAdd className="text-xl" />,
     permission: "add_users",
+  },
+  {
+    name: "Candidate List",
+    path: "/candidateList",
+    hide: false,
+    component: <CandidateList />,
+    icon: <AiOutlineUnorderedList className="text-xl" />,
+    permission: "default",
   },
 ];
 

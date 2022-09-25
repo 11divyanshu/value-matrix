@@ -669,28 +669,12 @@ export default function Tabs(props) {
             {({ values, isSubmitting }) => (
               <Form>
                 <div className="flex flex-wrap w-full gap-y-5">
-                  {/* <hr />
-                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                  <label className="font-semibold text-lg md:md:w-2/5 mx-5">Country</label>
-           <Field
-             component="select"
-             id="location"
-             name="location"
-             className="block border-gray-100 rounded-lg py-1 md:w-3/4 w-full"
-             multiple={false}
-           >
-             <option value="NY">India</option>
-             <option value="NY">New Zealand</option>
-             <option value="SF">USA</option>
-             <option value="CH">UK</option>
-             <option value="OTHER">Other</option>
-           </Field>
-           </div> */}
+                  
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1 -space-x-3">
                     <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Tax ID.
                     </label>
-                    <div className='shadow-sm border-gray-10 md:w-4/5  flex py-2' >
+                    <div className='shadow-sm border-gray-10 md:w-3/5 pl-2 flex py-2' >
                       <Field
                         component="select"
                         id="location"
@@ -727,7 +711,7 @@ export default function Tabs(props) {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">
                       PAN
                     </label>
-                    <div className="py-1 md:w-3/5 sm:w-4/5">
+                    <div className="py-1 md:w-3/5">
                       <Field
                         type="text"
                         className="block border-gray-400 w-full py-1  "

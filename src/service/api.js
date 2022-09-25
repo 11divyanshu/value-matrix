@@ -685,3 +685,35 @@ export const getCandidateEvaluation = async(data, token) => {
     console.log("Error : ", err);
   }
 }
+
+//Candidate ENdpoints
+
+export const addCandidate = async(data, token) => {
+  try {
+    return await axios.post(`${url}/addCandidate`, data, {
+      headers: { authorization: token },
+    });
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
+export const getCandidateList = async(data) => {
+  try {
+    console.log(data);
+    return await axios.post(`${url}/getCandidateList`, data
+    );
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
+export const deleteCandidate = async(data,body) => {
+  try {
+    console.log(body);
+    return await axios.post(`${url}/deleteCandidate/${data}`,body
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
+

@@ -276,24 +276,23 @@ export default function Tabs() {
                 <div className="flex-column flex-wrap w-full gap-y-5">
 
 
-                  {/* <label style={{ color: "#3B82F6" }} className="py-3 text-xl font-semibold">Billing Credentials</label> */}
-                  {/* <hr /> */}
+               
 
 
-                  <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0 md:flex w-full  space-y-1">
+                  <div className="md:flex w-full  space-y-1 grid grid-cols-1 gap-2 lg:grid-cols-2">
+<div className='md:w-2/5'>
+                    <label className="font-semibold text-lg  mx-5">Tax ID</label>
 
-                    <label className="font-semibold text-lg md:w-2/5 mx-5">Tax ID</label>
+                    </div>
 
-
-
-                    <div className=" border-gray-400 py-2 px-4 md:w-3/5 sm:w-full mx-5 flex" >
+                    <div className=" border-gray-400 py-2 md:w-3/5 px-0 sm:w-full mx-5 md:mx-0 flex" >
 
                       <Field
 
                         type="text"
                         id="location"
                         name="location"
-                        className="block border-gray-100 py-1 w-1/6"
+                        className="block border-gray-100 py-1 px-2 w-1/6"
                         style={{borderRadius:"5px 0 0 5px"}}
                         multiple={false}
                         disabled
@@ -308,25 +307,28 @@ export default function Tabs() {
                         style={{borderRadius:"0 5px 5px 0" }}
                         name="gst"
                         disabled
-                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                     
 
                       />
                       </div>
 
                   </div>
 
-                  <div className="md:w-1/2 md:mx-2  ml-2 my-1 sm:mx-0 md:flex w-full  space-y-1">
-
-                    <label className="font-semibold text-lg md:w-2/5 mx-5">PAN</label>
+                  <div className=" md:flex w-full sm:mx-0 space-y-1 grid grid-cols-1 gap-2 lg:grid-cols-2">
+<div className='md:w-2/5'>
+                    <label className="font-semibold text-lg  mx-5">PAN</label>
+                    </div>
+                  <div className=" border-gray-400 py-2 md:w-3/5 px-0 sm:w-full mx-5 md:mx-0 flex" >
                     <Field
                       type="text"
-                      className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-full mx-5"
+                      className="block border-gray-400 w-full  md:mx-0"
                       style={{borderRadius:"5px"}}
                       name="pan"
                       disabled
                     // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
 
                     />
+                    </div>
 
                   </div>
 

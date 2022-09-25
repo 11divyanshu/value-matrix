@@ -18,7 +18,7 @@ const JobList = () => {
   React.useEffect(()=>{
     let user = JSON.parse(localStorage.getItem("user"));
     setUser(user);
-  })
+  },[])
   const headerso = [
     { label: "job_id", key: "_id" },
     { label: "job_title", key: "jobTitle" },
