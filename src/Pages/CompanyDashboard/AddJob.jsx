@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Formik, Form, ErrorMessage, Field } from "formik";
-import { postJobAPI, sendJobInvitations } from "../../service/api";
+import { postJobAPI, sendJobInvitations ,eligibleCandidateList} from "../../service/api";
 import swal from "sweetalert";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -90,6 +90,7 @@ const AddJob = () => {
     Address: "",
   });
   const [showCandidateForm, setShowCandidateForm] = React.useState(false);
+  const [eligibleButton, setEligibleButton] = React.useState(false);
   const [editIndex, setEditIndex] = React.useState(null);
   const [loading, setLoading] = React.useState(null);
 
@@ -113,6 +114,19 @@ const AddJob = () => {
   const salaryRef = React.useRef(null);
   const [user, setUser] = React.useState(null);
 
+
+  const [showEligible, setShowEligible] = React.useState(null);
+  const [eligibleCanList, setEligibleCanList] = React.useState([]);
+
+const getEligibleCandidate = async (eligibleSkills)=>{
+  console.log(eligibleSkills);
+  var eligibleCan= await eligibleCandidateList(eligibleSkills);
+  console.log(eligibleCan);
+ setEligibleCanList(eligibleCan.data)
+
+    setShowEligible(true);
+                            }
+
   const postJob = async (values, salary, maxSalary) => {
     try {
       // setLoading(true);
@@ -130,6 +144,7 @@ const AddJob = () => {
           skills.push(el);
         }
       });
+
       let access_token = localStorage.getItem("access_token");
       let user = JSON.parse(localStorage.getItem("user"));
 
@@ -549,10 +564,16 @@ const AddJob = () => {
                               width: "75%",
                               border: "1px solid rgb(156 163 175 / 1)",
                               borderRadius: "5px",
+                              zIndex:0,
+                              overflowY:"auto",
                             }}
+
                             editorStyle={{
                               minHeight: "200px",
+                              maxHeight: "500px",
                               paddingLeft: "1rem",
+                              zIndex:0,
+                              overflowY:"auto",
                             }}
                             onEditorStateChange={onDescEditorStateChange}
                           />
@@ -785,6 +806,7 @@ const AddJob = () => {
                                     !inputSkillRef ||
                                     !inputSkillRef.current.value
                                   ) {
+                                    console.log(dbSkills);
                                     dbSkills.forEach((el) => {
                                       if (
                                         el.role
@@ -879,7 +901,7 @@ const AddJob = () => {
                                                           }
                                                         }
                                                       );
-                                                      console.log(dbSkills);
+                                                      // console.log(dbSkills);
                                                       let rp = rolesProf;
                                                       rp[index] =
                                                         e.target.value;
@@ -990,6 +1012,7 @@ const AddJob = () => {
                                                                               ) => {
                                                                                 let d =
                                                                                   dbSkills;
+                                                                                  // console.log(d);
                                                                                 d[
                                                                                   index1
                                                                                 ] =
@@ -1062,8 +1085,36 @@ const AddJob = () => {
                           </button>
                           <button
                             className="bg-[#034488] px-4 py-1 rounded-sm text-white"
-                            onClick={() => {
+                            onClick={async () => {
+                              var searchSkills = new Array;
+
+                              dbSkills.forEach((el, index) => {
+                                if (prof[index] > 0) {
+                                  // el.proficiency = prof[index];
+                                  searchSkills.push(el._id);
+                                }
+                              });
+                              console.log(searchSkills);
+                              // const eligibleSkills={skills:[],company_id:''};
+                              var eligibleSkills = {};
+                              // eligibleSkills.skills = searchSkills ;
+                              const id = user._id;
+                              eligibleSkills["skills"] = searchSkills;
+                               eligibleSkills["companyid"] = id;
+                               console.log(eligibleSkills)
+
+
+getEligibleCandidate(eligibleSkills);                                
+                                // console.log(eligibleCan);
+                              //   if(res.data){
+                              //     setShowEligible(true);
+                              //     // eligibleSkills={skills:[],company_id:""};
+                                
+                              // }
+                             
+
                               setPageIndex(3);
+
                             }}
                           >
                             Next
@@ -1100,6 +1151,16 @@ const AddJob = () => {
                     >
                       Add User
                     </button>
+                    {showEligible && (<button
+                      className="bg-[#034488] text-white rounded-sm px-4 py-1"
+                      onClick={() => {
+                        setEligibleButton(true);
+                      }}
+                    >
+                      Show Eligible Candidates
+                    </button>)}
+
+
                     {candidateData.length === 0 && rejectedData.length === 0 && (
                       <label
                         for="candidatesInput"
@@ -1136,6 +1197,150 @@ const AddJob = () => {
                       </button>
                     )}
                   </div>
+                  {eligibleButton && eligibleCanList.length > 0 && (
+                      <div className="my-4">
+                        <table class="w-3/4">
+                          <h1>hello</h1>
+                          <thead class="bg-white border-b text-left">
+                            <tr>
+                              <th
+                                scope="col"
+                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                              >
+                                #
+                              </th>
+                              <th
+                                scope="col"
+                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                              >
+                                First Name
+                              </th>
+                              <th
+                                scope="col"
+                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                              >
+                                Last Name
+                              </th>
+                              <th
+                                scope="col"
+                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                              >
+                                Email
+                              </th>
+                              <th
+                                scope="col"
+                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                              >
+                                Contact
+                              </th>
+                             
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {eligibleCanList.map((user, index) => {
+                              return (
+                                <tr
+                                  class={`${
+                                    index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                                  } border-b`}
+                                >
+                                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
+                                    {index + 1}
+                                  </td>
+                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                    {user.firstName}
+                                  </td>
+                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                    {user.lastName}
+                                  </td>
+                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                    {user.email}
+                                  </td>
+                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                    {user.phoneNo}
+                                  </td>
+                                 
+                                  {/* <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                    <AiOutlineDelete
+                                      className="text-sm  text-red-500 cursor-pointer"
+                                      onClick={() => {
+                                        setCandidateData(
+                                          candidateData.filter(
+                                            (item) => item.Email !== user.Email
+                                          )
+                                        );
+                                        setSelectedData(
+                                          selectedData.filter(
+                                            (item) => item.Email !== user.Email
+                                          )
+                                        );
+                                      }}
+                                    />
+                                  </td> */}
+                                </tr>
+                              );
+                            })}
+
+                            
+                          </tbody>
+                        </table>
+                        <div className="flex my-2 ">
+                        <button
+                      className="bg-[#034488] text-white rounded-sm px-4 py-1 mx-2"
+                      onClick={() => {
+                        let d= selectedData;
+                        let r = rejectedData;
+
+                        console.log(eligibleCanList);
+                        if(eligibleCanList)  {
+                          eligibleCanList.map((item)=>{
+                           let ac= d.find(x => x.Email === item.email);
+                           
+                           if(ac){
+                            r.push({
+                              FirstName: ac.FirstName ? ac.FirstName : "",
+                              LastName: ac.LastName ? ac.LastName : "",
+                              Email: ac.Email ? ac.Email : "",
+                              Contact: ac.Contact ? ac.Contact : "",
+                              Reason: "Email Already Exist",
+                            });
+                           }else{
+                            d.push({
+                              FirstName: item.firstName ? item.firstName : "",
+                              LastName: item.lastName ? item.lastName : "",
+                              Email: item.email ? item.email : "",
+                              Contact: item.phoneNo ? item.phoneNo : "",
+                            });;
+                           }
+                           console.log(ac)
+                        }) 
+                      setRejectedData(r);
+                      setSelectedData(d);
+                      setCandidateData(d);            
+                      setShowRejected(true);
+                      setShowCandidate(true);
+                      setEligibleButton(false);
+                    }
+                        //else{
+
+                        //   selectedData = eligibleCanList
+                        // }
+                        // setShowCandidateForm(true);
+                      }}
+                    >
+                      Add Candidates
+                    </button>
+                    <button
+                      className="bg-[#034488] text-white rounded-sm px-4 py-1 mx-2"
+                      onClick={() => {
+                        setEligibleCanList(false);
+                      }}
+                    >
+                      Cancel
+                    </button>
+                        </div>
+                      </div>
+                    )}
                   {showCandidateForm && (
                     <div className="my-4 w-3/4 p-3 bg-slate-100 px-8">
                       <Formik
@@ -1177,6 +1382,7 @@ const AddJob = () => {
                           if (editIndex !== null) r.splice(editIndex, 1);
                           setEditIndex(null);
                           d.push(values);
+                          console.log(d)
                           await setSelectedData(d);
                           await setCandidateData(d);
                           await setRejectedData(r);
@@ -1383,6 +1589,37 @@ const AddJob = () => {
                         </table>
                       </div>
                     )}
+                  </div>
+                  <div className="my-9">
+                    {/* {candidateData.length > 0 && (
+                      <div className="flex items-center lg:w-3/4 justify-between">
+                        <p className="font-semibold">
+                          Candidate Data ({candidateData.length})
+                        </p>
+                        <p>
+                          {showCandidate ? (
+                            <p
+                              className="text-sm text-blue-500 cursor-pointer ml-auto"
+                              onClick={() => {
+                                setShowCandidate(false);
+                              }}
+                            >
+                              Hide
+                            </p>
+                          ) : (
+                            <p
+                              className="text-sm text-blue-500 cursor-pointer ml-auto"
+                              onClick={() => {
+                                setShowCandidate(true);
+                              }}
+                            >
+                              Show
+                            </p>
+                          )}
+                        </p>
+                      </div>
+                    )} */}
+                    
                   </div>
                   <div className="my-9">
                     {candidateData.length > 0 && (

@@ -11,6 +11,7 @@ import CompanyForm from "../../Components/CompanyDashboard/CompanyForm";
 import { getUserFromId, getUserIdFromToken } from "../../service/api";
 import JobDetails from "../CompanyDashboard/JobDetails.jsx";
 import EvaluationDetails from "../CompanyDashboard/evaluationDetails.jsx";
+import CandidateReport from "../CompanyDashboard/CandidateReport.jsx";
 import "../../assets/stylesheet/layout.scss"
 
 const CompanyDashboard = () => {
@@ -116,6 +117,7 @@ const CompanyDashboard = () => {
         console.log(id);
         if (c1[1] === "jobDetails") setComponent(<JobDetails id={id} />);
        else if (c1[1] === "evaluationDetails") setComponent(<EvaluationDetails id={id} />);
+       else if (c1[1] === "candidateReport") setComponent(<CandidateReport/>);
 
 
         else {

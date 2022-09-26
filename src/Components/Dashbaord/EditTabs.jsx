@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import "../../assets/stylesheet/Tabs.scss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { FiInfo } from "react-icons/fi";
-import { BsCalendar,BsLinkedin } from "react-icons/bs";
+import { BsCalendar, BsLinkedin } from "react-icons/bs";
 import { GrScorecard } from "react-icons/gr";
 import { Disclosure } from "@headlessui/react";
 import { getSkills, url } from "../../service/api";
@@ -88,7 +88,7 @@ export default function Tabs(props) {
 
 
 
-         React.useEffect(() => {
+  React.useEffect(() => {
     const initial = async () => {
       let res = await getDBCompanyList();
       setCompanyList(res.data);
@@ -97,40 +97,40 @@ export default function Tabs(props) {
   }, []);
 
 
-          const [companyList, setCompanyList] = React.useState([]);
+  const [companyList, setCompanyList] = React.useState([]);
   const [selectedCompany, setSelectedCompany] = React.useState(null);
   const [companyQuery, setCompanyQuery] = React.useState("");
   const filteredCompany =
     companyQuery === ""
       ? companyList.slice(0, 10)
       : companyList
-          .filter((company) =>
-            company.name.toLowerCase().includes(companyQuery.toLowerCase())
-          )
-          .slice(0, 10);
+        .filter((company) =>
+          company.name.toLowerCase().includes(companyQuery.toLowerCase())
+        )
+        .slice(0, 10);
 
 
-          React.useEffect(() => {
-            const initial = async () => {
-              let res = await getDBSchoolList();
-              console.log(res);
-              setSchoolList(res.data);
-            };
-            initial();
-          }, []);
+  React.useEffect(() => {
+    const initial = async () => {
+      let res = await getDBSchoolList();
+      console.log(res);
+      setSchoolList(res.data);
+    };
+    initial();
+  }, []);
 
 
-          const [schoolList, setSchoolList] = React.useState([]);
+  const [schoolList, setSchoolList] = React.useState([]);
   const [selectedSchool, setSelectedSchool] = React.useState(null);
   const [schoolQuery, setSchoolQuery] = React.useState("");
   const filteredSchool =
     schoolQuery === ""
       ? schoolList.slice(0, 10)
       : schoolList
-          .filter((school) =>
-            school.name.toLowerCase().includes(schoolQuery.toLowerCase())
-          )
-          .slice(0, 10);
+        .filter((school) =>
+          school.name.toLowerCase().includes(schoolQuery.toLowerCase())
+        )
+        .slice(0, 10);
 
 
   // OTPs State
@@ -155,6 +155,9 @@ export default function Tabs(props) {
 
   const [edit, setEdit] = React.useState(null);
   const [showError, setShowError] = React.useState(true);
+  const [present, setPresent] = React.useState(false);
+  const [exPresent, setExPresent] = React.useState(false);
+  const [asPresent, setAsPresent] = React.useState(false);
 
   const resetBtn = React.useRef(null);
   const [initialValues, setInitialValues] = React.useState({
@@ -283,8 +286,8 @@ export default function Tabs(props) {
       let e = JSON.parse(await localStorage.getItem("user"));
       if (edit !== null) {
         const temp = [...educationalDetail];
-        let school =selectedSchool;
-        temp[edit] = {...values, school : school};
+        let school = selectedSchool;
+        temp[edit] = { ...values, school: school, Ispresent: present };
         await setEducationalDetail(temp);
         await setEdit(null);
         resetBtn.current.click();
@@ -295,9 +298,9 @@ export default function Tabs(props) {
         return;
       }
       let temp = educationalDetail;
-      let school =selectedSchool;
+      let school = selectedSchool;
 
-      temp = [...educationalDetail, {...values, school : school}];
+      temp = [...educationalDetail, { ...values, school: school, Ispresent: present }];
       await setEducationalDetail(temp);
       e.education = temp;
       setUser(e);
@@ -311,7 +314,7 @@ export default function Tabs(props) {
         grade: null,
         description: null,
       });
-setSelectedSchool(null);
+      setSelectedSchool(null);
       resetBtn.current.click();
       swal({
         icon: "success",
@@ -323,7 +326,7 @@ setSelectedSchool(null);
       swal({
         icon: "error",
         title: "EditProfile",
-        text: "Incorrect Details",
+        text: "Something Went Wrong",
         button: "Continue",
       });
     }
@@ -337,9 +340,9 @@ setSelectedSchool(null);
         if (selectedCity.name) {
           city = selectedCity.name + ", " + selectedCity.country;
         }
-        let company =selectedCompany;
+        let company = selectedCompany;
         const temp = [...experienceDetail];
-        temp[edit] = { ...values, location: city,company_name : company };
+        temp[edit] = { ...values, location: city, company_name: company, Ispresent: exPresent };
         await setExperienceDetail(temp);
         e.experience = temp;
         setUser(e);
@@ -352,10 +355,10 @@ setSelectedSchool(null);
       if (selectedCity.name) {
         city = selectedCity.name + ", " + selectedCity.country;
       }
-      let company =selectedCompany;
+      let company = selectedCompany;
 
       let temp = experienceDetail;
-      temp = [...experienceDetail, { ...values, location: city,company_name : company }];
+      temp = [...experienceDetail, { ...values, location: city, company_name: company, Ispresent: exPresent }];
       await setExperienceDetail(temp);
       e.experience = temp;
       setUser(e);
@@ -382,7 +385,7 @@ setSelectedSchool(null);
       swal({
         icon: "error",
         title: "EditProfile",
-        text: "Incorrect Details",
+        text: "Something Went Wrong",
         button: "Continue",
       });
     }
@@ -393,9 +396,9 @@ setSelectedSchool(null);
       let e = JSON.parse(await localStorage.getItem("user"));
       if (edit !== null) {
         const temp = [...associateDetail];
-        let company =selectedCompany;
+        let company = selectedCompany;
 
-        temp[edit] = { ...values, location: selectedCity ,company_name : company  };
+        temp[edit] = { ...values, location: selectedCity, company_name: company, Ispresent: asPresent };
         await setAssociateDetail(temp);
         e.associate = temp;
         setUser(e);
@@ -404,12 +407,12 @@ setSelectedSchool(null);
         resetBtn.current.click();
         return;
       }
-      let company =selectedCompany;
+      let company = selectedCompany;
 
       let temp = associateDetail;
       temp
-        ? (temp = [...associateDetail, { ...values, location: selectedCity,company_name : company }])
-        : (temp = [{ ...values, location: selectedCity,company_name : company }]);
+        ? (temp = [...associateDetail, { ...values, location: selectedCity, company_name: company, Ispresent: asPresent }])
+        : (temp = [{ ...values, location: selectedCity, company_name: company, Ispresent: asPresent }]);
       await setAssociateDetail(temp);
       e.associate = temp;
       setUser(e);
@@ -437,7 +440,7 @@ setSelectedSchool(null);
       swal({
         icon: "error",
         title: "EditProfile",
-        text: "Incorrect Details",
+        text: "Something Went Wrong",
         button: "Continue",
       });
     }
@@ -950,37 +953,37 @@ setSelectedSchool(null);
                       />
                     </div>
                   )}
-                 
-                    <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                      <label className="font-semibold text-lg md:w-2/5 mx-2">
-                        Connect Social Account
-                        <p className="text-sm mx-2 text-gray-500">Connect Account Associated With Provided Email Address Only !</p>
-                      </label>
-                      {user && !user.linkedInId ? (
+
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
+                    <label className="font-semibold text-lg md:w-2/5 mx-2">
+                      Connect Social Account
+                      <p className="text-sm mx-2 text-gray-500">Connect Account Associated With Provided Email Address Only !</p>
+                    </label>
+                    {user && !user.linkedInId ? (
                       <div className="w-4/5 flex items-center px-4">
 
                         <a href={`${url}/auth/linkedin`}>
                           {/* <button className=" color-white py-2 px-8 flex rounded-lg"
                             style={{ backgroundColor: "#034488" }}
                           > */}
-                            {/* <img
+                          {/* <img
                               src={Linkedin}
                               className="h-5 ml-1"
                               alt="socialauthLinkedIn"
                             /> */}
-                            <div className="flex rounded-lg shadow-md px-8 py-2" style={{ backgroundColor: "#034488" }}>
-                            <p className="text-lg py-1" style={{color: "#fff" }}>
-                            <BsLinkedin/>
+                          <div className="flex rounded-lg shadow-md px-8 py-2" style={{ backgroundColor: "#034488" }}>
+                            <p className="text-lg py-1" style={{ color: "#fff" }}>
+                              <BsLinkedin />
                             </p>
-                            
+
                             <p className="text-white font-semibold mx-2">LinkedIn</p>
-                            </div>
+                          </div>
                           {/* </button> */}
                         </a>
                       </div>
-                   
-                  ) : <p className="w-4/5 flex items-center px-4 text-green-600 font-semibold">Connected</p>}
-                  {Error && <p className="text-sm text-red-500">{Error}</p>}
+
+                    ) : <p className="w-4/5 flex items-center px-4 text-green-600 font-semibold">Connected</p>}
+                    {Error && <p className="text-sm text-red-500">{Error}</p>}
                   </div>
                 </div>
 
@@ -1053,7 +1056,7 @@ setSelectedSchool(null);
                   <div className="flex items-center my-2 space-x-2">
                     <BsCalendar />
                     <p className="text-sm text-gray-600 mr-5">
-                      {item.start_date} - {item.end_date}
+                      {item.start_date} - {item.Ispresent ? "Present" : item.end_date}
                     </p>
                   </div>
                   <div className="flex text-right mr-auto space-x-2 justify-end">
@@ -1176,14 +1179,15 @@ setSelectedSchool(null);
                             if (values.start_date === null) {
                               errors.start_date = "Required !";
                             }
-                            if (values.end_date === null) {
+                            if (!present && values.end_date === null) {
                               errors.end_date = "Required !";
                             }
+
                             if (values.start_date > new Date()) {
                               errors.start_date =
                                 "Start date cannot be greater than today's date";
                             }
-                            if (values.start_date > values.end_date) {
+                            if (!present && values.start_date > values.end_date) {
                               errors.end_date =
                                 "End date cannot be less than start date";
                             }
@@ -1226,40 +1230,40 @@ setSelectedSchool(null);
                                       }}
                                       value={values.school}
                                     /> */}
-                                      {edit !== null && (
-                          <p>Current University : {values.school}</p>
-                        )}
-                        <Combobox
-                          value={selectedSchool}
-                          onChange={setSelectedSchool}
-                        >
-                          <Combobox.Input
-                            onChange={(event) =>
-                              setSchoolQuery(event.target.value)
-                            }
-                            className="border-[0.5px] rounded-lg border-gray-400 focus:outline-0 focus:border-0 px-4 py-2 w-full"
-                            style={{ borderRadius: "5px" }}
-                          />
-                          <Combobox.Options className="absolute z-100 bg-white">
-                            {schoolQuery.length > 0 && (
-                              <Combobox.Option
-                                value={`${schoolQuery}`}
-                                className="cursor-pointer"
-                              >
-                                Create "{schoolQuery}"
-                              </Combobox.Option>
-                            )}
-                            {filteredSchool.map((school) => (
-                              <Combobox.Option
-                                key={school.name}
-                                value={`${school.name}`}
-                                className="cursor-pointer"
-                              >
-                                {school.name}
-                              </Combobox.Option>
-                            ))}
-                          </Combobox.Options>
-                        </Combobox> 
+                                    {edit !== null && (
+                                      <p>Current University : {values.school}</p>
+                                    )}
+                                    <Combobox
+                                      value={selectedSchool}
+                                      onChange={setSelectedSchool}
+                                    >
+                                      <Combobox.Input
+                                        onChange={(event) =>
+                                          setSchoolQuery(event.target.value)
+                                        }
+                                        className="border-[0.5px] rounded-lg border-gray-400 focus:outline-0 focus:border-0 px-4 py-2 w-full"
+                                        style={{ borderRadius: "5px" }}
+                                      />
+                                      <Combobox.Options className="absolute z-100 bg-white">
+                                        {schoolQuery.length > 0 && (
+                                          <Combobox.Option
+                                            value={`${schoolQuery}`}
+                                            className="cursor-pointer"
+                                          >
+                                            Create "{schoolQuery}"
+                                          </Combobox.Option>
+                                        )}
+                                        {filteredSchool.map((school) => (
+                                          <Combobox.Option
+                                            key={school.name}
+                                            value={`${school.name}`}
+                                            className="cursor-pointer"
+                                          >
+                                            {school.name}
+                                          </Combobox.Option>
+                                        ))}
+                                      </Combobox.Options>
+                                    </Combobox>
                                     <ErrorMessage
                                       name="school"
                                       component="div"
@@ -1350,26 +1354,55 @@ setSelectedSchool(null);
                                         />
                                       </div>
                                     </div>
-                                    <div className=" my-1  md:flex md:ml-2  align-middle">
-                                      <label className="font-semibold text-md ml-2 py-2">
-                                        End At
-                                      </label>
-                                      <div className="">
-                                        <Field
-                                          name="end_date"
-                                          type="month"
-                                          className="block border-gray-400 py-2 mx-2 border-[0.5px] w-full border-[#6b7280]"
-                                          style={{
-                                            borderRadius: "4px",
-                                            border: "0.5px solid",
+                                  
+                                      <div className=" my-1  md:flex md:ml-2  align-middle">
+                                        <label className="font-semibold text-md ml-2 py-2">
+                                          End At
+                                        </label>
+                                        <div >
+                                        {!present &&
+                                          (<div className="">
+                                            <Field
+                                              name="end_date"
+                                              type="month"
+                                              className="block border-gray-400 py-2 mx-2 border-[0.5px] w-full border-[#6b7280]"
+                                              style={{
+                                                borderRadius: "4px",
+                                                border: "0.5px solid",
+                                              }}
+                                              value={values.end_date}
+                                            />
+
+                                            <ErrorMessage
+                                              name="end_date"
+                                              component="div"
+                                              className="text-sm text-red-600"
+                                            />
+                                          </div>)
+                                        }
+
+                                     
+                                      <div className="mx-3 my-2">
+
+                                        <input type="checkbox" id="myCheck"
+                                          onChange={(e) => {
+                                            // var checkBox = document.getElementById("myCheck");
+
+                                            if (e.target.checked == true) {
+                                              setPresent(true);
+                                            } else {
+                                              setPresent(false);
+
+                                            }
                                           }}
-                                          value={values.end_date}
+
+
                                         />
-                                        <ErrorMessage
-                                          name="end_date"
-                                          component="div"
-                                          className="text-sm text-red-600"
-                                        />
+                                        <label className="font-semibold text-md ml-2 py-2">
+                                          Present
+                                        </label>
+
+                                      </div>
                                       </div>
                                     </div>
                                   </div>
@@ -1422,7 +1455,9 @@ setSelectedSchool(null);
                                 </div>
                                 <div className=" flex justify-center mt-4 text-center">
                                   <button
-                                    onClick={() => updateEducation(values)}
+                                    onClick={() => { setPresent(false);
+
+                                      updateEducation(values)}}
                                     className=" bg-blue-600  text-white rounded-lg block cursor-pointer py-2 px-8 align-middle"
                                     style={{ backgroundColor: "#034488" }}
                                   >
@@ -1433,6 +1468,8 @@ setSelectedSchool(null);
                                     className=" border-[0.5px] mx-3 border-gray-700 py-2 text-gray-700 rounded-lg block cursor-pointer px-8"
                                     ref={resetBtn}
                                     onClick={async () => {
+                                      setPresent(false);
+
                                       await setShowError(false);
                                       await setShowEduForm(false);
                                     }}
@@ -1505,7 +1542,7 @@ setSelectedSchool(null);
                     <div className="flex items-center space-x-2 my-2">
                       <BsCalendar />
                       <p className="text-sm text-gray-600 mr-5">
-                        {item.start_date} - {item.end_date}
+                        {item.start_date} - {item.Ispresent ? "Present" : item.end_date}
                       </p>
                     </div>
                     <div className="flex items-center space-x-2">
@@ -1634,16 +1671,20 @@ setSelectedSchool(null);
                             if (values.start_date === null) {
                               errors.start_date = "Required !";
                             }
-                            if (values.end_date === null) {
+                            if (!exPresent && values.end_date === null) {
                               errors.end_date = "Required !";
                             }
                             if (values.start_date > new Date()) {
                               errors.start_date =
                                 "Start date cannot be greater than today's date";
                             }
-                            if (values.start_date > values.end_date) {
+                            if (!exPresent && values.start_date > values.end_date) {
                               errors.end_date =
                                 "End date cannot be less than start date";
+                            }
+                            if (exPresent && values.start_date > new Date()) {
+                              errors.start_date =
+                                "Start date cannot be greater than today's date";
                             }
 
                             if (
@@ -1735,40 +1776,40 @@ setSelectedSchool(null);
                                       style={{ borderRadius: "4px" }}
                                       value={values.company_name}
                                     /> */}
-                                     {edit !== null && (
-                          <p>Current Company : {values.company_name}</p>
-                        )}
-                        <Combobox
-                          value={selectedCompany}
-                          onChange={setSelectedCompany}
-                        >
-                          <Combobox.Input
-                            onChange={(event) =>
-                              setCompanyQuery(event.target.value)
-                            }
-                            className="border-[0.5px] rounded-lg border-gray-400 focus:outline-0 focus:border-0 px-4 py-2 w-full"
-                            style={{ borderRadius: "5px" }}
-                          />
-                          <Combobox.Options className="absolute z-100 bg-white">
-                            {companyQuery.length > 0 && (
-                              <Combobox.Option
-                                value={`${companyQuery}`}
-                                className="cursor-pointer"
-                              >
-                                Create "{companyQuery}"
-                              </Combobox.Option>
-                            )}
-                            {filteredCompany.map((company) => (
-                              <Combobox.Option
-                                key={company.name}
-                                value={`${company.name}`}
-                                className="cursor-pointer"
-                              >
-                                {company.name}
-                              </Combobox.Option>
-                            ))}
-                          </Combobox.Options>
-                        </Combobox> 
+                                    {edit !== null && (
+                                      <p>Current Company : {values.company_name}</p>
+                                    )}
+                                    <Combobox
+                                      value={selectedCompany}
+                                      onChange={setSelectedCompany}
+                                    >
+                                      <Combobox.Input
+                                        onChange={(event) =>
+                                          setCompanyQuery(event.target.value)
+                                        }
+                                        className="border-[0.5px] rounded-lg border-gray-400 focus:outline-0 focus:border-0 px-4 py-2 w-full"
+                                        style={{ borderRadius: "5px" }}
+                                      />
+                                      <Combobox.Options className="absolute z-100 bg-white">
+                                        {companyQuery.length > 0 && (
+                                          <Combobox.Option
+                                            value={`${companyQuery}`}
+                                            className="cursor-pointer"
+                                          >
+                                            Create "{companyQuery}"
+                                          </Combobox.Option>
+                                        )}
+                                        {filteredCompany.map((company) => (
+                                          <Combobox.Option
+                                            key={company.name}
+                                            value={`${company.name}`}
+                                            className="cursor-pointer"
+                                          >
+                                            {company.name}
+                                          </Combobox.Option>
+                                        ))}
+                                      </Combobox.Options>
+                                    </Combobox>
                                     <ErrorMessage
                                       name="company_name"
                                       component="div"
@@ -1864,27 +1905,55 @@ setSelectedSchool(null);
                                         />
                                       </div>
                                     </div>
+
                                     <div className=" my-1  md:flex md:ml-2  align-middle">
                                       <label className="font-semibold text-md ml-2 py-2">
                                         End At
                                       </label>
-                                      <div className="">
-                                        <Field
-                                          name="end_date"
-                                          type="month"
-                                          className="block border-gray-400 py-2 mx-2 border-[0.5px] w-full border-[#6b7280]"
-                                          style={{
-                                            borderRadius: "4px",
-                                            border: "0.5px solid",
-                                          }}
-                                          value={values.end_date}
-                                        />
-                                        <ErrorMessage
-                                          name="end_date"
-                                          component="div"
-                                          className="text-sm text-red-600"
-                                        />
+                                      <div >
+                                        {!exPresent &&
+                                          <div className="">
+                                            <Field
+                                              name="end_date"
+                                              type="month"
+                                              className="block border-gray-400 py-2 mx-2 border-[0.5px] w-full border-[#6b7280]"
+                                              style={{
+                                                borderRadius: "4px",
+                                                border: "0.5px solid",
+                                              }}
+                                              value={values.end_date}
+                                            />
+
+                                            <ErrorMessage
+                                              name="end_date"
+                                              component="div"
+                                              className="text-sm text-red-600"
+                                            />
+                                          </div>
+                                        }
+                                        <div className="mx-3 my-2">
+
+                                          <input type="checkbox" id="myCheck"
+                                            onChange={(e) => {
+                                              // var checkBox = document.getElementById("myCheck");
+
+                                              if (e.target.checked == true) {
+                                                setExPresent(true);
+                                              } else {
+                                                setExPresent(false);
+
+                                              }
+                                            }}
+
+
+                                          />  
+                                           <label className="font-semibold text-md ml-2 py-2">
+                                            Present
+                                          </label>
+
+                                        </div>
                                       </div>
+
                                     </div>
                                   </div>
                                 </div>
@@ -1931,7 +2000,13 @@ setSelectedSchool(null);
                                 </div>
                                 <div className=" flex mt-4 justify-center text-center">
                                   <button
-                                    onClick={() => updateExperience(values)}
+                                    onClick={() => 
+                                      {
+                                        setExPresent(false);
+
+                                        updateExperience(values)}
+                                    
+                                    }
                                     className=" bg-blue-600  text-white rounded-lg block cursor-pointer py-2 px-8 align-middle"
                                     style={{ backgroundColor: "#034488" }}
                                   >
@@ -1942,6 +2017,8 @@ setSelectedSchool(null);
                                     className=" border-[0.5px] mx-3 border-gray-700 py-2 text-gray-700 rounded-lg block cursor-pointer px-8"
                                     ref={resetBtn}
                                     onClick={async () => {
+                                      setExPresent(false);
+
                                       await setShowError(false);
                                       await setEdit(null);
                                       await setSelectedCity(cities[0]);
@@ -2017,7 +2094,7 @@ setSelectedSchool(null);
                     <div className="flex items-center space-x-2 my-2">
                       <BsCalendar />
                       <p className="text-sm text-gray-600 mr-5">
-                        {item.start_date} - {item.end_date}
+                        {item.start_date} - {item.Ispresent ? "Present" : item.end_date}
                       </p>
                     </div>
                     <div className="flex items-center space-x-2">
@@ -2142,14 +2219,14 @@ setSelectedSchool(null);
                             if (values.start_date === null) {
                               errors.start_date = "Required !";
                             }
-                            if (values.end_date === null) {
+                            if (!asPresent && values.end_date === null) {
                               errors.end_date = "Required !";
                             }
                             if (values.start_date > new Date()) {
                               errors.start_date =
                                 "Start date cannot be greater than today's date";
                             }
-                            if (values.start_date > values.end_date) {
+                            if (!asPresent && values.start_date > values.end_date) {
                               errors.end_date =
                                 "End date cannot be less than start date";
                             }
@@ -2205,40 +2282,40 @@ setSelectedSchool(null);
                                       style={{ borderRadius: "4px" }}
                                       value={values.company_name}
                                     /> */}
-                                     {edit !== null && (
-                          <p>Current Company : {values.company_name}</p>
-                        )}
-                        <Combobox
-                          value={selectedCompany}
-                          onChange={setSelectedCompany}
-                        >
-                          <Combobox.Input
-                            onChange={(event) =>
-                              setCompanyQuery(event.target.value)
-                            }
-                            className="border-[0.5px] rounded-lg border-gray-400 focus:outline-0 focus:border-0 px-4 py-2 w-full"
-                            style={{ borderRadius: "5px" }}
-                          />
-                          <Combobox.Options className="absolute z-100 bg-white">
-                            {companyQuery.length > 0 && (
-                              <Combobox.Option
-                                value={`${companyQuery}`}
-                                className="cursor-pointer"
-                              >
-                                Create "{companyQuery}"
-                              </Combobox.Option>
-                            )}
-                            {filteredCompany.map((company) => (
-                              <Combobox.Option
-                                key={company.name}
-                                value={`${company.name}`}
-                                className="cursor-pointer"
-                              >
-                                {company.name}
-                              </Combobox.Option>
-                            ))}
-                          </Combobox.Options>
-                        </Combobox> 
+                                    {edit !== null && (
+                                      <p>Current Company : {values.company_name}</p>
+                                    )}
+                                    <Combobox
+                                      value={selectedCompany}
+                                      onChange={setSelectedCompany}
+                                    >
+                                      <Combobox.Input
+                                        onChange={(event) =>
+                                          setCompanyQuery(event.target.value)
+                                        }
+                                        className="border-[0.5px] rounded-lg border-gray-400 focus:outline-0 focus:border-0 px-4 py-2 w-full"
+                                        style={{ borderRadius: "5px" }}
+                                      />
+                                      <Combobox.Options className="absolute z-100 bg-white">
+                                        {companyQuery.length > 0 && (
+                                          <Combobox.Option
+                                            value={`${companyQuery}`}
+                                            className="cursor-pointer"
+                                          >
+                                            Create "{companyQuery}"
+                                          </Combobox.Option>
+                                        )}
+                                        {filteredCompany.map((company) => (
+                                          <Combobox.Option
+                                            key={company.name}
+                                            value={`${company.name}`}
+                                            className="cursor-pointer"
+                                          >
+                                            {company.name}
+                                          </Combobox.Option>
+                                        ))}
+                                      </Combobox.Options>
+                                    </Combobox>
                                     <ErrorMessage
                                       name="company_name"
                                       component="div"
@@ -2334,26 +2411,55 @@ setSelectedSchool(null);
                                         />
                                       </div>
                                     </div>
-                                    <div className=" my-1  md:flex md:ml-2  align-middle">
-                                      <label className="font-semibold text-md ml-2 py-2">
-                                        End At
-                                      </label>
-                                      <div className="">
-                                        <Field
-                                          name="end_date"
-                                          type="month"
-                                          className="block border-gray-400 py-2 mx-2 border-[0.5px] w-full border-[#6b7280]"
-                                          style={{
-                                            borderRadius: "4px",
-                                            border: "0.5px solid",
+                                   
+                                      <div className=" my-1  md:flex md:ml-2  align-middle">
+                                        <label className="font-semibold text-md ml-2 py-2">
+                                          End At
+                                        </label>
+                                        <div >
+                                        {!asPresent &&
+                                          <div className="">
+                                            <Field
+                                              name="end_date"
+                                              type="month"
+                                              className="block border-gray-400 py-2 mx-2 border-[0.5px] w-full border-[#6b7280]"
+                                              style={{
+                                                borderRadius: "4px",
+                                                border: "0.5px solid",
+                                              }}
+                                              value={values.end_date}
+                                            />
+
+                                            <ErrorMessage
+                                              name="end_date"
+                                              component="div"
+                                              className="text-sm text-red-600"
+                                            />
+                                          </div>
+                                        }
+
+                                     
+                                      <div className="mx-3 my-2">
+
+                                        <input type="checkbox" id="myCheck"
+                                          onChange={(e) => {
+                                            // var checkBox = document.getElementById("myCheck");
+
+                                            if (e.target.checked == true) {
+                                              setAsPresent(true);
+                                            } else {
+                                              setAsPresent(false);
+
+                                            }
                                           }}
-                                          value={values.end_date}
-                                        />
-                                        <ErrorMessage
-                                          name="end_date"
-                                          component="div"
-                                          className="text-sm text-red-600"
-                                        />
+
+
+                                        /> 
+                                        <label className="font-semibold text-md ml-2 py-2">
+                                          Present
+                                        </label>
+
+                                      </div>
                                       </div>
                                     </div>
                                   </div>
@@ -2402,7 +2508,10 @@ setSelectedSchool(null);
                                 </div>
                                 <div className="flex px-5 w-full justify-center text-center">
                                   <button
-                                    onClick={() => updateAssociation(values)}
+                                    onClick={() => {
+                                      setAsPresent(false);
+
+                                      updateAssociation(values)}}
                                     className=" bg-blue-600  text-white rounded-lg block cursor-pointer py-2 px-8 align-middle"
                                     style={{ backgroundColor: "#034488" }}
                                   >
@@ -2413,6 +2522,8 @@ setSelectedSchool(null);
                                     className=" border-[0.5px] mx-3 border-gray-700 py-2 text-gray-700 rounded-lg block cursor-pointer px-8"
                                     ref={resetBtn}
                                     onClick={async () => {
+                                      await setAsPresent(false);
+
                                       await setShowError(false);
                                       await setShowAsForm(false);
                                     }}
@@ -2555,8 +2666,8 @@ setSelectedSchool(null);
                                               <span>{skill}</span>
                                               <ChevronUpIcon
                                                 className={`${!open
-                                                    ? "rotate-180 transform"
-                                                    : ""
+                                                  ? "rotate-180 transform"
+                                                  : ""
                                                   } h-5 w-5 text-blue-500`}
                                               />
                                             </Disclosure.Button>

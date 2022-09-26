@@ -313,7 +313,7 @@ export default function Tabs() {
                   <div className="flex items-center my-2 space-x-2">
                     <BsCalendar />
                     <p className="text-sm text-gray-600 mr-5">
-                      {item.start_date} - {item.end_date}
+                      {item.start_date} - {item.Ispresent ? "Present" : item.end_date}
                     </p>
                   </div>
                   <div className="flex text-right mr-auto space-x-2 justify-end">
@@ -366,7 +366,7 @@ export default function Tabs() {
                     <div className="flex items-center space-x-2 my-2">
                       <BsCalendar />
                       <p className="text-sm text-gray-600 mr-5">
-                        {item.start_date} - {item.end_date}
+                        {item.start_date} - {item.Ispresent ?"Present" :item.end_date}
                       </p>
                     </div>
                     <div className="flex items-center space-x-2">
@@ -423,7 +423,7 @@ export default function Tabs() {
                     <div className="flex items-center space-x-2 my-2">
                       <BsCalendar />
                       <p className="text-sm text-gray-600 mr-5">
-                        {item.start_date} - {item.end_date}
+                        {item.start_date} - {item.Ispresent ?"Present" :item.end_date}
                       </p>
                     </div>
                     <div className="flex items-center space-x-2">

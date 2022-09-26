@@ -51,7 +51,7 @@ const Navbar = (props) => {
   }, []);
 
   return (
-    <div className="flex items-center navbar border-b-2 w-full py-3 shadow-md">
+    <div className="flex items-center navbar border-b-2 w-full py-3 shadow-md" style={{zIndex:100}}>
       <div className="text-slate-600 text-lg 2xl:block hidden ">
         <img className="h-10 mx-5" src={logo} />{" "}
       </div>

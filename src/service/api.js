@@ -249,6 +249,7 @@ export const updateProfileImage = async (data, token) => {
 
 // Post Job
 export const postJobAPI = async (data, token) => {
+  console.log(data)
   try {
     return await axios.post(`${url}/addJob`, data, {
       headers: {
@@ -699,9 +700,16 @@ export const addCandidate = async(data, token) => {
 }
 export const getCandidateList = async(data) => {
   try {
-    console.log(data);
-    return await axios.post(`${url}/getCandidateList`, data
+    return await axios.post(`${url}/getCandidateList?id=${data}`
     );
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
+export const eligibleCandidateList = async(data) => {
+  try {
+    return await axios.post(`${url}/eligibleCandidateList`,data);
+    
   } catch (err) {
     console.log("Error : ", err);
   }
@@ -716,4 +724,25 @@ export const deleteCandidate = async(data,body) => {
     console.log("Error : ", err);
   }
 }
+export const eligibleJobsForCandidate = async(data) => {
+  console.log(data);
+  try {
+    return await axios.get(`${url}/eligibleJobsForCandidate?email=developervm171@gmail.com`
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
+export const saveCandidateReport = async(data) => {
+  console.log(data);
+  try {
+    return await axios.get(`${url}/saveCandidateReport?candidate_id=${data}`
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
+
 

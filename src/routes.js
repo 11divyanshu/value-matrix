@@ -53,6 +53,11 @@ import CandiadateList from "./Pages/AdminDashboard/CandidatesList";
 import CandiadateDetail from "./Pages/AdminDashboard/CandidateDetail";
 import AddCompanyUser from "./Pages/CompanyDashboard/AddCompanyUser";
 import CandidateList from "./Pages/CompanyDashboard/CandidateList";
+import CandidateReport from "./Pages/CompanyDashboard/CandidateReport";
+
+
+
+// Admin Pages
 import AddSkills from "./Components/AdminDashboard/AddSkills";
 import AddAdminUser from "./Pages/AdminDashboard/AddAdminUser";
 import AddTaxId from "./Pages/AdminDashboard/AddTaxId";
@@ -346,6 +351,13 @@ export const companyDashboardRoutes = [
     hide: false,
     component: <CandidateList />,
     icon: <AiOutlineUnorderedList className="text-xl" />,
+    permission: "default",
+  },
+  {
+    name: "Candidate Report",
+    path: "/candidateReport",
+    hide: true,
+    component: <CandidateReport />,
     permission: "default",
   },
 ];
