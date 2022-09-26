@@ -45,12 +45,12 @@ const LoginForm = (props) => {
       setLoading(false);
       await localStorage.setItem("access_token", res.data.access_token);
       let access = res.data.access_token;
-      swal({
-        title: "Login",
-        text: "Login Successful",
-        icon: "success",
-        button: "Continue",
-      }).then(() => {
+      // swal({
+      //   title: "Login",
+      //   text: "Login Successful",
+      //   icon: "success",
+      //   button: "Continue",
+      // }).then(() => {
 
         if (res.data.user.invite) {
           window.location.href = "/setProfile/" + res.data.user.resetPassId;
@@ -69,7 +69,7 @@ const LoginForm = (props) => {
         ) {
           window.location.href = "/admin/?a=" + access;
         }
-      });
+      // });
     } else {
       setCaptcha(false);
       if (captchaRef.current !== undefined) {

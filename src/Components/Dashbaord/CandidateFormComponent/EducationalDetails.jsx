@@ -463,7 +463,7 @@ schoolQuery === ""
                                 <div className="md:w-1/2  md:flex w-full  space-y-1 my-2">
 
 
-                                  <label className="font-semibold text-lg w-2/5 mx-2">Work Period </label>
+                                  <label className="font-semibold text-lg w-2/5 mx-2">Study  Period </label>
 
 <div className="w-4/5 flex justify-between" style={{justifyContent:"space-between"}}>
                                   <div className=" my-1  flex mr-5 align-middle">
