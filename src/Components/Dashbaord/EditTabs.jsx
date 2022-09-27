@@ -168,6 +168,8 @@ export default function Tabs(props) {
     street: null,
     city: null,
     country: null,
+    state: null,
+    zip: null,
     //experience
   });
   const [eduinitialValues, setEduInitialValues] = React.useState({
@@ -484,6 +486,8 @@ export default function Tabs(props) {
       user.street = values.street;
       user.city = values.city;
       user.country = values.country;
+      user.state = values.state;
+      user.zip = values.zip;
       user.contact = values.contact;
       setUser(user);
       localStorage.setItem("user", JSON.stringify(user));
@@ -664,6 +668,8 @@ export default function Tabs(props) {
       street: ed.street,
       city: ed.city,
       country: ed.country,
+      state: ed.state,
+      zip: ed.zip,
       experience: ed.experience,
       username: ed.username,
       associate: ed.associate,
@@ -813,6 +819,8 @@ export default function Tabs(props) {
               street: user.street,
               city: user.city,
               country: user.country,
+              state: user.state,
+              zip: user.zip,
             }}
             onSubmit={(values) => save(values)}
             validate={async (values) => {
@@ -977,21 +985,73 @@ export default function Tabs(props) {
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 align-middle">
                           <label className="font-semibold text-md ml-2 py-2">
-                            Country
+                            State
                           </label>
                           <div >
 
                             <div className="">
                               <Field
-                                name="country"
+                                name="state"
                                 type="text"
                                 className="block border-gray-400 py-1 w-full mx-2"
 
-                                value={values.country}
+                                value={values.state}
                               />
 
                               <ErrorMessage
-                                name="street"
+                                name="state"
+                                component="div"
+                                className="text-sm text-red-600"
+                              />
+                            </div>
+
+
+
+
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-2 md:w-5/6"
+                        style={{ justifyContent: "space-between" }}
+                      >
+                        <div className=" grid grid-cols-1 lg:grid-cols-2 align-middle">
+                          <label className="font-semibold text-md py-2">
+                            Country
+                          </label>
+                          <div className="">
+                            <Field
+                              name="country"
+                              type="text"
+                              className="block border-gray-400 py-1 w-full"
+
+                              value={values.country}
+                            />
+                            <ErrorMessage
+                              name="country"
+                              component="div"
+                              className="text-sm text-red-600"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-2 align-middle">
+                          <label className="font-semibold text-md ml-2 py-2">
+                            Zip Code
+                          </label>
+                          <div >
+
+                            <div className="">
+                              <Field
+                                name="zip"
+                                type="text"
+                                className="block border-gray-400 py-1 w-full mx-2"
+
+                                value={values.zip}
+                              />
+
+                              <ErrorMessage
+                                name="zip"
                                 component="div"
                                 className="text-sm text-red-600"
                               />

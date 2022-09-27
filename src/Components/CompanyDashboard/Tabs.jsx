@@ -66,6 +66,12 @@ export default function Tabs() {
               email: user.email ? user.email : " ",
               contact: user.contact ? user.contact : " ",
               address: user.address ? user.address : " ",
+              houseNo: user.houseNo,
+              street: user.street,
+              city: user.city,
+              country: user.country,
+              state: user.state,
+              zip: user.zip,
             }}
           >
             {({ values, isSubmitting }) => (
@@ -122,17 +128,146 @@ export default function Tabs() {
 
                     />
                   </div>
-                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                    <label className="font-semibold text-lg md:w-2/5 mx-5">Address</label>
-                    <Field
-                      name="address"
-                      type="text"
-                      disabled
-                      className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5" 
-                      style={{borderRadius:"5px"}}
-                    // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                  <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
+                  <label className="font-semibold text-lg md:w-2/5 mx-5">
+                      Address
+                    </label>
+                    <div className="md:w-3/5 sm:w-4/5 ">
+                      <div
+                        className="grid grid-cols-1 gap-4 mb-6 lg:grid-cols-2 md:w-5/6"
+                        style={{ justifyContent: "space-between" }}
+                      >
+                        <div className=" grid grid-cols-1 lg:grid-cols-2 align-middle">
+                          <label className="font-semibold text-md py-2">
+                            House/ Flat No.
+                          </label>
+                          <div className="">
+                            <Field
+                              name="houseNo"
+                              type="text"
+                              className="block border-gray-400 py-1 w-full"
+                              disabled
 
-                    />
+                            />
+
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-2 align-middle ">
+                          <label className="font-semibold text-md ml-2 py-2">
+                            Street
+                          </label>
+                          <div >
+
+                            <div className="">
+                              <Field
+                                name="street"
+                                type="text"
+                                className="block border-gray-400 py-1 w-full mx-2"
+                                disabled
+
+                              />
+
+
+                            </div>
+
+
+
+
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="grid grid-cols-1 gap-4 mb-6 lg:grid-cols-2 md:w-5/6"
+                        style={{ justifyContent: "space-between" }}
+                      >
+                        <div className=" grid grid-cols-1 lg:grid-cols-2 align-middle">
+                          <label className="font-semibold text-md py-2">
+                            City
+                          </label>
+                          <div className="">
+                            <Field
+                              name="city"
+                              type="text"
+                              className="block border-gray-400 py-1 w-full"
+                              disabled
+
+                            />
+
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-2 align-middle">
+                          <label className="font-semibold text-md ml-2 py-2">
+                            State
+                          </label>
+                          <div >
+
+                            <div className="">
+                              <Field
+                                name="state"
+                                type="text"
+                                className="block border-gray-400 py-1 w-full mx-2"
+                                disabled
+
+                              />
+
+
+                            </div>
+
+
+
+
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="grid grid-cols-1 gap-4 mb-6 lg:grid-cols-2 md:w-5/6"
+                        style={{ justifyContent: "space-between" }}
+                      >
+                        <div className=" grid grid-cols-1 lg:grid-cols-2 align-middle">
+                          <label className="font-semibold text-md py-2">
+                            Country
+                          </label>
+                          <div className="">
+                            <Field
+                              name="country"
+                              type="text"
+                              className="block border-gray-400 py-1 w-full"
+                              disabled
+
+                            />
+
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-2 align-middle">
+                          <label className="font-semibold text-md ml-2 py-2">
+                            Zip Code
+                          </label>
+                          <div >
+
+                            <div className="">
+                              <Field
+                                name="zip"
+                                type="text"
+                                className="block border-gray-400 py-1 w-full mx-2"
+                                disabled
+
+                              />
+
+
+                            </div>
+
+
+
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
                   </div>
 
 

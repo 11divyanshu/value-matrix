@@ -96,7 +96,12 @@ export default function Tabs(props) {
         user.username = values.username;
         user.firstName = values.firstName;
         user.lastname = values.lastName;
-        user.address = values.address;
+        user.houseNo = values.houseNo;
+      user.street = values.street;
+      user.city = values.city;
+      user.country = values.country;
+      user.state = values.state;
+      user.zip = values.zip;
         setUser(user);
         localStorage.setItem("user", JSON.stringify(user));
         swal({
@@ -236,9 +241,14 @@ export default function Tabs(props) {
     let data = {
       firstName: ed.firstName,
       lastname: ed.lastName,
-      address: ed.address,
       desc: ed.desc,
       billing: ed.billing,
+      houseNo: ed.houseNo,
+      street: ed.street,
+      city: ed.city,
+      country: ed.country,
+      state: ed.state,
+      zip: ed.zip,
     };
     if (EmailOTP) {
       data.email = ed.email;
@@ -328,7 +338,12 @@ export default function Tabs(props) {
                 : " ",
               emailOTP: "",
               contactOTP: "",
-              address: user.address,
+              houseNo: user.houseNo,
+              street: user.street,
+              city: user.city,
+              country: user.country,
+              state: user.state,
+              zip: user.zip,
             }}
             validate={async (values) => {
               const errors = {};
@@ -411,21 +426,173 @@ export default function Tabs(props) {
                     />
                   </div>
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                    <label className="font-semibold text-lg md:w-2/5 mx-5">
+                    {/* <label className="font-semibold text-lg w-2/5 mx-2">
+                                    Work Period{" "}
+                                  </label> */}
+
+<label className="font-semibold text-lg md:w-2/5 mx-5">
                       Address
                     </label>
-                    <Field
-                      type="text"
-                      name="address"
-                      className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5"
-                      style={{ borderRadius: "5px" }}
-                      // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
-                    />
-                    <ErrorMessage
-                      name="address"
-                      component="div"
-                      className="text-sm text-red-600"
-                    />
+                    <div className="md:w-3/5 sm:w-4/5 mx-5 px-4">
+                      <div
+                        className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-2 md:w-5/6"
+                        style={{ justifyContent: "space-between" }}
+                      >
+                        <div className=" grid grid-cols-1 lg:grid-cols-2 align-middle">
+                          <label className="font-semibold text-md py-2">
+                            House/ Flat No.
+                          </label>
+                          <div className="">
+                            <Field
+                              name="houseNo"
+                              type="text"
+                              className="block border-gray-400 py-1 w-full"
+
+                              value={values.houseNo}
+                            />
+                            <ErrorMessage
+                              name="houseNo"
+                              component="div"
+                              className="text-sm text-red-600"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-2 align-middle ">
+                          <label className="font-semibold text-md ml-2 py-2">
+                            Street
+                          </label>
+                          <div >
+
+                            <div className="">
+                              <Field
+                                name="street"
+                                type="text"
+                                className="block border-gray-400 py-1 w-full mx-2"
+
+                                value={values.street}
+                              />
+
+                              <ErrorMessage
+                                name="street"
+                                component="div"
+                                className="text-sm text-red-600"
+                              />
+                            </div>
+
+
+
+
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-2 md:w-5/6"
+                        style={{ justifyContent: "space-between" }}
+                      >
+                        <div className=" grid grid-cols-1 lg:grid-cols-2 align-middle">
+                          <label className="font-semibold text-md py-2">
+                            City
+                          </label>
+                          <div className="">
+                            <Field
+                              name="city"
+                              type="text"
+                              className="block border-gray-400 py-1 w-full"
+
+                              value={values.city}
+                            />
+                            <ErrorMessage
+                              name="city"
+                              component="div"
+                              className="text-sm text-red-600"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-2 align-middle">
+                          <label className="font-semibold text-md ml-2 py-2">
+                            State
+                          </label>
+                          <div >
+
+                            <div className="">
+                              <Field
+                                name="state"
+                                type="text"
+                                className="block border-gray-400 py-1 w-full mx-2"
+
+                                value={values.state}
+                              />
+
+                              <ErrorMessage
+                                name="state"
+                                component="div"
+                                className="text-sm text-red-600"
+                              />
+                            </div>
+
+
+
+
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-2 md:w-5/6"
+                        style={{ justifyContent: "space-between" }}
+                      >
+                        <div className=" grid grid-cols-1 lg:grid-cols-2 align-middle">
+                          <label className="font-semibold text-md py-2">
+                            Country
+                          </label>
+                          <div className="">
+                            <Field
+                              name="country"
+                              type="text"
+                              className="block border-gray-400 py-1 w-full"
+
+                              value={values.country}
+                            />
+                            <ErrorMessage
+                              name="country"
+                              component="div"
+                              className="text-sm text-red-600"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-2 align-middle">
+                          <label className="font-semibold text-md ml-2 py-2">
+                            Zip Code
+                          </label>
+                          <div >
+
+                            <div className="">
+                              <Field
+                                name="zip"
+                                type="text"
+                                className="block border-gray-400 py-1 w-full mx-2"
+
+                                value={values.zip}
+                              />
+
+                              <ErrorMessage
+                                name="zip"
+                                component="div"
+                                className="text-sm text-red-600"
+                              />
+                            </div>
+
+
+
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
                   </div>
 
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">

@@ -24,16 +24,16 @@ const UserProfile = () => {
     const func = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       let access_token = localStorage.getItem("access_token");
-      if (user && user.profileImg) {
-        let image = await getProfileImage({ id: user._id }, user.access_token);
-        await localStorage.setItem("profileImg", JSON.stringify(image));
+      // if (user && user.profileImg) {
+      //   let image = await getProfileImage({ id: user._id }, user.access_token);
+      //   await localStorage.setItem("profileImg", JSON.stringify(image));
 
-        let base64string = btoa(
-          String.fromCharCode(...new Uint8Array(image.data.Image.data))
-        );
-        let src = `data:image/png;base64,${base64string}`;
-        await setProfileImg(src);
-      }
+      //   let base64string = btoa(
+      //     String.fromCharCode(...new Uint8Array(image.data.Image.data))
+      //   );
+      //   let src = `data:image/png;base64,${base64string}`;
+      //   await setProfileImg(src);
+      // }
       if (access_token === null) window.location.href = "/login";
 
       await setUser(user);

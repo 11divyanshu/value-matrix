@@ -151,6 +151,8 @@ export default function Tabs() {
               street: user.street,
               city: user.city,
               country: user.country,
+              state: user.state,
+              zip: user.zip,
             }}
           >
             {({ values, isSubmitting }) => (
@@ -312,13 +314,57 @@ export default function Tabs() {
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 align-middle">
                           <label className="font-semibold text-md ml-2 py-2">
-                            Country
+                            State
                           </label>
                           <div >
 
                             <div className="">
                               <Field
-                                name="country"
+                                name="state"
+                                type="text"
+                                className="block border-gray-400 py-1 w-full mx-2"
+                                disabled
+
+                              />
+
+
+                            </div>
+
+
+
+
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="grid grid-cols-1 gap-4 mb-6 lg:grid-cols-2 md:w-5/6"
+                        style={{ justifyContent: "space-between" }}
+                      >
+                        <div className=" grid grid-cols-1 lg:grid-cols-2 align-middle">
+                          <label className="font-semibold text-md py-2">
+                            Country
+                          </label>
+                          <div className="">
+                            <Field
+                              name="country"
+                              type="text"
+                              className="block border-gray-400 py-1 w-full"
+                              disabled
+
+                            />
+
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-2 align-middle">
+                          <label className="font-semibold text-md ml-2 py-2">
+                            Zip Code
+                          </label>
+                          <div >
+
+                            <div className="">
+                              <Field
+                                name="zip"
                                 type="text"
                                 className="block border-gray-400 py-1 w-full mx-2"
                                 disabled
