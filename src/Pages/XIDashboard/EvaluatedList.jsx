@@ -96,7 +96,7 @@ const JobList = () => {
             </p>
             <div className="border-b border-gray-600 flex justify-between my-4 py-4">
               <p className="font-bold text-xs">Posted Jobs</p>
-              <p className="text-gray-400 font-semibold text-xs">04</p>
+              <p className="text-gray-400 font-semibold text-xs"> {jobs.length > 0 ? jobs.length : 0}</p>
             </div>
             <div className="border-b border-gray-600 flex justify-between my-4 py-4">
               <p className="font-bold text-xs">My Learnings</p>

@@ -1261,7 +1261,7 @@ const JobList = () => {
               <p className=" mx-2  text-sm ">My Items</p>
             </p>
             <div className="border-b border-gray-600 flex justify-between my-4 py-4">
-              <p className="font-bold text-xs">Posted Jobs</p><p className="text-gray-400 font-semibold text-xs">04</p>
+              <p className="font-bold text-xs">Posted Jobs</p><p className="text-gray-400 font-semibold text-xs"> {jobs.length > 0 ? jobs.length : 0}</p>
             </div>
             <div className="border-b border-gray-600 flex justify-between my-4 py-4">
               <p className="font-bold text-xs">My Learnings</p><p className="text-gray-400 font-semibold text-xs">06</p>
