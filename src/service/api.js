@@ -411,6 +411,7 @@ export const getUserList = async (data, token) => {
 // Download Resume
 export const downloadResume = async (data, token) => {
   try {
+
     return await axios.post(`${url}/downloadResume`, data, {
       headers: { authorization: token },
     });
@@ -618,7 +619,7 @@ export const addTaxId = async (data, token) => {
     console.log("Error : ", err);
   }
 };
-export const findAndUpdateTax = async (id,data, token) => {
+export const findAndUpdateTax = async (id, data, token) => {
   try {
     console.log("data", data);
     return await axios.post(`${url}/updateTaxId/${id}`, data, {
@@ -631,7 +632,7 @@ export const findAndUpdateTax = async (id,data, token) => {
 export const findAndDeleteTax = async (id, token) => {
   try {
     console.log(id);
-  
+
     return await axios.post(`${url}/deleteTaxId/${id}`, {
       headers: { authorization: token },
     });
@@ -668,7 +669,7 @@ export const getDBSchoolList = async (data, token) => {
 }
 
 // Update Evaluation Details
-export const updateEvaluation = async(data, token) => {
+export const updateEvaluation = async (data, token) => {
   try {
     return await axios.post(`${url}/updateEvaluation`, data, {
       headers: { authorization: token },
@@ -677,7 +678,7 @@ export const updateEvaluation = async(data, token) => {
     console.log("Error : ", err);
   }
 }
-export const getCandidateEvaluation = async(data, token) => {
+export const getCandidateEvaluation = async (data, token) => {
   try {
     return await axios.post(`${url}/getCandidateEvaluation`, data, {
       headers: { authorization: token },
@@ -689,7 +690,7 @@ export const getCandidateEvaluation = async(data, token) => {
 
 //Candidate ENdpoints
 
-export const addCandidate = async(data, token) => {
+export const addCandidate = async (data, token) => {
   try {
     return await axios.post(`${url}/addCandidate`, data, {
       headers: { authorization: token },
@@ -698,7 +699,7 @@ export const addCandidate = async(data, token) => {
     console.log("Error : ", err);
   }
 }
-export const getCandidateList = async(data) => {
+export const getCandidateList = async (data) => {
   try {
     return await axios.post(`${url}/getCandidateList?id=${data}`
     );
@@ -706,25 +707,25 @@ export const getCandidateList = async(data) => {
     console.log("Error : ", err);
   }
 }
-export const eligibleCandidateList = async(data) => {
+export const eligibleCandidateList = async (data) => {
   try {
-    return await axios.post(`${url}/eligibleCandidateList`,data);
-    
+    return await axios.post(`${url}/eligibleCandidateList`, data);
+
   } catch (err) {
     console.log("Error : ", err);
   }
 }
-export const deleteCandidate = async(data,body) => {
+export const deleteCandidate = async (data, body) => {
   try {
     console.log(body);
-    return await axios.post(`${url}/deleteCandidate/${data}`,body
+    return await axios.post(`${url}/deleteCandidate/${data}`, body
     );
 
   } catch (err) {
     console.log("Error : ", err);
   }
 }
-export const eligibleJobsForCandidate = async(data) => {
+export const eligibleJobsForCandidate = async (data) => {
   console.log(data);
   try {
     return await axios.get(`${url}/eligibleJobsForCandidate?email=developervm171@gmail.com`
@@ -734,7 +735,7 @@ export const eligibleJobsForCandidate = async(data) => {
     console.log("Error : ", err);
   }
 }
-export const saveCandidateReport = async(data) => {
+export const saveCandidateReport = async (data) => {
   console.log(data);
   try {
     return await axios.get(`${url}/saveCandidateReport?candidate_id=${data}`

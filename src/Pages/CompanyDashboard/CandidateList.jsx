@@ -23,6 +23,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { BsThreeDots, BsCashStack } from "react-icons/bs";
 import { CgWorkAlt } from "react-icons/cg";
+import { ImCross } from "react-icons/im";
 import swal from 'sweetalert';
 const JobList = () => {
   const [jobs, setJobs] = useState([]);
@@ -415,7 +416,9 @@ const JobList = () => {
                                     </p>
                                   </div>
                                     <div><button className="bg-[#034488] text-white rounded-sm px-4 py-1 my-2 mx-4"
-                                      onClick={() => setModal(false)}>Close</button></div>
+                                      onClick={() => setModal(false)}style={{ backgroundColor: "#fff" ,color:'#034488'}}
+                                      >   
+                                        <ImCross/></button></div>
                                   </div>
                                   <div className="flex space-x-10 my-3">
                                     <button
@@ -919,16 +922,16 @@ const JobList = () => {
                           leaveFrom="opacity-100 scale-100"
                           leaveTo="opacity-0 scale-95"
                         >
-                          <Dialog.Panel className="w-full  px-7 my-9 transform  rounded-2xl bg-white p-9 text-left align-middle shadow-xl transition-all">
-                            <div className="w-full mt-9 text-right"> <button
+                          <Dialog.Panel className="w-full  px-7 my-9 transform  rounded-xl bg-white p-9 text-left align-middle shadow-xl transition-all">
+                            <div className="w-full mt-9 text-right flex justify-between">   <p className="font-semibold text-xl my-5">Send Job Request</p> <button
                                                   className="bg-[#034488] text-white rounded-sm py-1 my-2 px-4"
                                                  onClick={()=>{
                                                   setShowJobs(false);
 
                                                  }}
-                                                  style={{ backgroundColor: "#034488" }}
+                                                  style={{ backgroundColor: "#fff" ,color:'#034488'}}
                                                 >
-                                                  Close
+                                                  <ImCross/>
                                                 </button></div>
                             {listEligibleJobs && listEligibleJobs.map((job) => {
                               return (
@@ -989,7 +992,7 @@ const JobList = () => {
                                       </div>
                                     </div>
                                     <div className="flex col-span-2">
-                                      {job.archived ? (
+                                      {/* {job.archived ? (
                                         <button
                                           // style={{ background: "#3ED3C5" }}
                                           className=" bg-yellow-300 rounded-3xl px-6 my-3 text-xs text-gray-900 font-semibold"
@@ -1010,51 +1013,69 @@ const JobList = () => {
                                         >
                                           Ended{" "}
                                         </button>
-                                      )}
-                                      {jobId.find((item) => { return item == job._id }) ? (
+                                      )} */}
+
+{job.archived ? (
                                         <button
                                           // style={{ background: "#3ED3C5" }}
-                                          className=" bg-yellow-300 rounded-3xl px-6 my-3 mx-3 text-xs text-gray-900 font-semibold"
+                                          className=" bg-yellow-300 rounded-3xl px-6 my-3 text-xs text-gray-900 font-semibold"
                                         >
-                                          Requested{" "}
+                                          Archived{" "}
                                         </button>
+                                      ) : new Date().toISOString() < job.validTill ? (
+                                        jobId.find((item) => { return item == job._id }) ? (
+                                          <button
+                                            // style={{ background: "#3ED3C5" }}
+                                            className=" bg-yellow-300 rounded-3xl px-6 my-3 text-xs text-gray-900 font-semibold"
+                                          >
+                                            Requested{" "}
+                                          </button>
+                                        ) : (
+                                          <button
+                                            style={{ background: "#3ED3C5" }}
+                                            className="  rounded-3xl px-6 my-3 text-xs  text-gray-900 font-semibold"
+                                            onClick={() => {
+                                              let res1 = sendJobInvitations(
+                                                {
+                                                  job_id: job._id,
+                                                  candidates: sendCandidate,
+                                                  user_id: job.uploadBy,
+                                                },
+                                                user.access_token
+                                              );
+                                              if (res1) {
+                                                swal({
+                                                  title: "Job Posted Successfully !",
+                                                  message: "Success",
+                                                  icon: "success",
+                                                  button: "Continue",
+                                                }).then((result) => {
+                                                
+                                                });
+                                              } else {
+                                                swal({
+                                                  title: " Error Posting Job !",
+                                                  message: "OOPS! Error Occured",
+                                                  icon: "Error",
+                                                  button: "Ok",
+                                                });
+                                              }
+  
+                                            }}
+                                          >
+                                            Send Request{" "}
+                                          </button>
+                                        )
+                                        
                                       ) : (
                                         <button
-                                          style={{ background: "#3ED3C5" }}
-                                          className="  rounded-3xl px-6 my-3 text-xs mx-3 text-gray-900 font-semibold"
-                                          onClick={() => {
-                                            let res1 = sendJobInvitations(
-                                              {
-                                                job_id: job._id,
-                                                candidates: sendCandidate,
-                                                user_id: job.uploadBy,
-                                              },
-                                              user.access_token
-                                            );
-                                            if (res1) {
-                                              swal({
-                                                title: "Job Posted Successfully !",
-                                                message: "Success",
-                                                icon: "success",
-                                                button: "Continue",
-                                              }).then((result) => {
-                                              
-                                              });
-                                            } else {
-                                              swal({
-                                                title: " Error Posting Job !",
-                                                message: "OOPS! Error Occured",
-                                                icon: "Error",
-                                                button: "Ok",
-                                              });
-                                            }
-
-                                          }}
+                                          // style={{ background: "#3ED3C5" }}
+                                          className=" bg-white border border-gray-400 rounded-3xl px-6 my-3 text-xs text-gray-900 font-semibold"
                                         >
-                                          Send Request{" "}
+                                          Ended{" "}
                                         </button>
-                                      )
-                                      }
+                                      )}
+                                      
                                     </div>
                                   </div>
                                 </div>)

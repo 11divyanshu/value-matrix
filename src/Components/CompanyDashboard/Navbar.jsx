@@ -51,12 +51,12 @@ const Navbar = (props) => {
   }, []);
 
   return (
-    <div className="flex items-center navbar border-b-2 w-full py-3 shadow-md" style={{zIndex:100}}>
+    <div className="flex items-center navbar border-b-2 w-full py-3 z-100 shadow-md" style={{zIndex:9999}}>
       <div className="text-slate-600 text-lg 2xl:block hidden ">
         <img className="h-10 mx-5" src={logo} />{" "}
       </div>
 
-      <div className="md:w-3/5 mx-auto pl-7 w-1/2">
+      <div className="md:w-3/5 mx-auto pl-7 w-1/2" style={{zIndex:9999}}>
         <form>
           <label
             for="default-search"
@@ -98,7 +98,7 @@ const Navbar = (props) => {
           </div>
         </form>
       </div>
-      <div className="space-x-8   ml-auto flex mr-8 items-center">
+      <div className="space-x-8   ml-auto flex mr-8 items-center" style={{zIndex:9999}}>
         {/* <IoCall className="text-gray-700 text-lg cursor-pointer hover:text-gray-800 md:block hidden"/>
       <BsFillChatLeftTextFill className="text-gray-700 text-lg cursor-pointer hover:text-gray-800 md:block hidden" /> */}
         <NotificationPopOver />

@@ -214,7 +214,7 @@ export default function Tabs(props) {
 
   //Tools
   const [tools, setTools] = React.useState([]);
-  const [error, setFormError] = React.useState(false);
+  const [ederror, setFormError] = React.useState(false);
   const [aserror, setAsFormError] = React.useState(false);
   const [exerror, setExFormError] = React.useState(false);
   const [disabled, setDisabled] = React.useState(true);
@@ -281,8 +281,8 @@ export default function Tabs(props) {
   }, []);
 
   const updateEducation = async (values) => {
-    console.log(error);
-    if (!error) {
+    console.log(ederror);
+    if (!ederror) {
       let e = JSON.parse(await localStorage.getItem("user"));
       if (edit !== null) {
         const temp = [...educationalDetail];
@@ -322,14 +322,15 @@ export default function Tabs(props) {
         text: "Details Saved",
         button: "Continue",
       });
-    } else {
-      swal({
-        icon: "error",
-        title: "EditProfile",
-        text: "Something Went Wrong",
-        button: "Continue",
-      });
-    }
+    } 
+    // else {
+    //   swal({
+    //     icon: "error",
+    //     title: "EditProfile",
+    //     text: "Something Went Wrong",
+    //     button: "Continue",
+    //   });
+    // }
   };
 
   const updateExperience = async (values) => {
@@ -381,14 +382,15 @@ export default function Tabs(props) {
         text: "Details Saved",
         button: "Continue",
       });
-    } else {
-      swal({
-        icon: "error",
-        title: "EditProfile",
-        text: "Something Went Wrong",
-        button: "Continue",
-      });
-    }
+    } 
+    // else {
+    //   swal({
+    //     icon: "error",
+    //     title: "EditProfile",
+    //     text: "Something Went Wrong",
+    //     button: "Continue",
+    //   });
+    // }
   };
 
   const updateAssociation = async (values) => {
@@ -436,14 +438,15 @@ export default function Tabs(props) {
         text: "Details Saved",
         button: "Continue",
       });
-    } else {
-      swal({
-        icon: "error",
-        title: "EditProfile",
-        text: "Something Went Wrong",
-        button: "Continue",
-      });
-    }
+    } 
+    // else {
+    //   swal({
+    //     icon: "error",
+    //     title: "EditProfile",
+    //     text: "Something Went Wrong",
+    //     button: "Continue",
+    //   });
+    // }
   };
 
   const save = async (values) => {
@@ -1340,6 +1343,7 @@ export default function Tabs(props) {
                                         <Field
                                           name="start_date"
                                           type="month"
+                                          maxDate={new Date().toString()}
                                           className="block border-gray-400 py-2 w-full md:w-4/5 mx-2 border-[0.5px] border-[#6b7280]"
                                           style={{
                                             borderRadius: "4px",
@@ -1456,8 +1460,7 @@ export default function Tabs(props) {
                                 <div className=" flex justify-center mt-4 text-center">
                                   <button
                                     onClick={() => { setPresent(false);
-
-                                      updateEducation(values)}}
+                                          updateEducation(values)}}
                                     className=" bg-blue-600  text-white rounded-lg block cursor-pointer py-2 px-8 align-middle"
                                     style={{ backgroundColor: "#034488" }}
                                   >

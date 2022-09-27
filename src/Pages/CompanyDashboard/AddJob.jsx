@@ -18,6 +18,7 @@ import currencies from "currencies.json";
 import Loader from "../../assets/images/loader.gif";
 import { Combobox } from "@headlessui/react";
 import cities from "cities.json";
+import "../../assets/stylesheet/editor.scss";
 
 const AddJob = () => {
   // Page Index
@@ -114,6 +115,8 @@ const AddJob = () => {
   const salaryRef = React.useRef(null);
   const [user, setUser] = React.useState(null);
 
+  const [ederror, setFormError] = React.useState(false);
+  const [descError, setDescError] = React.useState(false);
 
   const [showEligible, setShowEligible] = React.useState(null);
   const [eligibleCanList, setEligibleCanList] = React.useState([]);
@@ -412,6 +415,11 @@ const getEligibleCandidate = async (eligibleSkills)=>{
   //description Editor
 
   const onDescEditorStateChange = (state) => {
+    if (!desc) {
+      setDescError(true);
+    } else {
+      setDescError(false);
+    }
     setDescState(state);
     convertDescToHTML();
   };
@@ -447,7 +455,8 @@ const getEligibleCandidate = async (eligibleSkills)=>{
   };
 
   // City Autocomplete
-  const [selectedCity, setSelectedCity] = React.useState(cities[103]);
+  const [selectedCity, setSelectedCity] = React.useState({country: "NULL",
+city:"NULL"});
   const [query, setQuery] = React.useState("");
   const filteredCity =
     query === ""
@@ -509,10 +518,16 @@ const getEligibleCandidate = async (eligibleSkills)=>{
                   if (!values.jobTitle || values.jobTitle.trim() === "") {
                     errors.jobTitle = "Required !";
                   }
-
-                  if (!selectedCity) {
-                    errors.location = "Required !";
+                  if (!values.validTill || values.validTill.trim() === "") {
+                    errors.validTill = "Required !";
                   }
+                  if (!values.jobType || values.jobType.trim() === "") {
+                    errors.jobType = "Required !";
+                  }
+
+                  // if (!selectedCity) {
+                  //   errors.location = "Required !";
+                  // }
                   if (
                     values.validTill &&
                     values.validTill < new Date().toISOString().split("T")[0]
@@ -526,6 +541,16 @@ const getEligibleCandidate = async (eligibleSkills)=>{
                   ) {
                     errors.hiringOrganization = "Required !";
                   }
+                  // if (
+                   
+                  //   !selectedCity
+                    
+                  // ) {
+                  //   setFormError(true);
+                  // } else {
+                  //   setFormError(false);
+                  // }
+
                   return errors;
                 }}
               >
@@ -559,7 +584,7 @@ const getEligibleCandidate = async (eligibleSkills)=>{
                             editorState={desc}
                             toolbarClassName="toolbarClassName"
                             wrapperClassName="wrapperClassName"
-                            editorClassName="editorClassName"
+                            editorClassName="editorClassName z-0"
                             wrapperStyle={{
                               width: "75%",
                               border: "1px solid rgb(156 163 175 / 1)",
@@ -577,6 +602,11 @@ const getEligibleCandidate = async (eligibleSkills)=>{
                             }}
                             onEditorStateChange={onDescEditorStateChange}
                           />
+                          {descError && 
+                           <p
+                           className="text-red-600 text-sm w-full text-left mr-auto"
+                         >Required</p>
+                          }
                         </div>
                         <div className="my-7 space-y-3 w-full">
                           <label className="text-left w-3/4 block font-semibold">
@@ -587,7 +617,18 @@ const getEligibleCandidate = async (eligibleSkills)=>{
                             onChange={setSelectedCity}
                           >
                             <Combobox.Input
-                              onChange={(event) => setQuery(event.target.value)}
+                              onChange={(event) => {
+                                if (selectedCity.country === "NULL") {
+                                  setFormError(true);
+                                  console.log(ederror)
+                                } else {
+                                  setFormError(false);
+                                  console.log(selectedCity)
+      
+                                }
+                                
+                                
+                                setQuery(event.target.value)}}
                               className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-2"
                               style={{ borderRadius: "5px" }}
                             />
@@ -607,11 +648,9 @@ const getEligibleCandidate = async (eligibleSkills)=>{
                               ))}
                             </Combobox.Options>
                           </Combobox>
-                          <ErrorMessage
-                            name="location"
-                            component="div"
+                          {ederror && <p
                             className="text-red-600 text-sm w-full text-left mr-auto"
-                          />
+                          >Required</p>}
                         </div>
                         <div className="my-7 space-y-3">
                           <label className="text-left w-3/4 block font-semibold">
@@ -666,7 +705,13 @@ const getEligibleCandidate = async (eligibleSkills)=>{
                               Freelancing
                             </label>
                             </div>
+                           
                           </div>
+                          <ErrorMessage
+                            name="jobType"
+                            component="div"
+                            className="text-red-600 text-sm w-full text-left mr-auto"
+                          />
                         </div>
                         <div className="my-7 space-y-3 w-full">
                           <label className="text-left w-3/4 font-semibold block">
@@ -718,8 +763,7 @@ const getEligibleCandidate = async (eligibleSkills)=>{
                             className="text-red-600 text-sm w-full"
                           />
                         </div>
-                      </Form>
-                      {values.jobTitle &&
+                        {values.jobTitle &&
                       desc &&
                       selectedCity !== null && 
                       values.jobType &&
@@ -728,6 +772,25 @@ const getEligibleCandidate = async (eligibleSkills)=>{
                         <button
                           className="bg-[#034488] px-4 py-1 text-white mx-auto block my-6 rounded-sm"
                           onClick={async () => {
+
+                            // if(!values.jobTitle ||
+                            //   !desc &&
+                            //   selectedCity === null ||
+                            //   !values.jobType ||
+                            //   !values.validTill ||
+                            //   !values.hiringOrganization){
+                            //     setFormError(true);
+                            
+                            // }
+
+                            if (selectedCity.country === "NULL") {
+                              setFormError(true);
+                            } else {
+                              setFormError(false);
+  
+                            }
+
+
                             let job = await JSON.parse(
                               await localStorage.getItem("postjob")
                             );
@@ -744,16 +807,35 @@ const getEligibleCandidate = async (eligibleSkills)=>{
                             );
                             await setJob(job);
                             setPageIndex(2);
-                          }}
+                            }
+                          }
                         >
                           Next
                         </button>
                       ) : (
-                        <button className="bg-[#034388d7] px-4 py-1 text-white mx-auto block my-6 rounded-sm">
+                        <button className="bg-[#034388d7] px-4 py-1 text-white mx-auto block my-6 rounded-sm" onClick={()=>{
+                          if (selectedCity.country === "NULL") {
+                            setFormError(true);
+                            console.log(ederror)
+                          } else {
+                            setFormError(false);
+                            console.log(selectedCity)
+
+                          }
+                          if (!desc) {
+                            setDescError(true);
+                          } else {
+                            setDescError(false);
+                          }
+                        }}>
                           Next
                         </button>
                       )}
-                    </div>
+                      
+                      </Form>
+                     
+                      </div>
+
                   );
                 }}
               </Formik>
