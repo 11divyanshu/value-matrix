@@ -164,7 +164,10 @@ export default function Tabs(props) {
     //education
     contact: null,
     email: null,
-    address: null,
+    houseNo: null,
+    street: null,
+    city: null,
+    country: null,
     //experience
   });
   const [eduinitialValues, setEduInitialValues] = React.useState({
@@ -322,7 +325,7 @@ export default function Tabs(props) {
         text: "Details Saved",
         button: "Continue",
       });
-    } 
+    }
     // else {
     //   swal({
     //     icon: "error",
@@ -382,7 +385,7 @@ export default function Tabs(props) {
         text: "Details Saved",
         button: "Continue",
       });
-    } 
+    }
     // else {
     //   swal({
     //     icon: "error",
@@ -438,7 +441,7 @@ export default function Tabs(props) {
         text: "Details Saved",
         button: "Continue",
       });
-    } 
+    }
     // else {
     //   swal({
     //     icon: "error",
@@ -477,7 +480,10 @@ export default function Tabs(props) {
       user.username = values.username;
       user.firstName = values.firstName;
       user.lastname = values.lastName;
-      user.address = values.address;
+      user.houseNo = values.houseNo;
+      user.street = values.street;
+      user.city = values.city;
+      user.country = values.country;
       user.contact = values.contact;
       setUser(user);
       localStorage.setItem("user", JSON.stringify(user));
@@ -654,7 +660,10 @@ export default function Tabs(props) {
     let data = {
       firstName: ed.firstName,
       lastname: ed.lastName,
-      address: ed.address,
+      houseNo: ed.houseNo,
+      street: ed.street,
+      city: ed.city,
+      country: ed.country,
       experience: ed.experience,
       username: ed.username,
       associate: ed.associate,
@@ -800,7 +809,10 @@ export default function Tabs(props) {
                 : " ",
               emailOTP: "",
               contactOTP: "",
-              address: user.address,
+              houseNo: user.houseNo,
+              street: user.street,
+              city: user.city,
+              country: user.country,
             }}
             onSubmit={(values) => save(values)}
             validate={async (values) => {
@@ -879,21 +891,121 @@ export default function Tabs(props) {
                     </div>
                   </div>
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                    <label className="font-semibold text-lg md:w-2/5 mx-2">
+                    {/* <label className="font-semibold text-lg w-2/5 mx-2">
+                                    Work Period{" "}
+                                  </label> */}
+
+                    <label className="font-semibold text-lg w-2/5 mx-2 md:mx-0 sm:mt-4">
                       Address
                     </label>
                     <div className="w-4/5">
-                      <Field
-                        type="text"
-                        name="address"
-                        className="block border-gray-400 py-1 md:w-5/6 sm:w-full mx-2"
-                      />
-                      <ErrorMessage
-                        name="address"
-                        component="div"
-                        className="text-sm text-red-600"
-                      />
+                      <div
+                        className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-2 md:w-5/6"
+                        style={{ justifyContent: "space-between" }}
+                      >
+                        <div className=" grid grid-cols-1 lg:grid-cols-2 align-middle">
+                          <label className="font-semibold text-md py-2">
+                            House/ Flat No.
+                          </label>
+                          <div className="">
+                            <Field
+                              name="houseNo"
+                              type="text"
+                              className="block border-gray-400 py-1 w-full"
+
+                              value={values.houseNo}
+                            />
+                            <ErrorMessage
+                              name="houseNo"
+                              component="div"
+                              className="text-sm text-red-600"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-2 align-middle ">
+                          <label className="font-semibold text-md ml-2 py-2">
+                            Street
+                          </label>
+                          <div >
+
+                            <div className="">
+                              <Field
+                                name="street"
+                                type="text"
+                                className="block border-gray-400 py-1 w-full mx-2"
+
+                                value={values.street}
+                              />
+
+                              <ErrorMessage
+                                name="street"
+                                component="div"
+                                className="text-sm text-red-600"
+                              />
+                            </div>
+
+
+
+
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-2 md:w-5/6"
+                        style={{ justifyContent: "space-between" }}
+                      >
+                        <div className=" grid grid-cols-1 lg:grid-cols-2 align-middle">
+                          <label className="font-semibold text-md py-2">
+                            City
+                          </label>
+                          <div className="">
+                            <Field
+                              name="city"
+                              type="text"
+                              className="block border-gray-400 py-1 w-full"
+
+                              value={values.city}
+                            />
+                            <ErrorMessage
+                              name="city"
+                              component="div"
+                              className="text-sm text-red-600"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-2 align-middle">
+                          <label className="font-semibold text-md ml-2 py-2">
+                            Country
+                          </label>
+                          <div >
+
+                            <div className="">
+                              <Field
+                                name="country"
+                                type="text"
+                                className="block border-gray-400 py-1 w-full mx-2"
+
+                                value={values.country}
+                              />
+
+                              <ErrorMessage
+                                name="street"
+                                component="div"
+                                className="text-sm text-red-600"
+                              />
+                            </div>
+
+
+
+
+                          </div>
+                        </div>
+                      </div>
                     </div>
+
+
                   </div>
 
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
@@ -905,7 +1017,6 @@ export default function Tabs(props) {
                         name="email"
                         type="text"
                         className="block border-gray-400 py-1 md:w-5/6 sm:w-full mx-2"
-                        disabled={EmailOTP !== null || ContactOTP !== null}
                       />
                       <ErrorMessage
                         name="email"
@@ -923,7 +1034,6 @@ export default function Tabs(props) {
                         name="contact"
                         type="text"
                         className="block border-gray-400 py-1 md:w-5/6 sm:w-full mx-2"
-                        disabled={EmailOTP !== null || ContactOTP !== null}
                       />
                       <ErrorMessage
                         name="contact"
@@ -1358,12 +1468,12 @@ export default function Tabs(props) {
                                         />
                                       </div>
                                     </div>
-                                  
-                                      <div className=" my-1  md:flex md:ml-2  align-middle">
-                                        <label className="font-semibold text-md ml-2 py-2">
-                                          End At
-                                        </label>
-                                        <div >
+
+                                    <div className=" my-1  md:flex md:ml-2  align-middle">
+                                      <label className="font-semibold text-md ml-2 py-2">
+                                        End At
+                                      </label>
+                                      <div >
                                         {!present &&
                                           (<div className="">
                                             <Field
@@ -1385,28 +1495,28 @@ export default function Tabs(props) {
                                           </div>)
                                         }
 
-                                     
-                                      <div className="mx-3 my-2">
 
-                                        <input type="checkbox" id="myCheck"
-                                          onChange={(e) => {
-                                            // var checkBox = document.getElementById("myCheck");
+                                        <div className="mx-3 my-2">
 
-                                            if (e.target.checked == true) {
-                                              setPresent(true);
-                                            } else {
-                                              setPresent(false);
+                                          <input type="checkbox" id="myCheck"
+                                            onChange={(e) => {
+                                              // var checkBox = document.getElementById("myCheck");
 
-                                            }
-                                          }}
+                                              if (e.target.checked == true) {
+                                                setPresent(true);
+                                              } else {
+                                                setPresent(false);
+
+                                              }
+                                            }}
 
 
-                                        />
-                                        <label className="font-semibold text-md ml-2 py-2">
-                                          Present
-                                        </label>
+                                          />
+                                          <label className="font-semibold text-md ml-2 py-2">
+                                            Present
+                                          </label>
 
-                                      </div>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
@@ -1459,8 +1569,10 @@ export default function Tabs(props) {
                                 </div>
                                 <div className=" flex justify-center mt-4 text-center">
                                   <button
-                                    onClick={() => { setPresent(false);
-                                          updateEducation(values)}}
+                                    onClick={() => {
+                                      setPresent(false);
+                                      updateEducation(values)
+                                    }}
                                     className=" bg-blue-600  text-white rounded-lg block cursor-pointer py-2 px-8 align-middle"
                                     style={{ backgroundColor: "#034488" }}
                                   >
@@ -1949,8 +2061,8 @@ export default function Tabs(props) {
                                             }}
 
 
-                                          />  
-                                           <label className="font-semibold text-md ml-2 py-2">
+                                          />
+                                          <label className="font-semibold text-md ml-2 py-2">
                                             Present
                                           </label>
 
@@ -2003,12 +2115,12 @@ export default function Tabs(props) {
                                 </div>
                                 <div className=" flex mt-4 justify-center text-center">
                                   <button
-                                    onClick={() => 
-                                      {
-                                        setExPresent(false);
+                                    onClick={() => {
+                                      setExPresent(false);
 
-                                        updateExperience(values)}
-                                    
+                                      updateExperience(values)
+                                    }
+
                                     }
                                     className=" bg-blue-600  text-white rounded-lg block cursor-pointer py-2 px-8 align-middle"
                                     style={{ backgroundColor: "#034488" }}
@@ -2414,12 +2526,12 @@ export default function Tabs(props) {
                                         />
                                       </div>
                                     </div>
-                                   
-                                      <div className=" my-1  md:flex md:ml-2  align-middle">
-                                        <label className="font-semibold text-md ml-2 py-2">
-                                          End At
-                                        </label>
-                                        <div >
+
+                                    <div className=" my-1  md:flex md:ml-2  align-middle">
+                                      <label className="font-semibold text-md ml-2 py-2">
+                                        End At
+                                      </label>
+                                      <div >
                                         {!asPresent &&
                                           <div className="">
                                             <Field
@@ -2441,28 +2553,28 @@ export default function Tabs(props) {
                                           </div>
                                         }
 
-                                     
-                                      <div className="mx-3 my-2">
 
-                                        <input type="checkbox" id="myCheck"
-                                          onChange={(e) => {
-                                            // var checkBox = document.getElementById("myCheck");
+                                        <div className="mx-3 my-2">
 
-                                            if (e.target.checked == true) {
-                                              setAsPresent(true);
-                                            } else {
-                                              setAsPresent(false);
+                                          <input type="checkbox" id="myCheck"
+                                            onChange={(e) => {
+                                              // var checkBox = document.getElementById("myCheck");
 
-                                            }
-                                          }}
+                                              if (e.target.checked == true) {
+                                                setAsPresent(true);
+                                              } else {
+                                                setAsPresent(false);
+
+                                              }
+                                            }}
 
 
-                                        /> 
-                                        <label className="font-semibold text-md ml-2 py-2">
-                                          Present
-                                        </label>
+                                          />
+                                          <label className="font-semibold text-md ml-2 py-2">
+                                            Present
+                                          </label>
 
-                                      </div>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
@@ -2514,7 +2626,8 @@ export default function Tabs(props) {
                                     onClick={() => {
                                       setAsPresent(false);
 
-                                      updateAssociation(values)}}
+                                      updateAssociation(values)
+                                    }}
                                     className=" bg-blue-600  text-white rounded-lg block cursor-pointer py-2 px-8 align-middle"
                                     style={{ backgroundColor: "#034488" }}
                                   >
