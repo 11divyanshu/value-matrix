@@ -504,7 +504,7 @@ export default function Tabs(props) {
       }
       let city = selectedAddCity;
       if (selectedAddCity.name) {
-        city = selectedCity.name}
+        city = selectedAddCity.name}
       let user = JSON.parse(localStorage.getItem("user"));
       user.username = values.username;
       user.firstName = values.firstName;

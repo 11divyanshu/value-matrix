@@ -113,13 +113,16 @@ export default function Tabs(props) {
     if (values.firstName) {
       if (!conerror) {
         let user = JSON.parse(localStorage.getItem("user"));
+        let city = selectedAddCity;
 
+        if (selectedAddCity.name) {
+          city = selectedAddCity.name}
         user.username = values.username;
         user.firstName = values.firstName;
         user.lastname = values.lastName;
         user.houseNo = values.houseNo;
       user.street = values.street;
-      user.city = values.city;
+      user.city =city;
       user.country = values.country;
       user.state = values.state;
       user.zip = values.zip;
@@ -612,7 +615,7 @@ export default function Tabs(props) {
                         id="country"
                         name="country"
                         className="block border-gray-400 py-1 w-full mx-2"
-                        value={values.state}
+                        value={values.country}
 
                         multiple={false}
                       >
