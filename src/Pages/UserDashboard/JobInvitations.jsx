@@ -118,6 +118,9 @@ const JobInvitations = () => {
 
             <div className="w-full">
               {JobInvitation.map((job, index) => {
+                console.log("job-----",job);
+                console.log("hiringOrganization-----",job.hiringOrganization);
+
                 return (
                   <div className="w-full px-5 bg-white py-1 border border-b">
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-8 sm:grid-cols-4  my-3">
@@ -168,7 +171,7 @@ const JobInvitations = () => {
                         </div>
             
                         <p className="px-4 text-sm text-gray-400 font-semibold">
-                          {job.salary}
+                          {typeof( job.salary) === "object" ? job.salary[2] : job.salary}
                         </p>
                       </div>
                     </div>
