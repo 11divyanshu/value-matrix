@@ -36,7 +36,9 @@ import {
   updateUserDetails,
   validateSignupDetails,
   getDBCompanyList,
-  getDBSchoolList
+  getDBSchoolList,
+  fetchCountry,
+  getCountryList
 } from "../../service/api";
 import ReactCropper from "../../Pages/UserDashboard/ReactCrop";
 
@@ -71,7 +73,10 @@ export default function Tabs(props) {
 
   // City Autocomplete
   const [selectedCity, setSelectedCity] = React.useState(cities[103]);
+  const [country, setSelectedCountry] = React.useState([]);
+  const [selectedAddCity, setSelectedAddCity] = React.useState(cities[103]);
   const [query, setQuery] = React.useState("");
+  const [Addquery, setAddQuery] = React.useState("");
   const filteredCity =
     query === ""
       ? cities.slice(0, 5)
@@ -85,6 +90,19 @@ export default function Tabs(props) {
           );
         })
         .slice(0, 5);
+  const filteredAddCity =
+    Addquery === ""
+      ? cities.slice(0, 5)
+      : cities
+        .filter((Addcity) => {
+          return (
+            Addcity.country.toLowerCase().includes(Addquery.toLowerCase()) ||
+            Addcity.name.toLowerCase().replace("ā", "a")
+              .replace("ò", "o")
+              .replace("à", "a").includes(Addquery.toLowerCase())
+          );
+        })
+        .slice(0, 5);
 
 
 
@@ -92,6 +110,12 @@ export default function Tabs(props) {
     const initial = async () => {
       let res = await getDBCompanyList();
       setCompanyList(res.data);
+
+
+
+      let country = await getCountryList();
+      console.log(country);
+      setSelectedCountry(country.data.countries[0].country);
     };
     initial();
   }, []);
@@ -478,13 +502,16 @@ export default function Tabs(props) {
         setError("Invalid Contact OTP");
         return;
       }
+      let city = selectedAddCity;
+      if (selectedAddCity.name) {
+        city = selectedCity.name}
       let user = JSON.parse(localStorage.getItem("user"));
       user.username = values.username;
       user.firstName = values.firstName;
       user.lastname = values.lastName;
       user.houseNo = values.houseNo;
       user.street = values.street;
-      user.city = values.city;
+      user.city = city;
       user.country = values.country;
       user.state = values.state;
       user.zip = values.zip;
@@ -720,15 +747,15 @@ export default function Tabs(props) {
       let user = JSON.parse(await localStorage.getItem("user"));
       if (access_token1 === "null" || access_token === "undefined")
         await localStorage.setItem("access_token", user.access_token);
-      if (user && user.profileImg) {
-        let image = JSON.parse(await localStorage.getItem("profileImg"));
-        console.log(image);
-        let base64string = btoa(
-          String.fromCharCode(...new Uint8Array(image.data))
-        );
-        let src = `data:image/png;base64,${base64string}`;
-        await setProfilePic(src);
-      }
+      // if (user && user.profileImg) {
+      //   let image = JSON.parse(await localStorage.getItem("profileImg"));
+      //   console.log(image);
+      //   let base64string = btoa(
+      //     String.fromCharCode(...new Uint8Array(image.data))
+      //   );
+      //   let src = `data:image/png;base64,${base64string}`;
+      //   await setProfilePic(src);
+      // }
       console.log(user);
       await setUser(user);
       await setToken(access_token1);
@@ -968,13 +995,52 @@ export default function Tabs(props) {
                             City
                           </label>
                           <div className="">
-                            <Field
-                              name="city"
-                              type="text"
-                              className="block border-gray-400 py-1 w-full"
-
-                              value={values.city}
-                            />
+                         
+                                      <p>
+                                        Current Location :{" "}
+                                        {`${values.city}`}
+                                      </p>
+                                    
+                                    {/* <Field
+                                      name="location"
+                                      type="text"
+                                      placeholder="Ex. London"
+                                      className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
+                                      style={{ borderRadius: "4px" }}
+                                      value={values.location}
+                                    /> */}
+                                    <Combobox
+                                      value={selectedAddCity}
+                                      onChange={setSelectedAddCity}
+                                    >
+                                      <Combobox.Input
+                                        onChange={(event) =>
+                                          setAddQuery(event.target.value)
+                                        }
+                                        className="border-[0.5px] rounded-lg w-full border-gray-400 focus:outline-0 focus:border-0 px-4 py-2"
+                                        style={{ borderRadius: "5px" }}
+                                      />
+                                      <Combobox.Options className="absolute z-100 bg-white">
+                                        {Addquery.length > 0 && (
+                                          <Combobox.Option value={`${Addquery}`}>
+                                            Create "{Addquery}"
+                                          </Combobox.Option>
+                                        )}
+                                        {filteredAddCity.map((city) => (
+                                          <Combobox.Option
+                                            key={city.name}
+                                            value={`${city.name.replace("ā", "a")
+                                              .replace("ò", "o")
+                                              .replace("à", "a")},`}
+                                          >
+                                            {city.name.replace("ā", "a")
+                                              .replace("ò", "o")
+                                              .replace("à", "a")}
+                                          </Combobox.Option>
+                                        ))}
+                                      </Combobox.Options>
+                                    </Combobox>
+                                  
                             <ErrorMessage
                               name="city"
                               component="div"
@@ -985,7 +1051,7 @@ export default function Tabs(props) {
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 align-middle">
                           <label className="font-semibold text-md ml-2 py-2">
-                            State
+                            State/Region
                           </label>
                           <div >
 
@@ -1020,19 +1086,23 @@ export default function Tabs(props) {
                             Country
                           </label>
                           <div className="">
-                            <Field
-                              name="country"
-                              type="text"
-                              className="block border-gray-400 py-1 w-full"
-
-                              value={values.country}
-                            />
-                            <ErrorMessage
-                              name="country"
-                              component="div"
-                              className="text-sm text-red-600"
-                            />
-                          </div>
+                          <Field
+                        component="select"
+                        id="country"
+                        name="country"
+                        className="block border-gray-400 py-1 w-full mx-2"
+                        value={values.country}
+                        multiple={false}
+                      >
+                        {country &&
+                          country.map((item) => {
+                            return (
+                              <option value={item.name}>{item.name}</option>
+                            );
+                          })}
+                      </Field>
+                      
+                      </div>
                         </div>
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 align-middle">

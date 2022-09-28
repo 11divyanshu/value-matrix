@@ -199,7 +199,7 @@ export default function Tabs() {
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 align-middle">
                           <label className="font-semibold text-md ml-2 py-2">
-                            State
+                            State/Region
                           </label>
                           <div >
 

@@ -3,6 +3,8 @@ import React from "react";
 import "../../assets/stylesheet/Tabs.scss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import swal from "sweetalert";
+import { Combobox } from "@headlessui/react";
+
 // Assets
 
 import "react-multi-carousel/lib/styles.css";
@@ -12,11 +14,12 @@ import {
   updateEmailOTP,
   updateUserDetails,
   validateSignupDetails,
-  fetchCountry,
+  getCountryList
 } from "../../service/api";
 import ReactCropper from "../../Pages/UserDashboard/ReactCrop";
 import { AiOutlineHome,AiOutlineUser ,AiOutlineFolderAdd} from "react-icons/ai";
 import { RiBillLine} from "react-icons/ri";
+import cities from "cities.json";
 
 // Assets
 import Avatar from "../../assets/images/UserAvatar.png";
@@ -50,9 +53,27 @@ export default function Tabs(props) {
   const [profileImg, setProfileImg] = React.useState(null);
   const [aboutDetail, setAboutDetail] = React.useState([]);
   const [billingDetail, setBillingDetail] = React.useState([]);
-  const [country, setCountry] = React.useState([]);
   const [error, setFormError] = React.useState(false);
   const [conerror, setConError] = React.useState(false);
+
+
+  const [country, setSelectedCountry] = React.useState([]);
+  const [selectedAddCity, setSelectedAddCity] = React.useState(cities[103]);
+  const [Addquery, setAddQuery] = React.useState("");
+
+  const filteredAddCity =
+  Addquery === ""
+    ? cities.slice(0, 5)
+    : cities
+      .filter((Addcity) => {
+        return (
+          Addcity.country.toLowerCase().includes(Addquery.toLowerCase()) ||
+          Addcity.name.toLowerCase().replace("ā", "a")
+            .replace("ò", "o")
+            .replace("à", "a").includes(Addquery.toLowerCase())
+        );
+      })
+      .slice(0, 5);
 
   React.useEffect(() => {
     const initial = async () => {
@@ -78,9 +99,9 @@ export default function Tabs(props) {
         setBillingDetail([]);
       }
 
-      const res = await fetchCountry();
-      // console.log(res.data.countries[0].country);
-      setCountry(res.data.countries);
+      let country = await getCountryList();
+      console.log(country);
+      setSelectedCountry(country.data.countries[0].country);
       // console.log(country)
     };
     initial();
@@ -495,13 +516,52 @@ export default function Tabs(props) {
                             City
                           </label>
                           <div className="">
-                            <Field
-                              name="city"
-                              type="text"
-                              className="block border-gray-400 py-1 w-full"
-
-                              value={values.city}
-                            />
+                          
+                                      <p>
+                                        Current Location :{" "}
+                                        {`${values.city}`}
+                                      </p>
+                                    
+                                    {/* <Field
+                                      name="location"
+                                      type="text"
+                                      placeholder="Ex. London"
+                                      className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
+                                      style={{ borderRadius: "4px" }}
+                                      value={values.location}
+                                    /> */}
+                                    <Combobox
+                                      value={selectedAddCity}
+                                      onChange={setSelectedAddCity}
+                                    >
+                                      <Combobox.Input
+                                        onChange={(event) =>
+                                          setAddQuery(event.target.value)
+                                        }
+                                        className="border-[0.5px] rounded-lg w-full border-gray-400 focus:outline-0 focus:border-0 px-4 py-2"
+                                        style={{ borderRadius: "5px" }}
+                                      />
+                                      <Combobox.Options className="absolute z-100 bg-white">
+                                        {Addquery.length > 0 && (
+                                          <Combobox.Option value={`${Addquery}`}>
+                                            Create "{Addquery}"
+                                          </Combobox.Option>
+                                        )}
+                                        {filteredAddCity.map((city) => (
+                                          <Combobox.Option
+                                            key={city.name}
+                                            value={`${city.name.replace("ā", "a")
+                                              .replace("ò", "o")
+                                              .replace("à", "a")},`}
+                                          >
+                                            {city.name.replace("ā", "a")
+                                              .replace("ò", "o")
+                                              .replace("à", "a")}
+                                          </Combobox.Option>
+                                        ))}
+                                      </Combobox.Options>
+                                    </Combobox>
+                                  
                             <ErrorMessage
                               name="city"
                               component="div"
@@ -512,7 +572,7 @@ export default function Tabs(props) {
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 align-middle">
                           <label className="font-semibold text-md ml-2 py-2">
-                            State
+                            State/Region
                           </label>
                           <div >
 
@@ -547,13 +607,22 @@ export default function Tabs(props) {
                             Country
                           </label>
                           <div className="">
-                            <Field
-                              name="country"
-                              type="text"
-                              className="block border-gray-400 py-1 w-full"
+                          <Field
+                        component="select"
+                        id="country"
+                        name="country"
+                        className="block border-gray-400 py-1 w-full mx-2"
+                        value={values.state}
 
-                              value={values.country}
-                            />
+                        multiple={false}
+                      >
+                        {country &&
+                          country.map((item) => {
+                            return (
+                              <option value={item.name}>{item.name}</option>
+                            );
+                          })}
+                      </Field>
                             <ErrorMessage
                               name="country"
                               component="div"

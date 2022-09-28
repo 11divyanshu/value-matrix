@@ -565,6 +565,13 @@ export const fetchCountry = async () => {
     console.log("Error : ", err);
   }
 };
+export const getCountryList = async () => {
+  try {
+    return await axios.post(`${url}/getCountryList`);
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+};
 
 // Archive Job
 
