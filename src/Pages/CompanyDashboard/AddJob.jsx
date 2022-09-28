@@ -2107,7 +2107,7 @@ getEligibleCandidate(eligibleSkills);
                               <label className="text-left w-3/4 font-semibold block">
                                 Pay Range
                               </label>
-                              <div className="items-center space-x-3">
+                              <div className="items-center space-x-0">
                                 <label>Currency</label>
                                 <Listbox
                                   onChange={setCurrency}

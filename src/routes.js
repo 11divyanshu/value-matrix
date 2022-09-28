@@ -338,7 +338,7 @@ export const companyDashboardRoutes = [
     permission: "default",
   },
   {
-    name: "Add Company User",
+    name: "Add Manager",
     path: "/addCompanyUser",
     hide: false,
     component: <AddCompanyUser />,

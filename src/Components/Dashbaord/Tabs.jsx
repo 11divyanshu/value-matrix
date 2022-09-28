@@ -247,12 +247,12 @@ export default function Tabs() {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Address
                     </label>
-                    <div className="w-4/5">
+                    <div className="w-4/5 mx-3">
                       <div
                         className="grid grid-cols-1 gap-4 mb-6 lg:grid-cols-2 md:w-5/6"
                         style={{ justifyContent: "space-between" }}
                       >
-                        <div className=" grid grid-cols-1 lg:grid-cols-2 align-middle">
+                        <div className=" grid grid-cols-1 lg:grid-cols-2 ml-2 md:ml-0 align-middle">
                           <label className="font-semibold text-md py-2">
                             House/ Flat No.
                           </label>
@@ -268,8 +268,8 @@ export default function Tabs() {
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-2 align-middle ">
-                          <label className="font-semibold text-md ml-2 py-2">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 mx-1 md:mx-0  align-middle ">
+                          <label className="font-semibold text-md py-2">
                             Street
                           </label>
                           <div >
@@ -296,7 +296,7 @@ export default function Tabs() {
                         className="grid grid-cols-1 gap-4 mb-6 lg:grid-cols-2 md:w-5/6"
                         style={{ justifyContent: "space-between" }}
                       >
-                        <div className=" grid grid-cols-1 lg:grid-cols-2 align-middle">
+                        <div className=" grid grid-cols-1 lg:grid-cols-2 ml-2 md:ml-0 align-middle">
                           <label className="font-semibold text-md py-2">
                             City
                           </label>
@@ -312,8 +312,8 @@ export default function Tabs() {
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-2 align-middle">
-                          <label className="font-semibold text-md ml-2 py-2">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 mx-1 md:mx-0 align-middle">
+                          <label className="font-semibold text-md py-2">
                             State/Region
                           </label>
                           <div >
@@ -340,7 +340,7 @@ export default function Tabs() {
                         className="grid grid-cols-1 gap-4 mb-6 lg:grid-cols-2 md:w-5/6"
                         style={{ justifyContent: "space-between" }}
                       >
-                        <div className=" grid grid-cols-1 lg:grid-cols-2 align-middle">
+                        <div className=" grid grid-cols-1 lg:grid-cols-2 ml-2 md:ml-0 align-middle">
                           <label className="font-semibold text-md py-2">
                             Country
                           </label>
@@ -356,8 +356,8 @@ export default function Tabs() {
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-2 align-middle">
-                          <label className="font-semibold text-md ml-2 py-2">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 mx-1 md:mx-0 align-middle">
+                          <label className="font-semibold text-md  py-2">
                             Zip Code
                           </label>
                           <div >

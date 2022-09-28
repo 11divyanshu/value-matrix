@@ -457,12 +457,12 @@ export default function Tabs(props) {
 <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Address
                     </label>
-                    <div className="md:w-3/5 sm:w-4/5 mx-5 px-4">
+                    <div className="md:w-3/5 sm:w-full md:mx-5 px-4 ">
                       <div
                         className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-2 md:w-5/6"
                         style={{ justifyContent: "space-between" }}
                       >
-                        <div className=" grid grid-cols-1 lg:grid-cols-2 align-middle">
+                        <div className=" grid grid-cols-1 ml-2 md:ml-0 lg:grid-cols-2 align-middle">
                           <label className="font-semibold text-md py-2">
                             House/ Flat No.
                           </label>
@@ -470,7 +470,7 @@ export default function Tabs(props) {
                             <Field
                               name="houseNo"
                               type="text"
-                              className="block border-gray-400 py-1 w-full"
+                              className="block border-gray-400 py-1 "
 
                               value={values.houseNo}
                             />
@@ -482,7 +482,7 @@ export default function Tabs(props) {
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-2 align-middle ">
+                        <div className="grid grid-cols-1 mr-3 md:mr-0 lg:grid-cols-2 align-middle ">
                           <label className="font-semibold text-md ml-2 py-2">
                             Street
                           </label>
@@ -514,7 +514,7 @@ export default function Tabs(props) {
                         className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-2 md:w-5/6"
                         style={{ justifyContent: "space-between" }}
                       >
-                        <div className=" grid grid-cols-1 lg:grid-cols-2 align-middle">
+                        <div className=" grid grid-cols-1 lg:grid-cols-2 ml-2 md:ml-0 align-middle">
                           <label className="font-semibold text-md py-2">
                             City
                           </label>

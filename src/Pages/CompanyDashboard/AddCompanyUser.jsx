@@ -114,7 +114,7 @@ const AddCompanyUser = () => {
 
   return (
     <div className="md:p-5 p-3 bg-slate-100">
-      <p className="text-2xl my-5 mx-5 font-bold">Add Company User</p>
+      <p className="text-2xl my-5 mx-5 font-bold">Add Manager</p>
       <div className="w-full">
         <Formik
           initialValues={initialValue}
