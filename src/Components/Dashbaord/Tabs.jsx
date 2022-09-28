@@ -384,7 +384,7 @@ export default function Tabs() {
 
 
                   </div>
-                  {user.resume && (
+                  {/* {user.resume && (
                     <div className="flex space-x-12">
                       <p className="font-semibold">Resume</p>
                       <p
@@ -410,7 +410,7 @@ export default function Tabs() {
                         Download Resume
                       </p>
                     </div>
-                  )}
+                  )} */}
                 </div>
               </Form>
             )}

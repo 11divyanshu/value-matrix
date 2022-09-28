@@ -3051,10 +3051,10 @@ export default function Tabs(props) {
           </div>
         )}
 
-        <div className="md:w-1/2  flex w-full  space-y-1 my-5">
+        {/* <div className="md:w-1/2  flex w-full  space-y-1 my-5">
           <label className="font-semibold text-lg w-2/5 my-4">Resume</label>
-          {/* <input type="file" value={user.resume} /> */}
-        </div>
+         <input type="file" value={user.resume} />
+        </div> */}
 
         <button
           className="bg-blue-500 px-4 mx-2 py-1 text-white rounded-sm my-5"
