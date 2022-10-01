@@ -6,7 +6,7 @@ import { AiFillCalendar } from "react-icons/ai";
 
 const SessionCard = () => {
     return (
-        <div className="shadow-lg px-3 py-5 bg-white w-full">
+        <div className="shadow-lg px-3 py-5 rounded-lg bg-white w-full">
         <div className="flex items-start space-x-3 	">
           {/* <AiFillCalendar className="text-4xl text-gray-700" /> */}
           <div className='py-1 mx-3'>

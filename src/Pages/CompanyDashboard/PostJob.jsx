@@ -447,7 +447,7 @@ const AddJob = () => {
   };
 
   return (
-    <div className=" mx-5 my-4 ">
+    <div className=" mx-5 my-4">
       <p className="text-md font-bold pr-5">1 of 2: Job Details</p>
       {Alert === true && (
         <div

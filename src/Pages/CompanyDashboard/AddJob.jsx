@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Formik, Form, ErrorMessage, Field } from "formik";
-import { postJobAPI, sendJobInvitations ,eligibleCandidateList} from "../../service/api";
+import { postJobAPI, sendJobInvitations, eligibleCandidateList } from "../../service/api";
 import swal from "sweetalert";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -121,14 +121,14 @@ const AddJob = () => {
   const [showEligible, setShowEligible] = React.useState(null);
   const [eligibleCanList, setEligibleCanList] = React.useState([]);
 
-const getEligibleCandidate = async (eligibleSkills)=>{
-  console.log(eligibleSkills);
-  var eligibleCan= await eligibleCandidateList(eligibleSkills);
-  console.log(eligibleCan);
- setEligibleCanList(eligibleCan.data)
+  const getEligibleCandidate = async (eligibleSkills) => {
+    console.log(eligibleSkills);
+    var eligibleCan = await eligibleCandidateList(eligibleSkills);
+    console.log(eligibleCan);
+    setEligibleCanList(eligibleCan.data)
 
     setShowEligible(true);
-                            }
+  }
 
   const postJob = async (values, salary, maxSalary) => {
     try {
@@ -306,7 +306,7 @@ const getEligibleCandidate = async (eligibleSkills)=>{
                   el.Email !== "undefined" &&
                   item.Email !== undefined &&
                   el.Email.trim().toLowerCase() ===
-                    item.Email.trim().toLowerCase()) ||
+                  item.Email.trim().toLowerCase()) ||
                 el.Contact === item.Contact
               );
             });
@@ -315,7 +315,7 @@ const getEligibleCandidate = async (eligibleSkills)=>{
                 (el.Email !== null &&
                   item.Email !== undefined &&
                   (el.Email !== undefined && el.Email.trim().toLowerCase()) ===
-                    item.Email.trim().toLowerCase()) ||
+                  item.Email.trim().toLowerCase()) ||
                 el.Contact === item.Contact
             );
 
@@ -455,24 +455,26 @@ const getEligibleCandidate = async (eligibleSkills)=>{
   };
 
   // City Autocomplete
-  const [selectedCity, setSelectedCity] = React.useState({country: "NULL",
-city:"NULL"});
+  const [selectedCity, setSelectedCity] = React.useState({
+    country: "NULL",
+    city: "NULL"
+  });
   const [query, setQuery] = React.useState("");
   const filteredCity =
     query === ""
       ? cities.slice(0, 10)
       : cities
-          .filter((city) => {
-            return (
-              city.country.toLowerCase().includes(query.toLowerCase()) ||
-              city.name.toLowerCase().includes(query.toLowerCase())
-            );
-          })
-          .slice(0, 10);
+        .filter((city) => {
+          return (
+            city.country.toLowerCase().includes(query.toLowerCase()) ||
+            city.name.toLowerCase().includes(query.toLowerCase())
+          );
+        })
+        .slice(0, 10);
 
   return (
-    <div className=" bg-slate-100 w-full p-5">
-      <p className="font-semibold">
+    <div className=" bg-slate-100 w-100 p-5 mx-10">
+      <p className="font-semibold mx-5">
         {PageIndex} of 5 : {PageDetails[PageIndex - 1]}
       </p>
 
@@ -510,8 +512,8 @@ city:"NULL"});
                   hiringOrganization: job
                     ? job.hiringOrganization
                     : user && user.firstName
-                    ? user.firstName
-                    : "",
+                      ? user.firstName
+                      : "",
                 }}
                 validate={(values) => {
                   const errors = {};
@@ -542,9 +544,9 @@ city:"NULL"});
                     errors.hiringOrganization = "Required !";
                   }
                   // if (
-                   
+
                   //   !selectedCity
-                    
+
                   // ) {
                   //   setFormError(true);
                   // } else {
@@ -589,23 +591,23 @@ city:"NULL"});
                               width: "75%",
                               border: "1px solid rgb(156 163 175 / 1)",
                               borderRadius: "5px",
-                              zIndex:0,
-                              overflowY:"auto",
+                              zIndex: 0,
+                              overflowY: "auto",
                             }}
 
                             editorStyle={{
                               minHeight: "200px",
                               maxHeight: "500px",
                               paddingLeft: "1rem",
-                              zIndex:0,
-                              overflowY:"auto",
+                              zIndex: 0,
+                              overflowY: "auto",
                             }}
                             onEditorStateChange={onDescEditorStateChange}
                           />
-                          {descError && 
-                           <p
-                           className="text-red-600 text-sm w-full text-left mr-auto"
-                         >Required</p>
+                          {descError &&
+                            <p
+                              className="text-red-600 text-sm w-full text-left mr-auto"
+                            >Required</p>
                           }
                         </div>
                         <div className="my-7 space-y-3 w-full">
@@ -624,11 +626,12 @@ city:"NULL"});
                                 } else {
                                   setFormError(false);
                                   console.log(selectedCity)
-      
+
                                 }
-                                
-                                
-                                setQuery(event.target.value)}}
+
+
+                                setQuery(event.target.value)
+                              }}
                               className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-2"
                               style={{ borderRadius: "5px" }}
                             />
@@ -654,6 +657,52 @@ city:"NULL"});
                         </div>
                         <div className="my-7 space-y-3">
                           <label className="text-left w-3/4 block font-semibold">
+                            Location Type:
+                          </label>
+                          <div
+                            role="group"
+                            aria-labelledby="my-radio-group"
+                            className="md:space-x-5 space-x-2 md:flex  my-3 w-3/4 md:mr-auto "
+                          >
+                            <div className="ml-2">
+                              <label>
+                                <Field
+                                  type="radio"
+                                  name="jobType"
+                                  value="Remote"
+                                  className="mr-2"
+                                />
+                                Remote
+                              </label>
+                            </div>
+                            <div>
+                              <label>
+                                <Field
+                                  type="radio"
+                                  name="jobType"
+                                  value="Hybrid"
+                                  className="mr-2"
+                                />
+                                Hybrid
+                              </label>
+                            </div>
+                            <div>
+                              <label>
+                                <Field
+                                  type="radio"
+                                  name="jobType"
+                                  value="On-Site"
+                                  className="mr-2"
+                                />
+                                On-Site
+                              </label>
+                            </div>
+
+                          </div>
+
+                        </div>
+                        <div className="my-7 space-y-3">
+                          <label className="text-left w-3/4 block font-semibold">
                             Job Type:
                           </label>
                           <div
@@ -662,50 +711,50 @@ city:"NULL"});
                             className="md:space-x-5 space-x-2 md:flex  my-3 w-3/4 md:mr-auto "
                           >
                             <div className="ml-2">
-                            <label>
-                              <Field
-                                type="radio"
-                                name="jobType"
-                                value="Full-Time"
-                                className="mr-2"
-                              />
-                              Full-Time
-                            </label>
+                              <label>
+                                <Field
+                                  type="radio"
+                                  name="jobType"
+                                  value="Full-Time"
+                                  className="mr-2"
+                                />
+                                Full-Time
+                              </label>
                             </div>
                             <div>
-                            <label>
-                              <Field
-                                type="radio"
-                                name="jobType"
-                                value="Part-Time"
-                                className="mr-2"
-                              />
-                              Part-Time
-                            </label>
+                              <label>
+                                <Field
+                                  type="radio"
+                                  name="jobType"
+                                  value="Part-Time"
+                                  className="mr-2"
+                                />
+                                Part-Time
+                              </label>
                             </div>
                             <div>
-                            <label>
-                              <Field
-                                type="radio"
-                                name="jobType"
-                                value="Internship"
-                                className="mr-2"
-                              />
-                              Internship
-                            </label>
+                              <label>
+                                <Field
+                                  type="radio"
+                                  name="jobType"
+                                  value="Internship"
+                                  className="mr-2"
+                                />
+                                Internship
+                              </label>
                             </div>
                             <div>
-                            <label>
-                              <Field
-                                type="radio"
-                                name="jobType"
-                                value="Freelancing"
-                                className="mr-2"
-                              />
-                              Freelancing
-                            </label>
+                              <label>
+                                <Field
+                                  type="radio"
+                                  name="jobType"
+                                  value="Freelancing"
+                                  className="mr-2"
+                                />
+                                Freelancing
+                              </label>
                             </div>
-                           
+
                           </div>
                           <ErrorMessage
                             name="jobType"
@@ -764,77 +813,77 @@ city:"NULL"});
                           />
                         </div>
                         {values.jobTitle &&
-                      desc &&
-                      selectedCity !== null && 
-                      values.jobType &&
-                      values.validTill &&
-                      values.hiringOrganization ? (
-                        <button
-                          className="bg-[#034488] px-4 py-1 text-white mx-auto block my-6 rounded-sm"
-                          onClick={async () => {
+                          desc &&
+                          selectedCity !== null &&
+                          values.jobType &&
+                          values.validTill &&
+                          values.hiringOrganization ? (
+                          <button
+                            className="bg-[#034488] px-4 py-1 text-white mx-auto block my-6 rounded-sm"
+                            onClick={async () => {
 
-                            // if(!values.jobTitle ||
-                            //   !desc &&
-                            //   selectedCity === null ||
-                            //   !values.jobType ||
-                            //   !values.validTill ||
-                            //   !values.hiringOrganization){
-                            //     setFormError(true);
-                            
-                            // }
+                              // if(!values.jobTitle ||
+                              //   !desc &&
+                              //   selectedCity === null ||
+                              //   !values.jobType ||
+                              //   !values.validTill ||
+                              //   !values.hiringOrganization){
+                              //     setFormError(true);
 
+                              // }
+
+                              if (selectedCity.country === "NULL") {
+                                setFormError(true);
+                              } else {
+                                setFormError(false);
+
+                              }
+
+
+                              let job = await JSON.parse(
+                                await localStorage.getItem("postjob")
+                              );
+                              if (job === null) job = {};
+                              job.jobTitle = values.jobTitle;
+                              job.location = selectedCity;
+                              job.jobType = values.jobType;
+                              job.validTill = values.validTill;
+                              job.hiringOrganization = values.hiringOrganization;
+                              job.reqApp = values.reqApp;
+                              localStorage.setItem(
+                                "postjob",
+                                JSON.stringify(job)
+                              );
+                              await setJob(job);
+                              setPageIndex(2);
+                            }
+                            }
+                          >
+                            Next
+                          </button>
+                        ) : (
+                          <button className="bg-[#034388d7] px-4 py-1 text-white mx-auto block my-6 rounded-sm" onClick={() => {
                             if (selectedCity.country === "NULL") {
                               setFormError(true);
+                              console.log(ederror)
                             } else {
                               setFormError(false);
-  
+                              console.log(selectedCity)
+
                             }
-
-
-                            let job = await JSON.parse(
-                              await localStorage.getItem("postjob")
-                            );
-                            if (job === null) job = {};
-                            job.jobTitle = values.jobTitle;
-                            job.location = selectedCity;
-                            job.jobType = values.jobType;
-                            job.validTill = values.validTill;
-                            job.hiringOrganization = values.hiringOrganization;
-                            job.reqApp = values.reqApp;
-                            localStorage.setItem(
-                              "postjob",
-                              JSON.stringify(job)
-                            );
-                            await setJob(job);
-                            setPageIndex(2);
+                            if (!desc) {
+                              setDescError(true);
+                            } else {
+                              setDescError(false);
                             }
-                          }
-                        >
-                          Next
-                        </button>
-                      ) : (
-                        <button className="bg-[#034388d7] px-4 py-1 text-white mx-auto block my-6 rounded-sm" onClick={()=>{
-                          if (selectedCity.country === "NULL") {
-                            setFormError(true);
-                            console.log(ederror)
-                          } else {
-                            setFormError(false);
-                            console.log(selectedCity)
+                          }}>
+                            Next
+                          </button>
+                        )}
 
-                          }
-                          if (!desc) {
-                            setDescError(true);
-                          } else {
-                            setDescError(false);
-                          }
-                        }}>
-                          Next
-                        </button>
-                      )}
-                      
                       </Form>
-                     
-                      </div>
+
+                    </div>
 
                   );
                 }}
@@ -940,14 +989,12 @@ city:"NULL"});
                                         <Disclosure>
                                           {({ open }) => (
                                             <div
-                                              className={`${
-                                                open ? "shadow-md" : ""
-                                              }`}
+                                              className={`${open ? "shadow-md" : ""
+                                                }`}
                                             >
                                               <Disclosure.Button
-                                                className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-3 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${
-                                                  open ? "shadow-lg " : ""
-                                                }`}
+                                                className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-3 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${open ? "shadow-lg " : ""
+                                                  }`}
                                               >
                                                 <span>{el}</span>
                                                 <div className="ml-auto mr-5 flex items-center space-x-2">
@@ -999,11 +1046,10 @@ city:"NULL"});
                                                   <p>5</p>
                                                 </div>
                                                 <ChevronUpIcon
-                                                  className={`${
-                                                    !open
+                                                  className={`${!open
                                                       ? "rotate-180 transform"
                                                       : ""
-                                                  } h-5 w-5 text-blue-500`}
+                                                    } h-5 w-5 text-blue-500`}
                                                 />
                                               </Disclosure.Button>
                                               <Disclosure.Panel className="px-2">
@@ -1014,28 +1060,25 @@ city:"NULL"});
                                                         <Disclosure>
                                                           {({ open }) => (
                                                             <div
-                                                              className={`${
-                                                                open
+                                                              className={`${open
                                                                   ? "shadow-md"
                                                                   : ""
-                                                              }`}
+                                                                }`}
                                                             >
                                                               <Disclosure.Button
-                                                                className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-3 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${
-                                                                  open
+                                                                className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-3 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${open
                                                                     ? "shadow-lg"
                                                                     : ""
-                                                                } `}
+                                                                  } `}
                                                               >
                                                                 <span>
                                                                   {skill}
                                                                 </span>
                                                                 <ChevronUpIcon
-                                                                  className={`${
-                                                                    !open
+                                                                  className={`${!open
                                                                       ? "rotate-180 transform"
                                                                       : ""
-                                                                  } h-5 w-5 text-blue-500`}
+                                                                    } h-5 w-5 text-blue-500`}
                                                                 />
                                                               </Disclosure.Button>
                                                               <Disclosure.Panel className="p-3 px-12">
@@ -1046,9 +1089,9 @@ city:"NULL"});
                                                                     ) => {
                                                                       return (
                                                                         secSkill.primarySkill ===
-                                                                          skill &&
+                                                                        skill &&
                                                                         secSkill.role ===
-                                                                          el
+                                                                        el
                                                                       );
                                                                     }
                                                                   )
@@ -1086,7 +1129,7 @@ city:"NULL"});
                                                                               max="5"
                                                                               value={
                                                                                 prof[
-                                                                                  index1
+                                                                                index1
                                                                                 ]
                                                                               }
                                                                               onChange={async (
@@ -1094,19 +1137,19 @@ city:"NULL"});
                                                                               ) => {
                                                                                 let d =
                                                                                   dbSkills;
-                                                                                  // console.log(d);
+                                                                                // console.log(d);
                                                                                 d[
                                                                                   index1
                                                                                 ] =
-                                                                                  {
-                                                                                    ...d[
-                                                                                      index1
-                                                                                    ],
-                                                                                    proficiency:
-                                                                                      e
-                                                                                        .target
-                                                                                        .value,
-                                                                                  };
+                                                                                {
+                                                                                  ...d[
+                                                                                  index1
+                                                                                  ],
+                                                                                  proficiency:
+                                                                                    e
+                                                                                      .target
+                                                                                      .value,
+                                                                                };
                                                                                 let p =
                                                                                   prof;
                                                                                 prof[
@@ -1182,18 +1225,18 @@ city:"NULL"});
                               // eligibleSkills.skills = searchSkills ;
                               const id = user._id;
                               eligibleSkills["skills"] = searchSkills;
-                               eligibleSkills["companyid"] = id;
-                               console.log(eligibleSkills)
+                              eligibleSkills["companyid"] = id;
+                              console.log(eligibleSkills)
 
 
-getEligibleCandidate(eligibleSkills);                                
-                                // console.log(eligibleCan);
+                              getEligibleCandidate(eligibleSkills);
+                              // console.log(eligibleCan);
                               //   if(res.data){
                               //     setShowEligible(true);
                               //     // eligibleSkills={skills:[],company_id:""};
-                                
+
                               // }
-                             
+
 
                               setPageIndex(3);
 
@@ -1280,69 +1323,68 @@ getEligibleCandidate(eligibleSkills);
                     )}
                   </div>
                   {eligibleButton && eligibleCanList.length > 0 && (
-                      <div className="my-4">
-                        <table class="w-3/4">
-                          <h1>hello</h1>
-                          <thead class="bg-white border-b text-left">
-                            <tr>
-                              <th
-                                scope="col"
-                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                              >
-                                #
-                              </th>
-                              <th
-                                scope="col"
-                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                              >
-                                First Name
-                              </th>
-                              <th
-                                scope="col"
-                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                              >
-                                Last Name
-                              </th>
-                              <th
-                                scope="col"
-                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                              >
-                                Email
-                              </th>
-                              <th
-                                scope="col"
-                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                              >
-                                Contact
-                              </th>
-                             
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {eligibleCanList.map((user, index) => {
-                              return (
-                                <tr
-                                  class={`${
-                                    index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                    <div className="my-4">
+                      <table class="w-3/4">
+                        <h1>hello</h1>
+                        <thead class="bg-white border-b text-left">
+                          <tr>
+                            <th
+                              scope="col"
+                              class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            >
+                              #
+                            </th>
+                            <th
+                              scope="col"
+                              class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            >
+                              First Name
+                            </th>
+                            <th
+                              scope="col"
+                              class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            >
+                              Last Name
+                            </th>
+                            <th
+                              scope="col"
+                              class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            >
+                              Email
+                            </th>
+                            <th
+                              scope="col"
+                              class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            >
+                              Contact
+                            </th>
+
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {eligibleCanList.map((user, index) => {
+                            return (
+                              <tr
+                                class={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
                                   } border-b`}
-                                >
-                                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
-                                    {index + 1}
-                                  </td>
-                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                    {user.firstName}
-                                  </td>
-                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                    {user.lastName}
-                                  </td>
-                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                    {user.email}
-                                  </td>
-                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                    {user.phoneNo}
-                                  </td>
-                                 
-                                  {/* <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                              >
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
+                                  {index + 1}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                  {user.firstName}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                  {user.lastName}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                  {user.email}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                  {user.phoneNo}
+                                </td>
+
+                                {/* <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                     <AiOutlineDelete
                                       className="text-sm  text-red-500 cursor-pointer"
                                       onClick={() => {
@@ -1359,70 +1401,70 @@ getEligibleCandidate(eligibleSkills);
                                       }}
                                     />
                                   </td> */}
-                                </tr>
-                              );
-                            })}
+                              </tr>
+                            );
+                          })}
 
-                            
-                          </tbody>
-                        </table>
-                        <div className="flex my-2 ">
+
+                        </tbody>
+                      </table>
+                      <div className="flex my-2 ">
                         <button
-                      className="bg-[#034488] text-white rounded-sm px-4 py-1 mx-2"
-                      onClick={() => {
-                        let d= selectedData;
-                        let r = rejectedData;
+                          className="bg-[#034488] text-white rounded-sm px-4 py-1 mx-2"
+                          onClick={() => {
+                            let d = selectedData;
+                            let r = rejectedData;
 
-                        console.log(eligibleCanList);
-                        if(eligibleCanList)  {
-                          eligibleCanList.map((item)=>{
-                           let ac= d.find(x => x.Email === item.email);
-                           
-                           if(ac){
-                            r.push({
-                              FirstName: ac.FirstName ? ac.FirstName : "",
-                              LastName: ac.LastName ? ac.LastName : "",
-                              Email: ac.Email ? ac.Email : "",
-                              Contact: ac.Contact ? ac.Contact : "",
-                              Reason: "Email Already Exist",
-                            });
-                           }else{
-                            d.push({
-                              FirstName: item.firstName ? item.firstName : "",
-                              LastName: item.lastName ? item.lastName : "",
-                              Email: item.email ? item.email : "",
-                              Contact: item.phoneNo ? item.phoneNo : "",
-                            });;
-                           }
-                           console.log(ac)
-                        }) 
-                      setRejectedData(r);
-                      setSelectedData(d);
-                      setCandidateData(d);            
-                      setShowRejected(true);
-                      setShowCandidate(true);
-                      setEligibleButton(false);
-                    }
-                        //else{
+                            console.log(eligibleCanList);
+                            if (eligibleCanList) {
+                              eligibleCanList.map((item) => {
+                                let ac = d.find(x => x.Email === item.email);
 
-                        //   selectedData = eligibleCanList
-                        // }
-                        // setShowCandidateForm(true);
-                      }}
-                    >
-                      Add Candidates
-                    </button>
-                    <button
-                      className="bg-[#034488] text-white rounded-sm px-4 py-1 mx-2"
-                      onClick={() => {
-                        setEligibleCanList(false);
-                      }}
-                    >
-                      Cancel
-                    </button>
-                        </div>
+                                if (ac) {
+                                  r.push({
+                                    FirstName: ac.FirstName ? ac.FirstName : "",
+                                    LastName: ac.LastName ? ac.LastName : "",
+                                    Email: ac.Email ? ac.Email : "",
+                                    Contact: ac.Contact ? ac.Contact : "",
+                                    Reason: "Email Already Exist",
+                                  });
+                                } else {
+                                  d.push({
+                                    FirstName: item.firstName ? item.firstName : "",
+                                    LastName: item.lastName ? item.lastName : "",
+                                    Email: item.email ? item.email : "",
+                                    Contact: item.phoneNo ? item.phoneNo : "",
+                                  });;
+                                }
+                                console.log(ac)
+                              })
+                              setRejectedData(r);
+                              setSelectedData(d);
+                              setCandidateData(d);
+                              setShowRejected(true);
+                              setShowCandidate(true);
+                              setEligibleButton(false);
+                            }
+                            //else{
+
+                            //   selectedData = eligibleCanList
+                            // }
+                            // setShowCandidateForm(true);
+                          }}
+                        >
+                          Add Candidates
+                        </button>
+                        <button
+                          className="bg-[#034488] text-white rounded-sm px-4 py-1 mx-2"
+                          onClick={() => {
+                            setEligibleCanList(false);
+                          }}
+                        >
+                          Cancel
+                        </button>
                       </div>
-                    )}
+                    </div>
+                  )}
                   {showCandidateForm && (
                     <div className="my-4 w-3/4 p-3 bg-slate-100 px-8">
                       <Formik
@@ -1638,9 +1680,8 @@ getEligibleCandidate(eligibleSkills);
                             {rejectedData.map((user, index) => {
                               return (
                                 <tr
-                                  class={`${
-                                    index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                                  } border-b`}
+                                  class={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                                    } border-b`}
                                 >
                                   <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                     {index + 1}
@@ -1701,7 +1742,7 @@ getEligibleCandidate(eligibleSkills);
                         </p>
                       </div>
                     )} */}
-                    
+
                   </div>
                   <div className="my-9">
                     {candidateData.length > 0 && (
@@ -1779,9 +1820,8 @@ getEligibleCandidate(eligibleSkills);
                             {candidateData.map((user, index) => {
                               return (
                                 <tr
-                                  class={`${
-                                    index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                                  } border-b`}
+                                  class={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                                    } border-b`}
                                 >
                                   <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
                                     {index + 1}
@@ -2075,7 +2115,7 @@ getEligibleCandidate(eligibleSkills);
 
                       return errors;
                     }}
-                    // onSubmit={postJob}
+                  // onSubmit={postJob}
                   >
                     {(values) => {
                       return (
@@ -2137,10 +2177,9 @@ getEligibleCandidate(eligibleSkills);
                                             <Listbox.Option
                                               key={currencyIdx}
                                               className={({ active }) =>
-                                                `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                                  active
-                                                    ? "bg-blue-100 text-blue-900"
-                                                    : "text-gray-900"
+                                                `relative cursor-default select-none py-2 pl-10 pr-4 ${active
+                                                  ? "bg-blue-100 text-blue-900"
+                                                  : "text-gray-900"
                                                 }`
                                               }
                                               value={currency}
@@ -2148,11 +2187,10 @@ getEligibleCandidate(eligibleSkills);
                                               {({ selected }) => (
                                                 <>
                                                   <span
-                                                    className={`block truncatez-100 ${
-                                                      selected
+                                                    className={`block truncatez-100 ${selected
                                                         ? "font-medium"
                                                         : "font-normal"
-                                                    }`}
+                                                      }`}
                                                   >
                                                     {currency.symbol} -{" "}
                                                     {currency.name}

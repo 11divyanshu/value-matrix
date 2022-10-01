@@ -49,8 +49,8 @@ const Panel = () => {
     <div className="flex bg-slate-100 ">
 
     <div className="container mx-auto mt-2 ">
-      <p className="text-sm flex my-5 mx-5 font-semibold">Hey {user && user.firstName ? user.firstName :"Company" } - <p className="text-gray-400 px-2"> here's what's happening today!</p></p>
-      <div className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-4 align-items-center">
+      <p className="text-sm flex my-5 mx-10 font-semibold">Hey {user && user.firstName ? user.firstName :"Company" } - <p className="text-gray-400 px-2"> here's what's happening today!</p></p>
+      <div className="grid grid-cols-1 gap-2 mb-6 mx-5 lg:grid-cols-4 align-items-center">
         <div className="lg:w-5/6 px-4 mx-5 py-3 text-center bg-white rounded-lg shadow" style={{background:"#9BDDFB"}}>
           
           <p className=" text-md font-bold text-gray-900">
@@ -83,7 +83,7 @@ const Panel = () => {
 
        
 
-      <div className="md:w-full  sm:w-full lg:w-5/6  rounded-lg py-5 my-4 lg:mx-3 bg-white shadow-md">
+      <div className="md:w-full  sm:w-full lg:w-5/6  rounded-lg py-5 my-4 lg:mx-10 bg-white shadow-md">
             <div className="border-b border-gray-200 my-2 px-5 mb-2 pb-2 flex justify-between">
               <div className="">
             <p className="text-lg font-bold font-gray-400">Today's Interview Request</p>
@@ -193,7 +193,7 @@ const Panel = () => {
 
           <div className="shadow-lg my-5 md:w-1/2 lg:w-full md:mx-1 md:my-0 rounded-lg py-5 bg-white sm:w-full h-28">
         <div className="flex items-start space-x-3 px-6  ">
-          <div className="py-3">
+          <div className="mt-3">
             <p className="text-lg text-left font-semibold">
              Credit Score $
             </p>
@@ -202,7 +202,7 @@ const Panel = () => {
             Lorem ipsum dolor sit amet,
             </p>
           </div>
-          <div className="text-2xl font-bold flex py-5"> 6200 <p className="text-green-500"><AiOutlineArrowUp/></p><p className="text-lg">62% </p></div>
+          <div className="text-2xl font-bold flex my-auto"> 6200 <p className="text-green-500"><AiOutlineArrowUp/></p><p className="text-lg">62% </p></div>
         </div>
         </div>
         </div>
@@ -210,7 +210,7 @@ const Panel = () => {
       </div>
       <div className="lg:flex ">
        
-      <div className="sm:w-full md:w-full lg:w-5/6 rounded-lg px-5 py-2 my-4 h-80 lg:mx-4 bg-white shadow-md ">
+      <div className="sm:w-full md:w-full lg:w-5/6 rounded-lg px-5 py-2 my-4 h-80 lg:mx-10 bg-white shadow-md ">
           <div 
             style={{
               margin:"auto",
