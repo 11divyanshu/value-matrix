@@ -17,8 +17,8 @@ import {
   getCountryList
 } from "../../service/api";
 import ReactCropper from "../../Pages/UserDashboard/ReactCrop";
-import { AiOutlineHome,AiOutlineUser ,AiOutlineFolderAdd} from "react-icons/ai";
-import { RiBillLine} from "react-icons/ri";
+import { AiOutlineHome, AiOutlineUser, AiOutlineFolderAdd } from "react-icons/ai";
+import { RiBillLine } from "react-icons/ri";
 import cities from "cities.json";
 
 // Assets
@@ -62,18 +62,18 @@ export default function Tabs(props) {
   const [Addquery, setAddQuery] = React.useState("");
 
   const filteredAddCity =
-  Addquery === ""
-    ? cities.slice(0, 5)
-    : cities
-      .filter((Addcity) => {
-        return (
-          Addcity.country.toLowerCase().includes(Addquery.toLowerCase()) ||
-          Addcity.name.toLowerCase().replace("ā", "a")
-            .replace("ò", "o")
-            .replace("à", "a").includes(Addquery.toLowerCase())
-        );
-      })
-      .slice(0, 5);
+    Addquery === ""
+      ? cities.slice(0, 5)
+      : cities
+        .filter((Addcity) => {
+          return (
+            Addcity.country.toLowerCase().includes(Addquery.toLowerCase()) ||
+            Addcity.name.toLowerCase().replace("ā", "a")
+              .replace("ò", "o")
+              .replace("à", "a").includes(Addquery.toLowerCase())
+          );
+        })
+        .slice(0, 5);
 
   React.useEffect(() => {
     const initial = async () => {
@@ -116,16 +116,17 @@ export default function Tabs(props) {
         let city = selectedAddCity;
 
         if (selectedAddCity.name) {
-          city = selectedAddCity.name}
+          city = selectedAddCity.name
+        }
         user.username = values.username;
         user.firstName = values.firstName;
         user.lastname = values.lastName;
         user.houseNo = values.houseNo;
-      user.street = values.street;
-      user.city =city;
-      user.country = values.country;
-      user.state = values.state;
-      user.zip = values.zip;
+        user.street = values.street;
+        user.city = city;
+        user.country = values.country;
+        user.state = values.state;
+        user.zip = values.zip;
         setUser(user);
         localStorage.setItem("user", JSON.stringify(user));
         swal({
@@ -334,13 +335,13 @@ export default function Tabs(props) {
   return (
     <div className="Tabs w-full">
       <div className="tabList flex w-full">
-      <div className={`tabHead ${index === 0 && 'active'}`} onClick={() => { setIndex(0) }}> 
-        <p className="md:visible hidden content">Contact</p><p className="icons hidden"><AiOutlineHome/></p>
-</div>
-        <div className={`tabHead ${index === 1 && 'active'}`} onClick={() => { setIndex(1) }}><p className="md:visible hidden content">About</p><p className="icons hidden"><AiOutlineUser/></p>
-</div>
-        <div className={`tabHead ${index === 2 && 'active'}`} onClick={() => { setIndex(2) }}> <p className="md:visible hidden content">Billing Details</p><p className="icons hidden"><RiBillLine/></p>
-</div>
+        <div className={`tabHead ${index === 0 && 'active'}`} onClick={() => { setIndex(0) }}>
+          <p className="md:visible hidden content">Contact</p><p className="icons hidden"><AiOutlineHome /></p>
+        </div>
+        <div className={`tabHead ${index === 1 && 'active'}`} onClick={() => { setIndex(1) }}><p className="md:visible hidden content">About</p><p className="icons hidden"><AiOutlineUser /></p>
+        </div>
+        <div className={`tabHead ${index === 2 && 'active'}`} onClick={() => { setIndex(2) }}> <p className="md:visible hidden content">Billing Details</p><p className="icons hidden"><RiBillLine /></p>
+        </div>
       </div>
       <div className="tabContent bg-white w-full p-5" hidden={index != 0}>
         {user !== null && user !== undefined && (
@@ -351,12 +352,12 @@ export default function Tabs(props) {
               email: user.email ? user.email : " ",
               contact: user.contact
                 ? [
-                    user.googleId,
-                    user.microsoftId,
-                    user.linkedInId,
-                    user.username,
-                    user.githubId,
-                  ].includes(user.contact)
+                  user.googleId,
+                  user.microsoftId,
+                  user.linkedInId,
+                  user.username,
+                  user.githubId,
+                ].includes(user.contact)
                   ? " "
                   : user.contact
                 : " ",
@@ -406,7 +407,7 @@ export default function Tabs(props) {
               }
               return errors;
             }}
-            // onSubmit={(values) => submit(values)}
+          // onSubmit={(values) => submit(values)}
           >
             {({ values }) => (
               <Form>
@@ -420,18 +421,18 @@ export default function Tabs(props) {
                     <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Username
                     </label>
-                    
-                      <Field
-                        type="text"
-                        name="username"
-                        className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5"
-                        style={{ borderRadius: "5px" }}
-                      />
-                      <ErrorMessage
-                        name="username"
-                        component="div"
-                        className="text-sm text-red-600"
-                      />
+
+                    <Field
+                      type="text"
+                      name="username"
+                      className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5"
+                      style={{ borderRadius: "5px" }}
+                    />
+                    <ErrorMessage
+                      name="username"
+                      component="div"
+                      className="text-sm text-red-600"
+                    />
                   </div>
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg md:w-2/5 mx-5">
@@ -454,23 +455,23 @@ export default function Tabs(props) {
                                     Work Period{" "}
                                   </label> */}
 
-<label className="font-semibold text-lg md:w-2/5 mx-5">
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Address
                     </label>
                     <div className="md:w-3/5 sm:w-full md:mx-5 px-4 ">
                       <div
-                        className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-2 md:w-5/6"
+                        className="grid grid-cols-1 gap-32 mb-6 lg:grid-cols-2 md:w-full"
                         style={{ justifyContent: "space-between" }}
                       >
-                        <div className=" grid grid-cols-1 ml-2 md:ml-0 lg:grid-cols-2 align-middle">
-                          <label className="font-semibold text-md py-2">
+                        <div className=" grid grid-cols-1 lg:grid-cols-2 ml-2 md:ml-0 align-middle">
+                        <label className="font-semibold text-md py-2">
                             House/ Flat No.
                           </label>
                           <div className="">
                             <Field
                               name="houseNo"
                               type="text"
-                              className="block border-gray-400 py-1 "
+                              className="block border-gray-400 py-1 w-full"
 
                               value={values.houseNo}
                             />
@@ -492,7 +493,7 @@ export default function Tabs(props) {
                               <Field
                                 name="street"
                                 type="text"
-                                className="block border-gray-400 py-1 w-full mx-2"
+                                className="block border-gray-400 py-1 w-full"
 
                                 value={values.street}
                               />
@@ -511,7 +512,7 @@ export default function Tabs(props) {
                         </div>
                       </div>
                       <div
-                        className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-2 md:w-5/6"
+                        className="grid grid-cols-1 gap-32 mb-6 lg:grid-cols-2 md:w-full"
                         style={{ justifyContent: "space-between" }}
                       >
                         <div className=" grid grid-cols-1 lg:grid-cols-2 ml-2 md:ml-0 align-middle">
@@ -519,13 +520,13 @@ export default function Tabs(props) {
                             City
                           </label>
                           <div className="">
-                          
-                                      <p>
-                                        Current Location :{" "}
-                                        {`${values.city}`}
-                                      </p>
-                                    
-                                    {/* <Field
+
+                            <p>
+                              Current Location :{" "}
+                              {`${values.city}`}
+                            </p>
+
+                            {/* <Field
                                       name="location"
                                       type="text"
                                       placeholder="Ex. London"
@@ -533,38 +534,38 @@ export default function Tabs(props) {
                                       style={{ borderRadius: "4px" }}
                                       value={values.location}
                                     /> */}
-                                    <Combobox
-                                      value={selectedAddCity}
-                                      onChange={setSelectedAddCity}
-                                    >
-                                      <Combobox.Input
-                                        onChange={(event) =>
-                                          setAddQuery(event.target.value)
-                                        }
-                                        className="border-[0.5px] rounded-lg w-full border-gray-400 focus:outline-0 focus:border-0 px-4 py-2"
-                                        style={{ borderRadius: "5px" }}
-                                      />
-                                      <Combobox.Options className="absolute z-100 bg-white">
-                                        {Addquery.length > 0 && (
-                                          <Combobox.Option value={`${Addquery}`}>
-                                            Create "{Addquery}"
-                                          </Combobox.Option>
-                                        )}
-                                        {filteredAddCity.map((city) => (
-                                          <Combobox.Option
-                                            key={city.name}
-                                            value={`${city.name.replace("ā", "a")
-                                              .replace("ò", "o")
-                                              .replace("à", "a")},`}
-                                          >
-                                            {city.name.replace("ā", "a")
-                                              .replace("ò", "o")
-                                              .replace("à", "a")}
-                                          </Combobox.Option>
-                                        ))}
-                                      </Combobox.Options>
-                                    </Combobox>
-                                  
+                            <Combobox
+                              value={selectedAddCity}
+                              onChange={setSelectedAddCity}
+                            >
+                              <Combobox.Input
+                                onChange={(event) =>
+                                  setAddQuery(event.target.value)
+                                }
+                                className="border-[0.5px] rounded-lg w-full border-gray-400 focus:outline-0 focus:border-0 px-2 py-2"
+                                style={{ borderRadius: "3px" }}
+                              />
+                              <Combobox.Options className="absolute z-100 bg-white">
+                                {Addquery.length > 0 && (
+                                  <Combobox.Option value={`${Addquery}`}>
+                                    Create "{Addquery}"
+                                  </Combobox.Option>
+                                )}
+                                {filteredAddCity.map((city) => (
+                                  <Combobox.Option
+                                    key={city.name}
+                                    value={`${city.name.replace("ā", "a")
+                                      .replace("ò", "o")
+                                      .replace("à", "a")},`}
+                                  >
+                                    {city.name.replace("ā", "a")
+                                      .replace("ò", "o")
+                                      .replace("à", "a")}
+                                  </Combobox.Option>
+                                ))}
+                              </Combobox.Options>
+                            </Combobox>
+
                             <ErrorMessage
                               name="city"
                               component="div"
@@ -602,7 +603,7 @@ export default function Tabs(props) {
                         </div>
                       </div>
                       <div
-                        className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-2 md:w-5/6"
+                        className="grid grid-cols-1 gap-32 mb-6 lg:grid-cols-2 md:w-full"
                         style={{ justifyContent: "space-between" }}
                       >
                         <div className=" grid grid-cols-1 lg:grid-cols-2 align-middle">
@@ -610,22 +611,22 @@ export default function Tabs(props) {
                             Country
                           </label>
                           <div className="">
-                          <Field
-                        component="select"
-                        id="country"
-                        name="country"
-                        className="block border-gray-400 py-1 w-full mx-2"
-                        value={values.country}
+                            <Field
+                              component="select"
+                              id="country"
+                              name="country"
+                              className="block border-gray-400 py-1 w-full"
+                              value={values.country}
 
-                        multiple={false}
-                      >
-                        {country &&
-                          country.map((item) => {
-                            return (
-                              <option value={item.name}>{item.name}</option>
-                            );
-                          })}
-                      </Field>
+                              multiple={false}
+                            >
+                              {country &&
+                                country.map((item) => {
+                                  return (
+                                    <option value={item.name}>{item.name}</option>
+                                  );
+                                })}
+                            </Field>
                             <ErrorMessage
                               name="country"
                               component="div"
@@ -677,7 +678,7 @@ export default function Tabs(props) {
                       className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5"
                       style={{ borderRadius: "5px" }}
                       disabled={EmailOTP !== null || ContactOTP !== null}
-                      // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
+                    // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
                     />
                     <ErrorMessage
                       name="email"
@@ -695,7 +696,7 @@ export default function Tabs(props) {
                       className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5"
                       style={{ borderRadius: "5px" }}
                       disabled={EmailOTP !== null || ContactOTP !== null}
-                      // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
+                    // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
                     />
                     <ErrorMessage
                       name="contact"
@@ -713,7 +714,7 @@ export default function Tabs(props) {
                         type="text"
                         className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5"
                         style={{ borderRadius: "5px" }}
-                        // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
+                      // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
                       />
                     </div>
                   )}
@@ -727,7 +728,7 @@ export default function Tabs(props) {
                         type="text"
                         className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5"
                         style={{ borderRadius: "5px" }}
-                        // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
+                      // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
                       />
                     </div>
                   )}
@@ -787,7 +788,7 @@ export default function Tabs(props) {
                           e.preventDefault();
                         }
                       }}
-                      // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
+                    // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
                     />
                   </div>
 
@@ -801,7 +802,7 @@ export default function Tabs(props) {
                       style={{ borderRadius: "5px" }}
                       name="motto"
 
-                      // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
+                    // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
                     />
                   </div>
 
@@ -815,7 +816,7 @@ export default function Tabs(props) {
                       style={{ borderRadius: "5px" }}
                       name="website"
 
-                      // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
+                    // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
                     />
                   </div>
 
@@ -829,7 +830,7 @@ export default function Tabs(props) {
                       style={{ borderRadius: "5px" }}
                       name="industry"
 
-                      // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
+                    // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
                     />
                   </div>
 
@@ -843,7 +844,7 @@ export default function Tabs(props) {
                       style={{ borderRadius: "5px" }}
                       name="company_size"
 
-                      // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
+                    // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
                     />
                   </div>
 
@@ -857,7 +858,7 @@ export default function Tabs(props) {
                       style={{ borderRadius: "5px" }}
                       name="found"
 
-                      // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
+                    // style={{ boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px", border: "none" }}
                     />
                   </div>
                 </div>
@@ -908,7 +909,7 @@ export default function Tabs(props) {
             {({ values, isSubmitting }) => (
               <Form>
                 <div className="flex flex-wrap w-full gap-y-5">
-                  
+
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1 -space-x-3">
                     <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Tax ID.
@@ -942,7 +943,7 @@ export default function Tabs(props) {
                           border: "solid 0.5px rgb(156 163 175)",
                         }}
 
-                        // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
                       ></Field>
                     </div>
                   </div>
@@ -956,7 +957,7 @@ export default function Tabs(props) {
                         className="block border-gray-400 w-full py-1  "
                         name="pan"
 
-                        // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
                       />{" "}
                       <ErrorMessage
                         name="pan"

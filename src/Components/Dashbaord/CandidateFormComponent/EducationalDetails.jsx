@@ -109,7 +109,7 @@ schoolQuery === ""
                     />
                   </div>
                   <p className="font-semibold">{item.school}</p>
-                  <div className="flex flex-wrap justify-between w-full py-1 text-gray-800 ">
+                  <div className="md:flex flex-wrap justify-between w-full py-1 text-gray-800 ">
                     <div className="flex space-x-2 text-sm items-center">
                       <FiInfo />
                       <p>{item.degree}</p> <p>|</p> <p>{item.field_of_study}</p>
@@ -463,16 +463,16 @@ schoolQuery === ""
                                 <div className="md:w-1/2  md:flex w-full  space-y-1 my-2">
 
 
-                                  <label className="font-semibold text-lg w-2/5 mx-2">Study  Period </label>
+                                  <label className="font-semibold text-lg w-2/5 mx-2 md:mx-0 sm:mt-4">Study  Period </label>
 
-<div className="w-4/5 flex justify-between" style={{justifyContent:"space-between"}}>
-                                  <div className=" my-1  flex mr-5 align-middle">
-                                    <label className="font-semibold text-lg py-2">Start From</label>
+<div className="w-4/5 md:flex justify-between" style={{justifyContent:"space-between"}}>
+                                  <div className="  my-1  md:flex md:mr-7 align-middle">
+                                    <label className="font-semibold text-md md:ml-0 py-2 ml-2">Start From</label>
                                     <div className="">
                                       <Field
                                         name="start_date"
                                         type="month"
-                                        className="block border-gray-400 py-2 w-full mx-2 border-[0.5px] border-[#6b7280]"
+                                        className="block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
                                         style={{
                                           borderRadius: "4px",
                                           border: "0.5px solid",
@@ -486,13 +486,13 @@ schoolQuery === ""
                                       />
                                     </div>
                                   </div>
-                                  <div className=" my-1  flex ml-2  align-middle">
-                                    <label className="font-semibold text-lg mx-2 py-2">End At</label>
+                                  <div className=" my-1  md:flex md:ml-2  align-middle">
+                                    <label className="font-semibold text-md ml-2 py-2">End At</label>
                                     <div className="">
                                       <Field
                                         name="end_date"
                                         type="month"
-                                        className="block border-gray-400 py-2  border-[0.5px] border-[#6b7280]"
+                                        className="block border-gray-400  w-full  py-2  border-[0.5px] border-[#6b7280]"
                                         style={{
                                           borderRadius: "4px",
                                           border: "0.5px solid",

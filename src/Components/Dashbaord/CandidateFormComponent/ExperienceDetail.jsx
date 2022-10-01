@@ -127,7 +127,7 @@ const ExperienceDetailForm = (props) => {
                       {item.employment_type}
                     </p>{" "}
                   </div>
-                  <div className="flex flex-wrap justify-between w-full py-1 text-gray-800 ">
+                  <div className="md:flex flex-wrap justify-between w-full py-1 text-gray-800 ">
                     <div className="space-x-2 flex items-center">
                       <FaRegBuilding />
                       <p>{item.company_name}</p>
@@ -399,7 +399,7 @@ const ExperienceDetailForm = (props) => {
                   //   </div>
                   // </Form>
                   <Form className="w-full py-4">
-                  <div className="md:w-1/2  flex w-full  space-y-1 my-5">
+                  <div className="md:w-1/2  md:flex w-full  space-y-1 my-5">
                     <label className="font-semibold text-lg w-2/5 mx-2">Title </label>
                     <div className="w-4/5"><Field
                       name="title"
@@ -416,7 +416,7 @@ const ExperienceDetailForm = (props) => {
                       />
                     </div>
                   </div>
-                  <div className="md:w-1/2  flex w-full  space-y-1 my-5">
+                  <div className="md:w-1/2  md:flex w-full  space-y-1 my-5">
                     <label className="font-semibold text-lg w-2/5 mx-2">Employment Type </label>
 
                     <div className="w-4/5"><Field
@@ -445,7 +445,7 @@ const ExperienceDetailForm = (props) => {
                       />
                     </div>
                   </div>
-                  <div className="md:w-1/2  flex w-full  space-y-1 my-5">
+                  <div className="md:w-1/2  md:flex w-full  space-y-1 my-5">
                     <label className="font-semibold text-lg w-2/5 mx-2">Company </label>
 
                     <div className="w-4/5">
@@ -499,7 +499,7 @@ const ExperienceDetailForm = (props) => {
                       />
                     </div>
                   </div>
-                  <div className="md:w-1/2  flex w-full  space-y-1 my-5">
+                  <div className="md:w-1/2  md:flex w-full  space-y-1 my-5">
                     <label className="font-semibold text-lg w-2/5 mx-2">Location </label>
                     <div className="w-4/5">
                       {/* <Field
@@ -557,16 +557,16 @@ const ExperienceDetailForm = (props) => {
                   <div className="md:w-1/2  md:flex w-full  space-y-1 my-2">
 
 
-                    <label className="font-semibold text-lg w-2/5 mx-2">Work Period </label>
+                    <label className="font-semibold text-lg w-2/5 mx-2 md:mx-0 sm:mt-4">Work Period </label>
 
-<div className="w-4/5 flex justify-between" style={{justifyContent:"space-between"}}>
-                    <div className=" my-1  flex mr-5 align-middle">
-                      <label className="font-semibold text-lg py-2">Start From</label>
+<div className="w-4/5 md:flex justify-between" style={{justifyContent:"space-between"}}>
+                    <div className=" my-1  md:flex mr-5 align-middle">
+                      <label className="font-semibold ml-2 md:ml-0 text-lg py-2">Start From</label>
                       <div className="">
                         <Field
                           name="start_date"
                           type="month"
-                          className="block border-gray-400 py-2 w-full mx-2 border-[0.5px] border-[#6b7280]"
+                          className="block border-gray-400 py-2 w-full md:mx-2 border-[0.5px] border-[#6b7280]"
                           style={{
                             borderRadius: "4px",
                             border: "0.5px solid",
@@ -580,7 +580,7 @@ const ExperienceDetailForm = (props) => {
                         />
                       </div>
                     </div>
-                    <div className=" my-1  flex ml-2  align-middle">
+                    <div className=" my-1  md:flex md:ml-2  align-middle">
                       <label className="font-semibold text-lg mx-2 py-2">End At</label>
                       <div className="">
                         <Field
@@ -602,7 +602,7 @@ const ExperienceDetailForm = (props) => {
                     </div>
                     </div>
                   </div>
-                  <div className="md:w-1/2  flex w-full  space-y-1 my-5">
+                  <div className="md:w-1/2  md:flex w-full  space-y-1 my-5">
                     <label className="font-semibold text-lg w-2/5 mx-2">Industry </label>
                     <div className="w-4/5"><Field
                       name="industry"
@@ -618,7 +618,7 @@ const ExperienceDetailForm = (props) => {
                       />
                     </div>
                   </div>
-                  <div className="md:w-1/2  flex w-full  space-y-1 my-5">
+                  <div className="md:w-1/2  md:flex w-full  space-y-1 my-5">
                     <label className="font-semibold text-lg w-2/5 mx-2">Description</label>
                     <div className="w-4/5"><Field
                       name="description"
@@ -637,7 +637,7 @@ const ExperienceDetailForm = (props) => {
                       />
                     </div>
                   </div>
-                  <div className="flex flex-wrap flex justify-center text-center">
+                  <div className=" flex justify-center text-center">
                     <button
                       type="submit"
                       className=" bg-blue-600  text-white rounded-lg block cursor-pointer py-2 px-8 align-middle"

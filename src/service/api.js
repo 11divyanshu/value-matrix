@@ -414,6 +414,8 @@ export const downloadResume = async (data, token) => {
 
     return await axios.post(`${url}/downloadResume`, data, {
       headers: { authorization: token },
+    }, {
+      responseType: 'blob'
     });
   } catch (error) {
     console.log("Error : ", error);
@@ -722,10 +724,10 @@ export const eligibleCandidateList = async (data) => {
     console.log("Error : ", err);
   }
 }
-export const deleteCandidate = async (data, body) => {
+export const deleteCandidate = async (id , company , isDeleted) => {
   try {
-    console.log(body);
-    return await axios.post(`${url}/deleteCandidate/${data}`, body
+     console.log(id , company,isDeleted);
+    return await axios.post(`${url}/deleteCandidate?id=${id}`,{company : company , isDeleted : isDeleted}
     );
 
   } catch (err) {
@@ -733,9 +735,9 @@ export const deleteCandidate = async (data, body) => {
   }
 }
 export const eligibleJobsForCandidate = async (data) => {
-  console.log(data);
+  // console.log(data);
   try {
-    return await axios.get(`${url}/eligibleJobsForCandidate?email=developervm171@gmail.com`
+    return await axios.get(`${url}/eligibleJobsForCandidate?email=${data}`
     );
 
   } catch (err) {
