@@ -8,8 +8,8 @@ import Loader from "../../../assets/images/loader.gif";
 
 const ResumeForm = (props) => {
   const [file, setFile] = React.useState(null);
-  const [error, setError] = React.useState(null);
   const [fileName, setFileName] = React.useState(null);
+  const [error, setError] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
 
   const handleChange = async (e) => {

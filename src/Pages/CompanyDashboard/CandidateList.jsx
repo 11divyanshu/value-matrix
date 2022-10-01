@@ -109,6 +109,18 @@ const JobList = () => {
     getData();
   }, []);
 
+  const archiveCandidate = async (job) => {
+                                             
+
+    let res = await deleteCandidate(job.candidate_id,  user._id , job.isDeleted);
+    console.log(res);
+    setJobs(res.data);
+
+    swal("Candidate has been Archived!", {
+      icon: "success",
+    });
+  }
+
   // Handle Candidates File Upload
   const handleCandidateFileUpload = async (e) => {
     try {
@@ -1034,8 +1046,8 @@ const JobList = () => {
                                           <button
                                             style={{ background: "#3ED3C5" }}
                                             className="  rounded-3xl px-6 my-3 text-xs  text-gray-900 font-semibold"
-                                            onClick={() => {
-                                              let res1 = sendJobInvitations(
+                                            onClick={async() => {
+                                              let res1 = await sendJobInvitations(
                                                 {
                                                   job_id: job._id,
                                                   candidates: sendCandidate,
@@ -1043,7 +1055,14 @@ const JobList = () => {
                                                 },
                                                 user.access_token
                                               );
-                                              if (res1) {
+
+                                              console.log(res1)
+                                              
+                                              if (res1.status === 200) {
+                                                // setJobId(res1.data.jobId);
+                                                var arr = res1.data.jobId.split(',');
+                                                console.log(arr);
+                                                setJobId(arr);
                                                 swal({
                                                   title: "Job Posted Successfully !",
                                                   message: "Success",
@@ -1189,9 +1208,10 @@ const JobList = () => {
                                               if (res) {
                                                 setListEligibleJobs(res.data);
 
-                                                console.log(res)
+                                                // console.log(res)
                                               }
                                               var arr = job.jobId.split(',');
+                                              console.log(arr);
                                               setJobId(arr);
 
                                             }}>
@@ -1200,36 +1220,11 @@ const JobList = () => {
                                                 Add to Job{" "}
                                               </p>{" "}
                                             </div>
-                                            <div className="flex items-center text-gray-800 space-x-2" onClick={() => {
-                                              swal({
-                                                title: "Are you sure?",
-                                                text: " you want to delete the Candidate",
-                                                icon: "warning",
-                                                buttons: true,
-                                                dangerMode: true,
-                                              })
-                                                .then((willDelete) => {
-                                                  if (willDelete) {
-
-                                                    let res = deleteCandidate(job._id, { company_id: user._id });
-                                                    console.log(res);
-                                                    setJobs(res);
-                                                    swal("Candidate has been deleted!", {
-                                                      icon: "success",
-                                                    });
-                                                  } else {
-                                                    swal("Your imaginary file is safe!");
-                                                  }
-                                                });
-
-
-
-
-                                            }}>
+                                            <div className="flex items-center text-gray-800 space-x-2" onClick={()=>archiveCandidate(job)}>
                                               {/* <BsThreeDots className="text-md" /> */}
-                                              <p className="text-sm font-semibold py-1">
+                                              <p className="text-sm font-semibold py-1 cursor-pointer">
                                                 {/* <Link to={`/company/jobUpdate/${job._id}`}> */}
-                                                Archive{" "}
+                                                {job.isDeleted ? "Unarchive": "Archive"}
                                                 {/* </Link> */}
                                               </p>{" "}
                                             </div>

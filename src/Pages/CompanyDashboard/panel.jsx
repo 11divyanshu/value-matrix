@@ -188,14 +188,14 @@ const Panel = () => {
 
         <div className="sm:w-full md:flex lg:flex-wrap md:w-full lg:w-2/6 my-4 lg:mx-3 ">
 
-          <div className="md:w-1/2 lg:w-full sm:w-full "><SessionCard /></div>
+          <div className="md:w-1/2 lg:w-full sm:w-full rounded-lg"><SessionCard /></div>
           
 
           <div className="shadow-lg my-5 md:w-1/2 lg:w-full md:mx-1 md:my-0 rounded-lg py-5 bg-white sm:w-full h-28">
         <div className="flex items-start space-x-3 px-6  ">
           <div className="mt-3">
             <p className="text-lg text-left font-semibold">
-             Credit Score $
+             Credit Status $
             </p>
             <p className="text-xs">
               

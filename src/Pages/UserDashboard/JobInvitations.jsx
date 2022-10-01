@@ -98,13 +98,13 @@ const JobInvitations = () => {
         </p>
       </div>
       <div className="p-4 w-full md:flex mx-auto">
-        {!Loading && JobInvitation.length === 0 && (
+        {/* {!Loading && JobInvitation.length === 0 && (
           <div className="text-center py-5 text-2xl md:w-3/4">
             No Interview Invitations
           </div>
-        )}
+        )} */}
 
-        {!Loading && JobInvitation.length > 0&& (
+        {/* {!Loading && JobInvitation.length > 0&& ( */}
           <div className=" md:w-3/4 md:mx-5">
             <div
               className="justify-between w-full bg-white"
@@ -115,7 +115,12 @@ const JobInvitations = () => {
                 {/* <p className="text-gray-400 w-full font-semibold">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p> */}
               </div>
             </div>
-
+            {!Loading && JobInvitation.length === 0 ?
+             (
+              <div className="text-center py-5 text-2xl md:w-3/4">
+                No Interview Invitations
+              </div>
+            ):(
             <div className="w-full">
               {JobInvitation.map((job, index) => {
                 console.log("job-----",job);
@@ -286,9 +291,9 @@ const JobInvitations = () => {
                   // </div>
                 );
               })}
-            </div>
+            </div>)}
           </div>
-        ) }
+        {/* ) } */}
 
 <div className="md:w-1/4 my-3">
           <div className="shadow-lg  py-5  bg-white  justify-around  px-5 bg-white">

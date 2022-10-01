@@ -18,6 +18,7 @@ import {
   AiOutlineUser,
   AiOutlineFolderAdd,
   AiOutlineUnorderedList,
+  AiOutlineDelete
 } from "react-icons/ai";
 import { CgWorkAlt } from "react-icons/cg";
 import { FaRegBuilding } from "react-icons/fa";
@@ -37,10 +38,11 @@ import {
   validateSignupDetails,
   getDBCompanyList,
   getDBSchoolList,
-  fetchCountry,
+  uploadCandidateResume,
   getCountryList
 } from "../../service/api";
 import ReactCropper from "../../Pages/UserDashboard/ReactCrop";
+import Loader from "../../assets/images/loader.gif";
 
 // Assets
 import Avatar from "../../assets/images/UserAvatar.png";
@@ -50,7 +52,8 @@ export default function Tabs(props) {
     setEmailOTP(null);
     setContactOTP(null);
   }, []);
-
+  // File Upload
+  const [loading, setLoading] = React.useState(false);
   // States for the Page
   const [user, setUser] = React.useState(null);
   const [access_token, setToken] = React.useState(null);
@@ -70,6 +73,7 @@ export default function Tabs(props) {
   const inputSkillRef = React.useRef(null);
   // Updates Any Error during the Editing Profile
   const [Error, setError] = React.useState(null);
+  const [error, seterror] = React.useState(null);
 
   // City Autocomplete
   const [selectedCity, setSelectedCity] = React.useState(cities[103]);
@@ -249,6 +253,61 @@ export default function Tabs(props) {
   const [disabled, setDisabled] = React.useState(true);
 
   const inputRef = React.useRef(null);
+  
+  const [ file, setFile ] = useState(null)
+  const [ fileName, setFileName ] = useState(null)
+
+  const handleChange = async (e) => {
+     setLoading(true);
+     setError(null);
+    if (e.target && e.target.files) {
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let access_token = await localStorage.getItem("access_token");
+      console.log(user, " ", access_token);
+      let fd = new FormData();
+      fd.append("user_id", user._id);
+      fd.append("file", e.target.files[0]);
+
+      let response = await uploadCandidateResume(fd, access_token);
+      if (response && response.status === 200) {
+        await setFile(e.target.files[0]);
+        setFileName(e.target.files[0].name);
+        let res = await localStorage.getItem("candidateDetails");
+        res = JSON.parse(res);
+        res.resume = e.target.files[0].name;
+        await localStorage.setItem("candidateDetails", JSON.stringify(res));
+      } else {
+        seterror("Error uploading file");
+      }
+
+      // Resume Parser
+      var fileReader = new FileReader();
+      var base64;
+      // Onload of file read the file content
+      let base64String = "";
+      fileReader.onload = async function (fileLoadedEvent) {
+        var modifiedDate = (new Date(fileLoadedEvent.lastModified)).toISOString().substring(0, 10);
+        // base64 = Base64.encodeArray(fileLoadedEvent.target.result);
+        base64 = fileLoadedEvent.target.result;
+        base64String = base64;
+        // let resumeResponse = await sovrenResumeParser({
+        //   DocumentAsBase64String: base64,
+        //   SkillsSettings: {
+        //     Normalize: false,
+        //     TaxonomyVersion: "",
+        //   },
+        //   ProfessionsSettings: {
+        //     Normalize: false,
+        //   },
+        //   DocumentLastModified : modifiedDate,
+        // });
+        // console.log(resumeResponse);
+      };
+      await fileReader.readAsDataURL(e.target.files[0]);
+      setLoading(false);
+      e.target.files = null;
+    }
+  };
 
   React.useEffect(() => {
     const initial = async () => {
@@ -361,6 +420,19 @@ export default function Tabs(props) {
     //   });
     // }
   };
+
+  // const convertToBase64 = (file) => {
+  //   return new Promise((resolve, reject) => {
+  //     const fileReader = new FileReader();
+  //     fileReader.readAsDataURL(file);
+  //     fileReader.onload = () => {
+  //       resolve(fileReader.result);
+  //     };
+  //     fileReader.onerror = (error) => {
+  //       reject(error);
+  //     };
+  //   });
+  // };
 
   const updateExperience = async (values) => {
     if (!exerror) {
@@ -709,7 +781,7 @@ export default function Tabs(props) {
     if (ContactOTP) {
       data.contact = ed.contact;
     }
-
+console.log(data);
     let res = await updateUserDetails(
       { user_id: user._id, updates: data },
       { access_token: access_token }
@@ -728,7 +800,6 @@ export default function Tabs(props) {
       await localStorage.setItem("user", JSON.stringify(res.data.user));
       await localStorage.removeItem("prof");
       await localStorage.removeItem("RolesProf");
-      window.location.href = "/user/profile";
     } else {
       console.log("Error");
     }
@@ -738,7 +809,10 @@ export default function Tabs(props) {
       title: "EditProfile",
       text: "Details Updated Succesfully",
       button: "Continue",
-    });
+    }).then(()=>{
+      // window.location.href = "/user/profile";
+
+    })
   };
 
   React.useEffect(() => {
@@ -933,12 +1007,12 @@ export default function Tabs(props) {
                     <label className="font-semibold text-lg w-2/5 mx-2 md:mx-0 sm:mt-4">
                       Address
                     </label>
-                    <div className="w-4/5">
+                    <div className="w-3/4 md:4/5 mr-9 md:mr-0">
                       <div
-                        className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-2 md:w-5/6"
+                        className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-2 mr-2 md:mr-0 md:w-5/6"
                         style={{ justifyContent: "space-between" }}
                       >
-                        <div className=" grid grid-cols-1 lg:grid-cols-2 ml-3 md:ml-0 align-middle">
+                        <div className=" grid grid-cols-1 lg:grid-cols-2  ml-3 md:ml-0 align-middle">
                           <label className="font-semibold text-md py-2">
                             House/ Flat No.
                           </label>
@@ -959,7 +1033,7 @@ export default function Tabs(props) {
                         </div>
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 mx-1 md:mx-0 align-middle ">
-                          <label className="font-semibold text-md ml-2 py-2">
+                          <label className="font-semibold text-md ml-2 md:ml-0 py-2">
                             Street
                           </label>
                           <div >
@@ -968,7 +1042,7 @@ export default function Tabs(props) {
                               <Field
                                 name="street"
                                 type="text"
-                                className="block border-gray-400 py-1 w-full mx-2"
+                                className="block border-gray-400 py-1 w-full mx-2 mr-4"
 
                                 value={values.street}
                               />
@@ -998,7 +1072,7 @@ export default function Tabs(props) {
                          
                                       <p>
                                         Current Location :{" "}
-                                        {`${values.city}`}
+                                        {values.city ? `${values.city}`:""}
                                       </p>
                                     
                                     {/* <Field
@@ -1081,7 +1155,7 @@ export default function Tabs(props) {
                         className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-2 md:w-5/6"
                         style={{ justifyContent: "space-between" }}
                       >
-                        <div className=" grid grid-cols-1 lg:grid-cols-2  ml-1 md:mx-0  align-middle">
+                        <div className=" grid grid-cols-1 lg:grid-cols-2  ml-3 md:mx-0  align-middle">
                           <label className="font-semibold text-md py-2">
                             Country
                           </label>
@@ -1270,20 +1344,8 @@ export default function Tabs(props) {
                       setEduInitialValues(item);
                       setShowEduForm(true);
                     }}
-                  />
-                  <AiOutlineDelete
-                    className="text-red-600 cursor-pointer"
-                    onClick={async () => {
-                      setEducationalDetail(
-                        educationalDetail.filter((item, i) => i !== index)
-                      );
-                      let res = JSON.parse(await localStorage.getItem("user"));
-                      res.education = educationalDetail.filter(
-                        (item, i) => i !== index
-                      );
-                      localStorage.setItem("user", JSON.stringify(res));
-                    }}
                   /> */}
+                
                 </div>
                 <p className="font-semibold text-md md:w-2/5 ">{item.school}</p>
                 <div className="grid grid-cols-1 md:gap-2 gap-0 lg:grid-cols-4 align-items-right">
@@ -1315,6 +1377,21 @@ export default function Tabs(props) {
                     >
                       Edit
                     </button>
+                    <div className="text-xl mx-5 px-7 py-2">
+                    <AiOutlineDelete
+                    className="text-red-600 cursor-pointer"
+                    onClick={async () => {
+                      setEducationalDetail(
+                        educationalDetail.filter((item, i) => i !== index)
+                      );
+                      let res = JSON.parse(await localStorage.getItem("user"));
+                      res.education = educationalDetail.filter(
+                        (item, i) => i !== index
+                      );
+                      setUser(res);
+                      localStorage.setItem("user", JSON.stringify(res));
+                    }}
+                  /></div>
                   </div>
                 </div>
               </div>
@@ -1753,21 +1830,7 @@ export default function Tabs(props) {
                         setShowExForm(true);
                       }}
                     />
-                    <AiOutlineDelete
-                      className="text-red-600 cursor-pointer"
-                      onClick={async () => {
-                        setExperienceDetail(
-                          experienceDetail.filter((item, i) => i !== index)
-                        );
-                        let res = JSON.parse(
-                          await localStorage.getItem("user")
-                        );
-                        res.experience = experienceDetail.filter(
-                          (item, i) => i !== index
-                        );
-                        localStorage.setItem("user", JSON.stringify(res));
-                      }}
-                    /> */}
+                  */}
                   </div>
                   <div className="font-semibold flex space-x-2 items-center">
                     <p>{item.title}</p> <p className="font-normal text-sm">|</p>{" "}
@@ -1802,6 +1865,25 @@ export default function Tabs(props) {
                       >
                         Edit
                       </button>
+                      <div className="text-xl mx-5 px-7 py-2">
+
+                      <AiOutlineDelete
+                      className="text-red-600 cursor-pointer"
+                      onClick={async () => {
+                        setExperienceDetail(
+                          experienceDetail.filter((item, i) => i !== index)
+                        );
+                        let res = JSON.parse(
+                          await localStorage.getItem("user")
+                        );
+                        res.experience = experienceDetail.filter(
+                          (item, i) => i !== index
+                        );
+                        setUser(res);
+                        localStorage.setItem("user", JSON.stringify(res));
+                      }}
+                    />
+                    </div>
                     </div>
                   </div>
                   {item.description && (
@@ -2305,21 +2387,7 @@ export default function Tabs(props) {
                         setShowAsForm(true);
                       }}
                     />
-                    <AiOutlineDelete
-                      className="text-red-600 cursor-pointer"
-                      onClick={async () => {
-                        setAssociateDetail(
-                          associateDetail.filter((item, i) => i !== index)
-                        );
-                        let res = JSON.parse(
-                          await localStorage.getItem("user")
-                        );
-                        res.associate = associateDetail.filter(
-                          (item, i) => i !== index
-                        );
-                        localStorage.setItem("user", JSON.stringify(res));
-                      }}
-                    /> */}
+                  */}
                   </div>
                   <div className="font-semibold my-1 flex space-x-2 items-center">
                     <p>{item.title}</p> <p className="font-normal text-sm">|</p>{" "}
@@ -2354,6 +2422,25 @@ export default function Tabs(props) {
                       >
                         Edit
                       </button>
+                      <div className="text-xl mx-5 px-7 py-2">
+
+                      <AiOutlineDelete
+                      className="text-red-600 cursor-pointer"
+                      onClick={async () => {
+                        setAssociateDetail(
+                          associateDetail.filter((item, i) => i !== index)
+                        );
+                        let res = JSON.parse(
+                          await localStorage.getItem("user")
+                        );
+                        res.associate = associateDetail.filter(
+                          (item, i) => i !== index
+                        );
+                        setUser(res);
+                        localStorage.setItem("user", JSON.stringify(res));
+                      }}
+                    />
+                    </div>
                     </div>
                   </div>
                   {item.description && (
@@ -3055,6 +3142,34 @@ export default function Tabs(props) {
           <label className="font-semibold text-lg w-2/5 my-4">Resume</label>
          <input type="file" value={user.resume} />
         </div> */}
+        <p className="font-bold text-lg">Resume</p>
+      {fileName && <p className="my-3">{fileName}</p>}
+      {error && <p className="text-red-500 my-3">{error}</p>}
+      <div className="my-5">
+        {loading ? (
+          <button className="py-1 px-3 bg-blue-500 rounded-md">
+            <img src={Loader} className="h-7" alt="loader" />
+          </button>
+        ) : (
+          <label
+            for="resume"
+            className="py-2 px-3 cursor-pointer bg-blue-500 rounded-md text-white"
+            style={{backgroundColor:"#034488"}}
+          >
+            {" "}
+            Upload Resume{" "}
+          </label>
+        )}
+        <input
+          type="file"
+          name="resume"
+          className="hidden"
+          id="resume"
+          accept="application/pdf, application/msword"
+          onChange={handleChange}
+        />
+      </div>
+    
 
         <button
           className="bg-blue-500 px-4 mx-2 py-1 text-white rounded-sm my-5"

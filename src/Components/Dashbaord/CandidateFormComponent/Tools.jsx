@@ -299,7 +299,7 @@ const Tools = (props) => {
     <div>
       <p className="font-bold text-lg">Skills</p>
       {loading && <div className="w-full text-center">Loading Data ...</div>}
-      <div className="my-3 px-4 flex items-center flex-wrap">
+      <div className="my-3 px-4 md:flex items-center flex-wrap">
         <input
           type="text"
           className="w-3/4 text-600 border-[0.5px] border-[#6b7280] p-2"
@@ -340,7 +340,7 @@ const Tools = (props) => {
           }}
         />
         <button
-          className="h-10 bg-blue-600 text-white rounded-sm block cursor-pointer px-8 align-middle ml-3"
+          className="h-10 bg-blue-600 text-white rounded-sm block cursor-pointer px-8 align-middle md:ml-3 mt-3 md:mt-0"
           style={{ backgroundColor: "#034488" }}
         >
           Search

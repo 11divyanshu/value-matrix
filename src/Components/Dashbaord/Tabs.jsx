@@ -31,6 +31,7 @@ export default function Tabs() {
 
   const [skillsPrimary, setSkillsPrimary] = React.useState([]);
   const [roles, setRoles] = React.useState({});
+  const [link, setLink] = React.useState({});
 
   React.useEffect(() => {
     const func = async () => {
@@ -65,6 +66,8 @@ export default function Tabs() {
     };
     func();
   }, []);
+
+
 
   return (
     <div className="Tabs w-full">
@@ -268,8 +271,8 @@ export default function Tabs() {
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-2 mx-1 md:mx-0  align-middle ">
-                          <label className="font-semibold text-md py-2">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 md:mx-0 mr-2 md:mr-0 align-middle ">
+                          <label className="font-semibold text-md ml-2 md:ml-0 py-2">
                             Street
                           </label>
                           <div >
@@ -278,7 +281,7 @@ export default function Tabs() {
                               <Field
                                 name="street"
                                 type="text"
-                                className="block border-gray-400 py-1 w-full mx-2"
+                                className="block border-gray-400 py-1 w-full mx-2 mr-4"
                                 disabled
 
                               />
@@ -312,8 +315,8 @@ export default function Tabs() {
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-2 mx-1 md:mx-0 align-middle">
-                          <label className="font-semibold text-md py-2">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 md:mx-0 mr-2 md:mr-0 align-middle">
+                          <label className="font-semibold text-md ml-2 md:ml-0 py-2">
                             State/Region
                           </label>
                           <div >
@@ -337,10 +340,10 @@ export default function Tabs() {
                         </div>
                       </div>
                       <div
-                        className="grid grid-cols-1 gap-4 mb-6 lg:grid-cols-2 md:w-5/6"
+                        className="grid grid-cols-1 gap-4 mb-6 lg:grid-cols-2  md:w-5/6"
                         style={{ justifyContent: "space-between" }}
                       >
-                        <div className=" grid grid-cols-1 lg:grid-cols-2 ml-2 md:ml-0 align-middle">
+                        <div className=" grid grid-cols-1 lg:grid-cols-2 ml-2 md:ml-0  align-middle">
                           <label className="font-semibold text-md py-2">
                             Country
                           </label>
@@ -356,8 +359,8 @@ export default function Tabs() {
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-2 mx-1 md:mx-0 align-middle">
-                          <label className="font-semibold text-md  py-2">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 md:mx-0 md:mx-0 mr-2 align-middle">
+                          <label className="font-semibold text-md  ml-2 md:ml-0 py-2">
                             Zip Code
                           </label>
                           <div >
@@ -384,33 +387,48 @@ export default function Tabs() {
 
 
                   </div>
-                  {/* {user.resume && (
-                    <div className="flex space-x-12">
-                      <p className="font-semibold">Resume</p>
-                      <p
-                        className="text-sm text-blue-500 cursor-pointer"
-                        onClick={async () => {
-                          let token = await localStorage.getItem(
-                            "access_token"
-                          );
-                          let res = await downloadResume(
-                            { user_id: user._id },
-                            token
-                          );
-                          console.log(res);
-                          let blob = new Blob([res.data.Resume.data], {
-                            type: "application/pdf",
-                          });
-                          let link = document.createElement("a");
-                          link.href = window.URL.createObjectURL(blob);
-                          link.download = "resume.pdf";
-                          link.click();
-                        }}
-                      >
-                        Download Resume
-                      </p>
+                  {user.resume && (
+                    <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
+                      <label className="font-semibold text-lg md:w-2/5 mx-5">
+                        Resume</label>
+                      <div className="w-4/5 flex items-center px-4">
+
+                        <button
+                          class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
+                          style={{ backgroundColor: "#034488" }} onClick={async () => {
+                            let token = await localStorage.getItem(
+                              "access_token"
+                            );
+                            let res = await downloadResume(
+                              { user_id: user._id },
+                              token
+                            )
+                            console.log(res);
+                            // let blob = new Blob([res.data.Resume.data], {
+                            //   type: "application/pdf",
+                            // });
+                            // console.log(blob);
+                            // var blob=new buffer.Blob([res.data.Resume.data], {type:"application/pdf"});
+                            // var link=document.createElement('a');
+                            // link.href=window.URL.createObjectURL(blob);
+                            // link.download="Report_"+new Date()+".pdf";
+                            // link.click();
+
+
+                            const url = window.URL.createObjectURL(new Blob([new Uint8Array(res.data.Resume.data).buffer]));
+                            const link = document.createElement('a');
+                            link.href = url;
+                            link.setAttribute('download', 'Resume.pdf');
+                            document.body.appendChild(link);
+                            link.click();
+
+                          }}
+                        >
+                          Download Resume
+                        </button>
+                      </div>
                     </div>
-                  )} */}
+                  )}
                 </div>
               </Form>
             )}
@@ -616,10 +634,9 @@ export default function Tabs() {
               </div>
             </div>
 
-            {/* <div className="md:w-1/2 w-full space-y-1">
-              <label className="font-semibold">Resume</label>
-
-            </div> */}
+            <div className="md:w-1/2 w-full block space-y-1">
+              <label className="font-semibold">Resume</label><br />
+            </div>
           </div>
         )}
       </div>

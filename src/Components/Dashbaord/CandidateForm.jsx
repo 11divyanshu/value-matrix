@@ -173,10 +173,10 @@ const CandidateResumeForm = (props) => {
                 <Dialog.Panel className="w-full  transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all" >
                   <Dialog.Title
                     as="h3"
-                    className="text-2xl font-bold leading-6 text-gray-900 flex"
+                    className="text-lg md:text-2xl font-bold leading-6 text-gray-900 flex"
                   >
                     Complete Your Profile
-                    <p className="ml-auto text-sm text-[#034488] cursor-pointer" onClick = {()=>{props.setModalIsOpen(false); localStorage.setItem("modalOnce", true);}}>Skip</p>
+                    <p className="ml-auto mt-1 text-sm text-[#034488] cursor-pointer" onClick = {()=>{props.setModalIsOpen(false); localStorage.setItem("modalOnce", true);}}>Skip</p>
                   </Dialog.Title>
                   <div className="pt-4">
                     <div className="flex justify-between py-3">
