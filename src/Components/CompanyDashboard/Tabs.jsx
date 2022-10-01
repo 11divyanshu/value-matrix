@@ -92,8 +92,8 @@ export default function Tabs() {
                     /></div>
                    
                   </div> */}
-                 <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                    <label className="font-semibold text-lg md:w-2/5 mx-5">
+                 <div className="md:mx-2 my-1 sm:mx-0  md:flex flex w-full  space-y-1">
+                    <label className="font-semibold text-lg md:w-1/3 mx-5">
                       Company Name
                     </label>
                     <Field
@@ -105,7 +105,7 @@ export default function Tabs() {
                   </div>
                   
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                    <label className="font-semibold text-lg md:w-2/5 mx-5">Email</label>
+                    <label className="font-semibold text-lg md:w-1/3 mx-5">Email</label>
                     <Field
                       name="email"
                       type="text"
@@ -117,7 +117,7 @@ export default function Tabs() {
                     />
                   </div>
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                    <label className="font-semibold text-lg md:w-2/5 mx-5">Contact</label>
+                    <label className="font-semibold text-lg md:w-1/3 mx-5">Contact</label>
                     <Field
                       name="contact"
                       type="text"
@@ -129,7 +129,7 @@ export default function Tabs() {
                     />
                   </div>
                   <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                  <label className="font-semibold text-lg md:w-2/5 mx-5">
+                  <label className="font-semibold text-lg md:w-1/3 mx-5">
                       Address
                     </label>
                     <div className="md:w-3/5 sm:w-4/5 ">
