@@ -3315,39 +3315,43 @@ export default function Tabs(props) {
                                 return (
                                   <Form className="w-full py-4">
 
-                                    <div className="md:w-1/2  md:flex w-full  space-y-1 my-5">
-                                      <label className="font-semibold text-lg w-2/5 mx-2">
+                                    <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
+                                      <label className="font-bold text-lg md:w-2/5 mx-5 mt-2">
                                         Name{" "}
                                       </label>
-                                      <div className="w-full md:w-4/5">
-                                        <Field
-                                          component="select"
-                                          id="name"
-                                          name="name"
-                                          className="block border-gray-400 py-1 w-full "
-                                          value={values.name}
-                                          multiple={false}
-                                        >
-                                          {language &&
-                                            language.map((item) => {
-                                              return (
-                                                <option value={item.name}>{item.name}</option>
-                                              );
-                                            })}
-                                        </Field>
+                                      <Field
+                                        component="select"
+                                        id="name"
+                                        name="name"
+                                        style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
+                                        className="block border-gray-200 py-1 md:w-4/5 sm:w-4/5 mx-5"
+                                        value={values.name}
+                                        multiple={false}
+                                      >
+                                        {language &&
+                                          language.map((item) => {
+                                            return (
+                                              <option value={item.name}>{item.name}</option>
+                                            );
+                                          })}
+                                      </Field>
+                                      <div>
                                         <ErrorMessage
                                           name="name"
                                           component="div"
-                                          className="text-sm text-red-600"
+                                          className="text-sm my-2 text-red-600"
                                         />
                                       </div>
+
                                     </div>
-                                    <div className="flex">
+                                    <div style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "60px" }}
+                                      className="border-gray-200 flex my-5">
                                       <div className="mx-3 my-4">
                                         <Field
                                           type="checkbox"
                                           name="read"
                                           className="my-1 "
+                                          style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px"}}
                                           onClick={() => {
                                             // let temp = permissions;
                                             // temp[index].value = !temp[index].value;
@@ -3366,6 +3370,7 @@ export default function Tabs(props) {
                                           type="checkbox"
                                           name="write"
                                           className="my-1 "
+                                          style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px"}}
                                           onClick={() => {
                                             // let temp = permissions;
                                             // temp[index].value = !temp[index].value;
@@ -3383,7 +3388,8 @@ export default function Tabs(props) {
                                         <Field
                                           type="checkbox"
                                           name="speak"
-                                          className="my-1 "
+                                          className="my-1"
+                                          style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px"}}
                                           onClick={() => {
                                             // let temp = permissions;
                                             // temp[index].value = !temp[index].value;
