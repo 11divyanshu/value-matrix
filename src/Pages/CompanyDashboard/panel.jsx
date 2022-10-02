@@ -77,8 +77,6 @@ const Panel = () => {
           </div>
         </div>
 
-
-
         <div className="lg:flex">
 
           <div className="md:w-full  sm:w-full lg:w-4/6  rounded-lg py-5 my-4 lg:mx-10 h-full bg-white shadow-md">
@@ -173,7 +171,7 @@ const Panel = () => {
                 <p className="text-gray-400 text-sm"> Jan 17,2022</p>
               </div>
               <div className="px-5 text-center my-2 text-sm"><p>12am  - 1am</p><p className="text-gray-400 text-sm"> 03 Minutes Remaining</p></div>
-              <div className="px-5 text-center my-5 text-sm"><span class=" text-gray-800 text-xs font-semibold mr-2 px-6 py-0.5  rounded-3xl  my-2 py-2" style={{ backgroundColor: "#A5C0BD" }}>Inprogress</span>
+              <div className="px-5 text-center my-5 text-sm"><span class=" text-gray-800 text-xs font-semibold mr-2 px-6   rounded-3xl  my-2 py-2" style={{ backgroundColor: "#A5C0BD" }}>Inprogress</span>
               </div>
               <div className="px-5 text-center my-2 text-sm"><p><button style={{ background: "#3ED3C5" }} className=" rounded-lg my-2  px-6 mx-2 py-2 text-xs text-gray-900 font-semibold">
                 More
@@ -209,7 +207,7 @@ const Panel = () => {
                 <div className="text-2xl font-bold flex my-auto"> 6200 <p className="text-green-500"><AiOutlineArrowUp /></p><p className="text-lg">62% </p></div>
               </div>
             </div>
-            <div className="shadow-lg sm:w-full rounded-lg md:w-full lg:w-full py-5 my-4 h-auto mx-5 bg-white px-4">
+            <div className="shadow-lg sm:w-full rounded-lg md:w-full lg:w-full py-10 my-8 h-auto mx-5 bg-white px-4">
             <p className="text-xl px-4 mx-auto text-gray-700 font-bold  flex">
 
               {/* <div className=" px-6 mx-2 py-1 ml-5 text-center" ><AiOutlineUnorderedList/></div> */}

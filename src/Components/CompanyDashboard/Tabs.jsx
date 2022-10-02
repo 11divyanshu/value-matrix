@@ -132,20 +132,21 @@ export default function Tabs() {
                   <label className="font-semibold text-lg md:w-1/3 mx-5">
                       Address
                     </label>
-                    <div className="md:w-3/5 sm:w-4/5 ">
+                    <div className="w-2/3 mx-5 ">
                       <div
-                        className="grid grid-cols-1 gap-4 mb-6 lg:grid-cols-2 md:w-5/6"
+                        className="grid grid-cols-1 gap-4 mb-6 lg:grid-cols-2 md:w-5/6 lg:w-full"
                         style={{ justifyContent: "space-between" }}
                       >
                         <div className=" grid grid-cols-1 lg:grid-cols-2 ml-2 md:ml-0 align-middle">
-                          <label className="font-semibold text-md py-2">
+                          <label className="font-normal text-md py-2">
                             House/ Flat No.
                           </label>
                           <div className="">
                             <Field
                               name="houseNo"
                               type="text"
-                              className="block border-gray-400 py-1 w-full"
+                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px",}}
+                              className="block border-gray-200 py-1 w-full"
                               disabled
 
                             />
@@ -154,7 +155,7 @@ export default function Tabs() {
                         </div>
 
                         <div className="grid grid-cols-1 lg:grid-cols-2  mr-1 md:mr-0 align-middle ">
-                          <label className="font-semibold text-md ml-2 py-2">
+                          <label className="font-normal text-md ml-2 py-2">
                             Street
                           </label>
                           <div >
@@ -163,7 +164,8 @@ export default function Tabs() {
                               <Field
                                 name="street"
                                 type="text"
-                                className="block border-gray-400 py-1 w-full mx-2"
+                                style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px",}}
+                                className="block border-gray-200 py-1 w-full"
                                 disabled
 
                               />
@@ -178,18 +180,19 @@ export default function Tabs() {
                         </div>
                       </div>
                       <div
-                        className="grid grid-cols-1 gap-4 mb-6 lg:grid-cols-2 md:w-5/6 "
+                        className="grid grid-cols-1 gap-4 mb-6 lg:grid-cols-2 md:w-5/6 lg:w-full "
                         style={{ justifyContent: "space-between" }}
                       >
                         <div className=" grid grid-cols-1 lg:grid-cols-2 ml-2 md:ml-0 align-middle">
-                          <label className="font-semibold text-md py-2">
+                          <label className="font-normal text-md py-2">
                             City
                           </label>
                           <div className="">
                             <Field
                               name="city"
                               type="text"
-                              className="block border-gray-400 py-1 w-full"
+                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px",}}
+                              className="block border-gray-200 py-1 w-full"
                               disabled
 
                             />
@@ -198,7 +201,7 @@ export default function Tabs() {
                         </div>
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 mr-1 md:mr-0 align-middle">
-                          <label className="font-semibold text-md ml-2 py-2">
+                          <label className="font-normal text-md ml-2 py-2">
                             State/Region
                           </label>
                           <div >
@@ -207,7 +210,8 @@ export default function Tabs() {
                               <Field
                                 name="state"
                                 type="text"
-                                className="block border-gray-400 py-1 w-full mx-2"
+                                style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px",}}
+                                className="block border-gray-200 py-1 w-full"
                                 disabled
 
                               />
@@ -222,18 +226,19 @@ export default function Tabs() {
                         </div>
                       </div>
                       <div
-                        className="grid grid-cols-1 gap-4 mb-6 lg:grid-cols-2 md:w-5/6"
+                        className="grid grid-cols-1 gap-4 mb-6 lg:grid-cols-2 md:w-5/6 lg:w-full"
                         style={{ justifyContent: "space-between" }}
                       >
                         <div className=" grid grid-cols-1 lg:grid-cols-2  ml-2 md:ml-0  align-middle">
-                          <label className="font-semibold text-md py-2">
+                          <label className="font-normal text-md py-2">
                             Country
                           </label>
                           <div className="">
                             <Field
                               name="country"
                               type="text"
-                              className="block border-gray-400 py-1 w-full"
+                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px",}}
+                              className="block border-gray-200 py-1 w-full"
                               disabled
 
                             />
@@ -242,7 +247,7 @@ export default function Tabs() {
                         </div>
 
                         <div className="grid grid-cols-1 lg:grid-cols-2  mr-1 md:mr-0 align-middle">
-                          <label className="font-semibold text-md ml-2 py-2">
+                          <label className="font-normal text-md ml-2 py-2">
                             Zip Code
                           </label>
                           <div >
@@ -251,7 +256,8 @@ export default function Tabs() {
                               <Field
                                 name="zip"
                                 type="text"
-                                className="block border-gray-400 py-1 w-full mx-2"
+                                style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px",}}
+                                className="block border-gray-200 py-1 w-full"
                                 disabled
 
                               />
