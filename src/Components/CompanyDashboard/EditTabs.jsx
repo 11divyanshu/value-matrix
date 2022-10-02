@@ -464,7 +464,7 @@ export default function Tabs(props) {
                         style={{ justifyContent: "space-between" }}
                       >
                         <div className=" grid grid-cols-1 lg:grid-cols-2 ml-2 md:ml-0 align-middle">
-                        <label className="font-semibold text-md py-2">
+                          <label className="font-semibold text-md py-2">
                             House/ Flat No.
                           </label>
                           <div className="">
@@ -523,7 +523,7 @@ export default function Tabs(props) {
 
                             <p>
                               Current Location :{" "}
-                              {`${values.city}`}
+                              {values.city ? values.city : ""}
                             </p>
 
                             {/* <Field
@@ -545,9 +545,9 @@ export default function Tabs(props) {
                                 className="border-[0.5px] rounded-lg w-full border-gray-400 focus:outline-0 focus:border-0 px-2 py-2"
                                 style={{ borderRadius: "3px" }}
                               />
-                              <Combobox.Options className="absolute z-100 bg-white">
+                              <Combobox.Options className="absolute z-100 bg-white rounded-lg shadow-md">
                                 {Addquery.length > 0 && (
-                                  <Combobox.Option value={`${Addquery}`}>
+                                  <Combobox.Option className="p-2" value={`${Addquery}`}>
                                     Create "{Addquery}"
                                   </Combobox.Option>
                                 )}
@@ -558,9 +558,17 @@ export default function Tabs(props) {
                                       .replace("ò", "o")
                                       .replace("à", "a")},`}
                                   >
-                                    {city.name.replace("ā", "a")
+                                    {({ active, selected }) => (
+                                      <li
+                                        className={`${active ? 'bg-blue-500 text-white p-2' : 'bg-white text-black p-2'
+                                          }`}
+                                      >
+                                         {city.name.replace("ā", "a")
                                       .replace("ò", "o")
                                       .replace("à", "a")}
+                                      </li>
+                                    )}
+                                   
                                   </Combobox.Option>
                                 ))}
                               </Combobox.Options>

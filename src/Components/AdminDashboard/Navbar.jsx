@@ -34,8 +34,8 @@ const Navbar = (props) => {
       let access_token1 = await localStorage.getItem("access_token");
       let user = JSON.parse(await localStorage.getItem("user"));
       await setUser(user);
-      let user1 = await getProfileImage({ id: user._id }, user.access_token);
-      console.log(user1.data);
+      // let user1 = await getProfileImage({ id: user._id }, user.access_token);
+      // console.log(user1.data);
       if (access_token1 === "null")
         await localStorage.setItem("access_token", user.access_token);
       if (user && user.profileImg) {

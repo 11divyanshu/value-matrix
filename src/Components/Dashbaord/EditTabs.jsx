@@ -39,7 +39,8 @@ import {
   getDBCompanyList,
   getDBSchoolList,
   uploadCandidateResume,
-  getCountryList
+  getCountryList,
+  languagesList
 } from "../../service/api";
 import ReactCropper from "../../Pages/UserDashboard/ReactCrop";
 import Loader from "../../assets/images/loader.gif";
@@ -57,6 +58,7 @@ export default function Tabs(props) {
   // States for the Page
   const [user, setUser] = React.useState(null);
   const [access_token, setToken] = React.useState(null);
+  const [language, setLanguage] = React.useState([]);
 
   const [skillsPrimary, setSkillsPrimary] = React.useState([]);
   const [rolesC, setCRoles] = React.useState({});
@@ -114,8 +116,12 @@ export default function Tabs(props) {
     const initial = async () => {
       let res = await getDBCompanyList();
       setCompanyList(res.data);
+      setExCompanyList(res.data);
+      console.log(excompanyList);
 
-
+      let languages = await languagesList();
+      console.log(languages);
+      setLanguage(languages.data);
 
       let country = await getCountryList();
       console.log(country);
@@ -136,6 +142,21 @@ export default function Tabs(props) {
           company.name.toLowerCase().includes(companyQuery.toLowerCase())
         )
         .slice(0, 10);
+
+
+  const [excompanyList, setExCompanyList] = React.useState([]);
+  const [selectedExCompany, setSelectedExCompany] = React.useState(null);
+  const [companyExQuery, setExCompanyQuery] = React.useState("");
+  const filteredExCompany =
+    companyExQuery === ""
+      ? excompanyList.slice(0, 10)
+      : excompanyList
+        .filter((company) =>
+          company.name.toLowerCase().includes(companyExQuery.toLowerCase())
+        )
+        .slice(0, 10);
+
+  // console.log(filteredExCompany)
 
 
   React.useEffect(() => {
@@ -253,13 +274,26 @@ export default function Tabs(props) {
   const [disabled, setDisabled] = React.useState(true);
 
   const inputRef = React.useRef(null);
-  
-  const [ file, setFile ] = useState(null)
-  const [ fileName, setFileName ] = useState(null)
+
+  const [file, setFile] = useState(null)
+  const [fileName, setFileName] = useState(null)
+
+  //Langugage skills
+  const [languageSkills, setLanguageSkills] = React.useState([]);
+  const [showLsForm, setShowLsForm] = React.useState(false);
+  const [lsinitialValues, setLsInitialValues] = React.useState({
+    name: null,
+    read: null,
+    write: null,
+    speak: null,
+
+  });
+  const [lserror, setLsFormError] = React.useState(false);
+
 
   const handleChange = async (e) => {
-     setLoading(true);
-     setError(null);
+    setLoading(true);
+    setError(null);
     if (e.target && e.target.files) {
       let user = JSON.parse(await localStorage.getItem("user"));
       let access_token = await localStorage.getItem("access_token");
@@ -339,6 +373,14 @@ export default function Tabs(props) {
       if (as === null) {
         setAssociateDetail([]);
       }
+      let ls = e.language;
+      console.log(ls);
+      if (ls !== "null" || ls !== null) {
+        setLanguageSkills(ls);
+      }
+      if (ls === null) {
+        setLanguageSkills([]);
+      }
 
       let et = e.tools;
       console.log(ex);
@@ -411,28 +453,10 @@ export default function Tabs(props) {
         button: "Continue",
       });
     }
-    // else {
-    //   swal({
-    //     icon: "error",
-    //     title: "EditProfile",
-    //     text: "Something Went Wrong",
-    //     button: "Continue",
-    //   });
-    // }
+
   };
 
-  // const convertToBase64 = (file) => {
-  //   return new Promise((resolve, reject) => {
-  //     const fileReader = new FileReader();
-  //     fileReader.readAsDataURL(file);
-  //     fileReader.onload = () => {
-  //       resolve(fileReader.result);
-  //     };
-  //     fileReader.onerror = (error) => {
-  //       reject(error);
-  //     };
-  //   });
-  // };
+
 
   const updateExperience = async (values) => {
     if (!exerror) {
@@ -484,14 +508,50 @@ export default function Tabs(props) {
         button: "Continue",
       });
     }
-    // else {
-    //   swal({
-    //     icon: "error",
-    //     title: "EditProfile",
-    //     text: "Something Went Wrong",
-    //     button: "Continue",
-    //   });
-    // }
+
+  };
+  const updateLanguage = async (values) => {
+    console.log(values);
+    if (!lserror) {
+      let e = JSON.parse(await localStorage.getItem("user"));
+      if (edit !== null) {
+
+        const temp = [...languageSkills];
+        temp[edit] = { ...values };
+        await setLanguageSkills(temp);
+        e.language = temp;
+        setUser(e);
+        console.log(e);
+        await localStorage.setItem("user", JSON.stringify(e));
+        await setEdit(null);
+        resetBtn.current.click();
+        return;
+      }
+
+
+      let temp = languageSkills;
+      temp = languageSkills ? [...languageSkills, { ...values }] : [{ ...values }];
+      await setLanguageSkills(temp);
+
+      e.language = temp;
+      console.log(e)
+      setUser(e);
+      await localStorage.setItem("user", JSON.stringify(e));
+      await setLsInitialValues({
+        name: null,
+        read: null,
+        write: null,
+        speak: null,
+      });
+      resetBtn.current.click();
+      swal({
+        icon: "success",
+        title: "EditProfile",
+        text: "Details Saved",
+        button: "Continue",
+      });
+    }
+
   };
 
   const updateAssociation = async (values) => {
@@ -576,7 +636,8 @@ export default function Tabs(props) {
       }
       let city = selectedAddCity;
       if (selectedAddCity.name) {
-        city = selectedAddCity.name}
+        city = selectedAddCity.name
+      }
       let user = JSON.parse(localStorage.getItem("user"));
       user.username = values.username;
       user.firstName = values.firstName;
@@ -781,7 +842,7 @@ export default function Tabs(props) {
     if (ContactOTP) {
       data.contact = ed.contact;
     }
-console.log(data);
+    console.log(data);
     let res = await updateUserDetails(
       { user_id: user._id, updates: data },
       { access_token: access_token }
@@ -809,7 +870,7 @@ console.log(data);
       title: "EditProfile",
       text: "Details Updated Succesfully",
       button: "Continue",
-    }).then(()=>{
+    }).then(() => {
       // window.location.href = "/user/profile";
 
     })
@@ -1069,13 +1130,13 @@ console.log(data);
                             City
                           </label>
                           <div className="">
-                         
-                                      <p>
-                                        Current Location :{" "}
-                                        {values.city ? `${values.city}`:""}
-                                      </p>
-                                    
-                                    {/* <Field
+
+                            <p>
+                              Current Location :{" "}
+                              {values.city ? `${values.city}` : ""}
+                            </p>
+
+                            {/* <Field
                                       name="location"
                                       type="text"
                                       placeholder="Ex. London"
@@ -1083,38 +1144,46 @@ console.log(data);
                                       style={{ borderRadius: "4px" }}
                                       value={values.location}
                                     /> */}
-                                    <Combobox
-                                      value={selectedAddCity}
-                                      onChange={setSelectedAddCity}
-                                    >
-                                      <Combobox.Input
-                                        onChange={(event) =>
-                                          setAddQuery(event.target.value)
-                                        }
-                                        className="border-[0.5px] rounded-lg w-full border-gray-400 focus:outline-0 focus:border-0 px-4 py-2"
-                                        style={{ borderRadius: "5px" }}
-                                      />
-                                      <Combobox.Options className="absolute z-100 bg-white">
-                                        {Addquery.length > 0 && (
-                                          <Combobox.Option value={`${Addquery}`}>
-                                            Create "{Addquery}"
-                                          </Combobox.Option>
-                                        )}
-                                        {filteredAddCity.map((city) => (
-                                          <Combobox.Option
-                                            key={city.name}
-                                            value={`${city.name.replace("ā", "a")
-                                              .replace("ò", "o")
-                                              .replace("à", "a")},`}
-                                          >
-                                            {city.name.replace("ā", "a")
-                                              .replace("ò", "o")
-                                              .replace("à", "a")}
-                                          </Combobox.Option>
-                                        ))}
-                                      </Combobox.Options>
-                                    </Combobox>
-                                  
+                            <Combobox
+                              value={selectedAddCity}
+                              onChange={setSelectedAddCity}
+                            >
+                              <Combobox.Input
+                                onChange={(event) =>
+                                  setAddQuery(event.target.value)
+                                }
+                                className="border-[0.5px] rounded-lg w-full  border-gray-400 focus:outline-0 focus:border-0 px-4 py-2"
+                                style={{ borderRadius: "5px" }}
+                              />
+                              <Combobox.Options className="absolute z-100 bg-white rounded-lg shadow-md">
+                                {Addquery.length > 0 && (
+                                  <Combobox.Option className="p-2" value={`${Addquery}`}>
+                                    Create "{Addquery}"
+                                  </Combobox.Option>
+                                )}
+                                {filteredAddCity.map((city) => (
+                                  <Combobox.Option
+                                    key={city.name}
+                                    value={`${city.name.replace("ā", "a")
+                                      .replace("ò", "o")
+                                      .replace("à", "a")},`}
+                                  >
+                                    {({ active, selected }) => (
+                                      <li
+                                        className={`${active ? 'bg-blue-500 text-white p-2' : 'bg-white text-black p-2'
+                                          }`}
+                                      >
+                                        {city.name.replace("ā", "a")
+                                          .replace("ò", "o")
+                                          .replace("à", "a")}
+                                      </li>
+                                    )}
+
+                                  </Combobox.Option>
+                                ))}
+                              </Combobox.Options>
+                            </Combobox>
+
                             <ErrorMessage
                               name="city"
                               component="div"
@@ -1160,23 +1229,23 @@ console.log(data);
                             Country
                           </label>
                           <div className="">
-                          <Field
-                        component="select"
-                        id="country"
-                        name="country"
-                        className="block border-gray-400 py-1 w-full "
-                        value={values.country}
-                        multiple={false}
-                      >
-                        {country &&
-                          country.map((item) => {
-                            return (
-                              <option value={item.name}>{item.name}</option>
-                            );
-                          })}
-                      </Field>
-                      
-                      </div>
+                            <Field
+                              component="select"
+                              id="country"
+                              name="country"
+                              className="block border-gray-400 py-1 w-full "
+                              value={values.country}
+                              multiple={false}
+                            >
+                              {country &&
+                                country.map((item) => {
+                                  return (
+                                    <option value={item.name}>{item.name}</option>
+                                  );
+                                })}
+                            </Field>
+
+                          </div>
                         </div>
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 mx-1 md:mx-0  align-middle">
@@ -1345,7 +1414,7 @@ console.log(data);
                       setShowEduForm(true);
                     }}
                   /> */}
-                
+
                 </div>
                 <p className="font-semibold text-md md:w-2/5 ">{item.school}</p>
                 <div className="grid grid-cols-1 md:gap-2 gap-0 lg:grid-cols-4 align-items-right">
@@ -1378,20 +1447,20 @@ console.log(data);
                       Edit
                     </button>
                     <div className="text-xl mx-5 px-7 py-2">
-                    <AiOutlineDelete
-                    className="text-red-600 cursor-pointer"
-                    onClick={async () => {
-                      setEducationalDetail(
-                        educationalDetail.filter((item, i) => i !== index)
-                      );
-                      let res = JSON.parse(await localStorage.getItem("user"));
-                      res.education = educationalDetail.filter(
-                        (item, i) => i !== index
-                      );
-                      setUser(res);
-                      localStorage.setItem("user", JSON.stringify(res));
-                    }}
-                  /></div>
+                      <AiOutlineDelete
+                        className="text-red-600 cursor-pointer"
+                        onClick={async () => {
+                          setEducationalDetail(
+                            educationalDetail.filter((item, i) => i !== index)
+                          );
+                          let res = JSON.parse(await localStorage.getItem("user"));
+                          res.education = educationalDetail.filter(
+                            (item, i) => i !== index
+                          );
+                          setUser(res);
+                          localStorage.setItem("user", JSON.stringify(res));
+                        }}
+                      /></div>
                   </div>
                 </div>
               </div>
@@ -1564,11 +1633,11 @@ console.log(data);
                                         className="border-[0.5px] rounded-lg border-gray-400 focus:outline-0 focus:border-0 px-4 py-2 w-full"
                                         style={{ borderRadius: "5px" }}
                                       />
-                                      <Combobox.Options className="absolute z-100 bg-white">
+                                      <Combobox.Options className="absolute z-100 bg-white rounded-lg shadow-md">
                                         {schoolQuery.length > 0 && (
                                           <Combobox.Option
                                             value={`${schoolQuery}`}
-                                            className="cursor-pointer"
+                                            className="cursor-pointer p-2"
                                           >
                                             Create "{schoolQuery}"
                                           </Combobox.Option>
@@ -1579,7 +1648,15 @@ console.log(data);
                                             value={`${school.name}`}
                                             className="cursor-pointer"
                                           >
-                                            {school.name}
+                                            {({ active, selected }) => (
+                                              <li
+                                                className={`${active ? 'bg-blue-500 text-white p-2' : 'bg-white text-black p-2'
+                                                  }`}
+                                              >
+
+
+                                                {school.name}
+                                              </li>)}
                                           </Combobox.Option>
                                         ))}
                                       </Combobox.Options>
@@ -1867,23 +1944,23 @@ console.log(data);
                       </button>
                       <div className="text-xl mx-5 px-7 py-2">
 
-                      <AiOutlineDelete
-                      className="text-red-600 cursor-pointer"
-                      onClick={async () => {
-                        setExperienceDetail(
-                          experienceDetail.filter((item, i) => i !== index)
-                        );
-                        let res = JSON.parse(
-                          await localStorage.getItem("user")
-                        );
-                        res.experience = experienceDetail.filter(
-                          (item, i) => i !== index
-                        );
-                        setUser(res);
-                        localStorage.setItem("user", JSON.stringify(res));
-                      }}
-                    />
-                    </div>
+                        <AiOutlineDelete
+                          className="text-red-600 cursor-pointer"
+                          onClick={async () => {
+                            setExperienceDetail(
+                              experienceDetail.filter((item, i) => i !== index)
+                            );
+                            let res = JSON.parse(
+                              await localStorage.getItem("user")
+                            );
+                            res.experience = experienceDetail.filter(
+                              (item, i) => i !== index
+                            );
+                            setUser(res);
+                            localStorage.setItem("user", JSON.stringify(res));
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
                   {item.description && (
@@ -2107,32 +2184,38 @@ console.log(data);
                                       <p>Current Company : {values.company_name}</p>
                                     )}
                                     <Combobox
-                                      value={selectedCompany}
-                                      onChange={setSelectedCompany}
+                                      value={selectedExCompany}
+                                      onChange={setSelectedExCompany}
                                     >
                                       <Combobox.Input
                                         onChange={(event) =>
-                                          setCompanyQuery(event.target.value)
+                                          setExCompanyQuery(event.target.value)
                                         }
                                         className="border-[0.5px] rounded-lg border-gray-400 focus:outline-0 focus:border-0 px-4 py-2 w-full"
                                         style={{ borderRadius: "5px" }}
                                       />
-                                      <Combobox.Options className="absolute z-100 bg-white">
-                                        {companyQuery.length > 0 && (
+                                      <Combobox.Options className="absolute z-100 bg-white rounded-lg shadow-md">
+                                        {companyExQuery.length > 0 && (
                                           <Combobox.Option
-                                            value={`${companyQuery}`}
-                                            className="cursor-pointer"
+                                            value={`${companyExQuery}`}
+                                            className="cursor-pointer p-2"
                                           >
-                                            Create "{companyQuery}"
+                                            Create "{companyExQuery}"
                                           </Combobox.Option>
                                         )}
-                                        {filteredCompany.map((company) => (
+                                        {filteredExCompany.map((company) => (
                                           <Combobox.Option
                                             key={company.name}
                                             value={`${company.name}`}
                                             className="cursor-pointer"
-                                          >
-                                            {company.name}
+                                          >  {({ active, selected }) => (
+                                            <li
+                                              className={`${active ? 'bg-blue-500 text-white p-2' : 'bg-white text-black p-2'
+                                                }`}
+                                            >
+                                              {company.name}
+                                            </li>
+                                          )}
                                           </Combobox.Option>
                                         ))}
                                       </Combobox.Options>
@@ -2174,9 +2257,9 @@ console.log(data);
                                         className="border-[0.5px] rounded-lg w-full border-gray-400 focus:outline-0 focus:border-0 px-4 py-2"
                                         style={{ borderRadius: "5px" }}
                                       />
-                                      <Combobox.Options className="absolute z-100 bg-white">
+                                      <Combobox.Options className="absolute z-100 bg-white rounded-lg shadow-md">
                                         {query.length > 0 && (
-                                          <Combobox.Option value={`${query}`}>
+                                          <Combobox.Option className="p-2" value={`${query}`}>
                                             Create "{query}"
                                           </Combobox.Option>
                                         )}
@@ -2187,9 +2270,16 @@ console.log(data);
                                               .replace("ò", "o")
                                               .replace("à", "a")}, ${city.country}`}
                                           >
-                                            {city.name.replace("ā", "a")
-                                              .replace("ò", "o")
-                                              .replace("à", "a")}, {city.country}
+                                            {({ active, selected }) => (
+                                              <li
+                                                className={`${active ? 'bg-blue-500 text-white p-2' : 'bg-white text-black p-2'
+                                                  }`}
+                                              >
+                                                {city.name.replace("ā", "a")
+                                                  .replace("ò", "o")
+                                                  .replace("à", "a")}, {city.country}
+                                              </li>
+                                            )}
                                           </Combobox.Option>
                                         ))}
                                       </Combobox.Options>
@@ -2424,23 +2514,23 @@ console.log(data);
                       </button>
                       <div className="text-xl mx-5 px-7 py-2">
 
-                      <AiOutlineDelete
-                      className="text-red-600 cursor-pointer"
-                      onClick={async () => {
-                        setAssociateDetail(
-                          associateDetail.filter((item, i) => i !== index)
-                        );
-                        let res = JSON.parse(
-                          await localStorage.getItem("user")
-                        );
-                        res.associate = associateDetail.filter(
-                          (item, i) => i !== index
-                        );
-                        setUser(res);
-                        localStorage.setItem("user", JSON.stringify(res));
-                      }}
-                    />
-                    </div>
+                        <AiOutlineDelete
+                          className="text-red-600 cursor-pointer"
+                          onClick={async () => {
+                            setAssociateDetail(
+                              associateDetail.filter((item, i) => i !== index)
+                            );
+                            let res = JSON.parse(
+                              await localStorage.getItem("user")
+                            );
+                            res.associate = associateDetail.filter(
+                              (item, i) => i !== index
+                            );
+                            setUser(res);
+                            localStorage.setItem("user", JSON.stringify(res));
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
                   {item.description && (
@@ -2523,16 +2613,9 @@ console.log(data);
                     leaveTo="opacity-0 scale-95"
                   >
                     <Dialog.Panel className="w-full  px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all max-w-4xl mx-auto">
-                      {/* <Dialog.Title
-                        as="h3"
-                        className="text-2xl font-bold leading-6 text-gray-900"
-                      >
-                        Complete Your Details
-                      </Dialog.Title> */}
+
                       <div className={`${!showAsForm ? "hidden" : "block"}`}>
-                        {/* <p className="text-md font-semibold md:w-1/2  flex w-full  space-y-1 my-5">
-                          Add Association
-                        </p> */}
+
                         <Formik
                           initialValues={asinitialValues}
                           validate={(values) => {
@@ -2628,11 +2711,11 @@ console.log(data);
                                         className="border-[0.5px] rounded-lg border-gray-400 focus:outline-0 focus:border-0 px-4 py-2 w-full"
                                         style={{ borderRadius: "5px" }}
                                       />
-                                      <Combobox.Options className="absolute z-100 bg-white">
+                                      <Combobox.Options className="absolute z-100 bg-white rounded-lg shadow-md overflow-y-auto" style={{ borderRadius: "5px", overflowY: "auto" }}>
                                         {companyQuery.length > 0 && (
                                           <Combobox.Option
                                             value={`${companyQuery}`}
-                                            className="cursor-pointer"
+                                            className="cursor-pointer p-2"
                                           >
                                             Create "{companyQuery}"
                                           </Combobox.Option>
@@ -2641,9 +2724,16 @@ console.log(data);
                                           <Combobox.Option
                                             key={company.name}
                                             value={`${company.name}`}
-                                            className="cursor-pointer"
+                                            className="cursor-pointer "
                                           >
-                                            {company.name}
+                                            {({ active, selected }) => (
+                                              <li
+                                                className={`${active ? 'bg-blue-500 text-white p-2' : 'bg-white text-black p-2'
+                                                  }`}
+                                              >
+                                                {company.name}
+                                              </li>
+                                            )}
                                           </Combobox.Option>
                                         ))}
                                       </Combobox.Options>
@@ -2685,9 +2775,9 @@ console.log(data);
                                         className="border-[0.5px] rounded-lg border-gray-400 focus:outline-0 w-full focus:border-0 px-4 py-2"
                                         style={{ borderRadius: "5px" }}
                                       />
-                                      <Combobox.Options className="absolute bg-white">
+                                      <Combobox.Options className="absolute bg-white rounded-lg shadow-md">
                                         {query.length > 0 && (
-                                          <Combobox.Option value={`${query}`}>
+                                          <Combobox.Option className="p-2" value={`${query}`}>
                                             Create "{query}"
                                           </Combobox.Option>
                                         )}
@@ -2698,9 +2788,14 @@ console.log(data);
                                               .replace("ò", "o")
                                               .replace("à", "a")}, ${city.country}`}
                                           >
-                                            {city.name.replace("ā", "a")
-                                              .replace("ò", "o")
-                                              .replace("à", "a")}, {city.country}
+                                            {({ active, selected }) => (
+                                              <li
+                                                className={`${active ? 'bg-blue-500 text-white p-2' : 'bg-white text-black p-2'
+                                                  }`}
+                                              >
+                                                {city.name.replace("ā", "a")
+                                                  .replace("ò", "o")
+                                                  .replace("à", "a")}, {city.country}</li>)}
                                           </Combobox.Option>
                                         ))}
                                       </Combobox.Options>
@@ -3138,38 +3233,345 @@ console.log(data);
           </div>
         )}
 
+        <div>
+          <label className="font-semibold text-lg w-2/5 mx-2">Language Skills</label>
+          <div className="my-3 px-4 flex items-center flex-wrap">
+            {showLsForm && (
+              <Transition
+                appear
+                show={showLsForm}
+                as={Fragment}
+                className="relative z-10000"
+                style={{ zIndex: 1000 }}
+              >
+                <Dialog
+                  as="div"
+                  className="relative z-10000"
+                  onClose={() => { }}
+                  static={true}
+                >
+                  <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                  >
+                    <div className="fixed inset-0 bg-black bg-opacity-25" />
+                  </Transition.Child>
+
+                  <div className="fixed inset-0 overflow-y-auto">
+                    <div className="flex min-h-full items-center justify-center p-4 text-center">
+                      <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0 scale-95"
+                        enterTo="opacity-100 scale-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100 scale-100"
+                        leaveTo="opacity-0 scale-95"
+                      >
+                        <Dialog.Panel className="w-full  px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all max-w-4xl mx-auto">
+
+                          <div className={`${!showLsForm ? "hidden" : "block"}`}>
+
+                            <Formik
+                              initialValues={lsinitialValues}
+                              validate={(values) => {
+                                if (showLsForm === false) return {};
+                                const errors = {};
+                                if (!values.name) {
+                                  errors.name = "Required";
+                                }
+
+                                // if (values.read === null) {
+                                //   errors.read = "Required !";
+                                // }
+                                // if (values.write === null) {
+                                //   errors.write = "Required !";
+                                // }
+                                // if (values.speak === null) {
+                                //   errors.speak = "Required !";
+                                // }
+
+                                // if (
+                                //   errors.name ||
+                                //   errors.read ||
+                                //   errors.write ||
+                                //   errors.speak 
+                                // ) {
+                                //   setLsFormError(true);
+                                // } else {
+                                //   setLsFormError(false);
+                                // }
+                                return errors;
+                              }}
+                            >
+                              {({ values }) => {
+                                return (
+                                  <Form className="w-full py-4">
+
+                                    <div className="md:w-1/2  md:flex w-full  space-y-1 my-5">
+                                      <label className="font-semibold text-lg w-2/5 mx-2">
+                                        Name{" "}
+                                      </label>
+                                      <div className="w-full md:w-4/5">
+                                        <Field
+                                          component="select"
+                                          id="name"
+                                          name="name"
+                                          className="block border-gray-400 py-1 w-full "
+                                          value={values.name}
+                                          multiple={false}
+                                        >
+                                          {language &&
+                                            language.map((item) => {
+                                              return (
+                                                <option value={item.name}>{item.name}</option>
+                                              );
+                                            })}
+                                        </Field>
+                                        <ErrorMessage
+                                          name="name"
+                                          component="div"
+                                          className="text-sm text-red-600"
+                                        />
+                                      </div>
+                                    </div>
+                                    <div className="flex">
+                                      <div className="mx-3 my-4">
+                                        <Field
+                                          type="checkbox"
+                                          name="read"
+                                          className="my-1 "
+                                          onClick={() => {
+                                            // let temp = permissions;
+                                            // temp[index].value = !temp[index].value;
+                                            // setPermissions(temp);
+                                          }}
+                                        />
+                                        <label
+                                          htmlFor="permissions"
+                                          className="text-gray-700 mx-3 font-bold"
+                                        >
+                                          Read
+                                        </label>
+                                      </div>
+                                      <div className="mx-3 my-4">
+                                        <Field
+                                          type="checkbox"
+                                          name="write"
+                                          className="my-1 "
+                                          onClick={() => {
+                                            // let temp = permissions;
+                                            // temp[index].value = !temp[index].value;
+                                            // setPermissions(temp);
+                                          }}
+                                        />
+                                        <label
+                                          htmlFor="permissions"
+                                          className="text-gray-700 mx-3 font-bold"
+                                        >
+                                          Write
+                                        </label>
+                                      </div>
+                                      <div className="mx-3 my-4">
+                                        <Field
+                                          type="checkbox"
+                                          name="speak"
+                                          className="my-1 "
+                                          onClick={() => {
+                                            // let temp = permissions;
+                                            // temp[index].value = !temp[index].value;
+                                            // setPermissions(temp);
+                                          }}
+                                        />
+                                        <label
+                                          htmlFor="permissions"
+                                          className="text-gray-700 mx-3 font-bold"
+                                        >
+                                          Speak
+                                        </label>
+                                      </div>
+                                    </div>
+                                    <div className="flex px-5 w-full justify-center text-center">
+                                      <button
+                                        onClick={() => {
+
+                                          updateLanguage(values);
+                                          setShowLsForm(false);
+
+                                        }}
+                                        className=" bg-blue-600  text-white rounded-lg block cursor-pointer py-2 px-8 align-middle"
+                                        style={{ backgroundColor: "#034488" }}
+                                      >
+                                        {edit === null ? "Save Changes " : "Update"}
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className=" border-[0.5px] mx-3 border-gray-700 py-2 text-gray-700 rounded-lg block cursor-pointer px-8"
+                                        ref={resetBtn}
+                                        onClick={async () => {
+                                          await setEdit(null);
+                                          await setShowError(false);
+                                          await setShowLsForm(false);
+                                        }}
+                                      >
+                                        Cancel
+                                      </button>
+                                    </div>
+                                  </Form>)
+                              }}
+                            </Formik>
+                          </div>
+                        </Dialog.Panel>
+                      </Transition.Child>
+                    </div>
+                  </div>
+                </Dialog>
+              </Transition>)}
+
+          </div>
+          <div className=" mx-auto justify-center text-center">
+            <div>
+              {user && languageSkills &&
+                languageSkills.map((item, index) => {
+                  return (
+                    <div
+                      className=" rounded-md py-2 px-4 bg-white border border-gray-400 my-5 h-35"
+                      key={index}
+                    >
+                      <div className="flex justify-end space-x-3 items-center">
+                        {/* <RiEditBoxLine
+                      className="cursor-pointer"
+                      onClick={() => {
+                        setEdit(index);
+                        setExInitialValues(item);
+                        setShowExForm(true);
+                      }}
+                    />
+                  */}
+                      </div>
+                      <div className="font-semibold flex space-x-2 items-center">
+                        <p>{item.name}</p> <p className="font-normal text-sm">|</p>{" "}
+                        {/* <p className="font-normal text-sm">
+                      {item.employment_type}
+                    </p>{" "} */}
+                      </div>
+                      <div className="grid grid-cols-1 md:gap-2 gap-0 lg:grid-cols-4 align-items-right">
+                        <div className="space-x-2 my-2 flex items-center ">
+                          <FaRegBuilding />
+                          <p>{item.read}</p>
+                        </div>
+                        <div className="space-x-2 my-2 flex items-center">
+                          <CgWorkAlt />
+                          <p>{item.speak}</p>
+                        </div>
+                        <div className="flex items-center space-x-2 my-2">
+                          <BsCalendar />
+                          <p className="text-sm text-gray-600 mr-5">
+                            {item.write}
+                          </p>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <button
+                            class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
+                            style={{ backgroundColor: "#034488" }}
+                            onClick={() => {
+                              setEdit(index);
+                              setLsInitialValues(item);
+                              setShowLsForm(true);
+                            }}
+                          >
+                            Edit
+                          </button>
+                          <div className="text-xl mx-5 px-7 py-2">
+
+                            <AiOutlineDelete
+                              className="text-red-600 cursor-pointer"
+                              onClick={async () => {
+                                setLanguageSkills(
+                                  languageSkills.filter((item, i) => i !== index)
+                                );
+                                let res = JSON.parse(
+                                  await localStorage.getItem("user")
+                                );
+                                res.experience = languageSkills.filter(
+                                  (item, i) => i !== index
+                                );
+                                setUser(res);
+                                localStorage.setItem("user", JSON.stringify(res));
+                              }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      {item.description && (
+                        <div className="py-2">{item.description}</div>
+                      )}
+                    </div>
+                  );
+                })}
+            </div>
+            <button
+              className="py-2  text-white rounded-lg block cursor-pointer px-8 my-5"
+              style={{ backgroundColor: "#034488" }}
+              onClick={async () => {
+                await setShowError(true);
+
+                await setEdit(null);
+                await setLsInitialValues({
+                  name: null,
+                  read: null,
+                  write: null,
+                  speak: null,
+                });
+                setShowLsForm(true);
+                // await setShowLsForm(true);
+              }}
+            >
+              Add Language Skills
+            </button>
+
+
+          </div>
+        </div>
+
         {/* <div className="md:w-1/2  flex w-full  space-y-1 my-5">
           <label className="font-semibold text-lg w-2/5 my-4">Resume</label>
          <input type="file" value={user.resume} />
         </div> */}
         <p className="font-bold text-lg">Resume</p>
-      {fileName && <p className="my-3">{fileName}</p>}
-      {error && <p className="text-red-500 my-3">{error}</p>}
-      <div className="my-5">
-        {loading ? (
-          <button className="py-1 px-3 bg-blue-500 rounded-md">
-            <img src={Loader} className="h-7" alt="loader" />
-          </button>
-        ) : (
-          <label
-            for="resume"
-            className="py-2 px-3 cursor-pointer bg-blue-500 rounded-md text-white"
-            style={{backgroundColor:"#034488"}}
-          >
-            {" "}
-            Upload Resume{" "}
-          </label>
-        )}
-        <input
-          type="file"
-          name="resume"
-          className="hidden"
-          id="resume"
-          accept="application/pdf, application/msword"
-          onChange={handleChange}
-        />
-      </div>
-    
+        {fileName && <p className="my-3">{fileName}</p>}
+        {error && <p className="text-red-500 my-3">{error}</p>}
+        <div className="my-5">
+          {loading ? (
+            <button className="py-1 px-3 bg-blue-500 rounded-md">
+              <img src={Loader} className="h-7" alt="loader" />
+            </button>
+          ) : (
+            <label
+              for="resume"
+              className="py-2 px-3 cursor-pointer bg-blue-500 rounded-md text-white"
+              style={{ backgroundColor: "#034488" }}
+            >
+              {" "}
+              Upload Resume{" "}
+            </label>
+          )}
+          <input
+            type="file"
+            name="resume"
+            className="hidden"
+            id="resume"
+            accept="application/pdf, application/msword"
+            onChange={handleChange}
+          />
+        </div>
+
 
         <button
           className="bg-blue-500 px-4 mx-2 py-1 text-white rounded-sm my-5"

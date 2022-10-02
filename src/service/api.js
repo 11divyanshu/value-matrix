@@ -735,9 +735,37 @@ export const deleteCandidate = async (id , company , isDeleted) => {
   }
 }
 export const eligibleJobsForCandidate = async (data) => {
-  // console.log(data);
+  console.log(data);
   try {
     return await axios.get(`${url}/eligibleJobsForCandidate?email=${data}`
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
+// unapproved jobs
+export const unapprovedJobsList = async () => {
+  try {
+    return await axios.get(`${url}/unapprovedJobsList`
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
+export const languagesList = async () => {
+  try {
+    return await axios.get(`${url}/languagesList`
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
+export const approveJob = async (data) => {
+  try {
+    return await axios.post(`${url}/approveJob`,data
     );
 
   } catch (err) {

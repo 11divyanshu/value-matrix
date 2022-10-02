@@ -54,6 +54,7 @@ import CandiadateDetail from "./Pages/AdminDashboard/CandidateDetail";
 import AddCompanyUser from "./Pages/CompanyDashboard/AddCompanyUser";
 import CandidateList from "./Pages/CompanyDashboard/CandidateList";
 import CandidateReport from "./Pages/CompanyDashboard/CandidateReport";
+import Jobvalidate from "./Pages/AdminDashboard/jobValidate";
 
 
 
@@ -151,13 +152,7 @@ export const adminDashboardRoutes = [
     hide: true,
     permission: "default",
   },
-  {
-    name: "Group",
-    icon: <MdGroups className="text-xl" />,
-    path: "/",
-    hide: false,
-    permission: "default",
-  },
+
   {
     name: "Profile",
     icon: <RiFileUserFill className="text-xl" />,
@@ -240,37 +235,51 @@ export const adminDashboardRoutes = [
     permission: "list_candidates",
   },
   {
-    name: "Add Skills",
-    path: "/addSkills",
-    hide: false,
-    component: <AddSkills />,
-    icon: <FaToolbox className="text-xl" />,
-    permission: "add_skills",
+    name: "Candidate Details",
+    path: "/candidate",
+    hide: true,
+    component: <CandiadateDetail />,
+    permission: "list_candidates",
   },
   {
-    name: "Add Admin User",
-    path: "/addAdminUser",
-    hide: false,
-    icon: <FaUserFriends className="text-xl" />,
-    component: <AddAdminUser />,
-    permission: "add_users",
+    name: "Job Details",
+    path: "/jobvalidate",
+    hide: true,
+    component: <Jobvalidate />,
+    permission: "default",
   },
-  {
-    name: "Add Questions",
-    path: "/addQuestions",
-    hide:false,
-    icon : <BsQuestionCircleFill className="text-xl" />,
-    permission:"default",
-    component : <AddQuestions/>
-  },
-  {
-    name:"Add Tax Id",
-    path: "/addtaxid",
-    hide:false,
-    icon : <BsQuestionCircleFill className="text-xl" />,
-    permission:"default",
-    component : <AddTaxId/>
-  }
+  // {
+  //   name: "Add Skills",
+  //   path: "/addSkills",
+  //   hide: false,
+  //   component: <AddSkills />,
+  //   icon: <FaToolbox className="text-xl" />,
+  //   permission: "add_skills",
+  // },
+  // {
+  //   name: "Add Admin User",
+  //   path: "/addAdminUser",
+  //   hide: false,
+  //   icon: <FaUserFriends className="text-xl" />,
+  //   component: <AddAdminUser />,
+  //   permission: "add_users",
+  // },
+  // {
+  //   name: "Add Questions",
+  //   path: "/addQuestions",
+  //   hide:false,
+  //   icon : <BsQuestionCircleFill className="text-xl" />,
+  //   permission:"default",
+  //   component : <AddQuestions/>
+  // },
+  // {
+  //   name:"Add Tax Id",
+  //   path: "/addtaxid",
+  //   hide:false,
+  //   icon : <BsQuestionCircleFill className="text-xl" />,
+  //   permission:"default",
+  //   component : <AddTaxId/>
+  // }
 ];
 
 // Company Dashboard Routes

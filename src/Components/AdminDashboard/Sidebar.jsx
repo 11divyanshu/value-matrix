@@ -1,4 +1,5 @@
-import { ProSidebar, SidebarContent, Menu, MenuItem } from "react-pro-sidebar";
+import { ProSidebar,  SubMenu,
+  SidebarContent, Menu, MenuItem } from "react-pro-sidebar";
 import "react-pro-sidebar/dist/css/styles.css";
 import { adminDashboardRoutes } from "../../routes";
 import { AiOutlineMenu, AiOutlineClose, AiOutlineHome ,AiOutlinePlus} from "react-icons/ai";
@@ -159,7 +160,35 @@ const Sidebar = () => {
                 )
             })}
 
+
           </Menu>
+          <Menu className=' font-semibold flex bg-white'  >
+          <SubMenu
+            suffix={<p className='text-sm font-semibold '>Validations</p>}
+            // title={intl.formatMessage({ id: 'withSuffix' })}
+            icon={<p className='text-xl mx-2'><AiOutlineMenu /></p>}
+           style={{backgroundColor:"#FFF", justifyContent:"space-around"}}
+          >
+            <MenuItem className='text-gray-700 font-semibold' active={window.location.pathname === `/admin/jobvalidate`}
+                    icon={<AiOutlineMenu/>}>Job Validation<Link to={`/admin/jobvalidate`}
+                     onClick={() => { setOpen(true);
+                      // handleToggle()
+                    }
+
+
+                    } /></MenuItem>
+            <MenuItem className='text-gray-700 font-semibold' active={window.location.pathname === `/admin/companyValidate`}
+                    icon={<AiOutlineMenu/>}>Company Validation<Link to={`/admin/companyValidate`}
+                     onClick={() => { setOpen(true);
+                      // handleToggle()
+                    }
+
+
+                    } /></MenuItem>
+            {/* <MenuItem> 3</MenuItem> */}
+          </SubMenu>
+          </Menu>
+
         </SidebarContent>
         <div className='mx-4 my-24'>
       <div className='flex m-2'><a href="/admin/profile" className='text-gray-700 mx-4 py-2 font-semibold'><FiSettings/> </a><a href="/admin/profile" className='text-gray-700  font-semibold py-1'>Settings</a></div>
