@@ -162,14 +162,13 @@ const Sidebar = () => {
 
 
           </Menu>
-          <Menu className=' font-semibold flex bg-white'  >
+          <Menu className=' font-semibold'  >
           <SubMenu
-            suffix={<p className='text-sm font-semibold '>Validations</p>}
-            // title={intl.formatMessage({ id: 'withSuffix' })}
-            icon={<p className='text-xl mx-2'><AiOutlineMenu /></p>}
-           style={{backgroundColor:"#FFF", justifyContent:"space-around"}}
+            // suffix={}
+            title={<p className='text-sm font-semibold '>Validations</p>}
+            icon={<p className='text-xl'><AiOutlineMenu /></p>}
           >
-            <MenuItem className='text-gray-700 font-semibold' active={window.location.pathname === `/admin/jobvalidate`}
+            <MenuItem className='text-gray-700 font-semibold py-1' active={window.location.pathname === `/admin/jobvalidate`}
                     icon={<AiOutlineMenu/>}>Job Validation<Link to={`/admin/jobvalidate`}
                      onClick={() => { setOpen(true);
                       // handleToggle()
@@ -177,7 +176,7 @@ const Sidebar = () => {
 
 
                     } /></MenuItem>
-            <MenuItem className='text-gray-700 font-semibold' active={window.location.pathname === `/admin/companyValidate`}
+            <MenuItem className='text-gray-700 font-semibold py-1' active={window.location.pathname === `/admin/companyValidate`}
                     icon={<AiOutlineMenu/>}>Company Validation<Link to={`/admin/companyValidate`}
                      onClick={() => { setOpen(true);
                       // handleToggle()

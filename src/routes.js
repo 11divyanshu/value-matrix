@@ -56,6 +56,7 @@ import CandidateList from "./Pages/CompanyDashboard/CandidateList";
 import CandidateReport from "./Pages/CompanyDashboard/CandidateReport";
 import Masking from "./Pages/CompanyDashboard/Masking";
 import Jobvalidate from "./Pages/AdminDashboard/jobValidate";
+import CompanyValidate from "./Pages/AdminDashboard/companyValidate";
 
 
 
@@ -249,38 +250,45 @@ export const adminDashboardRoutes = [
     component: <Jobvalidate />,
     permission: "default",
   },
-  // {
-  //   name: "Add Skills",
-  //   path: "/addSkills",
-  //   hide: false,
-  //   component: <AddSkills />,
-  //   icon: <FaToolbox className="text-xl" />,
-  //   permission: "add_skills",
-  // },
-  // {
-  //   name: "Add Admin User",
-  //   path: "/addAdminUser",
-  //   hide: false,
-  //   icon: <FaUserFriends className="text-xl" />,
-  //   component: <AddAdminUser />,
-  //   permission: "add_users",
-  // },
-  // {
-  //   name: "Add Questions",
-  //   path: "/addQuestions",
-  //   hide:false,
-  //   icon : <BsQuestionCircleFill className="text-xl" />,
-  //   permission:"default",
-  //   component : <AddQuestions/>
-  // },
-  // {
-  //   name:"Add Tax Id",
-  //   path: "/addtaxid",
-  //   hide:false,
-  //   icon : <BsQuestionCircleFill className="text-xl" />,
-  //   permission:"default",
-  //   component : <AddTaxId/>
-  // }
+  {
+    name: "Company Validation",
+    path: "/companyValidate",
+    hide: true,
+    component: <CompanyValidate />,
+    permission: "default",
+  },
+  {
+    name: "Add Skills",
+    path: "/addSkills",
+    hide: false,
+    component: <AddSkills />,
+    icon: <FaToolbox className="text-xl" />,
+    permission: "add_skills",
+  },
+  {
+    name: "Add Admin User",
+    path: "/addAdminUser",
+    hide: false,
+    icon: <FaUserFriends className="text-xl" />,
+    component: <AddAdminUser />,
+    permission: "add_users",
+  },
+  {
+    name: "Add Questions",
+    path: "/addQuestions",
+    hide:false,
+    icon : <BsQuestionCircleFill className="text-xl" />,
+    permission:"default",
+    component : <AddQuestions/>
+  },
+  {
+    name:"Add Tax Id",
+    path: "/addtaxid",
+    hide:false,
+    icon : <BsQuestionCircleFill className="text-xl" />,
+    permission:"default",
+    component : <AddTaxId/>
+  }
 ];
 
 // Company Dashboard Routes

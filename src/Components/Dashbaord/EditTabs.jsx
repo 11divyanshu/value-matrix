@@ -41,7 +41,8 @@ import {
   getDBSchoolList,
   uploadCandidateResume,
   getCountryList,
-  languagesList
+  languagesList,
+   checkCompany
 } from "../../service/api";
 import ReactCropper from "../../Pages/UserDashboard/ReactCrop";
 import Loader from "../../assets/images/loader.gif";
@@ -2201,6 +2202,10 @@ export default function Tabs(props) {
                                           <Combobox.Option
                                             value={`${companyExQuery}`}
                                             className="cursor-pointer p-2"
+                                            onClick={async()=>{
+                                              let res =await checkCompany({name:companyExQuery});
+
+                                            }}
                                           >
                                             Create "{companyExQuery}"
                                           </Combobox.Option>
@@ -2718,6 +2723,10 @@ export default function Tabs(props) {
                                           <Combobox.Option
                                             value={`${companyQuery}`}
                                             className="cursor-pointer p-2"
+                                            onClick={async()=>{
+                                              let res =await checkCompany({name:companyExQuery});
+                                              
+                                            }}
                                           >
                                             Create "{companyQuery}"
                                           </Combobox.Option>
@@ -3449,7 +3458,7 @@ export default function Tabs(props) {
                 languageSkills.map((item, index) => {
                   return (
                     <div
-                      className=" rounded-md py-2 px-4 bg-white border border-gray-400 my-10 h-35"
+                      className=" rounded-md py-2 px-4 bg-white border border-gray-400 my-4 h-35"
                       key={index}
                     >
                       <div className="flex justify-end space-x-3 items-center">
@@ -3465,26 +3474,26 @@ export default function Tabs(props) {
                       </div>
                       <div className="font-semibold flex space-x-2 items-center">
                         <p>{item.name}</p> <p className="font-normal text-sm">|</p>{" "}
-                        {/* <p className="font-normal text-sm">
-                      {item.employment_type}
-                    </p>{" "} */}
+                       
                       </div>
-                      <div className="grid grid-cols-1 md:gap-2 gap-0 lg:grid-cols-4 align-items-right w-1/2">
-                        <div className="space-x-2 my-2 flex items-center ">
+                      <div className="grid grid-cols-1 md:gap-2 gap-0 lg:grid-cols-6 space-between align-items-right ">
+                        <div className="col-start-1 col-end-3 flex">
+                        <div className="space-x-2 my-2 flex items-center pr-2">
                           
-                          <p>{item.read ? <AiOutlineRead /> : "" } </p>
+                          <p className="text-lg">{item.read ? <p className="text-lg"><AiOutlineRead /></p> : "" } </p>
                         </div>
-                        <div className="space-x-2 my-2 flex items-center">
+                        <div className="space-x-2 my-2 flex items-center px-2">
                           
-                          <p>{item.write  ? <HiPencil /> : "" }</p>
+                          <p className="text-lg">{item.write  ? <p className="text-lg"><HiPencil /></p> : "" }</p>
                         </div>
-                        <div className="flex items-center space-x-2 my-2">
+                        <div className="flex items-center space-x-2 my-2 px-2">
                          
-                          <p className="text-sm text-gray-600">
-                            {item.speak  ? <IoPeople /> : "" }
+                          <p className="text-sm text-gray-600 text-lg">
+                            {item.speak  ? <p className="text-lg"><IoPeople /></p> : "" }
                           </p>
                         </div>
-                        <div className="flex items-center space-x-2">
+                        </div>
+                        <div className="col-start-5 col-end-7 col-span-2 flex items-center space-x-2 ">
                           <button
                             class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
                             style={{ backgroundColor: "#034488" }}

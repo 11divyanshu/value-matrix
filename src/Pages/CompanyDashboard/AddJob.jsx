@@ -271,7 +271,7 @@ const AddJob = () => {
 
   const navigate = useNavigate();
 
-  React.useState(() => {
+  React.useEffect(() => {
     const initial = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       
@@ -2372,20 +2372,20 @@ const AddJob = () => {
                     }}
                     validate={(values) => {
                       const errors = {};
-                      if (
-                        values.salary &&
-                        values.maxSalary &&
-                        values.maxSalary < values.salary
-                      ) {
-                        errors.maxSalary =
-                          "Max Salary should be greater than Salary";
-                      }
-                      if (!values.salary) {
-                        errors.salary = "Required !";
-                      }
-                      if (!values.maxSalary) {
-                        errors.maxSalary = "Required !";
-                      }
+                      // if (
+                      //   values.salary &&
+                      //   values.maxSalary &&
+                      //   values.maxSalary < values.salary
+                      // ) {
+                      //   errors.maxSalary =
+                      //     "Max Salary should be greater than Salary";
+                      // }
+                      // if (!values.salary) {
+                      //   errors.salary = "Required !";
+                      // }
+                      // if (!values.maxSalary) {
+                      //   errors.maxSalary = "Required !";
+                      // }
 
                       return errors;
                     }}

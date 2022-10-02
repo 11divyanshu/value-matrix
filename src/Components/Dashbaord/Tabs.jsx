@@ -2,12 +2,17 @@ import React from "react";
 
 import "../../assets/stylesheet/Tabs.scss";
 import { Formik, Form, Field } from "formik";
+
 import {
   AiOutlineHome,
   AiOutlineUser,
   AiOutlineFolderAdd,
   AiOutlineUnorderedList,
+  AiOutlineDelete,
+  AiOutlineRead
 } from "react-icons/ai";
+import { IoPeople } from "react-icons/io5";
+
 
 // Assets
 import Avatar from "../../assets/images/UserAvatar.png";
@@ -18,7 +23,7 @@ import { FaRegBuilding } from "react-icons/fa";
 import { FiInfo } from "react-icons/fi";
 import { BsCalendar } from "react-icons/bs";
 import { GrScorecard } from "react-icons/gr";
-import { HiOutlineOfficeBuilding } from "react-icons/hi";
+import { HiOutlineOfficeBuilding,HiPencil } from "react-icons/hi";
 import { downloadResume, getResume } from "../../service/api";
 
 import "react-multi-carousel/lib/styles.css";
@@ -635,6 +640,77 @@ export default function Tabs() {
                   : "No Skills"}
               </div>
             </div>
+
+            <div className="my-2">
+            <label className="font-semibold text-lg w-2/5 mx-2">Language Skills</label>
+
+            <div className=" mx-auto justify-center text-center">
+            <div className="w-1/2">
+              { user.language &&
+                user.language.map((item, index) => {
+                  return (
+                    <div
+                      className=" rounded-md py-2 px-4 bg-white border border-gray-400 my-4 h-35"
+                      key={index}
+                    >
+                      <div className="flex justify-end space-x-3 items-center">
+                        {/* <RiEditBoxLine
+                      className="cursor-pointer"
+                      onClick={() => {
+                        setEdit(index);
+                        setExInitialValues(item);
+                        setShowExForm(true);
+                      }}
+                    />
+                  */}
+                      </div>
+                      <div className="font-semibold flex space-x-2 items-center">
+                        <p>{item.name}</p> <p className="font-normal text-sm">|</p>{" "}
+                       
+                      </div>
+                      <div className="grid grid-cols-1 md:gap-2 gap-0 lg:grid-cols-6 space-between align-items-right ">
+                        <div className="col-start-1 col-end-3 flex">
+                        <div className="space-x-2 my-2 flex items-center pr-2">
+                          
+                          <p className="text-lg">{item.read ? <p className="text-lg"><AiOutlineRead /></p> : "" } </p>
+                        </div>
+                        <div className="space-x-2 my-2 flex items-center px-2">
+                          
+                          <p className="text-lg">{item.write  ? <p className="text-lg"><HiPencil /></p> : "" }</p>
+                        </div>
+                        <div className="flex items-center space-x-2 my-2 px-2">
+                         
+                          <p className="text-sm text-gray-600 text-lg">
+                            {item.speak  ? <p className="text-lg"><IoPeople /></p> : "" }
+                          </p>
+                        </div>
+                        </div>
+                        <div className="col-start-5 col-end-7 col-span-2 flex items-center space-x-2 ">
+                          <button
+                            class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
+                            style={{ backgroundColor: "#034488" }}
+                            onClick={() => {
+                          
+                            }}
+                          >
+                            Edit
+                          </button>
+                          <div className="text-xl mx-5 px-7 py-2">
+
+                          
+                          </div>
+                        </div>
+                      </div>
+                     
+                    </div>
+                  );
+                })}
+            </div>
+          
+
+
+          </div>
+              </div>
 
             <div className="md:w-1/2 w-full block space-y-1">
               <label className="font-semibold">Resume</label><br />

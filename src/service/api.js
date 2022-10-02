@@ -772,6 +772,33 @@ export const approveJob = async (data) => {
     console.log("Error : ", err);
   }
 }
+export const approveCompany = async (data) => {
+  try {
+    return await axios.post(`${url}/approveCompany`,data
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
+export const checkCompany = async (data) => {
+  try {
+    return await axios.post(`${url}/checkCompany`,data
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
+export const listUnapproveCompany = async () => {
+  try {
+    return await axios.get(`${url}/listUnapproveCompany`
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
 export const saveCandidateReport = async (data) => {
   console.log(data);
   try {

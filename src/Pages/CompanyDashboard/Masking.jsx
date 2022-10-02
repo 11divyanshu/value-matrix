@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment  , useEffect} from "react";
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import { updateUserDetails,getUserFromId } from "../../service/api";
 import swal from "sweetalert";
@@ -13,19 +13,21 @@ const Masking = () => {
     const [contact, setContact] = React.useState(null);
     const [education, setEducation] = React.useState(null);
 
-    React.useState(() => {
+
+    
+    useEffect(() => {
         const initial = async () => {
           let user = JSON.parse(await localStorage.getItem("user"));
-          
-    
-          let res = await getUserFromId({ id: user._id }, user.access_token);
+          setUser(user);
+    console.log(user)
+        //   let res = await getUserFromId({ id: user._id }, user.access_token);
  
-          console.log(res);
-          setLogo(res.data.user.showComLogo)
-          setTitle(res.data.user.showComName)
-          setEducation(res.data.user.showEducation)
-          setContact(res.data.user.showEmail)
-          setEmail(res.data.user.showContact)
+        //   console.log(res);
+          setLogo(user.showComLogo)
+          setTitle(user.showComName)
+          setEducation(user.showEducation)
+          setContact(user.showContact)
+          setEmail(user.showEmail)
         
 
         } ;
@@ -38,13 +40,14 @@ const Masking = () => {
     <p className="font-semibold text-xl mx-4">Data Control Settings</p>
   <div className="w-full m-5  mx-7">
     <Formik
-      initialValues={{
-       logo: logo ? logo : false,
-       title:title ? title : false,
-       email:email ? email : false,
-       contact:contact ? contact : false,
-       education:education ? education : false
-      }}
+        initialValues={{
+            logo: logo ? logo : false,
+            title:title ? title : false,
+            email:email ? email : false,
+            contact:contact ? contact : false,
+            education:education ? education : false
+           }}
+      
       validate={(values) => {
         const errors = {};
      
@@ -134,10 +137,10 @@ const Masking = () => {
                 console.log(res);
              
 
-                // localStorage.setItem(
-                //   "user",
-                //   JSON.stringify(res.user)
-                // );
+                localStorage.setItem(
+                  "user",
+                  JSON.stringify(res.data.user)
+                );
                 // await setJob(job);
 
                     // setPageIndex(6);
