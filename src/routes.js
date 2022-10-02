@@ -54,6 +54,7 @@ import CandiadateDetail from "./Pages/AdminDashboard/CandidateDetail";
 import AddCompanyUser from "./Pages/CompanyDashboard/AddCompanyUser";
 import CandidateList from "./Pages/CompanyDashboard/CandidateList";
 import CandidateReport from "./Pages/CompanyDashboard/CandidateReport";
+import Masking from "./Pages/CompanyDashboard/Masking";
 import Jobvalidate from "./Pages/AdminDashboard/jobValidate";
 
 
@@ -359,6 +360,14 @@ export const companyDashboardRoutes = [
     path: "/candidateList",
     hide: false,
     component: <CandidateList />,
+    icon: <AiOutlineUnorderedList className="text-xl" />,
+    permission: "default",
+  },
+  {
+    name: "Data Controller",
+    path: "/masking",
+    hide: false,
+    component: <Masking />,
     icon: <AiOutlineUnorderedList className="text-xl" />,
     permission: "default",
   },

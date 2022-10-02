@@ -658,12 +658,12 @@ const AddJob = () => {
 
                                 setQuery(event.target.value)
                               }}
-                              className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-2"
+                              className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-1/2 w-1/2 focus:outline-0 focus:border-0 px-4 py-2"
                               style={{ borderRadius: "5px" }}
                             />
-                            <Combobox.Options>
+                            <Combobox.Options className="w-1/2">
                               {query.length > 0 && (
-                                <Combobox.Option value={`${query}`}>
+                                <Combobox.Option className="p-2"  value={`${query}`}>
                                   Create "{query}"
                                 </Combobox.Option>
                               )}
@@ -672,7 +672,12 @@ const AddJob = () => {
                                   key={city.name}
                                   value={`${city.name}, ${city.country}`}
                                 >
-                                  {city.name}, {city.country}
+                                    {({ active, selected }) => (
+                                              <li
+                                                className={`${active ? 'bg-blue-500 text-white p-2' : 'bg-white text-black p-2'
+                                                  }`}
+                                              >
+                                  {city.name}, {city.country}</li>)}
                                 </Combobox.Option>
                               ))}
                             </Combobox.Options>

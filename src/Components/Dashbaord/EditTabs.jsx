@@ -3471,11 +3471,11 @@ export default function Tabs(props) {
                       <div className="grid grid-cols-1 md:gap-2 gap-0 lg:grid-cols-4 align-items-right">
                         <div className="space-x-2 my-2 flex items-center ">
                           <FaRegBuilding />
-                          <p>{item.read}</p>
+                          <p>{item.read ? item.read : "Null"}</p>
                         </div>
                         <div className="space-x-2 my-2 flex items-center">
                           <CgWorkAlt />
-                          <p>{item.speak}</p>
+                          <p>{item.speak ? item.speak : "Null"}</p>
                         </div>
                         <div className="flex items-center space-x-2 my-2">
                           <BsCalendar />

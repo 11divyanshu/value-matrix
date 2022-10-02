@@ -5,6 +5,7 @@
   "dependencies": {
     "@headlessui/react": "^1.6.6",
     "@heroicons/react": "^1.0.6",
+    "@mui/material": "^5.10.7",
     "@popperjs/core": "^2.11.5",
     "@ramonak/react-progress-bar": "^5.0.2",
     "@testing-library/jest-dom": "^5.16.4",
@@ -19,6 +20,8 @@
     "draft-convert": "^2.1.12",
     "draft-js": "^0.11.7",
     "formik": "^2.2.9",
+    "formik-material-ui": "^4.0.0-alpha.2",
+    "formik-mui": "^5.0.0-alpha.0",
     "framer-motion": "^6.5.1",
     "html-to-draftjs": "^1.5.0",
     "js-cookie": "^3.0.1",
