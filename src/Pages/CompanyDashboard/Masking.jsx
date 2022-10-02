@@ -134,10 +134,10 @@ const Masking = () => {
                 console.log(res);
              
 
-                localStorage.setItem(
-                  "user",
-                  JSON.stringify(res.user)
-                );
+                // localStorage.setItem(
+                //   "user",
+                //   JSON.stringify(res.user)
+                // );
                 // await setJob(job);
 
                     // setPageIndex(6);
