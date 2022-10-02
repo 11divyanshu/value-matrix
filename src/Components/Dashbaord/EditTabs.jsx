@@ -834,6 +834,7 @@ export default function Tabs(props) {
       username: ed.username,
       associate: ed.associate,
       education: ed.education,
+      language: ed.language,
       tools: skills,
     };
     if (EmailOTP) {

@@ -28,6 +28,7 @@ const AddJob = () => {
     "Eligibilty",
     "Job Invitations",
     "Screening Questions",
+    "Data Masking",
     "Remunerations And Pay Range",
   ];
 
@@ -103,6 +104,7 @@ const AddJob = () => {
     jobDesc: "",
     location: "",
     jobType: "",
+    jobLocation: "",
     validTill: "",
     hiringOrganization: "",
     eligibility: "",
@@ -110,10 +112,20 @@ const AddJob = () => {
     salary: null,
     perks: "",
     reqApp: "",
+    showComLogo:"",
+    showComName:"",
+    showEmail:"",
+    showContact:"",
+    showEducation:"",
   });
 
   const salaryRef = React.useRef(null);
   const [user, setUser] = React.useState(null);
+  const [logo, setLogo] = React.useState(null);
+  const [title, setTitle] = React.useState(null);
+  const [email, setEmail] = React.useState(null);
+  const [contact, setContact] = React.useState(null);
+  const [education, setEducation] = React.useState(null);
 
   const [ederror, setFormError] = React.useState(false);
   const [descError, setDescError] = React.useState(false);
@@ -262,6 +274,16 @@ const AddJob = () => {
   React.useState(() => {
     const initial = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
+      
+
+      setLogo(user.showComLogo)
+      setTitle(user.showComName)
+      setEducation(user.showEducation)
+      setContact(user.showEmail)
+      setEmail(user.showContact)
+   
+
+
       let res = await getUserFromId({ id: user._id }, user.access_token);
 
       if (
@@ -475,7 +497,7 @@ const AddJob = () => {
   return (
     <div className=" bg-slate-100 w-100 p-5 mx-10">
       <p className="font-semibold mx-5">
-        {PageIndex} of 5 : {PageDetails[PageIndex - 1]}
+        {PageIndex} of 6 : {PageDetails[PageIndex - 1]}
       </p>
 
       <div className="my-2">
@@ -507,6 +529,7 @@ const AddJob = () => {
                     ? `${selectedCity.name}, ${selectedCity.country}`
                     : "",
                   jobType: job ? job.jobType : "",
+                  jobType: job ? job.jobLocation : "",
                   reqApp: job ? job.reqApp : "",
                   validTill: job ? job.validTill : "",
                   hiringOrganization: job
@@ -525,6 +548,9 @@ const AddJob = () => {
                   }
                   if (!values.jobType || values.jobType.trim() === "") {
                     errors.jobType = "Required !";
+                  }
+                  if (!values.jobLocation || values.jobLocation.trim() === "") {
+                    errors.jobLocation = "Required !";
                   }
 
                   // if (!selectedCity) {
@@ -668,7 +694,7 @@ const AddJob = () => {
                               <label>
                                 <Field
                                   type="radio"
-                                  name="jobType"
+                                  name="jobLocation"
                                   value="Remote"
                                   className="mr-2"
                                 />
@@ -679,7 +705,7 @@ const AddJob = () => {
                               <label>
                                 <Field
                                   type="radio"
-                                  name="jobType"
+                                  name="jobLocation"
                                   value="Hybrid"
                                   className="mr-2"
                                 />
@@ -690,7 +716,7 @@ const AddJob = () => {
                               <label>
                                 <Field
                                   type="radio"
-                                  name="jobType"
+                                  name="jobLocation"
                                   value="On-Site"
                                   className="mr-2"
                                 />
@@ -816,6 +842,7 @@ const AddJob = () => {
                           desc &&
                           selectedCity !== null &&
                           values.jobType &&
+                          values.jobLocation &&
                           values.validTill &&
                           values.hiringOrganization ? (
                           <button
@@ -847,6 +874,7 @@ const AddJob = () => {
                               job.jobTitle = values.jobTitle;
                               job.location = selectedCity;
                               job.jobType = values.jobType;
+                              job.jobLocation = values.jobLocation;
                               job.validTill = values.validTill;
                               job.hiringOrganization = values.hiringOrganization;
                               job.reqApp = values.reqApp;
@@ -1047,8 +1075,8 @@ const AddJob = () => {
                                                 </div>
                                                 <ChevronUpIcon
                                                   className={`${!open
-                                                      ? "rotate-180 transform"
-                                                      : ""
+                                                    ? "rotate-180 transform"
+                                                    : ""
                                                     } h-5 w-5 text-blue-500`}
                                                 />
                                               </Disclosure.Button>
@@ -1061,14 +1089,14 @@ const AddJob = () => {
                                                           {({ open }) => (
                                                             <div
                                                               className={`${open
-                                                                  ? "shadow-md"
-                                                                  : ""
+                                                                ? "shadow-md"
+                                                                : ""
                                                                 }`}
                                                             >
                                                               <Disclosure.Button
                                                                 className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-3 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${open
-                                                                    ? "shadow-lg"
-                                                                    : ""
+                                                                  ? "shadow-lg"
+                                                                  : ""
                                                                   } `}
                                                               >
                                                                 <span>
@@ -1076,8 +1104,8 @@ const AddJob = () => {
                                                                 </span>
                                                                 <ChevronUpIcon
                                                                   className={`${!open
-                                                                      ? "rotate-180 transform"
-                                                                      : ""
+                                                                    ? "rotate-180 transform"
+                                                                    : ""
                                                                     } h-5 w-5 text-blue-500`}
                                                                 />
                                                               </Disclosure.Button>
@@ -2086,7 +2114,7 @@ const AddJob = () => {
               </div>
             </div>
           )}
-          {PageIndex === 5 && (
+          {PageIndex === 6 && (
             <div className="lg:w-3/4 py-3 shadow-md mr-3 bg-white">
               <div className="w-full mt-9">
                 <div className="w-full m-5 mx-7">
@@ -2188,8 +2216,8 @@ const AddJob = () => {
                                                 <>
                                                   <span
                                                     className={`block truncatez-100 ${selected
-                                                        ? "font-medium"
-                                                        : "font-normal"
+                                                      ? "font-medium"
+                                                      : "font-normal"
                                                       }`}
                                                   >
                                                     {currency.symbol} -{" "}
@@ -2270,11 +2298,12 @@ const AddJob = () => {
                                     "postjob",
                                     JSON.stringify(job)
                                   );
-                                  setPageIndex(4);
+                                  setPageIndex(5);
                                 }}
                               >
                                 Prev
                               </button>
+                           
                             </div>
                             {values.values.salary && values.values.maxSalary ? (
                               <button
@@ -2315,6 +2344,166 @@ const AddJob = () => {
                                 Submit
                               </button>
                             )}
+                          </Form>
+                        </div>
+                      );
+                    }}
+                  </Formik>
+                </div>
+              </div>
+            </div>
+          )}
+          {PageIndex === 5 && (
+            <div className="lg:w-3/4 py-3 shadow-md mr-3 bg-white">
+              <div className="w-full mt-9">
+                <div className="w-full m-5 mx-7">
+                  <Formik
+                    initialValues={{
+                     logo: logo ? logo : false,
+                     title:title ? title : false,
+                     email:email ? email : false,
+                     contact:contact ? contact : false,
+                     education:education ? education : false
+                    }}
+                    validate={(values) => {
+                      const errors = {};
+                      if (
+                        values.salary &&
+                        values.maxSalary &&
+                        values.maxSalary < values.salary
+                      ) {
+                        errors.maxSalary =
+                          "Max Salary should be greater than Salary";
+                      }
+                      if (!values.salary) {
+                        errors.salary = "Required !";
+                      }
+                      if (!values.maxSalary) {
+                        errors.maxSalary = "Required !";
+                      }
+
+                      return errors;
+                    }}
+                  // onSubmit={postJob}
+                  >
+                    {(values) => {
+                      return (
+                        <div>
+                          <Form className="w-full mt-9">
+                          <div className="my-4 mt-9  w-3/4">
+                              <label className="text-left w-3/4 font-semibold block">
+                                Brand Masking
+                              </label>
+                              <label className="w-1/2 content-center px-4 flex p-1  text-md">
+                                <Field type="checkbox" className="m-2" name="logo" />
+                                <p className="text-md font-bold mx-3 font-gray-600">Logo</p>
+                              </label>
+                              <label className="w-1/2 content-center px-4 flex p-1  text-md">
+                                <Field type="checkbox" className="m-2" name="title" />
+                                <p className="text-md font-bold mx-3 font-gray-600">Title</p>
+                              </label>
+
+                            </div>
+                            <div className="my-4 space-y-3 w-3/4">
+                              <label className="text-left w-3/4 font-semibold block">
+                                Candidate Masking
+                              </label>
+
+                              <div className=" items-center space-x-2">
+                                <label className="w-1/2 content-center mx-2  px-4 flex p-1  text-md">
+                                  <Field type="checkbox" className="m-2" name="email" />
+                                  <p className="text-md font-bold mx-3 font-gray-600">Email</p>
+                                </label>
+                                <label className="w-1/2 content-center  px-4 flex p-1  text-md">
+                                  <Field type="checkbox" className="m-2" name="contact" />
+                                  <p className="text-md font-bold mx-3 font-gray-600">Contact</p>
+                                </label>
+                                <label className="w-1/2 content-center  px-4 flex p-1  text-md">
+                                  <Field type="checkbox" className="m-2" name="education" />
+                                  <p className="text-md font-bold mx-3 font-gray-600">Education Details</p>
+                                </label>
+
+                              </div>
+                              </div>
+
+                              <div className="">
+                                <button
+                                  className="mx-auto bg-[#034488] px-4 py-1 text-white rounded-sm"
+                                  style={{ backgroundColor: "#034488" }}
+                                  type="button"
+                                  onClick={ () => {
+                                
+                                
+                                    setPageIndex(4);
+                                  }}
+                                >
+                                  Prev
+                                </button>
+                                <button
+                                className="bg-[#034488] mx-3 px-4 py-1 rounded-sm text-white"
+                                onClick={async() => {
+
+                                    console.log(values); 
+                                    
+                              let job = await JSON.parse(
+                                await localStorage.getItem("postjob")
+                              );
+                              if (job === null) job = {};
+                              job.showComLogo = values.values.logo;
+                              job.showComName = values.values.title;
+                              job.showEducation = values.values.education;
+                              job.showContact = values.values.contact;
+                              job.showEmail = values.values.email;
+
+
+                              setLogo(values.values.logo);
+                              setTitle(values.values.title);
+                              setEmail(values.values.email);
+                              setContact(values.values.contact);
+                              setEmail(values.values.email);
+
+                           
+                              localStorage.setItem(
+                                "postjob",
+                                JSON.stringify(job)
+                              );
+                              await setJob(job);
+
+                                  setPageIndex(6);
+
+                                }}
+                              >
+                                Next
+                              </button>
+                              </div>
+                              {/* {values.values.salary && values.values.maxSalary ? (
+                                <button
+                                  type="button"
+                                  class="bg-[#4a545e] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
+                                  onClick={async () => {
+                                   }}
+                                  style={{ backgroundColor: "#034488" }}
+                                >
+                                  {loading ? (
+                                    <img
+                                      src={Loader}
+                                      alt="loader"
+                                      className="h-9 mx-auto"
+                                    />
+                                  ) : (
+                                    "Submit"
+                                  )}
+                                </button>
+                              ) : (
+                                <button
+                                  type="button"
+                                  class="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
+                                  disabled
+                                  style={{ backgroundColor: "#034388d7" }}
+                                >
+                                  Submit
+                                </button>
+                              )} */}
                           </Form>
                         </div>
                       );
