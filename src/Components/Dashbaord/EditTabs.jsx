@@ -8,7 +8,7 @@ import { GrScorecard } from "react-icons/gr";
 import { Disclosure } from "@headlessui/react";
 import { getSkills, url } from "../../service/api";
 import { ChevronUpIcon, StarIcon } from "@heroicons/react/solid";
-import { IoSchoolOutline } from "react-icons/io5";
+import { IoPeople, IoSchoolOutline } from "react-icons/io5";
 import Microsoft from "../../assets/images/Social/microsoft.svg";
 import Google from "../../assets/images/Social/google.svg";
 import Linkedin from "../../assets/images/Social/linkedin.svg";
@@ -18,11 +18,12 @@ import {
   AiOutlineUser,
   AiOutlineFolderAdd,
   AiOutlineUnorderedList,
-  AiOutlineDelete
+  AiOutlineDelete,
+  AiOutlineRead
 } from "react-icons/ai";
 import { CgWorkAlt } from "react-icons/cg";
 import { FaRegBuilding } from "react-icons/fa";
-import { HiOutlineOfficeBuilding } from "react-icons/hi";
+import { HiOutlineOfficeBuilding, HiPencil } from "react-icons/hi";
 import { Combobox } from "@headlessui/react";
 import cities from "cities.json";
 
@@ -3443,12 +3444,12 @@ export default function Tabs(props) {
 
           </div>
           <div className=" mx-auto justify-center text-center">
-            <div>
+            <div className="w-1/2">
               {user && languageSkills &&
                 languageSkills.map((item, index) => {
                   return (
                     <div
-                      className=" rounded-md py-2 px-4 bg-white border border-gray-400 my-5 h-35"
+                      className=" rounded-md py-2 px-4 bg-white border border-gray-400 my-10 h-35"
                       key={index}
                     >
                       <div className="flex justify-end space-x-3 items-center">
@@ -3468,19 +3469,19 @@ export default function Tabs(props) {
                       {item.employment_type}
                     </p>{" "} */}
                       </div>
-                      <div className="grid grid-cols-1 md:gap-2 gap-0 lg:grid-cols-4 align-items-right">
+                      <div className="grid grid-cols-1 md:gap-2 gap-0 lg:grid-cols-4 align-items-right w-1/2">
                         <div className="space-x-2 my-2 flex items-center ">
-                          <FaRegBuilding />
-                          <p>{item.read ? item.read : "Null"}</p>
+                          
+                          <p>{item.read ? <AiOutlineRead /> : "" } </p>
                         </div>
                         <div className="space-x-2 my-2 flex items-center">
-                          <CgWorkAlt />
-                          <p>{item.speak ? item.speak : "Null"}</p>
+                          
+                          <p>{item.write  ? <HiPencil /> : "" }</p>
                         </div>
                         <div className="flex items-center space-x-2 my-2">
-                          <BsCalendar />
-                          <p className="text-sm text-gray-600 mr-5">
-                            {item.write}
+                         
+                          <p className="text-sm text-gray-600">
+                            {item.speak  ? <IoPeople /> : "" }
                           </p>
                         </div>
                         <div className="flex items-center space-x-2">
@@ -3517,7 +3518,7 @@ export default function Tabs(props) {
                         </div>
                       </div>
                       {item.description && (
-                        <div className="py-2">{item.description}</div>
+                        <div className="py-2 w-1/2">{item.description}</div>
                       )}
                     </div>
                   );
