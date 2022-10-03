@@ -112,11 +112,11 @@ const AddJob = () => {
     salary: null,
     perks: "",
     reqApp: "",
-    showComLogo:"",
-    showComName:"",
-    showEmail:"",
-    showContact:"",
-    showEducation:"",
+    showComLogo: "",
+    showComName: "",
+    showEmail: "",
+    showContact: "",
+    showEducation: "",
   });
 
   const salaryRef = React.useRef(null);
@@ -274,14 +274,14 @@ const AddJob = () => {
   React.useEffect(() => {
     const initial = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
-      
+
 
       setLogo(user.showComLogo)
       setTitle(user.showComName)
       setEducation(user.showEducation)
       setContact(user.showEmail)
       setEmail(user.showContact)
-   
+
 
 
       let res = await getUserFromId({ id: user._id }, user.access_token);
@@ -663,7 +663,7 @@ const AddJob = () => {
                             />
                             <Combobox.Options className="w-1/2">
                               {query.length > 0 && (
-                                <Combobox.Option className="p-2"  value={`${query}`}>
+                                <Combobox.Option className="p-2" value={`${query}`}>
                                   Create "{query}"
                                 </Combobox.Option>
                               )}
@@ -672,12 +672,12 @@ const AddJob = () => {
                                   key={city.name}
                                   value={`${city.name}, ${city.country}`}
                                 >
-                                    {({ active, selected }) => (
-                                              <li
-                                                className={`${active ? 'bg-blue-500 text-white p-2' : 'bg-white text-black p-2'
-                                                  }`}
-                                              >
-                                  {city.name}, {city.country}</li>)}
+                                  {({ active, selected }) => (
+                                    <li
+                                      className={`${active ? 'bg-blue-500 text-white p-2' : 'bg-white text-black p-2'
+                                        }`}
+                                    >
+                                      {city.name}, {city.country}</li>)}
                                 </Combobox.Option>
                               ))}
                             </Combobox.Options>
@@ -2308,7 +2308,7 @@ const AddJob = () => {
                               >
                                 Prev
                               </button>
-                           
+
                             </div>
                             {values.values.salary && values.values.maxSalary ? (
                               <button
@@ -2364,11 +2364,11 @@ const AddJob = () => {
                 <div className="w-full m-5 mx-7">
                   <Formik
                     initialValues={{
-                     logo: logo ? logo : false,
-                     title:title ? title : false,
-                     email:email ? email : false,
-                     contact:contact ? contact : false,
-                     education:education ? education : false
+                      logo: logo ? logo : false,
+                      title: title ? title : false,
+                      email: email ? email : false,
+                      contact: contact ? contact : false,
+                      education: education ? education : false
                     }}
                     validate={(values) => {
                       const errors = {};
@@ -2395,18 +2395,46 @@ const AddJob = () => {
                       return (
                         <div>
                           <Form className="w-full mt-9">
-                          <div className="my-4 mt-9  w-3/4">
+                            <div className="my-4 mt-9  w-3/4">
                               <label className="text-left w-3/4 font-semibold block">
                                 Brand Masking
                               </label>
-                              <label className="w-1/2 content-center px-4 flex p-1  text-md">
-                                <Field type="checkbox" className="m-2" name="logo" />
-                                <p className="text-md font-bold mx-3 font-gray-600">Logo</p>
-                              </label>
-                              <label className="w-1/2 content-center px-4 flex p-1  text-md">
-                                <Field type="checkbox" className="m-2" name="title" />
-                                <p className="text-md font-bold mx-3 font-gray-600">Title</p>
-                              </label>
+                             
+                                <label className="w-1/2 content-center px-4 flex p-1  text-md">
+                                  <label
+                                    for="Logo-toggle"
+                                    class="inline-flex relative items-center cursor-pointer"
+                                  >
+                                    <Field
+                                      name="logo"
+                                      type="checkbox"
+                                      id="Logo-toggle"
+                                      class="sr-only peer"
+                                    />
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    <span class="ml-3 text-sm font-medium text-gray-900 ">
+                                      <p className="text-md font-bold mx-3 font-gray-600">Logo</p>
+                                    </span>
+                                  </label>
+
+                                </label>
+                                <label className="w-1/2 content-center px-4 flex p-1  text-md">
+                                  <label
+                                    for="Title-toggle"
+                                    class="inline-flex relative items-center cursor-pointer"
+                                  >
+                                    <Field
+                                      type="checkbox"
+                                      name="title"
+                                      id="Title-toggle"
+                                      class="sr-only peer"
+                                    />
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    <span class="ml-3 text-sm font-medium text-gray-900 ">
+                                      <p className="text-md font-bold mx-3 font-gray-600">Title</p>
+                                    </span>
+                                  </label>
+                                </label>
 
                             </div>
                             <div className="my-4 space-y-3 w-3/4">
@@ -2416,63 +2444,100 @@ const AddJob = () => {
 
                               <div className=" items-center space-x-2">
                                 <label className="w-1/2 content-center mx-2  px-4 flex p-1  text-md">
-                                  <Field type="checkbox" className="m-2" name="email" />
-                                  <p className="text-md font-bold mx-3 font-gray-600">Email</p>
+                                  <label
+                                    for="Email-toggle"
+                                    class="inline-flex relative items-center cursor-pointer"
+                                  >
+                                    <Field
+                                      type="checkbox"
+                                      name="email" id="Email-toggle"
+                                      class="sr-only peer"
+                                    />
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    <span class="ml-3 text-sm font-medium text-gray-900 ">
+                                      <p className="text-md font-bold mx-3 font-gray-600">Email</p>
+                                    </span>
+                                  </label>
                                 </label>
                                 <label className="w-1/2 content-center  px-4 flex p-1  text-md">
-                                  <Field type="checkbox" className="m-2" name="contact" />
-                                  <p className="text-md font-bold mx-3 font-gray-600">Contact</p>
+                                  <label
+                                    for="Contact-toggle"
+                                    class="inline-flex relative items-center cursor-pointer"
+                                  >
+                                    <Field
+                                      type="checkbox"
+                                      name="contact
+"                                id="Contact-toggle"
+                                      class="sr-only peer"
+                                    />
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    <span class="ml-3 text-sm font-medium text-gray-900 ">
+                                      <p className="text-md font-bold mx-3 font-gray-600">Contact</p>
+                                    </span>
+                                  </label>
                                 </label>
                                 <label className="w-1/2 content-center  px-4 flex p-1  text-md">
-                                  <Field type="checkbox" className="m-2" name="education" />
-                                  <p className="text-md font-bold mx-3 font-gray-600">Education Details</p>
+                                  <label
+                                    for="Education-toggle"
+                                    class="inline-flex relative items-center cursor-pointer"
+                                  >
+                                    <Field
+                                      type="checkbox"
+                                      name="education" id="Education-toggle"
+                                      class="sr-only peer"
+                                    />
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    <span class="ml-3 text-sm font-medium text-gray-900 ">
+                                      <p className="text-md font-bold mx-3 font-gray-600">Education Details</p>
+                                    </span>
+                                  </label>
                                 </label>
 
                               </div>
-                              </div>
+                            </div>
 
-                              <div className="">
-                                <button
-                                  className="mx-auto bg-[#034488] px-4 py-1 text-white rounded-sm"
-                                  style={{ backgroundColor: "#034488" }}
-                                  type="button"
-                                  onClick={ () => {
-                                
-                                
-                                    setPageIndex(4);
-                                  }}
-                                >
-                                  Prev
-                                </button>
-                                <button
+                            <div className="">
+                              <button
+                                className="mx-auto bg-[#034488] px-4 py-1 text-white rounded-sm"
+                                style={{ backgroundColor: "#034488" }}
+                                type="button"
+                                onClick={() => {
+
+
+                                  setPageIndex(4);
+                                }}
+                              >
+                                Prev
+                              </button>
+                              <button
                                 className="bg-[#034488] mx-3 px-4 py-1 rounded-sm text-white"
-                                onClick={async() => {
+                                onClick={async () => {
 
-                                    console.log(values); 
-                                    
-                              let job = await JSON.parse(
-                                await localStorage.getItem("postjob")
-                              );
-                              if (job === null) job = {};
-                              job.showComLogo = values.values.logo;
-                              job.showComName = values.values.title;
-                              job.showEducation = values.values.education;
-                              job.showContact = values.values.contact;
-                              job.showEmail = values.values.email;
+                                  console.log(values);
+
+                                  let job = await JSON.parse(
+                                    await localStorage.getItem("postjob")
+                                  );
+                                  if (job === null) job = {};
+                                  job.showComLogo = values.values.logo;
+                                  job.showComName = values.values.title;
+                                  job.showEducation = values.values.education;
+                                  job.showContact = values.values.contact;
+                                  job.showEmail = values.values.email;
 
 
-                              setLogo(values.values.logo);
-                              setTitle(values.values.title);
-                              setEmail(values.values.email);
-                              setContact(values.values.contact);
-                              setEmail(values.values.email);
+                                  setLogo(values.values.logo);
+                                  setTitle(values.values.title);
+                                  setEmail(values.values.email);
+                                  setContact(values.values.contact);
+                                  setEmail(values.values.email);
 
-                           
-                              localStorage.setItem(
-                                "postjob",
-                                JSON.stringify(job)
-                              );
-                              await setJob(job);
+
+                                  localStorage.setItem(
+                                    "postjob",
+                                    JSON.stringify(job)
+                                  );
+                                  await setJob(job);
 
                                   setPageIndex(6);
 
@@ -2480,8 +2545,8 @@ const AddJob = () => {
                               >
                                 Next
                               </button>
-                              </div>
-                              {/* {values.values.salary && values.values.maxSalary ? (
+                            </div>
+                            {/* {values.values.salary && values.values.maxSalary ? (
                                 <button
                                   type="button"
                                   class="bg-[#4a545e] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
