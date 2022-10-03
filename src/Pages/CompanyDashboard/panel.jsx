@@ -208,7 +208,7 @@ const Panel = () => {
               </div>
             </div>
             <div className="shadow-lg sm:w-full rounded-lg md:w-full lg:w-full py-10 my-8 h-auto mx-5 bg-white px-4">
-            <p className="text-xl px-4 mx-auto text-gray-700 font-bold  flex">
+            <p className="text-xl mx-auto text-gray-700 font-bold  flex">
 
               {/* <div className=" px-6 mx-2 py-1 ml-5 text-center" ><AiOutlineUnorderedList/></div> */}
 
