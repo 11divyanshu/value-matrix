@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from "react";
-import { getUserList, getCompanyUserList } from "../../service/api";
+import { getUserList, getCompanyUserList, updateUserDetails } from "../../service/api";
 import { Link } from "react-router-dom";
 import { getUserFromId } from "../../service/api";
 import { useNavigate } from "react-router-dom";
@@ -13,10 +13,35 @@ import { CgWorkAlt } from "react-icons/cg";
 import { FaRegBuilding } from "react-icons/fa";
 import { HiOutlineOfficeBuilding, HiPencil } from "react-icons/hi";
 import { Dialog, Transition } from "@headlessui/react";
+import { Formik, Form, ErrorMessage, Field } from "formik";
+import swal from "sweetalert";
 
 const CandiadateList = () => {
     const [userList, setUserList] = React.useState([]);
     const [Modal, setModal] = React.useState(null);
+    const [add_jobs, setadd_jobs] = React.useState(false);
+    const [add_users, setadd_users] = React.useState(false);
+    const [listCan, setlistCan] = React.useState(false);
+    const [permissions, setPermissions] = React.useState([
+        {
+            title: "Add Jobs",
+            id: "add_jobs",
+            value: add_jobs,
+        },
+        {
+            title: "Add Users",
+            id: "add_users",
+            value: add_users,
+        },
+        {
+            title: "List Candidates",
+            id: "list_candidates",
+            value: listCan,
+        },
+    ]);
+
+
+
 
     React.useEffect(() => {
         const initial = async () => {
@@ -31,18 +56,14 @@ const CandiadateList = () => {
         initial();
     }, []);
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     //   React.useState(() => {
     //     const initial = async () => {
     //       let user = JSON.parse(await localStorage.getItem("user"));
     //       let res =await  getUserFromId({ id: user._id }, user.access_token);
     //       if (res && res.data && res.data.user) {
-    //         if (
-    //           res.data.user.permissions[0].admin_permissions.list_candidates === false
-    //         ) {
-    //           navigate(-1);
-    //         }
+               
     //       }
     //     };
     //     initial();  
@@ -113,7 +134,31 @@ const CandiadateList = () => {
                                                             {user.email}
                                                         </td>
                                                         <td class="text-xs text-blue-500 font-light px-6 py-4 whitespace-nowrap cursor-pointer">
-                                                            <p onClick={() => { setModal(true) }}>View Detail</p>
+                                                            <p onClick={() => {
+                                                                setModal(true)
+
+                                                                setadd_jobs(user.permissions[0].company_permissions.add_jobs)
+                                                                setadd_users(user.permissions[0].company_permissions.add_users)
+                                                                setlistCan(user.permissions[0].company_permissions.list_candidates)
+                                                                setPermissions([
+                                                                    {
+                                                                        title: "Add Jobs",
+                                                                        id: "add_jobs",
+                                                                        value: add_jobs,
+                                                                    },
+                                                                    {
+                                                                        title: "Add Users",
+                                                                        id: "add_users",
+                                                                        value: add_users,
+                                                                    },
+                                                                    {
+                                                                        title: "List Candidates",
+                                                                        id: "list_candidates",
+                                                                        value: listCan,
+                                                                    },
+                                                                ]);
+
+                                                            }}>View Detail</p>
                                                         </td>
                                                     </tr>
 
@@ -166,7 +211,7 @@ const CandiadateList = () => {
                                                                                             type="button"
                                                                                             className="my-1 px-3 py-2 rounded-lg text-center bg-[#034488] text-white "
                                                                                             style={{ backgroundColor: "#034488" }}
-                                                                                            onClick={()=>setModal(false)}
+                                                                                            onClick={() => setModal(false)}
                                                                                         >
                                                                                             Close
                                                                                         </button></div>
@@ -298,19 +343,107 @@ const CandiadateList = () => {
                                                                                                 })}
                                                                                         </div>
                                                                                     )}
-                                                                                    {user.tools && user.tools.length > 0 && (
-                                                                                        <div className="bg-gray-100 my-3 p-3">
-                                                                                            <p className="font-semibold">Skills</p>
-                                                                                            <div className="bg-white p-3 my-2 flex flex-wrap space-x-4">
-                                                                                                {user.tools &&
-                                                                                                    user.tools.length > 0 &&
-                                                                                                    user.tools.map((skill) => {
-                                                                                                        return <div className="bg-gray-100 px-2 py-1">{skill}</div>;
-                                                                                                    })}
-                                                                                            </div>
+
+                                                                                    <div className="my-3">
+                                                                                        <label htmlFor="permissions" className="text-gray-700 text-xl font-bold">
+                                                                                            User permissions
+                                                                                        </label>
+
+                                                                                        <div className="mx-3 my-4">
+                                                                                            <Formik
+                                                                                                initialValues={[
+                                                                                                    {
+                                                                                                        title: "Add Jobs",
+                                                                                                        id: "add_jobs",
+                                                                                                        value: add_jobs,
+                                                                                                    },
+                                                                                                    {
+                                                                                                        title: "Add Users",
+                                                                                                        id: "add_users",
+                                                                                                        value: add_users,
+                                                                                                    },
+                                                                                                    {
+                                                                                                        title: "List Candidates",
+                                                                                                        id: "list_candidates",
+                                                                                                        value: listCan,
+                                                                                                    },
+                                                                                                ]}
+                                                                                                validate={(values) => {
+                                                                                                    const errors = {};
+
+                                                                                                    // let r = values.permission.filter((item) => item.value);
+                                                                                                    // if (r.length === 0) {
+                                                                                                    //     errors.permission = "Please select atleast one permission";
+                                                                                                    // }
+                                                                                                    return errors;
+                                                                                                }}
+                                                                                                onSubmit={async() => {
+                                                                                                    let permission = {};
+                                                                                                   permissions.forEach((i) => {
+                                                                                                      permission[i.id] = i.value;
+                                                                                                    });
+                                                                                                    let res = await updateUserDetails({
+                                                                                                        email: user.email,
+                                                                                                        contact: user.contact,
+                                                                                                        username: user.username,
+                                                                                                        user_id: user._id,
+
+                                                                                                        updates:{
+                                                                                                            permissions:[{company_permissions:permission, admin_permissions: null}]
+                                                                                                        }
+                                                                                                    },user.access_token)
+                                                                                                    if(res){
+                                                                                                        swal({
+                                                                                                            title: "User Updated Successfully !",
+                                                                                                            message: "Success",
+                                                                                                            icon: "success",
+                                                                                                            button: "Continue",
+                                                                                                          })
+                                                                                                    }
+                                                                                                }}
+
+                                                                                            >
+                                                                                                {({ values }) => {
+                                                                                                    return (
+                                                                                                        <Form className="container bg-white p-5  w-4/5 mx-auto ">
+                                                                                                            {permissions.map((items, index) => {
+                                                                                                                console.log(items);
+                                                                                                                return (
+                                                                                                                    <div className="block">                   <Field
+                                                                                                                        type="checkbox"
+                                                                                                                        name={items.id}
+                                                                                                                        className="my-1 "
+                                                                                                                        onClick={() => {
+                                                                                                                            let temp = permissions;
+
+                                                                                                                            temp[index].value = !temp[index].value;
+                                                                                                                            setPermissions(temp);
+                                                                                                                            console.log(temp);
+                                                                                                                        }}
+                                                                                                                    />
+                                                                                                                        <label
+                                                                                                                            htmlFor="permissions"
+                                                                                                                            className="text-gray-700 mx-3 font-bold"
+                                                                                                                        >
+                                                                                                                            {items.title}
+                                                                                                                        </label>
+                                                                                                                    </div>
+                                                                                                                );
+                                                                                                            })}
+                                                                                                            <button
+                                                                                                                className="bg-[#034488] text-white rounded-sm py-1 my-2 px-4"
+                                                                                                                type="submit"
+                                                                                                                style={{ backgroundColor: "#034488" }}
+                                                                                                            >
+                                                                                                                Update
+                                                                                                            </button>
+                                                                                                        </Form>
+                                                                                                    )
+                                                                                                }}
+                                                                                            </Formik>
                                                                                         </div>
-                                                                                    )}
-                                                                                </div>
+
+                                                                                    </div>                                                            </div>
 
                                                                             </Dialog.Panel>
                                                                         </Transition.Child>
@@ -341,7 +474,7 @@ const CandiadateList = () => {
                 </div>
             </div>
 
-            {/* <div><SkillsUpload/></div> */}
+
         </div>
     );
 };
