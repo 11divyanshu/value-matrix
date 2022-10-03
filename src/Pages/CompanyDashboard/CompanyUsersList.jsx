@@ -51,10 +51,10 @@ const CandiadateList = () => {
 
     return (
         <div className="p-5">
-            <p className="text-2xl font-semibold">Company Users List</p>
+            <p className="text-2xl font-semibold mx-10">Company Users List</p>
             <div className="mt-3">
-                <div class="flex flex-col">
-                    <div class="overflow-x-auto w-[90%] sm:-mx-6 lg:-mx-8">
+                <div class="flex flex-col mx-10">
+                    <div class="overflow-x-auto w-full sm:-mx-6 lg:-mx-8">
                         <div class="py-2 inline-block w-full sm:px-6 lg:px-8">
                             <div class="overflow-hidden">
                                 <table class="w-full">
@@ -62,31 +62,31 @@ const CandiadateList = () => {
                                         <tr>
                                             <th
                                                 scope="col"
-                                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                                class="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
                                             >
                                                 #
                                             </th>
                                             <th
                                                 scope="col"
-                                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                                class="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
                                             >
                                                 Username
                                             </th>
                                             <th
                                                 scope="col"
-                                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                                class="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
                                             >
                                                 First Name
                                             </th>
                                             <th
                                                 scope="col"
-                                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                                class="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
                                             >
                                                 Email
                                             </th>
                                             <th
                                                 scope="col"
-                                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                                class="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
                                             >
                                                 View Details
                                             </th>
@@ -103,13 +103,13 @@ const CandiadateList = () => {
                                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                                             {index + 1}
                                                         </td>
-                                                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                        <td class="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
                                                             {user.username}
                                                         </td>
-                                                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                        <td class="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
                                                             {user.firstName}
                                                         </td>
-                                                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                        <td class="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
                                                             {user.email}
                                                         </td>
                                                         <td class="text-xs text-blue-500 font-light px-6 py-4 whitespace-nowrap cursor-pointer">
