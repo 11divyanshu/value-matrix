@@ -162,11 +162,11 @@ const CandiadateList = () => {
                                                                             <Dialog.Panel className="w-full  px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all max-w-4xl mx-auto">
                                                                                 <div>
                                                                                     <div className="flex justify-between w-full">
-                                                                                        <p className="text-2xl font-bold">Candidate Details</p>   <button
+                                                                                        <p className="text-2xl font-bold">User Details</p>   <button
                                                                                             type="button"
                                                                                             className="my-1 px-3 py-2 rounded-lg text-center bg-[#034488] text-white "
                                                                                             style={{ backgroundColor: "#034488" }}
-                                                                                            onClick={()=>setModal(false)}
+                                                                                            onClick={() => setModal(false)}
                                                                                         >
                                                                                             Close
                                                                                         </button></div>
