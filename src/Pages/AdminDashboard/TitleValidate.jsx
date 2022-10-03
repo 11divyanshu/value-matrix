@@ -1,10 +1,10 @@
-import React from "react";
-import JobCard from "../../Components/AdminDashboard/JobCard.jsx";
-import { listJobs, unapprovedJobsList, approveJob, addcompany ,listUnapproveCompany, approveCompany } from "../../service/api.js";
+import React, { useState }  from "react";
 import { Dialog } from "@headlessui/react";
 
+import JobCard from "../../Components/AdminDashboard/JobCard.jsx";
+import { listJobs, unapprovedJobsList, approveJob, listUnapproveCompany, approveCompany,listUnapproveTitles,approveTitle ,jobTitles} from "../../service/api.js";
 import { CSVLink } from "react-csv";
-import { Formik, Field, Form ,ErrorMessage} from "formik";
+import { Formik, Field, Form,ErrorMessage } from "formik";
 import { FilterCompany } from "../../service/api.js";
 import Loader from "../../assets/images/loader.gif";
 import Avatar from "../../assets/images/UserAvatar.png";
@@ -32,13 +32,13 @@ const JobList = () => {
     let user = JSON.parse(localStorage.getItem("user"));
     setUser(user);
   }, []);
- 
+
 
   React.useEffect(() => {
     const getData = async () => {
       let c_id = JSON.parse(localStorage.getItem("user"));
       console.log(c_id);
-      let res = await listUnapproveCompany();
+      let res = await listUnapproveTitles();
       console.log(res);
       if (res && res.data) {
         setJobs(res.data);
@@ -66,8 +66,7 @@ const JobList = () => {
           Hey {user && user.firstName ? user.firstName : "Company"} -{" "}
           <p className="text-gray-400 px-2"> here's what's happening today!</p>
         </p>
-
-        <div className="py-3">
+  <div className="py-3">
           <p className="text-gray-900 text-s mb-2 mx-5 text-right text-blue">
               <button
                 class=" p-3 w-10vw rounded-md text-white"
@@ -80,10 +79,11 @@ const JobList = () => {
                    setShowForm(true);
                  }}
               >
-                Add Company Titles
+                Add Job Titles
               </button>
           </p>
         </div>
+       
       </div>
       <div className="p-4 w-full md:flex mx-auto">
 
@@ -97,7 +97,7 @@ const JobList = () => {
                   className="  py-4 px-5"
                   style={{ borderRadius: "6px 6px 0 0" }}
                 >
-                  <p className="text-gray-900 w-full font-bold">Unapproved Company</p>
+                  <p className="text-gray-900 w-full font-bold">Unapproved Job Titles</p>
                   {/* <p className="text-gray-400 w-full font-semibold">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p> */}
                 </div>
 
@@ -158,9 +158,9 @@ const JobList = () => {
                           }}
 
                           onSubmit={async(values)=>{
-                            let res1 = await addcompany({list:[{name:values.title}]})
+                            let res1 = await jobTitles({list:[{name:values.title}]})
                             await setShowForm(false);
-                            let res = await listUnapproveCompany();
+                            let res = await listUnapproveTitles();
                             console.log(res);
                             if (res && res.data) {
                               setJobs(res.data);
@@ -230,7 +230,6 @@ const JobList = () => {
             </Dialog>
           </Transition>
         )}
-
               <div className="w-full">
                 {jobs &&
                   jobs.map((job) => {
@@ -294,17 +293,12 @@ const JobList = () => {
                             style={{ background: "#3ED3C5" }}
                             className="  rounded-3xl px-6 my-3 text-xs py-2 mx-3 text-gray-900 font-semibold"
                             onClick={async () => {
-                              let res1 = await approveCompany({id:job._id});
-                              let res = await listUnapproveCompany();
+                              let res1 = await approveTitle({id:job._id});
+                              let res = await listUnapproveTitles();
                               console.log(res);
                               if (res && res.data) {
                                 setJobs(res.data);
-                                console.log(res.data);
-                                let arr = [...res.data];
-                                const jsonObj = JSON.stringify(arr);
-
-                                // save to localStorage
-                                localStorage.setItem("jobsdetails", jsonObj);
+                              
                               }
                             }
                             }

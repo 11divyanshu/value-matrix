@@ -1,10 +1,8 @@
 import React from "react";
 import JobCard from "../../Components/AdminDashboard/JobCard.jsx";
-import { listJobs, unapprovedJobsList, approveJob, addcompany ,listUnapproveCompany, approveCompany } from "../../service/api.js";
-import { Dialog } from "@headlessui/react";
-
+import { listJobs, unapprovedJobsList, approveJob, listUnapproveCompany, approveCompany } from "../../service/api.js";
 import { CSVLink } from "react-csv";
-import { Formik, Field, Form ,ErrorMessage} from "formik";
+import { Formik, Field, Form } from "formik";
 import { FilterCompany } from "../../service/api.js";
 import Loader from "../../assets/images/loader.gif";
 import Avatar from "../../assets/images/UserAvatar.png";
@@ -23,16 +21,30 @@ const JobList = () => {
   const [jobs, setJobs] = React.useState([]);
   const [loader, setLoader] = React.useState(false);
   const [user, setUser] = React.useState(null);
-  const [showForm, setShowForm] = React.useState(null);
-  const [edit, setEdit] = React.useState(null);
-  const [initialValues, setInitialValues] = React.useState({
-    title:null
-   });
+
   React.useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"));
     setUser(user);
   }, []);
- 
+  const headerso = [
+    { label: "job_id", key: "_id" },
+    { label: "job_title", key: "jobTitle" },
+    // { label: "job_description", key: "jobDesc" },
+    { label: "createTime", key: "createTime" },
+    { label: "uploadedBy", key: "uploadBy" },
+    { label: "location", key: "location" },
+    { label: "job_type", key: "jobType" },
+    { label: "applicants", key: "applicants" },
+    { label: "valid_till", key: "validTill" },
+    { label: "hiring_organization", key: "hiringOrganization" },
+    { label: "basic_salary", key: "basicSalary" },
+  ];
+
+  const csvReport = {
+    filename: "jobs.csv",
+    headers: headerso,
+    data: jobs,
+  };
 
   React.useEffect(() => {
     const getData = async () => {
@@ -67,23 +79,18 @@ const JobList = () => {
           <p className="text-gray-400 px-2"> here's what's happening today!</p>
         </p>
 
-        <div className="py-3">
+        {/* <div className="py-3">
           <p className="text-gray-900 text-s mb-2 mx-5 text-right text-blue">
+            <CSVLink {...csvReport}>
               <button
                 class=" p-3 w-10vw rounded-md text-white"
                 style={{ backgroundColor: "#034488" }}
-                 onClick={()=>{
-                   setEdit(null);
-                   setInitialValues({
-                   title:null
-                  });
-                   setShowForm(true);
-                 }}
               >
-                Add Company Titles
+                Download CSV
               </button>
+            </CSVLink>
           </p>
-        </div>
+        </div> */}
       </div>
       <div className="p-4 w-full md:flex mx-auto">
 
@@ -103,133 +110,6 @@ const JobList = () => {
 
                 {/* <div className="text-xs text-gray-500 py-4 px-2 font-semibold mt-2">See All Logs &#12297;</div> */}
               </div>
-              {showForm && (
-          <Transition
-            appear
-            show={showForm}
-            as={Fragment}
-            className="relative z-10000"
-            style={{ zIndex: 1000 }}
-          >
-            <Dialog
-              as="div"
-              className="relative z-10000"
-              onClose={() => { }}
-              static={true}
-            >
-              <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
-              >
-                <div className="fixed inset-0 bg-black bg-opacity-25" />
-              </Transition.Child>
-
-              <div className="fixed inset-0 overflow-y-auto">
-                <div className="flex min-h-full items-center justify-center p-4 text-center">
-                  <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0 scale-95"
-                    enterTo="opacity-100 scale-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100 scale-100"
-                    leaveTo="opacity-0 scale-95"
-                  >
-                    <Dialog.Panel className="w-full  px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all max-w-4xl mx-auto">
-
-                      <div className={`${!showForm ? "hidden" : "block"}`}>
-
-                        <Formik
-                          initialValues={initialValues}
-                          validate={(values) => {
-                            if (showForm === false) return {};
-                            const errors = {};
-                            if (!values.title) {
-                              errors.title = "Required";
-                            }
-                           
-                            return errors;
-                          }}
-
-                          onSubmit={async(values)=>{
-                            let res1 = await addcompany({list:[{name:values.title}]})
-                            await setShowForm(false);
-                            let res = await listUnapproveCompany();
-                            console.log(res);
-                            if (res && res.data) {
-                              setJobs(res.data);
-                          
-                            }
-                          }}
-                        >
-                          {({ values }) => {
-                            return (
-                              <Form className="w-full py-4">
-                               
-
-                             
-                              
-                                <div className="md:w-1/2  md:flex w-full  space-y-1 my-5">
-                                  <label className="font-semibold text-lg w-2/5 mx-2">
-                                    Name
-                                  </label>
-                                  <div className="w-full md:w-4/5">
-                                    <Field
-                                      name="title"
-                                      type="text"
-                                      className="block border-gray-400 py-1 w-full border-[0.5px] border-[#6b7280] p-2"
-                                      style={{
-                                        borderRadius: "4px",
-                                        border: "0.5px solid",
-                                      }}
-                 
-                                      value={values.title}
-                                    />
-
-                                    <ErrorMessage
-                                      name="title"
-                                      component="div"
-                                      className="text-sm text-red-600"
-                                    />
-                                  </div>
-                                </div>
-                                <div className="flex px-5 w-full justify-center text-center">
-                                  <button
-                                   type="submit"
-                                    className=" bg-blue-600  text-white rounded-lg block cursor-pointer py-2 px-8 align-middle"
-                                    style={{ backgroundColor: "#034488" }}
-                                  >
-                                    {edit === null ? "Save Changes " : "Update"}
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className=" border-[0.5px] mx-3 border-gray-700 py-2 text-gray-700 rounded-lg block cursor-pointer px-8"
-                                    onClick={async () => {
-                                    
-                                      await setShowForm(false);
-                                    }}
-                                  >
-                                    Cancel
-                                  </button>
-                                </div>
-                              </Form>
-                            );
-                          }}
-                        </Formik>
-                      </div>
-                    </Dialog.Panel>
-                  </Transition.Child>
-                </div>
-              </div>
-            </Dialog>
-          </Transition>
-        )}
 
               <div className="w-full">
                 {jobs &&

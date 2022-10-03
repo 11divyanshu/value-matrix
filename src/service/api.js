@@ -804,10 +804,75 @@ export const saveCandidateReport = async (data) => {
   try {
     return await axios.get(`${url}/saveCandidateReport?candidate_id=${data}`
     );
-
+    
   } catch (err) {
     console.log("Error : ", err);
   }
 }
 
+// get Company users
+
+
+export const getCompanyUserList = async (id) => {
+  try {
+    return await axios.get(`${url}/getCompanyUserList?id=${id}`
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+
+// get titles
+export const getJobTitles = async (id) => {
+  try {
+    return await axios.get(`${url}/getJobTitles`
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+export const listUnapproveTitles = async (id) => {
+  try {
+    return await axios.get(`${url}/listUnapproveTitles`
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+export const approveTitle = async (data) => {
+  try {
+    return await axios.post(`${url}/approveTitle`,data
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+export const jobTitles = async (data) => {
+  try {
+    return await axios.post(`${url}/jobTitles`,data
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+export const addcompany = async (data) => {
+  try {
+    return await axios.post(`${url}/addcompany`,data
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
 

@@ -17,17 +17,17 @@ const Masking = () => {
     
     useEffect(() => {
         const initial = async () => {
-          let user = JSON.parse(await localStorage.getItem("user"));
-          setUser(user);
-    console.log(user)
-        //   let res = await getUserFromId({ id: user._id }, user.access_token);
- 
-        //   console.log(res);
-          setLogo(user.showComLogo)
-          setTitle(user.showComName)
-          setEducation(user.showEducation)
-          setContact(user.showContact)
-          setEmail(user.showEmail)
+         let user = JSON.parse(await localStorage.getItem("user"));
+    //       setUser(user);
+    // console.log(user)
+          let res = await getUserFromId({ id: user._id }, user.access_token);
+ setUser(res.data.user)
+          console.log(res.data.user);
+          setLogo(res.data.user.showComLogo)
+          setTitle(res.data.user.showComName)
+          setEducation(res.data.user.showEducation)
+          setContact(res.data.user.showContact)
+          setEmail(res.data.user.showEmail)
         
 
         } ;
@@ -35,17 +35,18 @@ const Masking = () => {
     },[])
     return(
 <div className="bg-slate-100 -mt-10 text-center align-center w-full h-[80vh]">
+    {user && 
 <div className="lg:w-3/4 mx-auto py-5 mt-10 shadow-md mr-3 bg-white">
 <div className="w-full mt-9 text-left">
     <p className="font-semibold text-xl mx-4">Data Control Settings</p>
   <div className="w-full m-5  mx-7">
     <Formik
         initialValues={{
-            logo: logo ? logo : false,
-            title:title ? title : false,
-            email:email ? email : false,
-            contact:contact ? contact : false,
-            education:education ? education : false
+            logo: logo ,
+            title: title ,
+            email: email,
+            contact:contact ,
+            education:education
            }}
       
       validate={(values) => {
@@ -141,6 +142,12 @@ const Masking = () => {
                   "user",
                   JSON.stringify(res.data.user)
                 );
+                swal({
+                    title: "Success",
+                    text: "Settings Updated Successfully",
+                    icon: "success",
+                    button: "Ok",
+                  });
                 // await setJob(job);
 
                     // setPageIndex(6);
@@ -159,7 +166,7 @@ const Masking = () => {
   </div>
 </div>
 </div>
-
+}
 </div>)
 }
 

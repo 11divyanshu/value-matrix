@@ -13,6 +13,12 @@ $breakpoint-xl: 1336px !default;
   .toggled{
     width: 80% !important;
   }
+  *{
+    -ms-overflow-style: none;
+}
+::-webkit-scrollbar {
+    display: none;
+}
 }
 @media only screen and (max-width: 1336px){
     

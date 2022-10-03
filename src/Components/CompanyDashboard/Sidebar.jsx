@@ -14,7 +14,9 @@ import {
   AiOutlineClose,
   AiOutlineConsoleSql,
   AiOutlineHome,
-  AiOutlinePlus
+  AiOutlinePlus,
+  AiOutlineFolderAdd,
+
 } from "react-icons/ai";
 import React from "react";
 import "../../assets/stylesheet/sidebar.scss";
@@ -159,15 +161,12 @@ setClose(getWindowDimensions().width)
             </MenuItem>
 
             {/* <hr></hr> */}
-            <p className='text-gray-400 font-bold text-xs mx-4 my-5'>ANALYTICS</p>
+            <p className='text-gray-400 font-bold text-xs mx-4 my-4'>ANALYTICS</p>
 
             {companyDashboardRoutes.map((item) => {
               if (item.hide === false && permission[item.permission] !== false)
                 return (
-                  // <Link
-                  //   to={`/company${item.path}`}
-                  //   onClick={() => setOpen(true)}
-                  // > <span className="flex my-2 p-3 text-gray-700"> <p className="mx-2 text-gray-600">{item.icon} </p>  <p className="font-bold"> {item.name}</p> </span></Link>
+               
 
                   <MenuItem
                     className="text-gray-700 font-semibold"
@@ -185,6 +184,30 @@ setClose(getWindowDimensions().width)
                   </MenuItem>
                 );
             })}
+         
+          <SubMenu
+            // suffix={}
+            title={<p className='text-sm font-semibold '>Company User</p>}
+            icon={<p className='text-lg'><AiOutlineMenu /></p>}
+          >
+            <MenuItem className='text-gray-700 font-semibold' active={window.location.pathname === `/company/addCompanyUser`}
+                    icon={<AiOutlineFolderAdd/>}>Add Users<Link to={`/company/addCompanyUser`}
+                     onClick={() => { setOpen(true);
+                      // handleToggle()
+                    }
+
+
+                    } /></MenuItem>
+            <MenuItem className='text-gray-700 font-semibold py-1' active={window.location.pathname === `/company/CompanyUserList`}
+                    icon={<AiOutlineMenu/>}>Users List<Link to={`/company/CompanyUserList`}
+                     onClick={() => { setOpen(true);
+                      // handleToggle()
+                    }
+
+
+                    } /></MenuItem>
+            {/* <MenuItem> 3</MenuItem> */}
+          </SubMenu>
           </Menu>
         </SidebarContent>
         <div className="mx-4 my-24">

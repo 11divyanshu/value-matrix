@@ -42,7 +42,8 @@ import {
   uploadCandidateResume,
   getCountryList,
   languagesList,
-   checkCompany
+   checkCompany,
+   getJobTitles
 } from "../../service/api";
 import ReactCropper from "../../Pages/UserDashboard/ReactCrop";
 import Loader from "../../assets/images/loader.gif";
@@ -119,11 +120,15 @@ export default function Tabs(props) {
       let res = await getDBCompanyList();
       setCompanyList(res.data);
       setExCompanyList(res.data);
-      console.log(excompanyList);
+      console.log(res.data);
 
       let languages = await languagesList();
       console.log(languages);
       setLanguage(languages.data);
+
+      let title = await getJobTitles();
+      console.log(title);
+      setJobTitle(title.data);
 
       let country = await getCountryList();
       console.log(country);
@@ -132,6 +137,7 @@ export default function Tabs(props) {
     initial();
   }, []);
 
+  const [excompanyList, setExCompanyList] = React.useState([]);
 
   const [companyList, setCompanyList] = React.useState([]);
   const [selectedCompany, setSelectedCompany] = React.useState(null);
@@ -146,13 +152,12 @@ export default function Tabs(props) {
         .slice(0, 10);
 
 
-  const [excompanyList, setExCompanyList] = React.useState([]);
   const [selectedExCompany, setSelectedExCompany] = React.useState(null);
   const [companyExQuery, setExCompanyQuery] = React.useState("");
   const filteredExCompany =
     companyExQuery === ""
-      ? excompanyList.slice(0, 10)
-      : excompanyList
+      ? companyList.slice(0, 10)
+      : companyList
         .filter((company) =>
           company.name.toLowerCase().includes(companyExQuery.toLowerCase())
         )
@@ -180,6 +185,19 @@ export default function Tabs(props) {
       : schoolList
         .filter((school) =>
           school.name.toLowerCase().includes(schoolQuery.toLowerCase())
+        )
+        .slice(0, 10);
+
+
+  const [JobTitle, setJobTitle] = React.useState([]);
+  const [selectedTitle, setSelectedTitle] = React.useState(null);
+  const [TitleQuery, setTitleQuery] = React.useState("");
+  const filteredTitle =
+    TitleQuery === ""
+      ? JobTitle.slice(0, 10)
+      : JobTitle
+        .filter((title) =>
+          title.name.toLowerCase().includes(TitleQuery.toLowerCase())
         )
         .slice(0, 10);
 
@@ -469,8 +487,9 @@ export default function Tabs(props) {
           city = selectedCity.name + ", " + selectedCity.country;
         }
         let company = selectedCompany;
+        let title = selectedTitle;
         const temp = [...experienceDetail];
-        temp[edit] = { ...values, location: city, company_name: company, Ispresent: exPresent };
+        temp[edit] = { ...values, location: city, company_name: company, Ispresent: exPresent  , title:title};
         await setExperienceDetail(temp);
         e.experience = temp;
         setUser(e);
@@ -484,9 +503,10 @@ export default function Tabs(props) {
         city = selectedCity.name + ", " + selectedCity.country;
       }
       let company = selectedCompany;
+      let title = selectedTitle;
 
       let temp = experienceDetail;
-      temp = [...experienceDetail, { ...values, location: city, company_name: company, Ispresent: exPresent }];
+      temp = [...experienceDetail, { ...values, location: city, company_name: company, Ispresent: exPresent , title:title}];
       await setExperienceDetail(temp);
       e.experience = temp;
       setUser(e);
@@ -502,6 +522,8 @@ export default function Tabs(props) {
         description: null,
       });
       setSelectedCompany(null);
+      setSelectedTitle(null);
+      setSelectedCity(null);
       resetBtn.current.click();
       swal({
         icon: "success",
@@ -517,7 +539,6 @@ export default function Tabs(props) {
     if (!lserror) {
       let e = JSON.parse(await localStorage.getItem("user"));
       if (edit !== null) {
-
         const temp = [...languageSkills];
         temp[edit] = { ...values };
         await setLanguageSkills(temp);
@@ -562,22 +583,26 @@ export default function Tabs(props) {
       if (edit !== null) {
         const temp = [...associateDetail];
         let company = selectedCompany;
+        let title = selectedTitle;
 
-        temp[edit] = { ...values, location: selectedCity, company_name: company, Ispresent: asPresent };
+        temp[edit] = { ...values, location: selectedCity, company_name: company, Ispresent: asPresent , title:title};
         await setAssociateDetail(temp);
         e.associate = temp;
         setUser(e);
         await localStorage.setItem("user", JSON.stringify(e));
         await setEdit(null);
+        setSelectedTitle(null);
+
         resetBtn.current.click();
         return;
       }
       let company = selectedCompany;
+      let title = selectedTitle;
 
       let temp = associateDetail;
       temp
-        ? (temp = [...associateDetail, { ...values, location: selectedCity, company_name: company, Ispresent: asPresent }])
-        : (temp = [{ ...values, location: selectedCity, company_name: company, Ispresent: asPresent }]);
+        ? (temp = [...associateDetail, { ...values, location: selectedCity, company_name: company, Ispresent: asPresent, title:title }])
+        : (temp = [{ ...values, location: selectedCity, company_name: company, Ispresent: asPresent , title:title }]);
       await setAssociateDetail(temp);
       e.associate = temp;
       setUser(e);
@@ -593,6 +618,7 @@ export default function Tabs(props) {
         description: null,
       });
       setSelectedCompany(null);
+      setSelectedTitle(null);
 
       resetBtn.current.click();
       swal({
@@ -1871,7 +1897,9 @@ export default function Tabs(props) {
                                     ref={resetBtn}
                                     onClick={async () => {
                                       setPresent(false);
-
+                                      setSelectedExCompany(null);
+                                      setSelectedTitle(null);
+                                      setSelectedCity(null);
                                       await setShowError(false);
                                       await setShowEduForm(false);
                                     }}
@@ -1966,9 +1994,9 @@ export default function Tabs(props) {
                       </div>
                     </div>
                   </div>
-                  {item.description && (
+                  {/* {item.description && (
                     <div className="py-2">{item.description}</div>
-                  )}
+                  )} */}
                 </div>
               );
             })}
@@ -2063,14 +2091,17 @@ export default function Tabs(props) {
                           validate={(values) => {
                             if (showExForm === false) return {};
                             const errors = {};
-                            if (!values.title) {
-                              errors.title = "Required";
-                            }
+                            // if (!values.title) {
+                            //   errors.title = "Required";
+                            // }
                             if (!values.employment_type) {
                               errors.employment_type = "Required";
                             }
                             if (!selectedCompany || selectedCompany === " ") {
                               errors.company_name = "Required";
+                            }
+                            if (!selectedTitle || selectedTitle === " ") {
+                              errors.title = "Required";
                             }
                             if (!selectedCity || selectedCity === " ") {
                               errors.location = "Required";
@@ -2118,14 +2149,55 @@ export default function Tabs(props) {
                                     Title{" "}
                                   </label>
                                   <div className="w-full md:w-4/5">
-                                    <Field
+                                    {/* <Field
                                       name="title"
                                       type="text"
                                       placeholder="Ex. Manager"
                                       className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
                                       style={{ borderRadius: "4px" }}
                                       value={values.title}
-                                    />
+                                    /> */}
+                                     {edit !== null && (
+                                      <p>
+                                        Current Job :{" "}
+                                        {`${values.title}`}
+                                      </p>
+                                    )}
+                                   
+                                    <Combobox
+                                      value={selectedTitle}
+                                      onChange={setSelectedTitle}
+                                    >
+                                      <Combobox.Input
+                                        onChange={(event) =>
+                                          setTitleQuery(event.target.value)
+                                        }
+                                        className="border-[0.5px] rounded-lg w-full border-gray-400 focus:outline-0 focus:border-0 px-4 py-2"
+                                        style={{ borderRadius: "5px" }}
+                                      />
+                                      <Combobox.Options className="absolute z-100 bg-white rounded-lg shadow-md">
+                                        {TitleQuery.length > 0 && (
+                                          <Combobox.Option className="p-2" value={`${TitleQuery}`}>
+                                            Create "{TitleQuery}"
+                                          </Combobox.Option>
+                                        )}
+                                        {filteredTitle.map((title) => (
+                                          <Combobox.Option
+                                            key={title.name}
+                                            value={`${title.name}`}
+                                          >
+                                            {({ active, selected }) => (
+                                              <li
+                                                className={`${active ? 'bg-blue-500 text-white p-2' : 'bg-white text-black p-2'
+                                                  }`}
+                                              >
+                                                {title.name}
+                                              </li>
+                                            )}
+                                          </Combobox.Option>
+                                        ))}
+                                      </Combobox.Options>
+                                    </Combobox>
                                     <ErrorMessage
                                       name="title"
                                       component="div"
@@ -2187,30 +2259,30 @@ export default function Tabs(props) {
                                       <p>Current Company : {values.company_name}</p>
                                     )}
                                     <Combobox
-                                      value={selectedExCompany}
-                                      onChange={setSelectedExCompany}
+                                      value={selectedCompany}
+                                      onChange={setSelectedCompany}
                                     >
                                       <Combobox.Input
                                         onChange={(event) =>
-                                          setExCompanyQuery(event.target.value)
+                                          setCompanyQuery(event.target.value)
                                         }
                                         className="border-[0.5px] rounded-lg border-gray-400 focus:outline-0 focus:border-0 px-4 py-2 w-full"
                                         style={{ borderRadius: "5px" }}
                                       />
                                       <Combobox.Options className="absolute z-100 bg-white rounded-lg shadow-md">
-                                        {companyExQuery.length > 0 && (
+                                        {companyQuery.length > 0 && (
                                           <Combobox.Option
-                                            value={`${companyExQuery}`}
+                                            value={`${companyQuery}`}
                                             className="cursor-pointer p-2"
                                             onClick={async()=>{
-                                              let res =await checkCompany({name:companyExQuery});
+                                              let res =await checkCompany({name:companyQuery});
 
                                             }}
                                           >
-                                            Create "{companyExQuery}"
+                                            Create "{companyQuery}"
                                           </Combobox.Option>
                                         )}
-                                        {filteredExCompany.map((company) => (
+                                        {filteredCompany.map((company) => (
                                           <Combobox.Option
                                             key={company.name}
                                             value={`${company.name}`}
@@ -2628,7 +2700,10 @@ export default function Tabs(props) {
                           validate={(values) => {
                             if (showAsForm === false) return {};
                             const errors = {};
-                            if (!values.title) {
+                            // if (!values.title) {
+                            //   errors.title = "Required";
+                            // }
+                            if (!selectedTitle || selectedTitle === " ") {
                               errors.title = "Required";
                             }
 
@@ -2675,14 +2750,55 @@ export default function Tabs(props) {
                                     Title{" "}
                                   </label>
                                   <div className="w-full md:w-4/5">
-                                    <Field
+                                    {/* <Field
                                       name="title"
                                       type="text"
                                       placeholder="Ex. Manager"
                                       className=" block border-gray-400 py-2 w-full border-[0.5px] border-[#6b7280]"
                                       style={{ borderRadius: "4px" }}
                                       value={values.title}
-                                    />
+                                    /> */}
+                                     {edit !== null && (
+                                      <p>
+                                        Current Job :{" "}
+                                        {`${values.title}`}
+                                      </p>
+                                    )}
+                                   
+                                    <Combobox
+                                      value={selectedTitle}
+                                      onChange={setSelectedTitle}
+                                    >
+                                      <Combobox.Input
+                                        onChange={(event) =>
+                                          setTitleQuery(event.target.value)
+                                        }
+                                        className="border-[0.5px] rounded-lg w-full border-gray-400 focus:outline-0 focus:border-0 px-4 py-2"
+                                        style={{ borderRadius: "5px" }}
+                                      />
+                                      <Combobox.Options className="absolute z-100 bg-white rounded-lg shadow-md">
+                                        {TitleQuery.length > 0 && (
+                                          <Combobox.Option className="p-2" value={`${TitleQuery}`}>
+                                            Create "{TitleQuery}"
+                                          </Combobox.Option>
+                                        )}
+                                        {filteredTitle.map((title) => (
+                                          <Combobox.Option
+                                            key={title.name}
+                                            value={`${title.name}`}
+                                          >
+                                            {({ active, selected }) => (
+                                              <li
+                                                className={`${active ? 'bg-blue-500 text-white p-2' : 'bg-white text-black p-2'
+                                                  }`}
+                                              >
+                                                {title.name}
+                                              </li>
+                                            )}
+                                          </Combobox.Option>
+                                        ))}
+                                      </Combobox.Options>
+                                    </Combobox>
                                     <ErrorMessage
                                       name="title"
                                       component="div"
@@ -2724,7 +2840,7 @@ export default function Tabs(props) {
                                             value={`${companyQuery}`}
                                             className="cursor-pointer p-2"
                                             onClick={async()=>{
-                                              let res =await checkCompany({name:companyExQuery});
+                                              let res =await checkCompany({name:companyQuery});
                                               
                                             }}
                                           >
@@ -2962,7 +3078,9 @@ export default function Tabs(props) {
                                     ref={resetBtn}
                                     onClick={async () => {
                                       await setAsPresent(false);
-
+                                      setSelectedExCompany(null);
+                                      setSelectedTitle(null);
+                                      setSelectedCity(null);
                                       await setShowError(false);
                                       await setShowAsForm(false);
                                     }}

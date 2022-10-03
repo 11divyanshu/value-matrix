@@ -15,6 +15,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { BsThreeDots, BsCashStack } from "react-icons/bs";
 import { CgWorkAlt } from "react-icons/cg";
 import { Fragment } from "react";
+import swal from "sweetalert";
+
 const JobList = () => {
   const [jobs, setJobs] = React.useState([]);
   const [loader, setLoader] = React.useState(false);
@@ -258,15 +260,22 @@ const JobList = () => {
                                         <div className="flex items-center text-gray-800 space-x-2"
                                         onClick={async()=>{
                                          let res1 = await approveJob({_id:job._id});
+                                         swal({
+                                          icon: "success",
+                                          title: "EditProfile",
+                                          text: "Details Saved",
+                                          button: "Continue",
+                                        });
+                                         if(res1){
                                          let res = await unapprovedJobsList();
-                                         console.log(res);
+                                      
                                          if (res && res.data) {
                                            setJobs(res.data);
                                            console.log(res.data);
                                            let arr = [...res.data];
                                            const jsonObj = JSON.stringify(arr);
                                          
-                                         console.log(res)
+                                      }
                                         }}
                                       }
                                         >

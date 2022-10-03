@@ -176,6 +176,8 @@ const Sidebar = () => {
 
 
                     } /></MenuItem>
+
+
             <MenuItem className='text-gray-700 font-semibold py-1' active={window.location.pathname === `/admin/companyValidate`}
                     icon={<AiOutlineMenu/>}>Company Validation<Link to={`/admin/companyValidate`}
                      onClick={() => { setOpen(true);
@@ -184,6 +186,22 @@ const Sidebar = () => {
 
 
                     } /></MenuItem>
+            <MenuItem className='text-gray-700 font-semibold py-1' active={window.location.pathname === `/admin/titleValidate`}
+                    icon={<AiOutlineMenu/>}>Title Validation<Link to={`/admin/titleValidate`}
+                     onClick={() => { setOpen(true);
+                      // handleToggle()
+                    }
+
+
+                    } /></MenuItem>
+            {/* <MenuItem className='text-gray-700 font-semibold py-1' active={window.location.pathname === `/admin/cityValidate`}
+                    icon={<AiOutlineMenu/>}>City Validation<Link to={`/admin/cityValidate`}
+                     onClick={() => { setOpen(true);
+                      // handleToggle()
+                    }
+
+
+                    } /></MenuItem> */}
             {/* <MenuItem> 3</MenuItem> */}
           </SubMenu>
           </Menu>

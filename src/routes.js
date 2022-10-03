@@ -55,8 +55,20 @@ import AddCompanyUser from "./Pages/CompanyDashboard/AddCompanyUser";
 import CandidateList from "./Pages/CompanyDashboard/CandidateList";
 import CandidateReport from "./Pages/CompanyDashboard/CandidateReport";
 import Masking from "./Pages/CompanyDashboard/Masking";
+import CompanyUserList from "./Pages/CompanyDashboard/CompanyUsersList";
+
+
+
+
+
+
+
+
 import Jobvalidate from "./Pages/AdminDashboard/jobValidate";
 import CompanyValidate from "./Pages/AdminDashboard/companyValidate";
+import TitleValidate from "./Pages/AdminDashboard/TitleValidate";
+
+import CityValidate from "./Pages/AdminDashboard/CityValidate";
 
 
 
@@ -258,6 +270,20 @@ export const adminDashboardRoutes = [
     permission: "default",
   },
   {
+    name: "Company Validation",
+    path: "/cityValidate",
+    hide: true,
+    component: <CityValidate />,
+    permission: "default",
+  },
+  {
+    name: "Company Validation",
+    path: "/titleValidate",
+    hide: true,
+    component: <TitleValidate />,
+    permission: "default",
+  },
+  {
     name: "Add Skills",
     path: "/addSkills",
     hide: false,
@@ -356,10 +382,18 @@ export const companyDashboardRoutes = [
     permission: "default",
   },
   {
-    name: "Add Manager",
+    name: "Add User",
     path: "/addCompanyUser",
-    hide: false,
+    hide: true,
     component: <AddCompanyUser />,
+    icon: <AiOutlineFolderAdd className="text-xl" />,
+    permission: "add_users",
+  },
+  {
+    name: "Users List",
+    path: "/CompanyUserList",
+    hide: true,
+    component: <CompanyUserList />,
     icon: <AiOutlineFolderAdd className="text-xl" />,
     permission: "add_users",
   },
