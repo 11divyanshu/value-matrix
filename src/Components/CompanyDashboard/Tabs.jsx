@@ -129,7 +129,7 @@ export default function Tabs() {
                     />
                   </div>
                   <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                  <label className="font-semibold text-lg md:w-1/3 mx-5">
+                  <label className="font-semibold text-lg md:w-1/3 ml-5 mr-20">
                       Address
                     </label>
                     <div className="w-2/3 mx-5 ">
