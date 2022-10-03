@@ -398,7 +398,7 @@ export const companyDashboardRoutes = [
     permission: "add_users",
   },
   {
-    name: "Candidate List",
+    name: "Candidates",
     path: "/candidateList",
     hide: false,
     component: <CandidateList />,
@@ -406,7 +406,7 @@ export const companyDashboardRoutes = [
     permission: "default",
   },
   {
-    name: "Data Controller",
+    name: "Settings",
     path: "/masking",
     hide: false,
     component: <Masking />,
