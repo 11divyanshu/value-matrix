@@ -23,8 +23,8 @@ import { FaRegBuilding } from "react-icons/fa";
 import { FiInfo } from "react-icons/fi";
 import { BsCalendar } from "react-icons/bs";
 import { GrScorecard } from "react-icons/gr";
-import { HiOutlineOfficeBuilding,HiPencil } from "react-icons/hi";
-import { downloadResume, getResume } from "../../service/api";
+import { HiOutlineOfficeBuilding, HiPencil } from "react-icons/hi";
+import { downloadResume, getResume,getUserFromId } from "../../service/api";
 
 import "react-multi-carousel/lib/styles.css";
 
@@ -35,12 +35,16 @@ export default function Tabs() {
   const [resume, setResume] = React.useState(null);
 
   const [skillsPrimary, setSkillsPrimary] = React.useState([]);
+  const [secEmail, setSecEmail] = React.useState([]);
+  const [secContact, setSecContact] = React.useState([]);
   const [roles, setRoles] = React.useState({});
   const [link, setLink] = React.useState({});
 
   React.useEffect(() => {
     const func = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
+      let user1 = await getUserFromId({ id: user._id }, user.access_token);
+console.log(user1)
       let access_token = localStorage.getItem("access_token");
       if (user && user.profileImg) {
         const img = user.profileImg;
@@ -50,7 +54,8 @@ export default function Tabs() {
         setProfileImg(imgBase64);
       }
       if (access_token === null) window.location.href = "/login";
-
+      setSecContact(user1.data.user.secondaryContacts)
+      setSecEmail(user1.data.user.secondaryEmails)
       let primarySkills = {};
       let roles = new Set([]);
       user.tools.forEach((skill) => {
@@ -268,7 +273,7 @@ export default function Tabs() {
                             <Field
                               name="houseNo"
                               type="text"
-                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px",}}
+                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
                               className="block border-gray-200 py-1 w-full"
                               disabled
 
@@ -285,7 +290,7 @@ export default function Tabs() {
                               <Field
                                 name="street"
                                 type="text"
-                                style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px",}}
+                                style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
                                 className="block border-gray-200 py-1 w-full"
                                 disabled
 
@@ -310,7 +315,7 @@ export default function Tabs() {
                             <Field
                               name="city"
                               type="text"
-                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px",}}
+                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
                               className="block border-gray-200 py-1 w-full"
                               disabled
 
@@ -329,7 +334,7 @@ export default function Tabs() {
                               <Field
                                 name="state"
                                 type="text"
-                                style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px",}}
+                                style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
                                 className="block border-gray-200 py-1 w-full"
                                 disabled
 
@@ -356,7 +361,7 @@ export default function Tabs() {
                             <Field
                               name="country"
                               type="text"
-                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px",}}
+                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
                               className="block border-gray-200 py-1 w-full"
                               disabled
 
@@ -375,7 +380,7 @@ export default function Tabs() {
                               <Field
                                 name="zip"
                                 type="text"
-                                style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px",}}
+                                style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
                                 className="block border-gray-200 py-1 w-full"
                                 disabled
 
@@ -392,6 +397,54 @@ export default function Tabs() {
                       </div>
                     </div>
 
+
+                  </div>
+                  <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0 md:flex w-full  space-y-1">
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
+                      Secondary Emails
+                    </label>
+                    <div className="md:w-4/5 sm:w-4/5 mx-5">
+                    {secEmail && secEmail.map((item, index) => {
+return(
+                      <input
+                        value={item}
+                        type="text"
+                        disabled
+                        style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
+                        className="block border-gray-200 py-1 w-full my-1"
+                      // style={{
+                      //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
+
+                      //   border: "none",
+                      // }}
+                      />
+)
+                    })}
+                    </div>
+
+                  </div>
+                  <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0 md:flex w-full  space-y-1">
+                    <label className="font-semibold text-lg md:w-2/5 mx-5">
+                      Secondary Contacts
+                    </label>
+                    <div className="w-full md:w-4/5 sm:w-4/5">
+                    {secContact && secContact.map((item, index) => {
+return(
+                      <input
+                        value={item}
+                        type="text"
+                        disabled
+                        style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
+                        className="block border-gray-200 py-1 my-1"
+                      // style={{
+                      //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
+
+                      //   border: "none",
+                      // }}
+                      />
+)
+                    })}
+                    </div>
 
                   </div>
                   {user.resume && (
@@ -642,19 +695,19 @@ export default function Tabs() {
             </div>
 
             <div className="my-2">
-            <label className="font-semibold text-lg w-2/5 mx-2">Language Skills</label>
+              <label className="font-semibold text-lg w-2/5 mx-2">Language Skills</label>
 
-            <div className=" mx-auto justify-center text-center">
-            <div className="w-1/2">
-              { user.language &&
-                user.language.map((item, index) => {
-                  return (
-                    <div
-                      className=" rounded-md py-2 px-4 bg-white border border-gray-400 my-4 h-35"
-                      key={index}
-                    >
-                      <div className="flex justify-end space-x-3 items-center">
-                        {/* <RiEditBoxLine
+              <div className=" mx-auto justify-center text-center">
+                <div className="w-1/2">
+                  {user.language &&
+                    user.language.map((item, index) => {
+                      return (
+                        <div
+                          className=" rounded-md py-2 px-4 bg-white border border-gray-400 my-4 h-35"
+                          key={index}
+                        >
+                          <div className="flex justify-end space-x-3 items-center">
+                            {/* <RiEditBoxLine
                       className="cursor-pointer"
                       onClick={() => {
                         setEdit(index);
@@ -663,54 +716,54 @@ export default function Tabs() {
                       }}
                     />
                   */}
-                      </div>
-                      <div className="font-semibold flex space-x-2 items-center">
-                        <p>{item.name}</p> <p className="font-normal text-sm">|</p>{" "}
-                       
-                      </div>
-                      <div className="grid grid-cols-1 md:gap-2 gap-0 lg:grid-cols-6 space-between align-items-right ">
-                        <div className="col-start-1 col-end-3 flex">
-                        <div className="space-x-2 my-2 flex items-center pr-2">
-                          
-                          <p className="text-lg">{item.read ? <p className="text-lg"><AiOutlineRead /></p> : "" } </p>
-                        </div>
-                        <div className="space-x-2 my-2 flex items-center px-2">
-                          
-                          <p className="text-lg">{item.write  ? <p className="text-lg"><HiPencil /></p> : "" }</p>
-                        </div>
-                        <div className="flex items-center space-x-2 my-2 px-2">
-                         
-                          <p className="text-sm text-gray-600 text-lg">
-                            {item.speak  ? <p className="text-lg"><IoPeople /></p> : "" }
-                          </p>
-                        </div>
-                        </div>
-                        <div className="col-start-5 col-end-7 col-span-2 flex items-center space-x-2 ">
-                          <button
-                            class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
-                            style={{ backgroundColor: "#034488" }}
-                            onClick={() => {
-                          
-                            }}
-                          >
-                            Edit
-                          </button>
-                          <div className="text-xl mx-5 px-7 py-2">
-
-                          
                           </div>
+                          <div className="font-semibold flex space-x-2 items-center">
+                            <p>{item.name}</p> <p className="font-normal text-sm">|</p>{" "}
+
+                          </div>
+                          <div className="grid grid-cols-1 md:gap-2 gap-0 lg:grid-cols-6 space-between align-items-right ">
+                            <div className="col-start-1 col-end-3 flex">
+                              <div className="space-x-2 my-2 flex items-center pr-2">
+
+                                <p className="text-lg">{item.read ? <p className="text-lg"><AiOutlineRead /></p> : ""} </p>
+                              </div>
+                              <div className="space-x-2 my-2 flex items-center px-2">
+
+                                <p className="text-lg">{item.write ? <p className="text-lg"><HiPencil /></p> : ""}</p>
+                              </div>
+                              <div className="flex items-center space-x-2 my-2 px-2">
+
+                                <p className="text-sm text-gray-600 text-lg">
+                                  {item.speak ? <p className="text-lg"><IoPeople /></p> : ""}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="col-start-5 col-end-7 col-span-2 flex items-center space-x-2 ">
+                              <button
+                                class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
+                                style={{ backgroundColor: "#034488" }}
+                                onClick={() => {
+
+                                }}
+                              >
+                                Edit
+                              </button>
+                              <div className="text-xl mx-5 px-7 py-2">
+
+
+                              </div>
+                            </div>
+                          </div>
+
                         </div>
-                      </div>
-                     
-                    </div>
-                  );
-                })}
-            </div>
-          
+                      );
+                    })}
+                </div>
 
 
-          </div>
+
               </div>
+            </div>
 
             <div className="md:w-1/2 w-full block space-y-1">
               <label className="font-semibold">Resume</label><br />
