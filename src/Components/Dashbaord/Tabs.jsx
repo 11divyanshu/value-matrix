@@ -411,7 +411,7 @@ return(
                         type="text"
                         disabled
                         style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
-                        className="block border-gray-200 py-1 w-full my-1"
+                        className="block border-gray-200 py-1 w-full my-3"
                       // style={{
                       //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 
@@ -427,7 +427,7 @@ return(
                     <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Secondary Contacts
                     </label>
-                    <div className="w-full md:w-4/5 sm:w-4/5">
+                    <div className=" md:w-4/5 sm:w-4/5 mx-5">
                     {secContact && secContact.map((item, index) => {
 return(
                       <input
@@ -435,7 +435,7 @@ return(
                         type="text"
                         disabled
                         style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
-                        className="block border-gray-200 py-1 my-1"
+                        className="block border-gray-200 py-1 my-3 w-full"
                       // style={{
                       //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 
