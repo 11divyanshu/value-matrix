@@ -92,6 +92,7 @@ import SXIJobList from "./Pages/SuperXIDashboard/jobList.jsx";
 import SXIJobDetails from "./Pages/SuperXIDashboard/JobDetails.jsx";
 import AddQuestions from "./Pages/AdminDashboard/AddQuestions";
 import UpdateInterviewApplication from "./Pages/XIDashboard/UpdateInterviewApplication";
+import { FiSettings } from "react-icons/fi";
 
 // User Dashboard Routes
 export const dashboardRoutes = [
@@ -406,11 +407,11 @@ export const companyDashboardRoutes = [
     permission: "default",
   },
   {
-    name: "Settings",
+    name: "Setting",
     path: "/masking",
     hide: false,
     component: <Masking />,
-    icon: <AiOutlineUnorderedList className="text-xl" />,
+    icon: <FiSettings className="text-xl" />,
     permission: "default",
   },
   {
