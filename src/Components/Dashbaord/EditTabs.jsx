@@ -79,7 +79,8 @@ export default function Tabs(props) {
   // Updates Any Error during the Editing Profile
   const [Error, setError] = React.useState(null);
   const [error, seterror] = React.useState(null);
-
+  const [secEmail, setSecEmail] = React.useState([]);
+  const [secContact, setSecContact] = React.useState([]);
   // City Autocomplete
   const [selectedCity, setSelectedCity] = React.useState(cities[103]);
   const [country, setSelectedCountry] = React.useState([]);
@@ -367,6 +368,8 @@ export default function Tabs(props) {
     const initial = async () => {
       let e = JSON.parse(await localStorage.getItem("user"));
       setUser(e);
+      setSecContact(e.secondaryContacts)
+      setSecEmail(e.secondaryEmails)
       if (e === null) return null;
       let ed = e.education;
       console.log(ed);
@@ -677,6 +680,8 @@ export default function Tabs(props) {
       user.state = values.state;
       user.zip = values.zip;
       user.contact = values.contact;
+      user.secondaryContacts = secContact;
+      user.secondaryEmails = secEmail;
       setUser(user);
       localStorage.setItem("user", JSON.stringify(user));
       swal({
@@ -864,6 +869,8 @@ export default function Tabs(props) {
       education: ed.education,
       language: ed.language,
       tools: skills,
+      secondaryContacts: secContact,
+      secondaryEmails: secEmail,
     };
     if (EmailOTP) {
       data.email = ed.email;
@@ -900,7 +907,7 @@ export default function Tabs(props) {
       text: "Details Updated Succesfully",
       button: "Continue",
     }).then(() => {
-      // window.location.href = "/user/profile";
+      window.location.href = "/user/profile";
 
     })
   };
@@ -1368,6 +1375,116 @@ export default function Tabs(props) {
                       />
                     </div>
                   )}
+
+<div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
+<label className="font-semibold text-lg md:w-2/5 mx-2">
+                      Secondary Emails
+                    </label>
+                    <div className="w-4/5">
+                    {secEmail && secEmail.map((item, index) => {
+return(
+  <div
+  className="w-full flex items-center"
+  style={{ borderRadius: "12px" }}
+>
+                      <input
+                        value={item}
+                        type="text"
+                        disabled
+                        style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
+                        className="block border-gray-400 py-1 my-2 md:w-5/6 sm:w-full mx-2"
+                      // style={{
+                      //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
+
+                      //   border: "none",
+                      // }}
+                      />
+                      <div className="relative flex items-center">
+                  
+                      <p
+                        className="text-black text-sm hover:text-blue-500 cursor-pointer w-10 px-2 font-semibold  absolute right-3" 
+                       
+                     
+  
+                        
+                      >
+                        <AiOutlineDelete      
+                        onClick={async () => {
+                            setSecEmail(
+                              secEmail.filter((item, i) => i !== index)
+                            );
+                            let res = JSON.parse(await localStorage.getItem("user"));
+                            res.secondaryEmails = secEmail.filter(
+                              (item, i) => i !== index
+                            );
+                            setUser(res);
+                            localStorage.setItem("user", JSON.stringify(res));
+                          }} 
+                          className="text-xl" />
+                      </p>
+                  
+                    </div>
+                    </div>
+)
+                    })}
+                    </div>
+
+                  </div>
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
+                  <label className="font-semibold text-lg md:w-2/5 mx-2">
+                      Secondary Contacts
+                    </label>
+                    <div className=" w-4/5">
+                    {secContact && secContact.map((item, index) => {
+return(
+  <div
+  className="w-full flex items-center"
+  style={{ borderRadius: "12px" }}
+>
+                      <input
+                        value={item}
+                        type="text"
+                        disabled
+                        style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
+                        className="block border-gray-400 py-1 md:w-5/6 my-2 sm:w-full mx-2"
+                      // style={{
+                      //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
+
+                      //   border: "none",
+                      // }}
+                      />
+                         <div className="relative flex items-center">
+                  
+                    <p
+                      className="text-black text-sm hover:text-blue-500 cursor-pointer w-10 px-2 font-semibold  absolute right-3" 
+                     
+                   
+
+                      
+                    >
+                      <AiOutlineDelete      
+                      onClick={async () => {
+                          setSecContact(
+                            secContact.filter((item, i) => i !== index)
+                          );
+                          let res = JSON.parse(await localStorage.getItem("user"));
+                          res.secondaryContacts = secContact.filter(
+                            (item, i) => i !== index
+                          );
+                          setUser(res);
+                          localStorage.setItem("user", JSON.stringify(res));
+                        }} 
+                        className="text-xl" />
+                    </p>
+                
+                  </div>
+
+                  </div>
+)
+                    })}
+                    </div>
+
+                  </div>
 
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg md:w-2/5 mx-2">

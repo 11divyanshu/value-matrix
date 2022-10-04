@@ -68,7 +68,7 @@ import Jobvalidate from "./Pages/AdminDashboard/jobValidate";
 import CompanyValidate from "./Pages/AdminDashboard/companyValidate";
 import TitleValidate from "./Pages/AdminDashboard/TitleValidate";
 
-import CityValidate from "./Pages/AdminDashboard/CityValidate";
+import CityValidate from "./Pages/AdminDashboard/companyValidate copy";
 
 
 
