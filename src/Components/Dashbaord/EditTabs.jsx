@@ -42,8 +42,8 @@ import {
   uploadCandidateResume,
   getCountryList,
   languagesList,
-   checkCompany,
-   getJobTitles
+  checkCompany,
+  getJobTitles
 } from "../../service/api";
 import ReactCropper from "../../Pages/UserDashboard/ReactCrop";
 import Loader from "../../assets/images/loader.gif";
@@ -492,7 +492,7 @@ export default function Tabs(props) {
         let company = selectedCompany;
         let title = selectedTitle;
         const temp = [...experienceDetail];
-        temp[edit] = { ...values, location: city, company_name: company, Ispresent: exPresent  , title:title};
+        temp[edit] = { ...values, location: city, company_name: company, Ispresent: exPresent, title: title };
         await setExperienceDetail(temp);
         e.experience = temp;
         setUser(e);
@@ -509,7 +509,7 @@ export default function Tabs(props) {
       let title = selectedTitle;
 
       let temp = experienceDetail;
-      temp = [...experienceDetail, { ...values, location: city, company_name: company, Ispresent: exPresent , title:title}];
+      temp = [...experienceDetail, { ...values, location: city, company_name: company, Ispresent: exPresent, title: title }];
       await setExperienceDetail(temp);
       e.experience = temp;
       setUser(e);
@@ -588,7 +588,7 @@ export default function Tabs(props) {
         let company = selectedCompany;
         let title = selectedTitle;
 
-        temp[edit] = { ...values, location: selectedCity, company_name: company, Ispresent: asPresent , title:title};
+        temp[edit] = { ...values, location: selectedCity, company_name: company, Ispresent: asPresent, title: title };
         await setAssociateDetail(temp);
         e.associate = temp;
         setUser(e);
@@ -604,8 +604,8 @@ export default function Tabs(props) {
 
       let temp = associateDetail;
       temp
-        ? (temp = [...associateDetail, { ...values, location: selectedCity, company_name: company, Ispresent: asPresent, title:title }])
-        : (temp = [{ ...values, location: selectedCity, company_name: company, Ispresent: asPresent , title:title }]);
+        ? (temp = [...associateDetail, { ...values, location: selectedCity, company_name: company, Ispresent: asPresent, title: title }])
+        : (temp = [{ ...values, location: selectedCity, company_name: company, Ispresent: asPresent, title: title }]);
       await setAssociateDetail(temp);
       e.associate = temp;
       setUser(e);
@@ -1376,112 +1376,112 @@ export default function Tabs(props) {
                     </div>
                   )}
 
-<div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-<label className="font-semibold text-lg md:w-2/5 mx-2">
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
+                    <label className="font-semibold text-lg md:w-2/5 mx-2">
                       Secondary Emails
                     </label>
                     <div className="w-4/5">
-                    {secEmail && secEmail.map((item, index) => {
-return(
-  <div
-  className="w-full flex items-center"
-  style={{ borderRadius: "12px" }}
->
-                      <input
-                        value={item}
-                        type="text"
-                        disabled
-                        style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
-                        className="block border-gray-400 py-1 my-2 md:w-5/6 sm:w-full mx-2"
-                      // style={{
-                      //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
+                      {secEmail && secEmail.map((item, index) => {
+                        return (
+                          <div
+                            className="w-full flex items-center"
+                            style={{ borderRadius: "12px" }}
+                          >
+                            <input
+                              value={item}
+                              type="text"
+                              disabled
+                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
+                              className="block border-gray-400 py-1 my-2 md:w-5/6 sm:w-full mx-2"
+                            // style={{
+                            //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 
-                      //   border: "none",
-                      // }}
-                      />
-                      <div className="relative flex items-center">
-                  
-                      <p
-                        className="text-black text-sm hover:text-blue-500 cursor-pointer w-10 px-2 font-semibold  absolute right-3" 
-                       
-                     
-  
-                        
-                      >
-                        <AiOutlineDelete      
-                        onClick={async () => {
-                            setSecEmail(
-                              secEmail.filter((item, i) => i !== index)
-                            );
-                            let res = JSON.parse(await localStorage.getItem("user"));
-                            res.secondaryEmails = secEmail.filter(
-                              (item, i) => i !== index
-                            );
-                            setUser(res);
-                            localStorage.setItem("user", JSON.stringify(res));
-                          }} 
-                          className="text-xl" />
-                      </p>
-                  
-                    </div>
-                    </div>
-)
-                    })}
+                            //   border: "none",
+                            // }}
+                            />
+                            <div className="relative flex items-center">
+
+                              <p
+                                className="text-black text-sm hover:text-blue-500 cursor-pointer w-10 px-2 font-semibold  absolute right-3"
+
+
+
+
+                              >
+                                <AiOutlineDelete
+                                  onClick={async () => {
+                                    setSecEmail(
+                                      secEmail.filter((item, i) => i !== index)
+                                    );
+                                    let res = JSON.parse(await localStorage.getItem("user"));
+                                    res.secondaryEmails = secEmail.filter(
+                                      (item, i) => i !== index
+                                    );
+                                    setUser(res);
+                                    localStorage.setItem("user", JSON.stringify(res));
+                                  }}
+                                  className="text-xl" />
+                              </p>
+
+                            </div>
+                          </div>
+                        )
+                      })}
                     </div>
 
                   </div>
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                  <label className="font-semibold text-lg md:w-2/5 mx-2">
+                    <label className="font-semibold text-lg md:w-2/5 mx-2">
                       Secondary Contacts
                     </label>
                     <div className=" w-4/5">
-                    {secContact && secContact.map((item, index) => {
-return(
-  <div
-  className="w-full flex items-center"
-  style={{ borderRadius: "12px" }}
->
-                      <input
-                        value={item}
-                        type="text"
-                        disabled
-                        style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
-                        className="block border-gray-400 py-1 md:w-5/6 my-2 sm:w-full mx-2"
-                      // style={{
-                      //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
+                      {secContact && secContact.map((item, index) => {
+                        return (
+                          <div
+                            className="w-full flex items-center"
+                            style={{ borderRadius: "12px" }}
+                          >
+                            <input
+                              value={item}
+                              type="text"
+                              disabled
+                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
+                              className="block border-gray-400 py-1 md:w-5/6 my-2 sm:w-full mx-2"
+                            // style={{
+                            //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 
-                      //   border: "none",
-                      // }}
-                      />
-                         <div className="relative flex items-center">
-                  
-                    <p
-                      className="text-black text-sm hover:text-blue-500 cursor-pointer w-10 px-2 font-semibold  absolute right-3" 
-                     
-                   
+                            //   border: "none",
+                            // }}
+                            />
+                            <div className="relative flex items-center">
 
-                      
-                    >
-                      <AiOutlineDelete      
-                      onClick={async () => {
-                          setSecContact(
-                            secContact.filter((item, i) => i !== index)
-                          );
-                          let res = JSON.parse(await localStorage.getItem("user"));
-                          res.secondaryContacts = secContact.filter(
-                            (item, i) => i !== index
-                          );
-                          setUser(res);
-                          localStorage.setItem("user", JSON.stringify(res));
-                        }} 
-                        className="text-xl" />
-                    </p>
-                
-                  </div>
+                              <p
+                                className="text-black text-sm hover:text-blue-500 cursor-pointer w-10 px-2 font-semibold  absolute right-3"
 
-                  </div>
-)
-                    })}
+
+
+
+                              >
+                                <AiOutlineDelete
+                                  onClick={async () => {
+                                    setSecContact(
+                                      secContact.filter((item, i) => i !== index)
+                                    );
+                                    let res = JSON.parse(await localStorage.getItem("user"));
+                                    res.secondaryContacts = secContact.filter(
+                                      (item, i) => i !== index
+                                    );
+                                    setUser(res);
+                                    localStorage.setItem("user", JSON.stringify(res));
+                                  }}
+                                  className="text-xl" />
+                              </p>
+
+                            </div>
+
+                          </div>
+                        )
+                      })}
                     </div>
 
                   </div>
@@ -2274,13 +2274,13 @@ return(
                                       style={{ borderRadius: "4px" }}
                                       value={values.title}
                                     /> */}
-                                     {edit !== null && (
+                                    {edit !== null && (
                                       <p>
                                         Current Job :{" "}
                                         {`${values.title}`}
                                       </p>
                                     )}
-                                   
+
                                     <Combobox
                                       value={selectedTitle}
                                       onChange={setSelectedTitle}
@@ -2391,8 +2391,8 @@ return(
                                           <Combobox.Option
                                             value={`${companyQuery}`}
                                             className="cursor-pointer p-2"
-                                            onClick={async()=>{
-                                              let res =await checkCompany({name:companyQuery});
+                                            onClick={async () => {
+                                              let res = await checkCompany({ name: companyQuery });
 
                                             }}
                                           >
@@ -2875,13 +2875,13 @@ return(
                                       style={{ borderRadius: "4px" }}
                                       value={values.title}
                                     /> */}
-                                     {edit !== null && (
+                                    {edit !== null && (
                                       <p>
                                         Current Job :{" "}
                                         {`${values.title}`}
                                       </p>
                                     )}
-                                   
+
                                     <Combobox
                                       value={selectedTitle}
                                       onChange={setSelectedTitle}
@@ -2956,9 +2956,9 @@ return(
                                           <Combobox.Option
                                             value={`${companyQuery}`}
                                             className="cursor-pointer p-2"
-                                            onClick={async()=>{
-                                              let res =await checkCompany({name:companyQuery});
-                                              
+                                            onClick={async () => {
+                                              let res = await checkCompany({ name: companyQuery });
+
                                             }}
                                           >
                                             Create "{companyQuery}"
@@ -3596,7 +3596,7 @@ return(
                                           type="checkbox"
                                           name="read"
                                           className="my-1 "
-                                          style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px"}}
+                                          style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px" }}
                                           onClick={() => {
                                             // let temp = permissions;
                                             // temp[index].value = !temp[index].value;
@@ -3615,7 +3615,7 @@ return(
                                           type="checkbox"
                                           name="write"
                                           className="my-1 "
-                                          style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px"}}
+                                          style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px" }}
                                           onClick={() => {
                                             // let temp = permissions;
                                             // temp[index].value = !temp[index].value;
@@ -3634,7 +3634,7 @@ return(
                                           type="checkbox"
                                           name="speak"
                                           className="my-1"
-                                          style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px"}}
+                                          style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px" }}
                                           onClick={() => {
                                             // let temp = permissions;
                                             // temp[index].value = !temp[index].value;
@@ -3688,12 +3688,12 @@ return(
 
           </div>
           <div className=" mx-auto justify-center text-center">
-            <div className="w-1/2">
+            <div className="w-2/3">
               {user && languageSkills &&
                 languageSkills.map((item, index) => {
                   return (
                     <div
-                      className=" rounded-md py-2 px-4 bg-white border border-gray-400 my-4 h-35"
+                      className=" rounded-md py-2 px-4 bg-white border  my-4 h-35"
                       key={index}
                     >
                       <div className="flex justify-end space-x-3 items-center">
@@ -3709,24 +3709,24 @@ return(
                       </div>
                       <div className="font-semibold flex space-x-2 items-center">
                         <p>{item.name}</p> <p className="font-normal text-sm">|</p>{" "}
-                       
+
                       </div>
-                      <div className="grid grid-cols-1 md:gap-2 gap-0 lg:grid-cols-6 space-between align-items-right ">
+                      <div className="grid grid-cols-1 md:gap-2 lg:grid-cols-6 space-between align-items-right ">
                         <div className="col-start-1 col-end-3 flex">
-                        <div className="space-x-2 my-2 flex items-center pr-2">
-                          
-                          <p className="text-lg">{item.read ? <p className="text-lg"><AiOutlineRead /></p> : "" } </p>
-                        </div>
-                        <div className="space-x-2 my-2 flex items-center px-2">
-                          
-                          <p className="text-lg">{item.write  ? <p className="text-lg"><HiPencil /></p> : "" }</p>
-                        </div>
-                        <div className="flex items-center space-x-2 my-2 px-2">
-                         
-                          <p className="text-sm text-gray-600 text-lg">
-                            {item.speak  ? <p className="text-lg"><IoPeople /></p> : "" }
-                          </p>
-                        </div>
+                          <div className="space-x-2 my-2 flex items-center pr-2">
+
+                            {item.read ? <p className="text-lg flex "><AiOutlineRead className="my-auto mx-2" /> Read</p> : ""}
+                          </div>
+                          <div className="space-x-2 my-2 flex items-center px-2">
+
+                            <p className="text-lg">{item.write ? <p className="text-lg flex"><HiPencil className="my-auto mx-2" />Write</p> : ""}</p>
+                          </div>
+                          <div className="flex items-center space-x-2 my-2 px-2">
+
+                            <p className=" text-gray-600 text-lg">
+                              {item.speak ? <p className="text-lg flex"><IoPeople className="my-auto mx-2" />Speak</p> : ""}
+                            </p>
+                          </div>
                         </div>
                         <div className="col-start-5 col-end-7 col-span-2 flex items-center space-x-2 ">
                           <button

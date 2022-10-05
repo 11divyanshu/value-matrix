@@ -24,7 +24,7 @@ import { FiInfo } from "react-icons/fi";
 import { BsCalendar } from "react-icons/bs";
 import { GrScorecard } from "react-icons/gr";
 import { HiOutlineOfficeBuilding, HiPencil } from "react-icons/hi";
-import { downloadResume, getResume,getUserFromId } from "../../service/api";
+import { downloadResume, getResume, getUserFromId } from "../../service/api";
 
 import "react-multi-carousel/lib/styles.css";
 
@@ -44,7 +44,7 @@ export default function Tabs() {
     const func = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       let user1 = await getUserFromId({ id: user._id }, user.access_token);
-console.log(user1)
+      console.log(user1)
       let access_token = localStorage.getItem("access_token");
       if (user && user.profileImg) {
         const img = user.profileImg;
@@ -404,22 +404,22 @@ console.log(user1)
                       Secondary Emails
                     </label>
                     <div className="md:w-4/5 sm:w-4/5 mx-5">
-                    {secEmail && secEmail.map((item, index) => {
-return(
-                      <input
-                        value={item}
-                        type="text"
-                        disabled
-                        style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
-                        className="block border-gray-200 py-1 w-full my-3"
-                      // style={{
-                      //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
+                      {secEmail && secEmail.map((item, index) => {
+                        return (
+                          <input
+                            value={item}
+                            type="text"
+                            disabled
+                            style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
+                            className="block border-gray-200 py-1 w-full my-3"
+                          // style={{
+                          //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 
-                      //   border: "none",
-                      // }}
-                      />
-)
-                    })}
+                          //   border: "none",
+                          // }}
+                          />
+                        )
+                      })}
                     </div>
 
                   </div>
@@ -428,22 +428,22 @@ return(
                       Secondary Contacts
                     </label>
                     <div className=" md:w-4/5 sm:w-4/5 mx-5">
-                    {secContact && secContact.map((item, index) => {
-return(
-                      <input
-                        value={item}
-                        type="text"
-                        disabled
-                        style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
-                        className="block border-gray-200 py-1 my-3 w-full"
-                      // style={{
-                      //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
+                      {secContact && secContact.map((item, index) => {
+                        return (
+                          <input
+                            value={item}
+                            type="text"
+                            disabled
+                            style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
+                            className="block border-gray-200 py-1 my-3 w-full"
+                          // style={{
+                          //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 
-                      //   border: "none",
-                      // }}
-                      />
-)
-                    })}
+                          //   border: "none",
+                          // }}
+                          />
+                        )
+                      })}
                     </div>
 
                   </div>
@@ -698,12 +698,12 @@ return(
               <label className="font-semibold text-lg w-2/5 mx-2">Language Skills</label>
 
               <div className=" mx-auto justify-center text-center">
-                <div className="w-1/2">
+                <div className="w-2/3">
                   {user.language &&
                     user.language.map((item, index) => {
                       return (
                         <div
-                          className=" rounded-md py-2 px-4 bg-white border border-gray-400 my-4 h-35"
+                          className=" rounded-md py-2 px-4 bg-white border my-4 h-35"
                           key={index}
                         >
                           <div className="flex justify-end space-x-3 items-center">
@@ -725,16 +725,16 @@ return(
                             <div className="col-start-1 col-end-3 flex">
                               <div className="space-x-2 my-2 flex items-center pr-2">
 
-                                <p className="text-lg">{item.read ? <p className="text-lg"><AiOutlineRead /></p> : ""} </p>
+                                {item.read ? <p className="text-lg flex "><AiOutlineRead className="my-auto mx-2" /> Read</p> : ""}
                               </div>
                               <div className="space-x-2 my-2 flex items-center px-2">
 
-                                <p className="text-lg">{item.write ? <p className="text-lg"><HiPencil /></p> : ""}</p>
+                                <p className="text-lg">{item.write ? <p className="text-lg flex"><HiPencil className="my-auto mx-2" />Write</p> : ""}</p>
                               </div>
                               <div className="flex items-center space-x-2 my-2 px-2">
 
-                                <p className="text-sm text-gray-600 text-lg">
-                                  {item.speak ? <p className="text-lg"><IoPeople /></p> : ""}
+                                <p className="text-gray-600 text-lg">
+                                  {item.speak ? <p className="text-lg flex"><IoPeople className="my-auto mx-2" />Speak</p> : ""}
                                 </p>
                               </div>
                             </div>
