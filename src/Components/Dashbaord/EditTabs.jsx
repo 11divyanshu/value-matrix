@@ -3688,7 +3688,7 @@ export default function Tabs(props) {
 
           </div>
           <div className=" mx-auto justify-center text-center">
-            <div className="w-2/3">
+            <div className="lg:w-2/3 md:w-full sm:w-full">
               {user && languageSkills &&
                 languageSkills.map((item, index) => {
                   return (
@@ -3715,17 +3715,17 @@ export default function Tabs(props) {
                         <div className="col-start-1 col-end-3 flex">
                           <div className="space-x-2 my-2 flex items-center pr-2">
 
-                            {item.read ? <p className="text-lg flex "><AiOutlineRead className="my-auto mx-2" /> Read</p> : ""}
+                            {item.read ? <p className="text-lg flex md:text-sm sm:text-xs "><AiOutlineRead className="my-auto mx-2" /> Read</p> : ""}
                           </div>
                           <div className="space-x-2 my-2 flex items-center px-2">
 
-                            <p className="text-lg">{item.write ? <p className="text-lg flex"><HiPencil className="my-auto mx-2" />Write</p> : ""}</p>
+                            {item.write ? <p className="text-lg md:text-sm sm:text-xs flex"><HiPencil className="my-auto mx-2" />Write</p> : ""}
                           </div>
                           <div className="flex items-center space-x-2 my-2 px-2">
 
-                            <p className=" text-gray-600 text-lg">
-                              {item.speak ? <p className="text-lg flex"><IoPeople className="my-auto mx-2" />Speak</p> : ""}
-                            </p>
+                            
+                              {item.speak ? <p className="text-lg md:text-sm sm:text-xs flex"><IoPeople className="my-auto mx-2" />Speak</p> : ""}
+                            
                           </div>
                         </div>
                         <div className="col-start-5 col-end-7 col-span-2 flex items-center space-x-2 ">

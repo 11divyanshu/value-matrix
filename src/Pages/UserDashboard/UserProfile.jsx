@@ -43,12 +43,12 @@ const UserProfile = () => {
 
 
   return (
-    <div className="px-3 h-100 -z-[10]">
+    <div className="h-100 w-full -z-[10]">
       {/* <p className="text-2xl font-bold" style={{ color: "#3B82F6" }}>Company Details</p> */}
       {user !== null && user !== undefined && (
-        <div className="m-1">
+        <div className="w-full">
           <div
-            className="md:h-48 h-24 w-full relative -z-[3]"
+            className="md:h-48 h-24 relative -z-[3]"
             style={{ background: "#99DEFF" }}
           ></div>
           <div className="relative  rounded-md w-full py-3 md:flex  ">

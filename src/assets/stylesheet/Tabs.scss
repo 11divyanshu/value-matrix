@@ -15,6 +15,7 @@
 
 .tabList{
     display: flex;
+    justify-content: space-around;
     width:100%;
   
 
@@ -32,6 +33,14 @@
         @media only screen and (max-width: 1200px){
             visibility: visible;
             padding:0.5rem 1rem;
+            margin:0;
+            display: block;
+           
+
+            }
+        @media only screen and (max-width: 640px){
+            visibility: visible;
+            padding:0.5rem 0.95rem;
             margin:0;
             display: block;
            
