@@ -52,7 +52,7 @@ const UserProfile = () => {
             style={{ background: "#99DEFF" }}
           ></div>
           <div className="relative  rounded-md w-full py-3 md:flex  ">
-            <div className="absolute  sm:left-6 sm:px-2 -top-20 md:-top-28 md:left-20 ">
+            <div className="absolute left-6  sm:left-6 sm:px-2 -top-20 md:-top-28 md:left-20 ">
               <img
                 src={
                   user && user.profileImg && profileImg ? profileImg : Avatar
@@ -64,7 +64,7 @@ const UserProfile = () => {
             </div>
 
             <div className="mt-16 md:ml-80 md:px-5 md:mt-3  sm:mx-5 md:text-left">
-              <p className="font-semibold md:text-3xl text-2xl ">
+              <p className="font-semibold md:text-3xl mx-6  text-2xl ">
                 {user.firstName} {user.lastname}
               </p>
               <p className="text-gray-400 text-lg">{user.username}</p>
