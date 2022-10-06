@@ -52,16 +52,16 @@ console.log(image)
 
 
   return (
-    <div className="px-3 h-100 -z-[10]">
+    <div className="h-100 w-full -z-[10]">
       {/* <p className="text-2xl font-bold" style={{ color: "#3B82F6" }}>Company Details</p> */}
       {user !== null && user !== undefined && (
-        <div className="m-1">
+        <div className="w-full">
           <div
-            className="md:h-48 h-24 w-full relative -z-[3]"
+            className="md:h-48 h-24 relative -z-[3]"
             style={{ background: "#99DEFF" }}
           ></div>
           <div className="relative  rounded-md w-full py-3 md:flex  ">
-            <div className="absolute  sm:left-6 sm:px-2 -top-20 md:-top-28 md:left-20 ">
+            <div className="absolute left-6  sm:left-6 sm:px-2 -top-20 md:-top-28 md:left-20 ">
               <img
                 src={
                   user && user.profileImg && profileImg ? profileImg : Avatar
@@ -73,7 +73,7 @@ console.log(image)
             </div>
 
             <div className="mt-16 md:ml-80 md:px-5 md:mt-3  sm:mx-5 md:text-left">
-              <p className="font-semibold md:text-3xl text-2xl ">
+              <p className="font-semibold md:text-3xl mx-6  text-2xl ">
                 {user.firstName} {user.lastname}
               </p>
               <p className="text-gray-400 text-lg">{user.username}</p>

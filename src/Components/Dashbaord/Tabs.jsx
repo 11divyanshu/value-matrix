@@ -24,7 +24,7 @@ import { FiInfo } from "react-icons/fi";
 import { BsCalendar } from "react-icons/bs";
 import { GrScorecard } from "react-icons/gr";
 import { HiOutlineOfficeBuilding, HiPencil } from "react-icons/hi";
-import { downloadResume, getResume,getUserFromId } from "../../service/api";
+import { downloadResume, getResume, getUserFromId } from "../../service/api";
 
 import "react-multi-carousel/lib/styles.css";
 
@@ -44,7 +44,7 @@ export default function Tabs() {
     const func = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       let user1 = await getUserFromId({ id: user._id }, user.access_token);
-console.log(user1)
+      console.log(user1)
       let access_token = localStorage.getItem("access_token");
       if (user && user.profileImg) {
         const img = user.profileImg;
@@ -80,10 +80,10 @@ console.log(user1)
 
 
   return (
-    <div className="Tabs w-full">
+    <div className="Tabs w-screen">
       <div className="tabList">
         <div
-          className={`tabHead ${index === 0 && "active"}`}
+          className={`tabHead ${index === 0 && "active"} px-0`}
           onClick={() => {
             setIndex(0);
           }}
@@ -173,8 +173,8 @@ console.log(user1)
 
                 <div className="flex flex-wrap w-70 gap-y-5">
 
-                  <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                    <label className="font-bold text-lg md:w-2/5 mx-5 mt-2">
+                  <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0 md:flex w-full  space-y-1">
+                    <label className="font-bold text-lg lg:mx-5 md:w-2/5 mt-2">
                       Username
                     </label>
                     <Field
@@ -182,7 +182,7 @@ console.log(user1)
                       name="username"
                       disabled
                       style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
-                      className="block border-gray-200 py-1 md:w-4/5 sm:w-4/5 mx-5"
+                      className="block border-gray-200 py-1 md:w-4/5 sm:w-4/5 w-full"
                     // style={{
                     //   boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
                     //   border: "none",
@@ -190,7 +190,7 @@ console.log(user1)
                     />
                   </div>
                   <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0 md:flex w-full  space-y-1">
-                    <label className="font-semibold text-lg md:w-2/5 mx-5">
+                    <label className="font-semibold text-lg lg:mx-5 md:w-2/5">
                       Company Name
                     </label>
                     <Field
@@ -198,7 +198,7 @@ console.log(user1)
                       name="firstName"
                       disabled
                       style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
-                      className="block border-gray-200 py-1 md:w-4/5 sm:w-4/5 mx-5"
+                      className="block border-gray-200 py-1 md:w-4/5 sm:w-4/5  w-full"
                     // style={{
                     //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 
@@ -207,7 +207,7 @@ console.log(user1)
                     />
                   </div>
                   <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0 md:flex w-full  space-y-1">
-                    <label className="font-semibold text-lg md:w-2/5 mx-5">
+                    <label className="font-semibold text-lg lg:mx-5 md:w-2/5">
                       Email
                     </label>
                     <Field
@@ -215,7 +215,7 @@ console.log(user1)
                       type="text"
                       disabled
                       style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
-                      className="block border-gray-200 py-1 md:w-4/5 sm:w-4/5 mx-5"
+                      className="block border-gray-200 py-1 md:w-4/5 sm:w-4/5 w-full"
                     // style={{
                     //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 
@@ -224,7 +224,7 @@ console.log(user1)
                     />
                   </div>
                   <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0 md:flex w-full  space-y-1">
-                    <label className="font-semibold text-lg md:w-2/5 mx-5">
+                    <label className="font-semibold text-lg lg:mx-5 md:w-2/5">
                       Contact
                     </label>
                     <Field
@@ -244,7 +244,7 @@ console.log(user1)
                           : " "
                       }
                       style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
-                      className="block border-gray-200 py-1 md:w-4/5 sm:w-4/5 mx-5"
+                      className="block border-gray-200 py-1 md:w-4/5 sm:w-4/5 w-full"
                     // style={{
                     //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 
@@ -257,202 +257,162 @@ console.log(user1)
                                     Work Period{" "}
                                   </label> */}
 
-                    <label className="font-semibold text-lg md:w-1/3 mx-5">
+                    <label className="font-semibold lg:ml-5 text-lg md:w-1/3">
                       Address
                     </label>
-                    <div className="w-2/3 mx-3">
+                    <div className="w-2/3">
                       <div
                         className="grid grid-cols-1 gap-4 mb-6 lg:grid-cols-2 md:w-5/6 lg:w-full"
                         style={{ justifyContent: "space-between" }}
                       >
-                        <div className=" grid grid-cols-1 lg:grid-cols-2 ml-2 md:ml-0 align-middle">
-                          <label className="font-normal text-md py-2">
+                        <div className=" grid grid-cols-1 lg:grid-cols-2  md:ml-0 align-middle">
+                          <label className="font-normal ml-2 text-md py-2">
                             House/ Flat No.
                           </label>
-                          <div className="">
-                            <Field
-                              name="houseNo"
-                              type="text"
-                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
-                              className="block border-gray-200 py-1 w-full"
-                              disabled
-
-                            />
-
-                          </div>
+                          <Field
+                            name="houseNo"
+                            type="text"
+                            style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                            className="block border-gray-200 py-1 w-full"
+                            disabled
+                          />
                         </div>
                         <div className="grid grid-cols-1 lg:grid-cols-2 md:mx-0 mr-2 md:mr-0 align-middle ">
-                          <label className="font-normal text-md ml-2 md:ml-0 py-2">
+                          <label className="font-normal ml-2 text-md md:ml-0 py-2">
                             Street
                           </label>
-                          <div >
-                            <div className="">
-                              <Field
-                                name="street"
-                                type="text"
-                                style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
-                                className="block border-gray-200 py-1 w-full"
-                                disabled
-
-                              />
-                            </div>
-
-
-
-
-                          </div>
+                          <Field
+                            name="street"
+                            type="text"
+                            style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                            className="block border-gray-200 py-1 w-full"
+                            disabled
+                          />
                         </div>
                       </div>
                       <div
                         className="grid grid-cols-1 gap-4 mb-6 lg:grid-cols-2 md:w-5/6 lg:w-full"
                         style={{ justifyContent: "space-between" }}
                       >
-                        <div className=" grid grid-cols-1 lg:grid-cols-2 ml-2 md:ml-0 align-middle">
-                          <label className="font-normal text-md py-2">
+                        <div className=" grid grid-cols-1 lg:grid-cols-2 md:ml-0 align-middle">
+                          <label className="font-normal ml-2 text-md py-2">
                             City
                           </label>
-                          <div className="">
-                            <Field
-                              name="city"
-                              type="text"
-                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
-                              className="block border-gray-200 py-1 w-full"
-                              disabled
 
-                            />
+                          <Field
+                            name="city"
+                            type="text"
+                            style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                            className="block border-gray-200 py-1 w-full"
+                            disabled
 
-                          </div>
+                          />
+
+
                         </div>
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 md:mx-0 mr-2 md:mr-0 align-middle">
                           <label className="font-normal text-md ml-2 md:ml-0 py-2">
                             State/Region
                           </label>
-                          <div >
+                          <Field
+                            name="state"
+                            type="text"
+                            style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                            className="block border-gray-200 py-1 w-full"
+                            disabled
 
-                            <div className="">
-                              <Field
-                                name="state"
-                                type="text"
-                                style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
-                                className="block border-gray-200 py-1 w-full"
-                                disabled
-
-                              />
-
-
-                            </div>
-
-
-
-
-                          </div>
+                          />
                         </div>
                       </div>
                       <div
                         className="grid grid-cols-1 gap-4 mb-6 lg:grid-cols-2  md:w-5/6 lg:w-full"
                         style={{ justifyContent: "space-between" }}
                       >
-                        <div className=" grid grid-cols-1 lg:grid-cols-2 ml-2 md:ml-0  align-middle">
-                          <label className="font-normal text-md py-2">
+                        <div className=" grid grid-cols-1 lg:grid-cols-2 md:ml-0  align-middle">
+                          <label className="font-normal ml-2 text-md py-2">
                             Country
                           </label>
-                          <div className="">
-                            <Field
-                              name="country"
-                              type="text"
-                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
-                              className="block border-gray-200 py-1 w-full"
-                              disabled
+                          <Field
+                            name="country"
+                            type="text"
+                            style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                            className="block border-gray-200 py-1 w-full"
+                            disabled
 
-                            />
+                          />
 
-                          </div>
                         </div>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-2 md:mx-0 mr-2 align-middle">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 md:mx-0  align-middle">
                           <label className="font-normal text-md  ml-2 md:ml-0 py-2">
                             Zip Code
                           </label>
-                          <div >
 
-                            <div className="">
-                              <Field
-                                name="zip"
-                                type="text"
-                                style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
-                                className="block border-gray-200 py-1 w-full"
-                                disabled
+                          <Field
+                            name="zip"
+                            type="text"
+                            style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                            className="block border-gray-200 py-1 w-full"
+                            disabled
+                          />
 
-                              />
-
-
-                            </div>
-
-
-
-
-                          </div>
                         </div>
                       </div>
                     </div>
 
 
                   </div>
-                  <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0 md:flex w-full  space-y-1">
-                    <label className="font-semibold text-lg md:w-2/5 mx-5">
+                  <div className="md:w-1/2 md:mx-2 sm:mx-0 md:flex w-full my-3 space-y-1">
+                    <label className="font-semibold w-2/3 text-lg lg:mx-5 md:w-2/5">
                       Secondary Emails
                     </label>
-                    <div className="md:w-4/5 sm:w-4/5 mx-5">
-                    {secEmail && secEmail.map((item, index) => {
-return(
-                      <input
-                        value={item}
-                        type="text"
-                        disabled
-                        style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
-                        className="block border-gray-200 py-1 w-full my-3"
-                      // style={{
-                      //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 
-                      //   border: "none",
-                      // }}
-                      />
-)
-                    })}
+                    <div className="w-full flex gap-4">
+                      {secEmail && secEmail.map((item, index) => {
+                        return (
+                          <input
+                            value={item}
+                            type="text"
+                            disabled
+                            style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
+                            className="block gap-2 border-gray-200 py-1 w-full"
+                          />
+                        )
+                      })}
                     </div>
+
 
                   </div>
                   <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0 md:flex w-full  space-y-1">
-                    <label className="font-semibold text-lg md:w-2/5 mx-5">
+                    <label className="font-semibold text-lg lg:mx-5 md:w-2/5 ">
                       Secondary Contacts
                     </label>
-                    <div className=" md:w-4/5 sm:w-4/5 mx-5">
-                    {secContact && secContact.map((item, index) => {
-return(
-                      <input
-                        value={item}
-                        type="text"
-                        disabled
-                        style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
-                        className="block border-gray-200 py-1 my-3 w-full"
-                      // style={{
-                      //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 
-                      //   border: "none",
-                      // }}
-                      />
-)
+                    {secContact && secContact.map((item, index) => {
+                      return (
+                        <input
+                          value={item}
+                          type="text"
+                          disabled
+                          style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
+                          className="block border-gray-200 py-1 my-3 w-full"
+                        // style={{
+                        //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
+
+                        //   border: "none",
+                        // }}
+                        />
+                      )
                     })}
-                    </div>
+
 
                   </div>
                   {user.resume && (
                     <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                      <label className="font-semibold text-lg md:w-2/5 mx-5">
+                      <label className="font-semibold text-lg lg:mx-5 md:w-2/5">
                         Resume</label>
                       <div className="w-4/5 flex items-center px-4">
-
                         <button
                           class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
                           style={{ backgroundColor: "#034488" }} onClick={async () => {
@@ -486,6 +446,7 @@ return(
                         >
                           Download Resume
                         </button>
+
                       </div>
                     </div>
                   )}
@@ -495,7 +456,7 @@ return(
           </Formik>
         )}
       </div>
-      <div className="tabContent shadow-md bg-white p-5" hidden={index != 1}>
+      <div className="tabContent mx-10 shadow-md bg-white py-5 px-1" hidden={index != 1}>
         {user !== null && user !== undefined && user.education.length === 0 && (
           <p className="my-5 text-center">No Education Details Added</p>
         )}
@@ -505,11 +466,10 @@ return(
           user.education.map((item, index) => {
             return (
               <div
-                className=" rounded-md px-5 py-2 bg-white border border-gray-400 my-5 h-35 md:w-full mx-auto"
+                className=" rounded-md px-5 py-2 bg-white border border-gray-400 my-5 h-35 md:w-full w-full"
                 key={index}
               // style={{boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px"}}
               >
-                <div className="flex justify-end space-x-3 items-center"></div>
                 <p className="font-semibold text-md md:w-2/5 ">{item.school}</p>
                 <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 align-items-right">
                   <div className="flex my-2 space-x-2 text-sm items-center">
@@ -545,7 +505,7 @@ return(
             );
           })}
       </div>
-      <div className="tabContent shadow-md bg-white p-5" hidden={index != 2}>
+      <div className="tabContent shadow-md bg-white py-5 px-1" hidden={index != 2}>
         {user !== null &&
           user !== undefined &&
           user.experience.length === 0 && (
@@ -601,7 +561,7 @@ return(
           })}
       </div>
 
-      <div className="tabContent shadow-md bg-white p-5" hidden={index != 3}>
+      <div className="tabContent mx-10 shadow-md bg-white py-5 px-1" hidden={index != 3}>
         {user !== null &&
           user !== undefined &&
           user.associate && user.associate.length === 0 && (
@@ -657,9 +617,9 @@ return(
             );
           })}
       </div>
-      <div className="tabContent shadow-md bg-white p-5" hidden={index != 4}>
+      <div className="tabContent shadow-md mx-10 bg-white py-5 px-1" hidden={index != 4}>
         {user !== null && user !== undefined && (
-          <div>
+          <div className="mx-5">
             <div className="md:w-1/2 w-full space-y-1">
               {roles && roles.length === 0 && (
                 <p className="my-5 text-center">No Skills Added</p>
@@ -695,52 +655,41 @@ return(
             </div>
 
             <div className="my-2">
-              <label className="font-semibold text-lg w-2/5 mx-2">Language Skills</label>
+              <label className="font-semibold text-lg w-2/5 mx-2 ">Language Skills</label>
 
               <div className=" mx-auto justify-center text-center">
-                <div className="w-1/2">
+                <div className="lg:w-2/3 md:w-full sm:w-full">
                   {user.language &&
                     user.language.map((item, index) => {
                       return (
                         <div
-                          className=" rounded-md py-2 px-4 bg-white border border-gray-400 my-4 h-35"
+                          className=" rounded-md py-2 px-4 bg-white border my-4 h-35 w-full"
                           key={index}
                         >
-                          <div className="flex justify-end space-x-3 items-center">
-                            {/* <RiEditBoxLine
-                      className="cursor-pointer"
-                      onClick={() => {
-                        setEdit(index);
-                        setExInitialValues(item);
-                        setShowExForm(true);
-                      }}
-                    />
-                  */}
-                          </div>
                           <div className="font-semibold flex space-x-2 items-center">
                             <p>{item.name}</p> <p className="font-normal text-sm">|</p>{" "}
 
                           </div>
-                          <div className="grid grid-cols-1 md:gap-2 gap-0 lg:grid-cols-6 space-between align-items-right ">
-                            <div className="col-start-1 col-end-3 flex">
+                          <div className="flex w-full md:gap-2 gap-0 justify-between">
+                            <div className="w-auto flex">
                               <div className="space-x-2 my-2 flex items-center pr-2">
 
-                                <p className="text-lg">{item.read ? <p className="text-lg"><AiOutlineRead /></p> : ""} </p>
+                                {item.read ? <p className="lg:text-lg md:text-sm sm:text-xs text-sm flex "><AiOutlineRead className="my-auto mx-2" /> Read</p> : ""}
                               </div>
                               <div className="space-x-2 my-2 flex items-center px-2">
 
-                                <p className="text-lg">{item.write ? <p className="text-lg"><HiPencil /></p> : ""}</p>
+                                {item.write ? <p className="lg:text-lg md:text-sm sm:text-xs text-sm flex"><HiPencil className="my-auto mx-2" />Write</p> : ""}
                               </div>
                               <div className="flex items-center space-x-2 my-2 px-2">
 
-                                <p className="text-sm text-gray-600 text-lg">
-                                  {item.speak ? <p className="text-lg"><IoPeople /></p> : ""}
-                                </p>
+
+                                {item.speak ? <p className="lg:text-lg md:text-sm sm:text-xs text-sm flex"><IoPeople className="my-auto mx-2" />Speak</p> : ""}
+
                               </div>
                             </div>
-                            <div className="col-start-5 col-end-7 col-span-2 flex items-center space-x-2 ">
+                            <div className="col-start-7 w-full col-end-7 col-span-2 flex items-center space-x-2  ">
                               <button
-                                class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
+                                class="justify-end hover:bg-blue-700 text-white font-bold py-3 lg:px-8 px-5 text-xs rounded ml-auto"
                                 style={{ backgroundColor: "#034488" }}
                                 onClick={() => {
 
@@ -748,13 +697,8 @@ return(
                               >
                                 Edit
                               </button>
-                              <div className="text-xl mx-5 px-7 py-2">
-
-
-                              </div>
                             </div>
                           </div>
-
                         </div>
                       );
                     })}

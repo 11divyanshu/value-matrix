@@ -496,6 +496,42 @@ const AddJob = () => {
 
   return (
     <div className=" bg-slate-100 w-100 p-5 mx-10">
+      <div>
+
+        <nav class="container mb-3">
+          <ol class="list-reset py-4 rounded flex bg-grey-light text-grey">
+            <li className="mx-3 flex">
+              <li class="px-2"><a href="#" class="border-2 border-[#154e8b] rounded-full text-white bg-[#154e8b] flex justify-center w-10 p-2 ">1</a><a href="#" className="text-[#154e8b]">Home</a></li>
+              <li className=""><svg class="w-6 h-6 my-2 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+              </li>
+            </li>
+            <li className="mx-3 flex">
+              <li class="px-2"><a href="#" class="border-2 border-[#034488] rounded-full flex justify-center w-10 p-2 mx-auto">2</a><a href="#" className="text-[#154e8b]">Eligibility</a></li>
+              <li><svg class="w-6 h-6 my-2 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></li>
+
+            </li>
+            <li className="mx-3 flex">
+              <li class="px-2"><a href="#" class="border-2 border-[#034488] rounded-full flex justify-center w-10 p-2 mx-auto">3</a><a href="#" className="text-[#154e8b]">Job Invitations</a></li>
+              <li><svg class="w-6 h-6 my-2 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></li>
+
+            </li>
+            <li className="mx-3 flex">
+              <li class="px-2"><a href="#" class="border-2 border-[#034488] rounded-full flex justify-center w-10 p-2 mx-auto">4</a><a href="#" className="text-[#154e8b]">Screening Questions</a></li>
+              <li><svg class="w-6 h-6 my-2 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></li>
+
+            </li>
+            <li className="mx-3 flex">
+              <li class="px-2"><a href="#" class="border-2 border-[#034488] rounded-full flex justify-center w-10 p-2 mx-auto ">5</a><a href="#" className="text-[#154e8b]">Data Masking</a></li>
+              <li><svg class="w-6 h-6 my-2 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></li>
+
+            </li>
+            <li className="mx-3 flex">
+              <li class="px-2"><a href="#" class="border-2 border-[#034488] rounded-full flex justify-center w-10 p-2 mx-auto">6</a><a href="#" className="text-[#154e8b]">Remunerations And Pay Range</a></li>
+            </li>
+          </ol>
+        </nav>
+
+      </div>
       <p className="font-semibold mx-5">
         {PageIndex} of 6 : {PageDetails[PageIndex - 1]}
       </p>
@@ -2399,42 +2435,42 @@ const AddJob = () => {
                               <label className="text-left w-3/4 font-semibold block">
                                 Brand Masking
                               </label>
-                             
-                                <label className="w-1/2 content-center px-4 flex p-1  text-md">
-                                  <label
-                                    for="Logo-toggle"
-                                    class="inline-flex relative items-center cursor-pointer"
-                                  >
-                                    <Field
-                                      name="logo"
-                                      type="checkbox"
-                                      id="Logo-toggle"
-                                      class="sr-only peer"
-                                    />
-                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                    <span class="ml-3 text-sm font-medium text-gray-900 ">
-                                      <p className="text-md font-bold mx-3 font-gray-600">Logo</p>
-                                    </span>
-                                  </label>
 
+                              <label className="w-1/2 content-center px-4 flex p-1  text-md">
+                                <label
+                                  for="Logo-toggle"
+                                  class="inline-flex relative items-center cursor-pointer"
+                                >
+                                  <Field
+                                    name="logo"
+                                    type="checkbox"
+                                    id="Logo-toggle"
+                                    class="sr-only peer"
+                                  />
+                                  <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                  <span class="ml-3 text-sm font-medium text-gray-900 ">
+                                    <p className="text-md font-bold mx-3 font-gray-600">Logo</p>
+                                  </span>
                                 </label>
-                                <label className="w-1/2 content-center px-4 flex p-1  text-md">
-                                  <label
-                                    for="Title-toggle"
-                                    class="inline-flex relative items-center cursor-pointer"
-                                  >
-                                    <Field
-                                      type="checkbox"
-                                      name="title"
-                                      id="Title-toggle"
-                                      class="sr-only peer"
-                                    />
-                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                    <span class="ml-3 text-sm font-medium text-gray-900 ">
-                                      <p className="text-md font-bold mx-3 font-gray-600">Title</p>
-                                    </span>
-                                  </label>
+
+                              </label>
+                              <label className="w-1/2 content-center px-4 flex p-1  text-md">
+                                <label
+                                  for="Title-toggle"
+                                  class="inline-flex relative items-center cursor-pointer"
+                                >
+                                  <Field
+                                    type="checkbox"
+                                    name="title"
+                                    id="Title-toggle"
+                                    class="sr-only peer"
+                                  />
+                                  <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                  <span class="ml-3 text-sm font-medium text-gray-900 ">
+                                    <p className="text-md font-bold mx-3 font-gray-600">Title</p>
+                                  </span>
                                 </label>
+                              </label>
 
                             </div>
                             <div className="my-4 space-y-3 w-3/4">
