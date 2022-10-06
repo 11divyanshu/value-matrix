@@ -495,15 +495,15 @@ const AddJob = () => {
         .slice(0, 10);
 
   return (
-    <div className=" bg-slate-100 w-100 p-5 mx-10">
-        <nav class="container ml-5 flex mb-3 w-full">
+    <div className=" bg-slate-100 m-auto w-fit">
+      <nav class="container pt-5 flex mb-3 px-5 w-auto">
           <div className="w-full">
             <div className="flex">
             <div className="w-1/6 mt-2"></div>
               <div className="w-5 flex justify-center border-2 rounded-full"><p className="text-xs">1</p></div>
               <div className="border-t-2 w-full mt-2"></div>
             </div>
-            <p className="">Job Details</p>
+            <p className=" lg:text-xs md:text-xs sm:text-xs text-[8px]">Job Details</p>
           </div>
           <div className="w-full">
             <div className="flex">
@@ -511,7 +511,7 @@ const AddJob = () => {
               <div className="w-5 flex justify-center border-2 rounded-full"><p className="text-xs">2</p></div>
               <div className="border-t-2 w-full mt-2"></div>
             </div>
-            <p className="">Eligiblity</p>
+            <p className=" lg:text-xs md:text-xs sm:text-xs text-[8px]">Eligiblity</p>
           </div>
           <div className="w-full">
             <div className="flex">
@@ -519,33 +519,33 @@ const AddJob = () => {
               <div className="w-5 flex justify-center border-2 rounded-full"><p className="text-xs">3</p></div>
               <div className="border-t-2 w-full mt-2"></div>
             </div>
-            <p className="">Job Invitation</p>
+            <p className=" lg:text-xs md:text-xs sm:text-xs text-[8px]">Job Invitation</p>
           </div>
           <div className="w-full">
             <div className="flex">
-            <div className="border-t-2 w-1/2 mt-2"></div>
+            <div className="border-t-2 w-1/6 mt-2"></div>
               <div className="w-5 flex justify-center border-2 rounded-full"><p className="text-xs">4</p></div>
               <div className="border-t-2 w-full mt-2"></div>
             </div>
-            <p className="">Screening Question</p>
+            <p className=" lg:text-xs md:text-xs sm:text-xs text-[8px]">Screening Question</p>
           </div>
           <div className="w-full">
             <div className="flex">
-            <div className="border-t-2 w-1/4 mt-2"></div>
+            <div className="border-t-2 w-1/6 mt-2"></div>
               <div className="w-5 flex justify-center border-2 rounded-full"><p className="text-xs">5</p></div>
               <div className="border-t-2 w-full mt-2"></div>
             </div>
-            <p className="">Data Masking</p>
+            <p className=" lg:text-xs md:text-xs sm:text-xs text-[8px]">Data Masking</p>
           </div>
           <div className="w-full">
             <div className="flex">
             <div className="border-t-2 w-1/6 mt-2"></div>
               <div className="w-5 flex justify-center border-2 rounded-full"><p className="text-xs">6</p></div>
             </div>
-            <p className="w-auto">Remuneration & PayRange</p>
+            <p className=" lg:text-xs md:text-xs sm:text-xs text-[8px]">Remuneration & PayRange</p>
           </div>
         </nav>
-      <p className="font-semibold mx-5">
+      <p className="font-semibold mx-5 lg:px-7">
         {PageIndex} of 6 : {PageDetails[PageIndex - 1]}
       </p>
 
@@ -570,7 +570,7 @@ const AddJob = () => {
       <div className="my-3">
         <div className="md:flex w-full">
           {PageIndex === 1 && (
-            <div className="md:w-3/4 py-3 shadow-md mr-3 bg-white">
+            <div className="md:w-full py-3 shadow-md mr-3 bg-white lg:px-7">
               <Formik
                 initialValues={{
                   jobTitle: job ? job.jobTitle : "",
@@ -634,7 +634,7 @@ const AddJob = () => {
                 {({ values }) => {
                   return (
                     <div className="w-full mt-9">
-                      <Form className="w-full m-5 mx-7">
+                      <Form className="w-fit m-5 mx-7">
                         <div className="my-7 space-y-3 w-full">
                           <label className="text-left w-3/4  block font-semibold">
                             Job Title
@@ -643,7 +643,7 @@ const AddJob = () => {
                             name="jobTitle"
                             type="text"
                             placeholder=""
-                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-2"
+                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-full focus:outline-0 focus:border-0 py-2"
                             style={{ borderRadius: "5px" }}
                           />
                           <ErrorMessage
@@ -663,7 +663,7 @@ const AddJob = () => {
                             wrapperClassName="wrapperClassName"
                             editorClassName="editorClassName z-0"
                             wrapperStyle={{
-                              width: "75%",
+                              width: "100%",
                               border: "1px solid rgb(156 163 175 / 1)",
                               borderRadius: "5px",
                               zIndex: 0,
@@ -707,7 +707,7 @@ const AddJob = () => {
 
                                 setQuery(event.target.value)
                               }}
-                              className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-1/2 w-1/2 focus:outline-0 focus:border-0 px-4 py-2"
+                              className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-1/2 w-full focus:outline-0 focus:border-0 px-4 py-2"
                               style={{ borderRadius: "5px" }}
                             />
                             <Combobox.Options className="w-1/2">
@@ -850,7 +850,7 @@ const AddJob = () => {
                             name="validTill"
                             type="date"
                             placeholder=""
-                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-2"
+                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4  w-full focus:outline-0 focus:border-0 px-4 py-2"
                             min={Date.now()}
                           />
                           <ErrorMessage
@@ -867,7 +867,7 @@ const AddJob = () => {
                             name="hiringOrganization"
                             type="text"
                             placeholder=""
-                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-2"
+                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4  w-full focus:outline-0 focus:border-0 px-4 py-2"
                           />
                           <ErrorMessage
                             name="hiringOrganization"
@@ -884,7 +884,7 @@ const AddJob = () => {
                             name="reqApp"
                             type="number"
                             placeholder=""
-                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4 w-3/4 focus:outline-0 focus:border-0 px-4 py-2"
+                            className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4  w-full focus:outline-0 focus:border-0 px-4 py-2"
                           />
                           <ErrorMessage
                             name="reqApp"
@@ -973,12 +973,12 @@ const AddJob = () => {
             </div>
           )}
           {PageIndex === 2 && (
-            <div className="lg:w-3/4 py-3 shadow-md mr-3 bg-white">
+            <div className="lg:w-full py-3 shadow-md mr-3 bg-white">
               <Formik>
                 {(values) => {
                   return (
-                    <div className="w-full mt-9">
-                      <Form className="w-full m-5 mx-7">
+                    <div className="w-fit mt-9">
+                      <Form className="w-fit m-5">
                         <div className="my-7 space-y-3 w-full">
                           <label className="text-left w-3/4 mb-3 block font-semibold">
                             Candidate Eligibility
@@ -990,7 +990,7 @@ const AddJob = () => {
                             wrapperClassName="wrapperClassName"
                             editorClassName="editorClassName"
                             wrapperStyle={{
-                              width: "75%",
+                              width: "100%",
                               border: "1px solid rgb(156 163 175 / 1)",
                               borderRadius: "5px",
                             }}
@@ -1005,11 +1005,11 @@ const AddJob = () => {
                           <label className="text-left w-3/4 font-semibold block">
                             Skills
                           </label>
-                          <div className="w-3/4">
-                            <div className="my-3 px-4 flex items-center flex-wrap gap-y-3">
+                          <div className="w-full">
+                            <div className="my-3 flex items-center flex-wrap gap-y-3">
                               <input
                                 type="text"
-                                className="w-3/4 text-600 border-[0.5px] border-[#6b7280] p-2 mr-3"
+                                className="text-600 border-[0.5px] rounded-[5px] w-full border-[#6b7280]"
                                 placeholder="Search Skill..."
                                 ref={inputSkillRef}
                                 onChange={async () => {
@@ -1335,10 +1335,10 @@ const AddJob = () => {
             </div>
           )}
           {PageIndex === 3 && (
-            <div className="lg:w-3/4 py-3 shadow-md mr-3 bg-white">
+            <div className="w-full py-3 shadow-md bg-white">
               <div className="w-full mt-9">
-                <div className="w-full m-5 mx-7">
-                  <div className="my-3 w-3/4 md:w-full text-left">
+                <div className="mx-10 w-fit">
+                  <div className="my-3 w-full text-left md:text-left sm:text-center md:w-full">
                     <p className="font-semibold">Add Candidate Details Sheet</p>
                     <p className="text-sm mt-3 mb-1 break-words">
                       ( Headers Conventions: FirstName, LastName, Email,
@@ -1404,69 +1404,70 @@ const AddJob = () => {
                       </button>
                     )}
                   </div>
-                  {eligibleButton && eligibleCanList.length > 0 && (
-                    <div className="my-4">
-                      <table class="w-3/4">
-                        <h1>hello</h1>
-                        <thead class="bg-white border-b text-left">
-                          <tr>
-                            <th
-                              scope="col"
-                              class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                            >
-                              #
-                            </th>
-                            <th
-                              scope="col"
-                              class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                            >
-                              First Name
-                            </th>
-                            <th
-                              scope="col"
-                              class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                            >
-                              Last Name
-                            </th>
-                            <th
-                              scope="col"
-                              class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                            >
-                              Email
-                            </th>
-                            <th
-                              scope="col"
-                              class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                            >
-                              Contact
-                            </th>
+                </div>
+                {eligibleButton && eligibleCanList.length > 0 && (
+                  <div className="my-4">
+                    <table class="w-3/4">
+                      <h1>hello</h1>
+                      <thead class="bg-white border-b text-left">
+                        <tr>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            #
+                          </th>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            First Name
+                          </th>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            Last Name
+                          </th>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            Email
+                          </th>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            Contact
+                          </th>
 
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {eligibleCanList.map((user, index) => {
-                            return (
-                              <tr
-                                class={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                                  } border-b`}
-                              >
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
-                                  {index + 1}
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                  {user.firstName}
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                  {user.lastName}
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                  {user.email}
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                  {user.phoneNo}
-                                </td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {eligibleCanList.map((user, index) => {
+                          return (
+                            <tr
+                              class={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                                } border-b`}
+                            >
+                              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
+                                {index + 1}
+                              </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.firstName}
+                              </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.lastName}
+                              </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.email}
+                              </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.phoneNo}
+                              </td>
 
-                                {/* <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                              {/* <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                     <AiOutlineDelete
                                       className="text-sm  text-red-500 cursor-pointer"
                                       onClick={() => {
@@ -1483,471 +1484,317 @@ const AddJob = () => {
                                       }}
                                     />
                                   </td> */}
-                              </tr>
-                            );
-                          })}
+                            </tr>
+                          );
+                        })}
 
 
-                        </tbody>
-                      </table>
-                      <div className="flex my-2 ">
-                        <button
-                          className="bg-[#034488] text-white rounded-sm px-4 py-1 mx-2"
-                          onClick={() => {
-                            let d = selectedData;
-                            let r = rejectedData;
-
-                            console.log(eligibleCanList);
-                            if (eligibleCanList) {
-                              eligibleCanList.map((item) => {
-                                let ac = d.find(x => x.Email === item.email);
-
-                                if (ac) {
-                                  r.push({
-                                    FirstName: ac.FirstName ? ac.FirstName : "",
-                                    LastName: ac.LastName ? ac.LastName : "",
-                                    Email: ac.Email ? ac.Email : "",
-                                    Contact: ac.Contact ? ac.Contact : "",
-                                    Reason: "Email Already Exist",
-                                  });
-                                } else {
-                                  d.push({
-                                    FirstName: item.firstName ? item.firstName : "",
-                                    LastName: item.lastName ? item.lastName : "",
-                                    Email: item.email ? item.email : "",
-                                    Contact: item.phoneNo ? item.phoneNo : "",
-                                  });;
-                                }
-                                console.log(ac)
-                              })
-                              setRejectedData(r);
-                              setSelectedData(d);
-                              setCandidateData(d);
-                              setShowRejected(true);
-                              setShowCandidate(true);
-                              setEligibleButton(false);
-                            }
-                            //else{
-
-                            //   selectedData = eligibleCanList
-                            // }
-                            // setShowCandidateForm(true);
-                          }}
-                        >
-                          Add Candidates
-                        </button>
-                        <button
-                          className="bg-[#034488] text-white rounded-sm px-4 py-1 mx-2"
-                          onClick={() => {
-                            setEligibleCanList(false);
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                  {showCandidateForm && (
-                    <div className="my-4 w-3/4 p-3 bg-slate-100 px-8">
-                      <Formik
-                        initialValues={candidateInitial}
-                        validate={(values) => {
-                          const errors = {};
-                          let d = selectedData;
-
-                          const res = d.findIndex((el) => {
-                            return el.Email === values.Email;
-                          });
-                          const res2 = d.findIndex((el) => {
-                            return el.Contact == values.Contact;
-                          });
-                          if (
-                            !values.Email ||
-                            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
-                              values.Email.trim()
-                            )
-                          ) {
-                            errors.Email = "Invalid Email";
-                          } else if (res !== -1) {
-                            errors.Email = "Email already exists";
-                          }
-                          if (
-                            !values.Contact ||
-                            !/^[0-9]{10}$/i.test(values.Contact)
-                          ) {
-                            errors.Contact = "Invalid Contact";
-                          } else if (res2 !== -1) {
-                            errors.Contact = "Contact already exists";
-                          }
-                          return errors;
-                        }}
-                        onSubmit={async (values) => {
+                      </tbody>
+                    </table>
+                    <div className="flex my-2 ">
+                      <button
+                        className="bg-[#034488] text-white rounded-sm px-4 py-1 mx-2"
+                        onClick={() => {
                           let d = selectedData;
                           let r = rejectedData;
 
-                          if (editIndex !== null) r.splice(editIndex, 1);
-                          setEditIndex(null);
-                          d.push(values);
-                          console.log(d)
-                          await setSelectedData(d);
-                          await setCandidateData(d);
-                          await setRejectedData(r);
-                          await setShowCandidate(true);
-                          await setShowCandidateForm(false);
+                          console.log(eligibleCanList);
+                          if (eligibleCanList) {
+                            eligibleCanList.map((item) => {
+                              let ac = d.find(x => x.Email === item.email);
+
+                              if (ac) {
+                                r.push({
+                                  FirstName: ac.FirstName ? ac.FirstName : "",
+                                  LastName: ac.LastName ? ac.LastName : "",
+                                  Email: ac.Email ? ac.Email : "",
+                                  Contact: ac.Contact ? ac.Contact : "",
+                                  Reason: "Email Already Exist",
+                                });
+                              } else {
+                                d.push({
+                                  FirstName: item.firstName ? item.firstName : "",
+                                  LastName: item.lastName ? item.lastName : "",
+                                  Email: item.email ? item.email : "",
+                                  Contact: item.phoneNo ? item.phoneNo : "",
+                                });;
+                              }
+                              console.log(ac)
+                            })
+                            setRejectedData(r);
+                            setSelectedData(d);
+                            setCandidateData(d);
+                            setShowRejected(true);
+                            setShowCandidate(true);
+                            setEligibleButton(false);
+                          }
+                          //else{
+
+                          //   selectedData = eligibleCanList
+                          // }
+                          // setShowCandidateForm(true);
                         }}
                       >
-                        {({ values }) => {
-                          return (
-                            <Form>
-                              <p className="text-left font-semibold py-2">
-                                Add User
-                              </p>
-                              <div className="flex my-3 flex-wrap text-left">
-                                <div className="w-1/2">
-                                  <label>First Name</label>
-                                  <Field
-                                    name="FirstName"
-                                    type="text"
-                                    className="text-600 rounded-sm block px-4 py-1"
-                                    style={{ borderRadius: "5px" }}
-                                  />
-                                  <ErrorMessage
-                                    name="FirstName"
-                                    component="div"
-                                  />
-                                </div>
-                                <div className="w-1/2">
-                                  <label>Last Name</label>
-                                  <Field
-                                    name="LastName"
-                                    type="text"
-                                    className="text-600 rounded-sm block px-4 py-1"
-                                    style={{ borderRadius: "5px" }}
-                                  />
-                                  <ErrorMessage
-                                    name="LastName"
-                                    component="div"
-                                  />
-                                </div>
-                              </div>
-                              <div className="flex my-3 flex-wrap text-left">
-                                <div className="w-1/2">
-                                  <label>Email</label>
-                                  <Field
-                                    name="Email"
-                                    type="text"
-                                    className="text-600 rounded-sm block px-4 py-1"
-                                    style={{ borderRadius: "5px" }}
-                                  />
-                                  <ErrorMessage
-                                    name="Email"
-                                    component="div"
-                                    className="text-sm text-red-500"
-                                  />
-                                </div>
-                                <div className="w-1/2">
-                                  <label>Contact</label>
-                                  <Field
-                                    name="Contact"
-                                    type="text"
-                                    className="text-600 rounded-sm block px-4 py-1"
-                                    style={{ borderRadius: "5px" }}
-                                  />
-                                  <ErrorMessage
-                                    name="Contact"
-                                    component="div"
-                                    className="text-sm text-red-500"
-                                  />
-                                </div>
-                              </div>
-                              <div className="my-3 text-left pr-10">
-                                <label>Address</label>
+                        Add Candidates
+                      </button>
+                      <button
+                        className="bg-[#034488] text-white rounded-sm px-4 py-1 mx-2"
+                        onClick={() => {
+                          setEligibleCanList(false);
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                )}
+                {showCandidateForm && (
+                  <div className="my-4 w-full p-3 bg-slate-100 px-8">
+                    <Formik
+                      initialValues={candidateInitial}
+                      validate={(values) => {
+                        const errors = {};
+                        let d = selectedData;
+
+                        const res = d.findIndex((el) => {
+                          return el.Email === values.Email;
+                        });
+                        const res2 = d.findIndex((el) => {
+                          return el.Contact == values.Contact;
+                        });
+                        if (
+                          !values.Email ||
+                          !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
+                            values.Email.trim()
+                          )
+                        ) {
+                          errors.Email = "Invalid Email";
+                        } else if (res !== -1) {
+                          errors.Email = "Email already exists";
+                        }
+                        if (
+                          !values.Contact ||
+                          !/^[0-9]{10}$/i.test(values.Contact)
+                        ) {
+                          errors.Contact = "Invalid Contact";
+                        } else if (res2 !== -1) {
+                          errors.Contact = "Contact already exists";
+                        }
+                        return errors;
+                      }}
+                      onSubmit={async (values) => {
+                        let d = selectedData;
+                        let r = rejectedData;
+
+                        if (editIndex !== null) r.splice(editIndex, 1);
+                        setEditIndex(null);
+                        d.push(values);
+                        console.log(d)
+                        await setSelectedData(d);
+                        await setCandidateData(d);
+                        await setRejectedData(r);
+                        await setShowCandidate(true);
+                        await setShowCandidateForm(false);
+                      }}
+                    >
+                      {({ values }) => {
+                        return (
+                          <Form>
+                            <p className="text-left font-semibold py-2">
+                              Add User
+                            </p>
+                            <div className="flex my-3 flex-wrap text-left">
+                              <div className="w-1/2">
+                                <label>First Name</label>
                                 <Field
-                                  name="Address"
+                                  name="FirstName"
                                   type="text"
-                                  className="text-600 rounded-sm block w-full px-4 py-1"
+                                  className="text-600 rounded-sm block px-4 py-1"
                                   style={{ borderRadius: "5px" }}
                                 />
+                                <ErrorMessage
+                                  name="FirstName"
+                                  component="div"
+                                />
                               </div>
-                              <div>
-                                <button
-                                  className="bg-[#034488] text-white rounded-sm py-1 my-2 px-4"
-                                  type="submit"
-                                  style={{ backgroundColor: "#034488" }}
-                                >
-                                  Add
-                                </button>
-                                <button
-                                  className="bg-[#034488] text-white rounded-sm px-4 py-1 my-2 mx-4"
-                                  onClick={() => {
-                                    setCandidateInitial({
-                                      FirstName: "",
-                                      LastName: "",
-                                      Email: "",
-                                      Contact: "",
-                                      Address: "",
-                                    });
-                                    setShowCandidateForm(false);
-                                    setEditIndex(null);
-                                  }}
-                                >
-                                  Cancel
-                                </button>
+                              <div className="w-1/2">
+                                <label>Last Name</label>
+                                <Field
+                                  name="LastName"
+                                  type="text"
+                                  className="text-600 rounded-sm block px-4 py-1"
+                                  style={{ borderRadius: "5px" }}
+                                />
+                                <ErrorMessage
+                                  name="LastName"
+                                  component="div"
+                                />
                               </div>
-                            </Form>
-                          );
-                        }}
-                      </Formik>
+                            </div>
+                            <div className="flex my-3 flex-wrap text-left">
+                              <div className="w-1/2">
+                                <label>Email</label>
+                                <Field
+                                  name="Email"
+                                  type="text"
+                                  className="text-600 rounded-sm block px-4 py-1"
+                                  style={{ borderRadius: "5px" }}
+                                />
+                                <ErrorMessage
+                                  name="Email"
+                                  component="div"
+                                  className="text-sm text-red-500"
+                                />
+                              </div>
+                              <div className="w-1/2">
+                                <label>Contact</label>
+                                <Field
+                                  name="Contact"
+                                  type="text"
+                                  className="text-600 rounded-sm block px-4 py-1"
+                                  style={{ borderRadius: "5px" }}
+                                />
+                                <ErrorMessage
+                                  name="Contact"
+                                  component="div"
+                                  className="text-sm text-red-500"
+                                />
+                              </div>
+                            </div>
+                            <div className="my-3 text-left pr-10">
+                              <label>Address</label>
+                              <Field
+                                name="Address"
+                                type="text"
+                                className="text-600 rounded-sm block w-full px-4 py-1"
+                                style={{ borderRadius: "5px" }}
+                              />
+                            </div>
+                            <div>
+                              <button
+                                className="bg-[#034488] text-white rounded-sm py-1 my-2 px-4"
+                                type="submit"
+                                style={{ backgroundColor: "#034488" }}
+                              >
+                                Add
+                              </button>
+                              <button
+                                className="bg-[#034488] text-white rounded-sm px-4 py-1 my-2 mx-4"
+                                onClick={() => {
+                                  setCandidateInitial({
+                                    FirstName: "",
+                                    LastName: "",
+                                    Email: "",
+                                    Contact: "",
+                                    Address: "",
+                                  });
+                                  setShowCandidateForm(false);
+                                  setEditIndex(null);
+                                }}
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          </Form>
+                        );
+                      }}
+                    </Formik>
+                  </div>
+                )}
+                <div className="my-9 lg:w-3/4">
+                  {rejectedData.length > 0 && (
+                    <div className="flex items-center w-full justify-between">
+                      <p>Rejected Data ({rejectedData.length})</p>
+                      <p>
+                        {showRejected ? (
+                          <p
+                            className="text-sm text-blue-500 cursor-pointer ml-auto"
+                            onClick={() => {
+                              setShowRejected(false);
+                            }}
+                          >
+                            Hide
+                          </p>
+                        ) : (
+                          <p
+                            className="text-sm text-blue-500 cursor-pointer ml-auto"
+                            onClick={() => {
+                              setShowRejected(true);
+                            }}
+                          >
+                            Show
+                          </p>
+                        )}
+                      </p>
                     </div>
                   )}
-                  <div className="my-9 lg:w-3/4">
-                    {rejectedData.length > 0 && (
-                      <div className="flex items-center w-full justify-between">
-                        <p>Rejected Data ({rejectedData.length})</p>
-                        <p>
-                          {showRejected ? (
-                            <p
-                              className="text-sm text-blue-500 cursor-pointer ml-auto"
-                              onClick={() => {
-                                setShowRejected(false);
-                              }}
+                  {showRejected && rejectedData.length > 0 && (
+                    <div className="my-4">
+                      <table class="w-full">
+                        <thead class="bg-white border-b">
+                          <tr>
+                            <th
+                              scope="col"
+                              class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                             >
-                              Hide
-                            </p>
-                          ) : (
-                            <p
-                              className="text-sm text-blue-500 cursor-pointer ml-auto"
-                              onClick={() => {
-                                setShowRejected(true);
-                              }}
+                              #
+                            </th>
+                            <th
+                              scope="col"
+                              class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                             >
-                              Show
-                            </p>
-                          )}
-                        </p>
-                      </div>
-                    )}
-                    {showRejected && rejectedData.length > 0 && (
-                      <div className="my-4">
-                        <table class="w-full">
-                          <thead class="bg-white border-b">
-                            <tr>
-                              <th
-                                scope="col"
-                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                              >
-                                #
-                              </th>
-                              <th
-                                scope="col"
-                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                              >
-                                Email
-                              </th>
-                              <th
-                                scope="col"
-                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                              >
-                                Contact
-                              </th>
-                              <th
-                                scope="col"
-                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                              >
-                                Reason
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {rejectedData.map((user, index) => {
-                              return (
-                                <tr
-                                  class={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                                    } border-b`}
-                                >
-                                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                    {index + 1}
-                                  </td>
-                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                    {user.Email}
-                                  </td>
-                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                    {user.Contact}
-                                  </td>
-                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                    {user.Reason}
-                                  </td>
-                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                    <RiEditBoxLine
-                                      className="text-sm text-blue-500 cursor-pointer"
-                                      onClick={() => {
-                                        setCandidateInitial(user);
-                                        setEditIndex(index);
-                                        setShowCandidateForm(true);
-                                      }}
-                                    />
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-                  </div>
-                  <div className="my-9">
-                    {/* {candidateData.length > 0 && (
-                      <div className="flex items-center lg:w-3/4 justify-between">
-                        <p className="font-semibold">
-                          Candidate Data ({candidateData.length})
-                        </p>
-                        <p>
-                          {showCandidate ? (
-                            <p
-                              className="text-sm text-blue-500 cursor-pointer ml-auto"
-                              onClick={() => {
-                                setShowCandidate(false);
-                              }}
+                              Email
+                            </th>
+                            <th
+                              scope="col"
+                              class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                             >
-                              Hide
-                            </p>
-                          ) : (
-                            <p
-                              className="text-sm text-blue-500 cursor-pointer ml-auto"
-                              onClick={() => {
-                                setShowCandidate(true);
-                              }}
+                              Contact
+                            </th>
+                            <th
+                              scope="col"
+                              class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                             >
-                              Show
-                            </p>
-                          )}
-                        </p>
-                      </div>
-                    )} */}
-
-                  </div>
-                  <div className="my-9">
-                    {candidateData.length > 0 && (
-                      <div className="flex items-center lg:w-3/4 justify-between">
-                        <p className="font-semibold">
-                          Candidate Data ({candidateData.length})
-                        </p>
-                        <p>
-                          {showCandidate ? (
-                            <p
-                              className="text-sm text-blue-500 cursor-pointer ml-auto"
-                              onClick={() => {
-                                setShowCandidate(false);
-                              }}
-                            >
-                              Hide
-                            </p>
-                          ) : (
-                            <p
-                              className="text-sm text-blue-500 cursor-pointer ml-auto"
-                              onClick={() => {
-                                setShowCandidate(true);
-                              }}
-                            >
-                              Show
-                            </p>
-                          )}
-                        </p>
-                      </div>
-                    )}
-                    {showCandidate && candidateData.length > 0 && (
-                      <div className="my-4">
-                        <table class="w-3/4">
-                          <thead class="bg-white border-b text-left">
-                            <tr>
-                              <th
-                                scope="col"
-                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                              Reason
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rejectedData.map((user, index) => {
+                            return (
+                              <tr
+                                class={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                                  } border-b`}
                               >
-                                #
-                              </th>
-                              <th
-                                scope="col"
-                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                              >
-                                First Name
-                              </th>
-                              <th
-                                scope="col"
-                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                              >
-                                Last Name
-                              </th>
-                              <th
-                                scope="col"
-                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                              >
-                                Email
-                              </th>
-                              <th
-                                scope="col"
-                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                              >
-                                Contact
-                              </th>
-                              <th
-                                scope="col"
-                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                              >
-                                Address
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {candidateData.map((user, index) => {
-                              return (
-                                <tr
-                                  class={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                                    } border-b`}
-                                >
-                                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
-                                    {index + 1}
-                                  </td>
-                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                    {user.FirstName}
-                                  </td>
-                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                    {user.LastName}
-                                  </td>
-                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                    {user.Email}
-                                  </td>
-                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                    {user.Contact}
-                                  </td>
-                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                    {user.Address}
-                                  </td>
-                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                    <AiOutlineDelete
-                                      className="text-sm  text-red-500 cursor-pointer"
-                                      onClick={() => {
-                                        setCandidateData(
-                                          candidateData.filter(
-                                            (item) => item.Email !== user.Email
-                                          )
-                                        );
-                                        setSelectedData(
-                                          selectedData.filter(
-                                            (item) => item.Email !== user.Email
-                                          )
-                                        );
-                                      }}
-                                    />
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-                  </div>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                  {index + 1}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                  {user.Email}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                  {user.Contact}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                  {user.Reason}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                  <RiEditBoxLine
+                                    className="text-sm text-blue-500 cursor-pointer"
+                                    onClick={() => {
+                                      setCandidateInitial(user);
+                                      setEditIndex(index);
+                                      setShowCandidateForm(true);
+                                    }}
+                                  />
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
                 </div>
                 <div className="flex space-x-3 mx-auto justify-center my-6">
                   <button
@@ -1971,7 +1818,7 @@ const AddJob = () => {
             </div>
           )}
           {PageIndex === 4 && (
-            <div className="lg:w-3/4  shadow-md mr-3 bg-white py-9 px-7">
+            <div className="w-full  shadow-md mr-3 bg-white py-9 px-7">
               <p className="font-semibold">Add Screening Questions</p>
               <p className="text-gray-600">
                 We recommend adding 3 or more questions.
@@ -2168,247 +2015,8 @@ const AddJob = () => {
               </div>
             </div>
           )}
-          {PageIndex === 6 && (
-            <div className="lg:w-3/4 py-3 shadow-md mr-3 bg-white">
-              <div className="w-full mt-9">
-                <div className="w-full m-5 mx-7">
-                  <Formik
-                    initialValues={{
-                      salary: job.salary && job.salary[1] ? job.salary[1] : "",
-                      maxSalary:
-                        job.salary && job.salary[2] ? job.salary[2] : "",
-                    }}
-                    validate={(values) => {
-                      const errors = {};
-                      if (
-                        values.salary &&
-                        values.maxSalary &&
-                        values.maxSalary < values.salary
-                      ) {
-                        errors.maxSalary =
-                          "Max Salary should be greater than Salary";
-                      }
-                      if (!values.salary) {
-                        errors.salary = "Required !";
-                      }
-                      if (!values.maxSalary) {
-                        errors.maxSalary = "Required !";
-                      }
-
-                      return errors;
-                    }}
-                  // onSubmit={postJob}
-                  >
-                    {(values) => {
-                      return (
-                        <div>
-                          <Form className="w-full mt-9">
-                            <div className="my-5 space-y-3 w-full">
-                              <label className="text-left w-3/4 mb-3 font-semibold block">
-                                Remunerations
-                              </label>
-
-                              <Editor
-                                editorState={perks}
-                                toolbarClassName="toolbarClassName"
-                                wrapperClassName="wrapperClassName"
-                                editorClassName="editorClassName"
-                                wrapperStyle={{
-                                  width: "75%",
-                                  border: "1px solid rgb(156 163 175 / 1)",
-                                  borderRadius: "5px",
-                                }}
-                                editorStyle={{
-                                  minHeight: "200px",
-                                  paddingLeft: "1rem",
-                                }}
-                                onEditorStateChange={onPerksEditorStateChange}
-                              />
-                            </div>
-                            <div className="my-7 mt-9 space-y-3 w-3/4">
-                              <label className="text-left w-3/4 font-semibold block">
-                                Pay Range
-                              </label>
-                              <div className="items-center space-x-0">
-                                <label>Currency</label>
-                                <Listbox
-                                  onChange={setCurrency}
-                                  value={currency}
-                                >
-                                  <div className="relative mt-1 w-1/3 mb-5 z-100">
-                                    <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-4 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-300 sm:text-sm border-1 border-">
-                                      <span className="block truncate">
-                                        {currency.symbol} - {currency.name}
-                                      </span>
-                                      <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                                        <ChevronDownIcon
-                                          className="h-5 w-5 text-gray-400"
-                                          aria-hidden="true"
-                                        />
-                                      </span>
-                                    </Listbox.Button>
-                                    <Transition
-                                      as={Fragment}
-                                      leave="transition ease-in duration-100"
-                                      leaveFrom="opacity-100"
-                                      leaveTo="opacity-0"
-                                    >
-                                      <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-100">
-                                        {currencies.currencies.map(
-                                          (currency, currencyIdx) => (
-                                            <Listbox.Option
-                                              key={currencyIdx}
-                                              className={({ active }) =>
-                                                `relative cursor-default select-none py-2 pl-10 pr-4 ${active
-                                                  ? "bg-blue-100 text-blue-900"
-                                                  : "text-gray-900"
-                                                }`
-                                              }
-                                              value={currency}
-                                            >
-                                              {({ selected }) => (
-                                                <>
-                                                  <span
-                                                    className={`block truncatez-100 ${selected
-                                                      ? "font-medium"
-                                                      : "font-normal"
-                                                      }`}
-                                                  >
-                                                    {currency.symbol} -{" "}
-                                                    {currency.name}
-                                                  </span>
-                                                  {selected ? (
-                                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-600 z-100">
-                                                      <CheckIcon
-                                                        className="h-5 w-5"
-                                                        aria-hidden="true"
-                                                      />
-                                                    </span>
-                                                  ) : null}
-                                                </>
-                                              )}
-                                            </Listbox.Option>
-                                          )
-                                        )}
-                                      </Listbox.Options>
-                                    </Transition>
-                                  </div>
-                                </Listbox>
-                              </div>
-                              <div className="md:flex items-center space-x-2 flex-wrap">
-                                <div className="block w-1/3">
-                                  <label className="block">Minimum</label>
-                                  <Field
-                                    name="salary"
-                                    type="number"
-                                    placeholder=""
-                                    className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 focus:outline-0 focus:border-0 px-4"
-                                  />
-                                  <ErrorMessage
-                                    name="salary"
-                                    component="div"
-                                    className="text-red-500 text-sm"
-                                  />
-                                </div>
-                                <div className="block w-1/3">
-                                  <label>Maximum</label>
-                                  <Field
-                                    name="maxSalary"
-                                    type="number"
-                                    placeholder=""
-                                    className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 focus:outline-0 focus:border-0 px-4"
-                                  />
-                                  <ErrorMessage
-                                    name="maxSalary"
-                                    component="div"
-                                    className="text-red-500 text-sm"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="">
-                              <button
-                                className="mx-auto bg-[#034488] px-4 py-1 text-white rounded-sm"
-                                style={{ backgroundColor: "#034488" }}
-                                type="button"
-                                onClick={async () => {
-                                  if (
-                                    values.values.salary >
-                                    values.values.maxSalary
-                                  ) {
-                                    return;
-                                  }
-                                  let job = await JSON.parse(
-                                    await localStorage.getItem("postjob")
-                                  );
-                                  job.salary = [
-                                    currency,
-                                    values.values.salary,
-                                    values.values.maxSalary,
-                                  ];
-                                  await setJob(job);
-                                  localStorage.setItem(
-                                    "postjob",
-                                    JSON.stringify(job)
-                                  );
-                                  setPageIndex(5);
-                                }}
-                              >
-                                Prev
-                              </button>
-
-                            </div>
-                            {values.values.salary && values.values.maxSalary ? (
-                              <button
-                                type="button"
-                                class="bg-[#4a545e] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
-                                onClick={async () => {
-                                  if (
-                                    values.values.salary >
-                                    values.values.maxSalary
-                                  ) {
-                                    return;
-                                  }
-                                  postJob(
-                                    job,
-                                    values.values.salary,
-                                    values.values.maxSalary
-                                  );
-                                }}
-                                style={{ backgroundColor: "#034488" }}
-                              >
-                                {loading ? (
-                                  <img
-                                    src={Loader}
-                                    alt="loader"
-                                    className="h-9 mx-auto"
-                                  />
-                                ) : (
-                                  "Submit"
-                                )}
-                              </button>
-                            ) : (
-                              <button
-                                type="button"
-                                class="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
-                                disabled
-                                style={{ backgroundColor: "#034388d7" }}
-                              >
-                                Submit
-                              </button>
-                            )}
-                          </Form>
-                        </div>
-                      );
-                    }}
-                  </Formik>
-                </div>
-              </div>
-            </div>
-          )}
           {PageIndex === 5 && (
-            <div className="lg:w-3/4 py-3 shadow-md mr-3 bg-white">
+            <div className="w-full py-3 shadow-md mr-3 bg-white">
               <div className="w-full mt-9">
                 <div className="w-full m-5 mx-7">
                   <Formik
@@ -2449,7 +2057,7 @@ const AddJob = () => {
                                 Brand Masking
                               </label>
 
-                              <label className="w-1/2 content-center px-4 flex p-1  text-md">
+                              <label className="w-auto content-center px-4 flex p-1  text-md">
                                 <label
                                   for="Logo-toggle"
                                   class="inline-flex relative items-center cursor-pointer"
@@ -2467,7 +2075,7 @@ const AddJob = () => {
                                 </label>
 
                               </label>
-                              <label className="w-1/2 content-center px-4 flex p-1  text-md">
+                              <label className="w-auto content-center px-4 flex p-1  text-md">
                                 <label
                                   for="Title-toggle"
                                   class="inline-flex relative items-center cursor-pointer"
@@ -2492,7 +2100,7 @@ const AddJob = () => {
                               </label>
 
                               <div className=" items-center space-x-2">
-                                <label className="w-1/2 content-center mx-2  px-4 flex p-1  text-md">
+                                <label className="w-auto content-center mx-2  px-4 flex p-1  text-md">
                                   <label
                                     for="Email-toggle"
                                     class="inline-flex relative items-center cursor-pointer"
@@ -2508,7 +2116,7 @@ const AddJob = () => {
                                     </span>
                                   </label>
                                 </label>
-                                <label className="w-1/2 content-center  px-4 flex p-1  text-md">
+                                <label className="w-auto content-center  px-4 flex p-1  text-md">
                                   <label
                                     for="Contact-toggle"
                                     class="inline-flex relative items-center cursor-pointer"
@@ -2525,7 +2133,7 @@ const AddJob = () => {
                                     </span>
                                   </label>
                                 </label>
-                                <label className="w-1/2 content-center  px-4 flex p-1  text-md">
+                                <label className="w-auto content-center  px-4 flex p-1  text-md">
                                   <label
                                     for="Education-toggle"
                                     class="inline-flex relative items-center cursor-pointer"
@@ -2632,6 +2240,246 @@ const AddJob = () => {
               </div>
             </div>
           )}
+          {PageIndex === 6 && (
+            <div className="w-full py-3 shadow-md mr-3 bg-white">
+              <div className="w-full mt-9">
+                <div className="w-fit m-5 mx-7">
+                  <Formik
+                    initialValues={{
+                      salary: job.salary && job.salary[1] ? job.salary[1] : "",
+                      maxSalary:
+                        job.salary && job.salary[2] ? job.salary[2] : "",
+                    }}
+                    validate={(values) => {
+                      const errors = {};
+                      if (
+                        values.salary &&
+                        values.maxSalary &&
+                        values.maxSalary < values.salary
+                      ) {
+                        errors.maxSalary =
+                          "Max Salary should be greater than Salary";
+                      }
+                      if (!values.salary) {
+                        errors.salary = "Required !";
+                      }
+                      if (!values.maxSalary) {
+                        errors.maxSalary = "Required !";
+                      }
+
+                      return errors;
+                    }}
+                  // onSubmit={postJob}
+                  >
+                    {(values) => {
+                      return (
+                        <div>
+                          <Form className="w-full mt-9">
+                            <div className="my-5 space-y-3 w-full">
+                              <label className="text-left w-3/4 mb-3 font-semibold block">
+                                Remunerations
+                              </label>
+
+                              <Editor
+                                editorState={perks}
+                                toolbarClassName="toolbarClassName"
+                                wrapperClassName="wrapperClassName"
+                                editorClassName="editorClassName"
+                                wrapperStyle={{
+                                  width: "100%",
+                                  border: "1px solid rgb(156 163 175 / 1)",
+                                  borderRadius: "5px",
+                                }}
+                                editorStyle={{
+                                  minHeight: "200px",
+                                  paddingLeft: "1rem",
+                                }}
+                                onEditorStateChange={onPerksEditorStateChange}
+                              />
+                            </div>
+                            <div className="my-7 mt-9 space-y-3 w-3/4">
+                              <label className="text-left w-3/4 font-semibold block">
+                                Pay Range
+                              </label>
+                              <div className="items-center space-x-0">
+                                <label>Currency</label>
+                                <Listbox
+                                  onChange={setCurrency}
+                                  value={currency}
+                                >
+                                  <div className="relative mt-1 w-fit mb-5 z-100">
+                                    <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-4 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-300 sm:text-sm border-1 border-">
+                                      <span className="block truncate">
+                                        {currency.symbol} - {currency.name}
+                                      </span>
+                                      <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                                        <ChevronDownIcon
+                                          className="h-5 w-5 text-gray-400"
+                                          aria-hidden="true"
+                                        />
+                                      </span>
+                                    </Listbox.Button>
+                                    <Transition
+                                      as={Fragment}
+                                      leave="transition ease-in duration-100"
+                                      leaveFrom="opacity-100"
+                                      leaveTo="opacity-0"
+                                    >
+                                      <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-100">
+                                        {currencies.currencies.map(
+                                          (currency, currencyIdx) => (
+                                            <Listbox.Option
+                                              key={currencyIdx}
+                                              className={({ active }) =>
+                                                `relative cursor-default select-none py-2 pl-10 pr-4 ${active
+                                                  ? "bg-blue-100 text-blue-900"
+                                                  : "text-gray-900"
+                                                }`
+                                              }
+                                              value={currency}
+                                            >
+                                              {({ selected }) => (
+                                                <>
+                                                  <span
+                                                    className={`block truncatez-100 ${selected
+                                                      ? "font-medium"
+                                                      : "font-normal"
+                                                      }`}
+                                                  >
+                                                    {currency.symbol} -{" "}
+                                                    {currency.name}
+                                                  </span>
+                                                  {selected ? (
+                                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-600 z-100">
+                                                      <CheckIcon
+                                                        className="h-5 w-5"
+                                                        aria-hidden="true"
+                                                      />
+                                                    </span>
+                                                  ) : null}
+                                                </>
+                                              )}
+                                            </Listbox.Option>
+                                          )
+                                        )}
+                                      </Listbox.Options>
+                                    </Transition>
+                                  </div>
+                                </Listbox>
+                              </div>
+                              <div className="w-fit lg:flex md:flex gap-5">
+                                <div className="block w-1/2">
+                                  <label className="block">Minimum</label>
+                                  <Field
+                                    name="salary"
+                                    type="number"
+                                    placeholder=""
+                                    className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 focus:outline-0 focus:border-0 px-4"
+                                  />
+                                  <ErrorMessage
+                                    name="salary"
+                                    component="div"
+                                    className="text-red-500 text-sm"
+                                  />
+                                </div>
+                                <div className="block w-1/2">
+                                  <label className="block">Maximum</label>
+                                  <Field
+                                    name="maxSalary"
+                                    type="number"
+                                    placeholder=""
+                                    className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 focus:outline-0 focus:border-0 px-4"
+                                  />
+                                  <ErrorMessage
+                                    name="maxSalary"
+                                    component="div"
+                                    className="text-red-500 text-sm"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="">
+                              <button
+                                className="mx-auto bg-[#034488] px-4 py-1 text-white rounded-sm"
+                                style={{ backgroundColor: "#034488" }}
+                                type="button"
+                                onClick={async () => {
+                                  if (
+                                    values.values.salary >
+                                    values.values.maxSalary
+                                  ) {
+                                    return;
+                                  }
+                                  let job = await JSON.parse(
+                                    await localStorage.getItem("postjob")
+                                  );
+                                  job.salary = [
+                                    currency,
+                                    values.values.salary,
+                                    values.values.maxSalary,
+                                  ];
+                                  await setJob(job);
+                                  localStorage.setItem(
+                                    "postjob",
+                                    JSON.stringify(job)
+                                  );
+                                  setPageIndex(5);
+                                }}
+                              >
+                                Prev
+                              </button>
+
+                            </div>
+                            {values.values.salary && values.values.maxSalary ? (
+                              <button
+                                type="button"
+                                class="bg-[#4a545e] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
+                                onClick={async () => {
+                                  if (
+                                    values.values.salary >
+                                    values.values.maxSalary
+                                  ) {
+                                    return;
+                                  }
+                                  postJob(
+                                    job,
+                                    values.values.salary,
+                                    values.values.maxSalary
+                                  );
+                                }}
+                                style={{ backgroundColor: "#034488" }}
+                              >
+                                {loading ? (
+                                  <img
+                                    src={Loader}
+                                    alt="loader"
+                                    className="h-9 mx-auto"
+                                  />
+                                ) : (
+                                  "Submit"
+                                )}
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                class="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
+                                disabled
+                                style={{ backgroundColor: "#034388d7" }}
+                              >
+                                Submit
+                              </button>
+                            )}
+                          </Form>
+                        </div>
+                      );
+                    }}
+                  </Formik>
+                </div>
+              </div>
+            </div>
+          )}
+
         </div>
       </div>
     </div>
