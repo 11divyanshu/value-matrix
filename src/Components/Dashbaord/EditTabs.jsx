@@ -481,37 +481,37 @@ export default function Tabs(props) {
 
         }
 
-        let et = resume.data.tools;
-        e.tools = resume.data.tools;
-        if (et !== "null" || et !== null) {
-          setTools(et);
-        }
-        if (et === null) {
-          setTools([]);
-        }
-        let primarySkills = {};
-        let roles = new Set([]);
+        // let et = resume.data.tools;
+        // e.tools = resume.data.tools;
+        // if (et !== "null" || et !== null) {
+        //   setTools(et);
+        // }
+        // if (et === null) {
+        //   setTools([]);
+        // }
+        // let primarySkills = {};
+        // let roles = new Set([]);
 
-        resume.data.tools.forEach((skill) => {
-          roles.add(skill.role);
-          if (primarySkills[skill.role]) {
-            primarySkills[skill.role].add(skill.primarySkill);
-          } else {
-            primarySkills[skill.role] = new Set([skill.primarySkill]);
-          }
-        });
-        if (roles)
-          setCRoles(Array.from(roles));
-        else {
-          setCRoles([])
-        }
-        Array.from(roles).map((el) => {
-          primarySkills[el] = Array.from(primarySkills[el]);
-        });
-        setSkillsPrimary(primarySkills);
+        // resume.data.tools.forEach((skill) => {
+        //   roles.add(skill.role);
+        //   if (primarySkills[skill.role]) {
+        //     primarySkills[skill.role].add(skill.primarySkill);
+        //   } else {
+        //     primarySkills[skill.role] = new Set([skill.primarySkill]);
+        //   }
+        // });
+        // if (roles)
+        //   setCRoles(Array.from(roles));
+        // else {
+        //   setCRoles([])
+        // }
+        // Array.from(roles).map((el) => {
+        //   primarySkills[el] = Array.from(primarySkills[el]);
+        // });
+        // setSkillsPrimary(primarySkills);
 
-        setUser(e);
-        console.log(user);
+        // setUser(e);
+        // console.log(e);
       } else{
 
 
@@ -571,11 +571,8 @@ export default function Tabs(props) {
             primarySkills[skill.role] = new Set([skill.primarySkill]);
           }
         });
-        if (roles)
           setCRoles(Array.from(roles));
-        else {
-          setCRoles([])
-        }
+       
         Array.from(roles).map((el) => {
           primarySkills[el] = Array.from(primarySkills[el]);
         });
@@ -1020,12 +1017,12 @@ export default function Tabs(props) {
       }
     });
     let skillData;
-
     if(skills){
    skillData =skills;
     }else{
       skillData = user.tools;
     }
+    console.log(skillData)
 
     // let user = JSON.parse(localStorage.getItem("user"));
     // await setExperienceDetail(temp);
@@ -1085,7 +1082,7 @@ export default function Tabs(props) {
       text: "Details Updated Succesfully",
       button: "Continue",
     }).then(() => {
-      window.location.href = "/user/profile";
+      // window.location.href = "/user/profile";
 
     })
   };
