@@ -16,7 +16,7 @@ import { BsFillChatLeftTextFill } from "react-icons/bs";
 import { RiLogoutBoxRFill } from "react-icons/ri";
 import { FaUserCircle } from "react-icons/fa";
 import NotificationPopOver from "./Notifications";
-import { FiLogOut } from "react-icons/fi";
+import { FiHelpCircle, FiLogOut } from "react-icons/fi";
 
 const HorizontalNav = (props) => {
   const [progress, setProgress] = React.useState(0);
@@ -101,6 +101,7 @@ const HorizontalNav = (props) => {
       <div className="space-x-8   ml-auto flex mr-8 items-center">
 
         <NotificationPopOver />
+        <FiHelpCircle/>
         <Popover className="relative">
           {({ open }) => (
             <>

@@ -12,7 +12,7 @@ import logo from "../../assets/images/logo.png";
 import Avatar from "../../assets/images/UserAvatar.png";
 import { IoCall } from "react-icons/io5";
 import { BsFillChatLeftTextFill } from "react-icons/bs";
-import { FiLogOut } from "react-icons/fi";
+import { FiHelpCircle, FiLogOut } from "react-icons/fi";
 import { AiOutlineUser } from "react-icons/ai";
 import { MdOutlineLogout } from "react-icons/md";
 
@@ -102,6 +102,7 @@ const Navbar = (props) => {
         {/* <IoCall className="text-gray-700 text-lg cursor-pointer hover:text-gray-800 md:block hidden"/>
       <BsFillChatLeftTextFill className="text-gray-700 text-lg cursor-pointer hover:text-gray-800 md:block hidden" /> */}
         <NotificationPopOver />
+        <FiHelpCircle/>
         <Popover className="relative">
           {({ open }) => (
             <>

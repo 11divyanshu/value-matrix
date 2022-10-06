@@ -277,7 +277,7 @@ export default function Tabs() {
                             disabled
                           />
                         </div>
-                        <div className="grid grid-cols-1 lg:grid-cols-2 md:mx-0 mr-2 md:mr-0 align-middle ">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 md:mx-0 md:mr-0 align-middle ">
                           <label className="font-normal ml-2 text-md md:ml-0 py-2">
                             Street
                           </label>
@@ -311,7 +311,7 @@ export default function Tabs() {
 
                         </div>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-2 md:mx-0 mr-2 md:mr-0 align-middle">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 md:mx-0 md:mr-0 align-middle">
                           <label className="font-normal text-md ml-2 md:ml-0 py-2">
                             State/Region
                           </label>
