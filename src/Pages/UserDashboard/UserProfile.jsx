@@ -76,7 +76,7 @@ const UserProfile = () => {
               <p className="font-semibold md:text-3xl mx-6  text-2xl ">
                 {user.firstName} {user.lastname}
               </p>
-              <p className="text-gray-400 text-lg">{user.username}</p>
+              <p className="text-gray-400 mx-6 text-lg">{user.username}</p>
             </div>
             <div className=" mt-3 md:text-right  md:ml-auto sm:text-left ">
               <button

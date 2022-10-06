@@ -260,7 +260,7 @@ export default function Tabs() {
                     <label className="font-semibold lg:ml-5 text-lg md:w-2/5">
                       Address
                     </label>
-                    <div className="w-2/3">
+                    <div className="w-full">
                       <div
                         className="grid grid-cols-1 gap-4 mb-6 lg:grid-cols-2 md:w-5/6 lg:w-full"
                         style={{ justifyContent: "space-between" }}
@@ -412,7 +412,7 @@ export default function Tabs() {
                     <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                       <label className="font-semibold text-lg lg:mx-5 md:w-2/5">
                         Resume</label>
-                      <div className="w-4/5 flex items-center px-4">
+                      <div className="w-full flex items-center">
                         <button
                           className=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
                           style={{ backgroundColor: "#034488" }} onClick={async () => {
@@ -669,25 +669,25 @@ export default function Tabs() {
                           key={index}
                         >
                           <div className="font-semibold flex space-x-2 items-center">
-                            <p>{item.name}</p> <p className="font-normal text-sm">|</p>{" "}
+                            <p>{item.name}</p> <p className="font-normal text-sm"></p>{" "}
 
                           </div>
                           <div className="flex w-full md:gap-2 gap-0 justify-between">
                             <div className="w-auto flex">
-                              <div className="space-x-2 my-2 flex items-center pr-2">
+                            {item.read ?  <div className=" my-2 flex items-center">
 
-                                {item.read ? <p className="lg:text-lg md:text-sm sm:text-xs text-sm flex "><AiOutlineRead className="my-auto mx-2" /> Read</p> : ""}
-                              </div>
-                              <div className="space-x-2 my-2 flex items-center px-2">
+                                 <p className="lg:text-lg md:text-sm sm:text-xs text-sm flex "><AiOutlineRead className="my-auto mx-2" /> Read</p> 
+                              </div>: null}
+                              {item.write ? <div className=" my-2 flex items-center">
 
-                                {item.write ? <p className="lg:text-lg md:text-sm sm:text-xs text-sm flex"><HiPencil className="my-auto mx-2" />Write</p> : ""}
-                              </div>
-                              <div className="flex items-center space-x-2 my-2 px-2">
+                                 <p className="lg:text-lg md:text-sm sm:text-xs text-sm flex"><HiPencil className="my-auto mx-2" />Write</p> 
+                              </div>: null}
+                              {item.speak ?  <div className="flex items-center my-2">
 
 
-                                {item.speak ? <p className="lg:text-lg md:text-sm sm:text-xs text-sm flex"><IoPeople className="my-auto mx-2" />Speak</p> : ""}
+                               <p className="lg:text-lg md:text-sm sm:text-xs text-sm flex"><IoPeople className="my-auto mx-2" />Speak</p> 
 
-                              </div>
+                              </div>: null}
                             </div>
                             <div className=" flex items-center space-x-2  ">
                               <button

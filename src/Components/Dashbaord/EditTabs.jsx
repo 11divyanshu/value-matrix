@@ -1638,7 +1638,7 @@ export default function Tabs(props) {
                       {/* <p className="text-sm mx-2 text-gray-500">Connect Account Associated With Provided Email Address Only !</p> */}
                     </label>
                     {user && !user.linkedInId ? (
-                      <div className="w-4/5 flex items-center px-4">
+                      <div className="w-full flex items-center ">
 
                         <a href={`${url}/auth/linkedin`}>
                           {/* <button className=" color-white py-2 px-8 flex rounded-lg"
@@ -1660,7 +1660,7 @@ export default function Tabs(props) {
                         </a>
                       </div>
 
-                    ) : <p className="w-4/5 flex items-center px-4 text-green-600 font-semibold">Connected</p>}
+                    ) : <p className="w-full flex items-center text-green-600 font-semibold">Connected</p>}
                     {Error && <p className="text-sm text-red-500">{Error}</p>}
                   </div>
                 </div>
@@ -3856,26 +3856,26 @@ export default function Tabs(props) {
                   */}
                       </div>
                       <div className="font-semibold flex space-x-2 items-center">
-                        <p>{item.name}</p> <p className="font-normal text-sm">|</p>{" "}
+                        <p>{item.name}</p> <p className="font-normal text-sm"></p>{" "}
 
                       </div>
-                      <div className="grid grid-cols-1 md:gap-2 lg:grid-cols-6 space-between align-items-right ">
-                        <div className="col-start-1 col-end-3 flex">
-                          <div className="space-x-2 my-2 flex items-center pr-2">
+                      <div className="flex w-full md:gap-2 gap-0 justify-between">
+                      <div className="w-auto flex">
+                            {item.read ?  <div className=" my-2 flex items-center">
 
-                            {item.read ? <p className="text-lg flex md:text-sm sm:text-xs "><AiOutlineRead className="my-auto mx-2" /> Read</p> : ""}
-                          </div>
-                          <div className="space-x-2 my-2 flex items-center px-2">
+                                 <p className="lg:text-lg md:text-sm sm:text-xs text-sm flex "><AiOutlineRead className="my-auto mx-2" /> Read</p> 
+                              </div>: null}
+                              {item.write ? <div className=" my-2 flex items-center">
 
-                            {item.write ? <p className="text-lg md:text-sm sm:text-xs flex"><HiPencil className="my-auto mx-2" />Write</p> : ""}
-                          </div>
-                          <div className="flex items-center space-x-2 my-2 px-2">
+                                 <p className="lg:text-lg md:text-sm sm:text-xs text-sm flex"><HiPencil className="my-auto mx-2" />Write</p> 
+                              </div>: null}
+                              {item.speak ?  <div className="flex items-center my-2">
 
 
-                            {item.speak ? <p className="text-lg md:text-sm sm:text-xs flex"><IoPeople className="my-auto mx-2" />Speak</p> : ""}
+                               <p className="lg:text-lg md:text-sm sm:text-xs text-sm flex"><IoPeople className="my-auto mx-2" />Speak</p> 
 
-                          </div>
-                        </div>
+                              </div>: null}
+                            </div>
                         <div className="col-start-5 col-end-7 col-span-2 flex items-center space-x-2 ">
                           <button
                             className=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
@@ -3969,15 +3969,31 @@ export default function Tabs(props) {
           />
         </div> */}
 
-
+<div className="w-full text-center ">
         <button
-          className="bg-blue-500 px-4 mx-2 py-1 text-white rounded-lg my-5"
+          className="bg-blue-500 mx-auto py-3 px-7 text-white rounded-lg my-5"
           style={{ backgroundColor: "#034488" }}
           onClick={() => update(user)}
         >
           Submit
         </button>
+        </div>
       </div>
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

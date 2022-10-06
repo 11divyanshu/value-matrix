@@ -294,10 +294,11 @@ const EditProfile = () => {
           {/* </div> */}
 
           <div
-            className="md:h-48 h-24 w-full relative -z-[3]"
+            className="md:h-48 h-24 w-full relative -z-[0]"
             style={{ background: "#99DEFF" }}
           ></div>
           <div className="relative  rounded-md w-full py-3 md:flex  ">
+         
             <div className="absolute  sm:left-6 sm:px-2 -top-20 md:-top-28 md:left-20 ">
               <img
                 src={
@@ -313,7 +314,7 @@ const EditProfile = () => {
               <p className="font-semibold md:text-3xl text-2xl ">
                 {user.firstName} {user.lastname}
               </p>
-              <p className="text-gray-400 text-lg">{user.username}</p>
+              <p className="text-gray-400  text-lg">{user.username}</p>
             </div>
             <div className=" mt-3 md:text-right  md:ml-auto sm:text-left  flex">
             <div className="mt-2">
