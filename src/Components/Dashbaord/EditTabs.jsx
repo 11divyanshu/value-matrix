@@ -344,6 +344,7 @@ export default function Tabs(props) {
         seterror("Error uploading file");
       }
 
+
       // Resume Parser
       var fileReader = new FileReader();
       var base64;
@@ -381,6 +382,8 @@ export default function Tabs(props) {
       // console.log(resume.data);
       setUser(e);
       if (resume) {
+       console.log(resume.data);
+
         setSecContact(resume.secondaryContacts)
         setSecEmail(resume.secondaryEmails)
         if (resume.data === null) return null;
@@ -481,37 +484,10 @@ export default function Tabs(props) {
 
         }
 
-        // let et = resume.data.tools;
-        // e.tools = resume.data.tools;
-        // if (et !== "null" || et !== null) {
-        //   setTools(et);
-        // }
-        // if (et === null) {
-        //   setTools([]);
-        // }
-        // let primarySkills = {};
-        // let roles = new Set([]);
+       
 
-        // resume.data.tools.forEach((skill) => {
-        //   roles.add(skill.role);
-        //   if (primarySkills[skill.role]) {
-        //     primarySkills[skill.role].add(skill.primarySkill);
-        //   } else {
-        //     primarySkills[skill.role] = new Set([skill.primarySkill]);
-        //   }
-        // });
-        // if (roles)
-        //   setCRoles(Array.from(roles));
-        // else {
-        //   setCRoles([])
-        // }
-        // Array.from(roles).map((el) => {
-        //   primarySkills[el] = Array.from(primarySkills[el]);
-        // });
-        // setSkillsPrimary(primarySkills);
-
-        // setUser(e);
-        // console.log(e);
+        setUser(e);
+        console.log(e);
       } else{
 
 
@@ -1072,6 +1048,7 @@ export default function Tabs(props) {
       await localStorage.setItem("user", JSON.stringify(res.data.user));
       await localStorage.removeItem("prof");
       await localStorage.removeItem("RolesProf");
+      await localStorage.removeItem("resumeInfo");
     } else {
       console.log("Error");
     }
@@ -1082,7 +1059,7 @@ export default function Tabs(props) {
       text: "Details Updated Succesfully",
       button: "Continue",
     }).then(() => {
-      // window.location.href = "/user/profile";
+      window.location.href = "/user/profile";
 
     })
   };
@@ -1665,7 +1642,7 @@ export default function Tabs(props) {
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg md:w-2/5 mx-2">
                       Connect Social Account
-                      <p className="text-sm mx-2 text-gray-500">Connect Account Associated With Provided Email Address Only !</p>
+                      {/* <p className="text-sm mx-2 text-gray-500">Connect Account Associated With Provided Email Address Only !</p> */}
                     </label>
                     {user && !user.linkedInId ? (
                       <div className="w-4/5 flex items-center px-4">

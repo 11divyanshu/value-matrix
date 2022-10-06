@@ -23,7 +23,7 @@ const EditProfile = () => {
   // Sets OTPs to NULL
   const [error, seterror] = React.useState(null);
 
-  // const [user, setUser] = React.useState();
+ // const [user, setUser] = React.useState();
   const [loading, setLoading] = React.useState(false);
   const [file, setFile] = useState(null)
   const [fileName, setFileName] = useState(null)
@@ -46,11 +46,12 @@ const EditProfile = () => {
       let response = await uploadCandidateResume(fd, access_token);
       if (response && response.status === 200) {
         console.log(response);
-        setLoading(false);
         localStorage.setItem("resumeInfo" , JSON.stringify(response.data));
+        
         await setFile(e.target.files[0]);
         setFileName(e.target.files[0].name);
-       
+        setLoading(false);
+        window.location.reload(false)
       } else {
         let res = await localStorage.getItem("candidateDetails");
         res = JSON.parse(res);
@@ -113,7 +114,7 @@ const EditProfile = () => {
   }, []);
 
   // States for the Page
-  const [user, setUser] = React.useState(null);
+   const [user, setUser] = React.useState(null);
   const [access_token, setToken] = React.useState(null);
 
   // Updates Any Error during the Editing Profile
@@ -356,7 +357,7 @@ const EditProfile = () => {
           </div>
 
           <div className="my-3  rounded-md w-full  mt-6 pt-3">
-            <EditTabs />
+            { <EditTabs />}
           </div>
         </div>
       )}
