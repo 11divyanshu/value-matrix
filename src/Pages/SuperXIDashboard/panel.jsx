@@ -116,7 +116,7 @@ const Panel = () => {
                 <p className="text-gray-400 text-sm "> Jan 17,2022</p>
               </div>
               <div className="px-5 text-center my-3"><p>12am  - 1am</p><p className="text-gray-400 text-sm "> 03 Minutes Remaining</p></div>
-              <div className="px-5 text-center my-3 vertical-middle"><span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900">Pending</span>
+              <div className="px-5 text-center my-3 vertical-middle"><span className="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900">Pending</span>
               </div>
               <div className="px-5 text-center my-3"><p><BsThreeDots /></p></div>
             </div>
@@ -136,7 +136,7 @@ const Panel = () => {
                    <p className="text-gray-400 text-sm"> Jan 17,2022</p>
               </div>
               <div className="px-5 text-center my-3"><p>12am  - 1am</p><p className="text-gray-400 text-sm"> 03 Minutes Remaining</p></div>
-              <div className="px-5 text-center my-3"><span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900">Pending</span>
+              <div className="px-5 text-center my-3"><span className="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900">Pending</span>
               </div>
               <div className="px-5 text-center my-3"><p><BsThreeDots /></p></div>
             </div>
@@ -156,7 +156,7 @@ const Panel = () => {
                    <p className="text-gray-400 text-sm"> Jan 17,2022</p>
               </div>
               <div className="px-5 text-center my-3"><p>12am  - 1am</p><p className="text-gray-400 text-sm"> 03 Minutes Remaining</p></div>
-              <div className="px-5 text-center my-3"><span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900">Pending</span>
+              <div className="px-5 text-center my-3"><span className="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900">Pending</span>
               </div>
               <div className="px-5 text-center my-3"><p><BsThreeDots /></p></div>
             </div>
@@ -177,7 +177,7 @@ const Panel = () => {
                 <p className="text-gray-400 text-sm"> Jan 17,2022</p>
               </div>
               <div className="px-5 text-center my-3"><p>12am  - 1am</p><p className="text-gray-400 text-sm"> 03 Minutes Remaining</p></div>
-              <div className="px-5 text-center my-3"><span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900">Pending</span>
+              <div className="px-5 text-center my-3"><span className="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900">Pending</span>
               </div>
               <div className="px-5 text-center my-3"><p><BsThreeDots /></p></div>
             </div>

@@ -262,7 +262,7 @@ function JobDetails(props) {
                     />
                   </div>
                   <div className="pt-3">
-                    <h5 class="text-black-900 text-lg font-bold mb-1 ">
+                    <h5 className="text-black-900 text-lg font-bold mb-1 ">
                       {job.jobTitle}
                     </h5>
                     <p className="text-sm font-bold  text-gray-400 font-semibold">
@@ -326,7 +326,7 @@ function JobDetails(props) {
                                  open ? "" : "text-opacity-90"
                                } focus:outline-0`}
                         >
-                          {/* <div class="absolute inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 p-1 text-xs bg-[#034488] rounded-full z-10" style={{backgroundColor:"#034488"}}></div> */}
+                          {/* <div className="absolute inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 p-1 text-xs bg-[#034488] rounded-full z-10" style={{backgroundColor:"#034488"}}></div> */}
 
                           <BsThreeDots className="text-gray-700 text-lg mt-5 cursor-pointer hover:text-gray-800" />
                         </Popover.Button>
@@ -391,7 +391,7 @@ function JobDetails(props) {
                   job.skills &&
                   job.skills.map((item) => {
                     return (
-                      <span class="bg-blue-100 text-blue-800 text-md my-5 font-semibold mx-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-600">
+                      <span className="bg-blue-100 text-blue-800 text-md my-5 font-semibold mx-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-600">
                         {item.primarySkill}
                       </span>
                     );
@@ -412,7 +412,7 @@ function JobDetails(props) {
                                       tool.primarySkill === el
                                   )
                                   .map((item1, index) => (
-                                    <span class="bg-blue-100 text-blue-800 text-xs my-4 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
+                                    <span className="bg-blue-100 text-blue-800 text-xs my-4 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
                                       {item1.secondarySkill}({item1.proficiency}
                                       )
                                     </span>

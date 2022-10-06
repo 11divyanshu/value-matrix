@@ -290,14 +290,14 @@ const JobList = () => {
           <div className="mx-1">
 
 
-            <p className="text-gray-900 text-s mb-2 mx-5 text-right text-blue"><button class=" p-3 w-10vw rounded-md text-white" style={{ backgroundColor: "#034488" }} onClick={() => {
+            <p className="text-gray-900 text-s mb-2 mx-5 text-right text-blue"><button className=" p-3 w-10vw rounded-md text-white" style={{ backgroundColor: "#034488" }} onClick={() => {
               setModal(true);
               setShowCandidateForm(false);
 
             }}>Add Candidate</button></p>
           </div>
           {/* <div>
-          <p className="text-gray-900 text-s mb-2 mx-5 text-right text-blue"><CSVLink {...csvReport}><button class=" p-3 w-10vw rounded-md text-white" style={{ backgroundColor: "#034488" }}>Download CSV</button></CSVLink></p>
+          <p className="text-gray-900 text-s mb-2 mx-5 text-right text-blue"><CSVLink {...csvReport}><button className=" p-3 w-10vw rounded-md text-white" style={{ backgroundColor: "#034488" }}>Download CSV</button></CSVLink></p>
         </div> */}
         </div>
       </div>
@@ -681,30 +681,30 @@ const JobList = () => {
                                     )}
                                     {showRejected && rejectedData.length > 0 && (
                                       <div className="my-4">
-                                        <table class="w-full">
-                                          <thead class="bg-white border-b">
+                                        <table className="w-full">
+                                          <thead className="bg-white border-b">
                                             <tr>
                                               <th
                                                 scope="col"
-                                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                                className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                                               >
                                                 #
                                               </th>
                                               <th
                                                 scope="col"
-                                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                                className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                                               >
                                                 email
                                               </th>
                                               <th
                                                 scope="col"
-                                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                                className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                                               >
                                                 Contact
                                               </th>
                                               <th
                                                 scope="col"
-                                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                                className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                                               >
                                                 Reason
                                               </th>
@@ -714,22 +714,22 @@ const JobList = () => {
                                             {rejectedData.map((user, index) => {
                                               return (
                                                 <tr
-                                                  class={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                                                  className={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
                                                     } border-b`}
                                                 >
-                                                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                                     {index + 1}
                                                   </td>
-                                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                                     {user.email}
                                                   </td>
-                                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                                     {user.phoneNo}
                                                   </td>
-                                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                                     {user.Reason}
                                                   </td>
-                                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                                     <RiEditBoxLine
                                                       className="text-sm text-blue-500 cursor-pointer"
                                                       onClick={() => {
@@ -801,36 +801,36 @@ const JobList = () => {
                                     )}
                                     {showCandidate && candidateData.length > 0 && (
                                       <div className="my-4">
-                                        <table class="w-3/4">
-                                          <thead class="bg-white border-b text-left">
+                                        <table className="w-3/4">
+                                          <thead className="bg-white border-b text-left">
                                             <tr>
                                               <th
                                                 scope="col"
-                                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                                className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                                               >
                                                 #
                                               </th>
                                               <th
                                                 scope="col"
-                                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                                className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                                               >
                                                 First Name
                                               </th>
                                               <th
                                                 scope="col"
-                                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                                className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                                               >
                                                 Last Name
                                               </th>
                                               <th
                                                 scope="col"
-                                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                                className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                                               >
                                                 email
                                               </th>
                                               <th
                                                 scope="col"
-                                                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                                className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                                               >
                                                 phoneNo
                                               </th>
@@ -841,26 +841,26 @@ const JobList = () => {
                                             {candidateData.map((user, index) => {
                                               return (
                                                 <tr
-                                                  class={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                                                  className={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
                                                     } border-b`}
                                                 >
-                                                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
+                                                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
                                                     {index + 1}
                                                   </td>
-                                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                                     {user.firstName}
                                                   </td>
-                                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                                     {user.lastName}
                                                   </td>
-                                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                                     {user.email}
                                                   </td>
-                                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                                     {user.phoneNo}
                                                   </td>
 
-                                                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                                     <AiOutlineDelete
                                                       className="text-sm  text-red-500 cursor-pointer"
                                                       onClick={() => {
@@ -950,7 +950,7 @@ const JobList = () => {
                                 <div className="w-full px-5 bg-white py-1 border border-b">
                                   <div className="grid grid-cols-1 gap-4 lg:grid-cols-8 sm:grid-cols-4 my-3">
                                     <div className="col-span-2">
-                                      <h5 class="text-black-900 text-md font-bold mb-1 ">{job.jobTitle}</h5>
+                                      <h5 className="text-black-900 text-md font-bold mb-1 ">{job.jobTitle}</h5>
                                       <p className="text-sm font-bold  text-gray-400 font-semibold">
                                         {job.hiringOrganization}
                                       </p>
@@ -1127,7 +1127,7 @@ const JobList = () => {
                       <div className="w-full px-5 bg-white py-1 border border-b">
                         <div className="grid grid-cols-1 gap-4 lg:grid-cols-7 sm:grid-cols-4 my-3">
                           <div className="col-span-2">
-                            <h5 class="text-black-900 text-md font-bold mb-1 ">{job.firstName}{" "}{job.lastName}</h5>
+                            <h5 className="text-black-900 text-md font-bold mb-1 ">{job.firstName}{" "}{job.lastName}</h5>
 
                           </div>
                           <div className="col-span-2">

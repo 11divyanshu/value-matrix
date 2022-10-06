@@ -180,7 +180,7 @@ function JobDetails(props) {
                     />
                   </div>
                   <div className="pt-3">
-                    <h5 class="text-black-900 text-lg font-bold mb-1 ">
+                    <h5 className="text-black-900 text-lg font-bold mb-1 ">
                       {job.jobTitle}
                     </h5>
                     <p className="text-sm font-bold  text-gray-400 font-semibold">
@@ -308,7 +308,7 @@ function JobDetails(props) {
                   job.skills &&
                   job.skills.map((item) => {
                     return (
-                      <span class="bg-blue-100 text-blue-800 text-md my-5 font-semibold mx-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-600">
+                      <span className="bg-blue-100 text-blue-800 text-md my-5 font-semibold mx-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-600">
                         {item.primarySkill}
                       </span>
                     );
@@ -329,7 +329,7 @@ function JobDetails(props) {
                                       tool.primarySkill === el
                                   )
                                   .map((item1, index) => (
-                                    <span class="bg-blue-100 text-blue-800 text-xs my-4 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
+                                    <span className="bg-blue-100 text-blue-800 text-xs my-4 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
                                       {item1.secondarySkill}({item1.proficiency}
                                       )
                                     </span>

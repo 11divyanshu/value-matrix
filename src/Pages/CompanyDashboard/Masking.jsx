@@ -68,16 +68,16 @@ const Masking = () => {
                                                     <label className="w-1/2 content-center px-4 flex p-1  text-md">
                                                         <label
                                                             for="Logo-toggle"
-                                                            class="inline-flex relative items-center cursor-pointer"
+                                                            className="inline-flex relative items-center cursor-pointer"
                                                         >
                                                             <Field
                                                                 name="logo"
                                                                 type="checkbox"
                                                                 id="Logo-toggle"
-                                                                class="sr-only peer"
+                                                                className="sr-only peer"
                                                             />
-                                                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                                            <span class="ml-3 text-sm font-medium text-gray-900 ">
+                                                            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                                            <span className="ml-3 text-sm font-medium text-gray-900 ">
                                                                 <p className="text-md font-bold mx-3 font-gray-600">Logo</p>
                                                             </span>
                                                         </label>
@@ -86,16 +86,16 @@ const Masking = () => {
                                                     <label className="w-1/2 content-center px-4 flex p-1  text-md">
                                                         <label
                                                             for="Title-toggle"
-                                                            class="inline-flex relative items-center cursor-pointer"
+                                                            className="inline-flex relative items-center cursor-pointer"
                                                         >
                                                             <Field
                                                                 type="checkbox"
                                                                 name="title"
                                                                 id="Title-toggle"
-                                                                class="sr-only peer"
+                                                                className="sr-only peer"
                                                             />
-                                                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                                            <span class="ml-3 text-sm font-medium text-gray-900 ">
+                                                            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                                            <span className="ml-3 text-sm font-medium text-gray-900 ">
                                                                 <p className="text-md font-bold mx-3 font-gray-600">Title</p>
                                                             </span>
                                                         </label>
@@ -111,15 +111,15 @@ const Masking = () => {
                                                         <label className="w-1/2 content-center mx-2  px-4 flex p-1  text-md">
                                                             <label
                                                                 for="Email-toggle"
-                                                                class="inline-flex relative items-center cursor-pointer"
+                                                                className="inline-flex relative items-center cursor-pointer"
                                                             >
                                                                 <Field
                                                                     type="checkbox"
                                                                     name="email" id="Email-toggle"
-                                                                    class="sr-only peer"
+                                                                    className="sr-only peer"
                                                                 />
-                                                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                                                <span class="ml-3 text-sm font-medium text-gray-900 ">
+                                                                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                                                <span className="ml-3 text-sm font-medium text-gray-900 ">
                                                                     <p className="text-md font-bold mx-3 font-gray-600">Email</p>
                                                                 </span>
                                                             </label>
@@ -127,16 +127,16 @@ const Masking = () => {
                                                         <label className="w-1/2 content-center  px-4 flex p-1  text-md">
                                                             <label
                                                                 for="Contact-toggle"
-                                                                class="inline-flex relative items-center cursor-pointer"
+                                                                className="inline-flex relative items-center cursor-pointer"
                                                             >
                                                                 <Field
                                                                     type="checkbox"
                                                                     name="contact"  
                                                                                                   id="Contact-toggle"
-                                                                    class="sr-only peer"
+                                                                    className="sr-only peer"
                                                                 />
-                                                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                                                <span class="ml-3 text-sm font-medium text-gray-900 ">
+                                                                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                                                <span className="ml-3 text-sm font-medium text-gray-900 ">
                                                                     <p className="text-md font-bold mx-3 font-gray-600">Contact</p>
                                                                 </span>
                                                             </label>
@@ -144,15 +144,15 @@ const Masking = () => {
                                                         <label className="w-1/2 content-center  px-4 flex p-1  text-md">
                                                             <label
                                                                 for="Education-toggle"
-                                                                class="inline-flex relative items-center cursor-pointer"
+                                                                className="inline-flex relative items-center cursor-pointer"
                                                             >
                                                                 <Field
                                                                     type="checkbox"
                                                                     name="education" id="Education-toggle"
-                                                                    class="sr-only peer"
+                                                                    className="sr-only peer"
                                                                 />
-                                                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                                                <span class="ml-3 text-sm font-medium text-gray-900 ">
+                                                                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                                                <span className="ml-3 text-sm font-medium text-gray-900 ">
                                                                     <p className="text-md font-bold mx-3 font-gray-600">Education Details</p>
                                                                 </span>
                                                             </label>

@@ -172,7 +172,7 @@ function JobDetails(props) {
                     />
                   </div>
                   <div className="pt-3 ">
-                    <h5 class="text-black-900 text-lg font-bold mb-1 ">
+                    <h5 className="text-black-900 text-lg font-bold mb-1 ">
                       {job.jobTitle}
                     </h5>
                     <p className="text-sm font-bold  text-gray-400 font-semibold">
@@ -240,7 +240,7 @@ function JobDetails(props) {
                                  open ? "" : "text-opacity-90"
                                } focus:outline-0`}
                         >
-                          {/* <div class="absolute inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 p-1 text-xs bg-[#034488] rounded-full z-10" style={{backgroundColor:"#034488"}}></div> */}
+                          {/* <div className="absolute inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 p-1 text-xs bg-[#034488] rounded-full z-10" style={{backgroundColor:"#034488"}}></div> */}
 
                           <BsThreeDots className="text-gray-700 text-lg mt-5 cursor-pointer hover:text-gray-800" />
                         </Popover.Button>
@@ -313,7 +313,7 @@ function JobDetails(props) {
                   job.skills &&
                   job.skills.map((item) => {
                     return (
-                      <span class="bg-blue-100 text-blue-800 text-md my-5 font-semibold mx-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-600">
+                      <span className="bg-blue-100 text-blue-800 text-md my-5 font-semibold mx-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-600">
                         {item.primarySkill}
                       </span>
                     );
@@ -335,7 +335,7 @@ function JobDetails(props) {
                                         tool.primarySkill === el
                                     )
                                     .map((item1, index) => (
-                                      <p class="bg-blue-100 text-blue-800 mr-3 text-xs my-2 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
+                                      <p className="bg-blue-100 text-blue-800 mr-3 text-xs my-2 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
                                         {item1.secondarySkill}(
                                         {item1.proficiency})
                                       </p>
@@ -389,42 +389,42 @@ function JobDetails(props) {
 
                 {candidates.length > 0 && showCandidate && (
                  <div className="overflow-x-auto">
-                  <table class="w-full my-5 ">
-                    <thead class="bg-white border-b text-left">
+                  <table className="w-full my-5 ">
+                    <thead className="bg-white border-b text-left">
                       <tr>
                         <th
                           scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
                           #
                         </th>
                         <th
                           scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
                           First Name
                         </th>
                         <th
                           scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
                           Email
                         </th>
                         <th
                           scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
                           Contact
                         </th>
                         <th
                           scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
                           Status
                         </th>
                         <th
                           scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
                           
                         </th>
@@ -435,26 +435,26 @@ function JobDetails(props) {
                       {candidates.map((user, index) => {
                         return (
                           <tr
-                            class={`${
+                            className={`${
                               index % 2 === 0 ? "bg-gray-100" : "bg-white"
                             } border-b`}
                           >
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
                               {index + 1}
                             </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                               {user.firstName} {user.lastName}
                             </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                               {user.email}
                             </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                               {user.contact}
                             </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                               {user.status}
                             </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                             <p className="text-sm font-semibold py-2">
                               <Link to={`/company/evaluationDetails/${user._id}`}>
                                 View Details{" "}
@@ -493,36 +493,36 @@ function JobDetails(props) {
                 {invited.length > 0 && showInvited && (
                 <div className="overflow-x-auto">
 
-                  <table class="w-full my-3">
-                    <thead class="bg-white border-b text-left">
+                  <table className="w-full my-3">
+                    <thead className="bg-white border-b text-left">
                       <tr>
                         <th
                           scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
                           #
                         </th>
                         <th
                           scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
                           First Name
                         </th>
                         <th
                           scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
                           Email
                         </th>
                         <th
                           scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
                           Contact
                         </th>
                         <th
                           scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
                           Status
                         </th>
@@ -532,23 +532,23 @@ function JobDetails(props) {
                       {invited.map((user, index) => {
                         return (
                           <tr
-                            class={`${
+                            className={`${
                               index % 2 === 0 ? "bg-gray-100" : "bg-white"
                             } border-b`}
                           >
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
                               {index + 1}
                             </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                               {user.firstName} {user.lastName}
                             </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                               {user.email}
                             </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                               {user.contact}
                             </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                               {candidates.includes(user)
                                 ? "Accepted"
                                 : declined.includes(user)
@@ -587,30 +587,30 @@ function JobDetails(props) {
                 {declined.length > 0 && showDeclined && (
                                    <div className="overflow-x-auto">
 
-                  <table class="w-full my-3">
-                    <thead class="bg-white border-b text-left">
+                  <table className="w-full my-3">
+                    <thead className="bg-white border-b text-left">
                       <tr>
                         <th
                           scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
                           #
                         </th>
                         <th
                           scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
                           First Name
                         </th>
                         <th
                           scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
                           Email
                         </th>
                         <th
                           scope="col"
-                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
                           Contact
                         </th>
@@ -620,20 +620,20 @@ function JobDetails(props) {
                       {declined.map((user, index) => {
                         return (
                           <tr
-                            class={`${
+                            className={`${
                               index % 2 === 0 ? "bg-gray-100" : "bg-white"
                             } border-b`}
                           >
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
                               {index + 1}
                             </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                               {user.firstName} {user.lastName}
                             </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                               {user.email}
                             </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                               {user.contact}
                             </td>
                           </tr>

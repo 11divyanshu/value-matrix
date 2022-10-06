@@ -193,7 +193,7 @@ const ResetPassword = () => {
                 <p className="text-sm my-2 mb-7">Please Enter Your Details</p>
                 {Alert && Alert.success === true && (
                   <div
-                    class="bg-green-100 rounded-lg py-5 px-6 my-3 mb-2 text-base text-green-800"
+                    className="bg-green-100 rounded-lg py-5 px-6 my-3 mb-2 text-base text-green-800"
                     role="alert"
                   >
                     {Alert.message}
@@ -201,7 +201,7 @@ const ResetPassword = () => {
                 )}
                 {Alert && Alert.success === false && (
                   <div
-                    class="bg-red-100 rounded-lg py-5 px-6 mb-2 text-base text-red-700"
+                    className="bg-red-100 rounded-lg py-5 px-6 mb-2 text-base text-red-700"
                     role="alert"
                   >
                     {Alert.message}
@@ -289,7 +289,7 @@ const ResetPassword = () => {
                 </p>
                 {Alert && Alert.success === true && (
                   <div
-                    class="bg-green-100 rounded-lg py-5 px-6 my-3 mb-4 text-base text-green-800"
+                    className="bg-green-100 rounded-lg py-5 px-6 my-3 mb-4 text-base text-green-800"
                     role="alert"
                   >
                     {Alert.message}
@@ -297,7 +297,7 @@ const ResetPassword = () => {
                 )}
                 {Alert && Alert.success === false && (
                   <div
-                    class="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700"
+                    className="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700"
                     role="alert"
                   >
                     {Alert.message}

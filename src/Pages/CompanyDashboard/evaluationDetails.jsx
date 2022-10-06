@@ -72,7 +72,7 @@ const UpdateInterviewApplication = () => {
 
           {/* <button onClick={openPdf} >Print</button> */}
           <button
-            class=" hover:bg-blue-700 text-white font-bold py-2 px-8 md:mx-6 sm:mx-0 text-xl rounded"
+            className=" hover:bg-blue-700 text-white font-bold py-2 px-8 md:mx-6 sm:mx-0 text-xl rounded"
             style={{ backgroundColor: "#034488" }}
             onClick={openPdf}
           >
@@ -135,7 +135,7 @@ const UpdateInterviewApplication = () => {
                         />
                       </div>
                       <div className="pt-3">
-                        <h5 class="text-black-900 text-lg font-bold mb-1 ">
+                        <h5 className="text-black-900 text-lg font-bold mb-1 ">
                           {interview.job.jobTitle}
                         </h5>
                         <p className="text-sm font-bold  text-gray-400 font-semibold">
@@ -332,7 +332,7 @@ const UpdateInterviewApplication = () => {
                   <div>
                     <div className="flex justify-between md:w-3/4 px-3">
                     <p className="font-semibold text-lg my-3">Skills</p><button
-                      class=" hover:bg-blue-700 text-white font-bold px-8 md:mx-6 sm:mx-0 text-xs rounded"
+                      className=" hover:bg-blue-700 text-white font-bold px-8 md:mx-6 sm:mx-0 text-xs rounded"
                       style={{ backgroundColor: "#034488" }}
                       onClick={() => {
 
@@ -468,7 +468,7 @@ return (<div className="py-1 block">
                         
                           <div className="md:flex flex-wrap">
                           {item.value && item.value.map((e) => (
-                                <p class="bg-blue-100 text-blue-800 text-xs mb-2 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800 ">
+                                <p className="bg-blue-100 text-blue-800 text-xs mb-2 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800 ">
                                   {e.secondarySkill}{" "}
                                   {e.proficiency &&
                                     `(${e.proficiency})`}
@@ -511,7 +511,7 @@ return (<div className="py-1 block">
                     <div className="flex justify-between w-3/4">
                       <p className="font-semibold text-lg my-1 mx-2">Concern</p>
                       <button
-                        class=" hover:bg-blue-700 text-white font-bold py-2 px-8 md:mx-6 sm:mx-0 text-xs rounded"
+                        className=" hover:bg-blue-700 text-white font-bold py-2 px-8 md:mx-6 sm:mx-0 text-xs rounded"
                         style={{ backgroundColor: "#034488" }}
                         onClick={async () => {
                           let res = await updateEvaluation({

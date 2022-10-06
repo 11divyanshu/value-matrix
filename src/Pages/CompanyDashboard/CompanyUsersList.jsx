@@ -74,40 +74,40 @@ const CandiadateList = () => {
         <div className="p-5">
             <p className="text-2xl font-semibold mx-10">Company Users List</p>
             <div className="mt-3">
-                <div class="flex flex-col mx-10">
-                    <div class="overflow-x-auto w-full sm:-mx-6 lg:-mx-8">
-                        <div class="py-2 inline-block w-full sm:px-6 lg:px-8">
-                            <div class="overflow-hidden">
-                                <table class="w-full">
-                                    <thead class="bg-white border-b">
+                <div className="flex flex-col mx-10">
+                    <div className="overflow-x-auto w-full sm:-mx-6 lg:-mx-8">
+                        <div className="py-2 inline-block w-full sm:px-6 lg:px-8">
+                            <div className="overflow-hidden">
+                                <table className="w-full">
+                                    <thead className="bg-white border-b">
                                         <tr>
                                             <th
                                                 scope="col"
-                                                class="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
+                                                className="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
                                             >
                                                 #
                                             </th>
                                             <th
                                                 scope="col"
-                                                class="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
+                                                className="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
                                             >
                                                 Username
                                             </th>
                                             <th
                                                 scope="col"
-                                                class="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
+                                                className="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
                                             >
                                                 First Name
                                             </th>
                                             <th
                                                 scope="col"
-                                                class="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
+                                                className="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
                                             >
                                                 Email
                                             </th>
                                             <th
                                                 scope="col"
-                                                class="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
+                                                className="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
                                             >
                                                 View Details
                                             </th>
@@ -118,22 +118,22 @@ const CandiadateList = () => {
                                             return (
                                                 <>
                                                     <tr
-                                                        class={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                                                        className={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
                                                             } border-b`}
                                                     >
-                                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                                             {index + 1}
                                                         </td>
-                                                        <td class="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
+                                                        <td className="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
                                                             {user.username}
                                                         </td>
-                                                        <td class="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
+                                                        <td className="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
                                                             {user.firstName}
                                                         </td>
-                                                        <td class="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
+                                                        <td className="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
                                                             {user.email}
                                                         </td>
-                                                        <td class="text-xs text-blue-500 font-light px-6 py-4 whitespace-nowrap cursor-pointer">
+                                                        <td className="text-xs text-blue-500 font-light px-6 py-4 whitespace-nowrap cursor-pointer">
                                                             <p onClick={() => {
                                                                 setModal(true)
 

@@ -27,21 +27,21 @@ const UserProfile = () => {
       if (user && user.profileImg) {
 
         let image = await getProfileImage({ id: user._id }, user.access_token);
-console.log(image)
-        if(image.status === 200){
+        console.log(image)
+        if (image.status === 200) {
 
-        await localStorage.setItem("profileImg", JSON.stringify(image));
+          await localStorage.setItem("profileImg", JSON.stringify(image));
 
-       // let base64string = btoa(
-        //  String.fromCharCode(...new Uint8Array(image.data.Image.data))
-      // );
+          // let base64string = btoa(
+          //  String.fromCharCode(...new Uint8Array(image.data.Image.data))
+          // );
 
-     let base64string = btoa(new Uint8Array(image.data.Image.data).reduce(function (data, byte) {
-     return data + String.fromCharCode(byte);
-      }, ''));
-        let src = `data:image/png;base64,${base64string}`;
-        await setProfileImg(src);
-}
+          let base64string = btoa(new Uint8Array(image.data.Image.data).reduce(function (data, byte) {
+            return data + String.fromCharCode(byte);
+          }, ''));
+          let src = `data:image/png;base64,${base64string}`;
+          await setProfileImg(src);
+        }
       }
       if (access_token === null) window.location.href = "/login";
 
@@ -80,7 +80,7 @@ console.log(image)
             </div>
             <div className=" mt-3 md:text-right  md:ml-auto sm:text-left ">
               <button
-                class=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
+                className=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
                 style={{ backgroundColor: "#034488" }}
                 onClick={() => {
                   let url = window.location.href;
@@ -94,37 +94,38 @@ console.log(image)
           </div>
 
           <div className="mx-3 my-2">
-          { !user.profileImg || !user.linkedInId || !user.tools.length ? 
-          (
-            <><div className ="flex items-center space-x-3 py-1">
-                        {user && user.profileImg ? (
-                          <TiTick className="text-green-500 text-2xl" />
-                        ) : (
-                          <BiErrorCircle className="text-red-500 text-2xl" />
-                        )}
-                        <p>Uploaded Profile Image</p>
-                      </div>
-                      <div className="flex items-center space-x-3 py-1">
-                        {user && user.linkedInId ? (
-                          <TiTick className="text-green-500 text-2xl" />
-                        ) : (
-                          <BiErrorCircle className="text-red-500 text-2xl" />
-                        )}
-                        <p>Connected LinkedIn Profile</p>
-                      </div>
-                      <div className="flex items-center space-x-3 py-1">
-                        {user && user.tools.length > 0 ? (
-                          <TiTick className="text-green-500 text-2xl" />
-                        ) : (
-                          <BiErrorCircle className="text-red-500 text-2xl" />
-                        )}
-                        <p>Updated Skills</p>
-                      </div>
-            
-            </>
-            ): null}
-</div>
-            
+            {!user.profileImg || !user.linkedInId || !user.tools.length ?
+              (
+                <div className="mx-5">
+                  <div className="flex items-center space-x-3 py-1">
+                    {user && user.profileImg ? (
+                      <TiTick className="text-green-500 text-2xl" />
+                    ) : (
+                      <BiErrorCircle className="text-red-500 text-2xl" />
+                    )}
+                    <p>Uploaded Profile Image</p>
+                  </div>
+                  <div className="flex items-center space-x-3 py-1">
+                    {user && user.linkedInId ? (
+                      <TiTick className="text-green-500 text-2xl" />
+                    ) : (
+                      <BiErrorCircle className="text-red-500 text-2xl" />
+                    )}
+                    <p>Connected LinkedIn Profile</p>
+                  </div>
+                  <div className="flex items-center space-x-3 py-1">
+                    {user && user.tools.length > 0 ? (
+                      <TiTick className="text-green-500 text-2xl" />
+                    ) : (
+                      <BiErrorCircle className="text-red-500 text-2xl" />
+                    )}
+                    <p>Updated Skills</p>
+                  </div>
+
+                </div>
+              ) : null}
+          </div>
+
           <div
             className="my-7 rounded-lg pt-3 w-full"
             style={{ borderRadius: "12px" }}

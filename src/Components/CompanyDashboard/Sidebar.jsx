@@ -135,7 +135,7 @@ setClose(getWindowDimensions().width)
         <div className="w-full px-6">
           <Link to="/company/jobsAdd">
             <button
-              class=" hover:bg-blue-700 flex text-white font-bold py-2 w-full text-sm mt-4 text-center align-center rounded-lg"
+              className=" hover:bg-blue-700 flex text-white font-bold py-2 w-full text-sm mt-4 text-center align-center rounded-lg"
               style={{backgroundColor:"#034488"}}
 
             >

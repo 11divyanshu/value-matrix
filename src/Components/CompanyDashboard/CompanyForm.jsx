@@ -157,8 +157,8 @@ const CandidateResumeForm = (props) => {
                           );
                         })}
                     </div>
-                    <div class="w-full bg-gray-200 h-1 mb-6">
-                      <div class="bg-blue-400 h-1" style={{width: progress+"%"}}></div>
+                    <div className="w-full bg-gray-200 h-1 mb-6">
+                      <div className="bg-blue-400 h-1" style={{width: progress+"%"}}></div>
                     </div>
                   </div>
                   <div className="pt-8">{components[step].component}</div>

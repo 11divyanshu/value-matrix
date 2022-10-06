@@ -201,9 +201,9 @@ const CandidateResumeForm = (props) => {
                           );
                         })}
                     </div>
-                    <div class="w-full bg-gray-200 h-1 mb-6">
+                    <div className="w-full bg-gray-200 h-1 mb-6">
                       <div
-                        class="bg-[#034488] h-1"
+                        className="bg-[#034488] h-1"
                         style={{ width: progress + "%" }}
                       ></div>
                     </div>

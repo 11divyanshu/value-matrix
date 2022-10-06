@@ -193,7 +193,7 @@ function JobDetails(props) {
 { job.skills.map((item)=>{
   return(
 
-    <span class="bg-blue-100 text-blue-800 text-md my-5 font-semibold mx-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-600">{item}</span>
+    <span className="bg-blue-100 text-blue-800 text-md my-5 font-semibold mx-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-600">{item}</span>
     )
 })}
 </div>

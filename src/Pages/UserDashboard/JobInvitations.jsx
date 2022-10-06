@@ -130,7 +130,7 @@ const JobInvitations = () => {
                   <div className="w-full px-5 bg-white py-1 border border-b">
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-8 sm:grid-cols-4  my-3">
                     <div className="col-span-2">
-                      <h5 class="text-black-900 text-md font-bold mb-1 ">{job.jobTitle}</h5>
+                      <h5 className="text-black-900 text-md font-bold mb-1 ">{job.jobTitle}</h5>
                       <p className="text-sm font-bold  text-gray-400 font-semibold">
                         {job.hiringOrganization}
                       </p>

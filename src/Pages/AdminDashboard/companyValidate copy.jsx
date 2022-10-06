@@ -83,7 +83,7 @@ const JobList = () => {
           <p className="text-gray-900 text-s mb-2 mx-5 text-right text-blue">
             <CSVLink {...csvReport}>
               <button
-                class=" p-3 w-10vw rounded-md text-white"
+                className=" p-3 w-10vw rounded-md text-white"
                 style={{ backgroundColor: "#034488" }}
               >
                 Download CSV
@@ -117,7 +117,7 @@ const JobList = () => {
                     return (<div className="w-full px-5 bg-white py-1 border border-b">
                       <div className="grid grid-cols-1 gap-4 lg:grid-cols-8 sm:grid-cols-4 my-3">
                         <div className="col-span-2">
-                          <h5 class="text-black-900 text-md font-bold mb-1 ">{job.name}</h5>
+                          <h5 className="text-black-900 text-md font-bold mb-1 ">{job.name}</h5>
                           {/* <p className="text-sm font-bold  text-gray-400 font-semibold">
                           {job.hiringOrganization}
                         </p> */}

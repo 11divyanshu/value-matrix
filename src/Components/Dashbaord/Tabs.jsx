@@ -414,7 +414,7 @@ export default function Tabs() {
                         Resume</label>
                       <div className="w-4/5 flex items-center px-4">
                         <button
-                          class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
+                          className=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
                           style={{ backgroundColor: "#034488" }} onClick={async () => {
                             let token = await localStorage.getItem(
                               "access_token"
@@ -491,7 +491,7 @@ export default function Tabs() {
                   </div>
                   <div className="flex text-right mr-auto space-x-2 justify-end">
                     <button
-                      class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded ml-auto content-end"
+                      className=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded ml-auto content-end"
                       style={{ backgroundColor: "#034488" }}
 
                       onClick={() => {
@@ -544,7 +544,7 @@ export default function Tabs() {
                   </div>
                   <div className="flex items-center space-x-2">
                     <button
-                      class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
+                      className=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
                       style={{ backgroundColor: "#034488" }}
                       onClick={() => {
                         window.location.href = "/user/editProfile"
@@ -601,7 +601,7 @@ export default function Tabs() {
                   </div>
                   <div className="flex items-center space-x-2">
                     <button
-                      class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
+                      className=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
                       style={{ backgroundColor: "#034488" }}
                       onClick={() => {
                         window.location.href = "/user/editProfile"
@@ -642,7 +642,7 @@ export default function Tabs() {
                                   tool.primarySkill === el
                               )
                               .map((item1, index) => (
-                                <span class="bg-blue-100 inline-block text-blue-800 text-xs my-4 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
+                                <span className="bg-blue-100 inline-block text-blue-800 text-xs my-4 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
                                   {item1.secondarySkill}
                                   ({item1.proficiency}) <span className="text-sm"> {item1.lastassested ? `(lastassested(${item1.lastassested}))` : ("unassested")}</span>
                                 </span>
@@ -691,7 +691,7 @@ export default function Tabs() {
                             </div>
                             <div className=" flex items-center space-x-2  ">
                               <button
-                                class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
+                                className=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
                                 style={{ backgroundColor: "#034488" }}
                                 onClick={() => {
                                   window.location.href = "/user/editProfile"

@@ -104,7 +104,7 @@ swal({
   return (
     <div>
       {imageSrc ? (
-        <div class="block">
+        <div className="block">
           <div className="block">
             <Cropper
               image={imageSrc}
@@ -133,7 +133,7 @@ swal({
         </div>
       ) : (
         <label>
-          <p class="rounded-sm text-white px-4 py-1 cursor-pointer w-fit mx-auto" style={{backgroundColor:"#034488"}}>
+          <p className="rounded-sm text-white px-4 py-1 cursor-pointer w-fit mx-auto" style={{backgroundColor:"#034488"}}>
             Upload Image
           </p>
           <input
