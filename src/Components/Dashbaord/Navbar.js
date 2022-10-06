@@ -41,12 +41,21 @@ const HorizontalNav = (props) => {
       console.log(user);
       if (user && user.profileImg) {
         let image = await getProfileImage({ id: user._id }, user.access_token);
+        if(image.status === 200){
+
         await localStorage.setItem("profileImg", JSON.stringify(image));
-        let base64string = btoa(
-          String.fromCharCode(...new Uint8Array(image.data.Image.data))
-        );
+
+       // let base64string = btoa(
+        //  String.fromCharCode(...new Uint8Array(image.data.Image.data))
+      // );
+
+     let base64string = btoa(new Uint8Array(image.data.Image.data).reduce(function (data, byte) {
+     return data + String.fromCharCode(byte);
+      }, ''));
         let src = `data:image/png;base64,${base64string}`;
-        await setProfileImg(src);
+        setProfileImg(src);
+}
+      
       }
       if (user.resume) {
         step++;

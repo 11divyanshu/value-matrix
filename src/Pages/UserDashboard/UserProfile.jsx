@@ -25,14 +25,23 @@ const UserProfile = () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       let access_token = localStorage.getItem("access_token");
       if (user && user.profileImg) {
+
         let image = await getProfileImage({ id: user._id }, user.access_token);
+console.log(image)
+        if(image.status === 200){
+
         await localStorage.setItem("profileImg", JSON.stringify(image));
 
-        let base64string = btoa(
-          String.fromCharCode(...new Uint8Array(image.data.Image.data))
-        );
+       // let base64string = btoa(
+        //  String.fromCharCode(...new Uint8Array(image.data.Image.data))
+      // );
+
+     let base64string = btoa(new Uint8Array(image.data.Image.data).reduce(function (data, byte) {
+     return data + String.fromCharCode(byte);
+      }, ''));
         let src = `data:image/png;base64,${base64string}`;
         await setProfileImg(src);
+}
       }
       if (access_token === null) window.location.href = "/login";
 

@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const url = "http://localhost:8000";
+export const url = "http://dev.serve.valuematrix.ai";
 // export const url = "http://3.6.65.3:8000"
 // export const url = "https://backend.babyhost.in"
-export const frontendUrl = "http://localhost:3001";
+export const frontendUrl = "http://dev.front.valuematrix.ai";
 
 // User Method API
 export const authenticateLogin = async (user) => {
@@ -236,14 +236,16 @@ export const sendOneSignalNotification = async (data, token) => {
 };
 
 // Update Profile Image
-export const updateProfileImage = async (data, token) => {
+export const updateProfileImage = async (data,user, token) => {
   try {
     console.log(data);
-    return await axios.post(`${url}/updateProfilePicture`, data, {
+    return await axios.post(`${url}/updateProfilePicture?user=${user}`, data, {
       headers: { "Content-Type": "multipart/form-data", authorization: token },
     });
   } catch (error) {
-    console.log("Error : ", error);
+   // return error;
+    console.log("Error calling Update  : ", error);
+
   }
 };
 
