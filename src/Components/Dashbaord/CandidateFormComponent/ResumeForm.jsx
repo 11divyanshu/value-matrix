@@ -1,4 +1,5 @@
 import React from "react";
+import {Routes, Route, useNavigate} from 'react-router-dom';
 import {
   sovrenResumeParser,
   uploadCandidateResume,
@@ -11,7 +12,7 @@ const ResumeForm = (props) => {
   const [fileName, setFileName] = React.useState(null);
   const [error, setError] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
-
+  const navigate = useNavigate();
   const handleChange = async (e) => {
     setLoading(true);
     setError(null);
@@ -26,9 +27,12 @@ const ResumeForm = (props) => {
       let response = await uploadCandidateResume(fd, access_token);
       if (response && response.status === 200) {
         console.log(response);
-        localStorage.setItem("resumeInfo" , response.data)
+        localStorage.setItem("resumeInfo" , JSON.stringify(response.data));
         await setFile(e.target.files[0]);
         setFileName(e.target.files[0].name);
+        setLoading(false);
+        navigate('/user/editProfile')
+        // window.location.href="user/editProfile"
         let res = await localStorage.getItem("candidateDetails");
         res = JSON.parse(res);
         res.resume = e.target.files[0].name;
@@ -37,31 +41,31 @@ const ResumeForm = (props) => {
         setError("Error uploading file");
       }
 
-      var fileReader = new FileReader();
-      var base64;
-      // Onload of file read the file content
-      let base64String = "";
-      fileReader.onload = async function (fileLoadedEvent) {
-        var modifiedDate = (new Date(fileLoadedEvent.lastModified)).toISOString().substring(0, 10);
-        // base64 = Base64.encodeArray(fileLoadedEvent.target.result);
-        base64 = fileLoadedEvent.target.result;
-        base64String = base64;
-        let resumeResponse = await sovrenResumeParser({
-          DocumentAsBase64String: base64,
-          SkillsSettings: {
-            Normalize: false,
-            TaxonomyVersion: "",
-          },
-          ProfessionsSettings: {
-            Normalize: false,
-          },
-          DocumentLastModified : modifiedDate,
-        });
-        console.log(resumeResponse);
-      };
-      await fileReader.readAsDataURL(e.target.files[0]);
-      setLoading(false);
-      e.target.files = null;
+      // var fileReader = new FileReader();
+      // var base64;
+      // // Onload of file read the file content
+      // let base64String = "";
+      // fileReader.onload = async function (fileLoadedEvent) {
+      //   var modifiedDate = (new Date(fileLoadedEvent.lastModified)).toISOString().substring(0, 10);
+      //   // base64 = Base64.encodeArray(fileLoadedEvent.target.result);
+      //   base64 = fileLoadedEvent.target.result;
+      //   base64String = base64;
+      //   let resumeResponse = await sovrenResumeParser({
+      //     DocumentAsBase64String: base64,
+      //     SkillsSettings: {
+      //       Normalize: false,
+      //       TaxonomyVersion: "",
+      //     },
+      //     ProfessionsSettings: {
+      //       Normalize: false,
+      //     },
+      //     DocumentLastModified : modifiedDate,
+      //   });
+      //   console.log(resumeResponse);
+    //   };
+    //   await fileReader.readAsDataURL(e.target.files[0]);
+    //   setLoading(false);
+    //   e.target.files = null;
     }
   };
 

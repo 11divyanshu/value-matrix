@@ -714,6 +714,7 @@ export default function Tabs() {
 
             <div className="md:w-1/2 w-full block space-y-1">
               <label className="font-semibold">Resume</label><br />
+              
             </div>
           </div>
         )}

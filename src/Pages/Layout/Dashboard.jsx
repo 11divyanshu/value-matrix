@@ -187,7 +187,7 @@ const Dashboard = () => {
           <DetailForm isOpen={true} setModalIsOpen={setDetailForm} user={user}/>
         )
       }
-      {modalIsOpen && (
+      {modalIsOpen &&(component !== '/editProfile') && (
         <div>
           <CandidateResumeForm isOpen={true} setModalIsOpen={setModalIsOpen} />
         </div>
