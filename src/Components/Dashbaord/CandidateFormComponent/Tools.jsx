@@ -86,6 +86,8 @@ const Tools = (props) => {
   const handleSubmit = async () => {
     setLoadingSubmit(true);
     let res = JSON.parse(await localStorage.getItem("candidateDetails"));
+    localStorage.removeItem("resumeInfo")
+
     let user = JSON.parse(await localStorage.getItem("user"));
     res.user_id = user._id;
     let skills = [];

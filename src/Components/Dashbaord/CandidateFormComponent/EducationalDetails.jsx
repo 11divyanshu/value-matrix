@@ -54,7 +54,19 @@ schoolQuery === ""
 
   React.useEffect(() => {
     const initial = async () => {
-      let e = JSON.parse(await localStorage.getItem("candidateDetails"));
+      let e = JSON.parse(await localStorage.getItem("candidateDetails"));  let resume = JSON.parse(await localStorage.getItem("resumeInfo"));
+      if(resume){
+       
+        if (resume === null) return null;
+        let ed = resume.education;
+        //console.log(ed);
+        if (ed !== "null" || ed !== null) {
+          setEducationalDetail(ed);
+        }
+        if (ed === null) {
+          setEducationalDetail([]);
+        }
+      }else{
       if (e === null) return null;
       let ed = e.education;
       console.log(ed);
@@ -64,6 +76,7 @@ schoolQuery === ""
       if (educationalDetail === null) {
         setEducationalDetail([]);
       }
+    }
     };
     initial();
   }, []);

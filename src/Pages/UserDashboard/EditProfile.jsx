@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useState, Fragment }  from "react";
 import { ReactSession } from "react-client-session";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
@@ -9,6 +9,7 @@ import {
   updateUserDetails,
   validateSignupDetails,
   getProfileImage,
+  uploadCandidateResume
 } from "../../service/api";
 import ReactCropper from "../../Pages/UserDashboard/ReactCrop";
 
@@ -16,15 +17,74 @@ import ReactCropper from "../../Pages/UserDashboard/ReactCrop";
 import Avatar from "../../assets/images/UserAvatar.png";
 import "react-image-crop/dist/ReactCrop.css";
 import EditTabs from "../../Components/Dashbaord/EditTabs";
+import Loader from "../../assets/images/loader.gif";
 
 const EditProfile = () => {
   // Sets OTPs to NULL
+  const [error, seterror] = React.useState(null);
+
   // const [user, setUser] = React.useState();
+  const [loading, setLoading] = React.useState(false);
+  const [file, setFile] = useState(null)
+  const [fileName, setFileName] = useState(null)
   const [profileImg, setProfileImg] = React.useState(null);
   React.useEffect(() => {
     setEmailOTP(null);
     setContactOTP(null);
   }, []);
+  const handleChange = async (e) => {
+    setLoading(true);
+    setError(null);
+    if (e.target && e.target.files) {
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let access_token = await localStorage.getItem("access_token");
+      console.log(user, " ", access_token);
+      let fd = new FormData();
+      fd.append("user_id", user._id);
+      fd.append("file", e.target.files[0]);
+
+      let response = await uploadCandidateResume(fd, access_token);
+      if (response && response.status === 200) {
+        console.log(response);
+        setLoading(false);
+        localStorage.setItem("resumeInfo" , JSON.stringify(response.data));
+        await setFile(e.target.files[0]);
+        setFileName(e.target.files[0].name);
+       
+      } else {
+        let res = await localStorage.getItem("candidateDetails");
+        res = JSON.parse(res);
+        res.resume = e.target.files[0].name;
+        await localStorage.setItem("candidateDetails", JSON.stringify(res));      }
+
+      // Resume Parser
+      // var fileReader = new FileReader();
+      // var base64;
+      // // Onload of file read the file content
+      // let base64String = "";
+      // fileReader.onload = async function (fileLoadedEvent) {
+      //   var modifiedDate = (new Date(fileLoadedEvent.lastModified)).toISOString().substring(0, 10);
+      //   // base64 = Base64.encodeArray(fileLoadedEvent.target.result);
+      //   base64 = fileLoadedEvent.target.result;
+      //   base64String = base64;
+        // let resumeResponse = await sovrenResumeParser({
+        //   DocumentAsBase64String: base64,
+        //   SkillsSettings: {
+        //     Normalize: false,
+        //     TaxonomyVersion: "",
+        //   },
+        //   ProfessionsSettings: {
+        //     Normalize: false,
+        //   },
+        //   DocumentLastModified : modifiedDate,
+        // });
+        // console.log(resumeResponse);
+      // };
+      // await fileReader.readAsDataURL(e.target.files[0]);
+      // setLoading(false);
+      // e.target.files = null;
+    }
+  };
   React.useEffect(() => {
     const func = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
@@ -254,7 +314,33 @@ const EditProfile = () => {
               </p>
               <p className="text-gray-400 text-lg">{user.username}</p>
             </div>
-            <div className=" mt-3 md:text-right  md:ml-auto sm:text-left ">
+            <div className=" mt-3 md:text-right  md:ml-auto sm:text-left  flex">
+            <div className="mt-2">
+          {loading ? (
+            <button   class=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 text-xs rounded"
+            style={{ backgroundColor: "#034488" }}>
+              <img src={Loader} className="h-4" alt="loader" />
+            </button>
+          ) : (
+            <label
+              for="resume"
+              className="py-3 px-8 font-semibold cursor-pointer bg-blue-500 rounded text-white text-xs"
+              style={{ backgroundColor: "#034488" }}
+            >
+              {" "}
+              Upload Resume{" "}
+            </label>
+          )}
+          <input
+            type="file"
+            name="resume"
+            className="hidden"
+            id="resume"
+            accept="application/pdf, application/msword"
+            onChange={handleChange}
+          />
+        </div>
+        <div>
               <button
                 class=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
                 style={{ backgroundColor: "#034488" }}
@@ -265,6 +351,7 @@ const EditProfile = () => {
               >
                 Upload Image
               </button>
+              </div>
             </div>
           </div>
 

@@ -25,6 +25,8 @@ const ResumeForm = (props) => {
 
       let response = await uploadCandidateResume(fd, access_token);
       if (response && response.status === 200) {
+        console.log(response);
+        localStorage.setItem("resumeInfo" , response.data)
         await setFile(e.target.files[0]);
         setFileName(e.target.files[0].name);
         let res = await localStorage.getItem("candidateDetails");

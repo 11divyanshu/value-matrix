@@ -70,6 +70,20 @@ const AssociationDetailForm = (props) => {
   React.useEffect(() => {
     const initial = async () => {
       let e = JSON.parse(await localStorage.getItem("candidateDetails"));
+      let resume = JSON.parse(await localStorage.getItem("resumeInfo"));
+      if(resume){
+        
+        if (resume === null) return null;
+        let as = resume.associate;
+        //console.log(as);
+        if (as !== "null" || as !== null) {
+          setAssociateDetail(as);
+        }
+        if (as === null) {
+          setAssociateDetail([]);
+        }
+      }
+        else{
       if (e === null) return null;
       let ed = e.associate;
       if (ed !== "null" || ed !== null) {
@@ -78,6 +92,7 @@ const AssociationDetailForm = (props) => {
       if (associateDetail === null) {
         setAssociateDetail([]);
       }
+    }
     };
     initial();
   }, []);

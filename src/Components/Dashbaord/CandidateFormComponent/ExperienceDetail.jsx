@@ -69,6 +69,18 @@ const ExperienceDetailForm = (props) => {
   React.useEffect(() => {
     const initial = async () => {
       let e = JSON.parse(await localStorage.getItem("candidateDetails"));
+      let resume = JSON.parse(await localStorage.getItem("resumeInfo"));
+      if(resume){
+       
+        let ex = resume.experience;
+       // console.log(ex);
+        if (ex !== "null" || ex !== null) {
+          setExperienceDetail(ex);
+        }
+        if (ex === null) {
+          setExperienceDetail([]);
+        }
+      }else{
       if (e === null) return null;
       let ed = e.experience;
       if (ed !== "null" || ed !== null) {
@@ -76,7 +88,7 @@ const ExperienceDetailForm = (props) => {
       }
       if (experienceDetail === null) {
         setExperienceDetail([]);
-      }
+      }}
     };
     initial();
   }, []);

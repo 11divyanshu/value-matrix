@@ -476,11 +476,13 @@ export default function Tabs() {
                     <FiInfo />
                     <p>{item.degree}</p> <p>|</p> <p>{item.field_of_study}</p>
                   </div>
-                  {item.grade && (
+                  {item.grade != "" ? (
                     <div className="space-x-2 my-2 flex items-center">
-                      <GrScorecard /> <p>{item.grade}</p>
+                      <GrScorecard /> <p>{item.grade }</p>
                     </div>
-                  )}
+                  ) : <div className="space-x-2 my-2 flex items-center">
+                  <GrScorecard /> <p>0</p>
+                </div>}
                   <div className="flex items-center my-2 space-x-2">
                     <BsCalendar />
                     <p className="text-sm text-gray-600 mr-5">
@@ -687,11 +689,12 @@ export default function Tabs() {
 
                               </div>
                             </div>
-                            <div className="col-start-7 w-full col-end-7 col-span-2 flex items-center space-x-2  ">
+                            <div className=" flex items-center space-x-2  ">
                               <button
-                                class="justify-end hover:bg-blue-700 text-white font-bold py-3 lg:px-8 px-5 text-xs rounded ml-auto"
+                                class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
                                 style={{ backgroundColor: "#034488" }}
                                 onClick={() => {
+                                  window.location.href = "/user/editProfile"
 
                                 }}
                               >

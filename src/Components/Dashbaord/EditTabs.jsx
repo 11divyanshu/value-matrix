@@ -60,6 +60,14 @@ export default function Tabs(props) {
   const [loading, setLoading] = React.useState(false);
   // States for the Page
   const [user, setUser] = React.useState(null);
+  const [lastname, setLastname] = React.useState(null);
+  const [firstname, setFirstname] = React.useState(null);
+  const [houseNo, sethouseNo] = React.useState(null);
+  const [street, setstreet] = React.useState(null);
+  const [region, setregion] = React.useState(null);
+  const [city, setcity] = React.useState(null);
+  const [Addcountry, setAddCountry] = React.useState(null);
+  const [zip, setzip] = React.useState(null);
   const [access_token, setToken] = React.useState(null);
   const [language, setLanguage] = React.useState([]);
 
@@ -367,7 +375,121 @@ export default function Tabs(props) {
   React.useEffect(() => {
     const initial = async () => {
       let e = JSON.parse(await localStorage.getItem("user"));
+      let resume = JSON.parse(await localStorage.getItem("resumeInfo"));
+      console.log(resume.data);
       setUser(e);
+      if(resume.data){
+        setSecContact(resume.secondaryContacts)
+        setSecEmail(resume.secondaryEmails)
+        if (resume.data === null) return null;
+        // setUsername(resume.data.userna)
+        let ed = resume.data.education;
+        //console.log(ed);
+        if (ed !== "null" || ed !== null) {
+          setEducationalDetail(ed);
+        }
+        if (ed === null) {
+          setEducationalDetail([]);
+        }
+        let ex = resume.data.experience;
+       // console.log(ex);
+        if (ex !== "null" || ex !== null) {
+          setExperienceDetail(ex);
+        }
+        if (ex === null) {
+          setExperienceDetail([]);
+        }
+  
+        let as = resume.data.associate;
+        //console.log(as);
+        if (as !== "null" || as !== null) {
+          setAssociateDetail(as);
+        }
+        if (as === null) {
+          setAssociateDetail([]);
+        }
+        let ls = resume.data.language;
+        //console.log(ls);
+        if (ls !== "null" || ls !== null) {
+          setLanguageSkills(ls);
+        }
+        if (ls === null) {
+          setLanguageSkills([]);
+        }
+
+        if(resume.data.firstName)
+        {setFirstname(resume.data.firstName);
+
+        }
+        if(resume.data.lastName)
+        {setLastname(resume.data.lastName);
+
+        }
+        if(resume.data.houseNo)
+        {sethouseNo(resume.data.houseNo);
+
+        }
+        if(resume.data.street)
+        {setstreet(resume.data.street);
+
+        }
+        if(resume.data.city)
+        {setSelectedAddCity(resume.data.city);
+
+        }
+        if(resume.data.state)
+        {setregion(resume.data.state);
+
+        }
+        if(resume.data.country)
+        {setAddCountry(resume.data.country);
+
+        }
+        if(resume.data.zip)
+        {setzip(resume.data.zip);
+
+        }
+        if(resume.data.secondaryEmails)
+        {setSecEmail(resume.data.secondaryEmails);
+
+        }
+        if(resume.data.secondaryContacts)
+        {setSecContact(resume.data.secondaryContacts);
+
+        }
+
+        let et = resume.data.tools;
+        if (et !== "null" || et !== null) {
+          setTools(et);
+        }
+        if (et === null) {
+          setTools([]);
+        }
+          let primarySkills = {};
+          let roles = new Set([]);
+          resume.data.tools.forEach((skill) => {
+            roles.add(skill.role);
+            if (primarySkills[skill.role]) {
+              primarySkills[skill.role].add(skill.primarySkill);
+            } else {
+              primarySkills[skill.role] = new Set([skill.primarySkill]);
+            }
+          });
+          if(roles)
+          setCRoles(Array.from(roles));
+          else{
+            setCRoles([])
+          }
+          Array.from(roles).map((el) => {
+            primarySkills[el] = Array.from(primarySkills[el]);
+          });
+          setSkillsPrimary(primarySkills);
+      }else{
+
+
+
+      
+        
       setSecContact(e.secondaryContacts)
       setSecEmail(e.secondaryEmails)
       if (e === null) return null;
@@ -404,32 +526,37 @@ export default function Tabs(props) {
       if (ls === null) {
         setLanguageSkills([]);
       }
-
       let et = e.tools;
-      console.log(ex);
       if (et !== "null" || et !== null) {
         setTools(et);
       }
       if (et === null) {
         setTools([]);
       }
-
-      let primarySkills = {};
-      let roles = new Set([]);
-      e.tools.forEach((skill) => {
-        roles.add(skill.role);
-        if (primarySkills[skill.role]) {
-          primarySkills[skill.role].add(skill.primarySkill);
-        } else {
-          primarySkills[skill.role] = new Set([skill.primarySkill]);
-        }
-      });
-      setCRoles(Array.from(roles));
-      Array.from(roles).map((el) => {
-        primarySkills[el] = Array.from(primarySkills[el]);
-      });
-      setSkillsPrimary(primarySkills);
-    };
+        let primarySkills = {};
+        let roles = new Set([]);
+        e.tools.forEach((skill) => {
+          roles.add(skill.role);
+          if (primarySkills[skill.role]) {
+            primarySkills[skill.role].add(skill.primarySkill);
+          } else {
+            primarySkills[skill.role] = new Set([skill.primarySkill]);
+          }
+        });
+        if(roles)
+          setCRoles(Array.from(roles));
+          else{
+            setCRoles([])
+          }
+        Array.from(roles).map((el) => {
+          primarySkills[el] = Array.from(primarySkills[el]);
+        });
+        setSkillsPrimary(primarySkills);
+    
+    }
+   
+    }
+    
     initial();
   }, []);
 
@@ -669,16 +796,18 @@ export default function Tabs(props) {
       if (selectedAddCity.name) {
         city = selectedAddCity.name
       }
-      let user = JSON.parse(localStorage.getItem("user"));
+      setFirstname(values.firstName)
+      setLastname(values.lastName)
+      setAddCountry(values.country);
       user.username = values.username;
       user.firstName = values.firstName;
       user.lastname = values.lastName;
-      user.houseNo = values.houseNo;
-      user.street = values.street;
+      user.houseNo = houseNo;
+      user.street = street;
       user.city = city;
       user.country = values.country;
-      user.state = values.state;
-      user.zip = values.zip;
+      user.state = region;
+      user.zip = zip;
       user.contact = values.contact;
       user.secondaryContacts = secContact;
       user.secondaryEmails = secEmail;
@@ -853,21 +982,24 @@ export default function Tabs(props) {
         skills.push(el);
       }
     });
+    // let user = JSON.parse(localStorage.getItem("user"));
+      // await setExperienceDetail(temp);
+      
 
     let data = {
-      firstName: ed.firstName,
-      lastname: ed.lastName,
-      houseNo: ed.houseNo,
-      street: ed.street,
-      city: ed.city,
-      country: ed.country,
-      state: ed.state,
-      zip: ed.zip,
-      experience: ed.experience,
+      firstName: firstname,
+      lastname: lastname,
+      houseNo: houseNo,
+      street: street,
+      city: city,
+      country: Addcountry,
+      state: region,
+      zip: zip,
+      experience: experienceDetail,
       username: ed.username,
-      associate: ed.associate,
-      education: ed.education,
-      language: ed.language,
+      associate: associateDetail,
+      education: educationalDetail,
+      language: languageSkills,
       tools: skills,
       secondaryContacts: secContact,
       secondaryEmails: secEmail,
@@ -998,7 +1130,7 @@ export default function Tabs(props) {
           <Formik
             initialValues={{
               username: user.username,
-              firstName: user.firstName,
+              firstName:firstname,
               email: user.email ? user.email : " ",
               contact: user.contact
                 ? [
@@ -1382,6 +1514,7 @@ export default function Tabs(props) {
                     </label>
                     <div className="w-4/5">
                       {secEmail && secEmail.map((item, index) => {
+
                         return (
                           <div
                             className="w-full flex items-center"
@@ -1568,11 +1701,13 @@ export default function Tabs(props) {
                     <FiInfo />
                     <p>{item.degree}</p> <p>|</p> <p>{item.field_of_study}</p>
                   </div>
-                  {item.grade && (
+                  {item.grade != "" ? (
                     <div className="space-x-2 my-2 flex items-center">
-                      <GrScorecard /> <p>{item.grade}</p>
+                      <GrScorecard /> <p>{item.grade }</p>
                     </div>
-                  )}
+                  ) : <div className="space-x-2 my-2 flex items-center">
+                  <GrScorecard /> <p>0</p>
+                </div>}
                   <div className="flex items-center my-2 space-x-2">
                     <BsCalendar />
                     <p className="text-sm text-gray-600 mr-5">
@@ -3792,14 +3927,11 @@ export default function Tabs(props) {
           </div>
         </div>
 
-        {/* <div className="md:w-1/2  flex w-full  space-y-1 my-5">
-          <label className="font-semibold text-lg w-2/5 my-4">Resume</label>
-         <input type="file" value={user.resume} />
-        </div> */}
-        <p className="font-bold text-lg">Resume</p>
+      
+        {/* <p className="font-bold text-lg">Resume</p>
         {fileName && <p className="my-3">{fileName}</p>}
-        {error && <p className="text-red-500 my-3">{error}</p>}
-        <div className="my-5">
+        {error && <p className="text-red-500 my-3">{error}</p>} */}
+        {/* <div className="my-5">
           {loading ? (
             <button className="py-1 px-3 bg-blue-500 rounded-md">
               <img src={Loader} className="h-7" alt="loader" />
@@ -3822,7 +3954,7 @@ export default function Tabs(props) {
             accept="application/pdf, application/msword"
             onChange={handleChange}
           />
-        </div>
+        </div> */}
 
 
         <button

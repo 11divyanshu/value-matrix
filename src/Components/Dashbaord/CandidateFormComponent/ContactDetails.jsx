@@ -14,7 +14,10 @@ const ContactDetailForm = (props) => {
   });
   const formikRef = React.useRef(null);
   const [showForm, setShowForm] = React.useState(false);
-
+  const [username, setUsername] = React.useState(null);
+  const [firstName, setFirstName] = React.useState(null);
+  const [email, setEmail] = React.useState(null);
+  const [contact, setContact] = React.useState(null);
   const [contactVerify, setContactVerify] = React.useState(false);
   const [emailVerify, setEmailVerify] = React.useState(false);
 
@@ -31,51 +34,67 @@ const ContactDetailForm = (props) => {
     const initial = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       let e = JSON.parse(await localStorage.getItem("candidateDetails"));
+      let resume = JSON.parse(await localStorage.getItem("resumeInfo"));
       let ed = {
         email: null,
         contact: null,
         address: null,
       };
-      let ad = null;
-      if (e !== null && e.address !== null && e.contact.address !== null) {
-        await setAddress(e.contact.address);
-      } else if (user.address) {
-        await setAddress(user.address);
-      }
-      if (e !== null && e.contact && e.contact.contact) {
-        ed.contact = e.contact.contact;
-        setContactVerify(true);
+      if(resume){
+       
+        if (resume === null) return null;
+       
+        setEmail(resume.email)
+        if(resume.contact){
+        setContact(resume.contact)
         if (formikRef.current) {
-          formikRef.current.setFieldValue("contact", e.contact.contact);
-        }
-      } else if (
-        user.contact &&
-        user.contact !== user.googleId &&
-        user.contact !== user.microsoftId &&
-        user.contact !== user.linkedInId &&
-        user.contact !== user.githubId
-      ) {
-        ed.contact = user.contact;
-        setContactVerify(true);
-        if (formikRef.current) {
-          formikRef.current.setFieldValue("contact", user.contact);
+          formikRef.current.setFieldValue("contact", resume.contact);
         }
       }
-      if (user.email) {
-        ed.email = user.email;
-        setEmailVerify(true);
-        if (formikRef.current) {
-          formikRef.current.setFieldValue("email", user.email);
+      }else{
+        let ad = null;
+        if (e !== null && e.address !== null && e.contact.address !== null) {
+          await setAddress(e.contact.address);
+        } else if (user.address) {
+          await setAddress(user.address);
         }
+        if (e !== null && e.contact && e.contact.contact) {
+          ed.contact = e.contact.contact;
+          setContactVerify(true);
+          if (formikRef.current) {
+            formikRef.current.setFieldValue("contact", e.contact.contact);
+          }
+        } else if (
+          user.contact &&
+          user.contact !== user.googleId &&
+          user.contact !== user.microsoftId &&
+          user.contact !== user.linkedInId &&
+          user.contact !== user.githubId
+        ) {
+          ed.contact = user.contact;
+          setContactVerify(true);
+          if (formikRef.current) {
+            formikRef.current.setFieldValue("contact", user.contact);
+          }
+        }
+        if (user.email) {
+          ed.email = user.email;
+          setEmailVerify(true);
+          if (formikRef.current) {
+            formikRef.current.setFieldValue("email", user.email);
+          }
+        }
+  
+        setContactDetails(ed);
+        e.contact = ed;
+        e.contact.address = address;
+        await localStorage.setItem("candidateDetails", JSON.stringify(e));
+        e.contact.address = null;
+        await setShowForm(true);
+      };
       }
-
-      setContactDetails(ed);
-      e.contact = ed;
-      e.contact.address = address;
-      await localStorage.setItem("candidateDetails", JSON.stringify(e));
-      e.contact.address = null;
-      await setShowForm(true);
-    };
+     
+      
     initial();
   }, []);
 
