@@ -547,8 +547,8 @@ export default function Tabs(props) {
             primarySkills[skill.role] = new Set([skill.primarySkill]);
           }
         });
-          setCRoles(Array.from(roles));
-       
+        setCRoles(Array.from(roles));
+
         Array.from(roles).map((el) => {
           primarySkills[el] = Array.from(primarySkills[el]);
         });
@@ -616,7 +616,7 @@ export default function Tabs(props) {
         let city = selectedCity;
         if (selectedCity.name) {
           city = selectedCity.name + ", " + selectedCity.country;
-          
+
         }
         let company = selectedCompany;
         let title = selectedTitle;
@@ -795,7 +795,7 @@ export default function Tabs(props) {
         return;
       }
       let city = selectedAddCity;
-      let e =user;
+      let e = user;
       if (selectedAddCity.name) {
         city = selectedAddCity.name;
         e.city = city;
@@ -804,7 +804,7 @@ export default function Tabs(props) {
       setFirstname(values.firstName)
       setLastname(values.lastName)
       if (values.country) {
-        
+
         e.country = values.country;
         setUser(e);
       }
@@ -993,9 +993,9 @@ export default function Tabs(props) {
       }
     });
     let skillData;
-    if(skills){
-   skillData =skills;
-    }else{
+    if (skills) {
+      skillData = skills;
+    } else {
       skillData = user.tools;
     }
     console.log(skillData)
@@ -1218,11 +1218,13 @@ export default function Tabs(props) {
                     <label className="font-semibold text-lg md:w-2/5 mx-2">
                       Username
                     </label>
-                    <div className="w-4/5">
+                    <div className="w-full">
                       <Field
                         type="text"
                         name="username"
-                        className="block border-gray-400 py-1 md:w-5/6 sm:w-full mx-2"
+                        style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                        className="block border-gray-200 py-1 w-full"
+
                       />
                       <ErrorMessage
                         name="username"
@@ -1235,11 +1237,13 @@ export default function Tabs(props) {
                     <label className="font-semibold text-lg md:w-2/5 mx-2">
                       Name
                     </label>
-                    <div className="w-4/5">
+                    <div className="w-full">
                       <Field
                         type="text"
                         name="firstName"
-                        className="block border-gray-400 py-1 md:w-5/6 sm:w-full mx-2"
+                        style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                        className="block border-gray-200 py-1 w-full"
+
                       />
                       <ErrorMessage
                         name="firstName"
@@ -1253,15 +1257,15 @@ export default function Tabs(props) {
                                     Work Period{" "}
                                   </label> */}
 
-                    <label className="font-semibold text-lg w-2/5 mx-2 md:mx-0 sm:mt-4">
+                    <label className="font-semibold text-lg md:w-2/5 mx-2">
                       Address
                     </label>
-                    <div className="w-3/4 md:4/5 mr-9 md:mr-0">
+                    <div className="w-full">
                       <div
-                        className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-2 mr-2 md:mr-0 md:w-5/6"
+                        className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-2 mr-2 md:mr-0 md:w-full"
                         style={{ justifyContent: "space-between" }}
                       >
-                        <div className=" grid grid-cols-1 lg:grid-cols-2  ml-3 md:ml-0 align-middle">
+                        <div className=" grid grid-cols-1 lg:grid-cols-2 align-middle">
                           <label className="font-semibold text-md py-2">
                             House/ Flat No.
                           </label>
@@ -1269,8 +1273,8 @@ export default function Tabs(props) {
                             <Field
                               name="houseNo"
                               type="text"
-                              className="block border-gray-400 py-1 w-full"
-
+                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                              className="block border-gray-200 py-1 w-full"
                               value={values.houseNo}
                             />
                             <ErrorMessage
@@ -1281,39 +1285,33 @@ export default function Tabs(props) {
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-2 mx-1 md:mx-0 align-middle ">
-                          <label className="font-semibold text-md ml-2 md:ml-0 py-2">
+                        <div className="grid grid-cols-1 lg:grid-cols-2  md:mx-0 align-middle">
+                          <label className="font-semibold text-md ml-0 lg:ml-5 py-2">
                             Street
                           </label>
-                          <div >
+                          <div className="">
+                            <Field
+                              name="street"
+                              type="text"
+                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                              className="block border-gray-200 py-1 w-full"
 
-                            <div className="">
-                              <Field
-                                name="street"
-                                type="text"
-                                className="block border-gray-400 py-1 w-full mx-2 mr-4"
+                              value={values.street}
+                            />
 
-                                value={values.street}
-                              />
-
-                              <ErrorMessage
-                                name="street"
-                                component="div"
-                                className="text-sm text-red-600"
-                              />
-                            </div>
-
-
-
-
+                            <ErrorMessage
+                              name="street"
+                              component="div"
+                              className="text-sm text-red-600"
+                            />
                           </div>
                         </div>
                       </div>
                       <div
-                        className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-2 md:w-5/6"
+                        className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-2 md:w-full"
                         style={{ justifyContent: "space-between" }}
                       >
-                        <div className=" grid grid-cols-1 lg:grid-cols-2  ml-3 md:ml-1  align-middle">
+                        <div className=" grid grid-cols-1 lg:grid-cols-2  align-middle">
                           <label className="font-semibold text-md py-2">
                             City
                           </label>
@@ -1380,36 +1378,30 @@ export default function Tabs(props) {
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-2 mx-1 md:mx-0 align-middle">
-                          <label className="font-semibold text-md ml-2 py-2">
+                        <div className="grid grid-cols-1 lg:grid-cols-2  md:mx-0 align-middle">
+                          <label className="font-semibold text-md py-2 ml-0 lg:ml-5">
                             State/Region
                           </label>
-                          <div >
+                          <div className="">
+                            <Field
+                              name="state"
+                              type="text"
+                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                              className="block border-gray-200 py-1 w-full"
 
-                            <div className="">
-                              <Field
-                                name="state"
-                                type="text"
-                                className="block border-gray-400 py-1 w-full mx-2"
+                              value={values.state}
+                            />
 
-                                value={values.state}
-                              />
-
-                              <ErrorMessage
-                                name="state"
-                                component="div"
-                                className="text-sm text-red-600"
-                              />
-                            </div>
-
-
-
-
+                            <ErrorMessage
+                              name="state"
+                              component="div"
+                              className="text-sm text-red-600"
+                            />
                           </div>
                         </div>
                       </div>
                       <div
-                        className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-2 md:w-5/6"
+                        className="grid grid-cols-1 gap-2 mb-6 lg:grid-cols-2 md:w-full"
                         style={{ justifyContent: "space-between" }}
                       >
                         <div className=" grid grid-cols-1 lg:grid-cols-2  ml-3 md:mx-0  align-middle">
@@ -1421,7 +1413,8 @@ export default function Tabs(props) {
                               component="select"
                               id="country"
                               name="country"
-                              className="block border-gray-400 py-1 w-full "
+                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                              className="block border-gray-200 py-1 w-full"
                               value={values.country}
                               multiple={false}
                             >
@@ -1436,31 +1429,25 @@ export default function Tabs(props) {
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-2 mx-1 md:mx-0  align-middle">
-                          <label className="font-semibold text-md ml-2 py-2">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 md:mx-0  align-middle">
+                          <label className="font-semibold text-md py-2 ml-0 lg:ml-5">
                             Zip Code
                           </label>
-                          <div >
+                          <div className="">
+                            <Field
+                              name="zip"
+                              type="text"
+                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                              className="block border-gray-200 py-1 w-full"
 
-                            <div className="">
-                              <Field
-                                name="zip"
-                                type="text"
-                                className="block border-gray-400 py-1 w-full mx-2"
+                              value={values.zip}
+                            />
 
-                                value={values.zip}
-                              />
-
-                              <ErrorMessage
-                                name="zip"
-                                component="div"
-                                className="text-sm text-red-600"
-                              />
-                            </div>
-
-
-
-
+                            <ErrorMessage
+                              name="zip"
+                              component="div"
+                              className="text-sm text-red-600"
+                            />
                           </div>
                         </div>
                       </div>
@@ -1473,11 +1460,13 @@ export default function Tabs(props) {
                     <label className="font-semibold text-lg md:w-2/5 mx-2">
                       Email
                     </label>
-                    <div className="w-4/5">
+                    <div className="w-full">
                       <Field
                         name="email"
                         type="text"
-                        className="block border-gray-400 py-1 md:w-5/6 sm:w-full mx-2"
+                        style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                        className="block border-gray-200 py-1 w-full"
+
                       />
                       <ErrorMessage
                         name="email"
@@ -1490,11 +1479,13 @@ export default function Tabs(props) {
                     <label className="font-semibold text-lg md:w-2/5 mx-2">
                       Contact
                     </label>
-                    <div className="w-4/5">
+                    <div className="w-full">
                       <Field
                         name="contact"
                         type="text"
-                        className="block border-gray-400 py-1 md:w-5/6 sm:w-full mx-2"
+                        style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                        className="block border-gray-200 py-1 w-full"
+
                       />
                       <ErrorMessage
                         name="contact"
@@ -1532,7 +1523,7 @@ export default function Tabs(props) {
                     <label className="font-semibold text-lg md:w-2/5 mx-2">
                       Secondary Emails
                     </label>
-                    <div className="w-4/5">
+                    <div className="w-full">
                       {secEmail && secEmail.map((item, index) => {
 
                         return (
@@ -1544,8 +1535,9 @@ export default function Tabs(props) {
                               value={item}
                               type="text"
                               disabled
-                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
-                              className="block border-gray-400 py-1 my-2 md:w-5/6 sm:w-full mx-2"
+                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                              className="block border-gray-200 py-2 w-full"
+
                             // style={{
                             //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 
@@ -1587,7 +1579,7 @@ export default function Tabs(props) {
                     <label className="font-semibold text-lg md:w-2/5 mx-2">
                       Secondary Contacts
                     </label>
-                    <div className=" w-4/5">
+                    <div className=" w-full">
                       {secContact && secContact.map((item, index) => {
                         return (
                           <div
@@ -1598,8 +1590,9 @@ export default function Tabs(props) {
                               value={item}
                               type="text"
                               disabled
-                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
-                              className="block border-gray-400 py-1 md:w-5/6 my-2 sm:w-full mx-2"
+                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                              className="block border-gray-200 py-2 w-full"
+
                             // style={{
                             //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 
@@ -3978,7 +3971,7 @@ export default function Tabs(props) {
 
 
         <button
-          className="bg-blue-500 px-4 mx-2 py-1 text-white rounded-sm my-5"
+          className="bg-blue-500 px-4 mx-2 py-1 text-white rounded-lg my-5"
           style={{ backgroundColor: "#034488" }}
           onClick={() => update(user)}
         >
