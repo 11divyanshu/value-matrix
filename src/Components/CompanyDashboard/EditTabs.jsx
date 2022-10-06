@@ -471,8 +471,8 @@ export default function Tabs(props) {
                             <Field
                               name="houseNo"
                               type="text"
-                              className="block border-gray-400 py-1 w-full"
-
+                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                              className="block border-gray-200 py-1 w-full"
                               value={values.houseNo}
                             />
                             <ErrorMessage
@@ -493,8 +493,8 @@ export default function Tabs(props) {
                               <Field
                                 name="street"
                                 type="text"
-                                className="block border-gray-400 py-1 w-full"
-
+                                style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                                className="block border-gray-200 py-1 w-full"
                                 value={values.street}
                               />
 
@@ -592,8 +592,8 @@ export default function Tabs(props) {
                               <Field
                                 name="state"
                                 type="text"
-                                className="block border-gray-400 py-1 w-full mx-2"
-
+                                style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                                className="block border-gray-200 py-1 w-full"
                                 value={values.state}
                               />
 
@@ -623,7 +623,8 @@ export default function Tabs(props) {
                               component="select"
                               id="country"
                               name="country"
-                              className="block border-gray-400 py-1 w-full"
+                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                              className="block border-gray-200 py-1 w-full"
                               value={values.country}
 
                               multiple={false}
@@ -653,8 +654,8 @@ export default function Tabs(props) {
                               <Field
                                 name="zip"
                                 type="text"
-                                className="block border-gray-400 py-1 w-full mx-2"
-
+                                style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                                className="block border-gray-200 py-1 w-full"
                                 value={values.zip}
                               />
 

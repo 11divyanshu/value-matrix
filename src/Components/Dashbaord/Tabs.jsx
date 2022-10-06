@@ -257,7 +257,7 @@ export default function Tabs() {
                                     Work Period{" "}
                                   </label> */}
 
-                    <label className="font-semibold lg:ml-5 text-lg md:w-1/3">
+                    <label className="font-semibold lg:ml-5 text-lg md:w-2/5">
                       Address
                     </label>
                     <div className="w-2/3">
