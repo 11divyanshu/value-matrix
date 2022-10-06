@@ -298,7 +298,7 @@ const UpdateInterviewApplication = () => {
                         />
                       </div>
                       <div className="pt-3">
-                        <h5 class="text-black-900 text-lg font-bold mb-1 ">
+                        <h5 className="text-black-900 text-lg font-bold mb-1 ">
                           {interview.job.jobTitle}
                         </h5>
                         <p className="text-sm font-bold  text-gray-400 font-semibold">
@@ -741,7 +741,7 @@ const UpdateInterviewApplication = () => {
                                   tool.primarySkill === el
                               )
                               .map((item1, index) => (
-                                <p class="bg-blue-100 text-blue-800 text-xs mb-2 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800 ">
+                                <p className="bg-blue-100 text-blue-800 text-xs mb-2 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800 ">
                                   {item1.secondarySkill}{" "}
                                   {item1.proficiency &&
                                     `(${item1.proficiency})`}

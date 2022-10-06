@@ -366,7 +366,7 @@ if(data.eligibility){
       <p className="text-2xl font-bold">Update Job</p>
       {Alert === true && (
         <div
-          class="bg-green-100 rounded-lg py-5 px-6 my-3 mb-4 text-base text-green-800"
+          className="bg-green-100 rounded-lg py-5 px-6 my-3 mb-4 text-base text-green-800"
           role="alert"
         >
           Job Updated Successfully ! Check Here
@@ -374,7 +374,7 @@ if(data.eligibility){
       )}
       {Alert === false && (
         <div
-          class="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700"
+          className="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700"
           role="alert"
         >
           Problem Updating Job ! Try Again Later !
@@ -743,7 +743,7 @@ if(data.eligibility){
 
                           <button
                             type="submit"
-                            class="bg-blue-500 my-7 px-5 py-3 hover:bg-blue-700 text-white font-bold rounded-lg" onClick={() => saveBasic(values)}
+                            className="bg-blue-500 my-7 px-5 py-3 hover:bg-blue-700 text-white font-bold rounded-lg" onClick={() => saveBasic(values)}
                           >
                             Save
                           </button>
@@ -926,7 +926,7 @@ if(data.eligibility){
 
                           <button
                             type="submit"
-                            class="bg-blue-500 my-7 mx-2 px-5 py-3 hover:bg-blue-700 text-white font-bold rounded-lg"
+                            className="bg-blue-500 my-7 mx-2 px-5 py-3 hover:bg-blue-700 text-white font-bold rounded-lg"
                             onClick={() => saveEligible(job)}
                           >
                             Save
@@ -1002,14 +1002,14 @@ if(data.eligibility){
                           </div>
                           <button
 
-                            class="bg-blue-500 my-5 px-5 py-3 my-5 mx-4 hover:bg-blue-700 text-white font-bold rounded-lg"
+                            className="bg-blue-500 my-5 px-5 py-3 my-5 mx-4 hover:bg-blue-700 text-white font-bold rounded-lg"
                             onClick={() => saveSalary(values)}
                           >
                             Save
                           </button>
                           <button
 
-                            class="bg-blue-500 my-5 px-5 py-3 my-5 mx-4 hover:bg-blue-700 text-white font-bold rounded-lg"
+                            className="bg-blue-500 my-5 px-5 py-3 my-5 mx-4 hover:bg-blue-700 text-white font-bold rounded-lg"
                             onClick={()=>postJob(job)}
                           >
                             Submit

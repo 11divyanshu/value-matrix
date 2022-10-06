@@ -1716,7 +1716,7 @@ export default function Tabs(props) {
                   </div>
                   <div className="flex text-right mr-auto space-x-2 justify-end">
                     <button
-                      class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded ml-auto content-end"
+                      className=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded ml-auto content-end"
                       style={{ backgroundColor: "#034488" }}
                       onClick={() => {
                         setEdit(index);
@@ -2215,7 +2215,7 @@ export default function Tabs(props) {
                     </div>
                     <div className="flex items-center space-x-2">
                       <button
-                        class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
+                        className=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
                         style={{ backgroundColor: "#034488" }}
                         onClick={() => {
                           setEdit(index);
@@ -2833,7 +2833,7 @@ export default function Tabs(props) {
                     </div>
                     <div className="flex items-center space-x-2">
                       <button
-                        class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
+                        className=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
                         style={{ backgroundColor: "#034488" }}
                         onClick={() => {
                           setEdit(index);
@@ -3597,7 +3597,7 @@ export default function Tabs(props) {
                                   tool.primarySkill === el
                               )
                               .map((item1, index) => (
-                                <p class="bg-blue-100 text-blue-800 text-xs mb-2 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800 ">
+                                <p className="bg-blue-100 text-blue-800 text-xs mb-2 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800 ">
                                   {item1.secondarySkill}{" "}
                                   {item1.proficiency &&
                                     `(${item1.proficiency})`}
@@ -3865,7 +3865,7 @@ export default function Tabs(props) {
                         </div>
                         <div className="col-start-5 col-end-7 col-span-2 flex items-center space-x-2 ">
                           <button
-                            class=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
+                            className=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
                             style={{ backgroundColor: "#034488" }}
                             onClick={() => {
                               setEdit(index);

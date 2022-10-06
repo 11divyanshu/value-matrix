@@ -451,7 +451,7 @@ const AddJob = () => {
       <p className="text-md font-bold pr-5">1 of 2: Job Details</p>
       {Alert === true && (
         <div
-          class="bg-green-100 rounded-lg py-5 px-6 my-3 mb-4 text-base text-green-800"
+          className="bg-green-100 rounded-lg py-5 px-6 my-3 mb-4 text-base text-green-800"
           role="alert"
         >
           Job Posted Successfully ! Check Here
@@ -459,7 +459,7 @@ const AddJob = () => {
       )}
       {Alert === false && (
         <div
-          class="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700"
+          className="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700"
           role="alert"
         >
           Problem Uploading Job ! Try Again Later !
@@ -662,7 +662,7 @@ const AddJob = () => {
 
                     <button
                       type="submit"
-                      class="bg-blue-500 my-7 px-5 py-3 hover:bg-blue-700 text-white font-bold rounded-lg"
+                      className="bg-blue-500 my-7 px-5 py-3 hover:bg-blue-700 text-white font-bold rounded-lg"
                       onClick={() => saveBasic(values)}
                     >
                       Save
@@ -724,30 +724,30 @@ const AddJob = () => {
                     <label className="font-semibold text-md my-3">
                       Pay Range
                     </label>
-                    <div class="flex flex-col space-y-2 p-2 w-full">
+                    <div className="flex flex-col space-y-2 p-2 w-full">
                       <Field
                         type="range"
-                        class="w-full"
+                        className="w-full"
                         name="salary"
                         min="1"
                         max="5"
                         step="1"
                       />
-                      <ul class="flex justify-between w-full px-[10px]">
-                        <li class="flex justify-center relative">
-                          <span class="absolute">0</span>
+                      <ul className="flex justify-between w-full px-[10px]">
+                        <li className="flex justify-center relative">
+                          <span className="absolute">0</span>
                         </li>
-                        <li class="flex justify-center relative">
-                          <span class="absolute">5k</span>
+                        <li className="flex justify-center relative">
+                          <span className="absolute">5k</span>
                         </li>
-                        <li class="flex justify-center relative">
-                          <span class="absolute">10k</span>
+                        <li className="flex justify-center relative">
+                          <span className="absolute">10k</span>
                         </li>
-                        <li class="flex justify-center relative">
-                          <span class="absolute">20k</span>
+                        <li className="flex justify-center relative">
+                          <span className="absolute">20k</span>
                         </li>
-                        <li class="flex justify-center relative">
-                          <span class="absolute">40k</span>
+                        <li className="flex justify-center relative">
+                          <span className="absolute">40k</span>
                         </li>
                       </ul>
                     </div>
@@ -973,7 +973,7 @@ const AddJob = () => {
 
                         <button
                           type="submit"
-                          class="bg-blue-500 my-7 px-5 py-3 hover:bg-blue-700 text-white font-bold rounded-lg"
+                          className="bg-blue-500 my-7 px-5 py-3 hover:bg-blue-700 text-white font-bold rounded-lg"
                           onClick={() => saveBasic(values)}
                         >
                           Save
@@ -1261,7 +1261,7 @@ const AddJob = () => {
 
                         <button
                           type="submit"
-                          class="bg-[#034488] my-7 mx-2 px-5 py-3 hover:bg-blue-700 text-white font-bold rounded-lg"
+                          className="bg-[#034488] my-7 mx-2 px-5 py-3 hover:bg-blue-700 text-white font-bold rounded-lg"
                           onClick={() => saveEligible(user)}
                         >
                           Save
@@ -1506,30 +1506,30 @@ const AddJob = () => {
                 )}
                 {showRejected && rejectedData.length > 0 && (
                   <div className="my-4">
-                    <table class="w-full">
-                      <thead class="bg-white border-b">
+                    <table className="w-full">
+                      <thead className="bg-white border-b">
                         <tr>
                           <th
                             scope="col"
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
                             #
                           </th>
                           <th
                             scope="col"
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
                             Email
                           </th>
                           <th
                             scope="col"
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
                             Contact
                           </th>
                           <th
                             scope="col"
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
                             Reason
                           </th>
@@ -1539,23 +1539,23 @@ const AddJob = () => {
                         {rejectedData.map((user, index) => {
                           return (
                             <tr
-                              class={`${
+                              className={`${
                                 index % 2 === 0 ? "bg-gray-100" : "bg-white"
                               } border-b`}
                             >
-                              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 {index + 1}
                               </td>
-                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                 {user.Email}
                               </td>
-                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                 {user.Contact}
                               </td>
-                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                 {user.Reason}
                               </td>
-                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                 <RiEditBoxLine
                                   className="text-sm text-blue-500 cursor-pointer"
                                   onClick={() => {
@@ -1602,42 +1602,42 @@ const AddJob = () => {
                 )}
                 {showCandidate && candidateData.length > 0 && (
                   <div className="my-4">
-                    <table class="w-full">
-                      <thead class="bg-white border-b text-left">
+                    <table className="w-full">
+                      <thead className="bg-white border-b text-left">
                         <tr>
                           <th
                             scope="col"
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
                             #
                           </th>
                           <th
                             scope="col"
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
                             First Name
                           </th>
                           <th
                             scope="col"
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
                             Last Name
                           </th>
                           <th
                             scope="col"
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
                             Email
                           </th>
                           <th
                             scope="col"
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
                             Contact
                           </th>
                           <th
                             scope="col"
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
                             Address
                           </th>
@@ -1647,29 +1647,29 @@ const AddJob = () => {
                         {candidateData.map((user, index) => {
                           return (
                             <tr
-                              class={`${
+                              className={`${
                                 index % 2 === 0 ? "bg-gray-100" : "bg-white"
                               } border-b`}
                             >
-                              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
                                 {index + 1}
                               </td>
-                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                 {user.FirstName}
                               </td>
-                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                 {user.LastName}
                               </td>
-                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                 {user.Email}
                               </td>
-                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                 {user.Contact}
                               </td>
-                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                 {user.Address}
                               </td>
-                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                 <AiOutlineDelete
                                   className="text-sm  text-red-500 cursor-pointer"
                                   onClick={() => {
@@ -1754,7 +1754,7 @@ const AddJob = () => {
                           />
                         </div>
                         <button
-                          class="bg-[#034488] my-5 px-4 py-1 mx-4 hover:bg-[#034488] text-white font-bold rounded-sm"
+                          className="bg-[#034488] my-5 px-4 py-1 mx-4 hover:bg-[#034488] text-white font-bold rounded-sm"
                           onClick={() => saveSalary(values)}
                           
                         >
@@ -1762,7 +1762,7 @@ const AddJob = () => {
                         </button>
                         <button
                           type="button"
-                          class="bg-[#034488] my-5 px-4 py-1 mx-4 hover:bg-[#034488] text-white font-bold rounded-sm"
+                          className="bg-[#034488] my-5 px-4 py-1 mx-4 hover:bg-[#034488] text-white font-bold rounded-sm"
                           onClick={() => postJob(user)}
                           style={{backgroundColor:"#034488"}}
                         >

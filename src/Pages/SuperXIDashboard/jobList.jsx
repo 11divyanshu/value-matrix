@@ -62,7 +62,7 @@ const JobList = () => {
       <div className="py-3">
 
 
-        <p className="text-gray-900 text-s mb-2 mx-5 text-right text-blue"><CSVLink {...csvReport}><button class="bg-blue-600 p-3 w-10vw rounded-md text-white">DOWNLOAD CSV</button></CSVLink></p>
+        <p className="text-gray-900 text-s mb-2 mx-5 text-right text-blue"><CSVLink {...csvReport}><button className="bg-blue-600 p-3 w-10vw rounded-md text-white">DOWNLOAD CSV</button></CSVLink></p>
       </div>
     </div>
       <div className="p-4 w-full flex mx-auto" >
@@ -94,7 +94,7 @@ const JobList = () => {
           <div className="p-4">
 
             <label for="default-range" className="block mb-2 text-lg w-3/4 font-semibold">Pay Range</label>
-            <input id="default-range" type="range" value="50" class="w-3/4 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" />
+            <input id="default-range" type="range" value="50" className="w-3/4 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" />
 
           </div>
         </div>

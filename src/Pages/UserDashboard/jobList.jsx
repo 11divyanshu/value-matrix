@@ -56,7 +56,7 @@ const JobList = () => {
 
 
           <p className="text-gray-900 text-s mb-2 mx-5 text-right text-blue"><CSVLink {...csvReport}><button style={{backgroundColor:"#034488" , color:"#fff"}}
- class=" p-3 w-10vw rounded-md text-white">Download CSV</button></CSVLink></p>
+ className=" p-3 w-10vw rounded-md text-white">Download CSV</button></CSVLink></p>
         </div>
       </div>
       <div className="p-5  w-full md:flex mx-auto">
@@ -105,14 +105,14 @@ const JobList = () => {
                 <div className="flex-column content-center text-left align-items-center  py-3 my-5 w-5/6 mx-auto ">
 
                   <label className="font-semibold text-md my-3">Pay Range</label>
-                  <div class="flex flex-col space-y-2 p-2 w-full">
-                    <Field type="range" class="w-full" name="salary" min="1" max="5" step="1" />
-                    <ul class="flex justify-between w-full px-[10px]">
-                      <li class="flex justify-center relative"><span class="absolute">0</span></li>
-                      <li class="flex justify-center relative"><span class="absolute">5k</span></li>
-                      <li class="flex justify-center relative"><span class="absolute">10k</span></li>
-                      <li class="flex justify-center relative"><span class="absolute">20k</span></li>
-                      <li class="flex justify-center relative"><span class="absolute">40k</span></li>
+                  <div className="flex flex-col space-y-2 p-2 w-full">
+                    <Field type="range" className="w-full" name="salary" min="1" max="5" step="1" />
+                    <ul className="flex justify-between w-full px-[10px]">
+                      <li className="flex justify-center relative"><span className="absolute">0</span></li>
+                      <li className="flex justify-center relative"><span className="absolute">5k</span></li>
+                      <li className="flex justify-center relative"><span className="absolute">10k</span></li>
+                      <li className="flex justify-center relative"><span className="absolute">20k</span></li>
+                      <li className="flex justify-center relative"><span className="absolute">40k</span></li>
                     </ul>
                   </div>
 

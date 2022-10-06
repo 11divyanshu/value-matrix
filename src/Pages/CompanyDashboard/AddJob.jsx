@@ -496,7 +496,7 @@ const AddJob = () => {
 
   return (
     <div className=" bg-slate-100 m-auto w-fit">
-      <nav class="container pt-5 flex mb-3 px-5 w-auto">
+      <nav className="container pt-5 flex mb-3 px-5 w-auto">
           <div className="w-full">
             <div className="flex">
             <div className="w-1/6 mt-2"></div>
@@ -552,7 +552,7 @@ const AddJob = () => {
       <div className="my-2">
         {Alert === true && (
           <div
-            class="bg-green-100 rounded-lg py-5 px-6 my-3 mb-4 text-base text-green-800"
+            className="bg-green-100 rounded-lg py-5 px-6 my-3 mb-4 text-base text-green-800"
             role="alert"
           >
             Job Posted Successfully ! Check Here
@@ -560,7 +560,7 @@ const AddJob = () => {
         )}
         {Alert === false && (
           <div
-            class="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700"
+            className="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700"
             role="alert"
           >
             Problem Uploading Job ! Try Again Later !
@@ -1407,37 +1407,37 @@ const AddJob = () => {
                 </div>
                 {eligibleButton && eligibleCanList.length > 0 && (
                   <div className="my-4">
-                    <table class="w-3/4">
+                    <table className="w-3/4">
                       <h1>hello</h1>
-                      <thead class="bg-white border-b text-left">
+                      <thead className="bg-white border-b text-left">
                         <tr>
                           <th
                             scope="col"
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
                             #
                           </th>
                           <th
                             scope="col"
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
                             First Name
                           </th>
                           <th
                             scope="col"
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
                             Last Name
                           </th>
                           <th
                             scope="col"
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
                             Email
                           </th>
                           <th
                             scope="col"
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
                             Contact
                           </th>
@@ -1448,26 +1448,26 @@ const AddJob = () => {
                         {eligibleCanList.map((user, index) => {
                           return (
                             <tr
-                              class={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                              className={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
                                 } border-b`}
                             >
-                              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
                                 {index + 1}
                               </td>
-                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                 {user.firstName}
                               </td>
-                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                 {user.lastName}
                               </td>
-                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                 {user.email}
                               </td>
-                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                 {user.phoneNo}
                               </td>
 
-                              {/* <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                              {/* <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                     <AiOutlineDelete
                                       className="text-sm  text-red-500 cursor-pointer"
                                       onClick={() => {
@@ -1730,30 +1730,30 @@ const AddJob = () => {
                   )}
                   {showRejected && rejectedData.length > 0 && (
                     <div className="my-4">
-                      <table class="w-full">
-                        <thead class="bg-white border-b">
+                      <table className="w-full">
+                        <thead className="bg-white border-b">
                           <tr>
                             <th
                               scope="col"
-                              class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                              className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                             >
                               #
                             </th>
                             <th
                               scope="col"
-                              class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                              className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                             >
                               Email
                             </th>
                             <th
                               scope="col"
-                              class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                              className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                             >
                               Contact
                             </th>
                             <th
                               scope="col"
-                              class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                              className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                             >
                               Reason
                             </th>
@@ -1763,22 +1763,22 @@ const AddJob = () => {
                           {rejectedData.map((user, index) => {
                             return (
                               <tr
-                                class={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                                className={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
                                   } border-b`}
                               >
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                   {index + 1}
                                 </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                   {user.Email}
                                 </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                   {user.Contact}
                                 </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                   {user.Reason}
                                 </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                   <RiEditBoxLine
                                     className="text-sm text-blue-500 cursor-pointer"
                                     onClick={() => {
@@ -2060,16 +2060,16 @@ const AddJob = () => {
                               <label className="w-auto content-center px-4 flex p-1  text-md">
                                 <label
                                   for="Logo-toggle"
-                                  class="inline-flex relative items-center cursor-pointer"
+                                  className="inline-flex relative items-center cursor-pointer"
                                 >
                                   <Field
                                     name="logo"
                                     type="checkbox"
                                     id="Logo-toggle"
-                                    class="sr-only peer"
+                                    className="sr-only peer"
                                   />
-                                  <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                  <span class="ml-3 text-sm font-medium text-gray-900 ">
+                                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                  <span className="ml-3 text-sm font-medium text-gray-900 ">
                                     <p className="text-md font-bold mx-3 font-gray-600">Logo</p>
                                   </span>
                                 </label>
@@ -2078,16 +2078,16 @@ const AddJob = () => {
                               <label className="w-auto content-center px-4 flex p-1  text-md">
                                 <label
                                   for="Title-toggle"
-                                  class="inline-flex relative items-center cursor-pointer"
+                                  className="inline-flex relative items-center cursor-pointer"
                                 >
                                   <Field
                                     type="checkbox"
                                     name="title"
                                     id="Title-toggle"
-                                    class="sr-only peer"
+                                    className="sr-only peer"
                                   />
-                                  <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                  <span class="ml-3 text-sm font-medium text-gray-900 ">
+                                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                  <span className="ml-3 text-sm font-medium text-gray-900 ">
                                     <p className="text-md font-bold mx-3 font-gray-600">Title</p>
                                   </span>
                                 </label>
@@ -2103,15 +2103,15 @@ const AddJob = () => {
                                 <label className="w-auto content-center mx-2  px-4 flex p-1  text-md">
                                   <label
                                     for="Email-toggle"
-                                    class="inline-flex relative items-center cursor-pointer"
+                                    className="inline-flex relative items-center cursor-pointer"
                                   >
                                     <Field
                                       type="checkbox"
                                       name="email" id="Email-toggle"
-                                      class="sr-only peer"
+                                      className="sr-only peer"
                                     />
-                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                    <span class="ml-3 text-sm font-medium text-gray-900 ">
+                                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    <span className="ml-3 text-sm font-medium text-gray-900 ">
                                       <p className="text-md font-bold mx-3 font-gray-600">Email</p>
                                     </span>
                                   </label>
@@ -2119,16 +2119,16 @@ const AddJob = () => {
                                 <label className="w-auto content-center  px-4 flex p-1  text-md">
                                   <label
                                     for="Contact-toggle"
-                                    class="inline-flex relative items-center cursor-pointer"
+                                    className="inline-flex relative items-center cursor-pointer"
                                   >
                                     <Field
                                       type="checkbox"
                                       name="contact
 "                                id="Contact-toggle"
-                                      class="sr-only peer"
+                                      className="sr-only peer"
                                     />
-                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                    <span class="ml-3 text-sm font-medium text-gray-900 ">
+                                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    <span className="ml-3 text-sm font-medium text-gray-900 ">
                                       <p className="text-md font-bold mx-3 font-gray-600">Contact</p>
                                     </span>
                                   </label>
@@ -2136,15 +2136,15 @@ const AddJob = () => {
                                 <label className="w-auto content-center  px-4 flex p-1  text-md">
                                   <label
                                     for="Education-toggle"
-                                    class="inline-flex relative items-center cursor-pointer"
+                                    className="inline-flex relative items-center cursor-pointer"
                                   >
                                     <Field
                                       type="checkbox"
                                       name="education" id="Education-toggle"
-                                      class="sr-only peer"
+                                      className="sr-only peer"
                                     />
-                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                    <span class="ml-3 text-sm font-medium text-gray-900 ">
+                                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    <span className="ml-3 text-sm font-medium text-gray-900 ">
                                       <p className="text-md font-bold mx-3 font-gray-600">Education Details</p>
                                     </span>
                                   </label>
@@ -2206,7 +2206,7 @@ const AddJob = () => {
                             {/* {values.values.salary && values.values.maxSalary ? (
                                 <button
                                   type="button"
-                                  class="bg-[#4a545e] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
+                                  className="bg-[#4a545e] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
                                   onClick={async () => {
                                    }}
                                   style={{ backgroundColor: "#034488" }}
@@ -2224,7 +2224,7 @@ const AddJob = () => {
                               ) : (
                                 <button
                                   type="button"
-                                  class="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
+                                  className="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
                                   disabled
                                   style={{ backgroundColor: "#034388d7" }}
                                 >
@@ -2434,7 +2434,7 @@ const AddJob = () => {
                             {values.values.salary && values.values.maxSalary ? (
                               <button
                                 type="button"
-                                class="bg-[#4a545e] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
+                                className="bg-[#4a545e] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
                                 onClick={async () => {
                                   if (
                                     values.values.salary >
@@ -2463,7 +2463,7 @@ const AddJob = () => {
                             ) : (
                               <button
                                 type="button"
-                                class="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
+                                className="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
                                 disabled
                                 style={{ backgroundColor: "#034388d7" }}
                               >

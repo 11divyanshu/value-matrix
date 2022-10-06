@@ -282,7 +282,7 @@ const EditProfile = () => {
             <div className="ml-auto mr-0 mt-5 text-right md:text-left">
               <label>
                 <button
-                  class=" hover:bg-blue-700 text-white text-sm font-bold py-2 mx-3 px-6 rounded"
+                  className=" hover:bg-blue-700 text-white text-sm font-bold py-2 mx-3 px-6 rounded"
                   onClick={() => ModalBtnRef.current.click()}
                   style={{ backgroundColor: "#034488" }}
                 >
@@ -317,13 +317,13 @@ const EditProfile = () => {
             <div className=" mt-3 md:text-right  md:ml-auto sm:text-left  flex">
             <div className="mt-2">
           {loading ? (
-            <button   class=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 text-xs rounded"
+            <button   className=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 text-xs rounded"
             style={{ backgroundColor: "#034488" }}>
               <img src={Loader} className="h-4" alt="loader" />
             </button>
           ) : (
             <label
-              for="resume"
+              htmlFor="resume"
               className="py-3 px-8 font-semibold cursor-pointer bg-blue-500 rounded text-white text-xs"
               style={{ backgroundColor: "#034488" }}
             >
@@ -342,7 +342,7 @@ const EditProfile = () => {
         </div>
         <div>
               <button
-                class=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
+                className=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
                 style={{ backgroundColor: "#034488" }}
                
                   onClick={() => ModalBtnRef.current.click()}
@@ -364,7 +364,7 @@ const EditProfile = () => {
       {/* Modal For Cropping Image */}
       <button
         type="button"
-        class="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out hidden"
+        className="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out hidden"
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop"
         ref={ModalBtnRef}
@@ -372,7 +372,7 @@ const EditProfile = () => {
         Launch static backdrop modal
       </button>
       <div
-        class="modal fade fixed ml-[25vw] top-20 hidden h-full outline-none overflow-x-hidden overflow-y-auto"
+        className="modal fade fixed ml-[25vw] top-20 hidden h-full outline-none overflow-x-hidden overflow-y-auto"
         id="staticBackdrop"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
@@ -380,23 +380,23 @@ const EditProfile = () => {
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog relative w-[40vw] pointer-events-none my-5">
-          <div class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
-            <div class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+        <div className="modal-dialog relative w-[40vw] pointer-events-none my-5">
+          <div className="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
+            <div className="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
               <h5
-                class="text-xl font-medium leading-normal text-gray-800"
+                className="text-xl font-medium leading-normal text-gray-800"
                 id="exampleModalLabel"
               >
                 Update Profile Image
               </h5>
             </div>
-            <div class="modal-body relative p-4">
+            <div className="modal-body relative p-4">
               <ReactCropper Modal={ModalRef} user="User"/>
             </div>
           </div>
           <button
             type="button"
-            class="hidden px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+            className="hidden px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
             data-bs-dismiss="modal"
             ref={ModalRef}
           >

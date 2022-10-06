@@ -67,7 +67,7 @@ const UserProfile = () => {
             </div>
             <div className="ml-auto mr-6 ">
               <button
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 onClick={() => {
                   let url = window.location.href;
                   let type = url.split("/")[3];

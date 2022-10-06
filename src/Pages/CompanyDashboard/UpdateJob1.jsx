@@ -485,7 +485,7 @@ const UpdateJob = () => {
       <div className="my-2">
         {Alert === true && (
           <div
-            class="bg-green-100 rounded-lg py-5 px-6 my-3 mb-4 text-base text-green-800"
+            className="bg-green-100 rounded-lg py-5 px-6 my-3 mb-4 text-base text-green-800"
             role="alert"
           >
             Job Updated Successfully !
@@ -493,7 +493,7 @@ const UpdateJob = () => {
         )}
         {Alert === false && (
           <div
-            class="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700"
+            className="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700"
             role="alert"
           >
             Problem Updating Job ! Try Again Later !
@@ -1341,30 +1341,30 @@ const UpdateJob = () => {
                       )}
                       {showRejected && rejectedData.length > 0 && (
                         <div className="my-4">
-                          <table class="w-full">
-                            <thead class="bg-white border-b">
+                          <table className="w-full">
+                            <thead className="bg-white border-b">
                               <tr>
                                 <th
                                   scope="col"
-                                  class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                  className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                                 >
                                   #
                                 </th>
                                 <th
                                   scope="col"
-                                  class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                  className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                                 >
                                   Email
                                 </th>
                                 <th
                                   scope="col"
-                                  class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                  className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                                 >
                                   Contact
                                 </th>
                                 <th
                                   scope="col"
-                                  class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                  className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                                 >
                                   Reason
                                 </th>
@@ -1374,25 +1374,25 @@ const UpdateJob = () => {
                               {rejectedData.map((user, index) => {
                                 return (
                                   <tr
-                                    class={`${
+                                    className={`${
                                       index % 2 === 0
                                         ? "bg-gray-100"
                                         : "bg-white"
                                     } border-b`}
                                   >
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                       {index + 1}
                                     </td>
-                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                       {user.Email}
                                     </td>
-                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                       {user.Contact}
                                     </td>
-                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                       {user.Reason}
                                     </td>
-                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                       <RiEditBoxLine
                                         className="text-sm text-blue-500 cursor-pointer"
                                         onClick={() => {
@@ -1441,42 +1441,42 @@ const UpdateJob = () => {
                       )}
                       {showCandidate && candidateData.length > 0 && (
                         <div className="my-4">
-                          <table class="w-3/4">
-                            <thead class="bg-white border-b text-left">
+                          <table className="w-3/4">
+                            <thead className="bg-white border-b text-left">
                               <tr>
                                 <th
                                   scope="col"
-                                  class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                  className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                                 >
                                   #
                                 </th>
                                 <th
                                   scope="col"
-                                  class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                  className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                                 >
                                   First Name
                                 </th>
                                 <th
                                   scope="col"
-                                  class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                  className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                                 >
                                   Last Name
                                 </th>
                                 <th
                                   scope="col"
-                                  class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                  className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                                 >
                                   Email
                                 </th>
                                 <th
                                   scope="col"
-                                  class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                  className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                                 >
                                   Contact
                                 </th>
                                 <th
                                   scope="col"
-                                  class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                  className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                                 >
                                   Address
                                 </th>
@@ -1486,31 +1486,31 @@ const UpdateJob = () => {
                               {candidateData.map((user, index) => {
                                 return (
                                   <tr
-                                    class={`${
+                                    className={`${
                                       index % 2 === 0
                                         ? "bg-gray-100"
                                         : "bg-white"
                                     } border-b`}
                                   >
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
                                       {index + 1}
                                     </td>
-                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                       {user.FirstName}
                                     </td>
-                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                       {user.LastName}
                                     </td>
-                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                       {user.Email}
                                     </td>
-                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                       {user.Contact}
                                     </td>
-                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                       {user.Address}
                                     </td>
-                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                       <AiOutlineDelete
                                         className="text-sm  text-red-500 cursor-pointer"
                                         onClick={() => {
@@ -1953,7 +1953,7 @@ const UpdateJob = () => {
                               values.values.maxSalary ? (
                                 <button
                                   type="button"
-                                  class="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
+                                  className="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
                                   onClick={() => {
                                     if (
                                       values.values.salary >
@@ -1974,7 +1974,7 @@ const UpdateJob = () => {
                               ) : (
                                 <button
                                   type="button"
-                                  class="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
+                                  className="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
                                   style={{ backgroundColor: "#034388d7" }}
                                   disabled
                                 >

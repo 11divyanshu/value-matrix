@@ -25,11 +25,11 @@ const JobCard = (props) => {
 
   localStorage.setItem("ids", JSON.stringify(job._id));
   return (
-    // <div class="flex my-2 w-full">
-    //   <div class="block rounded-md p-3 my-2 shadow-md border-[0.5px] border-gray-300 bg-white w-full">
+    // <div className="flex my-2 w-full">
+    //   <div className="block rounded-md p-3 my-2 shadow-md border-[0.5px] border-gray-300 bg-white w-full">
 
-    //     <div class="p-6">
-    //       <h5 class="text-black-900 text-2xl font-bold mb-2">{job.jobTitle}</h5>
+    //     <div className="p-6">
+    //       <h5 className="text-black-900 text-2xl font-bold mb-2">{job.jobTitle}</h5>
     //       <p className="text-xl font-bold  text-blue-500">{job.hiringOrganization}</p>
     //       <div className="md:flex mt-5 px-3">
     //         {job.salary && (
@@ -87,9 +87,9 @@ const JobCard = (props) => {
     //         </div>
 
     //       </div>
-    //       {/* <p class="text-gray-700 text-base">{job.jobDesc}</p> */}
+    //       {/* <p className="text-gray-700 text-base">{job.jobDesc}</p> */}
     //     </div>
-    //     <div class="py-3 border-t border-gray-300 items-center flex ">
+    //     <div className="py-3 border-t border-gray-300 items-center flex ">
     //       {/* <FaBuilding className="text-gray-500 mr-2" /> */}
 
     //       <p className="ml-auto text-md text-blue-500 cursor-pointer" ><Link to={`/company/jobDetails/${job._id}`}>View Details &#12297;</Link></p>
@@ -100,7 +100,7 @@ const JobCard = (props) => {
     <div className="w-full px-5 bg-white py-1 border border-b">
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-8 sm:grid-cols-4 my-3">
         <div className="col-span-2">
-          <h5 class="text-black-900 text-md font-bold mb-1 ">{job.jobTitle}</h5>
+          <h5 className="text-black-900 text-md font-bold mb-1 ">{job.jobTitle}</h5>
           <p className="text-sm font-bold  text-gray-400 font-semibold">
             {job.hiringOrganization}
           </p>
@@ -186,7 +186,7 @@ const JobCard = (props) => {
                     className={`
             ${open ? "" : "text-opacity-90"} focus:outline-0`}
                   >
-                    {/* <div class="absolute inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 p-1 text-xs bg-[#034488] rounded-full z-10" style={{backgroundColor:"#034488"}}></div> */}
+                    {/* <div className="absolute inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 p-1 text-xs bg-[#034488] rounded-full z-10" style={{backgroundColor:"#034488"}}></div> */}
 
                     <BsThreeDots className="text-gray-700 text-lg cursor-pointer hover:text-gray-800" />
                   </Popover.Button>

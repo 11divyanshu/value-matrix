@@ -106,7 +106,7 @@ const JobList = () => {
           <p className="text-gray-900 text-s mb-2 mx-5 text-right text-blue">
             <CSVLink {...csvReport}>
               <button
-                class=" p-3 w-10vw rounded-md text-white"
+                className=" p-3 w-10vw rounded-md text-white"
                 style={{ backgroundColor: "#034488" }}
               >
                 Download CSV

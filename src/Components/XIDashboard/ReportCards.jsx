@@ -50,13 +50,13 @@ const InterviewListCard = (props) => {
         </div>
         <div className="flex space-x-3 items-center">
         <div className="px-5 text-center my-5 text-md">
-          <span class="bg-gray-400 text-gray-800 text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl dark:bg-yellow-200 dark:text-gray-900 my-2 py-2">
+          <span className="bg-gray-400 text-gray-800 text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl dark:bg-yellow-200 dark:text-gray-900 my-2 py-2">
             {job.application.status}
           </span>
         </div>
         <div className="px-5 text-center my-5 text-md">
             <Link to={`/XI/reportDetails/${job.application._id}`}>
-          <span class="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
+          <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
             View
           </span></Link>
         </div></div>
@@ -69,7 +69,7 @@ const InterviewListCard = (props) => {
                   className={`
             ${open ? "" : "text-opacity-90"} focus:outline-0`}
                 >
-                  {/* <div class="absolute inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 p-1 text-xs bg-[#034488] rounded-full z-10" style={{backgroundColor:"#034488"}}></div> */}
+                  {/* <div className="absolute inline-block top-0 right-0 bottom-auto left-auto translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 p-1 text-xs bg-[#034488] rounded-full z-10" style={{backgroundColor:"#034488"}}></div> */}
 
                   <BsThreeDots className="text-gray-700 text-lg cursor-pointer hover:text-gray-800" />
                 </Popover.Button>

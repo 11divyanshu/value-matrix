@@ -131,7 +131,7 @@ const Sidebar = () => {
          <div className="w-full px-6">
           <Link to="/admin">
           <button
-              class=" hover:bg-blue-700 flex text-white justify-center font-bold py-2 w-full text-sm mt-4 text-center rounded-lg"
+              className=" hover:bg-blue-700 flex text-white justify-center font-bold py-2 w-full text-sm mt-4 text-center rounded-lg"
               style={{ backgroundColor: "#034488" }}
             >
              <p className="py-1 px-2 text-md"> <AiOutlinePlus/></p> Post New Job
