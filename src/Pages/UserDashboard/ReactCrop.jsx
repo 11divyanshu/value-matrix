@@ -6,6 +6,8 @@ import { ReactSession } from "react-client-session";
 import { url } from "../../service/api";
 import axios from "axios";
 import { BlockList } from "net";
+import swal from "sweetalert";
+import Loader from "../../assets/images/loader.gif";
 
 const ReactCropper = (props) => {
   const [imageSrc, setImageSrc] = React.useState(props.upImg);
@@ -14,6 +16,7 @@ const ReactCropper = (props) => {
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [croppedImage, setCroppedImage] = useState(null);
+  const [loading, setLoading] = React.useState(false);
 
   let user1 = ReactSession.get("user");
   const [user, setUser] = React.useState(user1);
@@ -34,6 +37,7 @@ const ReactCropper = (props) => {
 
   const showCroppedImage = useCallback(async () => {
     try {
+      setLoading(true);
       const croppedImage = await getCroppedImg(
         imageSrc,
         croppedAreaPixels,
@@ -51,7 +55,12 @@ const ReactCropper = (props) => {
       formData.append("user_id", user._id);
       formData.append("file" , blob);
       console.log(formData.files);
-      let res = await updateProfileImage(formData, access_token1);
+console.log("update")
+     
+      let res = await updateProfileImage(formData,props.user, access_token1);
+      console.log(res)
+      if(res.status === 200 && res.data.Success === true){
+        setLoading(false)
       let image = await getProfileImage(
         {id : user._id},
         access_token1
@@ -60,9 +69,29 @@ const ReactCropper = (props) => {
       await localStorage.setItem("user", JSON.stringify(user));
       await localStorage.setItem("profileImg", JSON.stringify(image.data.Image));
 
-      if (res) {
-        window.location.reload();
-      }
+   
+         window.location.reload();
+      }  
+      else { 
+        setLoading(false)
+if(res.status === 200 && res.data.Message !== undefined){
+          swal({
+            icon: "error",
+            title: "Oops",
+            text: res.data.Message,
+            button: "Continue",
+          });
+}else{
+
+swal({
+            icon: "error",
+            title: "Oops",
+            text: "Something Went Wrong",
+            button: "Continue",
+          });
+
+}
+        }
     } catch (e) {
       console.error(e);
     }
@@ -123,6 +152,7 @@ const ReactCropper = (props) => {
         <button
           className=" border-[0.5px] border-red-400 text-red-400 rounded-sm px-4 py-1 cursor-pointer w-fit ml-auto"
           onClick={() => {
+            setLoading(false);
             setCroppedImage(null);
             setImageSrc(null);
             props.Modal.current.click();
@@ -132,11 +162,15 @@ const ReactCropper = (props) => {
         </button>
         {imageSrc && (
           <button
-            onClick={showCroppedImage}
+            onClick={()=>showCroppedImage()}
             className="rounded-sm text-white px-4 py-1 cursor-pointer w-fit ml-3"
             style={{backgroundColor:"#034488"}}
           >
-            Upload
+           {loading ? (
+              <img src={Loader} className="h-7" alt="loader" />
+          ) : (
+           "Upload"
+          )}
           </button>
         )}
       </div>

@@ -371,7 +371,7 @@ const EditCompanyProfile = () => {
               </h5>
             </div>
             <div class="modal-body relative p-4">
-              <ReactCropper Modal={ModalRef} />
+              <ReactCropper Modal={ModalRef} user="Company"/>
             </div>
           </div>
           <button

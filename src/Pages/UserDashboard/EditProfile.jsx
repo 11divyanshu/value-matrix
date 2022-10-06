@@ -31,13 +31,19 @@ const EditProfile = () => {
       let access_token = localStorage.getItem("access_token");
       if (user && user.profileImg) {
         let image = await getProfileImage({ id: user._id }, user.access_token);
+        if(image.status === 200){
+
         await localStorage.setItem("profileImg", JSON.stringify(image));
 
-        let base64string = btoa(
-          String.fromCharCode(...new Uint8Array(image.data.Image.data))
-        );
+       // let base64string = btoa(
+        //  String.fromCharCode(...new Uint8Array(image.data.Image.data))
+      // );
+
+     let base64string = btoa(new Uint8Array(image.data.Image.data).reduce(function (data, byte) {
+     return data + String.fromCharCode(byte);
+      }, ''));
         let src = `data:image/png;base64,${base64string}`;
-        await setProfileImg(src);
+        await setProfileImg(src);}
       }
       if (access_token === null) window.location.href = "/login";
 
@@ -298,7 +304,7 @@ const EditProfile = () => {
               </h5>
             </div>
             <div class="modal-body relative p-4">
-              <ReactCropper Modal={ModalRef} />
+              <ReactCropper Modal={ModalRef} user="User"/>
             </div>
           </div>
           <button
