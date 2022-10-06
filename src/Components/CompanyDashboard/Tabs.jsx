@@ -200,7 +200,7 @@ export default function Tabs() {
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-2 mr-1 md:mr-0 align-middle">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 md:mr-0 align-middle">
                           <label className="font-normal text-md ml-2 py-2">
                             State/Region
                           </label>
