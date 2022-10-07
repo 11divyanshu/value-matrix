@@ -188,19 +188,19 @@ const Panel = () => {
 
           <div className="md:w-1/2 lg:w-full sm:w-full "><SessionCard /></div>
           
+          <div className="shadow-lg my-5 md:w-1/2 lg:w-full md:mx-1 lg:mx-0 md:my-0 rounded-lg py-5 bg-white sm:w-full h-28">
+              <div className="flex items-start space-x-3 px-6  ">
+                <div className="mt-3">
+                  <p className="text-lg text-left font-semibold">
+                    Credit Status $
+                  </p>
+                  <p className="text-xs">
 
-          <div className="shadow-lg my-5 md:w-1/2 lg:w-full md:mx-1 md:my-0 rounded-lg py-5 bg-white sm:w-full">
-        <div className="flex items-start space-x-3 px-6  ">
-          <div className="py-5">
-            <p className="text-lg text-left font-semibold">
-             Credit Score $
-            </p>
-            <p className="text-xs">
+                    Lorem ipsum dolor sit amet,
+                  </p>
+                </div>
+                <div className="text-2xl font-bold flex my-auto"> 6200 <p className="text-green-500"><AiOutlineArrowUp /></p><p className="text-lg">62% </p></div>
               
-            Lorem ipsum dolor sit amet,
-            </p>
-          </div>
-          <div className="text-2xl font-bold flex py-5"> 6200 <p className="text-green-500"><AiOutlineArrowUp/></p><p className="text-lg">62% </p></div>
         </div>
         </div>
         </div>
@@ -224,7 +224,7 @@ const Panel = () => {
 
        
         <div className="shadow-lg sm:w-full rounded-lg md:w-full lg:w-2/6  py-5  bg-white  justify-around lg:mx-4 my-4 h-auto  px-4 bg-white">
-          <p className="text-xl px-4 mx-auto text-gray-700 font-bold  flex">
+          <p className="text-xl px-2 mx-auto text-gray-700 font-bold  flex">
 
             {/* <div className=" px-6 mx-2 py-1 ml-5 text-center" ><AiOutlineUnorderedList/></div> */}
 

@@ -851,7 +851,7 @@ export const approveTitle = async (data) => {
   try {
     return await axios.post(`${url}/approveTitle`,data
     );
-
+    
   } catch (err) {
     console.log("Error : ", err);
 
@@ -864,12 +864,25 @@ export const jobTitles = async (data) => {
 
   } catch (err) {
     console.log("Error : ", err);
-
+    
   }
 }
 export const addcompany = async (data) => {
   try {
     return await axios.post(`${url}/addcompany`,data
+    );
+    
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+
+// Slots
+
+export const availableSlots = async (id) => {
+  try {
+    return await axios.get(`${url}/availableSlots`
     );
 
   } catch (err) {
@@ -877,4 +890,5 @@ export const addcompany = async (data) => {
 
   }
 }
+
 

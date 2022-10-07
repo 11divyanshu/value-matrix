@@ -82,6 +82,7 @@ import XIDashboard from "./Pages/XIDashboard/Dashboard";
 import XIEvaluationList from "./Pages/XIDashboard/EvaluationList";
 import XIJobDetails from "./Pages/XIDashboard/JobDetails.jsx";
 import XIEvaluatedList from "./Pages/XIDashboard/EvaluatedList.jsx";
+import XISlots from "./Pages/XIDashboard/Slots.jsx";
 import EvaluatedReport from "./Pages/XIDashboard/EvaluationReports.jsx";
 
 // SuperXIDashboard
@@ -460,6 +461,14 @@ export const XIDashboardRoutes = [
     hide: false,
     icon: <MdOutlineWorkOutline className="text-xl" />,
     component: <XIEvaluatedList />,
+    permission: "default",
+  },
+  {
+    name: "Slots",
+    path: "/slots",
+    hide: false,
+    icon: <MdOutlineWorkOutline className="text-xl" />,
+    component: <XISlots />,
     permission: "default",
   },
   {

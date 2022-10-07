@@ -34,7 +34,6 @@ const AddCompanyUser = () => {
     firstName: null,
     lastName: "",
     email: null,
-    password: "",
     contact: null,
     permission: permissions,
   });
@@ -136,9 +135,7 @@ const AddCompanyUser = () => {
             ) {
               errors.email = "Invalid Email Address";
             }
-            if (!values.password) {
-              errors.password = "Password is required";
-            }
+          
             if (!values.contact) {
               errors.contact = "Contact is required";
             } else if (
@@ -162,7 +159,7 @@ const AddCompanyUser = () => {
                 <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full my-3 space-y-1">
 
                   <label htmlFor="username" className="font-semibold text-lg md:w-2/5 w-4/5 lg:mx-5">
-                    Username *
+                    Username 
                   </label>
                   <div className="  md:w-2/5 w-11/12">
                   <Field
@@ -186,7 +183,7 @@ const AddCompanyUser = () => {
                 <div className="md:w-1/2 md:mx-9 sm:mx-0 my-3 md:flex w-full  space-y-1">
 
                   <label htmlFor="firstName" className="font-semibold text-lg md:w-2/5 w-4/5 lg:mx-5">
-                    First Name *
+                    First Name 
                   </label>
                   <div className="md:w-2/5 w-11/12">
                     <Field
@@ -205,7 +202,7 @@ const AddCompanyUser = () => {
 
 
                   <label htmlFor="lastName" className="font-semibold text-lg md:w-2/5 w-4/5 lg:mx-5">
-                    Last Name *
+                    Last Name 
                   </label>
                   <div className="md:w-2/5 w-11/12">
                     <Field
@@ -222,7 +219,7 @@ const AddCompanyUser = () => {
                 </div>
                 <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full my-3 space-y-1">
                   <label htmlFor="email" className="font-semibold text-lg md:w-2/5 w-4/5 lg:mx-5">
-                    Email *
+                    Email 
                   </label>
                   <div className="md:w-2/5 w-11/12">
                     <Field
@@ -243,7 +240,7 @@ const AddCompanyUser = () => {
                 <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full my-3 space-y-1">
 
                   <label htmlFor="contact" className="font-semibold text-lg md:w-2/5 w-4/5 lg:mx-5">
-                    Contact*
+                    Contact
                   </label>
                   <div className="md:w-2/5 w-11/12">
                     <Field
@@ -260,22 +257,7 @@ const AddCompanyUser = () => {
                       <div className="text-sm text-red-600">{contactError}</div>
                     )}</div>
                 </div>
-                <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full my-3 space-y-1">
-                  <label htmlFor="password" className="font-semibold text-lg md:w-2/5 w-4/5 lg:mx-5">
-                    Password*
-                  </label>
-                  <div className="md:w-2/5 w-11/12">
-                    <Field
-                      type="password"
-                      name="password"
-                      className="text-600 block my-1 w-full"
-                    />
-                    <ErrorMessage
-                      name="password"
-                      component="div"
-                      className="text-sm text-red-600"
-                    /></div>
-                </div>
+               
                 <div className="text-left md:mx-9 sm:mx-0 pl-5">
                   <label htmlFor="permissions" className="text-gray-700 text-xl font-bold">
                     User permissions

@@ -191,7 +191,7 @@ export default function Tabs() {
                   </div>
                   <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0 md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg lg:mx-5 md:w-2/5">
-                      Company Name
+                      Name
                     </label>
                     <Field
                       type="text"

@@ -15,6 +15,7 @@ import { BsFillChatLeftTextFill } from "react-icons/bs";
 import { FiHelpCircle, FiLogOut } from "react-icons/fi";
 import { AiOutlineUser } from "react-icons/ai";
 import { MdOutlineLogout } from "react-icons/md";
+import { IoIosHelpCircleOutline } from "react-icons/io";
 
 const Navbar = (props) => {
   const Logout = async () => {
@@ -102,7 +103,7 @@ const Navbar = (props) => {
         {/* <IoCall className="text-gray-700 text-lg cursor-pointer hover:text-gray-800 md:block hidden"/>
       <BsFillChatLeftTextFill className="text-gray-700 text-lg cursor-pointer hover:text-gray-800 md:block hidden" /> */}
         <NotificationPopOver />
-        <FiHelpCircle/>
+        <IoIosHelpCircleOutline className="text-gray-700 text-xl cursor-pointer hover:text-gray-800" />
         <Popover className="relative">
           {({ open }) => (
             <>

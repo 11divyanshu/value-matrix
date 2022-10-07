@@ -34,6 +34,7 @@ const ResetPassword = () => {
   const resetPasswordHandle = async (values) => {
     setLoading(true);
     setAlert(null);
+    console.log(values);
     try {
       let res = await resetPassword({
         reset_id: id,
@@ -96,7 +97,7 @@ const ResetPassword = () => {
           })
           setAlert({
             success: true,
-            message: "A SMS has sent to reset your password !",
+            message: "A Mail has been sent to reset your password !",
           });
         } else {
           swal({
@@ -119,12 +120,12 @@ const ResetPassword = () => {
         if (res && res.status === 200) {
           swal({
             title: "Success",
-            text: "Reset Password Link Sent To Your ",
+            text: "Reset Password Link Sent To Your Mail",
             icon: "success",
           })
           setAlert({
             success: true,
-            message: "A SMS has sent to reset your password !",
+            message: "A Mail has been sent to reset your password !",
           });
         } else {
           swal({
@@ -285,7 +286,7 @@ const ResetPassword = () => {
               <div className="p-2 lg:p-12 pt-8 pb-2 pl-5">
                 <p className="text-xl">Reset Your Password</p>
                 <p className="text-sm my-2">
-                  Forgot your password ? Just fill in your New Password.
+                  {/* Forgot your password ? Just fill in your New Password. */}
                 </p>
                 {Alert && Alert.success === true && (
                   <div
@@ -313,13 +314,13 @@ const ResetPassword = () => {
 
 
                       const errors = {};
-                      if (!values.email) {
-                        errors.email = "Email Required";
-                      } else if (
-                        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-                      ) {
-                        errors.email = "Invalid Email Address";
-                      }
+                      // if (!values.email) {
+                      //   errors.email = "Email Required";
+                      // } else if (
+                      //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+                      // ) {
+                      //   errors.email = "Invalid Email Address";
+                      // }
 
                       if (!values.newPassword) {
                         errors.newPassword = "Required !";
@@ -381,6 +382,7 @@ const ResetPassword = () => {
                             <button
                               type="submit"
                               className="mt-6 bg-blue-600 p-3 text-white rounded-lg"
+                               style={{backgroundColor:"#034488"}}
                             >
                               {" "}
                               Reset Password
