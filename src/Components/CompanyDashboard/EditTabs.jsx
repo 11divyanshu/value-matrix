@@ -14,7 +14,8 @@ import {
   updateEmailOTP,
   updateUserDetails,
   validateSignupDetails,
-  getCountryList
+  getCountryList,
+  fetchCountry,
 } from "../../service/api";
 import ReactCropper from "../../Pages/UserDashboard/ReactCrop";
 import { AiOutlineHome, AiOutlineUser, AiOutlineFolderAdd } from "react-icons/ai";
@@ -55,9 +56,11 @@ export default function Tabs(props) {
   const [billingDetail, setBillingDetail] = React.useState([]);
   const [error, setFormError] = React.useState(false);
   const [conerror, setConError] = React.useState(false);
+  
 
 
   const [country, setSelectedCountry] = React.useState([]);
+  const [tax, setTax] = React.useState([]);
   const [selectedAddCity, setSelectedAddCity] = React.useState(cities[103]);
   const [Addquery, setAddQuery] = React.useState("");
 
@@ -102,6 +105,10 @@ export default function Tabs(props) {
       let country = await getCountryList();
       console.log(country);
       setSelectedCountry(country.data.countries[0].country);
+
+      let tax_id = await fetchCountry();
+      console.log(tax_id);
+      setTax(tax_id.data.countries);
       // console.log(country)
     };
     initial();
@@ -935,8 +942,9 @@ export default function Tabs(props) {
                         }}
                         multiple={false}
                       >
-                        {country &&
-                          country.map((item) => {
+                        {tax &&
+                          tax.map((item) => {
+                             console.log(item)
                             return (
                               <option value={item.tax_id}>{item.country}</option>
                             );
