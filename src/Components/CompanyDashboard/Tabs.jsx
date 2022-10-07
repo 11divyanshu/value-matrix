@@ -129,11 +129,11 @@ export default function Tabs() {
                     />
                   </div>
                   <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                  <label className="font-semibold text-lg md:w-1/3 ml-5 mr-20">
+                  <label className="font-semibold text-lg md:w-1/3 ml-5">
                       Address
                     </label>
 
-                    <div className="w-2/3 mr-7 ">
+                    <div className="md:w-3/5 sm:w-4/5 ml-10">
                       <div
                         className="grid grid-cols-1 gap-4 mb-6 lg:grid-cols-2 md:w-5/6 lg:w-full"
                         style={{ justifyContent: "space-between" }}
