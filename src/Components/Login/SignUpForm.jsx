@@ -1,5 +1,5 @@
 
-import React, { useRef,useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import 'react-phone-input-2/lib/style.css'
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -19,7 +19,6 @@ import {
   url,
   countryCodeList
 } from "../../service/api";
-import PhoneInput from "react-phone-input-2";
 
 
 const validateUserEmail = (value) => {
@@ -51,6 +50,7 @@ const SignupForm = () => {
   const [EmailOTPError, setEmailOTPError] = React.useState(false);
   const [EmailError, setEmailError] = React.useState(null);
   const [SmsError, setSmsError] = React.useState(null);
+  const [countryCode, setcountryCode] = React.useState([]);
 
   const [showCaptcha, setShowCaptcha] = React.useState(false);
   const [captchaError, setCaptchaError] = React.useState(null);
@@ -116,15 +116,17 @@ const SignupForm = () => {
   //   setLoading(false);
   // };
   useEffect(() => {
-    const initial = async()=>{
-  let countryCode = await countryCodeList();
-  console.log(countryCode)}
-  initial();
-   
+    const initial = async () => {
+      let countryCode = await countryCodeList();
+      console.log(countryCode)
+      setcountryCode(countryCode.data)
+    }
+    initial();
+
   }, [])
 
 
-  
+
 
   const sendEmailOTP = async (values) => {
     if (values.user_type === "Company") {
@@ -236,6 +238,7 @@ const SignupForm = () => {
         return;
       }
     }
+
 
     setSignupError(null);
     setSmsLoading(true);
@@ -414,6 +417,7 @@ const SignupForm = () => {
             user_type: "User",
             contact: "",
             agree: false,
+            countryCode:"",
           }}
           validate={(values) => {
             const errors = {};
@@ -441,6 +445,9 @@ const SignupForm = () => {
             }
             if (!values.password) {
               errors.password = "Required";
+            }
+            if (!values.countryCode) {
+              errors.countryCode = "Required";
             }
             if (!values.agree) {
               errors.agree = "You need to accept to continue";
@@ -523,7 +530,7 @@ const SignupForm = () => {
                     name="EmailOTP"
                     refs={OTPField}
                     placeholder="Email OTP"
-                    className="w-full"
+                    className="w-full my-2"
                     style={{ borderRadius: "12px" }}
                   />
                 )}
@@ -570,30 +577,58 @@ const SignupForm = () => {
                 </div>
               </div>
               <div className="my-1 w-full">
-                <PhoneInput
-                  type="text"
-                  name="contact"
-                  disabled={verifySms}
-                  buttonStyle={{borderTopLeftRadius: " 10px",borderBottomLeftRadius: " 10px"}}
-                  inputStyle={{
-                    width: '100%',
-                    backgroundColor: "#fff",
-                    borderColor: "#6b7280",
-                    borderWidth: "1px",
-                    borderRadius: " 10px",
-                    paddingTop: "1.2rem",
-                    paddingRight: "0.75rem",
-                    paddingBottom: "1.2rem",
-                    paddingLeft: "3rem",
-                    fontSize: "1rem",
-                    lineHeight: "1.5rem"
-                  }}
-                  placeholder="Contact Number"
-                  className="rounded-lg"
-                  style={{ borderRadius: "12px", width: "100% " }}
-                />
+
+                <div className='shadow-sm border-gray-10 md:w-full pl-2 flex py-2' >
+                  <Field
+                    component="select"
+                    id="countryCode"
+                    name="countryCode"
+                    className="block border-gray-100 py-1 w-2/6"
+                    style={{
+                      borderRadius: "5px 0 0 5px",
+                      border: "solid 0.5px rgb(156 163 175)",
+                    }}
+                    multiple={false}
+                    disabled={verifySms}
+                  >
+                    {countryCode &&
+                      countryCode.map((item) => {
+                        return (
+                          <option value={item.code +"-"+ item.country}> {item.country}{" "}{item.code}</option>
+                        );
+                      })}
+                  </Field>
+                  <Field
+                    type="text"
+                    name="contact"
+                    disabled={verifySms}
+
+                    placeholder="Contact Number"
+                    className="rounded-lg"
+                    style={{
+                      borderRadius: " 0 5px 5px 0",
+                      border: "solid 0.5px rgb(156 163 175)", width: "100% "
+                    }}
+                  />
+                  {/* <Field
+                        type="text"
+                        className="block border-gray-100  py-2 w-5/6"
+                        name="gst"
+                        style={{
+                          borderRadius: " 0 5px 5px 0",
+                          border: "solid 0.5px rgb(156 163 175)",
+                        }}
+
+                      // style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px", border: "none" }}
+                      ></Field> */}
+                </div>
                 <ErrorMessage
                   name="contact"
+                  component="div"
+                  className="text-sm text-red-600"
+                />
+                <ErrorMessage
+                  name="countryCode"
                   component="div"
                   className="text-sm text-red-600"
                 />
