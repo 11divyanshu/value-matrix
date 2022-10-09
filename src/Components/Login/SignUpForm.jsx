@@ -578,15 +578,14 @@ const SignupForm = () => {
               </div>
               <div className="my-1 w-full">
 
-                <div className='shadow-sm border-gray-10 md:w-full pl-2 flex py-2' >
+                <div className=' md:w-full flex py-2' >
                   <Field
                     component="select"
                     id="countryCode"
                     name="countryCode"
-                    className="block border-gray-100 py-1 w-2/6"
+                    className="block py-1 w-2/6"
                     style={{
-                      borderRadius: "5px 0 0 5px",
-                      border: "solid 0.5px rgb(156 163 175)",
+                      borderRadius: "12px 0 0 12px",
                     }}
                     multiple={false}
                     disabled={verifySms}
@@ -594,7 +593,7 @@ const SignupForm = () => {
                     {countryCode &&
                       countryCode.map((item) => {
                         return (
-                          <option value={item.code +"-"+ item.country}> {item.country}{" "}{item.code}</option>
+                          <option value={item.code +"-"+ item.country}> {item.code}&nbsp;{'  '}{item.country}</option>
                         );
                       })}
                   </Field>
@@ -606,8 +605,7 @@ const SignupForm = () => {
                     placeholder="Contact Number"
                     className="rounded-lg"
                     style={{
-                      borderRadius: " 0 5px 5px 0",
-                      border: "solid 0.5px rgb(156 163 175)", width: "100% "
+                      borderRadius: " 0 12px 12px 0",width:"100%"
                     }}
                   />
                   {/* <Field
