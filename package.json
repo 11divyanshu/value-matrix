@@ -40,6 +40,7 @@
     "react-image-crop": "^10.0.6",
     "react-multi-carousel": "^2.8.2",
     "react-onesignal": "^2.0.4",
+    "react-phone-input-2": "^2.15.1",
     "react-pro-sidebar": "^0.7.1",
     "react-responsive-sidebar": "^0.1.16",
     "react-router-dom": "^6.3.0",

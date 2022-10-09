@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import 'react-phone-input-2/lib/style.css'
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import ReCAPTCHA from "react-google-recaptcha";
 import wildcards from "disposable-email-domains/wildcard.json";
@@ -16,6 +17,8 @@ import {
   validateSignupDetails,
   url,
 } from "../../service/api";
+import PhoneInput from "react-phone-input-2";
+
 
 const validateUserEmail = (value) => {
   let domain = value.split("@")[1];
@@ -329,8 +332,8 @@ const SignupForm = () => {
         setSmsOTPError(false);
         setEmailOTPError(false);
         setLoading(true);
-        
-  
+
+
         if (res && !res.data.Error) {
           swal({
             title: "Sign Up",
@@ -509,7 +512,7 @@ const SignupForm = () => {
                     refs={OTPField}
                     placeholder="Email OTP"
                     className="w-full"
-                    style={{ borderRadius: "12px", marginTop: "10px" }}
+                    style={{ borderRadius: "12px" }}
                   />
                 )}
                 {EmailOTP && EmailOTPError && (
@@ -554,14 +557,28 @@ const SignupForm = () => {
                   )}
                 </div>
               </div>
-              <div className="my-1">
-                <Field
+              <div className="my-1 w-full">
+                <PhoneInput
                   type="text"
                   name="contact"
                   disabled={verifySms}
+                  buttonStyle={{borderTopLeftRadius: " 10px",borderBottomLeftRadius: " 10px"}}
+                  inputStyle={{
+                    width: '100%',
+                    backgroundColor: "#fff",
+                    borderColor: "#6b7280",
+                    borderWidth: "1px",
+                    borderRadius: " 10px",
+                    paddingTop: "1.2rem",
+                    paddingRight: "0.75rem",
+                    paddingBottom: "1.2rem",
+                    paddingLeft: "3rem",
+                    fontSize: "1rem",
+                    lineHeight: "1.5rem"
+                  }}
                   placeholder="Contact Number"
-                  className="w-full"
-                  style={{ borderRadius: "12px" }}
+                  className="rounded-lg"
+                  style={{ borderRadius: "12px", width: "100% " }}
                 />
                 <ErrorMessage
                   name="contact"
@@ -577,7 +594,7 @@ const SignupForm = () => {
                     className="w-full"
                     style={{ borderRadius: "12px", marginTop: "10px" }}
 
-                    // disabled={verifySms}
+                  // disabled={verifySms}
                   />
                 )}
                 {SmsOTP && SmsOTPError && (
@@ -661,7 +678,7 @@ const SignupForm = () => {
                 <div className="w-full justify-center flex">
                   <ReCAPTCHA
                     sitekey="6LdanHEhAAAAALDqT2CqlzJvxdPDPUDYGkcceYd7"
-                    
+
                     onChange={(values) => {
                       setCaptcha(true);
                     }}
@@ -678,7 +695,7 @@ const SignupForm = () => {
                   className="bg-blue-600 px-8 py-2 text-white rounded-lg mx-auto block mt-4 hover:bg-blue-700 text-center w-1/2 cursor-pointer"
                   type="submit"
                   style={{ backgroundColor: "#01458C" }}
-                  // disabled={OTP !== true}
+                // disabled={OTP !== true}
                 >
                   {/* {OTP === null ? "Continue" : "Signup"} */}
                   SignUp
@@ -699,43 +716,43 @@ const SignupForm = () => {
         </div>
         <div className="flex flex-wrap justify-center space-x-2 h-7 mt-3">
           <form action={`${url}/auth/google`}>
-              <button type="submit" className="my-0.5">
-                <div className="flex px-2 py-1 border border-gray-300 ">
-                  <img
-                    src={Google}
-                    alt="google-login"
-                    className="cursor-pointer h-3 my-px"
-                  />
-                  <p className="text-xs font-semibold px-2">Google</p>
-                </div>
-              </button>
+            <button type="submit" className="my-0.5">
+              <div className="flex px-2 py-1 border border-gray-300 ">
+                <img
+                  src={Google}
+                  alt="google-login"
+                  className="cursor-pointer h-3 my-px"
+                />
+                <p className="text-xs font-semibold px-2">Google</p>
+              </div>
+            </button>
           </form>
           <form action={`${url}/auth/microsoft`}>
-          <button type="submit" className="my-0.5">
-          <div className="flex px-2 py-1 border border-gray-300">
+            <button type="submit" className="my-0.5">
+              <div className="flex px-2 py-1 border border-gray-300">
 
-              <img
-                src={Microsoft}
-                alt="microsoft-login"
-                className="cursor-pointer h-3 my-px"
-              />
+                <img
+                  src={Microsoft}
+                  alt="microsoft-login"
+                  className="cursor-pointer h-3 my-px"
+                />
 
-              <p className="text-xs font-semibold px-2">Microsoft</p>
+                <p className="text-xs font-semibold px-2">Microsoft</p>
               </div>
-              </button>
+            </button>
           </form>
           <form action={`${url}/auth/linkedin`}>
-          <button type="submit" className="my-0.5">
-          <div className="flex px-2 py-1 border border-gray-300">
+            <button type="submit" className="my-0.5">
+              <div className="flex px-2 py-1 border border-gray-300">
 
-              <img
-                src={Linkedin}
-                alt="linkedin-login"
-                className="cursor-pointer h-3 my-px"
-              />
-              <p className="text-xs font-semibold px-2">Linkedin</p>
+                <img
+                  src={Linkedin}
+                  alt="linkedin-login"
+                  className="cursor-pointer h-3 my-px"
+                />
+                <p className="text-xs font-semibold px-2">Linkedin</p>
               </div>
-              </button>
+            </button>
           </form>
         </div>
         <div className="lg:h-5 h-0 block"></div>
