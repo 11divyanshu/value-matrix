@@ -110,9 +110,9 @@ const JobList = () => {
   }, []);
 
   const archiveCandidate = async (job) => {
-                                             
 
-    let res = await deleteCandidate(job.candidate_id,  user._id , job.isDeleted);
+
+    let res = await deleteCandidate(job.candidate_id, user._id, job.isDeleted);
     console.log(res);
     setJobs(res.data);
 
@@ -357,12 +357,12 @@ const JobList = () => {
 
 
         </div> */}
-        <div className=" md:w-3/4 md:mx-5">
+        <div className=" md:w-3/4 mb-4 md:mx-5">
 
           {loader ? <p>...Loading</p> :
             <>
               <div className="flex justify-between w-full bg-white">
-                <div className="  py-4 px-5" style={{ borderRadius: "6px 6px 0 0" }}><p className="text-gray-900 w-full font-bold">All Candidates</p>
+                <div className="py-4 px-5 md:py-2 md:px-2  " style={{ borderRadius: "6px 6px 0 0" }}><p className="text-gray-900 w-full font-bold">All Candidates</p>
                   {/* <p className="text-gray-400 w-full font-semibold">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p> */}
                 </div>
 
@@ -428,9 +428,9 @@ const JobList = () => {
                                     </p>
                                   </div>
                                     <div><button className="bg-[#034488] text-white rounded-sm px-4 py-1 my-2 mx-4"
-                                      onClick={() => setModal(false)}style={{ backgroundColor: "#fff" ,color:'#034488'}}
-                                      >   
-                                        <ImCross/></button></div>
+                                      onClick={() => setModal(false)} style={{ backgroundColor: "#fff", color: '#034488' }}
+                                    >
+                                      <ImCross /></button></div>
                                   </div>
                                   <div className="flex space-x-10 my-3">
                                     <button
@@ -936,15 +936,15 @@ const JobList = () => {
                         >
                           <Dialog.Panel className="w-full  px-7 my-9 transform  rounded-xl bg-white p-9 text-left align-middle shadow-xl transition-all">
                             <div className="w-full mt-9 text-right flex justify-between">   <p className="font-semibold text-xl my-5">Send Job Request</p> <button
-                                                  className="bg-[#034488] text-white rounded-sm py-1 my-2 px-4"
-                                                 onClick={()=>{
-                                                  setShowJobs(false);
+                              className="bg-[#034488] text-white rounded-sm py-1 my-2 px-4"
+                              onClick={() => {
+                                setShowJobs(false);
 
-                                                 }}
-                                                  style={{ backgroundColor: "#fff" ,color:'#034488'}}
-                                                >
-                                                  <ImCross/>
-                                                </button></div>
+                              }}
+                              style={{ backgroundColor: "#fff", color: '#034488' }}
+                            >
+                              <ImCross />
+                            </button></div>
                             {listEligibleJobs && listEligibleJobs.map((job) => {
                               return (
                                 <div className="w-full px-5 bg-white py-1 border border-b">
@@ -1027,7 +1027,7 @@ const JobList = () => {
                                         </button>
                                       )} */}
 
-{job.archived ? (
+                                      {job.archived ? (
                                         <button
                                           // style={{ background: "#3ED3C5" }}
                                           className=" bg-yellow-300 rounded-3xl px-6 my-3 text-xs text-gray-900 font-semibold"
@@ -1046,7 +1046,7 @@ const JobList = () => {
                                           <button
                                             style={{ background: "#3ED3C5" }}
                                             className="  rounded-3xl px-6 my-3 text-xs  text-gray-900 font-semibold"
-                                            onClick={async() => {
+                                            onClick={async () => {
                                               let res1 = await sendJobInvitations(
                                                 {
                                                   job_id: job._id,
@@ -1057,7 +1057,7 @@ const JobList = () => {
                                               );
 
                                               console.log(res1)
-                                              
+
                                               if (res1.status === 200) {
                                                 // setJobId(res1.data.jobId);
                                                 var arr = res1.data.jobId.split(',');
@@ -1069,7 +1069,7 @@ const JobList = () => {
                                                   icon: "success",
                                                   button: "Continue",
                                                 }).then((result) => {
-                                                
+
                                                 });
                                               } else {
                                                 swal({
@@ -1079,13 +1079,13 @@ const JobList = () => {
                                                   button: "Ok",
                                                 });
                                               }
-  
+
                                             }}
                                           >
                                             Send Request{" "}
                                           </button>
                                         )
-                                        
+
                                       ) : (
                                         <button
                                           // style={{ background: "#3ED3C5" }}
@@ -1094,7 +1094,7 @@ const JobList = () => {
                                           Ended{" "}
                                         </button>
                                       )}
-                                      
+
                                     </div>
                                   </div>
                                 </div>)
@@ -1195,12 +1195,13 @@ const JobList = () => {
                                             <div className="flex items-center border-b text-gray-800 space-x-2" onClick={async () => {
 
                                               let d = [];
-                                              d.push({Email:job.email,
-                                              Contact:job.phoneNo,
-                                              FirstName:job.firstName,
-                                              LastName:job.lastName,
-                                            
-                                            });
+                                              d.push({
+                                                Email: job.email,
+                                                Contact: job.phoneNo,
+                                                FirstName: job.firstName,
+                                                LastName: job.lastName,
+
+                                              });
                                               setSendCandidate(d);
                                               setShowJobs(true);
                                               let res = await eligibleJobsForCandidate(job.email);
@@ -1220,11 +1221,11 @@ const JobList = () => {
                                                 Add to Job{" "}
                                               </p>{" "}
                                             </div>
-                                            <div className="flex items-center text-gray-800 space-x-2" onClick={()=>archiveCandidate(job)}>
+                                            <div className="flex items-center text-gray-800 space-x-2" onClick={() => archiveCandidate(job)}>
                                               {/* <BsThreeDots className="text-md" /> */}
                                               <p className="text-sm font-semibold py-1 cursor-pointer">
                                                 {/* <Link to={`/company/jobUpdate/${job._id}`}> */}
-                                                {job.isDeleted ? "Unarchive": "Archive"}
+                                                {job.isDeleted ? "Unarchive" : "Archive"}
                                                 {/* </Link> */}
                                               </p>{" "}
                                             </div>
@@ -1249,8 +1250,8 @@ const JobList = () => {
           }
         </div>
 
-        <div className="md:w-1/4 my-3">
-          <div className="shadow-lg  py-5  bg-white  justify-around  px-5 bg-white">
+        <div className="md:w-1/4">
+          <div className="shadow-lg px-3 my-0 py-5 rounded-lg bg-white w-full">
             <p className="text-xl mx-auto text-gray-700 font-bold  flex">
               <p className="p-1"><BsFillBookmarkFill /></p>
               <p className=" mx-2  text-sm ">My Items</p>
@@ -1266,7 +1267,7 @@ const JobList = () => {
             </div>
           </div>
 
-          <div className="shadow-lg sm:w-full rounded-lg   py-5  bg-white  justify-around my-4 h-auto  px-4 bg-white">
+          <div className="sm:w-full justify-around my-4 h-auto  shadow-lg px-3 py-5 rounded-lg bg-white w-full">
             <p className="text-xl px-2 mx-auto text-gray-700 font-bold  flex">
 
               {/* <div className=" px-6 mx-2 py-1 ml-5 text-center" ><AiOutlineUnorderedList/></div> */}
