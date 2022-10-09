@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef,useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import ReCAPTCHA from "react-google-recaptcha";
 import wildcards from "disposable-email-domains/wildcard.json";
@@ -15,6 +15,7 @@ import {
   OTPSms,
   validateSignupDetails,
   url,
+  countryCodeList
 } from "../../service/api";
 
 const validateUserEmail = (value) => {
@@ -110,6 +111,16 @@ const SignupForm = () => {
   //   setOTP(true);
   //   setLoading(false);
   // };
+  useEffect(() => {
+    const initial = async()=>{
+  let countryCode = await countryCodeList();
+  console.log(countryCode)}
+  initial();
+   
+  }, [])
+
+
+  
 
   const sendEmailOTP = async (values) => {
     if (values.user_type === "Company") {

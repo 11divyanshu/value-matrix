@@ -32,6 +32,15 @@ export const validateSignupDetails = async (user) => {
     console.log("Error Calling Validate Signup API : ", error);
   }
 };
+// get Country Codes
+export const countryCodeList = async () => {
+  try {
+    return await axios.get(`${url}/countryCodeList`);
+  } catch (error) {
+    console.log("Error Calling Validate Signup API : ", error);
+  }
+};
+
 
 // Logout
 export const LogoutAPI = async (user_id) => {
@@ -880,9 +889,9 @@ export const addcompany = async (data) => {
 
 // Slots
 
-export const availableSlots = async (id) => {
+export const availableSlots = async (data) => {
   try {
-    return await axios.get(`${url}/availableSlots`
+    return await axios.get(`${url}/availableSlots?userId=${data}`
     );
 
   } catch (err) {
@@ -890,5 +899,67 @@ export const availableSlots = async (id) => {
 
   }
 }
+export const XISlots = async (id) => {
+  try {
+    return await axios.get(`${url}/XISlots?id=${id}`
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+export const addSlot = async (data) => {
+  try {
+    return await axios.post(`${url}/addSlot`,data
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+export const findCandidateByEmail = async (data) => {
+  try {
+    return await axios.post(`${url}/findCandidateByEmail?email=${data}`,
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+export const bookSlot = async (data) => {
+  try {
+    return await axios.post(`${url}/bookSlot`,data
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+export const updateSlot = async (id,data) => {
+  try {
+    return await axios.put(`${url}/updateSlot?slotId=${id}`,data
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+export const deleteSlot = async (id) => {
+  try {
+    return await axios.delete(`${url}/deleteSlot?slotId=${id}`
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+
+
 
 

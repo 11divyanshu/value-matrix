@@ -363,13 +363,13 @@ export default function Tabs() {
 
 
                   </div>
-                  {secEmail &&  <div className="md:w-1/2 md:mx-2 sm:mx-0 md:flex w-full my-3 space-y-1">
+                  {secEmail.length > 0 ?  <div className="md:w-1/2 md:mx-2 sm:mx-0 md:flex w-full my-3 space-y-1">
                     <label className="font-semibold w-2/3 text-lg lg:mx-5 md:w-2/5">
                       Secondary Emails
                     </label>
 
                     <div className="w-full flex gap-4">
-                     {secEmail && secEmail.map((item, index) => {
+                     { secEmail.map((item, index) => {
                         return (
                           <input
                             value={item}
@@ -383,13 +383,13 @@ export default function Tabs() {
                     </div>
 
 
-                  </div>}
-                  {secContact && <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0 md:flex w-full  space-y-1">
+                  </div> :  null}
+                  {secContact.length > 0 ? <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0 md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg lg:mx-5 md:w-2/5 ">
                       Secondary Contacts
                     </label>
 
-                    {secContact && secContact.map((item, index) => {
+                    { secContact.map((item, index) => {
                       return (
                         <input
                           value={item}
@@ -407,7 +407,7 @@ export default function Tabs() {
                     })}
 
 
-                  </div>}
+                  </div> : null}
                   {user.resume && (
                     <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                       <label className="font-semibold text-lg lg:mx-5 md:w-2/5">

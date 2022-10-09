@@ -1519,7 +1519,7 @@ export default function Tabs(props) {
                     </div>
                   )}
 
-{secEmail &&<div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
+<div className={`md:mx-2 my-1 sm:mx-0  md:flex w-full space-y-1 ${secEmail.length > 0 ? "visible" : "hidden"}`} >
                     <label className="font-semibold text-lg md:w-2/5 mx-2">
                       Secondary Emails
                     </label>
@@ -1574,8 +1574,8 @@ export default function Tabs(props) {
                       })}
                     </div>
 
-                  </div>}
-                  {secContact &&  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
+                  </div>
+                 <div className={`md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1 ${secContact.length > 0 ? "visible" : "hidden"}`}>
                     <label className="font-semibold text-lg md:w-2/5 mx-2">
                       Secondary Contacts
                     </label>
@@ -1630,7 +1630,7 @@ export default function Tabs(props) {
                       })}
                     </div>
 
-                  </div>}
+                  </div>
 
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg md:w-2/5 mx-2">

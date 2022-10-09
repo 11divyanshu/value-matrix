@@ -26,6 +26,7 @@ import JobList from "./Pages/UserDashboard/jobList.jsx";
 import JobDetails from "./Pages/UserDashboard/JobDetail.jsx";
 import JobInvitations from "./Pages/UserDashboard/JobInvitations";
 import InterviewApplication from "./Pages/UserDashboard/InterviewApplication";
+import AllSlots from "./Pages/UserDashboard/AllSlots.jsx";
 
 // Admin Pages
 import NotificationPanel from "./Pages/AdminDashboard/Notification";
@@ -155,6 +156,12 @@ export const dashboardRoutes = [
     hide: true,
     icon: <CgWorkAlt className="text-xl" />,
     component: <InterviewApplication />,
+  },  {
+    name: "All Slots",
+    path: "/allslots",
+    hide: true,
+    component: <AllSlots/>,
+    permission: "default",
   },
 ];
 
@@ -422,6 +429,7 @@ export const companyDashboardRoutes = [
     component: <CandidateReport />,
     permission: "default",
   },
+
 ];
 
 // XI Routes
