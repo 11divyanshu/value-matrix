@@ -283,18 +283,18 @@ const JobList = () => {
     <div className="bg-slate-100">
       <div className="flex mx-5 mt-3" style={{ justifyContent: 'space-between' }}>
         {/* <p className="text-2xl mx-3 font-semibold pl-3 mt-5">All Jobs</p> */}
-        <p className="text-sm flex my-5 mx-5 font-semibold">Hey {user && user.firstName ? user.firstName : "Company"} - <p className="text-gray-400 px-2"> here's what's happening today!</p></p>
+        <p className="text-xs lg:text-xl md:text-sm flex my-5 mx-5 font-semibold">Hey {user && user.firstName ? user.firstName : "Company"} -
+          <p className="text-gray-400 px-2"> here's what's happening today!</p>
+        </p>
 
 
         <div className="py-3 flex">
           <div className="mx-1">
-
-
-            <p className="text-gray-900 text-s mb-2 mx-5 text-right text-blue"><button className=" p-3 w-10vw rounded-md text-white" style={{ backgroundColor: "#034488" }} onClick={() => {
+            <button className=" p-1 lg:p-3 md:p-3 sm:p-3 text-xs lg:text-lg md:text-sm rounded-md text-white" style={{ backgroundColor: "#034488" }} onClick={() => {
               setModal(true);
               setShowCandidateForm(false);
 
-            }}>Add Candidate</button></p>
+            }}>Add Candidate</button>
           </div>
           {/* <div>
           <p className="text-gray-900 text-s mb-2 mx-5 text-right text-blue"><CSVLink {...csvReport}><button className=" p-3 w-10vw rounded-md text-white" style={{ backgroundColor: "#034488" }}>Download CSV</button></CSVLink></p>
@@ -362,7 +362,7 @@ const JobList = () => {
           {loader ? <p>...Loading</p> :
             <>
               <div className="flex justify-between w-full bg-white">
-                <div className="py-4 px-5 md:py-2 md:px-2  " style={{ borderRadius: "6px 6px 0 0" }}><p className="text-gray-900 w-full font-bold">All Candidates</p>
+                <div className="py-4 px-5 md:py-2 md:px-2" style={{ borderRadius: "6px 6px 0 0" }}><p className="text-gray-900 w-full font-bold">All Candidates</p>
                   {/* <p className="text-gray-400 w-full font-semibold">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p> */}
                 </div>
 
