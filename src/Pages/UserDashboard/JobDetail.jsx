@@ -34,16 +34,17 @@ function JobDetails(props) {
       let user = JSON.parse(await localStorage.getItem("user"));
       await setUser(user);
       let res = await getJobById(job_id, access_token);
+      console.log(res)
       let primarySkills = {};
         let roles = new Set([]);
-        res.data.job.skills.forEach((skill) => {
+        if(res.data.job.skills){ res.data.job.skills.forEach((skill) => {
           roles.add(skill.role);
           if (primarySkills[skill.role]) {
             primarySkills[skill.role].add(skill.primarySkill);
           } else {
             primarySkills[skill.role] = new Set([skill.primarySkill]);
           }
-        });
+        }) };
         setRoles(Array.from(roles));
         Array.from(roles).map((el) => {
           primarySkills[el] = Array.from(primarySkills[el]);

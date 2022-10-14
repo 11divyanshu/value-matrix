@@ -502,7 +502,8 @@ if(startTime ){
                                             <div className="flex my-3 flex-wrap text-left">
                                               <div className="w-1/2">
                                                 <label>Start Time</label>
-                                                <DateTimePicker onChange={setStartTime} value={startTime}/>
+                                                <DateTimePicker minDate={new Date()} onChange={setStartTime} value={startTime}/>
+                                                
 
                                                 {/* <Field
                                                   name="startTime"
