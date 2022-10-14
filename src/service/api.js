@@ -600,6 +600,8 @@ export const archiveJob = async (data) => {
 
 export const listXIEvaluation = async (data, token) => {
   try {
+    console.log(data)
+    console.log(token)
     return await axios.post(`${url}/listXIEvaluation`, data, {
       headers: { authorization: token },
     });
@@ -959,6 +961,48 @@ export const deleteSlot = async (id) => {
 
   }
 }
+export const slotDetailsOfXI = async (id) => {
+  try {
+    return await axios.get(`${url}/slotDetailsOfXI?XI_id=${id}`
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+export const slotDetailsOfUser = async (id) => {
+  try {
+    return await axios.get(`${url}/slotDetailsOfUser?userId=${id}`
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+export const userInterviewsDetails = async (id) => {
+  try {
+    return await axios.get(`${url}/userInterviewsDetails?slotId=${id}`
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+export const updateInterviewApplication = async (id ,data) => {
+  try {
+    return await axios.put(`${url}/updateInterviewApplication?id=${id}`,data
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+
+
 
 
 

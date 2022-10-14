@@ -5,6 +5,7 @@ import OneSignal from "react-onesignal";
 // Components
 
 import JobDetails from "../UserDashboard/JobDetail.jsx";
+import InterviewDetails from "../UserDashboard/InterviewDetails.jsx";
 import CandidateResumeForm from "../../Components/Dashbaord/CandidateForm.jsx";
 import { dashboardRoutes } from "../../routes";
 import HorizontalNav from "../../Components/Dashbaord/Navbar";
@@ -165,6 +166,7 @@ const Dashboard = () => {
         let c1 = component.split("/");
 
         if (c1[1] === "jobDetails") setComponent(<JobDetails id={id} />);
+        if (c1[1] === "interviewDetails") setComponent(<InterviewDetails id={id} />);
         else {
           let c = dashboardRoutes.filter(
             (route) => route.path === component.split("/")[1]

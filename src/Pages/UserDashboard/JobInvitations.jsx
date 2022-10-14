@@ -5,6 +5,9 @@ import {
   findCandidateByEmail,
   getJobInvitations,
   handleCandidateJobInvitation,
+  updateContactOTP,
+  updateSlot,
+  updateInterviewApplication
 } from "../../service/api";
 import Avatar from "../../assets/images/UserAvatar.png";
 import { BsFillBookmarkFill } from "react-icons/bs";
@@ -24,6 +27,7 @@ import Loader from "../../assets/images/loader.gif";
 import Moment from 'react-moment';
 
 import { Popover, Transition, Dialog } from "@headlessui/react";
+import DatePicker from 'react-date-picker';
 
 const JobInvitations = () => {
   const [JobInvitation, setJobInvitation] = React.useState([]);
@@ -36,8 +40,14 @@ const JobInvitations = () => {
   const [candidate, setCandidate] = React.useState(null);
   const [otp, setotp] = React.useState(null);
   const [otpModal, setotpModal] = React.useState(null);
-  const OTPField = useRef(null);
-  const navigate = useNavigate();
+  const [slotId, setslotId] = React.useState(null);
+  const [startTime, setStartTime] = React.useState(new Date());
+  const [smsOTP, setsmsOTP] = React.useState("");
+
+
+  const handleOTP = (e) => {
+    setsmsOTP(e.target.value);
+  }
 
   React.useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"));
@@ -168,8 +178,8 @@ const JobInvitations = () => {
                       <p>Enter OTP</p>
                       <input
                         type="number"
-                        name="EmailOTP"
-                        refs={OTPField}
+                        name="smsOTP"
+                        onChange={handleOTP}
                         placeholder="Email OTP"
                         className="w-full"
                         style={{ borderRadius: "12px", marginTop: "10px" }}
@@ -178,21 +188,53 @@ const JobInvitations = () => {
                         <button
                           className=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
                           style={{ backgroundColor: "#034488" }}
-                          onClick={() => {
-                            if (OTPField.current == otp) {
+                          onClick={async () => {
+
+                            console.log(smsOTP);
+                            console.log(otp);
+
+                            if (smsOTP == otp) {
+                              console.log(user._id)
+                              let res = await updateSlot(slotId._id, { userId: user._id, status: "Pending" });
+
+                              // handleJobInvitation(invitation, true);
+                              if (res.status == 200) {
+                                console.log(invitation);
+
+                                let interviewers = [];
+                                let updateInterview = updateInterviewApplication(slot.interviewId, { interviewers: interviewers });
+
+                                swal({
+                                  title: "Job Accepted Successfully !",
+                                  message: "Success",
+                                  icon: "success",
+                                  button: "Continue",
+                                }).then((result) => {
+                                  setslotId(null);
+                                  setotpModal(false);
+                                });
+                              }
+                            } else {
                               swal({
-                                title: "Job Accepted Successfully !",
-                                message: "Success",
-                                icon: "success",
+                                title: "Invalid OTP !",
+                                message: "Error",
+                                icon: "error",
                                 button: "Continue",
-                              }).then((result) => {
-                                // handleJobInvitation(invitation, true);
-                                setotpModal(false);
-                              });
+                              })
                             }
-                          }}>Submit</button> <button
-                            className=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
-                            style={{ backgroundColor: "#034488" }} onClick={() => { setotpModal(false) }}>Cancel</button></div>
+                          }}>Submit</button>
+                        <button
+                          className=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
+                          style={{ backgroundColor: "#034488" }} onClick={async () => {
+
+                            let resend = await updateContactOTP({ contact: user.contact }, { access_token: user.access_token })
+                            console.log(resend.otp)
+                            setotp(resend.otp)
+                          }}>Resend OTP</button>
+
+                        <button
+                          className=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
+                          style={{ backgroundColor: "#034488" }} onClick={() => { setotpModal(false) }}>Cancel</button></div>
                     </Dialog.Panel>
                   </Transition.Child>
                 </div>
@@ -244,12 +286,57 @@ const JobInvitations = () => {
                           {/* <AiFillCalendar className="text-4xl text-gray-700" /> */}
                           <div className='py-1 mx-3 flex'>
                             <p className="text-lg text-center font-semibold">
-                              Available Sessions
+                              Available Slots
                             </p>
                             <p onClick={() => { setchooseSlot(false) }}>Close</p>
                           </div>
                         </div>
+                        <div className="flex items-start space-x-3 	">
+                          {/* <AiFillCalendar className="text-4xl text-gray-700" /> */}
+                          <div className='py-1 mx-3 flex'>
+                            <p className="text-lg text-center font-semibold">
+                              <DatePicker onChange={setStartTime} value={startTime} disableClock />
+                            </p>
+                          </div>
+                        </div>
                         <div className="my-3">
+
+                          <div className='mx-2  my-4'>
+                            <label>
+                              <Moment format="D MMM YYYY" withTitle>
+                                {new Date(startTime)}
+                              </Moment></label>
+                            <br />
+                            <div className='flex my-2 '>
+
+                              {slot && slot.map((item, index) => {
+
+                                if (new Date(item.startDate).getDate() === new Date(startTime).getDate()) {
+                                  return (
+                                    <span className="bg-white border border-gray-400 text-gray-600 text-xs font-semibold mr-2 px-2.5 py-2 rounded-3xl cursor-pointer"
+                                      onClick={async () => {
+                                        console.log(item);
+                                        let res = await bookSlot({ candidate_id: candidate.candidate_id, slotId: item._id });
+                                        console.log(res)
+
+                                        if (res.status === 200) {
+                                          setchooseSlot(false);
+                                          setotpModal(true);
+                                          setotp(res.data.OTP)
+
+                                          setslotId(item);
+                                        }
+                                      }}
+
+                                    >{new Date(item.startDate).getHours() + ":" + new Date(item.startDate).getMinutes()} - {new Date(item.endDate).getHours() + ":" + new Date(item.endDate).getMinutes()}</span>
+                                  )
+                                }
+
+                              })}
+                            </div>
+                          </div>
+                        </div>
+                        {/* <div className="my-3">
 
                           <div className='mx-2  my-4'>
                             <label>  <Moment format="D MMM YYYY" withTitle>
@@ -279,64 +366,14 @@ const JobInvitations = () => {
 
                               })}
                             </div>
-                            <div className='mx-2  my-4'>
-                              <label> <Moment format="D MMM YYYY" withTitle add={{ days: 1}}>{new Date()}</Moment></label>
-                              <br />
-                              <div className='flex my-2 '>
-
-                                {slot && slot.map((item, index) => {
-
-                                  if (new Date(item.startDate).getDate() === new Date().getDate() + 1) {
-                                    return (
-                                      <span className="bg-white border border-gray-400 text-gray-600 text-xs font-semibold mr-2 px-2.5 py-2 rounded-3xl cursor-pointer" onClick={async () => {
-                                        let res = await bookSlot({ candidate_id: candidate.candidate_id, slotId: item._id });
-                                        console.log(res)
-                                        if (res.status === 200) {
-                                          setchooseSlot(false);
-                                          setotpModal(true);
-                                          setotp(res.data.otp)
-                                        }
-                                      }}>{new Date(item.startDate).getHours() + ":" + new Date(item.startDate).getMinutes()} - {new Date(item.endDate).getHours() + ":" + new Date(item.endDate).getMinutes()}</span>
-                                    )
-                                  }
-
-                                })}
-                              </div>
-                            </div>
-                            <div className='mx-2  my-4'>
-                              <label> <Moment format="D MMM YYYY" withTitle add={{ days: 2}}>{new Date()}</Moment></label>
-                              <br />
-                              <div className='flex my-2 '>
-
-                                {slot && slot.map((item, index) => {
-
-                                  if (new Date(item.startDate).getDate() === new Date().getDate() + 2) {
-                                    return (
-                                      <span className="bg-white border border-gray-400 text-gray-600 text-xs font-semibold mr-2 px-2.5 py-2 rounded-3xl cursor-pointer"
-                                        onClick={async () => {
-                                          let res = await bookSlot({ candidate_id: candidate.candidate_id, slotId: item._id });
-                                          console.log(res)
-                                          if (res.status === 200) {
-                                            setchooseSlot(false);
-                                            setotpModal(true);
-                                            setotp(res.data.otp)
-                                          }
-                                        }}
-                                      >{new Date(item.startDate).getHours() + ":" + new Date(item.startDate).getMinutes()} - {new Date(item.endDate).getHours() + ":" + new Date(item.endDate).getMinutes()}</span>
-                                    )
-                                  }
-
-                                })}
-                              </div>
-                            </div>
-
-                          </div>
+                          
                           <button
                             className=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
                             style={{ backgroundColor: "#034488" }} onClick={() => { navigate("/user/allslots") }}>View More</button>
 
 
                         </div>
+                      </div> */}
                       </div>
                     </Dialog.Panel>
                   </Transition.Child>

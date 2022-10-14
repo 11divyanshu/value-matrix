@@ -26,7 +26,10 @@ import JobList from "./Pages/UserDashboard/jobList.jsx";
 import JobDetails from "./Pages/UserDashboard/JobDetail.jsx";
 import JobInvitations from "./Pages/UserDashboard/JobInvitations";
 import InterviewApplication from "./Pages/UserDashboard/InterviewApplication";
-import AllSlots from "./Pages/UserDashboard/AllSlots.jsx";
+import Interviews from "./Pages/UserDashboard/Interviews";
+import InterviewsDetails from "./Pages/UserDashboard/InterviewDetails";
+
+// import AllSlots from "./Pages/UserDashboard/AllSlots.jsx";
 
 // Admin Pages
 import NotificationPanel from "./Pages/AdminDashboard/Notification";
@@ -94,6 +97,10 @@ import SXIJobList from "./Pages/SuperXIDashboard/jobList.jsx";
 import SXIJobDetails from "./Pages/SuperXIDashboard/JobDetails.jsx";
 import AddQuestions from "./Pages/AdminDashboard/AddQuestions";
 import UpdateInterviewApplication from "./Pages/XIDashboard/UpdateInterviewApplication";
+
+
+
+
 import { FiSettings } from "react-icons/fi";
 
 // User Dashboard Routes
@@ -156,12 +163,21 @@ export const dashboardRoutes = [
     hide: true,
     icon: <CgWorkAlt className="text-xl" />,
     component: <InterviewApplication />,
-  },  {
-    name: "All Slots",
-    path: "/allslots",
-    hide: true,
-    component: <AllSlots/>,
+  },
+  {
+    name: "Interviews",
+    path: "interviews",
+    hide: false,
+    icon: <MdOutlineWorkOutline className="text-xl" />,
+    component: <Interviews />,
     permission: "default",
+  },
+  {
+    name: "InterviewDetails",
+    path: "interviewsDetails",
+    hide: true,
+    icon: <MdOutlineWorkOutline className="text-xl" />,
+    component: <InterviewsDetails />,
   },
 ];
 
@@ -456,7 +472,7 @@ export const XIDashboardRoutes = [
     component: <EditProfile />,
   },
   {
-    name: "Evaluation",
+    name: "Interviews",
     path: "/evaluationlist",
     hide: false,
     icon: <MdOutlineWorkOutline className="text-xl" />,
@@ -479,6 +495,7 @@ export const XIDashboardRoutes = [
     component: <XISlots />,
     permission: "default",
   },
+ 
   {
     name: "getJobById",
     path: "/jobDetails/",
