@@ -1,20 +1,23 @@
-import React,{useRef,useEffect,useState} from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getInterviewApplication, updateEvaluation,getUser ,getSkills,updateSkills} from "../../service/api";
+import { getInterviewApplication, updateEvaluation, getUser, getSkills, updateSkills } from "../../service/api";
 import { CgWorkAlt } from "react-icons/cg";
 import { BsCashStack } from "react-icons/bs";
 import Microsoft from "../../assets/images/micro.jpg";
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import { AiTwotoneStar, AiOutlineStar } from "react-icons/ai";
 import { RiEditBoxLine } from "react-icons/ri";
-import { AiOutlineDelete,AiOutlinePrinter } from "react-icons/ai";
+import { AiOutlineDelete, AiOutlinePrinter } from "react-icons/ai";
 import { useReactToPrint } from "react-to-print";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import swal from "sweetalert";
 import { ChevronUpIcon, StarIcon } from "@heroicons/react/solid";
 import { Disclosure } from "@headlessui/react";
+import Logo from "../../assets/images/logo.png"
+import UserAvatar from "../../assets/images/loginBackground.jpeg"
+import Printable from "../UserDashboard/PrintAble"
 
-const UpdateInterviewApplication = () => {
+const UpdateInterviewApplication = React.forwardRef(({ ...props }, ref) => {
   const { id } = useParams();
   const [interview, setInterview] = React.useState(null);
   const [u_id, setu_id] = React.useState(null);
@@ -28,6 +31,8 @@ const UpdateInterviewApplication = () => {
   // const [hoverRating, setHoverRating] = React.useState(0);
 
   const [user, setUser] = React.useState(null);
+  const [print, setprint] = React.useState(false);
+  // const [screen, setscreen] = React.useState(true);
 
   //skills
   const [skillsPrimary, setSkillsPrimary] = React.useState([]);
@@ -53,28 +58,28 @@ const UpdateInterviewApplication = () => {
       let res = await getInterviewApplication({ id: id }, user.access_token);
       console.log(res.data.data);
 
-    
+
       if (res.data.data) {
 
         setSkillSet(res.data.data.application.evaluations[user._id].skills)
 
         let primarySkills = {};
-    let roles = new Set([]);
-    res.data.data.application.evaluations[user._id].skills.forEach((skill) => {
-      roles.add(skill.role);
-      if (primarySkills[skill.role]) {
-        primarySkills[skill.role].add(skill.primarySkill);
-      } else {
-        primarySkills[skill.role] = new Set([skill.primarySkill]);
-      }
-    });
-    setCRoles(Array.from(roles));
-    console.log(Array.from(roles))
-    Array.from(roles).map((el) => {
-      primarySkills[el] = Array.from(primarySkills[el]);
-    });
-    setSkillsPrimary(primarySkills);
-       
+        let roles = new Set([]);
+        res.data.data.application.evaluations[user._id].skills.forEach((skill) => {
+          roles.add(skill.role);
+          if (primarySkills[skill.role]) {
+            primarySkills[skill.role].add(skill.primarySkill);
+          } else {
+            primarySkills[skill.role] = new Set([skill.primarySkill]);
+          }
+        });
+        setCRoles(Array.from(roles));
+        console.log(Array.from(roles))
+        Array.from(roles).map((el) => {
+          primarySkills[el] = Array.from(primarySkills[el]);
+        });
+        setSkillsPrimary(primarySkills);
+
 
         if (res.data.data.job.questions) {
           let answers = new Array(res.data.data.job.questions.length).fill("");
@@ -89,19 +94,19 @@ const UpdateInterviewApplication = () => {
 
 
           if (res.data.data.application.evaluations[user._id].status) {
-           
+
             setStatus(res.data.data.application.evaluations[user._id].status);
           }
           if (res.data.data.application.evaluations[user._id].feedback) {
-           
+
             setFeedback(res.data.data.application.evaluations[user._id].feedback);
           }
 
           if (
             res.data.data.application.evaluations[user._id].candidate_rating
           ) {
-            
-          
+
+
             setRating(
               res.data.data.application.evaluations[user._id].candidate_rating
             );
@@ -125,28 +130,36 @@ const UpdateInterviewApplication = () => {
     initial();
   }, []);
 
- 
 
-  
+
+
 
   return (
-    <div className="bg-slate-100" ref={componentRef}>
+    <div className="bg-slate-100" >
       <div className="mx-5 mt-3 p-5">
-      <div className="flex justify-between">
-        <p className="font-bold text-2xl ">Interview Details</p>
-        {loading && (
-          <p className="text-center font-semibold text-lg">Loading Data...</p>
-        )}
-       
-        <button
-                className=" hover:bg-blue-700 text-white font-bold py-2 px-8 md:mx-6 sm:mx-0 text-xl rounded"
-                style={{backgroundColor:"#034488"}}
-                onClick={openPdf}
-              >
-                <AiOutlinePrinter/>
+        <div className="flex justify-between">
+          <p className="font-bold text-2xl ">Interview Details</p>
+          {loading && (
+            <p className="text-center font-semibold text-lg">Loading Data...</p>
+          )}
+
+          <button
+            className=" hover:bg-blue-700 text-white font-bold py-2 px-8 md:mx-6 sm:mx-0 text-xl rounded"
+            style={{ backgroundColor: "#034488" }}
+            onClick={() => {
+              setprint(true);
+              openPdf()
+            }}
+          >
+            <AiOutlinePrinter />
           </button>
+        </div>
+        {print && <div className="mx-auto" >
+          <div ref={componentRef}>
+          <Printable />
           </div>
-        {!loading && (
+        </div>}
+        {!loading && !print && (
           <div>
             {interview && (
               <p className="my-2 text-sm">
@@ -160,16 +173,17 @@ const UpdateInterviewApplication = () => {
                 <div className="w-full  bg-white border border-b bg-white px-9 py-6 border space-y-2">
                   <p>
                     <span className="font-semibold">Name :</span>{" "}
-                    {interview.applicant.firstName}{" "}
-                    {interview.applicant.lastname}
+                    {/* {interview.applicant.firstName}{" "}
+                    {interview.applicant.lastname} */}
+                    Aryaman Swami
                   </p>
                   <div className="w-1/2 flex flex-wrap justify-between">
-                    {interview.applicant.email && (
+                    {/* {interview.applicant.email && (
                       <p>
                         <span className="font-semibold">Email :</span>{" "}
                         {interview.applicant.email}
                       </p>
-                    )}
+                    )} */}
                     {interview.applicant.contact && (
                       <p>
                         <span className="font-semibold">Contact :</span>{" "}
@@ -257,60 +271,60 @@ const UpdateInterviewApplication = () => {
                     {rating > 0 ? (
                       <AiTwotoneStar
                         className="text-yellow-500 text-xl"
-                       
+
                       />
                     ) : (
                       <AiOutlineStar
                         className="text-xl cursor-pointer"
-                       
+
                       />
                     )}
                     {rating > 1 ? (
                       <AiTwotoneStar
                         className="text-yellow-500 text-xl"
-                       
+
                       />
                     ) : (
                       <AiOutlineStar
                         className="text-xl cursor-pointer"
-                       
+
                       />
                     )}
                     {rating > 2 ? (
                       <AiTwotoneStar
                         className="text-yellow-500 text-xl"
-                      
+
                       />
                     ) : (
                       <AiOutlineStar
                         className="text-xl cursor-pointer"
-                       
+
                       />
                     )}
                     {rating > 3 ? (
                       <AiTwotoneStar
                         className="text-yellow-500 text-xl"
-                       
+
                       />
                     ) : (
                       <AiOutlineStar
                         className="text-xl cursor-pointer"
-                       
+
                       />
                     )}
                     {rating > 4 ? (
                       <AiTwotoneStar
                         className="text-yellow-500 text-xl"
-                        
+
                       />
                     ) : (
                       <AiOutlineStar
                         className="text-xl cursor-pointer"
-                       
+
                       />
                     )}
                   </div>
-                 
+
                 </div>
               </div>
             </div>
@@ -319,7 +333,7 @@ const UpdateInterviewApplication = () => {
                 <div>
                   <p className="font-semibold text-lg my-3">Status</p>
                   <div className="w-full  bg-white border border-b px-9 py-6 space-y-2">
-                   
+
                     <p>
                       {" "}
                       <span className="font-semibold">
@@ -330,45 +344,45 @@ const UpdateInterviewApplication = () => {
                   </div>
 
                   <div>
-                  <p className="font-semibold text-lg my-3">Skills</p>
-                  <div className="md:w-1/2 bg-white flex w-full  space-y-1 my-5">
-                    
+                    <p className="font-semibold text-lg my-3">Skills</p>
+                    <div className="md:w-1/2 bg-white flex w-full  space-y-1 my-5">
 
-                  <div className="p-5">
-              {rolesC
-                ? rolesC.map((item, index) => {
-                  return (
-                    <div className="py-2">
-                      <p className="font-semibold text-md md:w-1/2  md:flex w-full  space-y-2 my-5">
-                        {item}
-                      </p>
-                      {skillsPrimary[item].map((el) => (
-                        <div className="py-1">
-                          <p className="text-sm my-2">{el}</p>
-                          <div className="md:flex flex-wrap">
-                            {skillSet
-                              .filter(
-                                (tool) =>
-                                  tool.role === item &&
-                                  tool.primarySkill === el
-                              )
-                              .map((item1, index) => (
-                                <p className="bg-blue-100 text-blue-800 text-xs mb-2 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800 ">
-                                  {item1.secondarySkill}{" "}
-                                  {item1.proficiency &&
-                                    `(${item1.proficiency})`}
+
+                      <div className="p-5">
+                        {rolesC
+                          ? rolesC.map((item, index) => {
+                            return (
+                              <div className="py-2">
+                                <p className="font-semibold text-md md:w-1/2  md:flex w-full  space-y-2 my-5">
+                                  {item}
                                 </p>
-                              ))}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  );
-                })
-                : "No Skills"}
-            </div>
+                                {skillsPrimary[item].map((el) => (
+                                  <div className="py-1">
+                                    <p className="text-sm my-2">{el}</p>
+                                    <div className="md:flex flex-wrap">
+                                      {skillSet
+                                        .filter(
+                                          (tool) =>
+                                            tool.role === item &&
+                                            tool.primarySkill === el
+                                        )
+                                        .map((item1, index) => (
+                                          <p className="bg-blue-100 text-blue-800 text-xs mb-2 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800 ">
+                                            {item1.secondarySkill}{" "}
+                                            {item1.proficiency &&
+                                              `(${item1.proficiency})`}
+                                          </p>
+                                        ))}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            );
+                          })
+                          : "No Skills"}
+                      </div>
 
-                 </div>
+                    </div>
                   </div>
                   <div className="my-5">
                     <p className="font-semibold text-lg my-3">
@@ -419,33 +433,33 @@ const UpdateInterviewApplication = () => {
                             </div>
                           );
                         })} */}
-                        {
-                          interview && interview.application && interview.application.evaluations && interview.application.evaluations[user._id] && interview.application.evaluations[user._id].questions && 
-                          interview.application.evaluations[user._id].questions.map((question,index) => {
-                            return (
-                              <div className="my-5">
-                                <p className="font-semibold text-md">
-                                  Question {index + 1} :{" "}
-                                  <span className="font-normal">
-                                    {question.question}
-                                  </span>
-                                </p>
-                                <p className="font-semibold text-gray-600 text-md my-1">
-                                  Ideal Answer :{" "}
-                                  <span className="font-normal">
-                                    {question.idealAnswer}
-                                  </span>
-                                </p>
-                                  <textarea
-                                    className="px-4 py-1 my-3 w-3/4"
-                                    style={{ borderRadius: "5px" }}
-                                  disabled
-                                  >
-                                    {question.answer}
-                                  </textarea>
-                              </div>
-                            );
-                          }
+                      {
+                        interview && interview.application && interview.application.evaluations && interview.application.evaluations[user._id] && interview.application.evaluations[user._id].questions &&
+                        interview.application.evaluations[user._id].questions.map((question, index) => {
+                          return (
+                            <div className="my-5">
+                              <p className="font-semibold text-md">
+                                Question {index + 1} :{" "}
+                                <span className="font-normal">
+                                  {question.question}
+                                </span>
+                              </p>
+                              <p className="font-semibold text-gray-600 text-md my-1">
+                                Ideal Answer :{" "}
+                                <span className="font-normal">
+                                  {question.idealAnswer}
+                                </span>
+                              </p>
+                              <textarea
+                                className="px-4 py-1 my-3 w-3/4"
+                                style={{ borderRadius: "5px" }}
+                                disabled
+                              >
+                                {question.answer}
+                              </textarea>
+                            </div>
+                          );
+                        }
                         )}
                       {/* {XIEvaluations &&
                         XIEvaluations.map((question, index) => {
@@ -499,8 +513,8 @@ const UpdateInterviewApplication = () => {
                             </div>
                           );
                         })} */}
-                     
-                         
+
+
                       {/* {!showEvalForm && (
                         <button
                           className="px-4 py-1 bg-blue-500 text-white rounded-md block my-3"
@@ -561,9 +575,9 @@ const UpdateInterviewApplication = () => {
                         rows="5"
                         style={{ borderRadius: "5px" }}
                         value={feedback}
-                        // onChange={(e) => {
-                        //   setFeedback(e.target.value);
-                        // }}
+                      // onChange={(e) => {
+                      //   setFeedback(e.target.value);
+                      // }}
                       />
                       {/* {feedback !== "" && feedback !== null && (
                         <button
@@ -596,6 +610,6 @@ const UpdateInterviewApplication = () => {
       </div>
     </div>
   );
-};
+});
 
 export default UpdateInterviewApplication;

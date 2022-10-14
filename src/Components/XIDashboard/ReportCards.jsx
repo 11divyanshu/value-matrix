@@ -31,8 +31,8 @@ const InterviewListCard = (props) => {
           <p>
             Interview with
             <span className="font-semibold">
-              {" "}
-              {job.applicant.firstName} {job.applicant.lastname}
+              {" "}Aryaman
+              {/* {job.applicant.firstName} {job.applicant.lastname} */}
             </span>
           </p>
           <p>
