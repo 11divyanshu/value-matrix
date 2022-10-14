@@ -283,18 +283,18 @@ const JobList = () => {
     <div className="bg-slate-100">
       <div className="flex mx-5 mt-3" style={{ justifyContent: 'space-between' }}>
         {/* <p className="text-2xl mx-3 font-semibold pl-3 mt-5">All Jobs</p> */}
-        <p className="text-sm flex my-5 mx-5 font-semibold">Hey {user && user.firstName ? user.firstName : "Company"} - <p className="text-gray-400 px-2"> here's what's happening today!</p></p>
+        <p className="text-xs lg:text-xl md:text-sm flex my-5 mx-5 font-semibold">Hey {user && user.firstName ? user.firstName : "Company"} -
+          <p className="text-gray-400 px-2"> here's what's happening today!</p>
+        </p>
 
 
         <div className="py-3 flex">
           <div className="mx-1">
-
-
-            <p className="text-gray-900 text-s mb-2 mx-5 text-right text-blue"><button className=" p-3 w-10vw rounded-md text-white" style={{ backgroundColor: "#034488" }} onClick={() => {
+            <button className=" p-1 lg:p-3 md:p-3 sm:p-3 text-xs lg:text-lg md:text-sm rounded-md text-white" style={{ backgroundColor: "#034488" }} onClick={() => {
               setModal(true);
               setShowCandidateForm(false);
 
-            }}>Add Candidate</button></p>
+            }}>Add Candidate</button>
           </div>
           {/* <div>
           <p className="text-gray-900 text-s mb-2 mx-5 text-right text-blue"><CSVLink {...csvReport}><button className=" p-3 w-10vw rounded-md text-white" style={{ backgroundColor: "#034488" }}>Download CSV</button></CSVLink></p>
@@ -362,7 +362,7 @@ const JobList = () => {
           {loader ? <p>...Loading</p> :
             <>
               <div className="flex justify-between w-full bg-white">
-                <div className="py-4 px-5 md:py-2 md:px-2  " style={{ borderRadius: "6px 6px 0 0" }}><p className="text-gray-900 w-full font-bold">All Candidates</p>
+                <div className="py-4 px-5 md:py-2 md:px-2" style={{ borderRadius: "6px 6px 0 0" }}><p className="text-gray-900 w-full font-bold">All Candidates</p>
                   {/* <p className="text-gray-400 w-full font-semibold">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p> */}
                 </div>
 
@@ -923,8 +923,8 @@ const JobList = () => {
                     </Transition.Child>
 
 
-                    <div className="fixed inset-0 overflow-hidden ">
-                      <div className="flex max-h-full items-center overflow-y-auto justify-center text-center my-7 py-7 rounded-lg max-w-4xl mx-auto">
+                    <div className="fixed mb-10 inset-0 overflow-hidden ">
+                      <div className="flex h-full items-center overflow-y-auto justify-center text-center my-7 py-7 rounded-lg max-w-4xl mx-auto">
                         <Transition.Child
                           as={Fragment}
                           enter="ease-out duration-300"
@@ -934,12 +934,11 @@ const JobList = () => {
                           leaveFrom="opacity-100 scale-100"
                           leaveTo="opacity-0 scale-95"
                         >
-                          <Dialog.Panel className="w-full  px-7 my-9 transform  rounded-xl bg-white p-9 text-left align-middle shadow-xl transition-all">
+                          <Dialog.Panel className="w-9/12 h-full overflow-y-auto px-7 transform  rounded-xl bg-white text-left align-middle shadow-xl transition-all">
                             <div className="w-full mt-9 text-right flex justify-between">   <p className="font-semibold text-xl my-5">Send Job Request</p> <button
                               className="bg-[#034488] text-white rounded-sm py-1 my-2 px-4"
                               onClick={() => {
                                 setShowJobs(false);
-
                               }}
                               style={{ backgroundColor: "#fff", color: '#034488' }}
                             >
@@ -1043,9 +1042,9 @@ const JobList = () => {
                                             Requested{" "}
                                           </button>
                                         ) : (
-                                          <button
+                                          <div>                                          <button
                                             style={{ background: "#3ED3C5" }}
-                                            className="  rounded-3xl px-6 my-3 text-xs  text-gray-900 font-semibold"
+                                            className="px-5 py-3 rounded-3xl text-xs  text-gray-900 font-semibold"
                                             onClick={async () => {
                                               let res1 = await sendJobInvitations(
                                                 {
@@ -1083,51 +1082,38 @@ const JobList = () => {
                                             }}
                                           >
                                             Send Request{" "}
-                                          </button>
+                                          </button></div>
                                         )
 
                                       ) : (
-                                        <button
+                                        <div className="lg:mx-auto">                                        <button
                                           // style={{ background: "#3ED3C5" }}
-                                          className=" bg-white border border-gray-400 rounded-3xl px-6 my-3 text-xs text-gray-900 font-semibold"
+                                          className=" bg-white border border-gray-400 rounded-3xl px-5 py-3 mx-auto my-3 text-xs text-gray-900 font-semibold"
                                         >
                                           Ended{" "}
-                                        </button>
+                                        </button></div>
                                       )}
 
                                     </div>
                                   </div>
                                 </div>)
-
-
                             })
                             }
-
-
                           </Dialog.Panel>
                         </Transition.Child>
                       </div>
                     </div>
                   </Dialog>
                 </Transition>
-
-
-
-
-
               )}
-
-
               <div className="w-full">
-
-
                 {jobs && (
                   jobs.map((job) => {
                     return (
                       <div className="w-full px-5 bg-white py-1 border border-b">
                         <div className="grid grid-cols-1 gap-4 lg:grid-cols-7 sm:grid-cols-4 my-3">
                           <div className="col-span-2">
-                            <h5 className="text-black-900 text-md font-bold mb-1 ">{job.firstName}{" "}{job.lastName}</h5>
+                            <h5 className="text-black-900 text-xs lg:text-lg md:text-sm font-bold mb-1 ">{job.firstName}{" "}{job.lastName}</h5>
 
                           </div>
                           <div className="col-span-2">
@@ -1144,7 +1130,7 @@ const JobList = () => {
                           </div>
                           <div className="col-span-2">
                             <div className="flex py-1">
-                              <div className="text-md py-1 text-gray-400 font-semibold ">
+                              <div className="text-sm py-1 text-gray-400 font-semibold ">
                                 <HiOutlineCalendar />
                               </div>
 
@@ -1156,10 +1142,6 @@ const JobList = () => {
 
                           </div>
                           <div className="flex col-span-1">
-
-
-
-
                             <div className="px-4 mx-2 py-4 align-middle">
                               {/* <p className="text-right text-md py-3"><BsThreeDots/></p> */}
                               <Popover className="relative mt-1">
@@ -1240,7 +1222,6 @@ const JobList = () => {
                             </div>
                           </div>
                         </div>
-
                       </div>
                     )
                   })
