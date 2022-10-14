@@ -27,6 +27,8 @@ import JobDetails from "./Pages/UserDashboard/JobDetail.jsx";
 import JobInvitations from "./Pages/UserDashboard/JobInvitations";
 import InterviewApplication from "./Pages/UserDashboard/InterviewApplication";
 import AllSlots from "./Pages/UserDashboard/AllSlots.jsx";
+import PrintAble from "./Pages/UserDashboard/PrintAble"
+
 
 // Admin Pages
 import NotificationPanel from "./Pages/AdminDashboard/Notification";
@@ -57,7 +59,6 @@ import CandidateList from "./Pages/CompanyDashboard/CandidateList";
 import CandidateReport from "./Pages/CompanyDashboard/CandidateReport";
 import Masking from "./Pages/CompanyDashboard/Masking";
 import CompanyUserList from "./Pages/CompanyDashboard/CompanyUsersList";
-
 
 
 
@@ -98,6 +99,13 @@ import { FiSettings } from "react-icons/fi";
 
 // User Dashboard Routes
 export const dashboardRoutes = [
+  {
+    name: "printAble",
+    path: "PrintAble",
+    hide: false,
+    icon: <CgWorkAlt className="text-xl" />,
+    component: <PrintAble/>,
+  },
   {
     name: "Home",
     icon: <AiOutlineHome className="text-xl" />,
@@ -150,6 +158,7 @@ export const dashboardRoutes = [
     icon: <CgWorkAlt className="text-xl" />,
     component: <JobInvitations />,
   },
+
   {
     name: "Interview Applications",
     path: "interviewApplications",
