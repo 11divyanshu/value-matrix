@@ -31,6 +31,7 @@ import InterviewsDetails from "./Pages/UserDashboard/InterviewDetails";
 
 // import AllSlots from "./Pages/UserDashboard/AllSlots.jsx";
 import PrintAble from "./Pages/UserDashboard/PrintAble"
+import PrintAbleUi from "./Pages/UserDashboard/PrintAbleUi";
 
 
 // Admin Pages
@@ -104,6 +105,7 @@ import UpdateInterviewApplication from "./Pages/XIDashboard/UpdateInterviewAppli
 
 import { FiSettings } from "react-icons/fi";
 
+
 // User Dashboard Routes
 export const dashboardRoutes = [
   {
@@ -112,6 +114,13 @@ export const dashboardRoutes = [
     hide: false,
     icon: <CgWorkAlt className="text-xl" />,
     component: <PrintAble/>,
+  },
+  {
+    name: "printAbleUi",
+    path: "PrintAbleUi",
+    hide: false,
+    icon: <CgWorkAlt className="text-xl" />,
+    component: <PrintAbleUi/>,
   },
   {
     name: "Home",
