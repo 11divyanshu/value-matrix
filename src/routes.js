@@ -108,15 +108,9 @@ import { FiSettings } from "react-icons/fi";
 
 // User Dashboard Routes
 export const dashboardRoutes = [
+
   {
     name: "printAble",
-    path: "PrintAble",
-    hide: false,
-    icon: <CgWorkAlt className="text-xl" />,
-    component: <PrintAble/>,
-  },
-  {
-    name: "printAbleUi",
     path: "PrintAbleUi",
     hide: false,
     icon: <CgWorkAlt className="text-xl" />,
