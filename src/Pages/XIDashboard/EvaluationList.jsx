@@ -253,7 +253,7 @@ const JobList = () => {
 
                           </div>
 
-                          <div className="px-4 mx-2 py-4 align-middle absolute -right-2 top-0">
+                          <div className="px-4 mx-2 py-4 align-middle absolute -right-2 top-7">
                             <Popover className="relative mt-1">
                               {({ open }) => (
                                 <>
