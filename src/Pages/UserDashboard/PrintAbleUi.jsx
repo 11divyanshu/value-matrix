@@ -18,11 +18,6 @@ const PrintAbleUi = () => {
   return (
 
     <div>
-      <div className='lg:flex mx-5'>
-
-
-        <div className='left lg:w-2/3'>
-
           <div
             className="flex mx-5 mt-3"
             style={{ justifyContent: "space-between" }}
@@ -33,39 +28,60 @@ const PrintAbleUi = () => {
             </p>
 
           </div>
+      <div className='lg:flex mx-5'>
 
 
-          <div className="mx-auto mt-2 ">
-            <div className="grid grid-cols-1 gap-2 mx-5 mb-6 lg:grid-cols-4 align-items-center rounded-lg">
-              <div className="lg:w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{ background: "#9BDDFB" }}>
+        <div className='left lg:w-2/3'>
+          <div className="lg:mx-10 lg:flex gap-2 mx-5 mt-2 ">
+            <div className="lg:w-1/3 w-full rounded-lg my-2">
+              <div className="bg-white rounded-lg shadow h-32 py-5" style={{ background: "#9BDDFB" }}>
+                <div className=" text-sm mx-2 font-semibold text-gray-900 my-2">
+                  <div className=''>
+                    <p className='text-xs'>Candidate Job Specific</p>
+                    <p className='text-xs'>Success Recommendation</p>
+                  </div>
+                  <div className=''>
 
-                <div className=" text-md font-semibold text-gray-900">
-                  Job Active - 120
+                  </div>
                 </div>
               </div>
-              <div className="lg:w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{ background: "#9BDDFB" }}>
-
-                <div className=" text-md font-semibold text-gray-900">
-                  Interview Schedule - 20
+            </div>
+            <div className="lg:w-1/3 w-full rounded-lg my-2">
+              <div className="bg-white rounded-lg shadow h-32 py-5" style={{ background: "#9BDDFB" }}>
+                <p className='text-xs font-semibold mx-2'>Candidate Details</p>
+                <div className=" text-sm mx-2 my-3 flex justify-between">
+                  <div className=''>
+                    <p className='text-xs my-2'>Company:</p>
+                    <p className='text-xs my-2'>Candidate:</p>
+                  </div>
+                  <div className=''>
+                    <p className='text-xs my-2'>Microsoft</p>
+                    <p className='text-xs my-2'>Peter</p>
+                  </div>
                 </div>
               </div>
-              <div className="lg:w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{ background: "#9BDDFB" }}>
-
-                <div className=" text-md font-semibold text-gray-900">
-                  Candidate Uploaded - 18
-                </div>
-              </div>
-              <div className="lg:w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{ background: "#9BDDFB" }}>
-
-                <div className=" text-md font-semibold text-gray-900">
-                  Reschedule Interviews - 09
+            </div>
+            <div className="lg:w-1/3 w-full rounded-lg my-2">
+              <div className="bg-white rounded-lg shadow h-32 py-5" style={{ background: "#9BDDFB" }}>
+              <p className='text-xs font-semibold mx-2'>Interview Details</p>
+              <div className=" text-sm mx-2 text-gray-500 flex justify-between ">
+                  <div className=''>
+                    <p className='text-xs my-1'>Position:</p>
+                    <p className='text-xs my-1'>Round:</p>
+                    <p className='text-xs my-1'>Interview Date:</p>
+                  </div>
+                  <div className=''>
+                    <p className='text-xs my-1'>SSE 1</p>
+                    <p className='text-xs my-1'>Live Coding (90 Mins)</p>
+                    <p className='text-xs my-1'>20-07-2022 | 09:00 am</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
 
-          <div className='lg:mx-10 mx-2 my-5'>
+          <div className='lg:mx-10 mx-4 my-5'>
             <div className="shadow-lg sm:w-full md:w-full lg:w-full pb-10 h-auto bg-white rounded-b-lg">
               <div className="text-xl py-5 text-white rounded-t-lg font-bold  flex"
                 style={{ backgroundColor: "rgb(3, 68, 136)" }}>
@@ -130,7 +146,7 @@ const PrintAbleUi = () => {
           </div>
 
 
-          <div className='lg:mx-10 mx-2 my-5 '>
+          <div className='lg:mx-10 mx-4 my-5 '>
             <div className="shadow-lg sm:w-full md:w-full lg:w-full pb-10 h-auto bg-white rounded-b-lg">
               <div className="text-xl py-5 text-white rounded-t-lg font-bold  flex"
                 style={{ backgroundColor: "rgb(3, 68, 136)" }}>
@@ -141,9 +157,9 @@ const PrintAbleUi = () => {
                   <p className="text-gray-500 text-lg">This Big Five assessment measures your scores on five major dimensions of personality Openness, Conscientiousness, Extraversion,
                     Agreeableness, and Neuroticism (OCEAN).</p>
                 </div>
-              <div>
-                <BarChart/>
-              </div>
+                <div>
+                  <BarChart />
+                </div>
                 <div>
                   <p className="text-gray-500 text-lg">The OCEAN score suggests that Mr. Peter is curious and a creative person interested in learning and trying new things and excited by
                     challenge. Mr. Glaxon is goal oriented, shows attention to details and have a strong work ethic. </p>
@@ -154,7 +170,7 @@ const PrintAbleUi = () => {
           </div>
 
 
-          <div className='lg:mx-10 mx-2 mt-10 '>
+          <div className='lg:mx-10 mx-4 mt-10 '>
             <div className="text-xl py-5 rounded-t-lg text-white font-bold  flex"
               style={{ backgroundColor: "rgb(3, 68, 136)" }}>
               <p className="px-6 mx-2  text-xl">Cognitive Aptitude</p>
@@ -247,13 +263,13 @@ const PrintAbleUi = () => {
               <div className='w-1 bg-gray-200'></div>
               <div className="shadow-lg sm:w-full md:w-full lg:w-1/2 pb-10 h-auto  bg-white ">
 
-                <RadarChart/>
+                <RadarChart />
               </div>
             </div>
           </div>
 
 
-          <div className='lg:mx-10 mx-2 my-5 '>
+          <div className='lg:mx-10 mx-4 my-5 '>
             <div className="shadow-lg sm:w-full md:w-full lg:w-full pb-10 h-auto bg-white rounded-b-lg">
               <div className="text-xl py-5 text-white rounded-t-lg font-bold  flex"
                 style={{ backgroundColor: "rgb(3, 68, 136)" }}>
@@ -272,14 +288,14 @@ const PrintAbleUi = () => {
           </div>
 
 
-          <div className='lg:mx-10 mx-2 my-5 '>
+          <div className='lg:mx-10 mx-4 my-5 '>
             <div className="shadow-lg sm:w-full md:w-full lg:w-full pb-10 h-auto bg-white rounded-b-lg">
               <div className="text-xl py-5 text-white rounded-t-lg font-bold  flex"
                 style={{ backgroundColor: "rgb(3, 68, 136)" }}>
                 <p className="px-6 mx-2  text-xl">Interviewers Score & Notes</p>
               </div>
               <div>
-                <StackedChart/>
+                <StackedChart />
               </div>
               <div className='w-full'>
                 <p className="py-2 mx-5 font-bold">Positives</p>
@@ -356,7 +372,7 @@ const PrintAbleUi = () => {
                   <div className='w-full'>
                     <p className="text-gray-400 text-sm">(Rating 8/10)
                     </p>
-                    <p className="text-gray-400 text-sm">                  ABCDXXXXAS (masked id) recommends this candidate as Strong and good to Proceed.
+                    <p className="text-gray-400 text-sm">ABCDXXXXAS (masked id) recommends this candidate as Strong and good to Proceed.
                     </p>
                   </div>
                 </div>
@@ -365,7 +381,7 @@ const PrintAbleUi = () => {
           </div>
 
 
-          <div className='lg:mx-10 mx-2 my-5 '>
+          <div className='lg:mx-10 mx-4 my-5 h-fit'>
             <div className="shadow-lg sm:w-full md:w-full lg:w-full pb-10 h-auto bg-white rounded-b-lg">
               <div className="text-xl py-5 text-white rounded-t-lg font-bold  flex"
                 style={{ backgroundColor: "rgb(3, 68, 136)" }}>
@@ -382,6 +398,9 @@ const PrintAbleUi = () => {
                   </p>
                 </div>
               </div>
+              <div className='w-full'>
+                <iframe className='mx-auto rounded-lg w-4/5' height={400} src="https://www.youtube.com/embed/g_1oiJqE3OI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
             </div>
           </div>
         </div>
@@ -391,7 +410,7 @@ const PrintAbleUi = () => {
 
 
 
-        <div className='right lg:w-1/3 my-20 mx-2 lg:mx-0'>
+        <div className='right lg:w-1/3 mx-2 lg:mx-0'>
           <div className="shadow-lg sm:w-full md:w-full lg:w-full pb-10 h-fit my-3 bg-white ">
             <div className="text-xl py-5 rounded-t-lg text-white font-bold  flex"
               style={{ backgroundColor: "rgb(3, 68, 136)" }}>
