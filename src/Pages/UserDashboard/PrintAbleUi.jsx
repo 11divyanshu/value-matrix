@@ -4,6 +4,7 @@ import { useReactToPrint } from "react-to-print";
 import UserAvatar from "../../assets/images/loginBackground.jpeg"
 import { AiOutlineDelete, AiOutlinePrinter } from "react-icons/ai";
 import { BsFillStarFill } from 'react-icons/bs';
+import BarChart from '../../Components/Dashbaord/BarChart';
 const PrintAbleUi = () => {
   const [print, setprint] = React.useState(false);
 
@@ -138,6 +139,9 @@ const PrintAbleUi = () => {
                   <p className="text-gray-500 text-lg">This Big Five assessment measures your scores on five major dimensions of personality Openness, Conscientiousness, Extraversion,
                     Agreeableness, and Neuroticism (OCEAN).</p>
                 </div>
+              <div>
+                <BarChart/>
+              </div>
                 <div>
                   <p className="text-gray-500 text-lg">The OCEAN score suggests that Mr. Peter is curious and a creative person interested in learning and trying new things and excited by
                     challenge. Mr. Glaxon is goal oriented, shows attention to details and have a strong work ethic. </p>
