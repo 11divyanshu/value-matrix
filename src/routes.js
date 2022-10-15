@@ -532,6 +532,13 @@ export const XIDashboardRoutes = [
     hide: true,
     component: <EvaluatedReport />,
   },
+  {
+    name: "printAbleUi",
+    path: "/evaluationreport",
+    hide: true,
+    icon: <CgWorkAlt className="text-xl" />,
+    component: <PrintAbleUi/>,
+  },
 ];
 
 // SuperXI Routes

@@ -88,7 +88,10 @@ const JobInvitations = () => {
         { job_id: job._id, user_id: user._id, accept: accept , interviewers : interviewer },
         user.access_token
       );
+      console.log(res)
       if (res && res.status === 200) {
+        let res1 = await updateSlot(slotId._id, { interviewId: res.data._id});
+
         let d = JobInvitation.filter((el) => {
           return el !== job;
         });

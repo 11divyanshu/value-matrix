@@ -147,7 +147,7 @@ const JobList = () => {
                                     // let inter = [];
                                     // inter = interviewers;
                                     // inter.push(slotId.createdBy);
-                                    // let update = await updateInterviewApplication(slotId.interviewId , inter);
+                                     let update = await updateInterviewApplication(slotId.interviewId , {status:"Accepted"});
                                     swal({
                                       title: "Job Accepted Successfully !",
                                       message: "Success",
@@ -206,16 +206,16 @@ const JobList = () => {
                             <p className="text-sm"><span className="font-semibold">Interview Id :</span>{job._id}</p>
                           </div>
                           <div className="px-5 my-2 text-md">
-                            <p>  {new Date(job.slot[0].startDate).getDate() +
+                            <p>  {new Date(job.slots[0].startDate).getDate() +
                               "-" +
-                              (new Date(job.slot[0].startDate).getMonth() + 1) +
+                              (new Date(job.slots[0].startDate).getMonth() + 1) +
                               "-" +
-                              new Date(job.slot[0].startDate).getFullYear()}</p>
-                            <p className="text-gray-400 text-sm">{new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(new Date(job.slot[0].startDate))}</p>
+                              new Date(job.slots[0].startDate).getFullYear()}</p>
+                            <p className="text-gray-400 text-sm">{new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(new Date(job.slots[0].startDate))}</p>
                           </div>
                           <div className="px-5 my-2 text-md">
-                            <p>{new Date(job.slot[0].startDate).getHours() + ":" + new Date(job.slot[0].startDate).getMinutes()} - {new Date(job.slot[0].endDate).getHours() + ":" + new Date(job.slot[0].endDate).getMinutes()}</p>
-                            <p className="text-red-400 text-xs">                                                             <Moment toNow>{new Date(job.slot[0].startDate)}</Moment>
+                            <p>{new Date(job.slots[0].startDate).getHours() + ":" + new Date(job.slots[0].startDate).getMinutes()} - {new Date(job.slots[0].endDate).getHours() + ":" + new Date(job.slots[0].endDate).getMinutes()}</p>
+                            <p className="text-red-400 text-xs">                                                             <Moment toNow>{new Date(job.slots[0].startDate)}</Moment>
                             </p>
                           </div>
                           <div className="flex space-x-3 items-center">
@@ -225,7 +225,11 @@ const JobList = () => {
                               </span>
                             </div>
                             {job.status === "Accepted" ? <div className="px-5 text-center my-5 text-md">
-                              <Link to={`/XI/updateEvaluationDetails/${job.slot[0]._id}`}>
+                              {/* <Link to={`/XI/updateEvaluationDetails/${job.slots[0]._id}`}>
+                                <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
+                                  Update
+                                </span></Link> */}
+                              <Link to={`/XI/evaluationreport`}>
                                 <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
                                   Update
                                 </span></Link>
@@ -238,7 +242,7 @@ const JobList = () => {
                                   let resend = await updateContactOTP({ contact: user.contact }, { access_token: user.access_token })
                                   console.log(resend.otp)
                                   setotp(resend.otp)
-                                  setslotId(job.slot[0]);
+                                  setslotId(job.slots[0]);
                                   setInterviewers(job.interviewers)
                                 }}
                                 className="btn  rounded-3xl shadow-sm px-6 my-3 py-2 text-xs text-gray-900 font-semibold"
