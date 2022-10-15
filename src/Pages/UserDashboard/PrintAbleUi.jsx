@@ -5,6 +5,8 @@ import UserAvatar from "../../assets/images/loginBackground.jpeg"
 import { AiOutlineDelete, AiOutlinePrinter } from "react-icons/ai";
 import { BsFillStarFill } from 'react-icons/bs';
 import BarChart from '../../Components/Dashbaord/BarChart';
+import RadarChart from '../../Components/Dashbaord/RadarChar';
+import StackedChart from '../../Components/Dashbaord/StackedChart';
 const PrintAbleUi = () => {
   const [print, setprint] = React.useState(false);
 
@@ -245,24 +247,7 @@ const PrintAbleUi = () => {
               <div className='w-1 bg-gray-200'></div>
               <div className="shadow-lg sm:w-full md:w-full lg:w-1/2 pb-10 h-auto  bg-white ">
 
-                <div className="flex my-4 px-5 vertical-align-middle" >
-                  <div> <p className="py-2 font-md">Rahul Pandey</p>
-                    <p className="text-gray-400 text-sm">Web Developer , UI/UX Designer</p>
-                  </div>
-                </div>
-
-                <div className="flex my-4 px-5 vertical-align-middle" >
-                  <div> <p className="py-2 font-md">Rahul Pandey</p>
-                    <p className="text-gray-400 text-sm">Web Developer , UI/UX Designer</p>
-                  </div>
-                </div>
-
-
-                <div className="flex my-4 px-5 vertical-align-middle" >
-                  <div> <p className="py-2 font-md">Rahul Pandey</p>
-                    <p className="text-gray-400 text-sm">Web Developer , UI/UX Designer</p>
-                  </div>
-                </div>
+                <RadarChart/>
               </div>
             </div>
           </div>
@@ -292,6 +277,9 @@ const PrintAbleUi = () => {
               <div className="text-xl py-5 text-white rounded-t-lg font-bold  flex"
                 style={{ backgroundColor: "rgb(3, 68, 136)" }}>
                 <p className="px-6 mx-2  text-xl">Interviewers Score & Notes</p>
+              </div>
+              <div>
+                <StackedChart/>
               </div>
               <div className='w-full'>
                 <p className="py-2 mx-5 font-bold">Positives</p>

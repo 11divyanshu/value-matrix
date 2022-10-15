@@ -11,26 +11,30 @@ Chart.register(
   Legend
 );
 
-const BarChart = () => {
+const StackedChart = () => {
   return (
     <div className="">
       <div>
         <Bar
           data={{
-            labels: ["Openness", "Conscientiousness", "Extraversion", "Agreeableness", "Neuroticism"],
+            labels: ["Mongo Db", "Java", "Redux", "Reat native", "Android", "IOS", "Design Patterns", "Data Structures " ],
             datasets: [
-              {
-                data: [60, 80, 40, 100, 60],
-                backgroundColor: [
-                  "#3FD2C7",
-                ],
-                borderColor: [
-                    "#3FD2C7",
-                ],
-                borderWidth: 1,
-                borderRadius: 7,
-              },
-            ],
+                {
+                  label: 'Abcdxxx Rating',
+                  data: [3, 2, 2.5, 4, 3.5, 2, 1.5, 4],
+                  backgroundColor: '#F04854',
+                },
+                {
+                  label: 'Minimun Required',
+                  data: [4.5, 3, 3.5, 2, 2.5, 3, 4, .5, 2],
+                  backgroundColor: '#00458B',
+                },
+                {
+                  label: 'Self Rating',
+                  data: [3.5, 1.5, 3, 4.5, 3, 2.5, 1.2, 2.5],
+                  backgroundColor: '#EDD050',
+                },
+              ],
           }}
           height={400}
           width={600}
@@ -58,4 +62,4 @@ const BarChart = () => {
   );
 };
 
-export default BarChart;
+export default StackedChart;

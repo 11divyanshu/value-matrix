@@ -1,34 +1,48 @@
 import React from "react";
 import { Bar, Pie, Radar } from "react-chartjs-2";
-import { Chart, ArcElement, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend } from "chart.js";
-Chart.register(
+import {
+  Chart,
   ArcElement,
   BarElement,
   CategoryScale,
   LinearScale,
-  Tooltip,
   Title,
+  Tooltip,
+  Legend,
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+} from "chart.js";
+Chart.register(
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
   Legend
 );
 
-const BarChart = () => {
+const RadarChart = () => {
   return (
     <div className="">
       <div>
-        <Bar
+        <Radar
           data={{
-            labels: ["Openness", "Conscientiousness", "Extraversion", "Agreeableness", "Neuroticism"],
+            labels: [
+              "Critical Thinking",
+              "Problem Solving",
+              "Attention to details",
+              "Numerical reasoning",
+              "Spatial reasoning",
+            ],
             datasets: [
               {
-                data: [60, 80, 40, 100, 60],
-                backgroundColor: [
-                  "#3FD2C7",
-                ],
-                borderColor: [
-                    "#3FD2C7",
-                ],
+                label: "Score",
+                data: [2, 9, 3, 5, 2, 3],
+                backgroundColor: "#3FD2C7",
+                borderColor: "#3FD2C7",
                 borderWidth: 1,
-                borderRadius: 7,
               },
             ],
           }}
@@ -58,4 +72,4 @@ const BarChart = () => {
   );
 };
 
-export default BarChart;
+export default RadarChart;
