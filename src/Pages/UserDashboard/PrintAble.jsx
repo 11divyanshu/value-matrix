@@ -3,6 +3,7 @@ import Logo from "../../assets/images/logo.png"
 import UserAvatar from "../../assets/images/loginBackground.jpeg"
 import { BsFillStarFill } from 'react-icons/bs'
 
+
 const printAble = () => {
   return (
     <div>
@@ -221,31 +222,31 @@ const printAble = () => {
           </div>
 
           <div className="my-4 px-5 vertical-align-middle" >
-            <div className='flex w-full'>
-              <div className='w-1/2 mx-5'>
+            <div className='lg:flex w-full'>
+              <div className='lg:w-1/2 mx-5'>
                 <p className="py-2 font-bold">Composure</p>
                 <p className="text-gray-400 py-3 text-sm bg-gray-100 px-2 rounded-lg">Calm to mild aggressive</p></div>
-              <div className='w-1/2 mx-5'>
+              <div className='lg:w-1/2 mx-5'>
                 <p className="py-2 font-bold">Emotions</p>
                 <p className="text-gray-400 py-3 text-sm bg-gray-100 px-2 rounded-lg">Tensed, Surprise and Happy</p></div>
             </div>
-            <div className='flex w-full'>
-              <div className='w-1/2 mx-5'>
+            <div className='lg:flex w-full'>
+              <div className='lg:w-1/2 mx-5'>
                 <p className="py-2 font-bold">Communications</p>
                 <p className="text-gray-400 py-3 text-sm bg-gray-100 px-2 rounded-lg">Very good</p>
               </div>
-              <div className='w-1/2 mx-5'>
+              <div className='lg:w-1/2 mx-5'>
                 <p className="py-2 font-bold">Global exposure
                 </p>
                 <p className="text-gray-400 py-3 text-sm bg-gray-100 px-2 rounded-lg">Yes</p>
               </div>
             </div>
-            <div className='flex w-full'>
-              <div className='w-1/2 mx-5'>
+            <div className='lg:flex w-full'>
+              <div className='lg:w-1/2 mx-5'>
                 <p className="py-2 font-bold">Mindset</p>
                 <p className="text-gray-400 py-3 text-sm bg-gray-100 px-2 rounded-lg">Open</p>
               </div>
-              <div className='w-1/2 mx-5'>
+              <div className='lg:w-1/2 mx-5'>
                 <p className="py-2 font-bold">Probability of deception</p>
                 <p className="text-gray-400 py-3 text-sm bg-gray-100 px-2 rounded-lg">5%</p>
               </div>

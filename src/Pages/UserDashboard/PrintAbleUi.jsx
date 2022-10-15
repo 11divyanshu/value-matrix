@@ -65,7 +65,7 @@ const PrintAbleUi = () => {
           </div>
 
 
-          <div className='mx-10 my-5'>
+          <div className='lg:mx-10 mx-2 my-5'>
             <div className="shadow-lg sm:w-full md:w-full lg:w-full pb-10 h-auto bg-white rounded-b-lg">
               <div className="text-xl py-5 text-white rounded-t-lg font-bold  flex"
                 style={{ backgroundColor: "rgb(3, 68, 136)" }}>
@@ -81,31 +81,31 @@ const PrintAbleUi = () => {
               </div>
 
               <div className="my-4 px-5 vertical-align-middle" >
-                <div className='flex w-full'>
-                  <div className='w-1/2 mx-5'>
+                <div className='lg:flex w-full'>
+                  <div className='lg:w-1/2 mx-5'>
                     <p className="py-2 font-bold">Composure</p>
                     <p className="text-gray-400 py-3 text-sm bg-gray-100 px-2 rounded-lg">Calm to mild aggressive</p></div>
-                  <div className='w-1/2 mx-5'>
+                  <div className='lg:w-1/2 mx-5'>
                     <p className="py-2 font-bold">Emotions</p>
                     <p className="text-gray-400 py-3 text-sm bg-gray-100 px-2 rounded-lg">Tensed, Surprise and Happy</p></div>
                 </div>
-                <div className='flex w-full'>
-                  <div className='w-1/2 mx-5'>
+                <div className='lg:flex w-full'>
+                  <div className='lg:w-1/2 mx-5'>
                     <p className="py-2 font-bold">Communications</p>
                     <p className="text-gray-400 py-3 text-sm bg-gray-100 px-2 rounded-lg">Very good</p>
                   </div>
-                  <div className='w-1/2 mx-5'>
+                  <div className='lg:w-1/2 mx-5'>
                     <p className="py-2 font-bold">Global exposure
                     </p>
                     <p className="text-gray-400 py-3 text-sm bg-gray-100 px-2 rounded-lg">Yes</p>
                   </div>
                 </div>
-                <div className='flex w-full'>
-                  <div className='w-1/2 mx-5'>
+                <div className='lg:flex w-full'>
+                  <div className='lg:w-1/2 mx-5'>
                     <p className="py-2 font-bold">Mindset</p>
                     <p className="text-gray-400 py-3 text-sm bg-gray-100 px-2 rounded-lg">Open</p>
                   </div>
-                  <div className='w-1/2 mx-5'>
+                  <div className='lg:w-1/2 mx-5'>
                     <p className="py-2 font-bold">Probability of deception</p>
                     <p className="text-gray-400 py-3 text-sm bg-gray-100 px-2 rounded-lg">5%</p>
                   </div>
@@ -130,7 +130,7 @@ const PrintAbleUi = () => {
           </div>
 
 
-          <div className='mx-10 my-5 '>
+          <div className='lg:mx-10 mx-2 my-5 '>
             <div className="shadow-lg sm:w-full md:w-full lg:w-full pb-10 h-auto bg-white rounded-b-lg">
               <div className="text-xl py-5 text-white rounded-t-lg font-bold  flex"
                 style={{ backgroundColor: "rgb(3, 68, 136)" }}>
@@ -154,7 +154,7 @@ const PrintAbleUi = () => {
           </div>
 
 
-          <div className='mx-10 mt-10 '>
+          <div className='lg:mx-10 mx-2 mt-10 '>
             <div className="text-xl py-5 rounded-t-lg text-white font-bold  flex"
               style={{ backgroundColor: "rgb(3, 68, 136)" }}>
               <p className="px-6 mx-2  text-xl">Cognitive Aptitude</p>
@@ -253,7 +253,7 @@ const PrintAbleUi = () => {
           </div>
 
 
-          <div className='mx-10 my-5 '>
+          <div className='lg:mx-10 mx-2 my-5 '>
             <div className="shadow-lg sm:w-full md:w-full lg:w-full pb-10 h-auto bg-white rounded-b-lg">
               <div className="text-xl py-5 text-white rounded-t-lg font-bold  flex"
                 style={{ backgroundColor: "rgb(3, 68, 136)" }}>
@@ -272,7 +272,7 @@ const PrintAbleUi = () => {
           </div>
 
 
-          <div className='mx-10 my-5 '>
+          <div className='lg:mx-10 mx-2 my-5 '>
             <div className="shadow-lg sm:w-full md:w-full lg:w-full pb-10 h-auto bg-white rounded-b-lg">
               <div className="text-xl py-5 text-white rounded-t-lg font-bold  flex"
                 style={{ backgroundColor: "rgb(3, 68, 136)" }}>
@@ -365,7 +365,7 @@ const PrintAbleUi = () => {
           </div>
 
 
-          <div className='mx-10 my-5 '>
+          <div className='lg:mx-10 mx-2 my-5 '>
             <div className="shadow-lg sm:w-full md:w-full lg:w-full pb-10 h-auto bg-white rounded-b-lg">
               <div className="text-xl py-5 text-white rounded-t-lg font-bold  flex"
                 style={{ backgroundColor: "rgb(3, 68, 136)" }}>
@@ -391,7 +391,7 @@ const PrintAbleUi = () => {
 
 
 
-        <div className='right lg:w-1/3 my-20 mx-10 lg:mx-0'>
+        <div className='right lg:w-1/3 my-20 mx-2 lg:mx-0'>
           <div className="shadow-lg sm:w-full md:w-full lg:w-full pb-10 h-fit my-3 bg-white ">
             <div className="text-xl py-5 rounded-t-lg text-white font-bold  flex"
               style={{ backgroundColor: "rgb(3, 68, 136)" }}>

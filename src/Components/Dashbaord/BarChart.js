@@ -20,6 +20,7 @@ const BarChart = () => {
             labels: ["Openness", "Conscientiousness", "Extraversion", "Agreeableness", "Neuroticism"],
             datasets: [
               {
+                label: "",
                 data: [60, 80, 40, 100, 60],
                 backgroundColor: [
                   "#3FD2C7",
@@ -35,6 +36,11 @@ const BarChart = () => {
           height={400}
           width={600}
           options={{
+            plugins: {
+              legend: {
+                display: false
+              }
+            },
             indexAxis: "y",
             maintainAspectRatio: false,
             scales: {

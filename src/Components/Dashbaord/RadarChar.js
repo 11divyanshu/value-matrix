@@ -39,9 +39,16 @@ const RadarChart = () => {
             datasets: [
               {
                 label: "Score",
-                data: [2, 9, 3, 5, 2, 3],
+                data: [4, 3, 7, 6, 5],
                 backgroundColor: "#3FD2C7",
                 borderColor: "#3FD2C7",
+                borderWidth: 1,
+              },
+              {
+                label: "required",
+                data: [5, 4, 10, 6, 5],
+                backgroundColor: "#00458B",
+                borderColor: "#00458B",
                 borderWidth: 1,
               },
             ],
@@ -55,7 +62,10 @@ const RadarChart = () => {
               xAxes: [
                 {
                   ticks: {
-                    beginAtZero: false,
+                    beginAtZero: true,
+                    steps: 1,
+                    stepValue: 5,
+                    max: 100
                   },
                 },
               ],
