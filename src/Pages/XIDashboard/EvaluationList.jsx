@@ -144,17 +144,17 @@ const JobList = () => {
                                   if (smsOTP == otp) {
 
                                     let res = await updateSlot(slotId._id, { status: "Accepted" });
-                                    let inter = [];
-                                    inter = interviewers;
-                                    inter.push(slotId.createdBy);
-                                    let update = await updateInterviewApplication(slotId.interviewId , inter);
+                                    // let inter = [];
+                                    // inter = interviewers;
+                                    // inter.push(slotId.createdBy);
+                                    // let update = await updateInterviewApplication(slotId.interviewId , inter);
                                     swal({
                                       title: "Job Accepted Successfully !",
                                       message: "Success",
                                       icon: "success",
                                       button: "Continue",
                                     }).then((result) => {
-                                      //  handleJobInvitation(invitation, true);
+                                       // handleJobInvitation(invitation, true);
                                       setotpModal(false);
                                       window.location.reload();
                                     });
@@ -234,7 +234,6 @@ const JobList = () => {
                                 style={{ background: "#3ED3C5" }}
                                 onClick={async () => {
                                   console.log(job)
-                                  // handleJobInvitation(job, true);
                                   setotpModal(true);
                                   let resend = await updateContactOTP({ contact: user.contact }, { access_token: user.access_token })
                                   console.log(resend.otp)

@@ -154,12 +154,12 @@ const UpdateInterviewApplication = React.forwardRef(({ ...props }, ref) => {
             <AiOutlinePrinter />
           </button>
         </div>
-        {print && <div className="mx-auto" >
+        { <div className="hidden" >
           <div ref={componentRef}>
           <Printable />
           </div>
         </div>}
-        {!loading && !print && (
+        {!loading && (
           <div>
             {interview && (
               <p className="my-2 text-sm">

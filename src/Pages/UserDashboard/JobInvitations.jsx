@@ -82,8 +82,10 @@ const JobInvitations = () => {
   const handleJobInvitation = async (job, accept) => {
     try {
       let user = JSON.parse(await localStorage.getItem("user"));
+      let interviewer = [];
+      interviewer.push(slotId.createdBy);
       let res = await handleCandidateJobInvitation(
-        { job_id: job._id, user_id: user._id, accept: accept },
+        { job_id: job._id, user_id: user._id, accept: accept , interviewers : interviewer },
         user.access_token
       );
       if (res && res.status === 200) {
@@ -195,14 +197,12 @@ const JobInvitations = () => {
 
                             if (smsOTP == otp) {
                               console.log(user._id)
-                              let res = await updateSlot(slotId._id, { userId: user._id, status: "Pending" });
+                              let res = await updateSlot(slotId._id, { userId: user._id, status: "Pending" , jobId: invitation._id});
 
-                              // handleJobInvitation(invitation, true);
+                               handleJobInvitation(invitation, true);
                               if (res.status == 200) {
                                 console.log(invitation);
 
-                                let interviewers = [];
-                                let updateInterview = updateInterviewApplication(slot.interviewId, { interviewers: interviewers });
 
                                 swal({
                                   title: "Job Accepted Successfully !",
@@ -463,7 +463,7 @@ const JobInvitations = () => {
                           <button
                             style={{ background: "#3ED3C5" }}
                             onClick={() => {
-                              // handleJobInvitation(job, true);
+                              //handleJobInvitation(job, true);
                               setInvitation(job)
                               setchooseSlot(true);
                             }}
