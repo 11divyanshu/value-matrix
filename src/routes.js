@@ -494,7 +494,7 @@ export const XIDashboardRoutes = [
   {
     name: "Evaluated Reports",
     path: "/evaluatedlist",
-    hide: false,
+    hide: true,
     icon: <MdOutlineWorkOutline className="text-xl" />,
     component: <XIEvaluatedList />,
     permission: "default",
