@@ -2,6 +2,9 @@ import React from 'react'
 import Logo from "../../assets/images/logo.png"
 import UserAvatar from "../../assets/images/loginBackground.jpeg"
 import { BsFillStarFill } from 'react-icons/bs'
+import BarChart from '../../Components/Dashbaord/BarChart';
+import RadarChart from '../../Components/Dashbaord/RadarChar';
+import StackedChart from '../../Components/Dashbaord/StackedChart';
 
 
 const printAble = () => {
@@ -9,29 +12,50 @@ const printAble = () => {
     <div>
       <div className="mx-auto mt-2 ">
         <div className='mx-16 my-10'><img src={Logo} alt="" className='h-20' /></div>
-        <div className="grid grid-cols-1 gap-2 mx-5 mb-6 lg:grid-cols-4 align-items-center rounded-lg">
-          <div className="lg:w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{ background: "#9BDDFB" }}>
+        <div className=" mx-10 lg:flex gap-2 mt-2 ">
+          <div className="lg:w-1/3 w-full rounded-lg my-2">
+            <div className="bg-white rounded-lg shadow h-32 py-5" style={{ background: "#9BDDFB" }}>
+              <div className=" text-sm mx-2 font-semibold text-gray-900 my-2">
+                <div className=''>
+                  <p className='text-xs'>Candidate Job Specific</p>
+                  <p className='text-xs'>Success Recommendation</p>
+                </div>
+                <div className=''>
 
-            <div className=" text-md font-semibold text-gray-900">
-              Job Active - 120
+                </div>
+              </div>
             </div>
           </div>
-          <div className="lg:w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{ background: "#9BDDFB" }}>
-
-            <div className=" text-md font-semibold text-gray-900">
-              Interview Schedule - 20
+          <div className="lg:w-1/3 w-full rounded-lg my-2">
+            <div className="bg-white rounded-lg shadow h-32 py-5" style={{ background: "#9BDDFB" }}>
+              <p className='text-xs font-semibold mx-2'>Candidate Details</p>
+              <div className=" text-sm mx-2 my-3 flex justify-between">
+                <div className=''>
+                  <p className='text-xs my-2'>Company:</p>
+                  <p className='text-xs my-2'>Candidate:</p>
+                </div>
+                <div className=''>
+                  <p className='text-xs my-2'>Microsoft</p>
+                  <p className='text-xs my-2'>Peter</p>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="lg:w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{ background: "#9BDDFB" }}>
-
-            <div className=" text-md font-semibold text-gray-900">
-              Candidate Uploaded - 18
-            </div>
-          </div>
-          <div className="lg:w-5/6 px-4 mx-5 py-2 text-center bg-white rounded-lg shadow" style={{ background: "#9BDDFB" }}>
-
-            <div className=" text-md font-semibold text-gray-900">
-              Reschedule Interviews - 09
+          <div className="lg:w-1/3 w-full rounded-lg my-2">
+            <div className="bg-white rounded-lg shadow h-32 py-5" style={{ background: "#9BDDFB" }}>
+              <p className='text-xs font-semibold mx-2'>Interview Details</p>
+              <div className=" text-sm mx-2 text-gray-500 flex justify-between ">
+                <div className=''>
+                  <p className='text-xs my-1'>Position:</p>
+                  <p className='text-xs my-1'>Round:</p>
+                  <p className='text-xs my-1'>Interview Date:</p>
+                </div>
+                <div className=''>
+                  <p className='text-xs my-1'>SSE 1</p>
+                  <p className='text-xs my-1'>Live Coding (90 Mins)</p>
+                  <p className='text-xs my-1'>20-07-2022 | 09:00 am</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -39,27 +63,27 @@ const printAble = () => {
 
       <div className="lg:flex md:flex mt-10 mx-10">
 
-        <div className="shadow-lg sm:w-full md:w-full lg:w-1/2 pb-10 h-auto  bg-white ">
+        <div className="shadow-lg sm:w-full md:w-full lg:w-full h-auto bg-white ">
           <div className="text-xl py-5 rounded-tl-lg text-white font-bold  flex"
             style={{ backgroundColor: "rgb(3, 68, 136)" }}>
-            <p className="px-6 mx-2  text-xl">Heimdall Anti Deception Engine</p>
+            <p className="px-6 text-xl">Heimdall Anti Deception Engine</p>
           </div>
           <div className="flex my-4 px-5 vertical-align-middle" >
             <div className='flex w-full justify-between'>
               <p className="font-md font-bold">Device</p>
-              <p className="text-gray-400 text-sm">Lenovo Laptop</p>
+              <p className="text-gray-400 text-sm text-right ml-8">Lenovo Laptop</p>
             </div>
           </div>
           <div className="flex my-4 px-5 vertical-align-middle" >
             <div className='flex w-full justify-between'>
               <p className="font-md font-bold">Location</p>
-              <p className="text-gray-400 text-sm">Raritan, New Jersey, USA</p>
+              <p className="text-gray-400 text-sm text-right ml-8">Raritan, New Jersey, USA</p>
             </div>
           </div>
           <div className="flex my-4 px-5 vertical-align-middle" >
             <div className='flex w-full justify-between'>
               <p className="font-md font-bold">Face Detection</p>
-              <p className="text-gray-400 text-sm">Detected Individual identified as Peter
+              <p className="text-gray-400 text-sm text-right ml-8">Detected Individual identified as Peter
 
                 (verified & matched with Profile and LinkedIn picture) </p>
             </div>
@@ -67,7 +91,7 @@ const printAble = () => {
           <div className="flex my-4 px-5 vertical-align-middle" >
             <div className='flex w-full justify-between'>
               <p className="font-md font-bold">Gaze Tracking</p>
-              <p className="text-gray-400 text-sm">On
+              <p className="text-gray-400 text-sm text-right ml-8">On
 
                 Candidate was always looking at the screen or camera</p>
             </div>
@@ -75,13 +99,13 @@ const printAble = () => {
           <div className="flex my-4 px-5 vertical-align-middle" >
             <div className='flex w-full justify-between'>
               <p className="font-md font-bold">Earpiece Detection</p>
-              <p className="text-gray-400 text-sm">Not Detectedr</p>
+              <p className="text-gray-400 text-sm text-right ml-8">Not Detectedr</p>
             </div>
           </div>
           <div className="flex my-4 px-5 vertical-align-middle" >
             <div className='flex w-full justify-between'>
               <p className="font-md font-bold">Eye Blink Rate</p>
-              <p className="text-gray-400 text-sm">Normal</p>
+              <p className="text-gray-400 text-sm text-right ml-8">Normal</p>
             </div>
           </div>
 
@@ -89,36 +113,36 @@ const printAble = () => {
 
         <div className='w-1 bg-gray-200'></div>
 
-        <div className="shadow-lg sm:w-full md:w-full lg:w-1/2 pb-10 h-auto  bg-white ">
+        <div className="shadow-lg sm:w-full md:w-full lg:w-full h-auto  bg-white ">
           <div className="text-xl py-5 rounded-tr-lg text-white font-bold  flex"
             style={{ backgroundColor: "rgb(3, 68, 136)" }}>
             <p className="px-6 mx-2  text-xl">Candidate Other Exposures</p>
           </div>
-          <div className="flex my-4 px-5 vertical-align-middle" >
-            <div className='flex w-full justify-between'> <p className="py-2 font-bold font-md">Look alike Detection</p>
+          <div className="flex mt-4 px-5 vertical-align-middle" >
+            <div className='flex w-full justify-between'> <p className="font-bold font-md">Look alike Detection</p>
               <p className="text-gray-400 text-sm">On</p>
             </div>
           </div>
 
-          <div className="flex my-4 px-5 vertical-align-middle" >
-            <div className='flex w-full justify-between'> <p className="py-2 font-bold font-md">Hint Control </p>
+          <div className="flex mt-4 px-5 vertical-align-middle" >
+            <div className='flex w-full justify-between'> <p className="font-bold font-md">Hint Control </p>
               <p className="text-gray-400 text-sm">On</p>
             </div>
           </div>
 
 
-          <div className="flex my-4 px-5 vertical-align-middle" >
-            <div className='flex w-full justify-between'> <p className="py-2 font-bold font-md">DE&I</p>
+          <div className="flex mt-4 px-5 vertical-align-middle" >
+            <div className='flex w-full justify-between'> <p className="font-bold font-md">DE&I</p>
+              <p className="text-gray-400 text-sm">On</p>
+            </div>
+          </div>
+          <div className="flex mt-4 px-5 vertical-align-middle" >
+            <div className='flex w-full justify-between'> <p className="font-bold font-md">XI & Candidate Collision Detection</p>
               <p className="text-gray-400 text-sm">On</p>
             </div>
           </div>
           <div className="flex my-4 px-5 vertical-align-middle" >
-            <div className='flex w-full justify-between'> <p className="py-2 font-bold font-md">XI & Candidate Collision Detection</p>
-              <p className="text-gray-400 text-sm">On</p>
-            </div>
-          </div>
-          <div className="flex my-4 px-5 vertical-align-middle" >
-            <div className='flex w-full justify-between'> <p className="py-2 font-bold font-md">Candidate Peer Collision Detection</p>
+            <div className='flex w-full justify-between'> <p className="font-bold font-md">Candidate Peer Collision Detection</p>
               <p className="text-gray-400 text-sm">On</p>
             </div>
           </div>
@@ -284,6 +308,9 @@ const printAble = () => {
                 Agreeableness, and Neuroticism (OCEAN).</p>
             </div>
             <div>
+              <BarChart />
+            </div>
+            <div>
               <p className="text-gray-500 text-lg">The OCEAN score suggests that Mr. Peter is curious and a creative person interested in learning and trying new things and excited by
                 challenge. Mr. Glaxon is goal oriented, shows attention to details and have a strong work ethic. </p>
             </div>
@@ -387,25 +414,8 @@ const printAble = () => {
           <div className='w-1 bg-gray-200'></div>
           <div className="shadow-lg sm:w-full md:w-full lg:w-1/2 pb-10 h-auto  bg-white ">
 
-            <div className="flex my-4 px-5 vertical-align-middle" >
-              <div> <p className="py-2 font-md">Rahul Pandey</p>
-                <p className="text-gray-400 text-sm">Web Developer , UI/UX Designer</p>
-              </div>
-            </div>
-
-            <div className="flex my-4 px-5 vertical-align-middle" >
-              <div> <p className="py-2 font-md">Rahul Pandey</p>
-                <p className="text-gray-400 text-sm">Web Developer , UI/UX Designer</p>
-              </div>
-            </div>
-
-
-            <div className="flex my-4 px-5 vertical-align-middle" >
-              <div> <p className="py-2 font-md">Rahul Pandey</p>
-                <p className="text-gray-400 text-sm">Web Developer , UI/UX Designer</p>
-              </div>
-            </div>
-          </div>
+<RadarChart />
+</div>
         </div>
       </div>
       {/* ------------------ */}
@@ -433,6 +443,9 @@ const printAble = () => {
             style={{ backgroundColor: "rgb(3, 68, 136)" }}>
             <p className="px-6 mx-2  text-xl">Interviewers Score & Notes</p>
           </div>
+          <div>
+                <StackedChart />
+              </div>
           <div className='w-full'>
             <p className="py-2 mx-5 font-bold">Positives</p>
             <div className="text-gray-400 py-3 text-sm px-5 mx-5 bg-gray-100 rounded-lg my-4 vertical-align-middle">

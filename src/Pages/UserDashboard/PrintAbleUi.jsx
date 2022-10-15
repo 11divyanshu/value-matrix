@@ -18,16 +18,16 @@ const PrintAbleUi = () => {
   return (
 
     <div>
-          <div
-            className="flex mx-5 mt-3"
-            style={{ justifyContent: "space-between" }}
-          >
-            <p className="text-sm flex my-5 mx-5 font-semibold">
-              Hey
-              <p className="text-gray-400 px-2"> here's what's happening today!</p>
-            </p>
+      <div
+        className="flex mx-5 mt-3"
+        style={{ justifyContent: "space-between" }}
+      >
+        <p className="text-sm flex my-5 mx-5 font-semibold">
+          Hey
+          <p className="text-gray-400 px-2"> here's what's happening today!</p>
+        </p>
 
-          </div>
+      </div>
       <div className='lg:flex mx-5'>
 
 
@@ -63,8 +63,8 @@ const PrintAbleUi = () => {
             </div>
             <div className="lg:w-1/3 w-full rounded-lg my-2">
               <div className="bg-white rounded-lg shadow h-32 py-5" style={{ background: "#9BDDFB" }}>
-              <p className='text-xs font-semibold mx-2'>Interview Details</p>
-              <div className=" text-sm mx-2 text-gray-500 flex justify-between ">
+                <p className='text-xs font-semibold mx-2'>Interview Details</p>
+                <div className=" text-sm mx-2 text-gray-500 flex justify-between ">
                   <div className=''>
                     <p className='text-xs my-1'>Position:</p>
                     <p className='text-xs my-1'>Round:</p>
