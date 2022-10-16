@@ -18,9 +18,9 @@ import {
   AiOutlineFolderAdd,
 
 } from "react-icons/ai";
+import { Link } from "react-router-dom";
 import React from "react";
 import "../../assets/stylesheet/sidebar.scss";
-import { Link } from "react-router-dom";
 import { getUserFromId } from "../../service/api";
 import { ImHome } from "react-icons/im";
 import { FiSettings } from "react-icons/fi";

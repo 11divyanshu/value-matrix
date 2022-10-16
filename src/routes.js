@@ -383,7 +383,7 @@ export const companyDashboardRoutes = [
     name: "Add Job",
     path: "/jobsAdd",
     icon: <AiOutlineUserAdd className="text-xl" />,
-    hide: false,
+    hide: true,
     component: <AddJob />,
     permission: "add_jobs",
   },

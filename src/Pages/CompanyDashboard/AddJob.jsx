@@ -1,4 +1,6 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
+import { CSVLink } from "react-csv";
+
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import { postJobAPI, sendJobInvitations, eligibleCandidateList } from "../../service/api";
 import swal from "sweetalert";
@@ -31,7 +33,20 @@ const AddJob = () => {
     "Data Masking",
     "Remunerations And Pay Range",
   ];
+  const headerso = [
+    { label: "FirstName", key: "firstname" },
+    { label: "LastName", key: "lastname" },
+    { label: "Email", key: "email" },
+    { label: "Contact", key: "contact" },
+    { label: "Address", key: "address" },
 
+  ];
+
+  const csvReport = {
+    filename: "template.csv",
+    headers: headerso,
+    data: [],
+  };
   // Job Post Alert
   const [Alert, setAlert] = React.useState(null);
 
@@ -132,13 +147,87 @@ const AddJob = () => {
 
   const [showEligible, setShowEligible] = React.useState(null);
   const [eligibleCanList, setEligibleCanList] = React.useState([]);
+  // Eligible Candidate List
+  // User is currently on this page
+  const [List, setList] = React.useState([]);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  // No of Records to be displayed on each page   
+  const [recordsPerPage] = useState(10);
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const currentRecords = candidateData.slice(indexOfFirstRecord,
+    indexOfLastRecord);
+  const nPages = Math.ceil(candidateData.length / recordsPerPage)
+  const pageNumbers = [...Array(nPages + 1).keys()].slice(1)
+
+  const nextPage = () => {
+    if (currentPage !== nPages)
+      setCurrentPage(currentPage + 1)
+  }
+  const prevPage = () => {
+    if (currentPage !== 1)
+      setCurrentPage(currentPage - 1)
+  }
+
+
+  const [MasterChecked, setMasterChecked] = React.useState(false);
+  const [SelectedList, setSelectedList] = React.useState([]);
+  const onMasterCheck = (e) => {
+    let tempList = List;
+    // Check/ UnCheck All Items
+    tempList.map((user) => (user.selected = e.target.checked));
+
+    //Update State
+    setMasterChecked(e.target.checked);
+    setList(tempList);
+    setSelectedList(List.filter((e) => e.selected));
+
+  }
+
+
+  const onItemCheck = (e, item) => {
+    let tempList = List;
+    tempList.map((user) => {
+      if (user.id === item.id) {
+        user.selected = e.target.checked;
+      }
+      return user;
+    });
+
+    //To Control Master Checkbox State
+    const totalItems = List.length;
+    const totalCheckedItems = tempList.filter((e) => e.selected).length;
+
+    // Update State
+    setMasterChecked(totalItems === totalCheckedItems);
+    setList(tempList);
+    setSelectedList(List.filter((e) => e.selected));
+
+  }
+  const getSelectedRows = () => {
+
+    setSelectedList(List.filter((e) => e.selected));
+
+  }
   const getEligibleCandidate = async (eligibleSkills) => {
     console.log(eligibleSkills);
     var eligibleCan = await eligibleCandidateList(eligibleSkills);
     console.log(eligibleCan);
     setEligibleCanList(eligibleCan.data)
 
+    // const newList  = eligibleCan.data.map((item , index)=>{ 
+    //  return ( 
+    //   item.selected = false,
+    //   item.id = index)
+    // })
+    eligibleCan.data.forEach((ele, index) => {
+      eligibleCan.data[index].selected = false;
+      eligibleCan.data[index].id = index;
+
+    })
+    setList(eligibleCan.data)
+    console.log(eligibleCan.data);
     setShowEligible(true);
   }
 
@@ -497,54 +586,54 @@ const AddJob = () => {
   return (
     <div className=" bg-slate-100 m-auto w-fit">
       <nav className="container pt-5 flex mb-3 px-5 w-auto">
-          <div className="w-full">
-            <div className="flex">
+        <div className="w-full">
+          <div className="flex">
             <div className="w-1/6 mt-2"></div>
-              <div className="w-5 flex justify-center border-2 rounded-full"><p className="text-xs">1</p></div>
-              <div className="border-t-2 w-full mt-2"></div>
-            </div>
-            <p className=" lg:text-xs md:text-xs sm:text-xs text-[8px]">Job Details</p>
+            <div className="w-5 flex justify-center border-2 rounded-full"><p className="text-xs">1</p></div>
+            <div className="border-t-2 w-full mt-2"></div>
           </div>
-          <div className="w-full">
-            <div className="flex">
+          <p className=" lg:text-xs md:text-xs sm:text-xs text-[8px]">Job Details</p>
+        </div>
+        <div className="w-full">
+          <div className="flex">
             <div className="border-t-2 w-1/12 mt-2"></div>
-              <div className="w-5 flex justify-center border-2 rounded-full"><p className="text-xs">2</p></div>
-              <div className="border-t-2 w-full mt-2"></div>
-            </div>
-            <p className=" lg:text-xs md:text-xs sm:text-xs text-[8px]">Eligiblity</p>
+            <div className="w-5 flex justify-center border-2 rounded-full"><p className="text-xs">2</p></div>
+            <div className="border-t-2 w-full mt-2"></div>
           </div>
-          <div className="w-full">
-            <div className="flex">
+          <p className=" lg:text-xs md:text-xs sm:text-xs text-[8px]">Eligiblity</p>
+        </div>
+        <div className="w-full">
+          <div className="flex">
             <div className="border-t-2 w-1/6 mt-2"></div>
-              <div className="w-5 flex justify-center border-2 rounded-full"><p className="text-xs">3</p></div>
-              <div className="border-t-2 w-full mt-2"></div>
-            </div>
-            <p className=" lg:text-xs md:text-xs sm:text-xs text-[8px]">Job Invitation</p>
+            <div className="w-5 flex justify-center border-2 rounded-full"><p className="text-xs">3</p></div>
+            <div className="border-t-2 w-full mt-2"></div>
           </div>
-          <div className="w-full">
-            <div className="flex">
+          <p className=" lg:text-xs md:text-xs sm:text-xs text-[8px]">Job Invitation</p>
+        </div>
+        <div className="w-full">
+          <div className="flex">
             <div className="border-t-2 w-1/6 mt-2"></div>
-              <div className="w-5 flex justify-center border-2 rounded-full"><p className="text-xs">4</p></div>
-              <div className="border-t-2 w-full mt-2"></div>
-            </div>
-            <p className=" lg:text-xs md:text-xs sm:text-xs text-[8px]">Screening Question</p>
+            <div className="w-5 flex justify-center border-2 rounded-full"><p className="text-xs">4</p></div>
+            <div className="border-t-2 w-full mt-2"></div>
           </div>
-          <div className="w-full">
-            <div className="flex">
+          <p className=" lg:text-xs md:text-xs sm:text-xs text-[8px]">Screening Question</p>
+        </div>
+        <div className="w-full">
+          <div className="flex">
             <div className="border-t-2 w-1/6 mt-2"></div>
-              <div className="w-5 flex justify-center border-2 rounded-full"><p className="text-xs">5</p></div>
-              <div className="border-t-2 w-full mt-2"></div>
-            </div>
-            <p className=" lg:text-xs md:text-xs sm:text-xs text-[8px]">Data Masking</p>
+            <div className="w-5 flex justify-center border-2 rounded-full"><p className="text-xs">5</p></div>
+            <div className="border-t-2 w-full mt-2"></div>
           </div>
-          <div className="w-full">
-            <div className="flex">
+          <p className=" lg:text-xs md:text-xs sm:text-xs text-[8px]">Data Masking</p>
+        </div>
+        <div className="w-full">
+          <div className="flex">
             <div className="border-t-2 w-1/6 mt-2"></div>
-              <div className="w-5 flex justify-center border-2 rounded-full"><p className="text-xs">6</p></div>
-            </div>
-            <p className=" lg:text-xs md:text-xs sm:text-xs text-[8px]">Remuneration & PayRange</p>
+            <div className="w-5 flex justify-center border-2 rounded-full"><p className="text-xs">6</p></div>
           </div>
-        </nav>
+          <p className=" lg:text-xs md:text-xs sm:text-xs text-[8px]">Remuneration & PayRange</p>
+        </div>
+      </nav>
       <p className="font-semibold mx-5 lg:px-7">
         {PageIndex} of 6 : {PageDetails[PageIndex - 1]}
       </p>
@@ -1340,14 +1429,14 @@ const AddJob = () => {
                 <div className="mx-10 w-fit">
                   <div className="my-3 w-full text-left md:text-left sm:text-center md:w-full">
                     <p className="font-semibold">Add Candidate Details Sheet</p>
-                    <p className="text-sm mt-3 mb-1 break-words">
-                      ( Headers Conventions: FirstName, LastName, Email,
-                      Contact, Address)
+                    <p className="text-sm mt-3 mb-1 break-words flex">
+                      Download Sample Template <CSVLink {...csvReport}>
+                        <p className="text-blue-600 mx-1">Here</p>                      </CSVLink>
                     </p>
-                    <p className="text-sm break-words">
+                    {/* <p className="text-sm break-words">
                       (Data must contain candidate's Email Address and Contact
                       Number)
-                    </p>
+                    </p> */}
                   </div>
                   <div className="flex space-x-10 my-3">
                     <button
@@ -1356,7 +1445,7 @@ const AddJob = () => {
                         setShowCandidateForm(true);
                       }}
                     >
-                      Add User
+                      Add Candidate
                     </button>
                     {showEligible && (<button
                       className="bg-[#034488] text-white rounded-sm px-4 py-1"
@@ -1364,7 +1453,7 @@ const AddJob = () => {
                         setEligibleButton(true);
                       }}
                     >
-                      Show Eligible Candidates
+                      Show Existing Candidates
                     </button>)}
 
 
@@ -1408,14 +1497,16 @@ const AddJob = () => {
                 {eligibleButton && eligibleCanList.length > 0 && (
                   <div className="my-4">
                     <table className="w-3/4">
-                      <h1>hello</h1>
                       <thead className="bg-white border-b text-left">
                         <tr>
-                          <th
-                            scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          >
-                            #
+                          <th scope="col">
+                            <input
+                              type="checkbox"
+                              className="form-check-input"
+                              checked={MasterChecked}
+                              id="mastercheck"
+                              onChange={(e) => onMasterCheck(e)}
+                            />
                           </th>
                           <th
                             scope="col"
@@ -1445,14 +1536,21 @@ const AddJob = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {eligibleCanList.map((user, index) => {
+
+                        {List.length > 0 && List.map((user, index) => {
                           return (
-                            <tr
+                            <tr key={user.id}
                               className={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                                } border-b`}
+                                } border-b ${user && user.selected ? "selected" : ""}`}
                             >
-                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
-                                {index + 1}
+                              <td scope="row">
+                                <input
+                                  type="checkbox"
+                                  checked={user && user.selected ? user.selected : false}
+                                  className="form-check-input"
+                                  id="rowcheck{user.id}"
+                                  onChange={(e) => onItemCheck(e, user)}
+                                />
                               </td>
                               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                 {user.firstName}
@@ -1489,218 +1587,344 @@ const AddJob = () => {
                         })}
 
 
+                       
                       </tbody>
-                    </table>
-                    <div className="flex my-2 ">
-                      <button
-                        className="bg-[#034488] text-white rounded-sm px-4 py-1 mx-2"
-                        onClick={() => {
-                          let d = selectedData;
-                          let r = rejectedData;
+      </table>
+      <div className="flex my-2 ">
+        <button
+          className="bg-[#034488] text-white rounded-sm px-4 py-1 mx-2"
+          onClick={() => {
+            let d = selectedData;
+            let r = rejectedData;
 
-                          console.log(eligibleCanList);
-                          if (eligibleCanList) {
-                            eligibleCanList.map((item) => {
-                              let ac = d.find(x => x.Email === item.email);
+            console.log(SelectedList);
+            if (SelectedList) {
+              SelectedList.map((item) => {
+                let ac = d.find(x => x.Email === item.email);
 
-                              if (ac) {
-                                r.push({
-                                  FirstName: ac.FirstName ? ac.FirstName : "",
-                                  LastName: ac.LastName ? ac.LastName : "",
-                                  Email: ac.Email ? ac.Email : "",
-                                  Contact: ac.Contact ? ac.Contact : "",
-                                  Reason: "Email Already Exist",
-                                });
-                              } else {
-                                d.push({
-                                  FirstName: item.firstName ? item.firstName : "",
-                                  LastName: item.lastName ? item.lastName : "",
-                                  Email: item.email ? item.email : "",
-                                  Contact: item.phoneNo ? item.phoneNo : "",
-                                });;
-                              }
-                              console.log(ac)
-                            })
-                            setRejectedData(r);
-                            setSelectedData(d);
-                            setCandidateData(d);
-                            setShowRejected(true);
-                            setShowCandidate(true);
-                            setEligibleButton(false);
-                          }
-                          //else{
+                if (ac) {
+                  r.push({
+                    FirstName: ac.FirstName ? ac.FirstName : "",
+                    LastName: ac.LastName ? ac.LastName : "",
+                    Email: ac.Email ? ac.Email : "",
+                    Contact: ac.Contact ? ac.Contact : "",
+                    Reason: "Email Already Exist",
+                  });
+                } else {
+                  d.push({
+                    FirstName: item.firstName ? item.firstName : "",
+                    LastName: item.lastName ? item.lastName : "",
+                    Email: item.email ? item.email : "",
+                    Contact: item.phoneNo ? item.phoneNo : "",
+                  });;
+                }
+                console.log(ac)
+              })
+              setRejectedData(r);
+              setSelectedData(d);
+              setCandidateData(d);
+              setShowRejected(true);
+              setShowCandidate(true);
+              setEligibleButton(false);
+            }
+            //else{
 
-                          //   selectedData = eligibleCanList
-                          // }
-                          // setShowCandidateForm(true);
-                        }}
-                      >
-                        Add Candidates
-                      </button>
-                      <button
-                        className="bg-[#034488] text-white rounded-sm px-4 py-1 mx-2"
-                        onClick={() => {
-                          setEligibleCanList(false);
-                        }}
-                      >
-                        Cancel
-                      </button>
+            //   selectedData = eligibleCanList
+            // }
+            // setShowCandidateForm(true);
+          }}
+        >
+          Add Candidates
+        </button>
+        <button
+          className="bg-[#034488] text-white rounded-sm px-4 py-1 mx-2"
+          onClick={() => {
+            setEligibleCanList(false);
+          }}
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  )
+}
+{
+  showCandidateForm && (
+    <div className="my-4 w-full p-3 bg-slate-100 px-8">
+      <Formik
+        initialValues={candidateInitial}
+        validate={(values) => {
+          const errors = {};
+          let d = selectedData;
+
+          const res = d.findIndex((el) => {
+            return el.Email === values.Email;
+          });
+          const res2 = d.findIndex((el) => {
+            return el.Contact == values.Contact;
+          });
+          if (
+            !values.Email ||
+            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
+              values.Email.trim()
+            )
+          ) {
+            errors.Email = "Invalid Email";
+          } else if (res !== -1) {
+            errors.Email = "Email already exists";
+          }
+          if (
+            !values.Contact ||
+            !/^[0-9]{10}$/i.test(values.Contact)
+          ) {
+            errors.Contact = "Invalid Contact";
+          } else if (res2 !== -1) {
+            errors.Contact = "Contact already exists";
+          }
+          return errors;
+        }}
+        onSubmit={async (values) => {
+          let d = selectedData;
+          let r = rejectedData;
+
+          if (editIndex !== null) r.splice(editIndex, 1);
+          setEditIndex(null);
+          d.push(values);
+          console.log(d)
+          await setSelectedData(d);
+          await setCandidateData(d);
+          await setRejectedData(r);
+          await setShowCandidate(true);
+          await setShowCandidateForm(false);
+        }}
+      >
+        {({ values }) => {
+          return (
+            <Form>
+              <p className="text-left font-semibold py-2">
+                Add Candidate
+              </p>
+              <div className="flex my-3 flex-wrap text-left">
+                <div className="w-1/2">
+                  <label>First Name</label>
+                  <Field
+                    name="FirstName"
+                    type="text"
+                    className="text-600 rounded-sm block px-4 py-1"
+                    style={{ borderRadius: "5px" }}
+                  />
+                  <ErrorMessage
+                    name="FirstName"
+                    component="div"
+                  />
+                </div>
+                <div className="w-1/2">
+                  <label>Last Name</label>
+                  <Field
+                    name="LastName"
+                    type="text"
+                    className="text-600 rounded-sm block px-4 py-1"
+                    style={{ borderRadius: "5px" }}
+                  />
+                  <ErrorMessage
+                    name="LastName"
+                    component="div"
+                  />
+                </div>
+              </div>
+              <div className="flex my-3 flex-wrap text-left">
+                <div className="w-1/2">
+                  <label>Email</label>
+                  <Field
+                    name="Email"
+                    type="text"
+                    className="text-600 rounded-sm block px-4 py-1"
+                    style={{ borderRadius: "5px" }}
+                  />
+                  <ErrorMessage
+                    name="Email"
+                    component="div"
+                    className="text-sm text-red-500"
+                  />
+                </div>
+                <div className="w-1/2">
+                  <label>Contact</label>
+                  <Field
+                    name="Contact"
+                    type="text"
+                    className="text-600 rounded-sm block px-4 py-1"
+                    style={{ borderRadius: "5px" }}
+                  />
+                  <ErrorMessage
+                    name="Contact"
+                    component="div"
+                    className="text-sm text-red-500"
+                  />
+                </div>
+              </div>
+              <div className="my-3 text-left pr-10">
+                <label>Address</label>
+                <Field
+                  name="Address"
+                  type="text"
+                  className="text-600 rounded-sm block w-full px-4 py-1"
+                  style={{ borderRadius: "5px" }}
+                />
+              </div>
+              <div>
+                <button
+                  className="bg-[#034488] text-white rounded-sm py-1 my-2 px-4"
+                  type="submit"
+                  style={{ backgroundColor: "#034488" }}
+                >
+                  Add
+                </button>
+                <button
+                  className="bg-[#034488] text-white rounded-sm px-4 py-1 my-2 mx-4"
+                  onClick={() => {
+                    setCandidateInitial({
+                      FirstName: "",
+                      LastName: "",
+                      Email: "",
+                      Contact: "",
+                      Address: "",
+                    });
+                    setShowCandidateForm(false);
+                    setEditIndex(null);
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </Form>
+          );
+        }}
+      </Formik>
+    </div>
+  )
+}
+
+                <div className="my-9 lg:w-3/4">
+                  {showCandidate && candidateData.length > 0 && (
+                    <div className="my-4">
+                      <table className="w-full">
+                        <thead className="bg-white border-b text-left">
+                          <tr>
+                            <th
+                              scope="col"
+                              className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            >
+                              #
+                            </th>
+                            <th
+                              scope="col"
+                              className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            >
+                              First Name
+                            </th>
+                            <th
+                              scope="col"
+                              className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            >
+                              Last Name
+                            </th>
+                            <th
+                              scope="col"
+                              className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            >
+                              Email
+                            </th>
+                            <th
+                              scope="col"
+                              className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            >
+                              Contact
+                            </th>
+                            <th
+                              scope="col"
+                              className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            >
+                              Address
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {candidateData.map((user, index) => {
+                            return (
+                              <tr
+                                className={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                                  } border-b`}
+                              >
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
+                                  {index + 1}
+                                </td>
+                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                  {user.FirstName}
+                                </td>
+                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                  {user.LastName}
+                                </td>
+                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                  {user.Email}
+                                </td>
+                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                  {user.Contact}
+                                </td>
+                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                  {user.Address}
+                                </td>
+                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                  <AiOutlineDelete
+                                    className="text-sm  text-red-500 cursor-pointer"
+                                    onClick={() => {
+                                      setCandidateData(
+                                        candidateData.filter(
+                                          (item) => item.Email !== user.Email
+                                        )
+                                      );
+                                      setSelectedData(
+                                        selectedData.filter(
+                                          (item) => item.Email !== user.Email
+                                        )
+                                      );
+                                    }}
+                                  />
+                                </td>
+                              </tr>
+                            );
+                          })}
+                          { candidateData.length > 0 && <div className="w-full my-3 mx-auto px-3 text-center">
+                          <nav>
+                            <ul className='pagination justify-content-center flex mx-auto'>
+                            <li className="page-iten mx-2">
+                              <a className="page-Link" onClick={prevPage} href='#'>
+                              Previous
+                            </a>
+                          </li>
+                          {pageNumbers.map(pgNumber => (
+                            <li key={pgNumber}
+                              className={`page-item ${currentPage == pgNumber ?  'active' : " "} mx-2`}>
+                          <a onClick={() => setCurrentPage(pgNumber)} className='page-Link' href='#'>
+                          {pgNumber}
+                        </a>
+                      </li>
+        ))}
+                      <li className="page-iten mx-2">
+                        <a className="page-Link"
+                          onClick={nextPage}
+                href='#'>
+                        Next
+                      </a>
+                    </li>
+                  </ul>
+</nav>
+
+            </div>}
+                        </tbody>
+                      </table>
                     </div>
-                  </div>
-                )}
-                {showCandidateForm && (
-                  <div className="my-4 w-full p-3 bg-slate-100 px-8">
-                    <Formik
-                      initialValues={candidateInitial}
-                      validate={(values) => {
-                        const errors = {};
-                        let d = selectedData;
-
-                        const res = d.findIndex((el) => {
-                          return el.Email === values.Email;
-                        });
-                        const res2 = d.findIndex((el) => {
-                          return el.Contact == values.Contact;
-                        });
-                        if (
-                          !values.Email ||
-                          !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
-                            values.Email.trim()
-                          )
-                        ) {
-                          errors.Email = "Invalid Email";
-                        } else if (res !== -1) {
-                          errors.Email = "Email already exists";
-                        }
-                        if (
-                          !values.Contact ||
-                          !/^[0-9]{10}$/i.test(values.Contact)
-                        ) {
-                          errors.Contact = "Invalid Contact";
-                        } else if (res2 !== -1) {
-                          errors.Contact = "Contact already exists";
-                        }
-                        return errors;
-                      }}
-                      onSubmit={async (values) => {
-                        let d = selectedData;
-                        let r = rejectedData;
-
-                        if (editIndex !== null) r.splice(editIndex, 1);
-                        setEditIndex(null);
-                        d.push(values);
-                        console.log(d)
-                        await setSelectedData(d);
-                        await setCandidateData(d);
-                        await setRejectedData(r);
-                        await setShowCandidate(true);
-                        await setShowCandidateForm(false);
-                      }}
-                    >
-                      {({ values }) => {
-                        return (
-                          <Form>
-                            <p className="text-left font-semibold py-2">
-                              Add User
-                            </p>
-                            <div className="flex my-3 flex-wrap text-left">
-                              <div className="w-1/2">
-                                <label>First Name</label>
-                                <Field
-                                  name="FirstName"
-                                  type="text"
-                                  className="text-600 rounded-sm block px-4 py-1"
-                                  style={{ borderRadius: "5px" }}
-                                />
-                                <ErrorMessage
-                                  name="FirstName"
-                                  component="div"
-                                />
-                              </div>
-                              <div className="w-1/2">
-                                <label>Last Name</label>
-                                <Field
-                                  name="LastName"
-                                  type="text"
-                                  className="text-600 rounded-sm block px-4 py-1"
-                                  style={{ borderRadius: "5px" }}
-                                />
-                                <ErrorMessage
-                                  name="LastName"
-                                  component="div"
-                                />
-                              </div>
-                            </div>
-                            <div className="flex my-3 flex-wrap text-left">
-                              <div className="w-1/2">
-                                <label>Email</label>
-                                <Field
-                                  name="Email"
-                                  type="text"
-                                  className="text-600 rounded-sm block px-4 py-1"
-                                  style={{ borderRadius: "5px" }}
-                                />
-                                <ErrorMessage
-                                  name="Email"
-                                  component="div"
-                                  className="text-sm text-red-500"
-                                />
-                              </div>
-                              <div className="w-1/2">
-                                <label>Contact</label>
-                                <Field
-                                  name="Contact"
-                                  type="text"
-                                  className="text-600 rounded-sm block px-4 py-1"
-                                  style={{ borderRadius: "5px" }}
-                                />
-                                <ErrorMessage
-                                  name="Contact"
-                                  component="div"
-                                  className="text-sm text-red-500"
-                                />
-                              </div>
-                            </div>
-                            <div className="my-3 text-left pr-10">
-                              <label>Address</label>
-                              <Field
-                                name="Address"
-                                type="text"
-                                className="text-600 rounded-sm block w-full px-4 py-1"
-                                style={{ borderRadius: "5px" }}
-                              />
-                            </div>
-                            <div>
-                              <button
-                                className="bg-[#034488] text-white rounded-sm py-1 my-2 px-4"
-                                type="submit"
-                                style={{ backgroundColor: "#034488" }}
-                              >
-                                Add
-                              </button>
-                              <button
-                                className="bg-[#034488] text-white rounded-sm px-4 py-1 my-2 mx-4"
-                                onClick={() => {
-                                  setCandidateInitial({
-                                    FirstName: "",
-                                    LastName: "",
-                                    Email: "",
-                                    Contact: "",
-                                    Address: "",
-                                  });
-                                  setShowCandidateForm(false);
-                                  setEditIndex(null);
-                                }}
-                              >
-                                Cancel
-                              </button>
-                            </div>
-                          </Form>
-                        );
-                      }}
-                    </Formik>
-                  </div>
-                )}
+                  )}
+                </div>
                 <div className="my-9 lg:w-3/4">
                   {rejectedData.length > 0 && (
                     <div className="flex items-center w-full justify-between">
@@ -1814,396 +2038,399 @@ const AddJob = () => {
                     Next
                   </button>
                 </div>
-              </div>
-            </div>
+              </div >
+            </div >
           )}
-          {PageIndex === 4 && (
-            <div className="w-full  shadow-md mr-3 bg-white py-9 px-7">
-              <p className="font-semibold">Add Screening Questions</p>
-              <p className="text-gray-600">
-                We recommend adding 3 or more questions.
-              </p>
-              <div className="my-5">
-                {questions.map((question, index) => {
-                  return (
-                    <div className="my-5">
-                      <div className="flex justify-between">
-                        <p className="font-semibold">
-                          Question {index + 1} :{" "}
-                          <span className="font-normal">
-                            {question.question}
-                          </span>
-                        </p>
-                        <div className="flex space-x-3">
-                          <RiEditBoxLine
-                            className="cursor-pointer text-blue-500"
-                            onClick={async () => {
-                              await setShowQuestionForm(false);
-                              await setInitialQuestion(question);
-                              await setQuestionEditIndex(index);
-                              setShowQuestionForm(true);
-                            }}
-                          />
-                          <AiOutlineDelete
-                            className="cursor-pointer text-red-600"
-                            onClick={() => {
-                              setQuestions(
-                                questions.filter(
-                                  (item) => item.question !== question.question
-                                )
-                              );
-                            }}
-                          />
-                        </div>
-                      </div>
-                      <p className="text-gray-600 font-semibold">
-                        Answer :{" "}
-                        <span className="font-normal">{question.answer}</span>
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
-              {showQuestionForm && (
-                <Formik
-                  initialValues={initialQuestion}
-                  validate={(values) => {
-                    const errors = {};
-                    if (!values.question) {
-                      errors.question = "Required";
-                    }
-                    if (!values.answer) {
-                      errors.answer = "Required";
-                    }
-                    return errors;
-                  }}
-                  onSubmit={(values) => {
-                    if (questionEditIndex !== null) {
-                      let temp = [...questions];
-                      temp[questionEditIndex] = values;
-                      setQuestions(temp);
-                      setQuestionEditIndex(null);
-                      setShowQuestionForm(false);
-                      setInitialQuestion({
-                        question: "",
-                        answer: "",
-                      });
-                    } else {
-                      setQuestions([
-                        ...questions,
-                        { question: values.question, answer: values.answer },
-                      ]);
-                      setShowQuestionForm(false);
-                      setInitialQuestion({
-                        question: "",
-                        answer: "",
-                      });
-                    }
-                  }}
-                >
-                  {({ values }) => (
-                    <Form>
-                      <div className="my-6">
-                        <label className="font-semibold">Question</label>
-                        <Field
-                          name="question"
-                          className="w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:border-[#034488]"
-                          type="text"
-                        />
-                        <ErrorMessage
-                          component="div"
-                          name="question"
-                          className="text-red-600 text-sm"
-                        />
-                      </div>
-                      <div className="my-6">
-                        <label className="font-semibold">Ideal Answer</label>
-                        <Field
-                          name="answer"
-                          className="w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:border-[#034488]"
-                          type="text"
-                        />
-                        <ErrorMessage
-                          component="div"
-                          name="answer"
-                          className="text-red-600 text-sm"
-                        />
-                      </div>
-                      <div className="flex space-x-4 my-2">
-                        <button
-                          type="submit"
-                          className="bg-[#034488] rounded-sm px-4 py-1 text-white"
-                          style={{ backgroundColor: "#034488" }}
-                        >
-                          {questionEditIndex === null
-                            ? "Add Question"
-                            : " Save Changes"}
-                        </button>
-                        <button
-                          type="button"
-                          className="rounded-sm px-4 py-1 text-black border-2 rounded-sm border-black"
-                          onClick={() => {
-                            setShowQuestionForm(false);
-                            setInitialQuestion({
-                              question: "",
-                              answer: "",
-                            });
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </Form>
-                  )}
-                </Formik>
-              )}
-              {!showQuestionForm && (
-                <div className="flex space-x-4 my-2">
-                  <button
-                    type="submit"
-                    className="bg-[#034488] rounded-sm px-4 py-1 text-white"
-                    style={{ backgroundColor: "#034488" }}
-                    onClick={() => {
-                      setInitialQuestion({
-                        question: "",
-                        answer: "",
-                      });
+{
+  PageIndex === 4 && (
+    <div className="w-full  shadow-md mr-3 bg-white py-9 px-7">
+      <p className="font-semibold">Add Screening Questions</p>
+      <p className="text-gray-600">
+        We recommend adding 3 or more questions.
+      </p>
+      <div className="my-5">
+        {questions.map((question, index) => {
+          return (
+            <div className="my-5">
+              <div className="flex justify-between">
+                <p className="font-semibold">
+                  Question {index + 1} :{" "}
+                  <span className="font-normal">
+                    {question.question}
+                  </span>
+                </p>
+                <div className="flex space-x-3">
+                  <RiEditBoxLine
+                    className="cursor-pointer text-blue-500"
+                    onClick={async () => {
+                      await setShowQuestionForm(false);
+                      await setInitialQuestion(question);
+                      await setQuestionEditIndex(index);
                       setShowQuestionForm(true);
                     }}
-                  >
-                    Add Question
-                  </button>
+                  />
+                  <AiOutlineDelete
+                    className="cursor-pointer text-red-600"
+                    onClick={() => {
+                      setQuestions(
+                        questions.filter(
+                          (item) => item.question !== question.question
+                        )
+                      );
+                    }}
+                  />
                 </div>
-              )}
-              <div className="flex space-x-3 mx-auto justify-center">
+              </div>
+              <p className="text-gray-600 font-semibold">
+                Answer :{" "}
+                <span className="font-normal">{question.answer}</span>
+              </p>
+            </div>
+          );
+        })}
+      </div>
+      {showQuestionForm && (
+        <Formik
+          initialValues={initialQuestion}
+          validate={(values) => {
+            const errors = {};
+            if (!values.question) {
+              errors.question = "Required";
+            }
+            if (!values.answer) {
+              errors.answer = "Required";
+            }
+            return errors;
+          }}
+          onSubmit={(values) => {
+            if (questionEditIndex !== null) {
+              let temp = [...questions];
+              temp[questionEditIndex] = values;
+              setQuestions(temp);
+              setQuestionEditIndex(null);
+              setShowQuestionForm(false);
+              setInitialQuestion({
+                question: "",
+                answer: "",
+              });
+            } else {
+              setQuestions([
+                ...questions,
+                { question: values.question, answer: values.answer },
+              ]);
+              setShowQuestionForm(false);
+              setInitialQuestion({
+                question: "",
+                answer: "",
+              });
+            }
+          }}
+        >
+          {({ values }) => (
+            <Form>
+              <div className="my-6">
+                <label className="font-semibold">Question</label>
+                <Field
+                  name="question"
+                  className="w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:border-[#034488]"
+                  type="text"
+                />
+                <ErrorMessage
+                  component="div"
+                  name="question"
+                  className="text-red-600 text-sm"
+                />
+              </div>
+              <div className="my-6">
+                <label className="font-semibold">Ideal Answer</label>
+                <Field
+                  name="answer"
+                  className="w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:border-[#034488]"
+                  type="text"
+                />
+                <ErrorMessage
+                  component="div"
+                  name="answer"
+                  className="text-red-600 text-sm"
+                />
+              </div>
+              <div className="flex space-x-4 my-2">
                 <button
-                  className="bg-[#034488] px-4 py-1 rounded-sm text-white"
-                  onClick={() => {
-                    if (showQuestionForm && questions.length > 0) {
-                      swal({
-                        title: "Are you sure?",
-                        text: "You have unsaved changes!",
-                        icon: "warning",
-                        buttons: true,
-                      }).then((ok) => {
-                        if (ok) setPageIndex(3);
-                      });
-                    } else setPageIndex(3);
-                  }}
+                  type="submit"
+                  className="bg-[#034488] rounded-sm px-4 py-1 text-white"
+                  style={{ backgroundColor: "#034488" }}
                 >
-                  Prev
+                  {questionEditIndex === null
+                    ? "Add Question"
+                    : " Save Changes"}
                 </button>
                 <button
-                  className="bg-[#034488] px-4 py-1 rounded-sm text-white"
+                  type="button"
+                  className="rounded-sm px-4 py-1 text-black border-2 rounded-sm border-black"
                   onClick={() => {
-                    if (showQuestionForm) {
-                      swal({
-                        title: "Are you sure?",
-                        text: "You have unsaved changes!",
-                        icon: "warning",
-                        buttons: true,
-                      }).then((ok) => {
-                        if (ok) setPageIndex(5);
-                      });
-                    } else {
-                      setPageIndex(5);
-                    }
+                    setShowQuestionForm(false);
+                    setInitialQuestion({
+                      question: "",
+                      answer: "",
+                    });
                   }}
                 >
-                  Next
+                  Cancel
                 </button>
               </div>
-            </div>
+            </Form>
           )}
-          {PageIndex === 5 && (
-            <div className="w-full py-3 shadow-md mr-3 bg-white">
-              <div className="w-full mt-9">
-                <div className="w-full m-5 mx-7">
-                  <Formik
-                    initialValues={{
-                      logo: logo ? logo : false,
-                      title: title ? title : false,
-                      email: email ? email : false,
-                      contact: contact ? contact : false,
-                      education: education ? education : false
-                    }}
-                    validate={(values) => {
-                      const errors = {};
-                      // if (
-                      //   values.salary &&
-                      //   values.maxSalary &&
-                      //   values.maxSalary < values.salary
-                      // ) {
-                      //   errors.maxSalary =
-                      //     "Max Salary should be greater than Salary";
-                      // }
-                      // if (!values.salary) {
-                      //   errors.salary = "Required !";
-                      // }
-                      // if (!values.maxSalary) {
-                      //   errors.maxSalary = "Required !";
-                      // }
+        </Formik>
+      )}
+      {!showQuestionForm && (
+        <div className="flex space-x-4 my-2">
+          <button
+            type="submit"
+            className="bg-[#034488] rounded-sm px-4 py-1 text-white"
+            style={{ backgroundColor: "#034488" }}
+            onClick={() => {
+              setInitialQuestion({
+                question: "",
+                answer: "",
+              });
+              setShowQuestionForm(true);
+            }}
+          >
+            Add Question
+          </button>
+        </div>
+      )}
+      <div className="flex space-x-3 mx-auto justify-center">
+        <button
+          className="bg-[#034488] px-4 py-1 rounded-sm text-white"
+          onClick={() => {
+            if (showQuestionForm && questions.length > 0) {
+              swal({
+                title: "Are you sure?",
+                text: "You have unsaved changes!",
+                icon: "warning",
+                buttons: true,
+              }).then((ok) => {
+                if (ok) setPageIndex(3);
+              });
+            } else setPageIndex(3);
+          }}
+        >
+          Prev
+        </button>
+        <button
+          className="bg-[#034488] px-4 py-1 rounded-sm text-white"
+          onClick={() => {
+            if (showQuestionForm) {
+              swal({
+                title: "Are you sure?",
+                text: "You have unsaved changes!",
+                icon: "warning",
+                buttons: true,
+              }).then((ok) => {
+                if (ok) setPageIndex(5);
+              });
+            } else {
+              setPageIndex(5);
+            }
+          }}
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  )
+}
+{
+  PageIndex === 5 && (
+    <div className="w-full py-3 shadow-md mr-3 bg-white">
+      <div className="w-full mt-9">
+        <div className="w-full m-5 mx-7">
+          <Formik
+            initialValues={{
+              logo: logo ? logo : false,
+              title: title ? title : false,
+              email: email ? email : false,
+              contact: contact ? contact : false,
+              education: education ? education : false
+            }}
+            validate={(values) => {
+              const errors = {};
+              // if (
+              //   values.salary &&
+              //   values.maxSalary &&
+              //   values.maxSalary < values.salary
+              // ) {
+              //   errors.maxSalary =
+              //     "Max Salary should be greater than Salary";
+              // }
+              // if (!values.salary) {
+              //   errors.salary = "Required !";
+              // }
+              // if (!values.maxSalary) {
+              //   errors.maxSalary = "Required !";
+              // }
 
-                      return errors;
-                    }}
-                  // onSubmit={postJob}
-                  >
-                    {(values) => {
-                      return (
-                        <div>
-                          <Form className="w-full mt-9">
-                            <div className="my-4 mt-9  w-3/4">
-                              <label className="text-left w-3/4 font-semibold block">
-                                Brand Masking
-                              </label>
+              return errors;
+            }}
+          // onSubmit={postJob}
+          >
+            {(values) => {
+              return (
+                <div>
+                  <Form className="w-full mt-9">
+                    <div className="my-4 mt-9  w-3/4">
+                      <label className="text-left w-3/4 font-semibold block">
+                        Brand Masking
+                      </label>
 
-                              <label className="w-auto content-center px-4 flex p-1  text-md">
-                                <label
-                                  for="Logo-toggle"
-                                  className="inline-flex relative items-center cursor-pointer"
-                                >
-                                  <Field
-                                    name="logo"
-                                    type="checkbox"
-                                    id="Logo-toggle"
-                                    className="sr-only peer"
-                                  />
-                                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                  <span className="ml-3 text-sm font-medium text-gray-900 ">
-                                    <p className="text-md font-bold mx-3 font-gray-600">Logo</p>
-                                  </span>
-                                </label>
+                      <label className="w-auto content-center px-4 flex p-1  text-md">
+                        <label
+                          for="Logo-toggle"
+                          className="inline-flex relative items-center cursor-pointer"
+                        >
+                          <Field
+                            name="logo"
+                            type="checkbox"
+                            id="Logo-toggle"
+                            className="sr-only peer"
+                          />
+                          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                          <span className="ml-3 text-sm font-medium text-gray-900 ">
+                            <p className="text-md font-bold mx-3 font-gray-600">Show Logo</p>
+                          </span>
+                        </label>
 
-                              </label>
-                              <label className="w-auto content-center px-4 flex p-1  text-md">
-                                <label
-                                  for="Title-toggle"
-                                  className="inline-flex relative items-center cursor-pointer"
-                                >
-                                  <Field
-                                    type="checkbox"
-                                    name="title"
-                                    id="Title-toggle"
-                                    className="sr-only peer"
-                                  />
-                                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                  <span className="ml-3 text-sm font-medium text-gray-900 ">
-                                    <p className="text-md font-bold mx-3 font-gray-600">Title</p>
-                                  </span>
-                                </label>
-                              </label>
+                      </label>
+                      <label className="w-auto content-center px-4 flex p-1  text-md">
+                        <label
+                          for="Title-toggle"
+                          className="inline-flex relative items-center cursor-pointer"
+                        >
+                          <Field
+                            type="checkbox"
+                            name="title"
+                            id="Title-toggle"
+                            className="sr-only peer"
+                          />
+                          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                          <span className="ml-3 text-sm font-medium text-gray-900 ">
+                            <p className="text-md font-bold mx-3 font-gray-600">Show Title</p>
+                          </span>
+                        </label>
+                      </label>
 
-                            </div>
-                            <div className="my-4 space-y-3 w-3/4">
-                              <label className="text-left w-3/4 font-semibold block">
-                                Candidate Masking
-                              </label>
+                    </div>
+                    <div className="my-4 space-y-3 w-3/4">
+                      <label className="text-left w-3/4 font-semibold block">
+                        Candidate Masking
+                      </label>
 
-                              <div className=" items-center space-x-2">
-                                <label className="w-auto content-center mx-2  px-4 flex p-1  text-md">
-                                  <label
-                                    for="Email-toggle"
-                                    className="inline-flex relative items-center cursor-pointer"
-                                  >
-                                    <Field
-                                      type="checkbox"
-                                      name="email" id="Email-toggle"
-                                      className="sr-only peer"
-                                    />
-                                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                    <span className="ml-3 text-sm font-medium text-gray-900 ">
-                                      <p className="text-md font-bold mx-3 font-gray-600">Email</p>
-                                    </span>
-                                  </label>
-                                </label>
-                                <label className="w-auto content-center  px-4 flex p-1  text-md">
-                                  <label
-                                    for="Contact-toggle"
-                                    className="inline-flex relative items-center cursor-pointer"
-                                  >
-                                    <Field
-                                      type="checkbox"
-                                      name="contact
+                      <div className=" items-center space-x-2">
+                        <label className="w-auto content-center mx-2  px-4 flex p-1  text-md">
+                          <label
+                            for="Email-toggle"
+                            className="inline-flex relative items-center cursor-pointer"
+                          >
+                            <Field
+                              type="checkbox"
+                              name="email" id="Email-toggle"
+                              className="sr-only peer"
+                            />
+                            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                            <span className="ml-3 text-sm font-medium text-gray-900 ">
+                              <p className="text-md font-bold mx-3 font-gray-600">Show Email</p>
+                            </span>
+                          </label>
+                        </label>
+                        <label className="w-auto content-center  px-4 flex p-1  text-md">
+                          <label
+                            for="Contact-toggle"
+                            className="inline-flex relative items-center cursor-pointer"
+                          >
+                            <Field
+                              type="checkbox"
+                              name="contact
 "                                id="Contact-toggle"
-                                      className="sr-only peer"
-                                    />
-                                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                    <span className="ml-3 text-sm font-medium text-gray-900 ">
-                                      <p className="text-md font-bold mx-3 font-gray-600">Contact</p>
-                                    </span>
-                                  </label>
-                                </label>
-                                <label className="w-auto content-center  px-4 flex p-1  text-md">
-                                  <label
-                                    for="Education-toggle"
-                                    className="inline-flex relative items-center cursor-pointer"
-                                  >
-                                    <Field
-                                      type="checkbox"
-                                      name="education" id="Education-toggle"
-                                      className="sr-only peer"
-                                    />
-                                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                    <span className="ml-3 text-sm font-medium text-gray-900 ">
-                                      <p className="text-md font-bold mx-3 font-gray-600">Education Details</p>
-                                    </span>
-                                  </label>
-                                </label>
+                              className="sr-only peer"
+                            />
+                            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                            <span className="ml-3 text-sm font-medium text-gray-900 ">
+                              <p className="text-md font-bold mx-3 font-gray-600">Show Contact</p>
+                            </span>
+                          </label>
+                        </label>
+                        <label className="w-auto content-center  px-4 flex p-1  text-md">
+                          <label
+                            for="Education-toggle"
+                            className="inline-flex relative items-center cursor-pointer"
+                          >
+                            <Field
+                              type="checkbox"
+                              name="education" id="Education-toggle"
+                              className="sr-only peer"
+                            />
+                            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                            <span className="ml-3 text-sm font-medium text-gray-900 ">
+                              <p className="text-md font-bold mx-3 font-gray-600">Show Education Details</p>
+                            </span>
+                          </label>
+                        </label>
 
-                              </div>
-                            </div>
+                      </div>
+                    </div>
 
-                            <div className="">
-                              <button
-                                className="mx-auto bg-[#034488] px-4 py-1 text-white rounded-sm"
-                                style={{ backgroundColor: "#034488" }}
-                                type="button"
-                                onClick={() => {
-
-
-                                  setPageIndex(4);
-                                }}
-                              >
-                                Prev
-                              </button>
-                              <button
-                                className="bg-[#034488] mx-3 px-4 py-1 rounded-sm text-white"
-                                onClick={async () => {
-
-                                  console.log(values);
-
-                                  let job = await JSON.parse(
-                                    await localStorage.getItem("postjob")
-                                  );
-                                  if (job === null) job = {};
-                                  job.showComLogo = values.values.logo;
-                                  job.showComName = values.values.title;
-                                  job.showEducation = values.values.education;
-                                  job.showContact = values.values.contact;
-                                  job.showEmail = values.values.email;
+                    <div className="">
+                      <button
+                        className="mx-auto bg-[#034488] px-4 py-1 text-white rounded-sm"
+                        style={{ backgroundColor: "#034488" }}
+                        type="button"
+                        onClick={() => {
 
 
-                                  setLogo(values.values.logo);
-                                  setTitle(values.values.title);
-                                  setEmail(values.values.email);
-                                  setContact(values.values.contact);
-                                  setEmail(values.values.email);
+                          setPageIndex(4);
+                        }}
+                      >
+                        Prev
+                      </button>
+                      <button
+                        className="bg-[#034488] mx-3 px-4 py-1 rounded-sm text-white"
+                        onClick={async () => {
+
+                          console.log(values);
+
+                          let job = await JSON.parse(
+                            await localStorage.getItem("postjob")
+                          );
+                          if (job === null) job = {};
+                          job.showComLogo = values.values.logo;
+                          job.showComName = values.values.title;
+                          job.showEducation = values.values.education;
+                          job.showContact = values.values.contact;
+                          job.showEmail = values.values.email;
 
 
-                                  localStorage.setItem(
-                                    "postjob",
-                                    JSON.stringify(job)
-                                  );
-                                  await setJob(job);
+                          setLogo(values.values.logo);
+                          setTitle(values.values.title);
+                          setEmail(values.values.email);
+                          setContact(values.values.contact);
+                          setEmail(values.values.email);
 
-                                  setPageIndex(6);
 
-                                }}
-                              >
-                                Next
-                              </button>
-                            </div>
-                            {/* {values.values.salary && values.values.maxSalary ? (
+                          localStorage.setItem(
+                            "postjob",
+                            JSON.stringify(job)
+                          );
+                          await setJob(job);
+
+                          setPageIndex(6);
+
+                        }}
+                      >
+                        Next
+                      </button>
+                    </div>
+                    {/* {values.values.salary && values.values.maxSalary ? (
                                 <button
                                   type="button"
                                   className="bg-[#4a545e] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
@@ -2231,258 +2458,261 @@ const AddJob = () => {
                                   Submit
                                 </button>
                               )} */}
-                          </Form>
-                        </div>
-                      );
-                    }}
-                  </Formik>
+                  </Form>
                 </div>
-              </div>
-            </div>
-          )}
-          {PageIndex === 6 && (
-            <div className="w-full py-3 shadow-md mr-3 bg-white">
-              <div className="w-full mt-9">
-                <div className="w-fit m-5 mx-7">
-                  <Formik
-                    initialValues={{
-                      salary: job.salary && job.salary[1] ? job.salary[1] : "",
-                      maxSalary:
-                        job.salary && job.salary[2] ? job.salary[2] : "",
-                    }}
-                    validate={(values) => {
-                      const errors = {};
-                      if (
-                        values.salary &&
-                        values.maxSalary &&
-                        values.maxSalary < values.salary
-                      ) {
-                        errors.maxSalary =
-                          "Max Salary should be greater than Salary";
-                      }
-                      if (!values.salary) {
-                        errors.salary = "Required !";
-                      }
-                      if (!values.maxSalary) {
-                        errors.maxSalary = "Required !";
-                      }
-
-                      return errors;
-                    }}
-                  // onSubmit={postJob}
-                  >
-                    {(values) => {
-                      return (
-                        <div>
-                          <Form className="w-full mt-9">
-                            <div className="my-5 space-y-3 w-full">
-                              <label className="text-left w-3/4 mb-3 font-semibold block">
-                                Remunerations
-                              </label>
-
-                              <Editor
-                                editorState={perks}
-                                toolbarClassName="toolbarClassName"
-                                wrapperClassName="wrapperClassName"
-                                editorClassName="editorClassName"
-                                wrapperStyle={{
-                                  width: "100%",
-                                  border: "1px solid rgb(156 163 175 / 1)",
-                                  borderRadius: "5px",
-                                }}
-                                editorStyle={{
-                                  minHeight: "200px",
-                                  paddingLeft: "1rem",
-                                }}
-                                onEditorStateChange={onPerksEditorStateChange}
-                              />
-                            </div>
-                            <div className="my-7 mt-9 space-y-3 w-3/4">
-                              <label className="text-left w-3/4 font-semibold block">
-                                Pay Range
-                              </label>
-                              <div className="items-center space-x-0">
-                                <label>Currency</label>
-                                <Listbox
-                                  onChange={setCurrency}
-                                  value={currency}
-                                >
-                                  <div className="relative mt-1 w-fit mb-5 z-100">
-                                    <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-4 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-300 sm:text-sm border-1 border-">
-                                      <span className="block truncate">
-                                        {currency.symbol} - {currency.name}
-                                      </span>
-                                      <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                                        <ChevronDownIcon
-                                          className="h-5 w-5 text-gray-400"
-                                          aria-hidden="true"
-                                        />
-                                      </span>
-                                    </Listbox.Button>
-                                    <Transition
-                                      as={Fragment}
-                                      leave="transition ease-in duration-100"
-                                      leaveFrom="opacity-100"
-                                      leaveTo="opacity-0"
-                                    >
-                                      <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-100">
-                                        {currencies.currencies.map(
-                                          (currency, currencyIdx) => (
-                                            <Listbox.Option
-                                              key={currencyIdx}
-                                              className={({ active }) =>
-                                                `relative cursor-default select-none py-2 pl-10 pr-4 ${active
-                                                  ? "bg-blue-100 text-blue-900"
-                                                  : "text-gray-900"
-                                                }`
-                                              }
-                                              value={currency}
-                                            >
-                                              {({ selected }) => (
-                                                <>
-                                                  <span
-                                                    className={`block truncatez-100 ${selected
-                                                      ? "font-medium"
-                                                      : "font-normal"
-                                                      }`}
-                                                  >
-                                                    {currency.symbol} -{" "}
-                                                    {currency.name}
-                                                  </span>
-                                                  {selected ? (
-                                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-600 z-100">
-                                                      <CheckIcon
-                                                        className="h-5 w-5"
-                                                        aria-hidden="true"
-                                                      />
-                                                    </span>
-                                                  ) : null}
-                                                </>
-                                              )}
-                                            </Listbox.Option>
-                                          )
-                                        )}
-                                      </Listbox.Options>
-                                    </Transition>
-                                  </div>
-                                </Listbox>
-                              </div>
-                              <div className="w-fit lg:flex md:flex gap-5">
-                                <div className="block w-1/2">
-                                  <label className="block">Minimum</label>
-                                  <Field
-                                    name="salary"
-                                    type="number"
-                                    placeholder=""
-                                    className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 focus:outline-0 focus:border-0 px-4"
-                                  />
-                                  <ErrorMessage
-                                    name="salary"
-                                    component="div"
-                                    className="text-red-500 text-sm"
-                                  />
-                                </div>
-                                <div className="block w-1/2">
-                                  <label className="block">Maximum</label>
-                                  <Field
-                                    name="maxSalary"
-                                    type="number"
-                                    placeholder=""
-                                    className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 focus:outline-0 focus:border-0 px-4"
-                                  />
-                                  <ErrorMessage
-                                    name="maxSalary"
-                                    component="div"
-                                    className="text-red-500 text-sm"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="">
-                              <button
-                                className="mx-auto bg-[#034488] px-4 py-1 text-white rounded-sm"
-                                style={{ backgroundColor: "#034488" }}
-                                type="button"
-                                onClick={async () => {
-                                  if (
-                                    values.values.salary >
-                                    values.values.maxSalary
-                                  ) {
-                                    return;
-                                  }
-                                  let job = await JSON.parse(
-                                    await localStorage.getItem("postjob")
-                                  );
-                                  job.salary = [
-                                    currency,
-                                    values.values.salary,
-                                    values.values.maxSalary,
-                                  ];
-                                  await setJob(job);
-                                  localStorage.setItem(
-                                    "postjob",
-                                    JSON.stringify(job)
-                                  );
-                                  setPageIndex(5);
-                                }}
-                              >
-                                Prev
-                              </button>
-
-                            </div>
-                            {values.values.salary && values.values.maxSalary ? (
-                              <button
-                                type="button"
-                                className="bg-[#4a545e] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
-                                onClick={async () => {
-                                  if (
-                                    values.values.salary >
-                                    values.values.maxSalary
-                                  ) {
-                                    return;
-                                  }
-                                  postJob(
-                                    job,
-                                    values.values.salary,
-                                    values.values.maxSalary
-                                  );
-                                }}
-                                style={{ backgroundColor: "#034488" }}
-                              >
-                                {loading ? (
-                                  <img
-                                    src={Loader}
-                                    alt="loader"
-                                    className="h-9 mx-auto"
-                                  />
-                                ) : (
-                                  "Submit"
-                                )}
-                              </button>
-                            ) : (
-                              <button
-                                type="button"
-                                className="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
-                                disabled
-                                style={{ backgroundColor: "#034388d7" }}
-                              >
-                                Submit
-                              </button>
-                            )}
-                          </Form>
-                        </div>
-                      );
-                    }}
-                  </Formik>
-                </div>
-              </div>
-            </div>
-          )}
-
+              );
+            }}
+          </Formik>
         </div>
       </div>
     </div>
+  )
+}
+{
+  PageIndex === 6 && (
+    <div className="w-full py-3 shadow-md mr-3 bg-white">
+      <div className="w-full mt-9">
+        <div className="w-fit m-5 mx-7">
+          <Formik
+            initialValues={{
+              salary: job.salary && job.salary[1] ? job.salary[1] : "",
+              maxSalary:
+                job.salary && job.salary[2] ? job.salary[2] : "",
+            }}
+            validate={(values) => {
+              const errors = {};
+              if (
+                values.salary &&
+                values.maxSalary &&
+                values.maxSalary < values.salary
+              ) {
+                errors.maxSalary =
+                  "Max Salary should be greater than Salary";
+              }
+              if (!values.salary) {
+                errors.salary = "Required !";
+              }
+              if (!values.maxSalary) {
+                errors.maxSalary = "Required !";
+              }
+
+              return errors;
+            }}
+          // onSubmit={postJob}
+          >
+            {(values) => {
+              return (
+                <div>
+                  <Form className="w-full mt-9">
+                    <div className="my-5 space-y-3 w-full">
+                      <label className="text-left w-3/4 mb-3 font-semibold block">
+                        Remunerations
+                      </label>
+
+                      <Editor
+                        editorState={perks}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editorClassName"
+                        wrapperStyle={{
+                          width: "100%",
+                          border: "1px solid rgb(156 163 175 / 1)",
+                          borderRadius: "5px",
+                        }}
+                        editorStyle={{
+                          minHeight: "200px",
+                          paddingLeft: "1rem",
+                        }}
+                        onEditorStateChange={onPerksEditorStateChange}
+                      />
+                    </div>
+                    <div className="my-7 mt-9 space-y-3 w-3/4">
+                      <label className="text-left w-3/4 font-semibold block">
+                        Pay Range
+                      </label>
+                      <div className="items-center space-x-0">
+                        <label>Currency</label>
+                        <Listbox
+                          onChange={setCurrency}
+                          value={currency}
+                        >
+                          <div className="relative mt-1 w-fit mb-5 z-100">
+                            <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-4 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-300 sm:text-sm border-1 border-">
+                              <span className="block truncate">
+                                {currency.symbol} - {currency.name}
+                              </span>
+                              <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                                <ChevronDownIcon
+                                  className="h-5 w-5 text-gray-400"
+                                  aria-hidden="true"
+                                />
+                              </span>
+                            </Listbox.Button>
+                            <Transition
+                              as={Fragment}
+                              leave="transition ease-in duration-100"
+                              leaveFrom="opacity-100"
+                              leaveTo="opacity-0"
+                            >
+                              <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-100">
+                                {currencies.currencies.map(
+                                  (currency, currencyIdx) => (
+                                    <Listbox.Option
+                                      key={currencyIdx}
+                                      className={({ active }) =>
+                                        `relative cursor-default select-none py-2 pl-10 pr-4 ${active
+                                          ? "bg-blue-100 text-blue-900"
+                                          : "text-gray-900"
+                                        }`
+                                      }
+                                      value={currency}
+                                    >
+                                      {({ selected }) => (
+                                        <>
+                                          <span
+                                            className={`block truncatez-100 ${selected
+                                              ? "font-medium"
+                                              : "font-normal"
+                                              }`}
+                                          >
+                                            {currency.symbol} -{" "}
+                                            {currency.name}
+                                          </span>
+                                          {selected ? (
+                                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-600 z-100">
+                                              <CheckIcon
+                                                className="h-5 w-5"
+                                                aria-hidden="true"
+                                              />
+                                            </span>
+                                          ) : null}
+                                        </>
+                                      )}
+                                    </Listbox.Option>
+                                  )
+                                )}
+                              </Listbox.Options>
+                            </Transition>
+                          </div>
+                        </Listbox>
+                      </div>
+                      <div className="w-fit lg:flex md:flex gap-5">
+                        <div className="block w-1/2">
+                          <label className="block">Minimum</label>
+                          <Field
+                            name="salary"
+                            type="number"
+                            placeholder=""
+                            className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 focus:outline-0 focus:border-0 px-4"
+                          />
+                          <ErrorMessage
+                            name="salary"
+                            component="div"
+                            className="text-red-500 text-sm"
+                          />
+                        </div>
+                        <div className="block w-1/2">
+                          <label className="block">Maximum</label>
+                          <Field
+                            name="maxSalary"
+                            type="number"
+                            placeholder=""
+                            className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 focus:outline-0 focus:border-0 px-4"
+                          />
+                          <ErrorMessage
+                            name="maxSalary"
+                            component="div"
+                            className="text-red-500 text-sm"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="">
+                      <button
+                        className="mx-auto bg-[#034488] px-4 py-1 text-white rounded-sm"
+                        style={{ backgroundColor: "#034488" }}
+                        type="button"
+                        onClick={async () => {
+                          if (
+                            values.values.salary >
+                            values.values.maxSalary
+                          ) {
+                            return;
+                          }
+                          let job = await JSON.parse(
+                            await localStorage.getItem("postjob")
+                          );
+                          job.salary = [
+                            currency,
+                            values.values.salary,
+                            values.values.maxSalary,
+                          ];
+                          await setJob(job);
+                          localStorage.setItem(
+                            "postjob",
+                            JSON.stringify(job)
+                          );
+                          setPageIndex(5);
+                        }}
+                      >
+                        Prev
+                      </button>
+
+                    </div>
+                    {values.values.salary && values.values.maxSalary ? (
+                      <button
+                        type="button"
+                        className="bg-[#4a545e] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
+                        onClick={async () => {
+                          if (
+                            values.values.salary >
+                            values.values.maxSalary
+                          ) {
+                            return;
+                          }
+                          postJob(
+                            job,
+                            values.values.salary,
+                            values.values.maxSalary
+                          );
+                        }}
+                        style={{ backgroundColor: "#034488" }}
+                      >
+                        {loading ? (
+                          <img
+                            src={Loader}
+                            alt="loader"
+                            className="h-9 mx-auto"
+                          />
+                        ) : (
+                          "Submit"
+                        )}
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className="bg-[#034488] my-5 px-4 py-1 mx-auto hover:bg-[#034488] text-white font-bold rounded-sm"
+                        disabled
+                        style={{ backgroundColor: "#034388d7" }}
+                      >
+                        Submit
+                      </button>
+                    )}
+                  </Form>
+                </div>
+              );
+            }}
+          </Formik>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+        </div >
+      </div >
+    </div >
   );
 };
 

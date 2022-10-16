@@ -9,7 +9,12 @@ import Avatar from "../../assets/images/UserAvatar.png";
 import { BsFillBookmarkFill } from "react-icons/bs";
 import { HiOutlineUser } from "react-icons/hi";
 import { Popover, Transition } from "@headlessui/react";
+import {
 
+  AiOutlinePlus,
+
+} from "react-icons/ai";
+import { Link } from "react-router-dom";
 const JobList = () => {
   const [jobs, setJobs] = React.useState([]);
   const [loader, setLoader] = React.useState(false);
@@ -174,8 +179,19 @@ const JobList = () => {
           {loader ? (
             <p>...Loading</p>
           ) : (
-            <>
+            <> <div className="w-[5vw] my-4 ml-auto px-6">
+              <Link to="/company/jobsAdd">
+                <button
+                  className=" hover:bg-blue-700 flex text-white font-bold py-2 w-full text-sm mt-4 text-center align-center rounded-lg"
+                  style={{ backgroundColor: "#034488" }}
+
+                >
+                  <p className="mx-auto flex"><p className="py-1 px-2 text-lg font-semibold"> <AiOutlinePlus /></p></p>
+                </button>
+              </Link>
+            </div> 
               <div className="flex justify-between w-full bg-white">
+
                 <div
                   className="  py-4 px-5"
                   style={{ borderRadius: "6px 6px 0 0" }}
