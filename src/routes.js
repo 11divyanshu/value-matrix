@@ -112,7 +112,7 @@ export const dashboardRoutes = [
   {
     name: "printAble",
     path: "PrintAbleUi",
-    hide: false,
+    hide: true,
     icon: <CgWorkAlt className="text-xl" />,
     component: <PrintAbleUi/>,
   },
@@ -445,7 +445,7 @@ export const companyDashboardRoutes = [
   {
     name: "Setting",
     path: "/masking",
-    hide: false,
+    hide: true,
     component: <Masking />,
     icon: <FiSettings className="text-xl" />,
     permission: "default",

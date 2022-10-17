@@ -19,9 +19,9 @@ import {
   HiOutlineCalendar,
   HiOutlinePlay,
 } from "react-icons/hi";
+import { CgWorkAlt } from "react-icons/cg";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { BsThreeDots, BsCashStack } from "react-icons/bs";
-import { CgWorkAlt } from "react-icons/cg";
 import { Fragment } from "react";
 import Loader from "../../assets/images/loader.gif";
 import Moment from 'react-moment';
@@ -90,8 +90,8 @@ const JobInvitations = () => {
       );
       console.log(res)
       if (res && res.status === 200) {
-        let res1 = await updateSlot(slotId._id, { interviewId: res.data._id});
-
+        let res1 = await updateSlot(slotId._id, { interviewId: res.data.data._id});
+console.log(res1);
         let d = JobInvitation.filter((el) => {
           return el !== job;
         });
@@ -103,6 +103,9 @@ const JobInvitations = () => {
           icon: "success",
           button: "Ok",
         });
+        
+        setslotId(null);
+        setotpModal(false);
       } else {
         swal({
           title: "Error",
@@ -199,23 +202,17 @@ const JobInvitations = () => {
                             console.log(otp);
 
                             if (smsOTP == otp) {
-                              console.log(user._id)
-                              let res = await updateSlot(slotId._id, { userId: user._id, status: "Pending" , jobId: invitation._id});
+                              let res = await updateSlot(slotId._id, { userId: user._id, status: "Pending"});
 
                                handleJobInvitation(invitation, true);
                               if (res.status == 200) {
                                 console.log(invitation);
 
 
-                                swal({
-                                  title: "Job Accepted Successfully !",
-                                  message: "Success",
-                                  icon: "success",
-                                  button: "Continue",
-                                }).then((result) => {
+                              
                                   setslotId(null);
                                   setotpModal(false);
-                                });
+                               
                               }
                             } else {
                               swal({

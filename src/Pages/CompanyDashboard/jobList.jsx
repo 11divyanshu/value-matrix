@@ -179,17 +179,7 @@ const JobList = () => {
           {loader ? (
             <p>...Loading</p>
           ) : (
-            <> <div className="w-[5vw] my-4 ml-auto px-6">
-              <Link to="/company/jobsAdd">
-                <button
-                  className=" hover:bg-blue-700 flex text-white font-bold py-2 w-full text-sm mt-4 text-center align-center rounded-lg"
-                  style={{ backgroundColor: "#034488" }}
-
-                >
-                  <p className="mx-auto flex"><p className="py-1 px-2 text-lg font-semibold"> <AiOutlinePlus /></p></p>
-                </button>
-              </Link>
-            </div> 
+            <> 
               <div className="flex justify-between w-full bg-white">
 
                 <div
@@ -199,7 +189,17 @@ const JobList = () => {
                   <p className="text-gray-900 w-full font-bold">Posted Jobs</p>
                   {/* <p className="text-gray-400 w-full font-semibold">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p> */}
                 </div>
+                <div className="w-[5vw] py-4 ml-auto px-6">
+              <Link to="/company/jobsAdd">
+                <button
+                  className=" hover:bg-blue-700 flex text-white font-bold py-2 w-full text-sm text-center align-center rounded-lg"
+                  style={{ backgroundColor: "#034488" }}
 
+                >
+                  <p className="mx-auto flex"><p className="py-1 px-2 text-lg font-semibold"> <AiOutlinePlus /></p></p>
+                </button>
+              </Link>
+            </div> 
                 {/* <div className="text-xs text-gray-500 py-4 px-2 font-semibold mt-2">See All Logs &#12297;</div> */}
               </div>
 
