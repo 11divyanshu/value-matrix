@@ -54,7 +54,7 @@ const PrintAbleUi = () => {
                     <p className='text-xs my-2'>Company:</p>
                     <p className='text-xs my-2'>Candidate:</p>
                   </div>
-                  <div className=''>
+                  <div className='mr-16'>
                     <p className='text-xs my-2'>Microsoft</p>
                     <p className='text-xs my-2'>Peter</p>
                   </div>
