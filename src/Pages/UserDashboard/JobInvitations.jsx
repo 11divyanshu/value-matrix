@@ -85,13 +85,13 @@ const JobInvitations = () => {
       let interviewer = [];
       interviewer.push(slotId.createdBy);
       let res = await handleCandidateJobInvitation(
-        { job_id: job._id, user_id: user._id, accept: accept , interviewers : interviewer },
+        { job_id: job._id, user_id: user._id, accept: accept, interviewers: interviewer },
         user.access_token
       );
       console.log(res)
       if (res && res.status === 200) {
-        let res1 = await updateSlot(slotId._id, { interviewId: res.data.data._id});
-console.log(res1);
+        let res1 = await updateSlot(slotId._id, { interviewId: res.data.data._id });
+        console.log(res1);
         let d = JobInvitation.filter((el) => {
           return el !== job;
         });
@@ -103,7 +103,7 @@ console.log(res1);
           icon: "success",
           button: "Ok",
         });
-        
+
         setslotId(null);
         setotpModal(false);
       } else {
@@ -181,18 +181,44 @@ console.log(res1);
                     leaveFrom="opacity-100 scale-100"
                     leaveTo="opacity-0 scale-95"
                   >
-                    <Dialog.Panel className="w-full  px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle  transition-all h-[30vh]">
+                    <Dialog.Panel className="w-full transform overflow-hidden rounded-2xl bg-white text-left align-middle  transition-all h-auto">
 
-                      <p>Enter OTP</p>
-                      <input
-                        type="number"
-                        name="smsOTP"
-                        onChange={handleOTP}
-                        placeholder="Email OTP"
-                        className="w-full"
-                        style={{ borderRadius: "12px", marginTop: "10px" }}
-                      ></input>
-                      <div className="flex my-3">
+                      <div className='py-5 w-full bg-blue-900 flex'>
+                        <p className="text-lg mx-5 text-center text-white font-semibold">
+                          Enter OTP
+                        </p>
+                      </div>
+
+                      <div className="my-16 w-full">
+                        <h2 className="mx-auto w-fit">OTP sent to 96XXXXXX25 </h2>
+                      </div>
+
+                      <div className="w-auto h-0.5 rounded-lg bg-gray-300 mx-56"></div>
+                      <div className="mx-56 my-5">
+                        <h3>Enter OTP</h3>
+                        <input
+                          id="smsOTP"
+                          type="number"
+                          name="smsOTP"
+                          onChange={handleOTP}
+                          placeholder="Email OTP"
+                          className="w-full"
+                          style={{ borderRadius: "12px", marginTop: "10px" }}
+                        ></input>
+                      </div>
+
+                      <div className="w-full my-16 flex justify-center">
+                        <button
+                          className="border-2 text-black font-bold py-3 px-8 w-fit md:mx-4 text-xs rounded"
+                          onClick={async () => {
+
+                            let resend = await updateContactOTP({ contact: user.contact }, { access_token: user.access_token })
+                            console.log(resend.otp)
+                            setotp(resend.otp)
+                          }}>Resend OTP</button>
+                      </div>
+
+                      <div className="flex my-16 justify-center">
                         <button
                           className=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
                           style={{ backgroundColor: "#034488" }}
@@ -202,17 +228,17 @@ console.log(res1);
                             console.log(otp);
 
                             if (smsOTP == otp) {
-                              let res = await updateSlot(slotId._id, { userId: user._id, status: "Pending"});
+                              let res = await updateSlot(slotId._id, { userId: user._id, status: "Pending" });
 
-                               handleJobInvitation(invitation, true);
+                              handleJobInvitation(invitation, true);
                               if (res.status == 200) {
                                 console.log(invitation);
 
 
-                              
-                                  setslotId(null);
-                                  setotpModal(false);
-                               
+
+                                setslotId(null);
+                                setotpModal(false);
+
                               }
                             } else {
                               swal({
@@ -223,14 +249,7 @@ console.log(res1);
                               })
                             }
                           }}>Submit</button>
-                        <button
-                          className=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
-                          style={{ backgroundColor: "#034488" }} onClick={async () => {
 
-                            let resend = await updateContactOTP({ contact: user.contact }, { access_token: user.access_token })
-                            console.log(resend.otp)
-                            setotp(resend.otp)
-                          }}>Resend OTP</button>
 
                         <button
                           className=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
@@ -270,7 +289,7 @@ console.log(res1);
               </Transition.Child>
 
               <div className="fixed inset-0 overflow-y-auto ">
-                <div className="flex min-h-full items-center justify-center p-4 text-center max-w-4xl mx-auto">
+                <div className="flex min-h-full items-center justify-center text-center max-w-4xl mx-auto">
                   <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"
@@ -280,28 +299,47 @@ console.log(res1);
                     leaveFrom="opacity-100 scale-100"
                     leaveTo="opacity-0 scale-95"
                   >
-                    <Dialog.Panel className="w-full  px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle  transition-all h-[65vh]">
-                      <div className=" px-3 py-5 rounded-lg bg-white w-full">
+                    <Dialog.Panel className="w-full transform overflow-hidden rounded-2xl bg-white text-left align-middle  transition-all h-[65vh]">
+                      <div className="rounded-lg bg-white w-full">
                         <div className="flex items-start space-x-3 	">
                           {/* <AiFillCalendar className="text-4xl text-gray-700" /> */}
-                          <div className='py-1 mx-3 flex'>
-                            <p className="text-lg text-center font-semibold">
-                              Available Slots
+                          <div className='py-5 w-full bg-blue-900 flex'>
+                            <p className="text-lg mx-5 text-center text-white font-semibold">
+                              Meeting
                             </p>
-                            <p onClick={() => { setchooseSlot(false) }}>Close</p>
                           </div>
                         </div>
+
+                        <div className="flex gap-3 mx-16 my-5">
+                          <div className="w-auto">Image</div>
+                          <div className="w-auto">
+                            <h2 className="font-semibold">Emma Watson</h2>
+                            <p className="text-xs">HR Manager</p>
+                          </div>
+                        </div>
+
+                        <div className="w-auto h-0.5 rounded-lg bg-gray-300 mx-16"></div>
+
+                        <div className="w-auto mx-16 my-5">
+                          <p className="my-2 text-sm">Subject</p>
+                          <div className="w-auto">
+                            <input type="text" className="w-full rounded-lg border-black" />
+                          </div>
+                        </div>
+
+                        <div className="w-auto h-0.5 rounded-lg bg-gray-300 mx-16"></div>
+
                         <div className="flex items-start space-x-3 	">
                           {/* <AiFillCalendar className="text-4xl text-gray-700" /> */}
-                          <div className='py-1 mx-3 flex'>
-                            <p className="text-lg text-center font-semibold">
+                          <div className='py-1 my-5 mx-16 flex'>
+                            <p className="text-sm text-center font-semibold">
                               <DatePicker onChange={setStartTime} value={startTime} disableClock />
                             </p>
                           </div>
                         </div>
-                        <div className="my-3">
+                        <div className="mx-16">
 
-                          <div className='mx-2  my-4'>
+                          <div className='mx-2'>
                             <label>
                               <Moment format="D MMM YYYY" withTitle>
                                 {new Date(startTime)}
@@ -335,6 +373,18 @@ console.log(res1);
                               })}
                             </div>
                           </div>
+                        </div>
+                        <div className="w-auto mx-auto flex justify-center">
+                          <button
+                            className="text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
+                            style={{ backgroundColor: "#034488" }}
+                          >
+                            Confirm
+                          </button>
+                          <button
+                            className="text-black font-bold py-3 border-black border-2 px-8 mx-1 md:mx-4 text-xs rounded"
+                            onClick={() => { setchooseSlot(false) }}>Decline
+                          </button>
                         </div>
                         {/* <div className="my-3">
 
