@@ -153,7 +153,7 @@ const AddJob = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   // No of Records to be displayed on each page   
-  const [recordsPerPage] = useState(10);
+  const [recordsPerPage] = useState(5);
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   const currentRecords = candidateData.slice(indexOfFirstRecord,
@@ -1849,7 +1849,7 @@ const AddJob = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {candidateData.map((user, index) => {
+                          {currentRecords.map((user, index) => {
                             return (
                               <tr
                                 className={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
@@ -1882,6 +1882,11 @@ const AddJob = () => {
                                           (item) => item.Email !== user.Email
                                         )
                                       );
+                                      // setCandidateData(
+                                      //   currentRecords.filter(
+                                      //     (item) => item.Email !== user.Email
+                                      //   )
+                                      // );
                                       setSelectedData(
                                         selectedData.filter(
                                           (item) => item.Email !== user.Email
@@ -1893,9 +1898,12 @@ const AddJob = () => {
                               </tr>
                             );
                           })}
-                          { candidateData.length > 0 && <div className="w-full my-3 mx-auto px-3 text-center">
-                          <nav>
-                            <ul className='pagination justify-content-center flex mx-auto'>
+                          
+                        </tbody>
+                      </table>
+                      { currentRecords.length > 0 && <div className="w-full my-3 mx-auto px-3 text-center">
+                          <nav className="justify-center flex mx-auto">
+                            <ul className='pagination flex'>
                             <li className="page-iten mx-2">
                               <a className="page-Link" onClick={prevPage} href='#'>
                               Previous
@@ -1920,8 +1928,6 @@ const AddJob = () => {
 </nav>
 
             </div>}
-                        </tbody>
-                      </table>
                     </div>
                   )}
                 </div>
