@@ -18,9 +18,9 @@ import {
   AiOutlineFolderAdd,
 
 } from "react-icons/ai";
+import { Link } from "react-router-dom";
 import React from "react";
 import "../../assets/stylesheet/sidebar.scss";
-import { Link } from "react-router-dom";
 import { getUserFromId } from "../../service/api";
 import { ImHome } from "react-icons/im";
 import { FiSettings } from "react-icons/fi";
@@ -212,7 +212,7 @@ setClose(getWindowDimensions().width)
         </SidebarContent>
         <div className="mx-4 my-24">
           <div className="flex m-2">
-          <a href="/company/profile" className='text-gray-700 mx-4 py-2 font-semibold'><FiSettings/> </a><a href="/company/profile" className='text-gray-700  font-semibold py-1'>Settings</a>
+          <a href="/company/profile" className='text-gray-700 mx-4 py-2 font-semibold'><FiSettings/> </a><a href="/company/masking" className='text-gray-700  font-semibold py-1'>Settings</a>
           </div>
           <div className="flex m-2" onClick={Logout}>
             <p className="text-gray-700 mx-4 py-2 font-semibold">

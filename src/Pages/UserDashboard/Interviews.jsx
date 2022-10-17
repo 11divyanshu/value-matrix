@@ -11,9 +11,18 @@ import { BsThreeDots, BsCashStack } from "react-icons/bs";
 import { Fragment } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import Moment from 'react-moment';
+import {
+    HiOutlineLocationMarker,
+    HiOutlineCurrencyDollar,
+    HiOutlineCalendar,
+    HiOutlinePlay,
+  } from "react-icons/hi";
+  import { CgWorkAlt } from "react-icons/cg";
 const JobList = () => {
     const [jobs, setJobs] = React.useState([]);
     const [loader, setLoader] = React.useState(true);
+    const [jobsExist, setjobsExist] = React.useState(false);
+    const [jobAccepted, setjobAccepted] = React.useState(false);
 
     const [user, setUser] = React.useState(null);
 
@@ -24,14 +33,18 @@ const JobList = () => {
             let res = await slotDetailsOfUser(user._id);
 
             console.log(res)
-            if (res && res.data) {
+            if (res && res.data[0] ) {
                 setJobs(res.data);
                 setLoader(false);
+                setjobsExist(true)
                 let arr = [...res.data];
                 const jsonObj = JSON.stringify(arr);
-
                 // save to localStorage
                 localStorage.setItem("jobsdetails", jsonObj);
+            }
+            
+            else{
+                setjobsExist(false);
             }
         };
         getData();
@@ -45,13 +58,15 @@ const JobList = () => {
             >
                 {/* <p className="text-2xl mx-3 font-semibold pl-3 mt-5">All Jobs</p> */}
                 <p className="text-sm flex my-5 mx-5 font-semibold">
-                    Hey {user && user.firstName ? user.firstName : "XI"} -{" "}
+                    Hey {user && user.firstName ? user.firstName : "User"} -{" "}
                     <p className="text-gray-400 px-2"> here's what's happening today!</p>
                 </p>
             </div>
             <div className="p-4 w-full md:flex mx-auto">
                 <div className=" md:w-3/4 md:mx-5">
-                    {loader ? (
+                    {/* {jobsExist ? null : <p>No Upcoming Interviews</p>
+                    } */}
+                    {jobsExist && loader ? (
                         <p className="text-center font-semibold my-4">...Loading</p>
                     ) : (
                         <>
@@ -70,10 +85,10 @@ const JobList = () => {
                             <div className="w-full">
                                 {jobs &&
                                     jobs.map((job) => {
-
+console.log(job)
                                         return (
                                             <div className="w-full px-5 bg-white py-1 my-2">
-                                                <div className="grid grid-cols-1  items-center lg:grid-cols-6 relative py-3">
+                                               <div className="grid grid-cols-1  items-center lg:grid-cols-6 relative py-3">
                                                     <div className="px-5 my-2 text-md col-span-2 space-y-1">
                                                         <p>
                                                             Interview with
@@ -148,7 +163,7 @@ const JobList = () => {
                                                                                             </Link>
                                                                                         </p>{" "}
                                                                                     </div>
-                                                                                   
+
 
                                                                                 </div>
                                                                             </div>
@@ -158,7 +173,7 @@ const JobList = () => {
                                                             )}
                                                         </Popover>
                                                     </div>
-                                                </div>
+                                                </div> 
                                             </div>
                                         );
                                     })}

@@ -54,7 +54,7 @@ function JobDetails(props) {
       await setUser(user);
       // let res = await getJobById(job_id, access_token);
       let res = await userInterviewsDetails(props.id);
-
+console.log(props)
       let slots = await availableSlots(user._id);
       console.log(slots.data);
       setSlot(slots.data);
@@ -95,43 +95,7 @@ function JobDetails(props) {
       __html: DOMPurify.sanitize(html),
     };
   };
-  const handleJobInvitation = async (job, accept) => {
-    try {
-      let user = JSON.parse(await localStorage.getItem("user"));
-      let res = await handleCandidateJobInvitation(
-        { job_id: job._id, user_id: user._id, accept: accept },
-        user.access_token
-      );
-      if (res && res.status === 200) {
-        let d = JobInvitation.filter((el) => {
-          return el !== job;
-        });
-        await setJobInvitation(d);
-        await setJobInvitation(d);
-        swal({
-          title: "Success",
-          text: accept ? "Job Invitation Accepted" : "Job Invitation Rejected",
-          icon: "success",
-          button: "Ok",
-        });
-      } else {
-        swal({
-          title: "Error",
-          text: "Something went wrong",
-          icon: "error",
-          button: "Ok",
-        });
-      }
-    } catch (err) {
-      console.log(err);
-      swal({
-        title: "Error",
-        text: "Something went wrong",
-        icon: "error",
-        button: "Ok",
-      });
-    }
-  };
+  
 
   return (
  
@@ -196,16 +160,18 @@ function JobDetails(props) {
 
                             if (smsOTP == otp) {
                               console.log(user._id)
-                              let res = await updateSlot(slotId, { userId:user._id , status:"Pending"});
+                              let deleteSlot = await updateSlot(props.id, { userId:null , status:"Available" , interviewId : null});
+                              let update = await updateSlot(slotId, { userId:user._id , status:"Pending" , interviewId : job.interviewId});
 
                               // handleJobInvitation(invitation, true);
-                              if(res.status == 200){
+                              if(update.status == 200){
                               swal({
-                                title: "Job Accepted Successfully !",
+                                title: "Interview Rescheduled Successfully !",
                                 message: "Success",
                                 icon: "success",
                                 button: "Continue",
                               }).then((result) => {
+                                window.location.href = "/user/interviews";
                                 setslotId(null);
                                  setotpModal(false);
                               });
@@ -631,19 +597,20 @@ function JobDetails(props) {
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
-                  })
-                    .then(async (willDelete) => {
+                  }).then(async (willDelete) => {
                       if (willDelete) {
-                        let res = await updateSlot(job._id , {userId:"" , interviewId:"" , status:"Available"});
+                        let res = await updateSlot(job._id , {userId:null , interviewId:null , status:"Available"});
+                        console.log(res)
                         if (res.status === 200) {
-                          window.location.href="/user/interviews"
-              
-                          }
-              
                           swal("Slot has been Deleted", {
                             title: "Slot Removed",
                             icon: "success",
                           });
+                          window.location.href="/user/interviews"
+              
+                          }
+              
+                        
                         }
                       })
                                    }}
