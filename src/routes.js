@@ -112,14 +112,14 @@ export const dashboardRoutes = [
   {
     name: "printAble",
     path: "PrintAbleUi",
-    hide: false,
+    hide: true,
     icon: <CgWorkAlt className="text-xl" />,
     component: <PrintAbleUi/>,
   },
   {
     name: "printAblee",
     path: "PrintAble",
-    hide: false,
+    hide: true,
     icon: <CgWorkAlt className="text-xl" />,
     component: <PrintAble/>,
   },
