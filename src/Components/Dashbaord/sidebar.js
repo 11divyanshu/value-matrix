@@ -1,5 +1,11 @@
-import { ProSidebar, Menu, MenuItem, SubMenu,SidebarContent } from 'react-pro-sidebar';
-import "../../assets/stylesheet/layout.scss"
+import {
+  ProSidebar,
+  Menu,
+  MenuItem,
+  SubMenu,
+  SidebarContent,
+} from "react-pro-sidebar";
+import "../../assets/stylesheet/layout.scss";
 
 import "react-pro-sidebar/dist/css/styles.css";
 import { dashboardRoutes } from "../../routes";
@@ -20,10 +26,10 @@ import { FiSettings } from "react-icons/fi";
 import { MdOutlineLogout } from "react-icons/md";
 const Sidebar = (props) => {
   const [open, setOpen] = React.useState(true);
-  const [menu, setMenu] = React.useState(false)
+  const [menu, setMenu] = React.useState(false);
   const [toggled, setToggled] = React.useState(true);
-  const [collapsed, setCollapsed] =  React.useState(false);
-  const [activePage, setActivePage] = React.useState(null) ;
+  const [collapsed, setCollapsed] = React.useState(false);
+  const [activePage, setActivePage] = React.useState(null);
   const [close, setClose] = React.useState(null);
   const hasWindow = typeof window !== "undefined";
 
@@ -57,7 +63,7 @@ const Sidebar = (props) => {
       function handleResize() {
         setWindowDimensions(getWindowDimensions());
       }
-setClose(getWindowDimensions().width)
+      setClose(getWindowDimensions().width);
       console.log(getWindowDimensions().width);
 
       window.addEventListener("resize", handleResize);
@@ -66,81 +72,141 @@ setClose(getWindowDimensions().width)
   }, [hasWindow]);
 
   const handleToggle = () => {
-    if(close < 1336){
+    if (close < 1336) {
       setToggled(!toggled);
-      setCollapsed(!collapsed);}
-     };
- 
-  
+      setCollapsed(!collapsed);
+    }
+  };
 
   return (
-    <div className='sidebarComponent z-20'>
-    <div className="h-screen fixed top-20 left-0" style={{marginTop:"-10px"}}>
-      <div className="absolute text-gray-9 left-5 -top-10   text-gray-800 text-xl menu" style={{zIndex:18}}>
-      <AiOutlineMenu className="text-md menu-bar" onClick={()=>{handleToggle();}}  style={{zIndex:20}}/>
-      </div>
+    <div className="sidebarComponent z-20">
+      <div
+        className="h-screen fixed top-20 left-0"
+        style={{ marginTop: "-10px" }}
+      >
+        <div
+          className="absolute text-gray-9 left-5 -top-10   text-gray-800 text-xl menu"
+          style={{ zIndex: 18 }}
+        >
+          <AiOutlineMenu
+            className="text-md menu-bar"
+            onClick={() => {
+              handleToggle();
+            }}
+            style={{ zIndex: 20 }}
+          />
+        </div>
 
-
-
-    <ProSidebar
-    // toggled={menu}
-    // onToggle={(prev)=>setMenu(!prev)}
-      // width={280}
-      id="prosidebar"
-      ref={sideRef}
-      className="fixed left-0 h-screen z-0 text-left active text-gray-500"
-      style={{backgroundColor:"#FAFAFA" , zIndex:-1}}
-      breakPoint="xl"
-      collapsed={collapsed} toggled={toggled} onToggle={handleToggle}
-    >
-      <button
-      className=" hover:bg-blue-700 text-white font-bold py-2 px-4 mx-auto text-xs mt-4 flex text-center rounded-lg"
-      style={{backgroundColor:"#034488"}}
-     
-    >
-{/* <p classname=" py-2"><AiOutlinePlus/></p> */}
-<p className="py-1 px-2 text-sm font-bold"> <AiOutlinePlus/></p><p className='py-1'>Connect New Account</p>
-    </button>
-      <SidebarContent  style={{zIndex:-1}}  className='text-left mx-5 mt-7'>
-        <Menu iconShape="square">
-          {/* <MenuItem
+        <ProSidebar
+          // toggled={menu}
+          // onToggle={(prev)=>setMenu(!prev)}
+          // width={280}
+          id="prosidebar"
+          ref={sideRef}
+          className="fixed left-0 h-screen z-0 text-left active text-gray-500"
+          style={{ backgroundColor: "#FAFAFA", zIndex: -1 }}
+          breakPoint="xl"
+          collapsed={collapsed}
+          toggled={toggled}
+          onToggle={handleToggle}
+        >
+          <button
+            className=" hover:bg-blue-700 text-white font-bold py-2 px-4 mx-auto text-xs mt-4 flex text-center rounded-lg"
+            style={{ backgroundColor: "#034488" }}
+          >
+            {/* <p classname=" py-2"><AiOutlinePlus/></p> */}
+            <p className="py-1 px-2 text-sm font-bold">
+              {" "}
+              <AiOutlinePlus />
+            </p>
+            <p className="py-1">Connect New Account</p>
+          </button>
+          <SidebarContent
+            style={{ zIndex: -1 }}
+            className="text-left mx-5 mt-7"
+          >
+            <Menu iconShape="square">
+              {/* <MenuItem
            
           >
            Value matrix
           </MenuItem> */}
-           <MenuItem className='text-gray-700 font-semibold flex' active={window.location.pathname === `/user/` || window.location.pathname === `/user`}
-            onClick={()=> handleToggle()}
-                       > <p className='text-xl flex mx-2'><AiOutlineHome/><p className='text-sm mx-4 text-gray-700 font-semibold'>Dashboard </p></p><Link to={`/user/`} /></MenuItem>
+              <MenuItem
+                className="text-gray-700 font-semibold flex"
+                active={
+                  window.location.pathname === `/user/` ||
+                  window.location.pathname === `/user`
+                }
+                onClick={() => handleToggle()}
+              >
+                {" "}
+                <p className="text-xl flex mx-2">
+                  <AiOutlineHome />
+                  <p className="text-sm mx-4 text-gray-700 font-semibold">
+                    Dashboard{" "}
+                  </p>
+                </p>
+                <Link to={`/user/`} />
+              </MenuItem>
 
-<p className='text-gray-400 font-bold text-xs mx-4 my-5'>ANALYTICS</p>
-          {dashboardRoutes.map((item) => {
-            if(item.hide === false)
-            return (
-                <MenuItem className='text-gray-700 font-semibold' active={window.location.pathname === `/user/${item.path}`}
-                icon={item.icon}>{item.name} <Link to={`/user/${item.path}`} onClick={()=> {
-                  setOpen(true)  
-                   handleToggle();
-                } 
-                
-              
-              } /></MenuItem>
-            );
-            return null;
-          })}
-          {props.user && props.user.isAdmin === true && (
-          <MenuItem
-          icon={<FaUserCog className="text-xl"/>}>
-            <Link to="/admin">Admin Panel</Link>
-          </MenuItem>)}
-        </Menu>
-      </SidebarContent>
-      <div className='mx-4 my-24'>
-      <div className='flex m-2'><a href="/user/profile" className='text-gray-700 mx-4 py-2 font-semibold'><FiSettings/> </a><a href="/user/profile" className='text-gray-700  font-semibold py-1'>Settings</a></div>
-      <div className='flex m-2' onClick={Logout} style={{cursor:"pointer"}}><p className='text-gray-700 mx-4 py-2 font-semibold'><MdOutlineLogout/> </p><p  className='text-gray-700  font-semibold py-1'>Log Out</p></div>
-     
-    </div>
-    </ProSidebar>
-{/* 
+              <p className="text-gray-400 font-bold text-xs mx-4 my-5">
+                ANALYTICS
+              </p>
+              {dashboardRoutes.map((item) => {
+                if (item.hide === false)
+                  return (
+                    <MenuItem
+                      className="text-gray-700 font-semibold"
+                      active={window.location.pathname === `/user/${item.path}`}
+                      icon={item.icon}
+                    >
+                      {item.name}{" "}
+                      <Link
+                        to={`/user/${item.path}`}
+                        onClick={() => {
+                          setOpen(true);
+                          handleToggle();
+                        }}
+                      />
+                    </MenuItem>
+                  );
+                return null;
+              })}
+              {props.user && props.user.isAdmin === true && (
+                <MenuItem icon={<FaUserCog className="text-xl" />}>
+                  <Link to="/admin">Admin Panel</Link>
+                </MenuItem>
+              )}
+            </Menu>
+          </SidebarContent>
+          <div className="mx-4 my-24">
+            <div className="flex m-2">
+              <a
+                href="/user/profile"
+                className="text-gray-700 mx-4 py-2 font-semibold"
+              >
+                <FiSettings />{" "}
+              </a>
+              <a
+                href="/user/profile"
+                className="text-gray-700  font-semibold py-1"
+              >
+                Settings
+              </a>
+            </div>
+            <div
+              className="flex m-2"
+              onClick={Logout}
+              style={{ cursor: "pointer" }}
+            >
+              <p className="text-gray-700 mx-4 py-2 font-semibold">
+                <MdOutlineLogout />{" "}
+              </p>
+              <p className="text-gray-700  font-semibold py-1">Log Out</p>
+            </div>
+          </div>
+        </ProSidebar>
+        {/* 
       <div className="flex">
         <div className="flex flex-col h-screen p-3 bg-white shadow w-60">
           <div className="space-y-3">
@@ -181,10 +247,7 @@ setClose(getWindowDimensions().width)
         </div>
 
       </div> */}
-
-
-
-    </div>
+      </div>
     </div>
   );
 };

@@ -112,10 +112,18 @@ export const dashboardRoutes = [
   {
     name: "printAble",
     path: "PrintAbleUi",
-    hide: true,
+    hide: false,
     icon: <CgWorkAlt className="text-xl" />,
     component: <PrintAbleUi/>,
   },
+  {
+    name: "printAblee",
+    path: "PrintAble",
+    hide: false,
+    icon: <CgWorkAlt className="text-xl" />,
+    component: <PrintAble/>,
+  },
+
   {
     name: "Home",
     icon: <AiOutlineHome className="text-xl" />,
@@ -123,6 +131,7 @@ export const dashboardRoutes = [
     component: <Panel />,
     hide: true,
   },
+
   {
     name: "Group",
     icon: <RiFolderUserFill className="text-xl" />,
