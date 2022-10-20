@@ -15,6 +15,7 @@ import { Popover, Transition } from "@headlessui/react";
 
 const JobCard = (props) => {
   const [job, setJob] = React.useState(props.job);
+  const [index, setIndex] = React.useState(props.index);
   const [user, setUser] = React.useState(null);
   console.log(props.job);
   // localStorage.setItem("jobs", JSON.stringify(job))
@@ -97,7 +98,7 @@ const JobCard = (props) => {
     //   </div>
     // </div>
 
-    <div className="w-full px-5 bg-white py-1 border border-b">
+    <div id={"crd" + (index+1)} className={index<5 ? "w-full px-5 bg-white py-1 border border-b" : "w-full px-5 bg-white py-1 border border-b hidden"}>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-8 sm:grid-cols-4 my-3">
         <div className="col-span-2">
           <h5 className="text-black-900 text-md font-bold mb-1 ">{job.jobTitle}</h5>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import JobCard from "../../Components/Dashbaord/JobCard.jsx";
 import { listJobs } from "../../service/api.js";
 import { CSVLink } from "react-csv";
@@ -9,16 +9,13 @@ import Avatar from "../../assets/images/UserAvatar.png";
 import { BsFillBookmarkFill } from "react-icons/bs";
 import { HiOutlineUser } from "react-icons/hi";
 import { Popover, Transition } from "@headlessui/react";
-import {
-
-  AiOutlinePlus,
-
-} from "react-icons/ai";
+import { AiOutlinePlus } from "react-icons/ai";
 import { Link } from "react-router-dom";
 const JobList = () => {
   const [jobs, setJobs] = React.useState([]);
   const [loader, setLoader] = React.useState(false);
   const [user, setUser] = React.useState(null);
+  const [page, setPage] = useState(1);
 
   React.useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"));
@@ -92,6 +89,18 @@ const JobList = () => {
       localStorage.setItem("jobsdetails", jsonObj);
     } else {
       console.log("no response");
+    }
+  };
+
+  const paginate = (p) => {
+    setPage(p);
+    for (var i = 1; i <= jobs.length; i++) {
+      document.getElementById("crd" + i).classList.add("hidden");
+    }
+    for (var j = 1; j <= 5; j++) {
+      document
+        .getElementById("crd" + ((p - 1) * 5 + j))
+        .classList.remove("hidden");
     }
   };
 
@@ -179,9 +188,8 @@ const JobList = () => {
           {loader ? (
             <p>...Loading</p>
           ) : (
-            <> 
+            <div>
               <div className="flex justify-between w-full bg-white">
-
                 <div
                   className="  py-4 px-5"
                   style={{ borderRadius: "6px 6px 0 0" }}
@@ -190,31 +198,65 @@ const JobList = () => {
                   {/* <p className="text-gray-400 w-full font-semibold">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p> */}
                 </div>
                 <div className="w-[5vw] py-4 ml-auto px-6">
-              <Link to="/company/jobsAdd">
-                <button
-                  className=" hover:bg-blue-700 flex text-white font-bold py-2 w-full text-sm text-center align-center rounded-lg"
-                  style={{ backgroundColor: "#034488" }}
-
-                >
-                  <p className="mx-auto flex"><p className="py-1 px-2 text-lg font-semibold"> <AiOutlinePlus /></p></p>
-                </button>
-              </Link>
-            </div> 
+                  <Link to="/company/jobsAdd">
+                    <button
+                      className=" hover:bg-blue-700 flex text-white font-bold py-2 w-full text-sm text-center align-center rounded-lg"
+                      style={{ backgroundColor: "#034488" }}
+                    >
+                      <p className="mx-auto flex">
+                        <p className="py-1 px-2 text-lg font-semibold">
+                          {" "}
+                          <AiOutlinePlus />
+                        </p>
+                      </p>
+                    </button>
+                  </Link>
+                </div>
                 {/* <div className="text-xs text-gray-500 py-4 px-2 font-semibold mt-2">See All Logs &#12297;</div> */}
               </div>
 
-              <div className="w-full">
+              {/* <div className="w-full">
                 {jobs &&
                   jobs.map((job) => {
                     return <JobCard job={job} />;
                   })}
+              </div> */}
+              <div className="w-full">
+                {jobs &&
+                  jobs.map((job, index) => {
+                    return <JobCard job={job} index={index} />;
+                  })}
               </div>
-            </>
+              <div className="w-full">
+                <div className="flex justify-between my-2 mx-1">
+                  <div>
+                    Page {page} of {Math.ceil(jobs.length / 5)}
+                  </div>
+                  <div>
+                    {" "}
+                    {jobs &&
+                      jobs.map((job, index) => {
+                        return index % 5 == 0 ? (
+                          <span
+                            className="mx-2"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => {
+                              paginate(index / 5 + 1);
+                            }}
+                          >
+                            {index / 5 + 1}
+                          </span>
+                        ) : null;
+                      })}
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
         </div>
 
         <div className="md:w-1/4 my-3">
-          <div className="shadow-lg  py-5  bg-white  justify-around  px-5 bg-white">
+          <div className="shadow-lg  py-5  justify-around  px-5 bg-white">
             <p className="text-xl mx-auto text-gray-700 font-bold  flex">
               <p className="p-1">
                 <BsFillBookmarkFill />

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import {
   availableSlots,
   bookSlot,
@@ -29,7 +29,7 @@ import Moment from 'react-moment';
 import { Popover, Transition, Dialog } from "@headlessui/react";
 import DatePicker from 'react-date-picker';
 
-const JobInvitations = () => {
+const JobInvitations = (props) => {
   const [JobInvitation, setJobInvitation] = React.useState([]);
   const [Loading, setLoading] = React.useState(true);
   const [Error, setError] = React.useState(null);
@@ -43,7 +43,20 @@ const JobInvitations = () => {
   const [slotId, setslotId] = React.useState(null);
   const [startTime, setStartTime] = React.useState(new Date());
   const [smsOTP, setsmsOTP] = React.useState("");
+  const [page, setPage] = useState(1);
+  const [index, setIndex] = React.useState(props.index);
 
+  const paginate = (p) => {
+    setPage(p);
+    for (var i = 1; i <= JobInvitation.length; i++) {
+      document.getElementById("invcrd" + i).classList.add("hidden");
+    }
+    for (var j = 1; j <= 5; j++) {
+      document
+        .getElementById("invcrd" + ((p - 1) * 5 + j))
+        .classList.remove("hidden");
+    }
+  };
 
   const handleOTP = (e) => {
     setsmsOTP(e.target.value);
@@ -451,9 +464,8 @@ const JobInvitations = () => {
             ) : (
               <div className="w-full">
                 {JobInvitation.map((job, index) => {
-
                   return (
-                    <div className="w-full px-5 bg-white py-1 border border-b">
+                    <div id={"invcrd" + (index+1)} className={index<5 ? "w-full px-5 bg-white py-1 border border-b" : "w-full px-5 bg-white py-1 border border-b hidden"}>
                       <div className="grid grid-cols-1 gap-4 md:grid-cols-8 sm:grid-cols-4  my-3">
                         <div className="col-span-2">
                           <h5 className="text-black-900 text-md font-bold mb-1 ">{job.jobTitle}</h5>
@@ -576,50 +588,33 @@ const JobInvitations = () => {
                       </div>
                     </div>
 
-                    // <div className=" p-3 px-5 w-full mx-auto text-md shadow-md my-3" style={{backgroundColor:"#F2F3F5"}}>
-                    //   <div className="flex items-baseline">
-                    //     <p className="font-semibold mr-2">{job.jobTitle}</p>
-                    //     <p>|</p>
-                    //     <p className="mr-auto ml-2">{job.hiringOrganization}</p>
-                    //   </div>
-
-                    //   {job.jobDesc && (
-                    //     <p
-                    //       className="py-2"
-                    //       dangerouslySetInnerHTML={{ __html: job.jobDesc }}
-                    //     ></p>
-                    //   )}
-                    //   <div className="my-3 flex space-x-2">
-                    //     <a
-                    //       href={`/user/jobDetails/${job._id}`}
-                    //       target="_blank"
-                    //       rel="noreferrer"
-                    //     >
-                    //       <button className="px-2 py-1 text-white rounded-sm text-sm" style={{ background: "#034488" }}>
-                    //         View Details
-                    //       </button>
-                    //     </a>
-                    //     <button
-                    //       className=" px-2 py-1 text-white rounded-sm text-sm"
-                    //       onClick={() => {
-                    //         handleJobInvitation(job, true);
-                    //       }}
-                    //       style={{ background: "#034488" }}
-                    //     >
-                    //       Accept
-                    //     </button>
-                    //     <button
-                    //       className="border-[0.5px] border-gray-500 text-gray-500 px-2 py-1 rounded-sm text-sm"
-                    //
-
-                    //     >
-                    //       Decline
-                    //     </button>
-                    //   </div>
-                    // </div>
                   );
                 })}
               </div>)}
+              <div className="w-full">
+                <div className="flex justify-between my-2 mx-1">
+                  <div>
+                    Page {page} of {Math.ceil(JobInvitation.length / 5)}
+                  </div>
+                  <div>
+                    {" "}
+                    {JobInvitation &&
+                      JobInvitation.map((job, index) => {
+                        return index % 5 == 0 ? (
+                          <span
+                            className="mx-2"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => {
+                              paginate(index / 5 + 1);
+                            }}
+                          >
+                            {index / 5 + 1}
+                          </span>
+                        ) : null;
+                      })}
+                  </div>
+                </div>
+              </div>
         </div>
         {/* ) } */}
 
