@@ -104,6 +104,7 @@ import UpdateInterviewApplication from "./Pages/XIDashboard/UpdateInterviewAppli
 
 
 import { FiSettings } from "react-icons/fi";
+import CPrintable from "./Pages/CompanyDashboard/CPrintable";
 
 
 // User Dashboard Routes
@@ -426,6 +427,13 @@ export const companyDashboardRoutes = [
     hide: true,
     component: <CEvalDetails />,
     permission: "default",
+  },
+  {
+    name: "CPrintAble",
+    path: "/CPrintAble",
+    hide: true,
+    icon: <CgWorkAlt className="text-xl" />,
+    component: <CPrintable/>,
   },
   {
     name: "Add User",

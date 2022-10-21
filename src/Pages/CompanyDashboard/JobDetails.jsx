@@ -19,6 +19,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BsThreeDots, BsCashStack } from "react-icons/bs";
 import Microsoft from "../../assets/images/micro.jpg";
 import { updateJobAPI, getSkills, archiveJob } from "../../service/api";
+import { useState } from "react";
 
 function JobDetails(props) {
   const [job_id, setJobId] = React.useState(props.id);
@@ -30,6 +31,8 @@ function JobDetails(props) {
   const [showDeclined, setShowDeclined] = React.useState(false);
   const [invited, setInvited] = React.useState([]);
   const [showInvited, setShowInvited] = React.useState(false);
+  const [index, setIndex] = React.useState(props.index);
+  const [page, setPage] = useState(1);
 
   const [skillsPrimary, setSkillsPrimary] = React.useState([]);
   const [roles, setRoles] = React.useState([]);
@@ -103,6 +106,26 @@ function JobDetails(props) {
     };
   };
 
+  const paginate = (p) => {
+    setPage(p);
+    for (var i = 1; i <= candidates.length; i++) {
+      document.getElementById("jobcrd" + i).classList.add("hidden");
+      document.getElementById("invcrd" + i).classList.add("hidden");
+      document.getElementById("invdeccrd" + i).classList.add("hidden");
+    }
+    for (var j = 1; j <= 5; j++) {
+      document
+        .getElementById("jobcrd" + ((p - 1) * 5 + j))
+        .classList.remove("hidden");
+      document
+        .getElementById("invcrd" + ((p - 1) * 5 + j))
+        .classList.remove("hidden");
+      document
+        .getElementById("invdeccrd" + ((p - 1) * 5 + j))
+        .classList.remove("hidden");
+    }
+  };
+
   return (
     // <div className="p-5 mx-auto">
     //   <p className="text-2xl font-bold">Job Details</p>
@@ -145,11 +168,12 @@ function JobDetails(props) {
     //     </div>
     //   )}
     // </div>
-    <div className="w-full p-5  overflow-hidden" style={{ backgroundColor: "#F2F3F5" }}>
+    <div
+      className="w-full p-5  overflow-hidden"
+      style={{ backgroundColor: "#F2F3F5" }}
+    >
       {job ? (
         <>
-         
-
           <div
             className="card my-5 w-full md:p-5 p-2 bg-white "
             style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px" }}
@@ -370,7 +394,7 @@ function JobDetails(props) {
                     Applicants{" "}
                     <span className="text-sm">({candidates.length})</span>
                   </p>
-                  {candidates.length > 0 && showCandidate ? (
+                  {/* {candidates.length > 0 && showCandidate ? (
                     <p
                       className="text-sm hover:underline text-blue-500 cursor-pointer"
                       onClick={() => setShowCandidate(false)}
@@ -384,96 +408,131 @@ function JobDetails(props) {
                     >
                       Show
                     </p>
-                  )}
+                  )} */}
                 </div>
 
-                {candidates.length > 0 && showCandidate && (
-                 <div className="overflow-x-auto">
-                  <table className="w-full my-5 ">
-                    <thead className="bg-white border-b text-left">
-                      <tr>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          #
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          First Name
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Email
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Contact
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Status
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          
-                        </th>
-                       
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {candidates.map((user, index) => {
-                        return (
-                          <tr
-                            className={`${
-                              index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                            } border-b`}
+                {candidates.length > 0 && (
+                  <div className="overflow-x-auto">
+                    <table className="w-full my-5 ">
+                      <thead className="bg-white border-b text-left">
+                        <tr>
+                          <th
+                            scope="col"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
-                              {index + 1}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.firstName} {user.lastName}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.email}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.contact}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.status}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                            <p className="text-sm font-semibold py-2">
-                              <Link to={`/company/evaluationDetails/${user._id}`}>
-                                View Details{" "}
-                              </Link>
-                            </p>{" "}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                            #
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            First Name
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            Email
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            Contact
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            Status
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          ></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {candidates.map((user, index) => {
+                          return (
+                            <tr
+                              id={"jobcrd" + (index + 1)}
+                              className={
+                                index < 5 ? "bg-gray-100" : "bg-gray-100 hidden"
+                              }
+                            >
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
+                                {index + 1}
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.firstName} {user.lastName}
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.email}
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.contact}
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.status}
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap text-left">
+                                <p className="text-sm font-semibold py-2">
+                                  <Link
+                                    to={`/company/evaluationDetails/${user._id}`}
+                                    // to={`/user/printable`}
+                                  >
+                                    View Details{" "}
+                                  </Link>
+                                </p>{" "}
+                              </td>
+                              <td className="text-sm text-blue-700 font-light px-3 py-4 whitespace-nowrap text-left">
+                                <p className="text-sm font-semibold py-2">
+                                  <Link
+                                    to={`/company/CPrintAble/${user._id}`}
+                                    // to={`/company/CPrintable`}
+                                  >
+                                    View Evaluation{" "}
+                                  </Link>
+                                </p>{" "}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
                   </div>
                 )}
+                <div className={candidates.length > 5 ? "w-full" : "hidden"}>
+                  <div className="flex justify-between my-2 mx-1">
+                    <div>
+                      Page {page} of {Math.ceil(candidates.length / 5)}
+                    </div>
+                    <div>
+                      {" "}
+                      {candidates &&
+                        candidates.map((job, index) => {
+                          return index % 5 == 0 ? (
+                            <span
+                              className="mx-2"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                paginate(index / 5 + 1);
+                              }}
+                            >
+                              {index / 5 + 1}
+                            </span>
+                          ) : null;
+                        })}
+                    </div>
+                  </div>
+                </div>
                 <div className="flex items-center justify-between my-5">
                   <p className="font-bold text-md">
                     Invitations
                     <span className="text-sm"> ({invited.length})</span>
                   </p>
-                  {invited.length > 0 && showInvited ? (
+                  {/* {invited.length > 0 && showInvited ? (
                     <p
                       className="text-sm hover:underline text-blue-500 cursor-pointer"
                       onClick={() => setShowInvited(false)}
@@ -487,87 +546,113 @@ function JobDetails(props) {
                     >
                       Show
                     </p>
-                  )}
+                  )} */}
                 </div>
 
-                {invited.length > 0 && showInvited && (
-                <div className="overflow-x-auto">
-
-                  <table className="w-full my-3">
-                    <thead className="bg-white border-b text-left">
-                      <tr>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          #
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          First Name
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Email
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Contact
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Status
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {invited.map((user, index) => {
-                        return (
-                          <tr
-                            className={`${
-                              index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                            } border-b`}
+                {invited.length > 0 && (
+                  <div className="overflow-x-auto">
+                    <table className="w-full my-3">
+                      <thead className="bg-white border-b text-left">
+                        <tr>
+                          <th
+                            scope="col"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
-                              {index + 1}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.firstName} {user.lastName}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.email}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.contact}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {candidates.includes(user)
-                                ? "Accepted"
-                                : declined.includes(user)
-                                ? "Declined"
-                                : "Waiting"}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                            #
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            First Name
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            Email
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            Contact
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            Status
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {invited.map((user, index) => {
+                          return (
+                            <tr
+                              id={"invcrd" + (index + 1)}
+                              className={
+                                index < 5 ? "bg-gray-100" : "bg-gray-100 hidden"
+                              }
+                            >
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
+                                {index + 1}
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.firstName} {user.lastName}
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.email}
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.contact}
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {candidates.includes(user)
+                                  ? "Accepted"
+                                  : declined.includes(user)
+                                  ? "Declined"
+                                  : "Waiting"}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
                   </div>
                 )}
+
+                <div className={invited.length > 5 ? "w-full" : "hidden"}>
+                  <div className="flex justify-between my-2 mx-1">
+                    <div>
+                      Page {page} of {Math.ceil(invited.length / 5)}
+                    </div>
+                    <div>
+                      {" "}
+                      {invited &&
+                        invited.map((job, index) => {
+                          return index % 5 == 0 ? (
+                            <span
+                              className="mx-2"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                paginate(index / 5 + 1);
+                              }}
+                            >
+                              {index / 5 + 1}
+                            </span>
+                          ) : null;
+                        })}
+                    </div>
+                  </div>
+                </div>
+
                 <div className="flex items-center justify-between my-3">
                   <p className="font-bold text-md">
                     Invitations Declined
                     <span className="text-sm"> ({declined.length})</span>
                   </p>
-                  {declined.length > 0 && showDeclined ? (
+                  {/* {declined.length > 0 && showDeclined ? (
                     <p
                       className="text-sm hover:underline text-blue-500 cursor-pointer"
                       onClick={() => setShowDeclined(false)}
@@ -581,68 +666,92 @@ function JobDetails(props) {
                     >
                       Show
                     </p>
-                  )}
+                  )} */}
                 </div>
 
-                {declined.length > 0 && showDeclined && (
-                                   <div className="overflow-x-auto">
-
-                  <table className="w-full my-3">
-                    <thead className="bg-white border-b text-left">
-                      <tr>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          #
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          First Name
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Email
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Contact
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {declined.map((user, index) => {
-                        return (
-                          <tr
-                            className={`${
-                              index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                            } border-b`}
+                {declined.length > 0 && (
+                  <div className="overflow-x-auto">
+                    <table className="w-full my-3">
+                      <thead className="bg-white border-b text-left">
+                        <tr>
+                          <th
+                            scope="col"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
-                              {index + 1}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.firstName} {user.lastName}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.email}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.contact}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                            #
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            First Name
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            Email
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            Contact
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {declined.map((user, index) => {
+                          return (
+                            <tr
+                              id={"invdeccrd" + (index + 1)}
+                              className={
+                                index < 5 ? "bg-gray-100" : "bg-gray-100 hidden"
+                              }
+                            >
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
+                                {index + 1}
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.firstName} {user.lastName}
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.email}
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.contact}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
                   </div>
                 )}
+                <div className={declined.length > 5 ? "w-full" : "hidden"}>
+                  <div className="flex justify-between my-2 mx-1">
+                    <div>
+                      Page {page} of {Math.ceil(declined.length / 5)}
+                    </div>
+                    <div>
+                      {" "}
+                      {declined &&
+                        declined.map((job, index) => {
+                          return index % 5 == 0 ? (
+                            <span
+                              className="mx-2"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                paginate(index / 5 + 1);
+                              }}
+                            >
+                              {index / 5 + 1}
+                            </span>
+                          ) : null;
+                        })}
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
           </div>
