@@ -10,8 +10,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { BsThreeDots, BsCashStack } from "react-icons/bs";
 import { CgWorkAlt } from "react-icons/cg";
 import { Fragment } from "react";
+import { Menu } from "@headlessui/react";
 
 import { Popover, Transition } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/solid";
 
 const JobCard = (props) => {
   const [job, setJob] = React.useState(props.job);
@@ -98,10 +100,19 @@ const JobCard = (props) => {
     //   </div>
     // </div>
 
-    <div id={"crd" + (index+1)} className={index<5 ? "w-full px-5 bg-white py-1 border border-b" : "w-full px-5 bg-white py-1 border border-b hidden"}>
+    <div
+      id={"crd" + (index + 1)}
+      className={
+        index < 5
+          ? "w-full px-5 bg-white py-1 border border-b"
+          : "w-full px-5 bg-white py-1 border border-b hidden"
+      }
+    >
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-8 sm:grid-cols-4 my-3">
         <div className="col-span-2">
-          <h5 className="text-black-900 text-md font-bold mb-1 ">{job.jobTitle}</h5>
+          <h5 className="text-black-900 text-md font-bold mb-1 ">
+            {job.jobTitle}
+          </h5>
           <p className="text-sm font-bold  text-gray-400 font-semibold">
             {job.hiringOrganization}
           </p>
@@ -155,7 +166,7 @@ const JobCard = (props) => {
           </div>
         </div>
         <div className="flex col-span-2">
-          {job.archived ? (
+          {/* {job.archived ? (
             <button
               // style={{ background: "#3ED3C5" }}
               className=" bg-yellow-300 rounded-3xl px-6 my-3 text-xs text-gray-900 font-semibold"
@@ -176,7 +187,61 @@ const JobCard = (props) => {
             >
               Ended{" "}
             </button>
-          )}
+          )} */}
+
+          <Menu as="div" className="relative inline-block text-left">
+            <div>
+              <Menu.Button
+                style={{ background: "#3ED3C5" }}
+                className="flex bg-yellow-300 rounded-3xl px-6 py-2 my-3 text-xs text-gray-900 font-semibold"
+              >
+                Status
+                <ChevronDownIcon
+                  className="-mr-1 ml-2 h-5 w-5"
+                  aria-hidden="true"
+                />
+              </Menu.Button>
+            </div>
+
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <Menu.Items className="absolute right-0 z-10 mt-2 w-auto rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <div className="text-center">
+                  <Menu.Item>
+                    <button
+                      style={{background: "#3ED3C5" }}
+                      className="  rounded-3xl px-4 py-2 mx-6 my-3 text-xs text-gray-900 font-semibold"
+                    >
+                      Archived{" "}
+                    </button>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <button
+                      style={{ background: "#3ED3C5" }}
+                      className="  rounded-3xl px-4 py-2 mx-6 my-3 text-xs text-gray-900 font-semibold"
+                    >
+                      Active{" "}
+                    </button>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <button
+                      style={{ background: "#3ED3C5" }}
+                      className="  rounded-3xl px-4 py-2 mx-6 my-3 text-xs text-gray-900 font-semibold"
+                    >
+                      Ended{" "}
+                    </button>
+                  </Menu.Item>
+                </div>
+              </Menu.Items>
+            </Transition>
+          </Menu>
 
           <div className="px-4 mx-2 py-4 align-middle">
             {/* <p className="text-right text-md py-3"><BsThreeDots/></p> */}
