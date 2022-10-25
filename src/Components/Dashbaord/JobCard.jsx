@@ -10,7 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BsThreeDots, BsCashStack } from "react-icons/bs";
 import { CgWorkAlt } from "react-icons/cg";
 import { Fragment } from "react";
-import { Menu } from "@headlessui/react";
+import { Dialog, Menu } from "@headlessui/react";
 
 import { Popover, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
@@ -19,6 +19,8 @@ const JobCard = (props) => {
   const [job, setJob] = React.useState(props.job);
   const [index, setIndex] = React.useState(props.index);
   const [user, setUser] = React.useState(null);
+  const [chooseStatus, setchooseStatus] = React.useState(null);
+
   console.log(props.job);
   // localStorage.setItem("jobs", JSON.stringify(job))
 
@@ -166,7 +168,7 @@ const JobCard = (props) => {
           </div>
         </div>
         <div className="flex col-span-2">
-          {/* {job.archived ? (
+          {job.archived ? (
             <button
               // style={{ background: "#3ED3C5" }}
               className=" bg-yellow-300 rounded-3xl px-6 my-3 text-xs text-gray-900 font-semibold"
@@ -187,14 +189,11 @@ const JobCard = (props) => {
             >
               Ended{" "}
             </button>
-          )} */}
+          )}
 
           <Menu as="div" className="relative inline-block text-left">
             <div>
-              <Menu.Button
-                style={{ background: "#3ED3C5" }}
-                className="flex bg-yellow-300 rounded-3xl px-6 py-2 my-3 text-xs text-gray-900 font-semibold"
-              >
+              <Menu.Button className="flex bg-yellow-300 rounded-3xl mx-2 py-2 my-3 text-xs text-gray-900 font-semibold">
                 Status
                 <ChevronDownIcon
                   className="-mr-1 ml-2 h-5 w-5"
@@ -218,6 +217,9 @@ const JobCard = (props) => {
                     <button
                       // style={{background: "#3ED3C5" }}
                       className="  rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
+                      onClick={() => {
+                        setchooseStatus(true);
+                      }}
                     >
                       Archived{" "}
                     </button>
@@ -226,6 +228,9 @@ const JobCard = (props) => {
                     <button
                       // style={{ background: "#3ED3C5" }}
                       className="  rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
+                      onClick={() => {
+                        setchooseStatus(true);
+                      }}
                     >
                       Active{" "}
                     </button>
@@ -234,6 +239,9 @@ const JobCard = (props) => {
                     <button
                       // style={{ background: "#3ED3C5" }}
                       className="  rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
+                      onClick={() => {
+                        setchooseStatus(true);
+                      }}
                     >
                       Ended{" "}
                     </button>
@@ -243,7 +251,90 @@ const JobCard = (props) => {
             </Transition>
           </Menu>
 
-          <div className="px-4 mx-2 py-4 align-middle">
+          {chooseStatus && (
+            <Transition
+              appear
+              show={chooseStatus}
+              as={Fragment}
+              className="relative z-10 w-full "
+              style={{ zIndex: 1000 }}
+            >
+              <Dialog
+                as="div"
+                className="relative z-10 w-5/6 "
+                onClose={() => {}}
+                static={true}
+              >
+                <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <div className="fixed inset-0 bg-black bg-opacity-25" />
+                </Transition.Child>
+
+                <div className="fixed inset-0 overflow-y-auto ">
+                  <div className="flex min-h-full items-center justify-center text-center max-w-4xl mx-auto">
+                    <Transition.Child
+                      as={Fragment}
+                      enter="ease-out duration-300"
+                      enterFrom="opacity-0 scale-95"
+                      enterTo="opacity-100 scale-100"
+                      leave="ease-in duration-200"
+                      leaveFrom="opacity-100 scale-100"
+                      leaveTo="opacity-0 scale-95"
+                    >
+                      <Dialog.Panel className="w-auto pb-5 transform overflow-hidden rounded-2xl bg-white text-left align-middle  transition-all">
+                        <div className="rounded-lg bg-white w-full">
+                          <div className="flex items-start space-x-3 	">
+                            {/* <AiFillCalendar className="text-4xl text-gray-700" /> */}
+                            <div className="py-5 w-full bg-blue-900 flex">
+                              <p className="text-lg mx-5 text-center text-white font-semibold">
+                                Change Status
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="flex items-start space-x-3 	">
+                            {/* <AiFillCalendar className="text-4xl text-gray-700" /> */}
+                            <div className="py-5 w-full flex">
+                              <p className="text-lg mx-5 text-center text-black font-semibold">
+                                Do you want to change status
+                              </p>
+                            </div>
+                          </div>
+                          
+                          <div className="w-auto mx-auto flex justify-center">
+                            <button
+                              className="text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
+                              style={{ backgroundColor: "#034488" }}
+                            >
+                              Confirm
+                            </button>
+                            <button
+                              className="text-black font-bold py-3 border-black border-2 px-8 mx-1 md:mx-4 text-xs rounded"
+                              onClick={() => {
+                                setchooseStatus(false);
+                              }}
+                            >
+                              Decline
+                            </button>
+                          </div>
+                        </div>
+                      </Dialog.Panel>
+                    </Transition.Child>
+                  </div>
+                </div>
+              </Dialog>
+            </Transition>
+          )}
+
+          <div className="px-4 mr-2 py-4 align-middle">
             {/* <p className="text-right text-md py-3"><BsThreeDots/></p> */}
             <Popover className="relative mt-1">
               {({ open }) => (
