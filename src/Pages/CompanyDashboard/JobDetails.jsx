@@ -6,7 +6,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { AiOutlineCalendar } from "react-icons/ai";
 import { CgWorkAlt } from "react-icons/cg";
 import { Fragment } from "react";
-import { Popover, Transition } from "@headlessui/react";
+import { Popover, Transition, Menu, Dialog } from "@headlessui/react";
 import { HiOutlineCurrencyRupee } from "react-icons/hi";
 import {
   HiOutlineLocationMarker,
@@ -20,6 +20,7 @@ import { BsThreeDots, BsCashStack } from "react-icons/bs";
 import Microsoft from "../../assets/images/micro.jpg";
 import { updateJobAPI, getSkills, archiveJob } from "../../service/api";
 import { useState } from "react";
+import { ChevronDownIcon } from "@heroicons/react/solid";
 
 function JobDetails(props) {
   const [job_id, setJobId] = React.useState(props.id);
@@ -125,6 +126,7 @@ function JobDetails(props) {
         .classList.remove("hidden");
     }
   };
+  const [chooseStatus, setchooseStatus] = React.useState(null);
 
   return (
     // <div className="p-5 mx-auto">
@@ -476,6 +478,70 @@ function JobDetails(props) {
                               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                 {user.status}
                               </td>
+                              <td className="text-sm text-gray-900 font-light py-4 whitespace-nowrap text-left">
+                                <Menu
+                                  as="div"
+                                  className="relative inline-block mx-3 text-left"
+                                >
+                                  <div>
+                                    <Menu.Button className="flex bg-yellow-300 rounded-3xl mx-2 py-2 my-3 text-xs text-gray-900 font-semibold">
+                                      Change Status
+                                      <ChevronDownIcon
+                                        className="h-5 w-5"
+                                        aria-hidden="true"
+                                      />
+                                    </Menu.Button>
+                                  </div>
+
+                                  <Transition
+                                    as={Fragment}
+                                    enter="transition ease-out duration-100"
+                                    enterFrom="transform opacity-0 scale-95"
+                                    enterTo="transform opacity-100 scale-100"
+                                    leave="transition ease-in duration-75"
+                                    leaveFrom="transform opacity-100 scale-100"
+                                    leaveTo="transform opacity-0 scale-95"
+                                  >
+                                    <Menu.Items className="absolute -mt-3 z-10 w-auto rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                      <div className="text-left">
+                                        <Menu.Item>
+                                          <button
+                                            // style={{background: "#3ED3C5" }}
+                                            className="rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
+                                            onClick={() => {
+                                              setchooseStatus(true);
+                                            }}
+                                          >
+                                            Archived{" "}
+                                          </button>
+                                        </Menu.Item>
+                                        <Menu.Item>
+                                          <button
+                                            // style={{ background: "#3ED3C5" }}
+                                            className="  rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
+                                            onClick={() => {
+                                              setchooseStatus(true);
+                                            }}
+                                          >
+                                            Active{" "}
+                                          </button>
+                                        </Menu.Item>
+                                        <Menu.Item>
+                                          <button
+                                            // style={{ background: "#3ED3C5" }}
+                                            className="  rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
+                                            onClick={() => {
+                                              setchooseStatus(true);
+                                            }}
+                                          >
+                                            Ended{" "}
+                                          </button>
+                                        </Menu.Item>
+                                      </div>
+                                    </Menu.Items>
+                                  </Transition>
+                                </Menu>
+                              </td>
                               <td className="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap text-left">
                                 <p className="text-sm font-semibold py-2">
                                   <Link
@@ -502,6 +568,92 @@ function JobDetails(props) {
                       </tbody>
                     </table>
                   </div>
+                )}
+
+                {chooseStatus && (
+                  <Transition
+                    appear
+                    show={chooseStatus}
+                    as={Fragment}
+                    className="relative z-10 w-full "
+                    style={{ zIndex: 1000 }}
+                  >
+                    <Dialog
+                      as="div"
+                      className="relative z-10 w-5/6 "
+                      onClose={() => {}}
+                      static={true}
+                    >
+                      <div
+                        className="fixed inset-0 bg-black/30"
+                        aria-hidden="true"
+                      />
+                      <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                      >
+                        <div className="fixed inset-0 bg-black bg-opacity-25" />
+                      </Transition.Child>
+
+                      <div className="fixed inset-0 overflow-y-auto ">
+                        <div className="flex min-h-full items-center justify-center text-center max-w-4xl mx-auto">
+                          <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0 scale-95"
+                            enterTo="opacity-100 scale-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100 scale-100"
+                            leaveTo="opacity-0 scale-95"
+                          >
+                            <Dialog.Panel className="w-auto pb-5 transform overflow-hidden rounded-2xl bg-white text-left align-middle  transition-all">
+                              <div className="rounded-lg bg-white w-full">
+                                <div className="flex items-start space-x-3 	">
+                                  {/* <AiFillCalendar className="text-4xl text-gray-700" /> */}
+                                  <div className="py-5 w-full bg-blue-900 flex">
+                                    <p className="text-lg mx-5 text-center text-white font-semibold">
+                                      Change Status
+                                    </p>
+                                  </div>
+                                </div>
+
+                                <div className="flex items-start space-x-3 	">
+                                  {/* <AiFillCalendar className="text-4xl text-gray-700" /> */}
+                                  <div className="py-5 w-full flex">
+                                    <p className="text-lg mx-5 text-center text-black font-semibold">
+                                      Do you want to change status
+                                    </p>
+                                  </div>
+                                </div>
+
+                                <div className="w-auto mx-auto flex justify-center">
+                                  <button
+                                    className="text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
+                                    style={{ backgroundColor: "#034488" }}
+                                  >
+                                    Confirm
+                                  </button>
+                                  <button
+                                    className="text-black font-bold py-3 border-black border-2 px-8 mx-1 md:mx-4 text-xs rounded"
+                                    onClick={() => {
+                                      setchooseStatus(false);
+                                    }}
+                                  >
+                                    Decline
+                                  </button>
+                                </div>
+                              </div>
+                            </Dialog.Panel>
+                          </Transition.Child>
+                        </div>
+                      </div>
+                    </Dialog>
+                  </Transition>
                 )}
                 <div className={candidates.length > 5 ? "w-full" : "hidden"}>
                   <div className="flex justify-between my-2 mx-1">

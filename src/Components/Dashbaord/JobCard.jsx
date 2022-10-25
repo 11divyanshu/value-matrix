@@ -185,18 +185,18 @@ const JobCard = (props) => {
           ) : (
             <button
               // style={{ background: "#3ED3C5" }}
-              className=" bg-white border border-gray-400 rounded-3xl px-6 my-3 text-xs text-gray-900 font-semibold"
+              className=" bg-white border border-gray-400 rounded-3xl px-6 my-3 text-xs text-gray-900 font-semibold"       
             >
               Ended{" "}
             </button>
           )}
 
-          <Menu as="div" className="relative inline-block text-left">
+          <Menu as="div" className="relative inline-block mx-3 text-left">
             <div>
               <Menu.Button className="flex bg-yellow-300 rounded-3xl mx-2 py-2 my-3 text-xs text-gray-900 font-semibold">
                 Status
                 <ChevronDownIcon
-                  className="-mr-1 ml-2 h-5 w-5"
+                  className="h-5 w-5"
                   aria-hidden="true"
                 />
               </Menu.Button>
@@ -211,12 +211,12 @@ const JobCard = (props) => {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="absolute right-0 z-10 mt-2 w-auto rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <Menu.Items className="absolute -mt-3 z-10 w-auto rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div className="text-left">
                   <Menu.Item>
                     <button
                       // style={{background: "#3ED3C5" }}
-                      className="  rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
+                      className="rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
                       onClick={() => {
                         setchooseStatus(true);
                       }}
@@ -334,7 +334,7 @@ const JobCard = (props) => {
             </Transition>
           )}
 
-          <div className="px-4 mr-2 py-4 align-middle">
+          <div className=" mr-2 py-4 align-middle">
             {/* <p className="text-right text-md py-3"><BsThreeDots/></p> */}
             <Popover className="relative mt-1">
               {({ open }) => (

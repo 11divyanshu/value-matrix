@@ -184,7 +184,7 @@ function JobDetails(props) {
                     <h5 className="text-black-900 text-lg font-bold mb-1 ">
                       {job.jobTitle}
                     </h5>
-                    <p className="text-sm font-bold  text-gray-400 font-semibold">
+                    <p className="text-sm text-gray-400 font-semibold">
                       {job.hiringOrganization}
                     </p>
                   </div>
