@@ -213,27 +213,27 @@ const JobCard = (props) => {
               leaveTo="transform opacity-0 scale-95"
             >
               <Menu.Items className="absolute right-0 z-10 mt-2 w-auto rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <div className="text-center">
+                <div className="text-left">
                   <Menu.Item>
                     <button
-                      style={{background: "#3ED3C5" }}
-                      className="  rounded-3xl px-4 py-2 mx-6 my-3 text-xs text-gray-900 font-semibold"
+                      // style={{background: "#3ED3C5" }}
+                      className="  rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
                     >
                       Archived{" "}
                     </button>
                   </Menu.Item>
                   <Menu.Item>
                     <button
-                      style={{ background: "#3ED3C5" }}
-                      className="  rounded-3xl px-4 py-2 mx-6 my-3 text-xs text-gray-900 font-semibold"
+                      // style={{ background: "#3ED3C5" }}
+                      className="  rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
                     >
                       Active{" "}
                     </button>
                   </Menu.Item>
                   <Menu.Item>
                     <button
-                      style={{ background: "#3ED3C5" }}
-                      className="  rounded-3xl px-4 py-2 mx-6 my-3 text-xs text-gray-900 font-semibold"
+                      // style={{ background: "#3ED3C5" }}
+                      className="  rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
                     >
                       Ended{" "}
                     </button>
