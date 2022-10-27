@@ -11,16 +11,21 @@ import { BsThreeDots, BsCashStack } from "react-icons/bs";
 import { CgWorkAlt } from "react-icons/cg";
 import { Fragment } from "react";
 import { Dialog, Menu } from "@headlessui/react";
-
+import swal from "sweetalert";
 import { Popover, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-
+import { 
+  postUpdateJobStatus,
+  postUpdateJobArchive
+} from "../../service/api";
 const JobCard = (props) => {
   const [job, setJob] = React.useState(props.job);
   const [index, setIndex] = React.useState(props.index);
   const [user, setUser] = React.useState(null);
   const [chooseStatus, setchooseStatus] = React.useState(null);
-
+  const [choosenStatus, setChoosenStatus] = React.useState("");
+  const [choosenId, setChoosenId] = React.useState("");
+  const [loading, setLoading] = React.useState(null);
   console.log(props.job);
   // localStorage.setItem("jobs", JSON.stringify(job))
 
@@ -28,80 +33,93 @@ const JobCard = (props) => {
     setUser(JSON.parse(localStorage.getItem("user")));
   }, []);
 
+  const handleStatusChange = (id,status) => {
+    console.log(id,status)
+    setChoosenStatus(status);
+    setChoosenId(id);
+  }
+
+  const handleStatusPost = async () => {
+    let access_token = localStorage.getItem("access_token");
+    let user = JSON.parse(localStorage.getItem("user"));
+
+    if(choosenStatus === "Archieved"){
+      console.log("check");
+      let res2 = await postUpdateJobArchive(
+        {
+          _id: choosenId,
+          archived: true,
+        },
+        access_token
+      );
+
+      if(res2){
+        swal({
+          title: "Job Status Updated Successfully !",
+          message: "Success",
+          icon: "success",
+          button: "Continue",
+        }).then((result) => {
+          setLoading(false);
+          window.location.href = "/company/jobs";
+        });
+      }else{
+        swal({
+          title: " Error Updating Job Status !",
+          message: "OOPS! Error Occured",
+          icon: "Error",
+          button: "Ok",
+        });
+      }
+    }else{
+      let res = await postUpdateJobStatus(
+        {
+          job_id: choosenId,
+          status: choosenStatus,
+        },
+        access_token
+      );
+  
+      if (res) {
+        let res1 = await postUpdateJobArchive(
+          {
+            _id: choosenId,
+            archived: false,
+          },
+          access_token
+        );
+
+        if(res1){
+          swal({
+            title: "Job Status Updated Successfully !",
+            message: "Success",
+            icon: "success",
+            button: "Continue",
+          }).then((result) => {
+            setLoading(false);
+            window.location.href = "/company/jobs";
+          });
+        }else{
+          swal({
+            title: " Error Updating Job Status !",
+            message: "OOPS! Error Occured",
+            icon: "Error",
+            button: "Ok",
+          });
+        }
+      } else {
+        swal({
+          title: " Error Updating Job Status !",
+          message: "OOPS! Error Occured",
+          icon: "Error",
+          button: "Ok",
+        });
+      }
+    }
+  }
+
   localStorage.setItem("ids", JSON.stringify(job._id));
   return (
-    // <div className="flex my-2 w-full">
-    //   <div className="block rounded-md p-3 my-2 shadow-md border-[0.5px] border-gray-300 bg-white w-full">
-
-    //     <div className="p-6">
-    //       <h5 className="text-black-900 text-2xl font-bold mb-2">{job.jobTitle}</h5>
-    //       <p className="text-xl font-bold  text-blue-500">{job.hiringOrganization}</p>
-    //       <div className="md:flex mt-5 px-3">
-    //         {job.salary && (
-    //           <div className="flex px-3">
-    //           <p className="">
-    //             <div className="shadow-md p-3 rounded-full"><p className="text-2xl text-blue-500"><HiOutlineCalendar/></p></div>
-
-    //             </p>
-    //             <div>
-    //             <p className="px-4 text-gray-400 text-md text-gray-400">Job Type</p>
-    //             <p className="px-4 text-md">{job.jobType}</p>
-    //             </div>
-    //             </div>
-
-    //         )}
-
-    //         {/* <p className="text-sm text-gray-700 mx-auto">
-    //           {job.jobType}
-    //         </p> */}
-    //         <div className="flex flex-wrap px-3">
-    //         <p className="text-sm">
-    //             <div className="shadow-md p-3 rounded-full"><div className="text-2xl text-blue-500 "><HiOutlineCurrencyDollar/></div></div>
-
-    //             </p>
-    //             <div>
-    //             <p className="px-4 text-md text-gray-400 ">Pay Range</p>
-    //             <p className="px-4 text-md">{job.salary}</p>
-    //             </div>
-    //         </div>
-
-    //         <div className="flex px-3">
-    //         <p className="text-sm  ">
-    //             <div className="shadow-md p-3 rounded-full"><div className="text-2xl text-blue-500 "><HiOutlineLocationMarker/></div></div>
-
-    //             </p>
-    //             <div>
-    //             <p className="px-4 text-md text-gray-400 ">Location</p>
-    //             <p className="px-4 text-md">{job.location}</p>
-    //             </div>
-    //         </div>
-
-    //         <div className="flex px-3">
-    //         <p className="text-sm  ">
-    //             <div className="shadow-md p-3 rounded-full"><div className="text-2xl text-blue-500 "><HiOutlinePlay/></div></div>
-
-    //             </p>
-    //             <div>
-    //             <p className="px-4 text-md text-gray-400 ">Apply Till</p>
-    //             <p className="px-4 text-md">{new Date(job.validTill).getDate() +
-    //             "-" +
-    //            ( new Date(job.validTill).getMonth()+1) +
-    //             "-" +
-    //             new Date(job.validTill).getFullYear()}</p>
-    //             </div>
-    //         </div>
-
-    //       </div>
-    //       {/* <p className="text-gray-700 text-base">{job.jobDesc}</p> */}
-    //     </div>
-    //     <div className="py-3 border-t border-gray-300 items-center flex ">
-    //       {/* <FaBuilding className="text-gray-500 mr-2" /> */}
-
-    //       <p className="ml-auto text-md text-blue-500 cursor-pointer" ><Link to={`/company/jobDetails/${job._id}`}>View Details &#12297;</Link></p>
-    //     </div>
-    //   </div>
-    // </div>
-
     <div
       id={"crd" + (index + 1)}
       className={
@@ -175,22 +193,35 @@ const JobCard = (props) => {
             >
               Archived{" "}
             </button>
-          ) : new Date().toISOString() < job.validTill ? (
+          ) : job.status === "Active" ? (
             <button
               style={{ background: "#3ED3C5" }}
               className="  rounded-3xl px-6 my-3 text-xs text-gray-900 font-semibold"
             >
               Active{" "}
             </button>
-          ) : (
+          ) : job.status === "Not Accepting" ? (
             <button
               // style={{ background: "#3ED3C5" }}
               className=" bg-white border border-gray-400 rounded-3xl px-6 my-3 text-xs text-gray-900 font-semibold"       
             >
-              Ended{" "}
+            Not Accepting{" "}
             </button>
-          )}
-
+          ): job.status === "Closed" ? (
+            <button
+              // style={{ background: "#3ED3C5" }}
+              className=" bg-white border border-gray-400 rounded-3xl px-6 my-3 text-xs text-gray-900 font-semibold"       
+            >
+              Closed{" "}
+            </button>
+          ): job.status === "Pending" ? (
+            <button
+              // style={{ background: "#3ED3C5" }}
+              className=" bg-white border border-gray-400 rounded-3xl px-6 my-3 text-xs text-gray-900 font-semibold"       
+            >
+            Pending{" "}
+            </button>
+          ) : null}
           <Menu as="div" className="relative inline-block mx-3 text-left">
             <div>
               <Menu.Button className="flex bg-yellow-300 rounded-3xl mx-2 py-2 my-3 text-xs text-gray-900 font-semibold">
@@ -211,7 +242,7 @@ const JobCard = (props) => {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="absolute -mt-3 z-10 w-auto rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <Menu.Items style={{width:"150px"}} className="absolute -mt-3 z-10 w-auto rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div className="text-left">
                   <Menu.Item>
                     <button
@@ -219,17 +250,7 @@ const JobCard = (props) => {
                       className="rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
                       onClick={() => {
                         setchooseStatus(true);
-                      }}
-                    >
-                      Archived{" "}
-                    </button>
-                  </Menu.Item>
-                  <Menu.Item>
-                    <button
-                      // style={{ background: "#3ED3C5" }}
-                      className="  rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
-                      onClick={() => {
-                        setchooseStatus(true);
+                        handleStatusChange(job._id, "Active");
                       }}
                     >
                       Active{" "}
@@ -237,13 +258,38 @@ const JobCard = (props) => {
                   </Menu.Item>
                   <Menu.Item>
                     <button
+                      // style={{background: "#3ED3C5" }}
+                      className="rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
+                      onClick={() => {
+                        setchooseStatus(true);
+                        handleStatusChange(job._id, "Not Accepting");
+                      }}
+                    >
+                      Not Accepting{" "}
+                    </button>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <button
                       // style={{ background: "#3ED3C5" }}
                       className="  rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
                       onClick={() => {
                         setchooseStatus(true);
+                        handleStatusChange(job._id, "Closed");
                       }}
                     >
-                      Ended{" "}
+                      Closed{" "}
+                    </button>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <button
+                      // style={{ background: "#3ED3C5" }}
+                      className="  rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
+                      onClick={() => {
+                        setchooseStatus(true);
+                        handleStatusChange(job._id, "Archived");
+                      }}
+                    >
+                      Archieved{" "}
                     </button>
                   </Menu.Item>
                 </div>
@@ -313,6 +359,9 @@ const JobCard = (props) => {
                             <button
                               className="text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
                               style={{ backgroundColor: "#034488" }}
+                              onClick={() => {
+                                handleStatusPost()
+                              }}
                             >
                               Confirm
                             </button>

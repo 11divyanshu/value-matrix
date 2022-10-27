@@ -272,6 +272,45 @@ export const postJobAPI = async (data, token) => {
   }
 };
 
+export const postUpdateJobStatus = async (data, token) => {
+  console.log(data);
+  try {
+    return await axios.post(`${url}/jobStatusChange`, data, {
+      headers: {
+        authorization: token,
+      },
+    });
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+
+export const postUpdateCandidateStatus = async (data, token) => {
+  console.log(data);
+  try {
+    return await axios.post(`${url}/interviewApplicationstatusChange`, data, {
+      headers: {
+        authorization: token,
+      },
+    });
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+
+export const postUpdateJobArchive = async (data, token) => {
+  console.log(data);
+  try {
+    return await axios.post(`${url}/archiveJob`, data, {
+      headers: {
+        authorization: token,
+      },
+    });
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+
 //update job
 
 export const updateJobAPI = async (data, token) => {

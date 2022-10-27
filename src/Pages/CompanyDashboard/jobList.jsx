@@ -11,6 +11,7 @@ import { HiOutlineUser } from "react-icons/hi";
 import { Popover, Transition } from "@headlessui/react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import '../../assets/stylesheet/pagination.css';
 const JobList = () => {
   const [jobs, setJobs] = React.useState([]);
   const [loader, setLoader] = React.useState(false);
@@ -20,6 +21,7 @@ const JobList = () => {
   React.useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"));
     setUser(user);
+    // document.getElementById('1').classList.add('page_active')
   }, []);
   const headerso = [
     { label: "job_id", key: "_id" },
@@ -73,7 +75,7 @@ const JobList = () => {
       // await setJobs(res.data.jobs);
       console.log(res.data.jobs);
       let arr = [...res.data.jobs];
-
+      console.log(arr);
       setJobs([]);
       // setLoader(true);
       setLoader(false);
@@ -238,8 +240,8 @@ const JobList = () => {
                       jobs.map((job, index) => {
                         return index % 5 == 0 ? (
                           <span
-                            className="mx-2"
-                            style={{ cursor: "pointer" }}
+                            className={`mx-2 ${page == (index / 5) + 1 ? 'page_active' : ''}`}
+                            style={{ cursor: "pointer"}}
                             onClick={() => {
                               paginate(index / 5 + 1);
                             }}

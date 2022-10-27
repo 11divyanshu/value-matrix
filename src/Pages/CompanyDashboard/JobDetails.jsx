@@ -21,7 +21,10 @@ import Microsoft from "../../assets/images/micro.jpg";
 import { updateJobAPI, getSkills, archiveJob } from "../../service/api";
 import { useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-
+import swal from "sweetalert";
+import { 
+  postUpdateCandidateStatus
+} from "../../service/api";
 function JobDetails(props) {
   const [job_id, setJobId] = React.useState(props.id);
   const [job, setJob] = React.useState(null);
@@ -40,24 +43,24 @@ function JobDetails(props) {
 
   const [user, setUser] = React.useState(null);
   const [toggle, setToggle] = React.useState(true);
-
+  const [choosenStatus, setChoosenStatus] = React.useState("");
+  const [choosenId, setChoosenId] = React.useState("");
+  const [loading, setLoading] = React.useState(null);
   React.useEffect(() => {
     const getData = async () => {
       // let access_token = ReactSession.get("access_token");
       let access_token = localStorage.getItem("access_token");
       let user = JSON.parse(await localStorage.getItem("user"));
-
       await setUser(user);
       let res = await getJobById(job_id, access_token);
-      console.log(res.data.job);
       if (res) {
         setJob(res.data.job);
         let jobDetails = res.data.job;
         await localStorage.setItem("jobDetails", JSON.stringify(res.data.job));
-        console.log(res.data.job.archived);
         if (res.data.job.archived) {
           setToggle(res.data.job.archived);
         }
+        console.log(res.data.applicants);
         setCandidates(res.data.applicants);
         setDeclined(res.data.declined);
         setInvited(res.data.invited);
@@ -127,6 +130,43 @@ function JobDetails(props) {
     }
   };
   const [chooseStatus, setchooseStatus] = React.useState(null);
+
+  const handleCandidateStatusChange = (id,status) => {
+    console.log(id,status)
+    setChoosenStatus(status);
+    setChoosenId(id);
+  }
+
+  const handleCandidateStatusPost = async () => {
+    let access_token = localStorage.getItem("access_token");
+    let user = JSON.parse(localStorage.getItem("user"));
+    let res = await postUpdateCandidateStatus(
+      {
+        _id: choosenId,
+        status: choosenStatus,
+        isCompany: true
+      },
+      access_token
+    );
+    if(res){
+      swal({
+        title: "Candidate Job Status Updated Successfully !",
+        message: "Success",
+        icon: "success",
+        button: "Continue",
+      }).then((result) => {
+        setLoading(false);
+        window.location.reload();
+      });
+    }else{
+      swal({
+        title: "Error Updating Candidate Job Status !",
+        message: "OOPS! Error Occured",
+        icon: "Error",
+        button: "Ok",
+      });
+    }
+  }
 
   return (
     // <div className="p-5 mx-auto">
@@ -509,10 +549,12 @@ function JobDetails(props) {
                                             // style={{background: "#3ED3C5" }}
                                             className="rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
                                             onClick={() => {
+                                              console.log(user.appid);
                                               setchooseStatus(true);
+                                              handleCandidateStatusChange(user.appid, "Assigned");
                                             }}
                                           >
-                                            Archived{" "}
+                                            Assigned{" "}
                                           </button>
                                         </Menu.Item>
                                         <Menu.Item>
@@ -520,10 +562,12 @@ function JobDetails(props) {
                                             // style={{ background: "#3ED3C5" }}
                                             className="  rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
                                             onClick={() => {
+                                              console.log(user.appid);
                                               setchooseStatus(true);
+                                              handleCandidateStatusChange(user.appid, "Declined");
                                             }}
                                           >
-                                            Active{" "}
+                                            Declined{" "}
                                           </button>
                                         </Menu.Item>
                                         <Menu.Item>
@@ -531,10 +575,12 @@ function JobDetails(props) {
                                             // style={{ background: "#3ED3C5" }}
                                             className="  rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
                                             onClick={() => {
+                                              console.log(user.appid);
                                               setchooseStatus(true);
+                                              handleCandidateStatusChange(user.appid, "Onhold");
                                             }}
                                           >
-                                            Ended{" "}
+                                            Onhold{" "}
                                           </button>
                                         </Menu.Item>
                                       </div>
@@ -635,6 +681,9 @@ function JobDetails(props) {
                                   <button
                                     className="text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
                                     style={{ backgroundColor: "#034488" }}
+                                    onClick={() => {
+                                      handleCandidateStatusPost()
+                                    }}
                                   >
                                     Confirm
                                   </button>

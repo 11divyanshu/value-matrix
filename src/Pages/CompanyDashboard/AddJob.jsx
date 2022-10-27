@@ -265,6 +265,7 @@ const AddJob = () => {
           user_id: user._id,
           salary: [currency, salary, maxSalary],
           questions: questions,
+          draft: false,
           ...values,
         },
         access_token
@@ -981,6 +982,10 @@ const AddJob = () => {
                             className="text-red-600 text-sm w-full"
                           />
                         </div>
+                        <button
+                            className="bg-[#034488] px-4 py-1 text-white mx-auto block my-6 rounded-sm">
+                            Save As Draft
+                        </button>
                         {values.jobTitle &&
                           desc &&
                           selectedCity !== null &&
@@ -988,6 +993,8 @@ const AddJob = () => {
                           values.jobLocation &&
                           values.validTill &&
                           values.hiringOrganization ? (
+                            <>
+                            
                           <button
                             className="bg-[#034488] px-4 py-1 text-white mx-auto block my-6 rounded-sm"
                             onClick={async () => {
@@ -1032,6 +1039,7 @@ const AddJob = () => {
                           >
                             Next
                           </button>
+                          </>
                         ) : (
                           <button className="bg-[#034388d7] px-4 py-1 text-white mx-auto block my-6 rounded-sm" onClick={() => {
                             if (selectedCity.country === "NULL") {
