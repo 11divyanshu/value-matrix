@@ -11,6 +11,7 @@ import {
   AiOutlineMenu,
   AiOutlineClose,
   AiOutlineConsoleSql,
+  AiOutlineUser,
   AiOutlineHome,
   AiOutlinePlus
 } from "react-icons/ai";
@@ -29,6 +30,7 @@ const Sidebar = () => {
   const [collapsed, setCollapsed] = React.useState(false);
    const hasWindow = typeof window !== "undefined";
    const [close, setClose] = React.useState(null);
+   const [user, setUser] = React.useState(null);
 
 
   const Logout = async () => {
@@ -84,7 +86,8 @@ const Sidebar = () => {
       let user1 = JSON.parse(await localStorage.getItem("user"));
       let token = await localStorage.getItem("access_token");
       let user = await getUserFromId({ id: user1._id }, token);
-      console.log(user);
+      console.log(user.data.user);
+       setUser(user.data.user);
       // if (
       //   user &&
       //   user.data.user &&
@@ -149,12 +152,27 @@ const Sidebar = () => {
               </p>
               <Link to={`/XI/`} />
             </MenuItem>
+         
 
             {/* <hr></hr> */}
             <p className='text-gray-400 font-bold text-xs mx-4 my-5'>ANALYTICS</p>
+            <MenuItem
+              className="text-gray-700 font-semibold flex"
+              active={window.location.pathname === `/XI/profile`}
+              // onClick={()=>{ handleToggle();}}
+            >
+              {" "}
+              <p className="text-xl flex mx-2">
+                <AiOutlineUser />
+                <p className="text-sm mx-4 text-gray-700 font-semibold">
+                  Profile{" "}
+                </p>
+              </p>
+              <Link to={`/XI/profile`} />
+            </MenuItem>
 
             {XIDashboardRoutes.map((item) => {
-              if (item.hide === false && permission[item.permission] !== false)
+              if (item.hide === false && permission[item.permission] !== false && user && user.isXI !== false)
                 return (
                   // <Link
                   //   to={`/company${item.path}`}

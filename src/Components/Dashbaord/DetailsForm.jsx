@@ -6,10 +6,11 @@ import { TiTick } from "react-icons/ti";
 import {Link } from "react-router-dom";
 
 const DetailForm = (props) => {
-  
+  // console.log(props);
+  const [isOpen, setisOpen] = useState(props.isOpen)
   return (
     <>
-      <Transition appear show={props.isOpen} as={Fragment} className="relative z-50 w-full">
+      <Transition appear show={isOpen} as={Fragment} className="relative z-50 w-full">
         <Dialog
           as="div"
           className="relative z-120  w-5/6"
@@ -76,9 +77,14 @@ const DetailForm = (props) => {
                         )}
                         <p>Updated Skills</p>
                       </div>
-                      <div className="mt-10 mb-5 w-full">
-                        <Link to="/user/editProfile">
-                        <button className="px-4 py-2 md:w-1/3 block mx-auto rounded-sm text-white" style={{backgroundColor:"#034488"}}>Complete Your Profile</button></Link>
+                      <div className="mt-10 mb-5 w-full text-center justify-center flex">
+                        <Link to={props.user.user_type == "XI" ? "/XI/editProfile" : "/user/editProfile"}>
+                        <button className="px-4 py-2  rounded-sm text-white" style={{backgroundColor:"#034488"}}>Complete Your Profile</button></Link>
+                        {
+                        props.user.user_type == "XI" && (
+                          <button className="px-4 py-2  mx-3 rounded-sm text-white" onClick={()=> setisOpen(false)} style={{backgroundColor:"#034488"}}>OK</button>
+                        )
+                      }
                       </div>
                     </div>
                   </div>

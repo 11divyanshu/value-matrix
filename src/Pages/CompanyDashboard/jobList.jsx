@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import JobCard from "../../Components/Dashbaord/JobCard.jsx";
-import { listJobs } from "../../service/api.js";
+import { listJobs,listBinJobs } from "../../service/api.js";
 import { CSVLink } from "react-csv";
 import { Formik, Field, Form } from "formik";
 import { FilterCompany } from "../../service/api.js";
@@ -48,6 +48,8 @@ const JobList = () => {
       let c_id = JSON.parse(localStorage.getItem("user"));
       console.log(c_id);
       let res = await listJobs(c_id._id);
+      let binJobs = await listBinJobs(c_id._id);
+      console.log(binJobs);
       console.log(res);
       if (res && res.data) {
         setJobs(res.data.jobs);

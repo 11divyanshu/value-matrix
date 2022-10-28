@@ -510,7 +510,7 @@ export const XIDashboardRoutes = [
     icon: <AiOutlineUser className="text-xl" />,
     path: "/profile",
     component: <UserProfile />,
-    hide: false,
+    hide: true,
     permission: "default",
   },
   {
