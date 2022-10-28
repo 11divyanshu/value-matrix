@@ -1041,7 +1041,18 @@ export const updateInterviewApplication = async (id ,data) => {
   }
 }
 
-
+export const userUpgradePostRequest = async (data, token) => {
+  console.log(data);
+  try {
+    return await axios.post(`${url}/insertUserInterviewApplications`, data, {
+      headers: {
+        authorization: token,
+      },
+    });
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
 
 
 

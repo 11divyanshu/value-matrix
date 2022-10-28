@@ -15,6 +15,7 @@ import { LogoutAPI } from "../../service/api";
 import "../../assets/stylesheet/sidebar.scss";
 import { Link } from "react-router-dom";
 import { FaUserCog } from "react-icons/fa";
+import swal from "sweetalert";
 import {
   AiOutlineMenu,
   AiOutlineClose,
@@ -24,6 +25,11 @@ import {
 } from "react-icons/ai";
 import { FiSettings } from "react-icons/fi";
 import { MdOutlineLogout } from "react-icons/md";
+import {
+  userUpgradePostRequest
+} from '../../service/api';
+
+
 const Sidebar = (props) => {
   const [open, setOpen] = React.useState(true);
   const [menu, setMenu] = React.useState(false);
@@ -31,12 +37,15 @@ const Sidebar = (props) => {
   const [collapsed, setCollapsed] = React.useState(false);
   const [activePage, setActivePage] = React.useState(null);
   const [close, setClose] = React.useState(null);
+  const [loading, setLoading] = React.useState(null);
+  const [u_id, setU_id] = React.useState(null);
   const hasWindow = typeof window !== "undefined";
 
   const sideRef = React.useRef(null);
   const Logout = async () => {
     let user = await localStorage.getItem("user");
     user = JSON.parse(user);
+    setU_id(user._id);
     let res = await LogoutAPI(user._id);
     console.log(res);
     await localStorage.setItem("user", null);
@@ -77,6 +86,46 @@ const Sidebar = (props) => {
       setCollapsed(!collapsed);
     }
   };
+
+  const handleUpgradeXIRequest = () => {
+    swal({
+      title: "Are you sure?",
+      text: "Once upgraded, you will not be able to downgrade!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((respose) => {
+      if (respose) {
+        handleUpgradeXIRequestPost();
+        // swal("Your account upgradation request is raised successfully", {
+        //   icon: "success",
+        // });
+      } else {
+        swal("Request cancelled");
+      }
+    });
+  }
+
+  const handleUpgradeXIRequestPost = async () => {
+    let access_token = localStorage.getItem("access_token");
+    let user = JSON.parse(await localStorage.getItem("user"));
+    let res = await userUpgradePostRequest(
+      {
+        u_id: u_id,
+      },
+      access_token
+    );
+
+    if(res){
+      swal("Your account upgradation request is raised successfully", {
+        icon: "success",
+      });
+    }else{
+      swal("Request Failed! Something went wrong",{
+        icon: "error",  
+      });
+    }
+  }
 
   return (
     <div className="sidebarComponent z-20">
@@ -177,6 +226,14 @@ const Sidebar = (props) => {
                   <Link to="/admin">Admin Panel</Link>
                 </MenuItem>
               )}
+              <button
+                className=" hover:bg-blue-700 text-white font-bold py-2 px-4 mx-2 text-xs mt-4 flex text-center rounded-lg"
+                style={{ backgroundColor: "#034488" }}
+                onClick={handleUpgradeXIRequest}
+              >
+                {/* <p classname=" py-2"><AiOutlinePlus/></p> */}
+                <p className="py-1">Upgrade to XI</p>
+              </button>
             </Menu>
           </SidebarContent>
           <div className="mx-4 my-24">
