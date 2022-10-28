@@ -6,7 +6,7 @@ import {
   SidebarContent,
 } from "react-pro-sidebar";
 import "react-pro-sidebar/dist/css/styles.css";
-import "../../assets/stylesheet/layout.scss"
+import "../../assets/stylesheet/layout.scss";
 
 import { companyDashboardRoutes } from "../../routes";
 import {
@@ -16,7 +16,6 @@ import {
   AiOutlineHome,
   AiOutlinePlus,
   AiOutlineFolderAdd,
-
 } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import React from "react";
@@ -32,8 +31,7 @@ const Sidebar = () => {
   const [toggled, setToggled] = React.useState(true);
   const [collapsed, setCollapsed] = React.useState(false);
   const [close, setClose] = React.useState(null);
-   const hasWindow = typeof window !== "undefined";
-
+  const hasWindow = typeof window !== "undefined";
 
   const Logout = async () => {
     console.log("CHeck");
@@ -70,7 +68,7 @@ const Sidebar = () => {
       function handleResize() {
         setWindowDimensions(getWindowDimensions());
       }
-setClose(getWindowDimensions().width)
+      setClose(getWindowDimensions().width);
       console.log(getWindowDimensions().width);
 
       window.addEventListener("resize", handleResize);
@@ -79,10 +77,11 @@ setClose(getWindowDimensions().width)
   }, [hasWindow]);
 
   const handleToggle = () => {
-    if(close < 1336){
+    if (close < 1336) {
       setToggled(!toggled);
-      setCollapsed(!collapsed);}
-     };
+      setCollapsed(!collapsed);
+    }
+  };
 
   React.useEffect(() => {
     const initial = async () => {
@@ -109,120 +108,169 @@ setClose(getWindowDimensions().width)
   }, []);
 
   return (
-    <div className='sidebarComponent z-20'>
-    <div className="h-screen fixed top-20 left-0" >
-      <div className="absolute  text-gray-9 left-5 -top-14   text-gray-700 text-xl menu" style={{zIndex:18}}>
-        <AiOutlineMenu
-          className="text-md menu-bar"
-          onClick={() => {
-            handleToggle();
-          }}
-          style={{zIndex:20}}
-        />
-      </div>
-      <ProSidebar
-        // toggled={menu}
-        // onToggle={(prev)=>setMenu(!prev)}
-        // width={}
-
-        className="fixed left-0 h-screen z-0 text-left active text-gray-500"
-        style={{ backgroundColor: "#FAFAFA" , zIndex:-1}}
-        breakPoint="xl"
-        collapsed={collapsed}
-        toggled={toggled}
-        onToggle={handleToggle}
-      >
-        <div className="w-full px-6">
-          <Link to="/company/jobsAdd">
-            <button
-              className=" hover:bg-blue-700 flex text-white font-bold py-2 w-full text-sm mt-4 text-center align-center rounded-lg"
-              style={{backgroundColor:"#034488"}}
-
-            >
-             <p className="mx-auto flex"><p className="py-1 px-2 text-md"> <AiOutlinePlus/></p> Post New Job</p>
-            </button>
-          </Link>
+    <div className="sidebarComponent z-20">
+      <div className="h-screen fixed top-20 left-0">
+        <div
+          className="absolute  text-gray-9 left-5 -top-14   text-gray-700 text-xl menu"
+          style={{ zIndex: 18 }}
+        >
+          <AiOutlineMenu
+            className="text-md menu-bar"
+            onClick={() => {
+              handleToggle();
+            }}
+            style={{ zIndex: 20 }}
+          />
         </div>
-        <SidebarContent className="text-left mx-5 mt-7">
-          <Menu iconShape="square">
-            <MenuItem
-              className="text-gray-700 font-semibold flex"
-              active={window.location.pathname === `/company/` || window.location.pathname === `/company`}
-                onClick={()=>{handleToggle();}}
-            >
-              {" "}
-              <p className="text-xl flex mx-2">
-                <AiOutlineHome />
-                <p className="text-sm mx-4 text-gray-700 font-semibold">
-                  Dashboard{" "}
+        <ProSidebar
+          // toggled={menu}
+          // onToggle={(prev)=>setMenu(!prev)}
+          // width={}
+
+          className="fixed left-0 h-screen z-0 text-left active text-gray-500"
+          style={{ backgroundColor: "#FAFAFA", zIndex: -1 }}
+          breakPoint="xl"
+          collapsed={collapsed}
+          toggled={toggled}
+          onToggle={handleToggle}
+        >
+          <div className="w-full px-6">
+            <Link to="/company/jobsAdd">
+              <button
+                className=" hover:bg-blue-700 flex text-white font-bold py-2 w-full text-sm mt-4 text-center align-center rounded-lg"
+                style={{ backgroundColor: "#034488" }}
+              >
+                <p className="mx-auto flex">
+                  <p className="py-1 px-2 text-md">
+                    {" "}
+                    <AiOutlinePlus />
+                  </p>{" "}
+                  Post New Job
                 </p>
+              </button>
+            </Link>
+          </div>
+          <SidebarContent className="text-left mx-5 mt-7">
+            <Menu iconShape="square">
+              <MenuItem
+                className="text-gray-700 font-semibold flex"
+                active={
+                  window.location.pathname === `/company/` ||
+                  window.location.pathname === `/company`
+                }
+                onClick={() => {
+                  handleToggle();
+                }}
+              >
+                {" "}
+                <p className="text-xl flex mx-2">
+                  <AiOutlineHome />
+                  <p className="text-sm mx-4 text-gray-700 font-semibold">
+                    Dashboard{" "}
+                  </p>
+                </p>
+                <Link to={`/company/`} />
+              </MenuItem>
+
+              {/* <hr></hr> */}
+              <p className="text-gray-400 font-bold text-xs mx-4 my-4">
+                ANALYTICS
               </p>
-              <Link to={`/company/`} />
-            </MenuItem>
 
-            {/* <hr></hr> */}
-            <p className='text-gray-400 font-bold text-xs mx-4 my-4'>ANALYTICS</p>
+              {companyDashboardRoutes.map((item) => {
+                if (
+                  item.hide === false &&
+                  permission[item.permission] !== false
+                )
+                  return (
+                    <MenuItem
+                      className="text-gray-700 font-semibold"
+                      active={
+                        window.location.pathname === `/company${item.path}`
+                      }
+                      icon={item.icon}
+                    >
+                      {item.name}{" "}
+                      <Link
+                        to={`/company${item.path}`}
+                        onClick={() => {
+                          setOpen(true);
+                          handleToggle();
+                        }}
+                      />
+                    </MenuItem>
+                  );
+              })}
 
-            {companyDashboardRoutes.map((item) => {
-              if (item.hide === false && permission[item.permission] !== false)
-                return (
-               
-
-                  <MenuItem
-                    className="text-gray-700 font-semibold"
-                    active={window.location.pathname === `/company${item.path}`}
-                    icon={item.icon}
-                  >
-                    {item.name}{" "}
-                    <Link
-                      to={`/company${item.path}`}
-                      onClick={() => {
-                        setOpen(true);
-                         handleToggle();
-                      }}
-                    />
-                  </MenuItem>
-                );
-            })}
-         
-          <SubMenu
-            // suffix={}
-            title={<p className='text-sm font-semibold '>Company User</p>}
-            icon={<p className='text-lg'><AiOutlineMenu /></p>}
-          >
-            <MenuItem className='text-gray-700 font-semibold' active={window.location.pathname === `/company/addCompanyUser`}
-                    icon={<AiOutlineFolderAdd/>}>Add Users<Link to={`/company/addCompanyUser`}
-                     onClick={() => { setOpen(true);
+              <SubMenu
+                // suffix={}
+                title={<p className="text-sm font-semibold ">Company User</p>}
+                icon={
+                  <p className="text-lg">
+                    <AiOutlineMenu />
+                  </p>
+                }
+              >
+                <MenuItem
+                  className="text-gray-700 font-semibold"
+                  active={
+                    window.location.pathname === `/company/addCompanyUser`
+                  }
+                  icon={<AiOutlineFolderAdd />}
+                >
+                  Add Users
+                  <Link
+                    to={`/company/addCompanyUser`}
+                    onClick={() => {
+                      setOpen(true);
                       // handleToggle()
-                    }
-
-
-                    } /></MenuItem>
-            <MenuItem className='text-gray-700 font-semibold py-1' active={window.location.pathname === `/company/CompanyUserList`}
-                    icon={<AiOutlineMenu/>}>Users List<Link to={`/company/CompanyUserList`}
-                     onClick={() => { setOpen(true);
+                    }}
+                  />
+                </MenuItem>
+                <MenuItem
+                  className="text-gray-700 font-semibold py-1"
+                  active={
+                    window.location.pathname === `/company/CompanyUserList`
+                  }
+                  icon={<AiOutlineMenu />}
+                >
+                  Users List
+                  <Link
+                    to={`/company/CompanyUserList`}
+                    onClick={() => {
+                      setOpen(true);
                       // handleToggle()
-                    }
-
-
-                    } /></MenuItem>
-            {/* <MenuItem> 3</MenuItem> */}
-          </SubMenu>
-          </Menu>
-        </SidebarContent>
-        <div className="mx-4 my-24">
-          <div className="flex m-2">
-          <a href="/company/profile" className='text-gray-700 mx-4 py-2 font-semibold'><FiSettings/> </a><a href="/company/masking" className='text-gray-700  font-semibold py-1'>Settings</a>
+                    }}
+                  />
+                </MenuItem>
+                {/* <MenuItem> 3</MenuItem> */}
+              </SubMenu>
+            </Menu>
+          </SidebarContent>
+          <div className="mx-4 my-24">
+            <div className="flex m-2">
+              <a
+                href="/company/profile"
+                className="text-gray-700 mx-4 py-2 font-semibold"
+              >
+                <FiSettings />{" "}
+              </a>
+              <a
+                href="/company/masking"
+                className="text-gray-700  font-semibold py-1"
+              >
+                Settings
+              </a>
+            </div>
+            <div className="flex m-2" onClick={Logout}>
+              <p className="text-gray-700 mx-4 py-2 font-semibold">
+                <MdOutlineLogout />{" "}
+              </p>
+              <p className="text-gray-700  font-semibold py-1">Log Out</p>
+            </div>
           </div>
-          <div className="flex m-2" onClick={Logout}>
-            <p className="text-gray-700 mx-4 py-2 font-semibold">
-              <MdOutlineLogout />{" "}
-            </p>
-            <p className="text-gray-700  font-semibold py-1">Log Out</p>
-          </div>
-        </div>
-      </ProSidebar>
-    </div>
+        </ProSidebar>
+      </div>
     </div>
   );
 };
