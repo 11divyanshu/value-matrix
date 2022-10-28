@@ -129,11 +129,11 @@ const JobCard = (props) => {
       }
     >
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-8 sm:grid-cols-4 my-3">
-        <div className="col-span-2">
+        <div className="col-span-1">
           <h5 className="text-black-900 text-md font-bold mb-1 ">
             {job.jobTitle}
           </h5>
-          <p className="text-sm font-bold  text-gray-400 font-semibold">
+          <p className="text-sm  text-gray-400 font-semibold">
             {job.hiringOrganization}
           </p>
         </div>
@@ -185,7 +185,7 @@ const JobCard = (props) => {
             )}
           </div>
         </div>
-        <div className="flex col-span-2">
+        <div className="flex col-span-3 ">
           {job.archived ? (
             <button
               // style={{ background: "#3ED3C5" }}
@@ -196,7 +196,7 @@ const JobCard = (props) => {
           ) : job.status === "Active" ? (
             <button
               style={{ background: "#3ED3C5" }}
-              className="  rounded-3xl px-6 my-3 text-xs text-gray-900 font-semibold"
+              className="  rounded-3xl px-12 my-3 text-xs text-gray-900 font-semibold"
             >
               Active{" "}
             </button>
@@ -210,7 +210,7 @@ const JobCard = (props) => {
           ): job.status === "Closed" ? (
             <button
               // style={{ background: "#3ED3C5" }}
-              className=" bg-white border border-gray-400 rounded-3xl px-6 my-3 text-xs text-gray-900 font-semibold"       
+              className=" bg-white border border-gray-400 rounded-3xl px-11 my-3 text-xs text-gray-900 font-semibold"       
             >
               Closed{" "}
             </button>
@@ -222,12 +222,12 @@ const JobCard = (props) => {
             Pending{" "}
             </button>
           ) : null}
-          <Menu as="div" className="relative inline-block mx-3 text-left">
+          <Menu as="div" className="relative inline-block mx-5 col-span-3">
             <div>
               <Menu.Button className="flex bg-yellow-300 rounded-3xl mx-2 py-2 my-3 text-xs text-gray-900 font-semibold">
                 Status
                 <ChevronDownIcon
-                  className="h-5 w-5"
+                  className="h-5 w-8"
                   aria-hidden="true"
                 />
               </Menu.Button>
