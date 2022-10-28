@@ -26,7 +26,7 @@ const JobCard = (props) => {
   const [choosenStatus, setChoosenStatus] = React.useState("");
   const [choosenId, setChoosenId] = React.useState("");
   const [loading, setLoading] = React.useState(null);
-  console.log(props.job);
+  // console.log(props.job);
   // localStorage.setItem("jobs", JSON.stringify(job))
 
   React.useState(() => {

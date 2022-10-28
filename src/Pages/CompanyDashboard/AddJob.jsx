@@ -53,6 +53,7 @@ const AddJob = () => {
   // Skill Set Required For Job
   const [skills, setSkills] = React.useState([]);
   const [error, setError] = React.useState(null);
+  const [access, setAccess] = React.useState(null);
   const [disabled, setDisabled] = React.useState(true);
 
   // Screeing Questions
@@ -323,6 +324,7 @@ const AddJob = () => {
       let pr1 = JSON.parse(await localStorage.getItem("RolesProf"));
       let user = await JSON.parse(await localStorage.getItem("user"));
       await setUser(user);
+      setAccess(user.access_token);
       let res = await getSkills({ user_id: user._id }, user.access_token);
 
       let roles = new Set();
@@ -982,10 +984,47 @@ const AddJob = () => {
                             className="text-red-600 text-sm w-full"
                           />
                         </div>
-                        <button
+                        {values.jobTitle && <button
+                        onClick={async()=>{
+                          if (job === null) job = {};
+                          job.jobTitle = values.jobTitle;
+                          localStorage.setItem(
+                            "postjob",
+                            JSON.stringify(job)
+                          );
+                           setJob(job);
+                           let res = await postJobAPI(
+                            {
+                              
+                              ...values,
+                            },
+                            access
+                          );
+                          if (res) {
+                            swal({
+                              title: "Job Saved to Draft !",
+                              message: "Success",
+                              icon: "success",
+                              button: "Continue",
+                            }).then((result) => {
+                              setLoading(false);
+                              localStorage.removeItem("postjob");
+                              localStorage.removeItem("prof");
+                    
+                              window.location.href = "/company/jobs";
+                            });
+                          } else {
+                            swal({
+                              title: " Error Saving Job !",
+                              message: "OOPS! Error Occured",
+                              icon: "Error",
+                              button: "Ok",
+                            });
+                          }
+                        }}
                             className="bg-[#034488] px-4 py-1 text-white mx-auto block my-6 rounded-sm">
                             Save As Draft
-                        </button>
+                        </button> }
                         {values.jobTitle &&
                           desc &&
                           selectedCity !== null &&
