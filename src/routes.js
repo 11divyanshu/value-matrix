@@ -105,6 +105,9 @@ import UpdateInterviewApplication from "./Pages/XIDashboard/UpdateInterviewAppli
 
 import { FiSettings } from "react-icons/fi";
 import CPrintable from "./Pages/CompanyDashboard/CPrintable";
+import XIOnboarding from "./Pages/AdminDashboard/AdminUserList";
+import AdminUserProfile from "./Pages/AdminDashboard/AdminUserProfile";
+
 
 
 // User Dashboard Routes
@@ -211,6 +214,14 @@ export const adminDashboardRoutes = [
     path: "/",
     component: <APanel />,
     hide: true,
+    permission: "default",
+  },
+
+  {
+    name: "UserProfile",
+    path: "/AdminUserProfile",
+    hide: true,
+    component: <AdminUserProfile />,
     permission: "default",
   },
 
@@ -345,6 +356,14 @@ export const adminDashboardRoutes = [
     icon: <FaUserFriends className="text-xl" />,
     component: <AddAdminUser />,
     permission: "add_users",
+  },
+  {
+    name: "XIOnboarding",
+    path: "/XIOnboarding",
+    hide: false,
+    icon: <FaUserFriends className="text-xl" />,
+    component: <XIOnboarding />,
+    permission: "default",
   },
   {
     name: "Add Questions",
