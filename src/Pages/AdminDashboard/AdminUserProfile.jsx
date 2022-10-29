@@ -9,8 +9,7 @@ import Avatar from "../../assets/images/UserAvatar.png";
 import { Navigate, useNavigate } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-
-import Tabs from "../../Components/Dashbaord/Tabs";
+import AdminTabs from "../../Components/AdminDashboard/AdminTabs";
 const AdminUserProfile = (props) => {
   let navigate = useNavigate();
 console.log(props);
