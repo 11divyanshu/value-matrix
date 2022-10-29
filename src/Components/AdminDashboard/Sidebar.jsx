@@ -32,6 +32,8 @@ const Sidebar = () => {
     list_candidates: false,
     list_companies: false,
     add_notifications: false,
+    list_XI:false,
+
     default: true,
   });
   const Logout = async () => {
@@ -95,6 +97,7 @@ const Sidebar = () => {
           list_candidates: true,
           list_companies: true,
           add_notifications: true,
+          list_XI:true,
           default: true,
         });
       } else if (
