@@ -9,8 +9,7 @@ import Avatar from "../../assets/images/UserAvatar.png";
 import { Navigate, useNavigate } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-
-import Tabs from "../../Components/Dashbaord/Tabs";
+import AdminTabs from "../../Components/AdminDashboard/AdminTabs";
 const AdminUserProfile = (props) => {
   let navigate = useNavigate();
 console.log(props);
@@ -77,11 +76,20 @@ console.log(props);
               />
             </div>
 
-            <div className="mt-16 md:ml-80 md:px-5 md:mt-3  sm:mx-5 md:text-left">
+            <div className="mt-16 flex justify-between w-full md:ml-80 md:px-5 md:mt-3  sm:mx-5 md:text-left">
               <p className="font-semibold md:text-3xl mx-6  text-2xl ">
                 {user.firstName} {user.lastname}
+              <p className="text-gray-400 text-lg">{user.username}</p>
               </p>
-              <p className="text-gray-400 mx-6 text-lg">{user.username}</p>
+
+              <div className="flex py-2">
+                    <button
+                      className=" hover:bg-blue-700 px-4 font-bold text-white text-md rounded"
+                      style={{ backgroundColor: "#034488" }}
+                    >
+                      Call
+                    </button>
+                  </div>
             </div>
           </div>
 
@@ -113,17 +121,20 @@ console.log(props);
                     )}
                     <p>Updated Skills</p>
                   </div>
-
                 </div>
+                
               ) : null}
+              
           </div>
+
+          
 
           <div
             className="my-7 rounded-lg pt-3 w-full"
             style={{ borderRadius: "12px" }}
           >
             <div className="App " style={{ borderRadius: "12px" }}>
-              <Tabs />
+              <AdminTabs />
             </div>
           </div>
         </div>
