@@ -9,13 +9,14 @@ import Sidebar from "../../Components/AdminDashboard/Sidebar";
 import { getUserFromId, getUserIdFromToken } from "../../service/api";
 import jsCookie from "js-cookie";
 import "../../assets/stylesheet/layout.scss"
+import AdminUserProfile from "../AdminDashboard/AdminUserProfile.jsx";
 
 const AdminDashboard = () => {
   // Component To Render
   let [comp, setComponent] = React.useState(null);
-  let { component } = useParams();
+  let { component ,id } = useParams();
   component = "/" + component;
-
+console.log(id)
   // Current User
   let [user, setUser] = React.useState(null);
 
@@ -104,16 +105,22 @@ const AdminDashboard = () => {
       let c = adminDashboardRoutes.filter((route) => route.path === component);
       if (c[0]) setComponent(c[0].component);
       else {
+        let c1 = component.split("/");
+        console.log(c1);
+        if (c1[1] === "AdminUserProfile") setComponent(<AdminUserProfile id={id} />);
+       
+      else {
         let c = adminDashboardRoutes.filter(
           (route) => route.path === component.split("admin/")[1]
         );
-        if (c[0]) setComponent(c[0].component);
+        if (c.length >= 1 && c[0] && c[0] !== undefined) setComponent(c[0].component);
         else
           setComponent(
             adminDashboardRoutes.filter((route) => route.path === "/admin")[0]
               .component
           );
       }
+    }
     }
   }, [component]);
 

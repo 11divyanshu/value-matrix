@@ -1,7 +1,7 @@
 import React from "react";
 import { ReactSession } from "react-client-session";
 import { Formik, Form, Field } from "formik";
-import { getProfileImage } from "../../service/api";
+import { getProfileImage, getUserFromId } from "../../service/api";
 import { BiErrorCircle } from "react-icons/bi";
 import { TiTick } from "react-icons/ti";
 // Assets
@@ -11,24 +11,29 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
 import Tabs from "../../Components/Dashbaord/Tabs";
-const AdminUserProfile = () => {
+const AdminUserProfile = (props) => {
   let navigate = useNavigate();
-
+console.log(props);
   // Access Token And User State
   const [user, setUser] = React.useState();
   const [profileImg, setProfileImg] = React.useState(null);
+  const [job_id, setJobId] = React.useState(props.id);
 
   // Sets User and AccessToken from SessionStorage
 
   React.useEffect(() => {
     const func = async () => {
-      let user = JSON.parse(await localStorage.getItem("user"));
       let access_token = localStorage.getItem("access_token");
+      let user1 = await getUserFromId({ id: props.id},{token: access_token});
+      console.log(user1)
+      let user = user1.data.user;
+      console.log(user)
       if (user && user.profileImg) {
 
+        
         let image = await getProfileImage({ id: user._id }, user.access_token);
         console.log(image)
-        if (image.status === 200) {
+        if (image && image.status === 200) {
 
           await localStorage.setItem("profileImg", JSON.stringify(image));
 
@@ -101,7 +106,7 @@ const AdminUserProfile = () => {
                     <p>Connected LinkedIn Profile</p>
                   </div>
                   <div className="flex items-center space-x-3 py-1">
-                    {user && user.tools.length > 0 ? (
+                    {user && user.tools && user.tools.length > 0 ? (
                       <TiTick className="text-green-500 text-2xl" />
                     ) : (
                       <BiErrorCircle className="text-red-500 text-2xl" />

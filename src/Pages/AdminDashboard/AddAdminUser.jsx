@@ -39,6 +39,11 @@ const AddAdminUser = () => {
       id: "add_skills",
       value: false,
     },
+    {
+      title: "XI Onboarding",
+      id: "list_XI",
+      value: false,
+    },
   ]);
 
   // User Details Initial State

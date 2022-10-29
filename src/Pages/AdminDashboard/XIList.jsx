@@ -1,8 +1,9 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment , useEffect} from "react";
 import {
   getUserList,
   getCompanyUserList,
   updateUserDetails,
+  getXIList
 } from "../../service/api";
 import { Link } from "react-router-dom";
 import { getUserFromId } from "../../service/api";
@@ -45,11 +46,33 @@ const XIOnboarding = () => {
     },
   ]);
 
+
+
+ const navigate = useNavigate();
+
+ React.useEffect(() => {
+   const initial = async () => {
+     let user = JSON.parse(await localStorage.getItem("user"));
+     let res = await getUserFromId({ id: user._id }, user.access_token);
+     console.log(res);
+     if (res && res.data && res.data.user) {
+       if (
+         res.data.user.permissions[0].admin_permissions.list_XI === false
+       ) {
+         navigate(-1);
+       }
+     }
+   };
+   initial();
+ }, []);
+ 
+
+
   React.useEffect(() => {
     const initial = async () => {
       let token = await localStorage.getItem("access_token");
       let user = JSON.parse(await localStorage.getItem("user"));
-      let response = await getCompanyUserList(user._id);
+      let response = await getXIList({user_id:user._id},token);
       console.log(response);
       if (response && response.status === 200) {
         setUserList(response.data);
@@ -136,7 +159,7 @@ const XIOnboarding = () => {
                               {user.email}
                             </td>
                             <td className="text-xs text-blue-500 font-light px-6 py-4 whitespace-nowrap cursor-pointer">
-                              <Link to="/admin/AdminUserProfile" >
+                              <Link to={`/admin/AdminUserProfile/${user._id}`} >
                                 <p>View Detail</p>
                               </Link>
                             </td>

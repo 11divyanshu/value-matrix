@@ -340,6 +340,7 @@ export const listBinJobs = async (data) => {
     console.log("Error Calling List Jobs API :", error);
   }
 };
+
 export const listJobsUser = async () => {
   try {
     return await axios.post(`${url}/listJobCandidate`);
@@ -447,6 +448,16 @@ export const submitCompanyDetails = async (data, token) => {
 export const getCompanyList = async (data, token) => {
   try {
     return await axios.post(`${url}/getCompanyList`, data, {
+      headers: { authorization: token },
+    });
+  } catch (error) {
+    console.log("Error : ", error);
+  }
+};
+// Get XI List
+export const getXIList = async (data, token) => {
+  try {
+    return await axios.post(`${url}/getXIList`, data, {
       headers: { authorization: token },
     });
   } catch (error) {
