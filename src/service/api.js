@@ -484,6 +484,27 @@ export const getXIList = async (data, token) => {
   }
 };
 
+// Get XI List
+export const getXIUserList = async (data, token) => {
+  try {
+    return await axios.post(`${url}/getXIUserList`, data, {
+      headers: { authorization: token },
+    });
+  } catch (error) {
+    console.log("Error : ", error);
+  }
+};
+
+export const postXIUserLevel = async (data, token) => {
+  try {
+    return await axios.post(`${url}/postXIUserLevel`, data, {
+      headers: { authorization: token },
+    });
+  } catch (error) {
+    console.log("Error : ", error);
+  }
+};
+
 // Get User List
 export const getUserList = async (data, token) => {
   try {
@@ -1044,7 +1065,6 @@ export const deleteSlot = async (id) => {
 
   } catch (err) {
     console.log("Error : ", err);
-
   }
 }
 export const slotDetailsOfXI = async (id) => {

@@ -89,6 +89,7 @@ import AddSkills from "./Components/AdminDashboard/AddSkills";
 import AddAdminUser from "./Pages/AdminDashboard/AddAdminUser";
 import AddTaxId from "./Pages/AdminDashboard/AddTaxId";
 import Twilio from "./Pages/AdminDashboard/twilio";
+import XIUsersList from './Pages/AdminDashboard/XIUsersList';
 
 
 // XI Pages
@@ -329,6 +330,14 @@ export const adminDashboardRoutes = [
     path: "/jobvalidate",
     hide: true,
     component: <Jobvalidate />,
+    permission: "default",
+  },
+  {
+    name: "Xi Users List",
+    path: "/xiuserslist",
+    hide: false,
+    icon: <FaUserFriends className="text-xl" />,
+    component: <XIUsersList />,
     permission: "default",
   },
   {
