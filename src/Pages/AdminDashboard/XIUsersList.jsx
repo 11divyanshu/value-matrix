@@ -1,9 +1,10 @@
-import React, { useState, Fragment , useEffect} from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import {
   getUserList,
   getCompanyUserList,
   updateUserDetails,
-  getXIList
+  getXIUserList,
+  postXIUserLevel
 } from "../../service/api";
 import { Link } from "react-router-dom";
 import { getUserFromId } from "../../service/api";
@@ -20,6 +21,7 @@ import { HiOutlineOfficeBuilding, HiPencil } from "react-icons/hi";
 import { Dialog, Transition } from "@headlessui/react";
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import swal from "sweetalert";
+import { Button } from "@mui/material";
 
 const XIOnboarding = () => {
   const [userList, setUserList] = React.useState([]);
@@ -28,6 +30,9 @@ const XIOnboarding = () => {
   const [add_users, setadd_users] = React.useState(false);
   const [listCan, setlistCan] = React.useState(false);
   const [page, setPage] = useState(1);
+  const [otpModal, setotpModal] = React.useState(null);
+  const [newLevel, setNewLevel] = React.useState(0);
+  const [xiIdTemp, setXiIdTemp] = React.useState(null);
   const [permissions, setPermissions] = React.useState([
     {
       title: "Add Jobs",
@@ -48,31 +53,31 @@ const XIOnboarding = () => {
 
 
 
- const navigate = useNavigate();
+  const navigate = useNavigate();
 
- React.useEffect(() => {
-   const initial = async () => {
-     let user = JSON.parse(await localStorage.getItem("user"));
-     let res = await getUserFromId({ id: user._id }, user.access_token);
-     console.log(res);
-     if (res && res.data && res.data.user) {
-       if (
-         res.data.user.permissions[0].admin_permissions.list_XI === false
-       ) {
-         navigate(-1);
-       }
-     }
-   };
-   initial();
- }, []);
- 
+  React.useEffect(() => {
+    const initial = async () => {
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let res = await getUserFromId({ id: user._id }, user.access_token);
+      console.log(res);
+      if (res && res.data && res.data.user) {
+        if (
+          res.data.user.permissions[0].admin_permissions.list_XI === false
+        ) {
+          navigate(-1);
+        }
+      }
+    };
+    initial();
+  }, []);
+
 
 
   React.useEffect(() => {
     const initial = async () => {
       let token = await localStorage.getItem("access_token");
       let user = JSON.parse(await localStorage.getItem("user"));
-      let response = await getXIList({user_id:user._id},token);
+      let response = await getXIUserList({ user_id: user._id }, token);
       console.log(response);
       if (response && response.status === 200) {
         setUserList(response.data);
@@ -93,9 +98,118 @@ const XIOnboarding = () => {
     }
   };
 
+  const handleLevelChange = (level,id) => {
+    console.log(level)
+    setotpModal(true);
+    setXiIdTemp(id);
+  }
+
+  const handlePostNewLevel = async() => {
+    let data = parseInt(newLevel);
+    let token = await localStorage.getItem("access_token");
+    setotpModal(false);
+    let response = await postXIUserLevel({ user_id: xiIdTemp,level:newLevel }, token);
+    if(response){
+      swal({
+        title: "Level Upgraded Successfully!",
+        text: "XI Level is upgraded successfully!",
+        icon: "success",
+      }).then((respose) => {
+        window.location.reload();
+      });
+    }else{
+      swal({
+        title: "Error!",
+        text: "Something went wrong!",
+        icon: "error",
+      }).then((respose) => {
+        window.location.reload();
+      });
+    }
+  }
+
   return (
     <div className="p-5">
-      <p className="text-2xl font-semibold mx-10">XI Pending Users List</p>
+      {otpModal &&
+        <Transition
+          appear
+          show={otpModal}
+          as={Fragment}
+          className="relative z-10 w-full "
+          style={{ zIndex: 1000 }}
+        >
+          <Dialog
+            as="div"
+            className="relative z-10 w-5/6 "
+            onClose={() => { }}
+            static={true}
+          >
+            <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-black bg-opacity-25" />
+            </Transition.Child>
+
+            <div className="fixed inset-0 overflow-y-auto ">
+              <div className="flex min-h-full items-center justify-center p-4 text-center max-w-4xl mx-auto">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 scale-95"
+                  enterTo="opacity-100 scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 scale-100"
+                  leaveTo="opacity-0 scale-95"
+                >
+                  <Dialog.Panel className="w-full transform overflow-hidden rounded-2xl bg-white text-left align-middle  transition-all h-auto">
+
+                    <div className='py-5 w-full bg-blue-900 flex'>
+                      <p className="text-lg mx-5 text-center text-white font-semibold">
+                        Enter New Level
+                      </p>
+                    </div>
+                    <div className="w-auto h-0.5 rounded-lg bg-gray-300 mx-56"></div>
+                    <div className="mx-56 my-5">
+                      <h3>Enter New Level</h3>
+                      <input
+                        id="smsOTP"
+                        type="number"
+                        name="smsOTP"
+                        onChange={(e) => {
+                          setNewLevel(e.target.value);
+                        }}
+                        placeholder="Enter New Level"
+                        className="w-full"
+                        style={{ borderRadius: "12px", marginTop: "10px" }}
+                      ></input>
+                    </div>
+
+                    <div className="w-full my-16 flex justify-center">
+                      <button
+                        className="border-2 text-black font-bold py-3 px-8 w-fit md:mx-4 text-xs rounded"
+                        onClick={() => {
+                          handlePostNewLevel()
+                        }}>Submit</button>
+                    </div>
+
+                    <div className="flex my-16 justify-center">
+                      <button
+                        className=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
+                        style={{ backgroundColor: "#034488" }} onClick={() => { setotpModal(false) }}>Cancel</button></div>
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
+            </div>
+          </Dialog>
+        </Transition>}
+      <p className="text-2xl font-semibold mx-10">XI Users List</p>
       <div className="mt-3">
         <div className="flex flex-col mx-10">
           <div className="overflow-x-auto w-full sm:-mx-6 lg:-mx-8">
@@ -132,6 +246,12 @@ const XIOnboarding = () => {
                         scope="col"
                         className="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
                       >
+                        Level
+                      </th>
+                      <th
+                        scope="col"
+                        className="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
+                      >
                         Status
                       </th>
                       <th
@@ -163,6 +283,12 @@ const XIOnboarding = () => {
                             </td>
                             <td className="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
                               {user.email}
+                            </td>
+                            <td className="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
+                              {user.level}
+                              <Button onClick={() => {
+                                handleLevelChange(user.level,user._id)
+                              }}>Edit</Button>
                             </td>
                             <td className="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
                               {user.status}
