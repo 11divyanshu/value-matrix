@@ -81,7 +81,7 @@ const JobInvitations = (props) => {
         setJobInvitation(res.data.jobInvites);
         setLoading(false);
       }
-      let candidate = await findCandidateByEmail(user.email);
+      let candidate = await findCandidateByEmail(user1.data.user.email);
       console.log(candidate);
 
       setCandidate(candidate.data[0])
@@ -251,7 +251,7 @@ const JobInvitations = (props) => {
                                 let res1 = await handleXIInterview(
                                   { slotId: slotId._id , interviewer: slotId.createdBy, applicant: user._id, status: "Pending" },
                                   user.access_token
-                                );                                window.location.reload();
+                                );    window.location.reload();
 
                                 setslotId(null);
                                 setotpModal(false);
@@ -471,7 +471,7 @@ const JobInvitations = (props) => {
             style={{ borderRadius: "6px 6px 0 0" }}
           >
             <div className="  py-4 px-5">
-              <p className="text-gray-900 w-full font-bold">Invitations</p>
+              <p className="text-gray-900 w-full font-bold">Posted Jobs</p>
               {/* <p className="text-gray-400 w-full font-semibold">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p> */}
             </div>
           </div>

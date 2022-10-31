@@ -37,6 +37,7 @@ const JobList = (props) => {
       console.log(res);
       if (res && res.data[0]) {
         setJobs(res.data);
+
         setLoader(false);
         setjobsExist(true);
         let arr = [...res.data];
@@ -110,7 +111,7 @@ const JobList = (props) => {
                               </span>
                             </p>
                             <p>
-                              <span className="font-semibold">Upgrade to XI  </span>{" "}
+                              <span className="font-semibold">Upgrade to XI </span>{" "}
                            </p>
                             <p className="text-sm">
                               <span className="font-semibold">

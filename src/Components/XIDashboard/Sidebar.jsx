@@ -170,9 +170,54 @@ const Sidebar = () => {
               </p>
               <Link to={`/XI/profile`} />
             </MenuItem>
+            {user && (user.status === "Forwarded" || user.isXI === true) &&
+            <MenuItem
+              className="text-gray-700 font-semibold mb-2 mt-3 flex"
+              active={window.location.pathname === `/XI/interviewInvitations`}
+              // onClick={()=>{ handleToggle();}}
+            >
+              {" "}
+              <p className="text-xl flex mx-2">
+                <AiOutlineUser />
+                <p className="text-sm mx-4 text-gray-700 font-semibold">
+                  Invitations{" "}
+                </p>
+              </p>
+              <Link to={`/XI/interviewInvitations`} />
+            </MenuItem>}
+            {user && (user.status !== "Pending" && user.user_type === "XI") &&
+            <MenuItem
+              className="text-gray-700 font-semibold mb-2 mt-3 flex"
+              active={window.location.pathname === `/XI/jobinterviews`}
+              // onClick={()=>{ handleToggle();}}
+            >
+              {" "}
+              <p className="text-xl flex mx-2">
+                <AiOutlineUser />
+                <p className="text-sm mx-4 text-gray-700 font-semibold">
+                 Job Interviews{" "}
+                </p>
+              </p>
+              <Link to={`/XI/jobinterviews`} />
+            </MenuItem>}
+            {user && user.user_type === "SuperXI" && 
+            <MenuItem
+              className="text-gray-700 mb-2 mt-3 font-semibold flex"
+              active={window.location.pathname === `/XI/xiOnboarding` }
+              // onClick={()=>{ handleToggle();}}
+            >
+              {" "}
+              <p className="text-xl flex mx-2">
+                <AiOutlineHome />
+                <p className="text-sm mx-4 text-gray-700 font-semibold">
+                  XI Onboarding{" "}
+                </p>
+              </p>
+              <Link to={`/XI/xiOnboarding`} />
+            </MenuItem>}
 
             {XIDashboardRoutes.map((item) => {
-              if (item.hide === false && permission[item.permission] !== false && user && user.isXI !== false)
+              if (item.hide === false && permission[item.permission] !== false && user && user.isXI !== false && user.status === "Approved")
                 return (
                   // <Link
                   //   to={`/company${item.path}`}

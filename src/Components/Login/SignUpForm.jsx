@@ -56,7 +56,8 @@ const SignupForm = () => {
   const [captchaError, setCaptchaError] = React.useState(null);
   const [captcha, setCaptcha] = React.useState(false);
 
-  const [emailLoad, setEmailLoading] = React.useState(false);
+  const [emailLoading, setEmailLoading] = React.useState(false);
+  const [contactLoading, setContactLoading] = React.useState(false);
   const [verifyEmail, setverifyEmail] = React.useState(false);
 
   const [smsLoad, setSmsLoading] = React.useState(false);
@@ -129,6 +130,7 @@ const SignupForm = () => {
 
 
   const sendEmailOTP = async (values) => {
+    setEmailLoading(true);
     if (values.user_type === "Company") {
       if (validateCompanyEmail(values.email) === false) {
         // setSignupError("Enter Company Email !");
@@ -184,7 +186,7 @@ const SignupForm = () => {
       });
     }
     if (check.data.username || check.data.email) {
-      setLoading(false);
+      setEmailLoading(false);
       return;
     }
     console.log(values.mail);
@@ -198,7 +200,7 @@ const SignupForm = () => {
     }
 
     // setOTP(true);
-    // setLoading(false);
+     setEmailLoading(false);
   };
 
   const verifyEmailOTP = async (values) => {
@@ -226,6 +228,7 @@ const SignupForm = () => {
   };
 
   const sendSmsOTP = async (values) => {
+    setContactLoading(true)
     if (values.user_type === "Company") {
       if (validateCompanyEmail(values.email) === false) {
         // setSignupError("Enter Company Email !");
@@ -275,18 +278,18 @@ const SignupForm = () => {
       });
     }
     if (check.data.username || check.data.contact) {
-      setLoading(false);
+      setContactLoading(false);
       return;
     }
 
     let res1 = await OTPSms({ contact: values.contact });
-
+console.log(res1)
     if (res1) {
       setSMSOTP(res1);
     } else if (!res1) {
       console.log("Error");
     }
-    setSmsLoading(false);
+    setContactLoading(false);
   };
 
   const verifySmsOTP = async (values) => {
@@ -550,7 +553,7 @@ const SignupForm = () => {
                       onClick={() => sendEmailOTP(values)}
                     >
                       {" "}
-                      {EmailOTP ? "Resend OTP" : "Send OTP"}
+                      {!emailLoading ?( EmailOTP ? "Resend OTP" : "Send OTP") :  <img src={Loader} alt="loader" className="h-5 mx-auto" />}
                     </button>
                   )}
 
@@ -658,7 +661,7 @@ const SignupForm = () => {
                       onClick={() => sendSmsOTP(values)}
                     >
                       {" "}
-                      {SmsOTP ? "Resend OTP" : "Send OTP"}
+                      {!contactLoading ?( SmsOTP ? "Resend OTP" : "Send OTP") :  <img src={Loader} alt="loader" className="h-9 mx-auto" />}
                     </button>
                   )}
 

@@ -240,7 +240,7 @@ if(startTime ){
     <div className="bg-slate-100">
       <div className="flex mx-5 mt-3" style={{ justifyContent: 'space-between' }}>
         {/* <p className="text-2xl mx-3 font-semibold pl-3 mt-5">All Jobs</p> */}
-        <p className="text-sm flex my-5 mx-5 font-semibold">Hey {user && user.firstName ? user.firstName : "Company"} - <p className="text-gray-400 px-2"> here's what's happening today!</p></p>
+        <p className="text-sm flex my-5 mx-5 font-semibold">Hey {user && user.firstName ? user.firstName : "XI"} - <p className="text-gray-400 px-2"> here's what's happening today!</p></p>
 
 
         <div className="py-3 flex">

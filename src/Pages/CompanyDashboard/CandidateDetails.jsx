@@ -113,17 +113,7 @@ console.log(props);
               <p className="text-gray-400 text-lg">{user.username}</p>
               </p>
 
-              <div className="flex py-2">
-                <Link to="">
-                    <button
-                      className=" hover:bg-blue-700 px-4 font-bold text-white text-md rounded"
-                      style={{ backgroundColor: "#034488" }}
-                      onClick={()=>{Call()}}
-                    >
-                      Call
-                    </button>
-                    </Link>
-                  </div>
+              
             </div>
           </div>
           {approveModal &&

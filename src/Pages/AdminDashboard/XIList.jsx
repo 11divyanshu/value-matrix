@@ -132,6 +132,12 @@ const XIOnboarding = () => {
                         scope="col"
                         className="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
                       >
+                        Status
+                      </th>
+                      <th
+                        scope="col"
+                        className="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
+                      >
                         View Details
                       </th>
                     </tr>
@@ -157,6 +163,9 @@ const XIOnboarding = () => {
                             </td>
                             <td className="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
                               {user.email}
+                            </td>
+                            <td className="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
+                              {user.status}
                             </td>
                             <td className="text-xs text-blue-500 font-light px-6 py-4 whitespace-nowrap cursor-pointer">
                               <Link to={`/admin/AdminUserProfile/${user._id}`} >

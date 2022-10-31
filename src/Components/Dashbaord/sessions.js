@@ -41,7 +41,7 @@ const SessionCard = () => {
             {new Date()}
           </Moment></label>
           <br />
-          <div className='flex my-2 '>
+          <div className='flex  my-2 '>
 
             {slot && slot.map((item, index) => {
 

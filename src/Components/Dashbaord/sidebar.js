@@ -26,9 +26,12 @@ import {
 import { FiSettings } from "react-icons/fi";
 import { MdOutlineLogout } from "react-icons/md";
 import {
-  userUpgradePostRequest
+  userUpgradePostRequest,
+  OTPSms,
+  updateUserDetails
 } from '../../service/api';
-
+import { Fragment } from "react";
+import { Popover, Transition, Dialog } from "@headlessui/react";
 
 const Sidebar = (props) => {
   const [open, setOpen] = React.useState(true);
@@ -40,6 +43,10 @@ const Sidebar = (props) => {
   const [loading, setLoading] = React.useState(null);
   const [u_id, setU_id] = React.useState(null);
   const hasWindow = typeof window !== "undefined";
+  const [smsOTP, setsmsOTP] = React.useState("");
+  const [otp, setotp] = React.useState(null);
+  const [otpModal, setotpModal] = React.useState(null);
+  const [user, setUser] = React.useState(null);
 
   const sideRef = React.useRef(null);
   const Logout = async () => {
@@ -52,6 +59,9 @@ const Sidebar = (props) => {
     await localStorage.setItem("access_token", null);
     window.location.href = "/login";
   };
+  const handleOTP = (e) => {
+    setsmsOTP(e.target.value);
+  }
 
   function getWindowDimensions() {
     const width = hasWindow ? window.innerWidth : null;
@@ -73,7 +83,6 @@ const Sidebar = (props) => {
         setWindowDimensions(getWindowDimensions());
       }
       setClose(getWindowDimensions().width);
-      console.log(getWindowDimensions().width);
 
       window.addEventListener("resize", handleResize);
       return () => window.removeEventListener("resize", handleResize);
@@ -87,33 +96,44 @@ const Sidebar = (props) => {
     }
   };
 
-  const handleUpgradeXIRequest = () => {
-    swal({
-      title: "Are you sure?",
-      text: "Once upgraded, you will not be able to downgrade!",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    }).then((respose) => {
-      if (respose) {
-        handleUpgradeXIRequestPost();
-        // swal("Your account upgradation request is raised successfully", {
-        //   icon: "success",
-        // });
-      } else {
-        swal("Request cancelled");
-      }
-    });
+  const handleUpgradeXIRequest = async() => {
+    let user = await localStorage.getItem("user");
+    user = JSON.parse(user);
+    setUser(user);
+    setotpModal(true);
+    let resend = await OTPSms({ contact: user.contact })
+    console.log(resend)
+    setotp(resend)
+    // swal({
+    //   title: "Are you sure?",
+    //   text: "Once upgraded, you will not be able to downgrade!",
+    //   icon: "warning",
+    //   buttons: true,
+    //   dangerMode: true,
+    // }).then((respose) => {
+    //   if (respose) {
+    //     handleUpgradeXIRequestPost();
+    //     // swal("Your account upgradation request is raised successfully", {
+    //     //   icon: "success",
+    //     // });
+    //   } else {
+    //     swal("Request cancelled");
+    //   }
+    // });
   }
 
   const handleUpgradeXIRequestPost = async () => {
     let access_token = localStorage.getItem("access_token");
     let user = JSON.parse(await localStorage.getItem("user"));
-    let res = await userUpgradePostRequest(
-      {
-        u_id: u_id,
-      },
-      access_token
+    // let res = await userUpgradePostRequest(
+    //   {
+    //     u_id: u_id,
+    //   },
+    //   access_token
+    // );
+    let res = await updateUserDetails(
+      { user_id: user._id, updates: {status:"Pending"} },
+      { access_token: user.access_token }
     );
 
     if(res){
@@ -129,6 +149,121 @@ const Sidebar = (props) => {
 
   return (
     <div className="sidebarComponent z-20">
+      {otpModal &&
+          <Transition
+            appear
+            show={otpModal}
+            as={Fragment}
+            className="relative z-10 w-full "
+            style={{ zIndex: 1000 }}
+          >
+            <Dialog
+              as="div"
+              className="relative z-10 w-5/6 "
+              onClose={() => { }}
+              static={true}
+            >
+              <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <div className="fixed inset-0 bg-black bg-opacity-25" />
+              </Transition.Child>
+
+              <div className="fixed inset-0 overflow-y-auto ">
+                <div className="flex min-h-full items-center justify-center p-4 text-center max-w-4xl mx-auto">
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0 scale-95"
+                    enterTo="opacity-100 scale-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100 scale-100"
+                    leaveTo="opacity-0 scale-95"
+                  >
+                    <Dialog.Panel className="w-full transform overflow-hidden rounded-2xl bg-white text-left align-middle  transition-all h-auto">
+
+                      <div className='py-5 w-full bg-blue-900 flex'>
+                        <p className="text-lg mx-5 text-center text-white font-semibold">
+                          Enter OTP
+                        </p>
+                      </div>
+
+                      <div className="my-16 w-full">
+                        <h2 className="mx-auto w-fit">OTP sent to {user.contact} </h2>
+                      </div>
+
+                      <div className="w-auto h-0.5 rounded-lg bg-gray-300 mx-56"></div>
+                      <div className="mx-56 my-5">
+                        <h3>Enter OTP</h3>
+                        <input
+                          id="smsOTP"
+                          type="number"
+                          name="smsOTP"
+                          onChange={handleOTP}
+                          placeholder="Enter OTP"
+                          className="w-full"
+                          style={{ borderRadius: "12px", marginTop: "10px" }}
+                        ></input>
+                      </div>
+
+                      <div className="w-full my-16 flex justify-center">
+                        <button
+                          className="border-2 text-black font-bold py-3 px-8 w-fit md:mx-4 text-xs rounded"
+                          onClick={async () => {
+
+                            let resend = await OTPSms({ contact: user.contact })
+                            console.log(resend)
+                            setotp(resend)
+                          }}>Resend OTP</button>
+                      </div>
+
+                      <div className="flex my-16 justify-center">
+                        <button
+                          className=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
+                          style={{ backgroundColor: "#034488" }}
+                          onClick={async () => {
+
+                            console.log(smsOTP);
+                            console.log(otp);
+
+                            if (smsOTP == otp) {
+                             
+
+                             
+                             
+
+
+                              handleUpgradeXIRequestPost();
+                                setotpModal(false);
+
+                              
+                            } else {
+                              swal({
+                                title: "Invalid OTP !",
+                                message: "Error",
+                                icon: "error",
+                                button: "Continue",
+                              })
+                            }
+                          }}>Submit</button>
+
+
+                        <button
+                          className=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
+                          style={{ backgroundColor: "#034488" }} onClick={() => { setotpModal(false) }}>Cancel</button></div>
+                    </Dialog.Panel>
+                  </Transition.Child>
+                </div>
+              </div>
+            </Dialog>
+          </Transition>}
       <div
         className="h-screen fixed top-20 left-0"
         style={{ marginTop: "-10px" }}

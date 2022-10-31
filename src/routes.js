@@ -44,6 +44,7 @@ import ChannelNotificationPanel from "./Pages/AdminDashboard/ChannelNotification
 
 // Company Pages
 import CJobList from "./Pages/CompanyDashboard/jobList.jsx";
+import CPendingJobList from "./Pages/CompanyDashboard/pendingJobs.jsx";
 import CPanel from "./Pages/CompanyDashboard/panel";
 import CEvalDetails from "./Pages/CompanyDashboard/evaluationDetails";
 
@@ -54,12 +55,17 @@ import UpdateJob from "./Pages/CompanyDashboard/UpdateJob1.jsx";
 import EditCompanyProfile from "./Pages/CompanyDashboard/EditProfile.jsx";
 import CompanyProfile from "./Pages/CompanyDashboard/Profile";
 import CJobDetails from "./Pages/CompanyDashboard/JobDetails.jsx";
+import CJobBinDetails from "./Pages/CompanyDashboard/pendingJobDetails.jsx";
 import CompanyList from "./Pages/AdminDashboard/CompanyList";
 import CompanyDetails from "./Pages/AdminDashboard/CompanyDetails";
 import CandiadateList from "./Pages/AdminDashboard/CandidatesList";
 import CandiadateDetail from "./Pages/AdminDashboard/CandidateDetail";
+
+
+
 import AddCompanyUser from "./Pages/CompanyDashboard/AddCompanyUser";
 import CandidateList from "./Pages/CompanyDashboard/CandidateList";
+import CandidateDetails from "./Pages/CompanyDashboard/CandidateDetails";
 import CandidateReport from "./Pages/CompanyDashboard/CandidateReport";
 import Masking from "./Pages/CompanyDashboard/Masking";
 import CompanyUserList from "./Pages/CompanyDashboard/CompanyUsersList";
@@ -82,13 +88,18 @@ import CityValidate from "./Pages/AdminDashboard/companyValidate copy";
 import AddSkills from "./Components/AdminDashboard/AddSkills";
 import AddAdminUser from "./Pages/AdminDashboard/AddAdminUser";
 import AddTaxId from "./Pages/AdminDashboard/AddTaxId";
+import Twilio from "./Pages/AdminDashboard/twilio";
+
 
 // XI Pages
 import XIDashboard from "./Pages/XIDashboard/Dashboard";
 import XIEvaluationList from "./Pages/XIDashboard/EvaluationList";
+import XIInterviewList from "./Pages/XIDashboard/Interviews";
 import XIJobDetails from "./Pages/XIDashboard/JobDetails.jsx";
 import XIEvaluatedList from "./Pages/XIDashboard/EvaluatedList.jsx";
 import XISlots from "./Pages/XIDashboard/Slots.jsx";
+import XIJobInvitations from "./Pages/XIDashboard/JobInvitations.jsx";
+import XIJobInterviews from "./Pages/XIDashboard/XIJobInterviews.jsx";
 import EvaluatedReport from "./Pages/XIDashboard/EvaluationReports.jsx";
 
 // SuperXIDashboard
@@ -380,7 +391,16 @@ export const adminDashboardRoutes = [
     icon : <BsQuestionCircleFill className="text-xl" />,
     permission:"default",
     component : <AddTaxId/>
-  }
+  },
+  {
+    name:"call",
+    path: "/twilio",
+    hide:false,
+    icon : <BsQuestionCircleFill className="text-xl" />,
+    permission:"default",
+    component : <Twilio/>
+  },
+
 ];
 
 // Company Dashboard Routes
@@ -424,6 +444,14 @@ export const companyDashboardRoutes = [
     component: <CJobList />,
     permission: "default",
   },
+  {
+    name: "Pending Job",
+    path: "/pendingjobs",
+    hide: false,
+    icon: <MdOutlineWorkOutline className="text-xl" />,
+    component: <CPendingJobList />,
+    permission: "default",
+  },
 
   {
     name: "Update Job",
@@ -438,6 +466,13 @@ export const companyDashboardRoutes = [
     path: "/jobDetails/",
     hide: true,
     component: <CJobDetails />,
+    permission: "default",
+  },
+  {
+    name: "getJobBinById",
+    path: "/jobBinDetails/",
+    hide: true,
+    component: <CJobBinDetails />,
     permission: "default",
   },
   {
@@ -525,6 +560,28 @@ export const XIDashboardRoutes = [
     hide: false,
     icon: <MdOutlineWorkOutline className="text-xl" />,
     component: <XIEvaluationList />,
+    permission: "default",
+  },
+  {
+    name: "Invitations",
+    path: "/interviewInvitations",
+    hide: true,
+    icon: <CgWorkAlt className="text-xl" />,
+    component: <XIJobInvitations />,
+  },
+  {
+    name: "Job Interviews",
+    path: "/jobinterviews",
+    hide: true,
+    icon: <CgWorkAlt className="text-xl" />,
+    component: <XIJobInterviews />,
+  },
+  {
+    name: "XI Onboarding",
+    path: "/xiOnboarding",
+    hide: true,
+    icon: <MdOutlineWorkOutline className="text-xl" />,
+    component: <XIInterviewList />,
     permission: "default",
   },
   {
@@ -618,4 +675,12 @@ export const superXIDashboardRoutes = [
     hide: true,
     component: <SXIJobDetails />,
   },
+  {
+    name: "Slots",
+    path: "/slots",
+    hide: false,
+    icon: <MdOutlineWorkOutline className="text-xl" />,
+    component: <XISlots />,
+  },
+ 
 ];

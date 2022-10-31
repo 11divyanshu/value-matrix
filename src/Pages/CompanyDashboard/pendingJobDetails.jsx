@@ -1,5 +1,5 @@
 import React from "react";
-import { getJobById } from "../../service/api";
+import { getJobBinById } from "../../service/api";
 import { ReactSession } from "react-client-session";
 import { useParams } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -52,23 +52,22 @@ function JobDetails(props) {
       let access_token = localStorage.getItem("access_token");
       let user = JSON.parse(await localStorage.getItem("user"));
       await setUser(user);
-      console.log(job_id)
-      let res = await getJobById(job_id, access_token);
+      let res = await getJobBinById(job_id, access_token);
       if (res) {
         console.log(res.data.job)
-        setJob(res.data.job);
-        let jobDetails = res.data.job;
-        await localStorage.setItem("jobDetails", JSON.stringify(res.data.job));
-        if (res.data.job.archived) {
-          setToggle(res.data.job.archived);
-        }
+        setJob(res.data.job[0]);
+        let jobDetails = res.data.job[0];
+        await localStorage.setItem("jobDetails", JSON.stringify(res.data.job[0]));
+        // if (res.data.job[0].archived) {
+        //   setToggle(res.data.job[0].archived);
+        // }
         console.log(res.data.applicants);
-        setCandidates(res.data.applicants);
-        setDeclined(res.data.declined);
-        setInvited(res.data.invited);
+        setCandidates(res.data.job[0].invitations);
+        // setDeclined(res.data.declined);
+        // setInvited(res.data.invited);
         let primarySkills = {};
         let roles = new Set([]);
-        res.data.job.skills.forEach((skill) => {
+        res.data.job[0].skills.forEach((skill) => {
           roles.add(skill.role);
           if (primarySkills[skill.role]) {
             primarySkills[skill.role].add(skill.primarySkill);
@@ -88,7 +87,7 @@ function JobDetails(props) {
     };
 
     getData();
-  }, [job_id]);
+  }, []);
   const archive = async () => {
     let access_token = localStorage.getItem("access_token");
     let user = JSON.parse(await localStorage.getItem("jobDetails"));
@@ -435,7 +434,7 @@ function JobDetails(props) {
               <div className="my-5 px-3 md:px-9">
                 <div className="flex items-center justify-between">
                   <p className="font-bold text-md">
-                    Applicants{" "}
+                    Invitations{" "}
                     <span className="text-sm">({candidates.length})</span>
                   </p>
                   {/* {candidates.length > 0 && showCandidate ? (
@@ -509,98 +508,30 @@ function JobDetails(props) {
                                 {index + 1}
                               </td>
                               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                {user.firstName} {user.lastName}
+                                {user.FirstName} {user.LastName}
                               </td>
                               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                {user.email}
+                                {user.Email}
                               </td>
                               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                {user.contact}
+                                {user.Contact}
                               </td>
                               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                {user.status}
+                                Pending
                               </td>
-                              <td className="text-sm text-gray-900 font-light py-4 whitespace-nowrap text-left">
-                                <Menu
-                                  as="div"
-                                  className="relative inline-block mx-3 text-left"
-                                >
-                                  <div>
-                                    <Menu.Button className="flex bg-yellow-300 rounded-3xl mx-2 py-2 my-3 text-xs text-gray-900 font-semibold">
-                                      Change Status
-                                      <ChevronDownIcon
-                                        className="h-5 w-5"
-                                        aria-hidden="true"
-                                      />
-                                    </Menu.Button>
-                                  </div>
-
-                                  <Transition
-                                    as={Fragment}
-                                    enter="transition ease-out duration-100"
-                                    enterFrom="transform opacity-0 scale-95"
-                                    enterTo="transform opacity-100 scale-100"
-                                    leave="transition ease-in duration-75"
-                                    leaveFrom="transform opacity-100 scale-100"
-                                    leaveTo="transform opacity-0 scale-95"
-                                  >
-                                    <Menu.Items className="absolute -mt-3 z-10 w-auto rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                      <div className="text-left">
-                                        <Menu.Item>
-                                          <button
-                                            // style={{background: "#3ED3C5" }}
-                                            className="rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
-                                            onClick={() => {
-                                              console.log(user.appid);
-                                              setchooseStatus(true);
-                                              handleCandidateStatusChange(user.appid, "Assigned");
-                                            }}
-                                          >
-                                            Assigned{" "}
-                                          </button>
-                                        </Menu.Item>
-                                        <Menu.Item>
-                                          <button
-                                            // style={{ background: "#3ED3C5" }}
-                                            className="  rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
-                                            onClick={() => {
-                                              console.log(user.appid);
-                                              setchooseStatus(true);
-                                              handleCandidateStatusChange(user.appid, "Declined");
-                                            }}
-                                          >
-                                            Declined{" "}
-                                          </button>
-                                        </Menu.Item>
-                                        <Menu.Item>
-                                          <button
-                                            // style={{ background: "#3ED3C5" }}
-                                            className="  rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
-                                            onClick={() => {
-                                              console.log(user.appid);
-                                              setchooseStatus(true);
-                                              handleCandidateStatusChange(user.appid, "Onhold");
-                                            }}
-                                          >
-                                            Onhold{" "}
-                                          </button>
-                                        </Menu.Item>
-                                      </div>
-                                    </Menu.Items>
-                                  </Transition>
-                                </Menu>
-                              </td>
-                              <td className="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap text-left">
+                             
+                             
+                              {/* <td className="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap text-left">
                                 <p className="text-sm font-semibold py-2">
                                   <Link
-                                    to={`/company/candidateDetails/${user._id}`}
+                                    to={`/company/evaluationDetails/${user._id}`}
                                     // to={`/user/printable`}
                                   >
                                     View Details{" "}
                                   </Link>
                                 </p>{" "}
-                              </td>
-                              <td className="text-sm text-blue-700 font-light px-3 py-4 whitespace-nowrap text-left">
+                              </td> */}
+                              {/* <td className="text-sm text-blue-700 font-light px-3 py-4 whitespace-nowrap text-left">
                                 <p className="text-sm font-semibold py-2">
                                   <Link
                                     to={`/company/CPrintAble/${user._id}`}
@@ -609,7 +540,7 @@ function JobDetails(props) {
                                     View Evaluation{" "}
                                   </Link>
                                 </p>{" "}
-                              </td>
+                              </td> */}
                             </tr>
                           );
                         })}
@@ -703,7 +634,7 @@ function JobDetails(props) {
                           </Transition.Child>
                         </div>
                       </div>
-                    </Dialog>
+                    </Dialog> 
                   </Transition>
                 )}
                 <div className={candidates.length > 5 ? "w-full" : "hidden"}>
@@ -730,7 +661,7 @@ function JobDetails(props) {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center justify-between my-5">
+                {/* <div className="flex items-center justify-between my-5">
                   <p className="font-bold text-md">
                     Invitations
                     <span className="text-sm"> ({invited.length})</span>
@@ -749,212 +680,16 @@ function JobDetails(props) {
                     >
                       Show
                     </p>
-                  )} */}
-                </div>
+                  )} 
+                </div> */}
 
-                {invited.length > 0 && (
-                  <div className="overflow-x-auto">
-                    <table className="w-full my-3">
-                      <thead className="bg-white border-b text-left">
-                        <tr>
-                          <th
-                            scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          >
-                            #
-                          </th>
-                          <th
-                            scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          >
-                            First Name
-                          </th>
-                          <th
-                            scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          >
-                            Email
-                          </th>
-                          <th
-                            scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          >
-                            Contact
-                          </th>
-                          <th
-                            scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          >
-                            Status
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {invited.map((user, index) => {
-                          return (
-                            <tr
-                              id={"invcrd" + (index + 1)}
-                              className={
-                                index < 5 ? "bg-gray-100" : "bg-gray-100 hidden"
-                              }
-                            >
-                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
-                                {index + 1}
-                              </td>
-                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                {user.firstName} {user.lastName}
-                              </td>
-                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                {user.email}
-                              </td>
-                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                {user.contact}
-                              </td>
-                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                {candidates.includes(user)
-                                  ? "Accepted"
-                                  : declined.includes(user)
-                                  ? "Declined"
-                                  : "Waiting"}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
+                
 
-                <div className={invited.length > 5 ? "w-full" : "hidden"}>
-                  <div className="flex justify-between my-2 mx-1">
-                    <div>
-                      Page {page} of {Math.ceil(invited.length / 5)}
-                    </div>
-                    <div>
-                      {" "}
-                      {invited &&
-                        invited.map((job, index) => {
-                          return index % 5 == 0 ? (
-                            <span
-                              className="mx-2"
-                              style={{ cursor: "pointer" }}
-                              onClick={() => {
-                                paginate(index / 5 + 1);
-                              }}
-                            >
-                              {index / 5 + 1}
-                            </span>
-                          ) : null;
-                        })}
-                    </div>
-                  </div>
-                </div>
+               
 
-                <div className="flex items-center justify-between my-3">
-                  <p className="font-bold text-md">
-                    Invitations Declined
-                    <span className="text-sm"> ({declined.length})</span>
-                  </p>
-                  {/* {declined.length > 0 && showDeclined ? (
-                    <p
-                      className="text-sm hover:underline text-blue-500 cursor-pointer"
-                      onClick={() => setShowDeclined(false)}
-                    >
-                      Hide
-                    </p>
-                  ) : (
-                    <p
-                      className="text-sm hover:underline text-blue-500 cursor-pointer"
-                      onClick={() => setShowDeclined(true)}
-                    >
-                      Show
-                    </p>
-                  )} */}
-                </div>
-
-                {declined.length > 0 && (
-                  <div className="overflow-x-auto">
-                    <table className="w-full my-3">
-                      <thead className="bg-white border-b text-left">
-                        <tr>
-                          <th
-                            scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          >
-                            #
-                          </th>
-                          <th
-                            scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          >
-                            First Name
-                          </th>
-                          <th
-                            scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          >
-                            Email
-                          </th>
-                          <th
-                            scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          >
-                            Contact
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {declined.map((user, index) => {
-                          return (
-                            <tr
-                              id={"invdeccrd" + (index + 1)}
-                              className={
-                                index < 5 ? "bg-gray-100" : "bg-gray-100 hidden"
-                              }
-                            >
-                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
-                                {index + 1}
-                              </td>
-                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                {user.firstName} {user.lastName}
-                              </td>
-                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                {user.email}
-                              </td>
-                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                {user.contact}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
-                <div className={declined.length > 5 ? "w-full" : "hidden"}>
-                  <div className="flex justify-between my-2 mx-1">
-                    <div>
-                      Page {page} of {Math.ceil(declined.length / 5)}
-                    </div>
-                    <div>
-                      {" "}
-                      {declined &&
-                        declined.map((job, index) => {
-                          return index % 5 == 0 ? (
-                            <span
-                              className="mx-2"
-                              style={{ cursor: "pointer" }}
-                              onClick={() => {
-                                paginate(index / 5 + 1);
-                              }}
-                            >
-                              {index / 5 + 1}
-                            </span>
-                          ) : null;
-                        })}
-                    </div>
-                  </div>
-                </div>
+              
+                
+               
               </div>
             )}
           </div>

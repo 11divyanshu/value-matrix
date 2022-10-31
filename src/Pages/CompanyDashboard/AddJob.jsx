@@ -267,22 +267,25 @@ const AddJob = () => {
           salary: [currency, salary, maxSalary],
           questions: questions,
           draft: false,
+          invitations:selectedData.length > 0 ? selectedData :[],
           ...values,
         },
         access_token
       );
 
-      if (selectedData.length > 0) {
-        let res1 = sendJobInvitations(
-          {
-            job_id: res.data.job._id,
-            candidates: selectedData,
-            user_id: user._id,
-          },
-          access_token
-        );
-      }
+     
       if (res) {
+        // if (selectedData.length > 0) {
+        //   console.log(selectedData)
+        //   let res1 = sendJobInvitations(
+        //     {
+        //       job_id: res.data.job._id,
+        //       candidates: selectedData,
+        //       user_id: user._id,
+        //     },
+        //     access_token
+        //   );
+        // }
         swal({
           title: "Job Posted Successfully !",
           message: "Success",
@@ -293,7 +296,7 @@ const AddJob = () => {
           localStorage.removeItem("postjob");
           localStorage.removeItem("prof");
 
-          window.location.href = "/company/jobs";
+          // window.location.href = "/company/jobs";
         });
       } else {
         swal({

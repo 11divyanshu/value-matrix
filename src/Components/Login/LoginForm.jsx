@@ -61,7 +61,7 @@ const LoginForm = (props) => {
           res.data.user.user_type === "Company_User"
         )
           window.location.href = "/company?a=" + access;
-        else if (res.data.user.user_type === "XI")
+        else if (res.data.user.user_type === "XI" || res.data.user.user_type === "SuperXI")
           window.location.href = "/XI/?a=" + access;
         else if (
           res.data.user.isAdmin ||

@@ -28,7 +28,7 @@ import { downloadResume, getResume, getUserFromId } from "../../service/api";
 
 import "react-multi-carousel/lib/styles.css";
 
-export default function AdminTabs() {
+export default function AdminTabs(props) {
   const [index, setIndex] = React.useState(0);
   const [user, setUser] = React.useState();
   const [profileImg, setProfileImg] = React.useState(null);
@@ -40,9 +40,10 @@ export default function AdminTabs() {
   const [roles, setRoles] = React.useState({});
   const [link, setLink] = React.useState({});
 
+  
   React.useEffect(() => {
     const func = async () => {
-      let user = JSON.parse(await localStorage.getItem("user"));
+      let user = props.user;
       let user1 = await getUserFromId({ id: user._id }, user.access_token);
       console.log(user1)
       let access_token = localStorage.getItem("access_token");

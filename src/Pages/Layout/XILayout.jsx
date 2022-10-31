@@ -27,17 +27,7 @@ const XIDashboard = () => {
   const [access_token, setAccessToken] = React.useState(null);
   const [profileImg, setProfileImg] = React.useState(null);
 
-  useEffect(() => {
-    
-  let user = JSON.parse(localStorage.getItem("user"));
-  if (user && user.isXI === false) {
-    setDetailForm(true);
-  }else{
-    setDetailForm(false);
 
-  }
-   
-  }, [])
   
 
   React.useEffect(() => {
@@ -87,7 +77,7 @@ const XIDashboard = () => {
           console.log(user.data.user);
           if (
             user.data.user.access_valid === false ||
-            user.data.user.user_type !== "XI"
+            user.data.user.user_type !== "XI" && user.data.user.user_type !== "SuperXI"
           )
             window.location.href = "/login";
           await localStorage.setItem("user", JSON.stringify(user.data.user));
@@ -102,7 +92,7 @@ const XIDashboard = () => {
         let user = JSON.parse(localStorage.getItem("user"));
         await setUser(user);
 
-        if (user.access_valid === false || user.user_type !== "XI") {
+        if (user.access_valid === false || user.user_type !== "XI" && user.user_type !== "SuperXI") {
           window.location.href = "/login";
         }
       }

@@ -60,6 +60,14 @@ export const OTPMail = async (mail) => {
     console.log("Error while calling OTPMail API: ", error);
   }
 };
+export const sendForwardedMail = async (mail) => {
+  try {
+    return await axios.post(`${url}/sendForwardedMail`, mail);
+    
+  } catch (error) {
+    console.log("Error while calling sendForwardedMail API: ", error);
+  }
+};
 
 // SMS OTP to Users
 export const OTPSms = async (mail) => {
@@ -374,6 +382,17 @@ export const getJobById = async (id, token) => {
     console.log("Error Calling List Jobs API :", error);
   }
 };
+export const getJobBinById = async (id, token) => {
+  try {
+    return await axios.post(
+      `${url}/getJobBinById`,
+      { job_id: id },
+      { headers: { authorization: token } }
+    );
+  } catch (error) {
+    console.log("Error Calling List Jobs API :", error);
+  }
+};
 
 // Reset Password Mail
 export const sendResetPasswordMail = async (data) => {
@@ -666,6 +685,16 @@ export const listXIEvaluation = async (data, token) => {
     console.log("Error Calling List Evaluation API :", error);
   }
 };
+export const getXIInterviewList = async (data, token) => {
+  try {
+   
+    return await axios.post(`${url}/getXIInterviewList`, data, {
+      headers: { authorization: token },
+    });
+  } catch (error) {
+    console.log("Error Calling List Evaluation API :", error);
+  }
+};
 export const listXIEvaluatedReports = async (data, token) => {
   try {
     return await axios.post(`${url}/listXIEvaluatedReports`, data, {
@@ -948,9 +977,9 @@ export const addcompany = async (data) => {
 
 // Slots
 
-export const availableSlots = async (data) => {
+export const availableSlots = async (data,type) => {
   try {
-    return await axios.get(`${url}/availableSlots?userId=${data}`
+    return await axios.post(`${url}/availableSlots`,{userId:data , type:type}
     );
 
   } catch (err) {
@@ -1038,6 +1067,7 @@ export const slotDetailsOfUser = async (id) => {
 
   }
 }
+
 export const userInterviewsDetails = async (id) => {
   try {
     return await axios.get(`${url}/userInterviewsDetails?slotId=${id}`
@@ -1058,6 +1088,16 @@ export const updateInterviewApplication = async (id ,data) => {
 
   }
 }
+export const updateXIInterviewApplication = async (id ,data) => {
+  try {
+    return await axios.put(`${url}/updateXIInterviewApplication?id=${id}`,data
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
 
 export const userUpgradePostRequest = async (data, token) => {
   console.log(data);
@@ -1071,7 +1111,31 @@ export const userUpgradePostRequest = async (data, token) => {
     console.log("Error calling Post Job API : ", error);
   }
 }
+export const handleXIInterview = async (data, token) => {
+  console.log(data);
+  try {
+    return await axios.post(`${url}/handleXIInterview`, data ,{
+      headers: {
+        authorization: token,
+      },}
+     
+    );
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
 
+
+// export const twilioToken = async () => {
+//   try {
+//     return await axios.get(`${url}/token`
+//     );
+
+//   } catch (err) {
+//     console.log("Error : ", err);
+
+//   }
+// }
 
 
 

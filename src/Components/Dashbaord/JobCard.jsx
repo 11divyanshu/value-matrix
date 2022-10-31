@@ -411,7 +411,7 @@ const JobCard = (props) => {
                           <div className="flex items-center border-b text-gray-800 space-x-2">
                             {/* <BsThreeDots className="text-md" /> */}
                             <p className="text-sm font-semibold py-2">
-                              <Link to={`/company/jobDetails/${job._id}`}>
+                              <Link to={`/company/${job.status === "Pending" ?"pendingJobDetails":"jobDetails"}/${job._id}`}>
                                 View Details{" "}
                               </Link>
                             </p>{" "}
