@@ -90,6 +90,7 @@ import AddAdminUser from "./Pages/AdminDashboard/AddAdminUser";
 import AddTaxId from "./Pages/AdminDashboard/AddTaxId";
 import Twilio from "./Pages/AdminDashboard/twilio";
 import XIUsersList from './Pages/AdminDashboard/XIUsersList';
+import SuperXIUsersList from './Pages/AdminDashboard/SuperXIUsersList';
 
 
 // XI Pages
@@ -338,6 +339,14 @@ export const adminDashboardRoutes = [
     hide: false,
     icon: <FaUserFriends className="text-xl" />,
     component: <XIUsersList />,
+    permission: "default",
+  },
+  {
+    name: "SuperXi List",
+    path: "/superxiuserslist",
+    hide: false,
+    icon: <FaUserFriends className="text-xl" />,
+    component: <SuperXIUsersList />,
     permission: "default",
   },
   {
