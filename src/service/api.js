@@ -494,6 +494,15 @@ export const getXIUserList = async (data, token) => {
     console.log("Error : ", error);
   }
 };
+export const getSuperXIUserList = async (data, token) => {
+  try {
+    return await axios.post(`${url}/getSuperXIUserList`, data, {
+      headers: { authorization: token },
+    });
+  } catch (error) {
+    console.log("Error : ", error);
+  }
+};
 
 export const postXIUserLevel = async (data, token) => {
   try {
