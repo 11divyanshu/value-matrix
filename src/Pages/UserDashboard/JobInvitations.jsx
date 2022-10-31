@@ -475,7 +475,7 @@ const JobInvitations = (props) => {
               {/* <p className="text-gray-400 w-full font-semibold">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p> */}
             </div>
           </div>
-          {!Loading && JobInvitation.length === 0 ?
+          {!Loading && user.status !== "Forwarded" && JobInvitation.length === 0 ?
             (
               <div className="text-center py-5 text-2xl md:w-3/4">
                 No Interview Invitations

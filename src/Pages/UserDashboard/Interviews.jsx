@@ -112,12 +112,13 @@ const JobList = (props) => {
                             <p>
                               <span className="font-semibold">Upgrade to XI  </span>{" "}
                            </p>
+                          { job.xiinterviewApplication && job.xiinterviewApplication.length>0 ?
                             <p className="text-sm">
                               <span className="font-semibold">
                                 Interview Id :
                               </span>
-                              {job.interviewId}
-                            </p>
+                              { job.interviewId }
+                            </p>:null}
                           </div>
                           <div className="px-5 my-2 text-md">
                             <p>
