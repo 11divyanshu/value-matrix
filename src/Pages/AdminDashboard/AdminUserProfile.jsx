@@ -13,9 +13,11 @@ import "react-multi-carousel/lib/styles.css";
 import AdminTabs from "../../Components/AdminDashboard/AdminTabs";
 import { Popover, Transition, Dialog } from "@headlessui/react";
 import { Fragment } from "react";
+//  import { Device } from '@twilio/voice-sdk';
 
 //  import {Device } from 'twilio-client';
 // import Twilio from "twilio";
+
 const AdminUserProfile = (props) => {
 
   let navigate = useNavigate();
@@ -26,7 +28,7 @@ console.log(props);
   const [job_id, setJobId] = React.useState(props.id);
   const [approveModal, setApproveModal] = React.useState(false);
   const [access_token, setaccess_token] = React.useState(null);
-
+  //  const Device = Twilio.Device;
   // Sets User and AccessToken from SessionStorage
 
   React.useEffect(() => {
@@ -67,7 +69,7 @@ console.log(props);
   const Call = async()=>{
  
 
-    //   fetch("/token").then((res) => res.json())
+    //   const token = ("/token").then((res) => res.json())
     //  .then((json) => {
     //     console.log(json)
     //  })

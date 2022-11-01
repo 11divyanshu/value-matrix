@@ -1027,9 +1027,20 @@ export const XISlots = async (id) => {
 
   }
 }
+
 export const addSlot = async (data) => {
   try {
     return await axios.post(`${url}/addSlot`,data
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+export const ValidateSlot = async (data) => {
+  try {
+    return await axios.post(`${url}/ValidateSlot`,data
     );
 
   } catch (err) {

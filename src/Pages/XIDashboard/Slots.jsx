@@ -1,5 +1,5 @@
 import React, { useState, Fragment, useEffect } from "react";
-import { addSlot, XISlots, updateSlot, deleteSlot } from "../../service/api.js";
+import { addSlot, XISlots, updateSlot, deleteSlot,ValidateSlot } from "../../service/api.js";
 import { CSVLink } from "react-csv";
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import Loader from "../../assets/images/loader.gif";
@@ -114,6 +114,8 @@ if(startTime ){
     setLoading(true);
 
     if (editId !== null) {
+      let check = await ValidateSlot({id:id ,startTime: startTime});
+      if(check.data.check === true){
       let res = await updateSlot(editId, { startDate: startTime, endDate: endTime });
       console.log(res);
       if (res.status === 200) {
@@ -147,11 +149,29 @@ if(startTime ){
           setStartTime(null);
         })
 
+      }}else{
+        swal({
+          icon: "error",
+          title: "Add Slots",
+          text: "Slot Limit Exceeded",
+          button: "Continue",
+        }).then(()=>{
+          setModal(false)
+          setEndTime(null)
+          setStartTime(null);
+        })
+    
       }
       return;
 
     }
+
+    let check = await ValidateSlot({id:id ,startTime: startTime});
+    if(check.data.check === true){
     let res = await addSlot([{ createdBy: id, startDate: startTime, endDate: endTime }]);
+    
+
+    
     if (res.status === 200) {
 
       let res2 = await XISlots(user._id);
@@ -170,7 +190,9 @@ if(startTime ){
         setEndTime(null)
         setStartTime(null);
       })
-    } else {
+    }
+
+     else {
       swal({
         icon: "error",
         title: "Add Slots",
@@ -182,6 +204,19 @@ if(startTime ){
         setStartTime(null);
       })
     }
+  }else{
+    swal({
+      icon: "error",
+      title: "Add Slots",
+      text: "Slot Limit Exceeded",
+      button: "Continue",
+    }).then(()=>{
+      setModal(false)
+      setEndTime(null)
+      setStartTime(null);
+    })
+
+  }
   }
 
  

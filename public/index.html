@@ -27,11 +27,13 @@
     <link rel="stylesheet" href="../dist/output.css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Value Matrix</title>
-
+   
     <script
       src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"
       async=""
     ></script>
+
+    
     <script>
       window.OneSignal = window.OneSignal || [];
       OneSignal.push(function () {
@@ -41,14 +43,16 @@
             "web.onesignal.auto.2cee7bb2-7604-4e25-b1d2-cbd521c730a5",
           notifyButton: {
             enable: true,
+            
           },
           allowLocalhostAsSecureOrigin: true,
         });
       });
     </script>
-   <script type="text/javascript" src="https://sdk.twilio.com/js/client/v1.13/twilio.min.js"></script>
 
-
+<script type="text/javascript"
+src="twilio.js"></script>
+<script type="text/javascript" src="twilio.min.js"></script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -63,6 +67,7 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    
     <script>
       var popover = new bootstrap.Popover(
         document.querySelector(".popover-dismiss"),
@@ -71,5 +76,6 @@
         }
       );
     </script>
+    
   </body>
 </html>
