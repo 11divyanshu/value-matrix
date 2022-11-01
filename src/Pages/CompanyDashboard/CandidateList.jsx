@@ -304,66 +304,9 @@ const JobList = (props) => {
               Add Candidate
             </button>
           </div>
-          {/* <div>
-          <p className="text-gray-900 text-s mb-2 mx-5 text-right text-blue"><CSVLink {...csvReport}><button className=" p-3 w-10vw rounded-md text-white" style={{ backgroundColor: "#034488" }}>Download CSV</button></CSVLink></p>
-        </div> */}
         </div>
       </div>
       <div className="p-4 w-full md:flex mx-auto">
-        {/* <div className="md:w-1/4 sm:w-full  mt-5 h-3/5 shadow-lg rounded-lg">
-
-
-
-          <Formik
-            initialValues={{
-              picked: 'One',
-              toggle: false,
-              checked: [],
-            }}
-          // onSubmit={async (values) => {
-
-          // }}
-          >
-            {({ values }) => (
-              <Form className="px-5 py-3 bg-white">
-                <div id="my-radio-group " className="text-2xl font-bold py-4 font-gray-600">Filters</div>
-                <div role="group" className="flex-column align-items-center  py-3 my-3 w-1/2 border-t border-gray-300" aria-labelledby="my-radio-group">
-
-                  <label className="content-center px-4  flex  text-xl">
-                    <Field type="radio" className="m-2 " name="picked" value="One" />
-                    <p className="text-xl font-bold mx-3 font-gray-600">All</p>
-                  </label>
-                  <br />
-                  <label className="px-4   flex   text-xl">
-                    <Field type="radio" className="m-2" name="picked" value="Two" />
-                    <p className="text-xl font-bold mx-3 font-gray-600">Active</p>
-                  </label>
-                  <br />
-                  <label className="px-4 flex text-xl">
-                    <Field type="radio" className="m-2" name="picked" value="Three" />
-                    <p className="text-xl font-bold mx-3 font-gray-600">Ended</p>
-                  </label>
-                </div>
-
-                <label className="w-1/2 content-center mx-auto px-4 flex p-1  text-xl">
-                  <Field type="checkbox" className="m-2" name="toggle" />
-                  <p className="text-xl font-bold mx-3 font-gray-600">Vacant</p>
-                </label>
-
-
-                <button
-                  className=" text-white shadow-lg rounded-lg my-4 px-4 py-2"
-                  style={{backgroundColor:"#034488"}}
-                  onClick={() => applyFilter(values)}
-                >
-                  Apply
-                </button>
-              </Form>
-            )}
-          </Formik>
-
-
-        </div> */}
         <div className=" md:w-3/4 mb-4 md:mx-5">
           {loader ? (
             <p>...Loading</p>

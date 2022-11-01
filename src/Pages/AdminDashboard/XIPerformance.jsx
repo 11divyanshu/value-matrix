@@ -49,37 +49,9 @@ const XICategory = () => {
     },
   ]);
 
-  const navigate = useNavigate();
-
-  React.useEffect(() => {
-    const initial = async () => {
-      let user = JSON.parse(await localStorage.getItem("user"));
-      let res = await getUserFromId({ id: user._id }, user.access_token);
-      console.log(res);
-      if (res && res.data && res.data.user) {
-        if (res.data.user.permissions[0].admin_permissions.list_XI === false) {
-          navigate(-1);
-        }
-      }
-    };
-    initial();
-  }, []);
-
-  React.useEffect(() => {
-    const initial = async () => {
-      let token = await localStorage.getItem("access_token");
-      let user = JSON.parse(await localStorage.getItem("user"));
-      let response = await getXIList({ user_id: user._id }, token);
-      console.log(response);
-      if (response && response.status === 200) {
-        setUserList(response.data);
-      }
-    };
-    initial();
-  }, []);
-
-  const [showCategoryForm, setShowCategoryForm] = React.useState(false);
+  const [showPerformanceForm, setShowPerformanceForm] = React.useState(false);
   const [loader, setLoader] = useState(false);
+
   const paginate = (p) => {
     setPage(p);
     for (var i = 1; i <= userList.length; i++) {
@@ -94,169 +66,156 @@ const XICategory = () => {
 
   return (
     <div className="p-5">
-     <div className="flex justify-between">
-        <p className="text-2xl font-semibold mx-10">XI Categories</p>
+      <div className="flex justify-between">
+        <p className="text-2xl font-semibold mx-10">XI Performance</p>
         <div className="mx-1">
           <button
             className=" p-1 lg:p-3 md:p-3 sm:p-3 text-xs lg:text-lg md:text-sm rounded-md text-white"
             style={{ backgroundColor: "#034488" }}
             onClick={() => {
               setModal(true);
-              setShowCategoryForm(false);
+              setShowPerformanceForm(false);
             }}
           >
             Add Candidate
           </button>
         </div>
       </div>
-      <div className="mt-3">
-        <div className=" md:w-3/4 mb-4 md:mx-5">
-          {loader ? (
-            <p>...Loading</p>
-          ) : (
-            <>
-              <div className="flex justify-between w-full bg-white">
-                <div
-                  className="py-4 px-5 md:py-2 md:px-2"
-                  style={{ borderRadius: "6px 6px 0 0" }}
-                >
-                  <p className="text-gray-900 w-full font-bold">
-                    All Candidates
-                  </p>
-                </div>
-              </div>
-              {modal && (
-                <Transition
-                  appear
-                  show={modal}
-                  as={Fragment}
-                  className="relative z-1050 w-full"
-                  style={{ zIndex: 1000 }}
-                >
-                  <Dialog
-                    as="div"
-                    className="relative z-1050 w-5/6"
-                    onClose={() => {}}
-                    static={true}
-                  >
-                    <div
-                      className="fixed inset-0 bg-black/30"
-                      aria-hidden="true"
-                    />
-                    <Transition.Child
-                      as={Fragment}
-                      enter="ease-out duration-300"
-                      enterFrom="opacity-0"
-                      enterTo="opacity-100"
-                      leave="ease-in duration-200"
-                      leaveFrom="opacity-100"
-                      leaveTo="opacity-0"
-                    >
-                      <div className="fixed inset-0 bg-black bg-opacity-25" />
-                    </Transition.Child>
 
-                    <div className="fixed inset-0 overflow-y-auto ">
-                      <div className="flex min-h-full items-center justify-center p-4 text-center max-w-4xl mx-auto">
-                        <Transition.Child
-                          as={Fragment}
-                          enter="ease-out duration-300"
-                          enterFrom="opacity-0 scale-95"
-                          enterTo="opacity-100 scale-100"
-                          leave="ease-in duration-200"
-                          leaveFrom="opacity-100 scale-100"
-                          leaveTo="opacity-0 scale-95"
-                        >
-                          <Dialog.Panel className="w-full px-7 transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
-                            <div className={`${!modal ? "hidden" : "block"}`}>
+      <div className=" md:w-3/4 mb-4 md:mx-5">
+        {loader ? (
+          <p>...Loading</p>
+        ) : (
+          <>
+            <div className="flex justify-between w-full bg-white">
+              <div
+                className="py-4 px-5 md:py-2 md:px-2"
+                style={{ borderRadius: "6px 6px 0 0" }}
+              >
+                <p className="text-gray-900 w-full font-bold">All Candidates</p>
+              </div>
+            </div>
+            {modal && (
+              <Transition
+                appear
+                show={modal}
+                as={Fragment}
+                className="relative z-1050 w-full"
+                style={{ zIndex: 1000 }}
+              >
+                <Dialog
+                  as="div"
+                  className="relative z-1050 w-5/6"
+                  onClose={() => {}}
+                  static={true}
+                >
+                  <div
+                    className="fixed inset-0 bg-black/30"
+                    aria-hidden="true"
+                  />
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                  >
+                    <div className="fixed inset-0 bg-black bg-opacity-25" />
+                  </Transition.Child>
+
+                  <div className="fixed inset-0 overflow-y-auto ">
+                    <div className="flex min-h-full items-center justify-center p-4 text-center max-w-4xl mx-auto">
+                      <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0 scale-95"
+                        enterTo="opacity-100 scale-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100 scale-100"
+                        leaveTo="opacity-0 scale-95"
+                      >
+                        <Dialog.Panel className="w-full px-7 transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
+                          <div className={`${!modal ? "hidden" : "block"}`}>
+                            <div className="w-full">
                               <div className="w-full">
-                                <div className="w-full">
-                                  <div className="my-3 w-3/4 md:w-full text-left flex ">
-                                    <div className="w-full my-7">
-                                      <div className="w-full my-5">
-                                        <h2 className="font-semibold my-3">
-                                          Category
-                                        </h2>
-                                        <input
-                                          className="w-full rounded-lg border-gray-100"
-                                          type="text"
-                                          name=""
-                                          placeholder="Enter Value"
-                                          id=""
-                                        />
-                                      </div>
-                                      <div className="w-full my-5">
-                                        <h2 className="font-semibold my-3">
-                                          Cat Multiplier
-                                        </h2>
-                                        <input
-                                          className="w-full rounded-lg border-gray-100"
-                                          type="text"
-                                          name=""
-                                          placeholder="Enter Value"
-                                          id=""
-                                        />
-                                      </div>
-                                      <div className="w-full my-5">
-                                        <h2 className="font-semibold my-3">
-                                          Limit
-                                        </h2>
-                                        <input
-                                          className="w-full rounded-lg border-gray-100"
-                                          type="text"
-                                          name=""
-                                          placeholder="Enter Value"
-                                          id=""
-                                        />
-                                      </div>
-                                      <div className="w-full my-5">
-                                        <h2 className="font-semibold my-3">
-                                          Payout
-                                        </h2>
-                                        <input
-                                          className="w-full rounded-lg border-gray-100"
-                                          type="text"
-                                          name=""
-                                          placeholder="Enter Value"
-                                          id=""
-                                        />
-                                      </div>
+                                <div className="my-3 w-3/4 md:w-full text-left flex ">
+                                  <div className="w-full my-7">
+                                    <div className="w-full my-5">
+                                      <h2 className="font-semibold my-3">
+                                        Multiplier
+                                      </h2>
+                                      <input
+                                        className="w-full rounded-lg border-gray-100"
+                                        type="text"
+                                        name=""
+                                        placeholder="Enter Value"
+                                        id=""
+                                      />
                                     </div>
-                                    <div>
-                                      <button
-                                        className="bg-[#034488] text-white rounded-sm py-1 my-2"
-                                        onClick={() => setModal(false)}
-                                        style={{
-                                          backgroundColor: "#fff",
-                                          color: "#034488",
-                                        }}
-                                      >
-                                        <ImCross />
-                                      </button>
+                                    <div className="w-full my-5">
+                                      <h2 className="font-semibold my-3">
+                                        Max
+                                      </h2>
+                                      <input
+                                        className="w-full rounded-lg border-gray-100"
+                                        type="text"
+                                        name=""
+                                        placeholder="Enter Value"
+                                        id=""
+                                      />
+                                    </div>
+                                    <div className="w-full my-5">
+                                      <h2 className="font-semibold my-3">
+                                        Min
+                                      </h2>
+                                      <input
+                                        className="w-full rounded-lg border-gray-100"
+                                        type="text"
+                                        name=""
+                                        placeholder="Enter Value"
+                                        id=""
+                                      />
                                     </div>
                                   </div>
-                                  <div className="flex space-x-10 my-3">
+                                  <div>
                                     <button
-                                      className="bg-[#034488] text-white rounded-sm px-4 py-1"
-                                      onClick={() => {
-                                        setShowCategoryForm(true);
+                                      className="bg-[#034488] text-white rounded-sm py-1 my-2"
+                                      onClick={() => setModal(false)}
+                                      style={{
+                                        backgroundColor: "#fff",
+                                        color: "#034488",
                                       }}
                                     >
-                                      Submit
+                                      <ImCross />
                                     </button>
                                   </div>
                                 </div>
+                                <div className="flex space-x-10 my-3">
+                                  <button
+                                    className="bg-[#034488] text-white rounded-sm px-4 py-1"
+                                    onClick={() => {
+                                      setShowPerformanceForm(true);
+                                    }}
+                                  >
+                                    Submit
+                                  </button>
+                                </div>
                               </div>
                             </div>
-                          </Dialog.Panel>
-                        </Transition.Child>
-                      </div>
+                          </div>
+                        </Dialog.Panel>
+                      </Transition.Child>
                     </div>
-                  </Dialog>
-                </Transition>
-              )}
-            </>
-          )}
-        </div>
+                  </div>
+                </Dialog>
+              </Transition>
+            )}
+          </>
+        )}
+      </div>
+      <div className="mt-3">
         <div className="flex flex-col mx-10">
           <div className="overflow-x-auto w-full sm:-mx-6 lg:-mx-8">
             <div className="py-2 inline-block w-full sm:px-6 lg:px-8">
@@ -274,25 +233,19 @@ const XICategory = () => {
                         scope="col"
                         className="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
                       >
-                        Category
+                        Multiplier
                       </th>
                       <th
                         scope="col"
                         className="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
                       >
-                        Cat Multiplier
+                        Min
                       </th>
                       <th
                         scope="col"
                         className="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
                       >
-                        Limit
-                      </th>
-                      <th
-                        scope="col"
-                        className="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
-                      >
-                        Payout
+                        Max
                       </th>
                       <th
                         scope="col"

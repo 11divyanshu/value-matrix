@@ -41,6 +41,8 @@ import PushNotification from "./Pages/AdminDashboard/PushNotifications";
 import APanel from "./Pages/AdminDashboard/panel";
 import WhatsappNotification from "./Pages/AdminDashboard/WhatsappNotification";
 import ChannelNotificationPanel from "./Pages/AdminDashboard/ChannelNotification";
+import XIPerformance from "./Pages/AdminDashboard/XIPerformance"
+import XILevel from "./Pages/AdminDashboard/XILevel"
 
 // Company Pages
 import CJobList from "./Pages/CompanyDashboard/jobList.jsx";
@@ -340,6 +342,22 @@ export const adminDashboardRoutes = [
     hide: false,
     icon: <FaUserFriends className="text-xl" />,
     component: <XIUsersList />,
+    permission: "default",
+  },
+  {
+    name: "Xi Performance",
+    path: "/XIPerformance",
+    hide: false,
+    icon: <FaUserFriends className="text-xl" />,
+    component: <XIPerformance />,
+    permission: "default",
+  },
+  {
+    name: "Xi Level",
+    path: "/XILevel",
+    hide: false,
+    icon: <FaUserFriends className="text-xl" />,
+    component: <XILevel />,
     permission: "default",
   },
   {
