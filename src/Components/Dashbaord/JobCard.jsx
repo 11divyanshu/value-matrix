@@ -42,7 +42,7 @@ const JobCard = (props) => {
   const handleStatusPost = async () => {
     let access_token = localStorage.getItem("access_token");
     let user = JSON.parse(localStorage.getItem("user"));
-
+    console.log(choosenStatus);
     if(choosenStatus === "Archieved"){
       console.log("check");
       let res2 = await postUpdateJobArchive(
@@ -54,6 +54,7 @@ const JobCard = (props) => {
       );
 
       if(res2){
+        console.log("Nice");
         swal({
           title: "Job Status Updated Successfully !",
           message: "Success",
@@ -191,7 +192,7 @@ const JobCard = (props) => {
               // style={{ background: "#3ED3C5" }}
               className=" bg-yellow-300 rounded-3xl px-6 my-3 text-xs text-gray-900 font-semibold"
             >
-              Archived{" "}
+              Archieved{" "}
             </button>
           ) : job.status === "Active" ? (
             <button
@@ -286,7 +287,7 @@ const JobCard = (props) => {
                       className="  rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
                       onClick={() => {
                         setchooseStatus(true);
-                        handleStatusChange(job._id, "Archived");
+                        handleStatusChange(job._id, "Archieved");
                       }}
                     >
                       Archieved{" "}
