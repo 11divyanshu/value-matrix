@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react'
-import Printable from "../UserDashboard/PrintAble"
+import Printable from "../CompanyDashboard/PrintAble"
 import { useReactToPrint } from "react-to-print";
 import UserAvatar from "../../assets/images/loginBackground.jpeg"
 import { AiOutlineDelete, AiOutlinePrinter } from "react-icons/ai";
