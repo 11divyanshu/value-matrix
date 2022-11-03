@@ -30,7 +30,7 @@ import Interviews from "./Pages/UserDashboard/Interviews";
 import InterviewsDetails from "./Pages/UserDashboard/InterviewDetails";
 
 // import AllSlots from "./Pages/UserDashboard/AllSlots.jsx";
-import PrintAble from "./Pages/UserDashboard/PrintAble"
+import PrintAble from "./Pages/CompanyDashboard/PrintAble"
 import PrintAbleUi from "./Pages/UserDashboard/PrintAbleUi";
 
 
