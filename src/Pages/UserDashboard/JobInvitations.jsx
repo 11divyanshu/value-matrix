@@ -10,7 +10,8 @@ import {
   updateInterviewApplication,
   updateUserDetails,
   getUserFromId,
-  handleXIInterview
+  handleXIInterview,
+  priorityEngine
 } from "../../service/api";
 import Avatar from "../../assets/images/UserAvatar.png";
 import { BsFillBookmarkFill } from "react-icons/bs";
@@ -48,7 +49,9 @@ const JobInvitations = (props) => {
   const [startTime, setStartTime] = React.useState(new Date());
   const [smsOTP, setsmsOTP] = React.useState("");
   const [page, setPage] = useState(1);
+  const [slotCompare, setSlotCompare] = useState({});
   const [index, setIndex] = React.useState(props.index);
+  const [type, setType] = React.useState(null);
 
   const paginate = (p) => {
     setPage(p);
@@ -66,7 +69,7 @@ const JobInvitations = (props) => {
     setsmsOTP(e.target.value);
   }
 
- 
+
   React.useEffect(() => {
     const initial = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
@@ -243,30 +246,30 @@ const JobInvitations = (props) => {
                             if (smsOTP == otp) {
                               let res = await updateSlot(slotId._id, { userId: user._id, status: "Pending" });
 
-                              if(slotId.slotType == "SuperXI"){
+                              if (slotId.slotType == "SuperXI") {
                                 let res = await updateUserDetails(
-                                  { user_id: user._id, updates: {status:"Applied"} },
+                                  { user_id: user._id, updates: { status: "Applied" } },
                                   { access_token: user.access_token }
                                 );
                                 let res1 = await handleXIInterview(
-                                  { slotId: slotId._id , interviewer: slotId.createdBy, applicant: user._id, status: "Pending" },
+                                  { slotId: slotId._id, interviewer: slotId.createdBy, applicant: user._id, status: "Pending" },
                                   user.access_token
-                                );                                window.location.reload();
+                                ); window.location.reload();
 
                                 setslotId(null);
                                 setotpModal(false);
-                              }else{
-                              handleJobInvitation(invitation, true);
-                              if (res.status == 200) {
-                                console.log(invitation);
-                               
-                              
+                              } else {
+                                handleJobInvitation(invitation, true);
+                                if (res.status == 200) {
+                                  console.log(invitation);
 
-                                setslotId(null);
-                                setotpModal(false);
 
+
+                                  setslotId(null);
+                                  setotpModal(false);
+
+                                }
                               }
-                            }
                             } else {
                               swal({
                                 title: "Invalid OTP !",
@@ -341,7 +344,7 @@ const JobInvitations = (props) => {
                           {/* <div className="w-auto">Image</div> */}
                           <div className="w-auto">
                             <h2 className="font-semibold">{xiInter ? "Upgrade To XI" : invitation.hiringOrganization}</h2>
-                            <p className="text-xs">{xiInter ? "" :invitation.jobTitle}</p>
+                            <p className="text-xs">{xiInter ? "" : invitation.jobTitle}</p>
                           </div>
                         </div>
 
@@ -378,20 +381,34 @@ const JobInvitations = (props) => {
 
                                 if (new Date(item.startDate).getDate() === new Date(startTime).getDate()) {
                                   return (
-                                    <span className={`${ slotId && (slotId._id === item._id) ? "bg-blue text-white-600":"bg-white text-gray-600"} border border-gray-400  text-xs font-semibold mr-2 px-2.5 py-2 rounded-3xl cursor-pointer`}
+                                    <span className={`${slotId && (slotId._id === item._id) ? "bg-blue text-white-600" : "bg-white text-gray-600"} border border-gray-400  text-xs font-semibold mr-2 px-2.5 py-2 rounded-3xl cursor-pointer`}
                                       onClick={async () => {
                                         console.log(item);
-                                        let res = await bookSlot({ candidate_id: candidate.candidate_id, slotId: item._id });
-                                        console.log(res)
-
-                                        if (res.status === 200) {
-                                          setchooseSlot(false);
-                                          setotpModal(true);
-                                          setotp(res.data.OTP)
-                                          setxiInter(false);
+                                        let priority = await priorityEngine(item.startDate, type);
+                                        console.log(priority)
+                                        if (priority.status == 200) {
 
 
-                                          setslotId(item);
+                                          let max = 0;
+                                          for (let i = 0; i < priority.data.slot.length; i++) {
+                                            if (priority.data.slot[i].priority >= max) {
+                                              max = priority.data.slot[i].priority;
+                                              setSlotCompare(priority.data.slot[i]);
+                                            }
+                                          }
+                                          console.log(slotCompare)
+                                          let res = await bookSlot({ candidate_id: candidate.candidate_id, slotId: slotCompare._id });
+                                          console.log(res)
+
+                                          if (res.status === 200) {
+                                            setchooseSlot(false);
+                                            setotpModal(true);
+                                            setotp(res.data.OTP)
+                                            setxiInter(false);
+
+
+                                            setslotId(slotCompare);
+                                          }
                                         }
                                       }}
 
@@ -412,7 +429,8 @@ const JobInvitations = (props) => {
                           </button> */}
                           <button
                             className="text-black font-bold py-3 border-black border-2 px-8 mx-1 md:mx-4 text-xs rounded"
-                            onClick={() => { setchooseSlot(false)
+                            onClick={() => {
+                              setchooseSlot(false)
                               setxiInter(false);
 
                             }}>Decline
@@ -538,12 +556,17 @@ const JobInvitations = (props) => {
 
                       <button
                         style={{ background: "#3ED3C5" }}
-                        onClick={async() => {
+                        onClick={async () => {
                           //handleJobInvitation(job, true);
 
-                          let slots = await availableSlots(user._id , "SuperXI");
-                          console.log(slots.data);
-                          setSlot(slots.data);
+                          let slots = await availableSlots(user._id, "SuperXI");
+                          const key = 'startDate';
+
+                          const arrayUniqueByKey = [...new Map(slots.data.map(item =>
+                            [item[key], item])).values()];
+
+                          setType("SuperXI");
+                          setSlot(arrayUniqueByKey);
                           setchooseSlot(true);
                           setxiInter(true);
                         }}
@@ -553,14 +576,14 @@ const JobInvitations = (props) => {
                       </button>
                       <button
                         style={{ background: "#fff" }}
-                        onClick={async() => {
+                        onClick={async () => {
                           let res = await updateUserDetails(
-                            { user_id: user._id, updates: {status:"Pending"} },
+                            { user_id: user._id, updates: { status: "Pending" } },
                             { access_token: user.access_token }
                           );
                           setxiInter(false);
 
-                           //handleJobInvitation(job, false);
+                          //handleJobInvitation(job, false);
                         }}
                         className="bg-white border border-gray-500  rounded-3xl px-6 mx-2 my-2  py-2 text-xs text-gray"                      >
                         Decline{" "}
@@ -616,135 +639,148 @@ const JobInvitations = (props) => {
                 </div>
               )}
                 {JobInvitation.map((job, index) => {
-                  if(job.status && job.status === "Active"){
-                  return (
-                    <div id={"invcrd" + (index + 1)} className={index < 5 ? "w-full px-5 bg-white py-1 border border-b" : "w-full px-5 bg-white py-1 border border-b hidden"}>
-                      <div className="grid grid-cols-1 gap-4 md:grid-cols-8 sm:grid-cols-4  my-3">
-                        <div className="col-span-2">
-                          <h5 className="text-black-900 text-md font-bold mb-1 ">{job.jobTitle}</h5>
-                          <p className="text-sm font-bold  text-gray-400 font-semibold">
-                            {job.hiringOrganization}
-                          </p>
-                        </div>
-                        <div className="col-span-2">
-                          {/* <p className="px-4 text-gray-400 font-semibold text-md text-gray-400 font-semibold">Job Type</p> */}
-                          <div className="flex py-1">
-                            <div className="text-md py-1 text-gray-400 font-semibold ">
-                              <CgWorkAlt />
-                            </div>
-
-                            <p className="px-4 text-sm text-gray-400 font-semibold">
-                              {job.jobType}
+                  if (job.status && job.status === "Active") {
+                    return (
+                      <div id={"invcrd" + (index + 1)} className={index < 5 ? "w-full px-5 bg-white py-1 border border-b" : "w-full px-5 bg-white py-1 border border-b hidden"}>
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-8 sm:grid-cols-4  my-3">
+                          <div className="col-span-2">
+                            <h5 className="text-black-900 text-md font-bold mb-1 ">{job.jobTitle}</h5>
+                            <p className="text-sm font-bold  text-gray-400 font-semibold">
+                              {job.hiringOrganization}
                             </p>
                           </div>
-                          <div className="flex py-1">
-                            <div className="text-md py-1 text-gray-400 font-semibold ">
-                              <HiOutlineLocationMarker />
+                          <div className="col-span-2">
+                            {/* <p className="px-4 text-gray-400 font-semibold text-md text-gray-400 font-semibold">Job Type</p> */}
+                            <div className="flex py-1">
+                              <div className="text-md py-1 text-gray-400 font-semibold ">
+                                <CgWorkAlt />
+                              </div>
+
+                              <p className="px-4 text-sm text-gray-400 font-semibold">
+                                {job.jobType}
+                              </p>
                             </div>
+                            <div className="flex py-1">
+                              <div className="text-md py-1 text-gray-400 font-semibold ">
+                                <HiOutlineLocationMarker />
+                              </div>
 
-                            <p className="px-4 text-sm text-gray-400 font-semibold">
-                              {job.location}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="col-span-2">
-                          <div className="flex py-1">
-                            <div className="text-md py-1 text-gray-400 font-semibold ">
-                              <HiOutlineCalendar />
+                              <p className="px-4 text-sm text-gray-400 font-semibold">
+                                {job.location}
+                              </p>
                             </div>
-
-                            <p className="px-2 text-md text-gray-400 font-semibold">
-                              {new Date(job.validTill).getDate() +
-                                "-" +
-                                (new Date(job.validTill).getMonth() + 1) +
-                                "-" +
-                                new Date(job.validTill).getFullYear()}
-                            </p>
                           </div>
-                          <div className="flex py-1">
-                            <div className="text-md py-1 text-gray-400 font-semibold ">
-                              <BsCashStack />
+                          <div className="col-span-2">
+                            <div className="flex py-1">
+                              <div className="text-md py-1 text-gray-400 font-semibold ">
+                                <HiOutlineCalendar />
+                              </div>
+
+                              <p className="px-2 text-md text-gray-400 font-semibold">
+                                {new Date(job.validTill).getDate() +
+                                  "-" +
+                                  (new Date(job.validTill).getMonth() + 1) +
+                                  "-" +
+                                  new Date(job.validTill).getFullYear()}
+                              </p>
                             </div>
+                            <div className="flex py-1">
+                              <div className="text-md py-1 text-gray-400 font-semibold ">
+                                <BsCashStack />
+                              </div>
 
-                            <p className="px-4 text-sm text-gray-400 font-semibold">
-                              {typeof (job.salary) === "object" ? job.salary[2] : job.salary}
-                            </p>
+                              <p className="px-4 text-sm text-gray-400 font-semibold">
+                                {typeof (job.salary) === "object" ? job.salary[2] : job.salary}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                        <div className="flex col-span-2">
+                          <div className="flex col-span-2">
 
 
 
-                          <button
-                            style={{ background: "#3ED3C5" }}
-                            onClick={async() => {
-                              //handleJobInvitation(job, true);
-                              let slots = await availableSlots(user._id , "XI");
-                              console.log(slots.data);
-                              setSlot(slots.data);
-                              setInvitation(job)
-                              setchooseSlot(true);
-                            }}
-                            className="btn  rounded-3xl shadow-sm px-6 my-3 text-xs text-gray-900 font-semibold"
-                          >
-                            Accept{" "}
-                          </button>
+                            <button
+                              style={{ background: "#3ED3C5" }}
+                              onClick={async () => {
+                                //handleJobInvitation(job, true);
+                                let slots = await availableSlots(user._id, "XI");
+                                console.log(slots.data);
 
-                          <div className="px-4 mx-2 py-4 align-middle">
-                            {/* <p className="text-right text-md py-3"><BsThreeDots/></p> */}
-                            <Popover className="relative mt-1">
-                              {({ open }) => (
-                                <>
-                                  <Popover.Button
-                                    className={`
+
+                                const key = 'startDate';
+
+                                const arrayUniqueByKey = [...new Map(slots.data.map(item =>
+                                  [item[key], item])).values()];
+
+
+
+                                console.log(arrayUniqueByKey)
+setType("XI")
+
+                                setSlot(arrayUniqueByKey);
+                                setInvitation(job)
+                                setchooseSlot(true);
+                              }}
+                              className="btn  rounded-3xl shadow-sm px-6 my-3 text-xs text-gray-900 font-semibold"
+                            >
+                              Accept{" "}
+                            </button>
+
+                            <div className="px-4 mx-2 py-4 align-middle">
+                              {/* <p className="text-right text-md py-3"><BsThreeDots/></p> */}
+                              <Popover className="relative mt-1">
+                                {({ open }) => (
+                                  <>
+                                    <Popover.Button
+                                      className={`
                         ${open ? "" : "text-opacity-90"} focus:outline-0`}
-                                  >
-                                    <BsThreeDots className="text-gray-700 text-lg cursor-pointer hover:text-gray-800" />
-                                  </Popover.Button>
-                                  <Transition
-                                    as={Fragment}
-                                    enter="transition ease-out duration-200"
-                                    enterFrom="opacity-0 translate-y-1"
-                                    enterTo="opacity-100 translate-y-0"
-                                    leave="transition ease-in duration-150"
-                                    leaveFrom="opacity-100 translate-y-0"
-                                    leaveTo="opacity-0 translate-y-1"
-                                  >
-                                    <Popover.Panel className="absolute z-10  max-w-sm  px-9 sm:px-0 lg:max-w-3xl md:w-[8vw]">
-                                      <div className="overflow-hidden rounded-sm shadow-lg ring-1 ring-black ring-opacity-5">
-                                        <div className="relative gap-8 bg-white p-3 lg:grid-cols-4  justify-between">
-                                          <div
-                                            className="flex items-center border-b text-gray-800 space-x-2"
-                                            onClick={() => {
-                                              handleJobInvitation(job, false);
-                                            }}
-                                          >
-                                            <p className="text-sm font-semibold py-2">
-                                              Decline
-                                            </p>{" "}
-                                          </div>
-                                          <div className="flex items-center text-gray-800 space-x-2">
-                                            <p className="text-sm font-semibold py-1">
-                                              <Link
-                                                to={`/user/jobDetails/${job._id}`}
-                                              >
-                                                View Details{" "}
-                                              </Link>
-                                            </p>{" "}
+                                    >
+                                      <BsThreeDots className="text-gray-700 text-lg cursor-pointer hover:text-gray-800" />
+                                    </Popover.Button>
+                                    <Transition
+                                      as={Fragment}
+                                      enter="transition ease-out duration-200"
+                                      enterFrom="opacity-0 translate-y-1"
+                                      enterTo="opacity-100 translate-y-0"
+                                      leave="transition ease-in duration-150"
+                                      leaveFrom="opacity-100 translate-y-0"
+                                      leaveTo="opacity-0 translate-y-1"
+                                    >
+                                      <Popover.Panel className="absolute z-10  max-w-sm  px-9 sm:px-0 lg:max-w-3xl md:w-[8vw]">
+                                        <div className="overflow-hidden rounded-sm shadow-lg ring-1 ring-black ring-opacity-5">
+                                          <div className="relative gap-8 bg-white p-3 lg:grid-cols-4  justify-between">
+                                            <div
+                                              className="flex items-center border-b text-gray-800 space-x-2"
+                                              onClick={() => {
+                                                handleJobInvitation(job, false);
+                                              }}
+                                            >
+                                              <p className="text-sm font-semibold py-2">
+                                                Decline
+                                              </p>{" "}
+                                            </div>
+                                            <div className="flex items-center text-gray-800 space-x-2">
+                                              <p className="text-sm font-semibold py-1">
+                                                <Link
+                                                  to={`/user/jobDetails/${job._id}`}
+                                                >
+                                                  View Details{" "}
+                                                </Link>
+                                              </p>{" "}
+                                            </div>
                                           </div>
                                         </div>
-                                      </div>
-                                    </Popover.Panel>
-                                  </Transition>
-                                </>
-                              )}
-                            </Popover>
+                                      </Popover.Panel>
+                                    </Transition>
+                                  </>
+                                )}
+                              </Popover>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
 
-                  );}
+                    );
+                  }
                 })}
               </div>)}
           <div className="w-full">

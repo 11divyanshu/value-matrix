@@ -1178,4 +1178,136 @@ export const handleXIInterview = async (data, token) => {
 // }
 
 
+// XI Category
+
+export const ListXICategory = async () => {
+  try {
+    return await axios.get(`${url}/ListXICategory`
+     
+    );
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+export const addXICategory = async (data, token) => {
+  try {
+    return await axios.post(`${url}/addXICategory`, data ,{
+      headers: {
+        authorization: token,
+      },}
+     
+    );
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+export const updateXICategory = async (data, token) => {
+  try {
+    return await axios.post(`${url}/updateXICategory`, data ,{
+      headers: {
+        authorization: token,
+      },}
+     
+    );
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+// XI Levels
+
+export const ListXILevel = async () => {
+  try {
+    return await axios.get(`${url}/ListXILevel`
+     
+    );
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+export const addXILevel = async (data, token) => {
+  try {
+    return await axios.post(`${url}/addXILevel`, data ,{
+      headers: {
+        authorization: token,
+      },}
+     
+    );
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+export const updateXILevel = async (data, token) => {
+  try {
+    return await axios.post(`${url}/updateXILevel`, data ,{
+      headers: {
+        authorization: token,
+      },}
+     
+    );
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+// XI Levels
+
+export const ListXIMultiplier = async () => {
+  try {
+    return await axios.get(`${url}/ListXIMultiplier`
+     
+    );
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+export const addXIMultiplier = async (data, token) => {
+  try {
+    return await axios.post(`${url}/addXIMultiplier`, data ,{
+      headers: {
+        authorization: token,
+      },}
+     
+    );
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+export const updateXIMultiplier = async (data, token) => {
+  try {
+    return await axios.post(`${url}/updateXIMultiplier`, data ,{
+      headers: {
+        authorization: token,
+      },}
+     
+    );
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+export const updateXIInfo = async (data) => {
+  try {
+    return await axios.post(`${url}/updateXIInfo`, data 
+     
+    );
+  }catch (error) {
+    console.log("Error calling  API : ", error);
+  }
+}
+export const getXIInfo = async (data) => {
+  try {
+    return await axios.get(`${url}/getXIInfo?id=${data}`,  
+     
+    );
+  }catch (error) {
+    console.log("Error calling  API : ", error);
+  }
+}
+export const priorityEngine = async (data,type) => {
+  try {
+    return await axios.post(`${url}/priorityEngine?date=${data}`,{type:type}  
+     
+    );
+  }catch (error) {
+    console.log("Error calling  API : ", error);
+  }
+}
 
