@@ -62,6 +62,7 @@ const SignupForm = () => {
 
   const [smsLoad, setSmsLoading] = React.useState(false);
   const [verifySms, setverifySms] = React.useState(false);
+  const [verifycode, setverifyCode] = React.useState(false);
 
   const captchaRef = React.useRef();
 
@@ -449,8 +450,8 @@ console.log(res1)
             if (!values.password) {
               errors.password = "Required";
             }
-            if (!values.countryCode) {
-              errors.countryCode = "Required";
+            if (!values.countryCode || values.countryCode === "") {
+              errors.countryCode = "Country Code Required";
             }
             if (!values.agree) {
               errors.agree = "You need to accept to continue";
@@ -591,7 +592,7 @@ console.log(res1)
                       borderRadius: "12px 0 0 12px",
                     }}
                     multiple={false}
-                    disabled={verifySms}
+                    // disabled={verifySms}
                   >
                     {countryCode &&
                       countryCode.map((item) => {

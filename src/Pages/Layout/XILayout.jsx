@@ -15,6 +15,7 @@ import jsCookie from "js-cookie";
 import JobDetails from "../XIDashboard/JobDetails.jsx";
 import PrintAbleUi from "../UserDashboard/PrintAbleUi.jsx";
 import DetailForm from "../../Components/Dashbaord/DetailsForm.jsx";
+import InterviewsDetails from "../../Pages/UserDashboard/InterviewDetails.jsx"
 
 const XIDashboard = () => {
   let [comp, setComponent] = React.useState(null);
@@ -134,7 +135,8 @@ const XIDashboard = () => {
         let c1 = component.split("/");
         console.log(c1);
         if (c1[1] === "jobDetails") setComponent(<JobDetails id={id} />);
-        if (c1[1] === "evaluationreport") setComponent(<PrintAbleUi id={id} />);
+        else if (c1[1] === "evaluationreport") setComponent(<PrintAbleUi id={id} />);
+        else if (c1[1] === "interviewDetails") setComponent(<InterviewsDetails id={id} />);
         else {
           let c = XIDashboardRoutes.filter(
             (route) => route.path === component.split("XI/")[1]

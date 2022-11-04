@@ -1,7 +1,10 @@
 import React from "react";
 import "../../assets/stylesheet/rating.css";
+import swal from "sweetalert";
+import { listXIEvaluation,updateInterviewApplication ,XIPerformance} from "../../service/api.js";
 
-const Rating = () => {
+
+const Rating = (props) => {
   return (
     <div className="w-full flex mx-5">
       <div>
@@ -23,6 +26,27 @@ const Rating = () => {
         <button
           className="shadow-lg rounded-md mx-5 px-6 py-3 "
           style={{ backgroundColor: "#034488", color: "#fff" }}
+          onClick={async () => {
+            const rating = document.querySelector('input[name="rating"]:checked').value;
+            console.log(rating)
+            let update = await updateInterviewApplication(props.id, { rating:rating });
+            if (update) {
+              let XIvalue = await XIPerformance(props.interviewer);
+              swal({
+                title: "Rating Updated Successfully !",
+                message: "Success",
+                icon: "success",
+                
+              })
+            } else {
+              swal({
+                title: "Oops !",
+                message: "Error",
+                icon: "error",
+               
+              })
+            }
+          }}
         >
           Submit
         </button>

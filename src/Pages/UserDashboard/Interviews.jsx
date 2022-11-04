@@ -213,7 +213,7 @@ const JobList = (props) => {
                       return (
                         <div id={"intercard" + (index + 1)} className={index < 5 ? "w-full px-5 bg-white py-1 my-2" : "w-full px-5 bg-white py-1 my-2 hidden"}>
                           <div className="grid grid-cols-1  items-center lg:grid-cols-6 relative py-3">
-                            <div className="px-5 my-2 text-md col-span-2 space-y-1">
+                            {job.XI[0] ? <div className="px-5 my-2 text-md col-span-2 space-y-1">
                               <p>
                                 Interview with
                                 <span className="font-semibold">
@@ -223,7 +223,7 @@ const JobList = (props) => {
                               </p>
                               <p>
                                 <span className="font-semibold">Job : </span>{" "}
-                                {job.job[0].jobTitle}
+                                {job.job[0] && job.job[0].jobTitle}
                               </p>
                               <p className="text-sm">
                                 <span className="font-semibold">
@@ -231,7 +231,9 @@ const JobList = (props) => {
                                 </span>
                                 {job.interviewId}
                               </p>
-                            </div>
+                            </div> :
+                            <div>Interview Scheduled</div>
+                            }
                             <div className="px-5 my-2 text-md">
                               <p>
                                 {" "}

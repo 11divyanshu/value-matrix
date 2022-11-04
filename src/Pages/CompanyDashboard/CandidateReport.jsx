@@ -156,16 +156,7 @@ const CandidateReport = () => {
           >
             <AiOutlinePrinter />
           </button> */}
-            <button
-              className=" mx-3 p-1 lg:p-3 md:p-3 sm:p-3 text-xs lg:text-lg md:text-sm rounded-md text-white"
-              style={{ backgroundColor: "#034488" }}
-              onClick={() => {
-                setModal(true);
-                setShowEvalForm(false);
-              }}
-            >
-              Save
-            </button>
+           
           </div>
         </div>
         <div className="w-full">

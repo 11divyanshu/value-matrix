@@ -252,7 +252,7 @@ const JobList = () => {
                                         <div className="flex items-center border-b text-gray-800 space-x-2">
                                           {/* <BsThreeDots className="text-md" /> */}
                                           <p className="text-sm font-semibold py-2">
-                                            <Link to={`/company/jobDetails/${job._id}`}>
+                                            <Link to={`/admin/jobDetails/${job._id}`}>
                                               View Details{" "}
                                             </Link>
                                           </p>{" "}
@@ -260,22 +260,25 @@ const JobList = () => {
                                         <div className="flex items-center text-gray-800 space-x-2"
                                         onClick={async()=>{
                                          let res1 = await approveJob({_id:job._id});
-                                         swal({
-                                          icon: "success",
-                                          title: "EditProfile",
-                                          text: "Details Saved",
-                                          button: "Continue",
-                                        });
                                          if(res1){
-                                         let res = await unapprovedJobsList();
+                                           swal({
+                                            icon: "success",
+                                            title: "EditProfile",
+                                            text: "Details Saved",
+                                            button: "Continue",
+                                          }).then(()=>{
+
+                                            window.location.reload();
+                                          })
+                                        //  let res = await unapprovedJobsList();
                                       
-                                         if (res && res.data) {
-                                           setJobs(res.data);
-                                           console.log(res.data);
-                                           let arr = [...res.data];
-                                           const jsonObj = JSON.stringify(arr);
+                                        //  if (res && res.data) {
+                                        //    setJobs(res.data);
+                                        //    console.log(res.data);
+                                        //    let arr = [...res.data];
+                                        //    const jsonObj = JSON.stringify(arr);
                                          
-                                      }
+                                      // }
                                         }}
                                       }
                                         >

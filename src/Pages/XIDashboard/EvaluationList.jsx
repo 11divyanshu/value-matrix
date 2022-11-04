@@ -128,7 +128,7 @@ const JobList = () => {
                               type="number"
                               name="smsOTP"
                               onChange={handleOTP}
-                              placeholder="Email OTP"
+                              placeholder="Enter OTP"
                               className="w-full"
                               style={{ borderRadius: "12px", marginTop: "10px" }}
                             ></input>
@@ -201,7 +201,7 @@ const JobList = () => {
                               </span>
                             </p>
                             <p>
-                              <span className="font-semibold">Job : </span> {job.job[0].jobTitle}
+                              <span className="font-semibold">Job : </span> {job.job[0] && job.job[0].jobTitle}
                             </p>
                             <p className="text-sm"><span className="font-semibold">Interview Id :</span>{job._id}</p>
                           </div>
@@ -221,20 +221,20 @@ const JobList = () => {
                           <div className="flex space-x-3 items-center">
                             <div className="px-5 text-center my-5 text-md">
                               <span className="bg-gray-400 text-gray-800 text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl dark:bg-yellow-200 dark:text-gray-900 my-2 py-2">
-                                {job.status}
+                                {job.slots[0].status }
                               </span>
                             </div>
-                            {job.status === "Accepted" ? <div className="px-5 text-center my-5 text-md">
+                            {job.slots[0].status === "Interviewed" && <div className="px-5 text-center my-5 text-md">
                               {/* <Link to={`/XI/updateEvaluationDetails/${job.slots[0]._id}`}>
                                 <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
                                   Update
                                 </span></Link> */}
                               <Link to={`/XI/evaluationreport`}>
-                                <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
+                                <span className="text-xs font-medium mr-4 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
                                   Update
                                 </span></Link>
-                            </div> :
-                              <button
+                            </div> }
+                             { job.slots[0].status === "Pending" && <button
                                 style={{ background: "#3ED3C5" }}
                                 onClick={async () => {
                                   console.log(job)
@@ -248,6 +248,16 @@ const JobList = () => {
                                 className="btn  rounded-3xl shadow-sm px-6 my-3 py-2 text-xs text-gray-900 font-semibold"
                               >
                                 Accept{" "}
+                              </button>
+                            }
+                             { job.slots[0].status === "Accepted" && <button
+                                style={{ background: "#3ED3C5" }}
+                                onClick={async () => {
+                                 
+                                }}
+                                className="btn  rounded-3xl shadow-sm px-6 my-3 py-2 text-xs text-gray-900 font-semibold"
+                              >
+                                Interview{" "}
                               </button>
                             }
 
