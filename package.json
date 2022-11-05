@@ -61,8 +61,7 @@
     "sweetalert": "^2.1.2",
     "time-difference-calculator": "^0.0.4",
     "tw-elements": "^1.0.0-alpha12",
-    "twilio": "^3.83.0",
-    "twilio-client": "^1.14.0",
+    "util": "^0.12.5",
     "web-vitals": "^2.1.4",
     "xlsx": "^0.18.5"
   },

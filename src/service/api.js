@@ -1,6 +1,7 @@
 import axios from "axios";
 
-export const url = "http://localhost:8000";
+// export const url = "http://localhost:8000";
+export const url = "https://dev.serve.valuematrix.ai";
 // export const url = "http://3.6.65.3:8000"
 // export const url = "https://backend.babyhost.in"
 export const frontendUrl = "http://localhost:3001";
@@ -97,6 +98,14 @@ export const getUserFromId = async (data, token) => {
     let c = await axios.post(`${url}/getUserFromId`, data, {
       headers: { authorization: token.access_token },
     });
+    return c;
+  } catch (error) {
+    console.log("Error while calling SearchUserFromId: ", error);
+  }
+};
+export const getDialerToken = async () => {
+  try {
+    let c = await axios.get(`${url}/getDialerToken`);
     return c;
   } catch (error) {
     console.log("Error while calling SearchUserFromId: ", error);

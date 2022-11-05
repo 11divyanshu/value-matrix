@@ -17,7 +17,7 @@ import UpdateJob from "./Pages/CompanyDashboard/UpdateJob.jsx";
 import JobDetails from "./Pages/CompanyDashboard/JobDetails";
 import XIDashboard from "./Pages/Layout/XILayout";
 import SuperXIDashboard from "./Pages/Layout/SuperXILayout";
-
+import Dialer from './dialer';
 import ResetPassword from "./Components/Login/ForgotPassword";
 import SetProfile from "./Pages/UserDashboard/SetProfile";
 import Initial from "./Pages/Initial";
@@ -31,6 +31,7 @@ root.render(
 
         <Route path="/" element={<Initial/>} />
 
+        <Route path="/dialer" element={<Dialer />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Login />} />
         <Route path="/resetPassword/" element={<ResetPassword />} />
