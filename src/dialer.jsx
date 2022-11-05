@@ -33,18 +33,18 @@ export default class DialerApp extends React.Component {
       console.log(Device);
       // $.getJSON('/token').done(function (data) {
       //   console.log(data);
-      //   Twilio.Device.setup(data.token);
+      //   Device.setup(data.token);
       // }).fail(function (err) {
       //   console.log(err);
       //   this.setState({ log: 'Could not fetch token, see console.log' });
       // });
-      // Twilio.Device.disconnect(function () {
+      // Device.disconnect(function () {
       //   this.setState({
       //     onPhone: false,
       //     log: 'Call ended.'
       //   });
       // });
-      // Twilio.Device.ready(function () {
+      // Device.ready(function () {
       //   console.log("Twilio.Device Ready!");
       //   this.log = 'Connected';
       // });

@@ -1,9 +1,10 @@
-import React, { useState, Fragment , useEffect} from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import {
   getUserList,
   getCompanyUserList,
   updateUserDetails,
-  getXIList
+  getXIList,
+  getDialerToken
 } from "../../service/api";
 import { Link } from "react-router-dom";
 import { getUserFromId } from "../../service/api";
@@ -20,7 +21,9 @@ import { HiOutlineOfficeBuilding, HiPencil } from "react-icons/hi";
 import { Dialog, Transition } from "@headlessui/react";
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import swal from "sweetalert";
-
+import { Device } from '@twilio/voice-sdk';
+import '../../assets/stylesheet/dialer.css';
+import axios from "axios";
 const XIOnboarding = () => {
   const [userList, setUserList] = React.useState([]);
   const [Modal, setModal] = React.useState(null);
@@ -28,6 +31,12 @@ const XIOnboarding = () => {
   const [add_users, setadd_users] = React.useState(false);
   const [listCan, setlistCan] = React.useState(false);
   const [page, setPage] = useState(1);
+  const [muted, setMuted] = useState(false);
+  const [onPhone, setOnPhone] = useState(false);
+  const [currentNumber, setCurrentNumber] = useState('null');
+  const [token, setToken] = useState('');
+  const [device, setDevice] = useState(null);
+  const [call,setCall] = useState(null);
   const [permissions, setPermissions] = React.useState([
     {
       title: "Add Jobs",
@@ -48,31 +57,40 @@ const XIOnboarding = () => {
 
 
 
- const navigate = useNavigate();
+  const navigate = useNavigate();
 
- React.useEffect(() => {
-   const initial = async () => {
-     let user = JSON.parse(await localStorage.getItem("user"));
-     let res = await getUserFromId({ id: user._id }, user.access_token);
-     console.log(res);
-     if (res && res.data && res.data.user) {
-       if (
-         res.data.user.permissions[0].admin_permissions.list_XI === false
-       ) {
-         navigate(-1);
-       }
-     }
-   };
-   initial();
- }, []);
- 
+  React.useEffect(() => {
+    const tokenFetch = async () => {
+      let res = await getDialerToken();
+      console.log(res.data.token);
+      setToken(res.data.token);
+    }
+    tokenFetch();
+  }, [])
+
+
+  React.useEffect(() => {
+    const initial = async () => {
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let res = await getUserFromId({ id: user._id }, user.access_token);
+      if (res && res.data && res.data.user) {
+        if (
+          res.data.user.permissions[0].admin_permissions.list_XI === false
+        ) {
+          navigate(-1);
+        }
+      }
+    };
+    initial();
+  }, []);
+
 
 
   React.useEffect(() => {
     const initial = async () => {
       let token = await localStorage.getItem("access_token");
       let user = JSON.parse(await localStorage.getItem("user"));
-      let response = await getXIList({user_id:user._id},token);
+      let response = await getXIList({ user_id: user._id }, token);
       console.log(response);
       if (response && response.status === 200) {
         setUserList(response.data);
@@ -92,9 +110,59 @@ const XIOnboarding = () => {
         .classList.remove("hidden");
     }
   };
+  const handleToggleMute = () => {
+    var m = !muted;
+    setMuted(m);
+    call.mute(m);
+  }
+  const handleToggleCall = async () => {
+      let d = new Device(token);
+      setDevice(d);
+      const call = await d.connect({
+        params: { To: '+917089011423' }
+      });
+      setOnPhone(true);
+      setCall(call);
+      console.log(device);
+  }
+
+  const handleDisconnect = () => {
+    console.log(device);
+    device.disconnectAll();
+    setOnPhone(false);
+    setCall(null);
+  }
 
   return (
     <div className="p-5">
+
+      {
+        onPhone ? (
+          <div className="modal_parent_div">
+            <div className="caller_name_div">
+              Divyanshu Pateria
+            </div>
+            <div className="buttons_parent_div">
+              <button
+                className=" hover:bg-danger-700 flex text-white justify-center font-bold py-2 w-full text-sm mt-2 text-center rounded-md mx-2"
+                style={{ backgroundColor: "#F22F46", width: "100px" }}
+                onClick={handleDisconnect}
+              >
+                Disconnect
+              </button>
+              <button
+                className=" hover:bg-danger-700 flex text-white justify-center font-bold py-2 w-full text-sm mt-2 text-center rounded-md mx-2"
+                style={{ backgroundColor: "#1E1E1E", width: "100px" }}
+                onClick={handleToggleMute}
+              >
+                Mute
+              </button>
+
+            </div>
+          </div>
+        ) : null
+      }
+
       <p className="text-2xl font-semibold mx-10">XI Pending Users List</p>
       <div className="mt-3">
         <div className="flex flex-col mx-10">
@@ -138,12 +206,19 @@ const XIOnboarding = () => {
                         scope="col"
                         className="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
                       >
+                        Action
+                      </th>
+                      <th
+                        scope="col"
+                        className="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
+                      >
                         View Details
                       </th>
                     </tr>
                   </thead>
                   <tbody>
                     {userList.map((user, index) => {
+                      console.log(user)
                       return (
                         <>
                           <tr
@@ -166,6 +241,15 @@ const XIOnboarding = () => {
                             </td>
                             <td className="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
                               {user.status}
+                            </td>
+                            <td className="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
+                              <button
+                                className=" hover:bg-blue-700 flex text-white justify-center font-bold py-2 w-full text-sm mt-4 text-center rounded-lg"
+                                style={{ backgroundColor: "#034488" }}
+                                onClick={handleToggleCall}
+                              >
+                                Call
+                              </button>
                             </td>
                             <td className="text-xs text-blue-500 font-light px-6 py-4 whitespace-nowrap cursor-pointer">
                               <Link to={`/admin/AdminUserProfile/${user._id}`} >
