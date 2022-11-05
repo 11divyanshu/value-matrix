@@ -109,7 +109,7 @@ console.log(id)
         let c1 = component.split("/");
         console.log(c1);
         if (c1[1] === "AdminUserProfile") setComponent(<AdminUserProfile id={id} />);
-        if (c1[1] === "jobDetails") setComponent(<JobBinDetails id={id} />);
+        else if (c1[1] === "jobDetails") setComponent(<JobBinDetails id={id} />);
       else {
         let c = adminDashboardRoutes.filter(
           (route) => route.path === component.split("admin/")[1]

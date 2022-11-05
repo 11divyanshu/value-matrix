@@ -83,7 +83,7 @@ const AddQuestions = () => {
   return (
     <div className="p-5 bg-slate-100 h-full" style={{ minHeight: "90vh" }}>
       <div className="w-5/6 bg-white mx-auto py-4 px-6 h-100">
-        <p className="font-bold text-2xl">Add Questions</p>
+        <p className="font-bold text-2xl">Add Job Questions</p>
         <div className="my-4 flex items-center">
           <div className="my-4">
             <p className="font-semibold">Import Spreadsheet</p>

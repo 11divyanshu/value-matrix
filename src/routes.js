@@ -114,6 +114,7 @@ import SXIEditProfile from "./Pages/SuperXIDashboard/EditProfile";
 import SXIJobList from "./Pages/SuperXIDashboard/jobList.jsx";
 import SXIJobDetails from "./Pages/SuperXIDashboard/JobDetails.jsx";
 import AddQuestions from "./Pages/AdminDashboard/AddQuestions";
+import AddInterviewQuestions from "./Pages/AdminDashboard/AddInterviewQuestions";
 import UpdateInterviewApplication from "./Pages/XIDashboard/UpdateInterviewApplication";
 
 
@@ -422,12 +423,20 @@ export const adminDashboardRoutes = [
     permission: "list_XI",
   },
   {
-    name: "Add Questions",
+    name: "Add Job Questions",
     path: "/addQuestions",
     hide:false,
     icon : <BsQuestionCircleFill className="text-xl" />,
     permission:"default",
     component : <AddQuestions/>
+  },
+  {
+    name: "Add Interview Questions",
+    path: "/addinterviewQuestions",
+    hide:false,
+    icon : <BsQuestionCircleFill className="text-xl" />,
+    permission:"default",
+    component : <AddInterviewQuestions/>
   },
   {
     name:"Add Tax Id",

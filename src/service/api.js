@@ -746,6 +746,33 @@ export const addEvaluationQuestion = async (data, token) => {
     console.log("Error : ", err);
   }
 };
+// Add Interview Question
+export const addInterviewQuestion = async (data, token) => {
+  try {
+    console.log("data", data);
+    return await axios.post(`${url}/addInterviewQuestions`, data, {
+      headers: { authorization: token },
+    });
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+};
+export const fetchInterviewQuestion = async (token) => {
+  try {
+    return await axios.get(`${url}/fetchInterviewQuestions` ,{
+      headers: { authorization: token },
+    });
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+};
+export const updateInterviewQuestion = async (data) => {
+  try {
+    return await axios.post(`${url}/updateInterviewQuestion`,data);
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+};
 // Add Evaulation Question
 export const addTaxId = async (data, token) => {
   try {
