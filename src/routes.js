@@ -90,7 +90,7 @@ import CityValidate from "./Pages/AdminDashboard/companyValidate copy";
 import AddSkills from "./Components/AdminDashboard/AddSkills";
 import AddAdminUser from "./Pages/AdminDashboard/AddAdminUser";
 import AddTaxId from "./Pages/AdminDashboard/AddTaxId";
-import Twilio from "./Pages/AdminDashboard/twilio";
+// import Twilio from "./Pages/AdminDashboard/TwilioVoice";
 import XIUsersList from './Pages/AdminDashboard/XIUsersList';
 import SuperXIUsersList from './Pages/AdminDashboard/SuperXIUsersList';
 import XICategory from './Pages/AdminDashboard/XICategory';
@@ -437,14 +437,14 @@ export const adminDashboardRoutes = [
     permission:"default",
     component : <AddTaxId/>
   },
-  {
-    name:"call",
-    path: "/twilio",
-    hide:false,
-    icon : <BsQuestionCircleFill className="text-xl" />,
-    permission:"default",
-    component : <Twilio/>
-  },
+  // {
+  //   name:"call",
+  //   path: "/twilio",
+  //   hide:false,
+  //   icon : <BsQuestionCircleFill className="text-xl" />,
+  //   permission:"default",
+  //   component : <Twilio/>
+  // },
 
 ];
 
