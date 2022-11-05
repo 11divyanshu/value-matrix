@@ -123,6 +123,9 @@ export default function Tabs(props) {
         })
         .slice(0, 5);
 
+        const [excompanyList, setExCompanyList] = React.useState([]);
+
+  const [companyList, setCompanyList] = React.useState([]);
 
 
   React.useEffect(() => {
@@ -130,7 +133,7 @@ export default function Tabs(props) {
       let res = await getDBCompanyList();
       setCompanyList(res.data);
       setExCompanyList(res.data);
-      console.log(res.data);
+      console.log(excompanyList);
 
       let languages = await languagesList();
       console.log(languages);
@@ -147,9 +150,7 @@ export default function Tabs(props) {
     initial();
   }, []);
 
-  const [excompanyList, setExCompanyList] = React.useState([]);
-
-  const [companyList, setCompanyList] = React.useState([]);
+  
   const [selectedCompany, setSelectedCompany] = React.useState(null);
   const [companyQuery, setCompanyQuery] = React.useState("");
   const filteredCompany =
@@ -166,14 +167,14 @@ export default function Tabs(props) {
   const [companyExQuery, setExCompanyQuery] = React.useState("");
   const filteredExCompany =
     companyExQuery === ""
-      ? companyList.slice(0, 10)
-      : companyList
+      ? excompanyList.slice(0, 10)
+      : excompanyList
         .filter((company) =>
           company.name.toLowerCase().includes(companyExQuery.toLowerCase())
         )
         .slice(0, 10);
 
-  // console.log(filteredExCompany)
+   console.log(filteredExCompany)
 
 
   React.useEffect(() => {
@@ -260,6 +261,7 @@ export default function Tabs(props) {
     end_date: null,
     grade: null,
     description: null,
+   
     //experience
   });
   const [exinitialValues, setExInitialValues] = React.useState({
@@ -524,7 +526,7 @@ export default function Tabs(props) {
         }
         let ls = e.language;
         console.log(ls);
-        if (ls !== "null" || ls !== null) {
+        if (ls.length > 0 && ls !== "null" && ls !== null) {
           setLanguageSkills(ls);
         }
         if (ls === null) {
@@ -594,6 +596,7 @@ export default function Tabs(props) {
         end_date: null,
         grade: null,
         description: null,
+        present:false,
       });
       setSelectedSchool(null);
       resetBtn.current.click();
@@ -1736,6 +1739,8 @@ export default function Tabs(props) {
                         setEduInitialValues(item);
                         setSelectedCity(cities[0]);
                         setShowEduForm(true);
+                        setPresent(item.Ispresent)
+                       
                       }}
                     >
                       Edit
@@ -1775,6 +1780,7 @@ export default function Tabs(props) {
                 end_date: null,
                 grade: null,
                 description: null,
+                present:false,
               });
               await setShowEduForm(true);
             }}
@@ -2087,7 +2093,8 @@ export default function Tabs(props) {
 
                                               }
                                             }}
-
+                                            
+                                            value={present}
 
                                           />
                                           <label className="font-semibold text-md ml-2 py-2">
@@ -2162,7 +2169,7 @@ export default function Tabs(props) {
                                     ref={resetBtn}
                                     onClick={async () => {
                                       setPresent(false);
-                                      setSelectedExCompany(null);
+                                      setSelectedCompany(null);
                                       setSelectedTitle(null);
                                       setSelectedCity(null);
                                       await setShowError(false);
@@ -2234,6 +2241,7 @@ export default function Tabs(props) {
                           setEdit(index);
                           setExInitialValues(item);
                           setShowExForm(true);
+                          setExPresent(item.Ispresent)
                         }}
                       >
                         Edit
@@ -2534,7 +2542,7 @@ export default function Tabs(props) {
                                         className="border-[0.5px] rounded-lg border-gray-400 focus:outline-0 focus:border-0 px-4 py-2 w-full"
                                         style={{ borderRadius: "5px" }}
                                       />
-                                      <Combobox.Options className="absolute z-100 bg-white rounded-lg shadow-md">
+                                      <Combobox.Options className="absolute z-100 bg-white rounded-lg shadow-md overflow-y-auto" style={{ borderRadius: "5px", overflowY: "auto" }}>
                                         {companyQuery.length > 0 && (
                                           <Combobox.Option
                                             value={`${companyQuery}`}
@@ -2551,15 +2559,17 @@ export default function Tabs(props) {
                                           <Combobox.Option
                                             key={company.name}
                                             value={`${company.name}`}
-                                            className="cursor-pointer"
-                                          >  {({ active, selected }) => (
-                                            <li
-                                              className={`${active ? 'bg-blue-500 text-white p-2' : 'bg-white text-black p-2'
-                                                }`}
-                                            >
-                                              {company.name}
-                                            </li>
-                                          )}
+                                            className="cursor-pointer "
+                                          >
+                                            {({ active, selected }) => (
+                                              
+                                              <li
+                                                className={`${active ? 'bg-blue-500 text-white p-2' : 'bg-white text-black p-2'
+                                                  }`}
+                                              >
+                                                {company.name}
+                                              </li>
+                                            )}
                                           </Combobox.Option>
                                         ))}
                                       </Combobox.Options>
@@ -2705,7 +2715,7 @@ export default function Tabs(props) {
 
                                               }
                                             }}
-
+                                            value={exPresent}
 
                                           />
                                           <label className="font-semibold text-md ml-2 py-2">
@@ -2852,6 +2862,8 @@ export default function Tabs(props) {
                           setEdit(index);
                           setAsInitialValues(item);
                           setShowAsForm(true);
+                          setAsPresent(item.Ispresent)
+                          setSelectedCompany(item.company_name)
                         }}
                       >
                         Edit
@@ -3119,6 +3131,7 @@ export default function Tabs(props) {
                                             className="cursor-pointer "
                                           >
                                             {({ active, selected }) => (
+                                              
                                               <li
                                                 className={`${active ? 'bg-blue-500 text-white p-2' : 'bg-white text-black p-2'
                                                   }`}
@@ -3271,7 +3284,7 @@ export default function Tabs(props) {
 
                                               }
                                             }}
-
+                                            value={asPresent}
 
                                           />
                                           <label className="font-semibold text-md ml-2 py-2">
@@ -3343,7 +3356,7 @@ export default function Tabs(props) {
                                     ref={resetBtn}
                                     onClick={async () => {
                                       await setAsPresent(false);
-                                      setSelectedExCompany(null);
+                                      setSelectedCompany(null);
                                       setSelectedTitle(null);
                                       setSelectedCity(null);
                                       await setShowError(false);

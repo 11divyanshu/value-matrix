@@ -5,13 +5,46 @@ import { BsFillStarFill } from 'react-icons/bs'
 import BarChart from '../../Components/Dashbaord/BarChart';
 import RadarChart from '../../Components/Dashbaord/RadarChar';
 import StackedChart from '../../Components/Dashbaord/StackedChart';
-
-
+import * as htmlToImage from 'html-to-image';
+import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
+import { jsPDF } from "jspdf";
 const printAble = () => {
   return (
-    <div>
-      <div className="mx-auto mt-2 ">
-        <div className='mx-16 my-10'><img src={Logo} alt="" className='h-20' /></div>
+    <div  id="my-node">
+      <div className="mx-auto mt-2 " >
+        <div className='mx-16 my-10 flex'         style={{ justifyContent: "space-between" }}
+><img src={Logo} alt="" className='h-20' />  <button
+          className=" mx-3 p-1 lg:p-3 md:p-3 h-12 sm:p-3 text-sm lg:text-lg md:text-sm rounded-md text-white"
+          style={{ backgroundColor: "#034488" }}
+          onClick={() => {
+            var node = document.getElementById('my-node');
+
+            htmlToImage.toPng(node)
+            .then(function (dataUrl) {
+              var img = new Image();
+              img.src = dataUrl;
+              // document.body.appendChild(img);
+console.log(dataUrl)
+              window.jsPDF = window.jspdf.jsPDF;
+              let doc = new jsPDF("p", "mm", "a6", true, "UTF-8", true);
+              let width = doc.internal.pageSize.getWidth();
+              let height = doc.internal.pageSize.getHeight();
+  
+              // Then you can use this width and height for your image to fit the entire PDF document.
+              let imgData = dataUrl;
+              doc.addImage(imgData, 'JPEG', 0, 0, width, height);
+              doc.save('sample.pdf');
+
+            })
+            .catch(function (error) {
+              console.error('oops, something went wrong!', error);
+            });
+
+           
+          }}
+        >
+          Save
+        </button></div>
         <div className=" mx-10 lg:flex gap-2 mt-2 ">
           <div className="lg:w-1/3 w-full rounded-lg my-2">
             <div className="bg-white rounded-lg shadow h-32 py-5" style={{ background: "#9BDDFB" }}>
@@ -414,8 +447,8 @@ const printAble = () => {
           <div className='w-1 bg-gray-200'></div>
           <div className="shadow-lg sm:w-full md:w-full lg:w-1/2 pb-10 h-auto  bg-white ">
 
-<RadarChart />
-</div>
+            <RadarChart />
+          </div>
         </div>
       </div>
       {/* ------------------ */}
@@ -444,8 +477,8 @@ const printAble = () => {
             <p className="px-6 mx-2  text-xl">Interviewers Score & Notes</p>
           </div>
           <div>
-                <StackedChart />
-              </div>
+            <StackedChart />
+          </div>
           <div className='w-full'>
             <p className="py-2 mx-5 font-bold">Positives</p>
             <div className="text-gray-400 py-3 text-sm px-5 mx-5 bg-gray-100 rounded-lg my-4 vertical-align-middle">
@@ -547,8 +580,8 @@ const printAble = () => {
               </p>
             </div>
             <div className='w-full'>
-                <iframe className='mx-auto rounded-lg w-4/5' height={400} src="https://www.youtube.com/embed/g_1oiJqE3OI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-              </div>
+              <iframe className='mx-auto rounded-lg w-4/5' height={400} src="https://www.youtube.com/embed/g_1oiJqE3OI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
           </div>
         </div>
       </div>

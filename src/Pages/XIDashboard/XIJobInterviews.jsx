@@ -194,7 +194,7 @@ const JobList = (props) => {
                                             {/* <BsThreeDots className="text-md" /> */}
                                             <p className="text-sm font-semibold py-2">
                                               <Link
-                                                to={`/user/interviewDetails/${job._id}`}
+                                                to={`/XI/interviewDetails/${job._id}`}
                                               >
                                                 View Details{" "}
                                               </Link>

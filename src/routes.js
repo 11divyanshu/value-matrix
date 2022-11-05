@@ -671,6 +671,13 @@ export const XIDashboardRoutes = [
     icon: <CgWorkAlt className="text-xl" />,
     component: <PrintAbleUi/>,
   },
+  {
+    name: "InterviewDetails",
+    path: "/interviewsDetails/",
+    hide: true,
+    icon: <MdOutlineWorkOutline className="text-xl" />,
+    component: <InterviewsDetails />,
+  },
 ];
 
 // SuperXI Routes

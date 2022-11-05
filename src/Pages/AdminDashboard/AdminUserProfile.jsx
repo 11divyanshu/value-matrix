@@ -62,6 +62,29 @@ console.log(props);
       if (access_token === null) window.location.href = "/login";
 
       await setUser(user);
+    
+
+      // let token = getJSON('/token').done(function (data) {
+      //   console.log(data);
+      //   Twilio.Device.setup(data.token);
+      // }).fail(function (err) {
+      //   console.log(err);
+      //   // self.setState({ log: 'Could not fetch token, see console.log' });
+      // });
+  
+
+      // Configure event handlers for Twilio Device
+      // Twilio.Device.disconnect(function () {
+      //   // self.setState({
+      //   //   onPhone: false,
+      //   //   log: 'Call ended.'
+      //   // });
+      // });
+  
+      // Twilio.Device.ready(function () {
+      //   // console.log("Twilio.Device Ready!");
+      //   // self.log = 'Connected';
+      // });
     };
     func();
   }, []);

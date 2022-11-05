@@ -296,7 +296,7 @@ const AddJob = () => {
           localStorage.removeItem("postjob");
           localStorage.removeItem("prof");
 
-          // window.location.href = "/company/jobs";
+           window.location.href = "/company/jobs";
         });
       } else {
         swal({

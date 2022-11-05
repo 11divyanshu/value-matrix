@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef,Fragment } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getCandidateEvaluation, getUser, updateEvaluation } from "../../service/api";
 import { CgWorkAlt } from "react-icons/cg";
@@ -13,6 +13,9 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 import swal from "sweetalert";
 import { IoTerminalSharp } from "react-icons/io5";
 import { Button } from "@mui/material";
+import PrintAble from "../CompanyDashboard/PrintAble";
+import { Dialog, Disclosure, Transition } from "@headlessui/react";
+import { ImCross } from "react-icons/im";
 const UpdateInterviewApplication = () => {
   const { id } = useParams();
   const [interview, setInterview] = React.useState(null);
@@ -27,6 +30,7 @@ const UpdateInterviewApplication = () => {
   const [skillSet, setSkillSet] = React.useState([]);
   const [primarySkills, setPrimarySkills] = React.useState([]);
 
+  const [modal, setModal] = React.useState(null);
 
   const [user, setUser] = React.useState(null);
   const [candidate, setCandidate] = React.useState(null);
@@ -84,7 +88,7 @@ const UpdateInterviewApplication = () => {
           trigger={() => <Button>Print this out!</Button>}
           content={() => componentRef}
         />
-    <div className="bg-slate-100" ref={componentRef}>
+    <div className="bg-slate-100">
       <div className="mx-5 mt-3 md:p-5 p-1">
         <div className="flex justify-between">
           <p className="font-bold text-2xl ">Interview Details</p>
@@ -93,15 +97,9 @@ const UpdateInterviewApplication = () => {
           )}
 
           {/* <button onClick={openPdf} >Print</button> */}
-          <button
-            className=" hover:bg-blue-700 text-white font-bold py-2 px-8 md:mx-6 sm:mx-0 text-xl rounded"
-            style={{ backgroundColor: "#034488" }}
-            onClick={openPdf}
-          >
-            <AiOutlinePrinter />
-          </button>
+         
           
-        </div>
+        </div>  
         {!loading && (
           <div >
             {interview && (

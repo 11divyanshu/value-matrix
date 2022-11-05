@@ -1310,4 +1310,13 @@ export const priorityEngine = async (data,type) => {
     console.log("Error calling  API : ", error);
   }
 }
+export const XIPerformance = async (data,type) => {
+  try {
+    return await axios.post(`${url}/XIPerformance?id=${data}` 
+     
+    );
+  }catch (error) {
+    console.log("Error calling  API : ", error);
+  }
+}
 
