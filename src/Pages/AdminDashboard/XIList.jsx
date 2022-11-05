@@ -9,8 +9,8 @@ import {
 import { Link } from "react-router-dom";
 import { getUserFromId } from "../../service/api";
 import { useNavigate } from "react-router-dom";
-import { FiInfo } from "react-icons/fi";
-import { BsCalendar, BsLinkedin } from "react-icons/bs";
+import { MdCallEnd } from "react-icons/md";
+import { BsCalendar, BsLinkedin,BsFillMicFill } from "react-icons/bs";
 import { GrScorecard } from "react-icons/gr";
 import { Disclosure } from "@headlessui/react";
 import { getSkills, url } from "../../service/api";
@@ -37,6 +37,7 @@ const XIOnboarding = () => {
   const [token, setToken] = useState('');
   const [device, setDevice] = useState(null);
   const [call,setCall] = useState(null);
+  const [callUser,setCallUser] = useState(null);
   const [permissions, setPermissions] = React.useState([
     {
       title: "Add Jobs",
@@ -115,11 +116,11 @@ const XIOnboarding = () => {
     setMuted(m);
     call.mute(m);
   }
-  const handleToggleCall = async () => {
+  const handleToggleCall = async (contact) => {
       let d = new Device(token);
       setDevice(d);
       const call = await d.connect({
-        params: { To: '+917089011423' }
+        params: { To: `+91${contact}` }
       });
       setOnPhone(true);
       setCall(call);
@@ -140,24 +141,25 @@ const XIOnboarding = () => {
         onPhone ? (
           <div className="modal_parent_div">
             <div className="caller_name_div">
-              Divyanshu Pateria
+             <p>{callUser && callUser.firstName}</p>
+             <p>{callUser && callUser.contact}</p>
             </div>
             <div className="buttons_parent_div">
               <button
-                className=" hover:bg-danger-700 flex text-white justify-center font-bold py-2 w-full text-sm mt-2 text-center rounded-md mx-2"
-                style={{ backgroundColor: "#F22F46", width: "100px" }}
-                onClick={handleDisconnect}
-              >
-                Disconnect
-              </button>
-              <button
-                className=" hover:bg-danger-700 flex text-white justify-center font-bold py-2 w-full text-sm mt-2 text-center rounded-md mx-2"
-                style={{ backgroundColor: "#1E1E1E", width: "100px" }}
+                className=" hover:bg-danger-700 flex text-white justify-center font-bold p-4 text-sm text-center rounded-md mx-2"
+                style={{ backgroundColor: "#808080" ,borderRadius:"50%"}}
                 onClick={handleToggleMute}
               >
-                Mute
+                <p><BsFillMicFill/></p>
               </button>
 
+              <button
+                className=" hover:bg-danger-700 flex text-white justify-center font-bold p-4 text-sm text-center rounded-md mx-2"
+                style={{ backgroundColor: "#F22F46",borderRadius:"50%" }}
+                onClick={handleDisconnect}
+              >
+                <p><MdCallEnd/></p>
+              </button>
             </div>
           </div>
         ) : null
@@ -246,7 +248,9 @@ const XIOnboarding = () => {
                               <button
                                 className=" hover:bg-blue-700 flex text-white justify-center font-bold py-2 w-full text-sm mt-4 text-center rounded-lg"
                                 style={{ backgroundColor: "#034488" }}
-                                onClick={handleToggleCall}
+                                onClick={()=>{
+                                  setCallUser(user)
+                                  handleToggleCall(user.contact)}}
                               >
                                 Call
                               </button>
