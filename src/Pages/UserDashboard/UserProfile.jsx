@@ -22,10 +22,11 @@ const UserProfile = () => {
   // Sets User and AccessToken from SessionStorage
 
   React.useEffect(() => {
+    console.log("Checked");
     const func = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       let access_token = localStorage.getItem("access_token");
-
+      
       let xi_info = await getXIInfo(user._id);
       console.log(xi_info);
       if(xi_info.data.user.level){
