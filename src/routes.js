@@ -124,6 +124,10 @@ import { FiSettings } from "react-icons/fi";
 import CPrintable from "./Pages/CompanyDashboard/CPrintable";
 import XIOnboarding from "./Pages/AdminDashboard/XIList";
 import AdminUserProfile from "./Pages/AdminDashboard/AdminUserProfile";
+import AllTranscation from "./Pages/UserDashboard/AllTranscation";
+import AdminAllTranscation from "./Pages/AdminDashboard/AdminAllTranscation";
+import CompanyAllTranscation from "./Pages/CompanyDashboard/CompanyAllTranscation";
+import XIAllTranscation from "./Pages/XIDashboard/XIAllTranscation";
 
 
 
@@ -215,12 +219,20 @@ export const dashboardRoutes = [
     permission: "default",
   },
   {
+    name: "All Transcation",
+    icon: <AiOutlineUser className="text-xl" />,
+    path: "AllTranscation",
+    component: <AllTranscation />,
+    hide: false,
+  },
+  {
     name: "InterviewDetails",
     path: "interviewsDetails",
     hide: true,
     icon: <MdOutlineWorkOutline className="text-xl" />,
     component: <InterviewsDetails />,
   },
+  
 ];
 
 // Admin Dashboard Routes
@@ -300,6 +312,13 @@ export const adminDashboardRoutes = [
     component: <CompanyList />,
     icon: <FaBuilding className="text-xl" />,
     permission: "list_companies",
+  },
+  {
+    name: "All Transcation",
+    path: "/AdminAllTranscation",
+    hide: false,
+    component: <AdminAllTranscation />,
+    icon: <FaBuilding className="text-xl" />,
   },
   {
     name: "Company Details",
@@ -537,6 +556,13 @@ export const companyDashboardRoutes = [
     permission: "default",
   },
   {
+    name: "All Transcation",
+    path: "/CompanyAllTranscation",
+    hide: false,
+    component: <CompanyAllTranscation />,
+    icon: <FaBuilding className="text-xl" />,
+  },
+  {
     name: "CPrintAble",
     path: "/CPrintAble",
     hide: true,
@@ -653,6 +679,13 @@ export const XIDashboardRoutes = [
     icon: <MdOutlineWorkOutline className="text-xl" />,
     component: <XISlots />,
     permission: "default",
+  },
+  {
+    name: "All Transcation",
+    path: "/XIAllTranscation",
+    hide: false,
+    component: <XIAllTranscation />,
+    icon: <FaBuilding className="text-xl" />,
   },
  
   {
