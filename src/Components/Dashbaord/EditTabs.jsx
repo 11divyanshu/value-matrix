@@ -19,7 +19,7 @@ import {
   AiOutlineFolderAdd,
   AiOutlineUnorderedList,
   AiOutlineDelete,
-  AiOutlineRead
+  AiOutlineRead,
 } from "react-icons/ai";
 import { CgWorkAlt } from "react-icons/cg";
 import { FaRegBuilding } from "react-icons/fa";
@@ -43,7 +43,7 @@ import {
   getCountryList,
   languagesList,
   checkCompany,
-  getJobTitles
+  getJobTitles,
 } from "../../service/api";
 import ReactCropper from "../../Pages/UserDashboard/ReactCrop";
 import Loader from "../../assets/images/loader.gif";
@@ -100,33 +100,38 @@ export default function Tabs(props) {
     query === ""
       ? cities.slice(0, 5)
       : cities
-        .filter((city) => {
-          return (
-            city.country.toLowerCase().includes(query.toLowerCase()) ||
-            city.name.toLowerCase().replace("ā", "a")
-              .replace("ò", "o")
-              .replace("à", "a").includes(query.toLowerCase())
-          );
-        })
-        .slice(0, 5);
+          .filter((city) => {
+            return (
+              city.country.toLowerCase().includes(query.toLowerCase()) ||
+              city.name
+                .toLowerCase()
+                .replace("ā", "a")
+                .replace("ò", "o")
+                .replace("à", "a")
+                .includes(query.toLowerCase())
+            );
+          })
+          .slice(0, 5);
   const filteredAddCity =
     Addquery === ""
       ? cities.slice(0, 5)
       : cities
-        .filter((Addcity) => {
-          return (
-            Addcity.country.toLowerCase().includes(Addquery.toLowerCase()) ||
-            Addcity.name.toLowerCase().replace("ā", "a")
-              .replace("ò", "o")
-              .replace("à", "a").includes(Addquery.toLowerCase())
-          );
-        })
-        .slice(0, 5);
+          .filter((Addcity) => {
+            return (
+              Addcity.country.toLowerCase().includes(Addquery.toLowerCase()) ||
+              Addcity.name
+                .toLowerCase()
+                .replace("ā", "a")
+                .replace("ò", "o")
+                .replace("à", "a")
+                .includes(Addquery.toLowerCase())
+            );
+          })
+          .slice(0, 5);
 
-        const [excompanyList, setExCompanyList] = React.useState([]);
+  const [excompanyList, setExCompanyList] = React.useState([]);
 
   const [companyList, setCompanyList] = React.useState([]);
-
 
   React.useEffect(() => {
     const initial = async () => {
@@ -150,18 +155,16 @@ export default function Tabs(props) {
     initial();
   }, []);
 
-  
   const [selectedCompany, setSelectedCompany] = React.useState(null);
   const [companyQuery, setCompanyQuery] = React.useState("");
   const filteredCompany =
     companyQuery === ""
       ? companyList.slice(0, 10)
       : companyList
-        .filter((company) =>
-          company.name.toLowerCase().includes(companyQuery.toLowerCase())
-        )
-        .slice(0, 10);
-
+          .filter((company) =>
+            company.name.toLowerCase().includes(companyQuery.toLowerCase())
+          )
+          .slice(0, 10);
 
   const [selectedExCompany, setSelectedExCompany] = React.useState(null);
   const [companyExQuery, setExCompanyQuery] = React.useState("");
@@ -169,13 +172,12 @@ export default function Tabs(props) {
     companyExQuery === ""
       ? excompanyList.slice(0, 10)
       : excompanyList
-        .filter((company) =>
-          company.name.toLowerCase().includes(companyExQuery.toLowerCase())
-        )
-        .slice(0, 10);
+          .filter((company) =>
+            company.name.toLowerCase().includes(companyExQuery.toLowerCase())
+          )
+          .slice(0, 10);
 
-   console.log(filteredExCompany)
-
+  console.log(filteredExCompany);
 
   React.useEffect(() => {
     const initial = async () => {
@@ -186,7 +188,6 @@ export default function Tabs(props) {
     initial();
   }, []);
 
-
   const [schoolList, setSchoolList] = React.useState([]);
   const [selectedSchool, setSelectedSchool] = React.useState(null);
   const [schoolQuery, setSchoolQuery] = React.useState("");
@@ -194,11 +195,10 @@ export default function Tabs(props) {
     schoolQuery === ""
       ? schoolList.slice(0, 10)
       : schoolList
-        .filter((school) =>
-          school.name.toLowerCase().includes(schoolQuery.toLowerCase())
-        )
-        .slice(0, 10);
-
+          .filter((school) =>
+            school.name.toLowerCase().includes(schoolQuery.toLowerCase())
+          )
+          .slice(0, 10);
 
   const [JobTitle, setJobTitle] = React.useState([]);
   const [selectedTitle, setSelectedTitle] = React.useState(null);
@@ -206,12 +206,9 @@ export default function Tabs(props) {
   const filteredTitle =
     TitleQuery === ""
       ? JobTitle.slice(0, 10)
-      : JobTitle
-        .filter((title) =>
+      : JobTitle.filter((title) =>
           title.name.toLowerCase().includes(TitleQuery.toLowerCase())
-        )
-        .slice(0, 10);
-
+        ).slice(0, 10);
 
   // OTPs State
   const [EmailOTP, setEmailOTP] = React.useState(null);
@@ -261,7 +258,7 @@ export default function Tabs(props) {
     end_date: null,
     grade: null,
     description: null,
-   
+
     //experience
   });
   const [exinitialValues, setExInitialValues] = React.useState({
@@ -307,8 +304,8 @@ export default function Tabs(props) {
 
   const inputRef = React.useRef(null);
 
-  const [file, setFile] = useState(null)
-  const [fileName, setFileName] = useState(null)
+  const [file, setFile] = useState(null);
+  const [fileName, setFileName] = useState(null);
 
   //Langugage skills
   const [languageSkills, setLanguageSkills] = React.useState([]);
@@ -318,10 +315,8 @@ export default function Tabs(props) {
     read: null,
     write: null,
     speak: null,
-
   });
   const [lserror, setLsFormError] = React.useState(false);
-
 
   const handleChange = async (e) => {
     setLoading(true);
@@ -346,14 +341,15 @@ export default function Tabs(props) {
         seterror("Error uploading file");
       }
 
-
       // Resume Parser
       var fileReader = new FileReader();
       var base64;
       // Onload of file read the file content
       let base64String = "";
       fileReader.onload = async function (fileLoadedEvent) {
-        var modifiedDate = (new Date(fileLoadedEvent.lastModified)).toISOString().substring(0, 10);
+        var modifiedDate = new Date(fileLoadedEvent.lastModified)
+          .toISOString()
+          .substring(0, 10);
         // base64 = Base64.encodeArray(fileLoadedEvent.target.result);
         base64 = fileLoadedEvent.target.result;
         base64String = base64;
@@ -384,10 +380,10 @@ export default function Tabs(props) {
       // console.log(resume.data);
       setUser(e);
       if (resume) {
-       console.log(resume.data);
+        console.log(resume.data);
 
-        setSecContact(resume.secondaryContacts)
-        setSecEmail(resume.secondaryEmails)
+        setSecContact(resume.secondaryContacts);
+        setSecEmail(resume.secondaryEmails);
         if (resume.data === null) return null;
         // setUsername(resume.data.userna)
         let ed = resume.data.education;
@@ -431,73 +427,57 @@ export default function Tabs(props) {
         if (resume.data.lastName) {
           setLastname(resume.data.lastName);
           e.lastName = resume.data.lastName;
-
         }
         if (resume.data.email) {
           e.email = resume.data.email;
         }
         if (resume.data.contact) {
           e.contact = resume.data.contact;
-
         }
         if (resume.data.houseNo) {
           sethouseNo(resume.data.houseNo);
           e.houseNo = resume.data.houseNo;
-
         }
         if (resume.data.street) {
           setstreet(resume.data.street);
           e.street = resume.data.street;
-
         }
         if (resume.data.city) {
           setSelectedAddCity(resume.data.city);
           e.city = resume.data.city;
-
         }
         if (resume.data.state) {
           setregion(resume.data.state);
           e.state = resume.data.state;
-
         }
         if (resume.data.country) {
           setAddCountry(resume.data.country);
           e.country = resume.data.country;
-
         }
         if (resume.data.zip) {
           setzip(resume.data.zip);
           e.zip = resume.data.zip;
-
         }
         if (resume.data.secondaryEmails) {
           setSecEmail(resume.data.secondaryEmails);
           e.secondaryEmails = resume.data.secondaryEmails;
-
         }
         if (resume.data.secondaryContacts) {
           setSecContact(resume.data.secondaryContacts);
           e.secondaryContacts = resume.data.secondaryContacts;
-
         }
         if (resume.data.resume) {
           setresume(resume.data.resume);
           e.resume = resume.data.resume;
-
         }
-
-       
 
         setUser(e);
         console.log(e);
-      } else{
+      } else {
+        console.log("true user");
 
-
-
-        console.log("true user")
-
-        setSecContact(e.secondaryContacts)
-        setSecEmail(e.secondaryEmails)
+        setSecContact(e.secondaryContacts);
+        setSecEmail(e.secondaryEmails);
         if (e === null) return null;
         let ed = e.education;
         console.log(ed);
@@ -555,10 +535,8 @@ export default function Tabs(props) {
           primarySkills[el] = Array.from(primarySkills[el]);
         });
         setSkillsPrimary(primarySkills);
-
       }
-
-    }
+    };
 
     initial();
   }, []);
@@ -583,7 +561,10 @@ export default function Tabs(props) {
       let temp = educationalDetail;
       let school = selectedSchool;
 
-      temp = [...educationalDetail, { ...values, school: school, Ispresent: present }];
+      temp = [
+        ...educationalDetail,
+        { ...values, school: school, Ispresent: present },
+      ];
       await setEducationalDetail(temp);
       e.education = temp;
       setUser(e);
@@ -596,7 +577,7 @@ export default function Tabs(props) {
         end_date: null,
         grade: null,
         description: null,
-        present:false,
+        present: false,
       });
       setSelectedSchool(null);
       resetBtn.current.click();
@@ -607,10 +588,7 @@ export default function Tabs(props) {
         button: "Continue",
       });
     }
-
   };
-
-
 
   const updateExperience = async (values) => {
     if (!exerror) {
@@ -619,12 +597,17 @@ export default function Tabs(props) {
         let city = selectedCity;
         if (selectedCity.name) {
           city = selectedCity.name + ", " + selectedCity.country;
-
         }
         let company = selectedCompany;
         let title = selectedTitle;
         const temp = [...experienceDetail];
-        temp[edit] = { ...values, location: city, company_name: company, Ispresent: exPresent, title: title };
+        temp[edit] = {
+          ...values,
+          location: city,
+          company_name: company,
+          Ispresent: exPresent,
+          title: title,
+        };
         await setExperienceDetail(temp);
         e.experience = temp;
         setUser(e);
@@ -641,7 +624,16 @@ export default function Tabs(props) {
       let title = selectedTitle;
 
       let temp = experienceDetail;
-      temp = [...experienceDetail, { ...values, location: city, company_name: company, Ispresent: exPresent, title: title }];
+      temp = [
+        ...experienceDetail,
+        {
+          ...values,
+          location: city,
+          company_name: company,
+          Ispresent: exPresent,
+          title: title,
+        },
+      ];
       await setExperienceDetail(temp);
       e.experience = temp;
       setUser(e);
@@ -667,7 +659,6 @@ export default function Tabs(props) {
         button: "Continue",
       });
     }
-
   };
   const updateLanguage = async (values) => {
     console.log(values);
@@ -686,13 +677,14 @@ export default function Tabs(props) {
         return;
       }
 
-
       let temp = languageSkills;
-      temp = languageSkills ? [...languageSkills, { ...values }] : [{ ...values }];
+      temp = languageSkills
+        ? [...languageSkills, { ...values }]
+        : [{ ...values }];
       await setLanguageSkills(temp);
 
       e.language = temp;
-      console.log(e)
+      console.log(e);
       setUser(e);
       await localStorage.setItem("user", JSON.stringify(e));
       await setLsInitialValues({
@@ -709,7 +701,6 @@ export default function Tabs(props) {
         button: "Continue",
       });
     }
-
   };
 
   const updateAssociation = async (values) => {
@@ -720,7 +711,13 @@ export default function Tabs(props) {
         let company = selectedCompany;
         let title = selectedTitle;
 
-        temp[edit] = { ...values, location: selectedCity, company_name: company, Ispresent: asPresent, title: title };
+        temp[edit] = {
+          ...values,
+          location: selectedCity,
+          company_name: company,
+          Ispresent: asPresent,
+          title: title,
+        };
         await setAssociateDetail(temp);
         e.associate = temp;
         setUser(e);
@@ -736,8 +733,25 @@ export default function Tabs(props) {
 
       let temp = associateDetail;
       temp
-        ? (temp = [...associateDetail, { ...values, location: selectedCity, company_name: company, Ispresent: asPresent, title: title }])
-        : (temp = [{ ...values, location: selectedCity, company_name: company, Ispresent: asPresent, title: title }]);
+        ? (temp = [
+            ...associateDetail,
+            {
+              ...values,
+              location: selectedCity,
+              company_name: company,
+              Ispresent: asPresent,
+              title: title,
+            },
+          ])
+        : (temp = [
+            {
+              ...values,
+              location: selectedCity,
+              company_name: company,
+              Ispresent: asPresent,
+              title: title,
+            },
+          ]);
       await setAssociateDetail(temp);
       e.associate = temp;
       setUser(e);
@@ -804,10 +818,9 @@ export default function Tabs(props) {
         e.city = city;
         setUser(e);
       }
-      setFirstname(values.firstName)
-      setLastname(values.lastName)
+      setFirstname(values.firstName);
+      setLastname(values.lastName);
       if (values.country) {
-
         e.country = values.country;
         setUser(e);
       }
@@ -1001,11 +1014,10 @@ export default function Tabs(props) {
     } else {
       skillData = user.tools;
     }
-    console.log(skillData)
+    console.log(skillData);
 
     // let user = JSON.parse(localStorage.getItem("user"));
     // await setExperienceDetail(temp);
-
 
     let data = {
       firstName: ed.firstName,
@@ -1063,8 +1075,7 @@ export default function Tabs(props) {
       button: "Continue",
     }).then(() => {
       window.location.href = "/user/profile";
-
-    })
+    });
   };
 
   // React.useEffect(() => {
@@ -1147,8 +1158,19 @@ export default function Tabs(props) {
             <AiOutlineUnorderedList />
           </p>
         </div>
+        <div
+          className={`tabHead ${index === 5 && "active"}`}
+          onClick={() => {
+            setIndex(5);
+          }}
+        >
+          <p className="md:visible hidden content">Bank Details</p>
+          <p className="icons hidden">
+            <AiOutlineUnorderedList />
+          </p>
+        </div>
       </div>
-      <div className="tabContent bg-white  w-full p-5" hidden={index != 0}>
+      <div className="tabContent px-7 bg-white  w-full p-5" hidden={index != 0}>
         {user !== null && user !== undefined && (
           <Formik
             initialValues={{
@@ -1157,12 +1179,12 @@ export default function Tabs(props) {
               email: user.email ? user.email : " ",
               contact: user.contact
                 ? [
-                  user.googleId,
-                  user.microsoftId,
-                  user.linkedInId,
-                  user.username,
-                  user.githubId,
-                ].includes(user.contact)
+                    user.googleId,
+                    user.microsoftId,
+                    user.linkedInId,
+                    user.username,
+                    user.githubId,
+                  ].includes(user.contact)
                   ? " "
                   : user.contact
                 : " ",
@@ -1225,9 +1247,11 @@ export default function Tabs(props) {
                       <Field
                         type="text"
                         name="username"
-                        style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                        style={{
+                          boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                          borderRadius: "5px",
+                        }}
                         className="block border-gray-200 py-1 w-full"
-
                       />
                       <ErrorMessage
                         name="username"
@@ -1244,9 +1268,11 @@ export default function Tabs(props) {
                       <Field
                         type="text"
                         name="firstName"
-                        style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                        style={{
+                          boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                          borderRadius: "5px",
+                        }}
                         className="block border-gray-200 py-1 w-full"
-
                       />
                       <ErrorMessage
                         name="firstName"
@@ -1276,7 +1302,10 @@ export default function Tabs(props) {
                             <Field
                               name="houseNo"
                               type="text"
-                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                              style={{
+                                boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                                borderRadius: "5px",
+                              }}
                               className="block border-gray-200 py-1 w-full"
                               value={values.houseNo}
                             />
@@ -1296,9 +1325,11 @@ export default function Tabs(props) {
                             <Field
                               name="street"
                               type="text"
-                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                              style={{
+                                boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                                borderRadius: "5px",
+                              }}
                               className="block border-gray-200 py-1 w-full"
-
                               value={values.street}
                             />
 
@@ -1319,7 +1350,6 @@ export default function Tabs(props) {
                             City
                           </label>
                           <div className="">
-
                             <p>
                               Current Location :{" "}
                               {values.city ? `${values.city}` : ""}
@@ -1346,28 +1376,35 @@ export default function Tabs(props) {
                               />
                               <Combobox.Options className="absolute z-100 bg-white rounded-lg shadow-md">
                                 {Addquery.length > 0 && (
-                                  <Combobox.Option className="p-2" value={`${Addquery}`}>
+                                  <Combobox.Option
+                                    className="p-2"
+                                    value={`${Addquery}`}
+                                  >
                                     Create "{Addquery}"
                                   </Combobox.Option>
                                 )}
                                 {filteredAddCity.map((city) => (
                                   <Combobox.Option
                                     key={city.name}
-                                    value={`${city.name.replace("ā", "a")
+                                    value={`${city.name
+                                      .replace("ā", "a")
                                       .replace("ò", "o")
                                       .replace("à", "a")},`}
                                   >
                                     {({ active, selected }) => (
                                       <li
-                                        className={`${active ? 'bg-blue-500 text-white p-2' : 'bg-white text-black p-2'
-                                          }`}
+                                        className={`${
+                                          active
+                                            ? "bg-blue-500 text-white p-2"
+                                            : "bg-white text-black p-2"
+                                        }`}
                                       >
-                                        {city.name.replace("ā", "a")
+                                        {city.name
+                                          .replace("ā", "a")
                                           .replace("ò", "o")
                                           .replace("à", "a")}
                                       </li>
                                     )}
-
                                   </Combobox.Option>
                                 ))}
                               </Combobox.Options>
@@ -1389,9 +1426,11 @@ export default function Tabs(props) {
                             <Field
                               name="state"
                               type="text"
-                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                              style={{
+                                boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                                borderRadius: "5px",
+                              }}
                               className="block border-gray-200 py-1 w-full"
-
                               value={values.state}
                             />
 
@@ -1416,7 +1455,10 @@ export default function Tabs(props) {
                               component="select"
                               id="country"
                               name="country"
-                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                              style={{
+                                boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                                borderRadius: "5px",
+                              }}
                               className="block border-gray-200 py-1 w-full"
                               value={values.country}
                               multiple={false}
@@ -1424,11 +1466,12 @@ export default function Tabs(props) {
                               {country &&
                                 country.map((item) => {
                                   return (
-                                    <option value={item.name}>{item.name}</option>
+                                    <option value={item.name}>
+                                      {item.name}
+                                    </option>
                                   );
                                 })}
                             </Field>
-
                           </div>
                         </div>
 
@@ -1440,9 +1483,11 @@ export default function Tabs(props) {
                             <Field
                               name="zip"
                               type="text"
-                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                              style={{
+                                boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                                borderRadius: "5px",
+                              }}
                               className="block border-gray-200 py-1 w-full"
-
                               value={values.zip}
                             />
 
@@ -1455,8 +1500,6 @@ export default function Tabs(props) {
                         </div>
                       </div>
                     </div>
-
-
                   </div>
 
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
@@ -1467,9 +1510,11 @@ export default function Tabs(props) {
                       <Field
                         name="email"
                         type="text"
-                        style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                        style={{
+                          boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                          borderRadius: "5px",
+                        }}
                         className="block border-gray-200 py-1 w-full"
-
                       />
                       <ErrorMessage
                         name="email"
@@ -1486,9 +1531,11 @@ export default function Tabs(props) {
                       <Field
                         name="contact"
                         type="text"
-                        style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                        style={{
+                          boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                          borderRadius: "5px",
+                        }}
                         className="block border-gray-200 py-1 w-full"
-
                       />
                       <ErrorMessage
                         name="contact"
@@ -1522,117 +1569,129 @@ export default function Tabs(props) {
                     </div>
                   )}
 
-<div className={`md:mx-2 my-1 sm:mx-0  md:flex w-full space-y-1 ${secEmail.length > 0 ? "visible" : "hidden"}`} >
+                  <div
+                    className={`md:mx-2 my-1 sm:mx-0  md:flex w-full space-y-1 ${
+                      secEmail.length > 0 ? "visible" : "hidden"
+                    }`}
+                  >
                     <label className="font-semibold text-lg md:w-2/5 mx-2">
                       Secondary Emails
                     </label>
                     <div className="w-full">
-                      {secEmail && secEmail.map((item, index) => {
+                      {secEmail &&
+                        secEmail.map((item, index) => {
+                          return (
+                            <div
+                              className="w-full flex items-center"
+                              style={{ borderRadius: "12px" }}
+                            >
+                              <input
+                                value={item}
+                                type="text"
+                                disabled
+                                style={{
+                                  boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                                  borderRadius: "5px",
+                                }}
+                                className="block border-gray-200 py-2 w-full"
 
-                        return (
-                          <div
-                            className="w-full flex items-center"
-                            style={{ borderRadius: "12px" }}
-                          >
-                            <input
-                              value={item}
-                              type="text"
-                              disabled
-                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
-                              className="block border-gray-200 py-2 w-full"
+                                // style={{
+                                //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 
-                            // style={{
-                            //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
-
-                            //   border: "none",
-                            // }}
-                            />
-                            <div className="relative flex items-center">
-
-                              <p
-                                className="text-black text-sm hover:text-blue-500 cursor-pointer w-10 px-2 font-semibold  absolute right-3"
-
-
-
-
-                              >
-                                <AiOutlineDelete
-                                  onClick={async () => {
-                                    setSecEmail(
-                                      secEmail.filter((item, i) => i !== index)
-                                    );
-                                    let res = JSON.parse(await localStorage.getItem("user"));
-                                    res.secondaryEmails = secEmail.filter(
-                                      (item, i) => i !== index
-                                    );
-                                    setUser(res);
-                                    localStorage.setItem("user", JSON.stringify(res));
-                                  }}
-                                  className="text-xl" />
-                              </p>
-
+                                //   border: "none",
+                                // }}
+                              />
+                              <div className="relative flex items-center">
+                                <p className="text-black text-sm hover:text-blue-500 cursor-pointer w-10 px-2 font-semibold  absolute right-3">
+                                  <AiOutlineDelete
+                                    onClick={async () => {
+                                      setSecEmail(
+                                        secEmail.filter(
+                                          (item, i) => i !== index
+                                        )
+                                      );
+                                      let res = JSON.parse(
+                                        await localStorage.getItem("user")
+                                      );
+                                      res.secondaryEmails = secEmail.filter(
+                                        (item, i) => i !== index
+                                      );
+                                      setUser(res);
+                                      localStorage.setItem(
+                                        "user",
+                                        JSON.stringify(res)
+                                      );
+                                    }}
+                                    className="text-xl"
+                                  />
+                                </p>
+                              </div>
                             </div>
-                          </div>
-                        )
-                      })}
+                          );
+                        })}
                     </div>
-
                   </div>
-                 <div className={`md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1 ${secContact.length > 0 ? "visible" : "hidden"}`}>
+                  <div
+                    className={`md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1 ${
+                      secContact.length > 0 ? "visible" : "hidden"
+                    }`}
+                  >
                     <label className="font-semibold text-lg md:w-2/5 mx-2">
                       Secondary Contacts
                     </label>
                     <div className=" w-full">
-                      {secContact && secContact.map((item, index) => {
-                        return (
-                          <div
-                            className="w-full flex items-center"
-                            style={{ borderRadius: "12px" }}
-                          >
-                            <input
-                              value={item}
-                              type="text"
-                              disabled
-                              style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
-                              className="block border-gray-200 py-2 w-full"
+                      {secContact &&
+                        secContact.map((item, index) => {
+                          return (
+                            <div
+                              className="w-full flex items-center"
+                              style={{ borderRadius: "12px" }}
+                            >
+                              <input
+                                value={item}
+                                type="text"
+                                disabled
+                                style={{
+                                  boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                                  borderRadius: "5px",
+                                }}
+                                className="block border-gray-200 py-2 w-full"
 
-                            // style={{
-                            //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
+                                // style={{
+                                //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 
-                            //   border: "none",
-                            // }}
-                            />
-                            <div className="relative flex items-center">
-
-                              <p
-                                className="text-black text-sm hover:text-blue-500 cursor-pointer w-10 px-2 font-semibold  absolute right-3"
-
-
-
-
-                              >
-                                <AiOutlineDelete
-                                  onClick={async () => {
-                                    setSecContact(
-                                      secContact.filter((item, i) => i !== index)
-                                    );
-                                    let res = JSON.parse(await localStorage.getItem("user"));
-                                    res.secondaryContacts = secContact.filter(
-                                      (item, i) => i !== index
-                                    );
-                                    setUser(res);
-                                    localStorage.setItem("user", JSON.stringify(res));
-                                  }}
-                                  className="text-xl" />
-                              </p>
-
+                                //   border: "none",
+                                // }}
+                              />
+                              <div className="relative flex items-center">
+                                <p className="text-black text-sm hover:text-blue-500 cursor-pointer w-10 px-2 font-semibold  absolute right-3">
+                                  <AiOutlineDelete
+                                    onClick={async () => {
+                                      setSecContact(
+                                        secContact.filter(
+                                          (item, i) => i !== index
+                                        )
+                                      );
+                                      let res = JSON.parse(
+                                        await localStorage.getItem("user")
+                                      );
+                                      res.secondaryContacts = secContact.filter(
+                                        (item, i) => i !== index
+                                      );
+                                      setUser(res);
+                                      localStorage.setItem(
+                                        "user",
+                                        JSON.stringify(res)
+                                      );
+                                    }}
+                                    className="text-xl"
+                                  />
+                                </p>
+                              </div>
                             </div>
-
-                          </div>
-                        )
-                      })}
+                          );
+                        })}
                     </div>
-
                   </div>
 
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
@@ -1642,7 +1701,6 @@ export default function Tabs(props) {
                     </label>
                     {user && !user.linkedInId ? (
                       <div className="w-full flex items-center ">
-
                         <a href={`${url}/auth/linkedin`}>
                           {/* <button className=" color-white py-2 px-8 flex rounded-lg"
                             style={{ backgroundColor: "#034488" }}
@@ -1652,18 +1710,29 @@ export default function Tabs(props) {
                               className="h-5 ml-1"
                               alt="socialauthLinkedIn"
                             /> */}
-                          <div className="flex rounded-lg shadow-md px-8 py-2" style={{ backgroundColor: "#034488" }}>
-                            <p className="text-lg py-1" style={{ color: "#fff" }}>
+                          <div
+                            className="flex rounded-lg shadow-md px-8 py-2"
+                            style={{ backgroundColor: "#034488" }}
+                          >
+                            <p
+                              className="text-lg py-1"
+                              style={{ color: "#fff" }}
+                            >
                               <BsLinkedin />
                             </p>
 
-                            <p className="text-white font-semibold mx-2">LinkedIn</p>
+                            <p className="text-white font-semibold mx-2">
+                              LinkedIn
+                            </p>
                           </div>
                           {/* </button> */}
                         </a>
                       </div>
-
-                    ) : <p className="w-full flex items-center text-green-600 font-semibold">Connected</p>}
+                    ) : (
+                      <p className="w-full flex items-center text-green-600 font-semibold">
+                        Connected
+                      </p>
+                    )}
                     {Error && <p className="text-sm text-red-500">{Error}</p>}
                   </div>
                 </div>
@@ -1691,7 +1760,7 @@ export default function Tabs(props) {
           </Formik>
         )}
       </div>
-      <div className="tabContent bg-white p-5" hidden={index != 1}>
+      <div className="tabContent px-7 bg-white p-5" hidden={index != 1}>
         {user !== null &&
           user !== undefined &&
           educationalDetail.map((item, index) => {
@@ -1709,7 +1778,6 @@ export default function Tabs(props) {
                       setShowEduForm(true);
                     }}
                   /> */}
-
                 </div>
                 <p className="font-semibold text-md md:w-2/5 ">{item.school}</p>
                 <div className="grid grid-cols-1 md:gap-2 gap-0 lg:grid-cols-4 align-items-right">
@@ -1721,13 +1789,16 @@ export default function Tabs(props) {
                     <div className="space-x-2 my-2 flex items-center">
                       <GrScorecard /> <p>{item.grade}</p>
                     </div>
-                  ) : <div className="space-x-2 my-2 flex items-center">
-                    <GrScorecard /> <p>0</p>
-                  </div>}
+                  ) : (
+                    <div className="space-x-2 my-2 flex items-center">
+                      <GrScorecard /> <p>0</p>
+                    </div>
+                  )}
                   <div className="flex items-center my-2 space-x-2">
                     <BsCalendar />
                     <p className="text-sm text-gray-600 mr-5">
-                      {item.start_date} - {item.Ispresent ? "Present" : item.end_date}
+                      {item.start_date} -{" "}
+                      {item.Ispresent ? "Present" : item.end_date}
                     </p>
                   </div>
                   <div className="flex text-right mr-auto space-x-2 justify-end">
@@ -1739,8 +1810,7 @@ export default function Tabs(props) {
                         setEduInitialValues(item);
                         setSelectedCity(cities[0]);
                         setShowEduForm(true);
-                        setPresent(item.Ispresent)
-                       
+                        setPresent(item.Ispresent);
                       }}
                     >
                       Edit
@@ -1752,14 +1822,17 @@ export default function Tabs(props) {
                           setEducationalDetail(
                             educationalDetail.filter((item, i) => i !== index)
                           );
-                          let res = JSON.parse(await localStorage.getItem("user"));
+                          let res = JSON.parse(
+                            await localStorage.getItem("user")
+                          );
                           res.education = educationalDetail.filter(
                             (item, i) => i !== index
                           );
                           setUser(res);
                           localStorage.setItem("user", JSON.stringify(res));
                         }}
-                      /></div>
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1780,7 +1853,7 @@ export default function Tabs(props) {
                 end_date: null,
                 grade: null,
                 description: null,
-                present:false,
+                present: false,
               });
               await setShowEduForm(true);
             }}
@@ -1807,7 +1880,7 @@ export default function Tabs(props) {
             <Dialog
               as="div"
               className="relative z-1050 w-5/6"
-              onClose={() => { }}
+              onClose={() => {}}
               static={true}
             >
               <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
@@ -1876,7 +1949,10 @@ export default function Tabs(props) {
                               errors.start_date =
                                 "Start date cannot be greater than today's date";
                             }
-                            if (!present && values.start_date > values.end_date) {
+                            if (
+                              !present &&
+                              values.start_date > values.end_date
+                            ) {
                               errors.end_date =
                                 "End date cannot be less than start date";
                             }
@@ -1920,7 +1996,9 @@ export default function Tabs(props) {
                                       value={values.school}
                                     /> */}
                                     {edit !== null && (
-                                      <p>Current University : {values.school}</p>
+                                      <p>
+                                        Current University : {values.school}
+                                      </p>
                                     )}
                                     <Combobox
                                       value={selectedSchool}
@@ -1950,13 +2028,15 @@ export default function Tabs(props) {
                                           >
                                             {({ active, selected }) => (
                                               <li
-                                                className={`${active ? 'bg-blue-500 text-white p-2' : 'bg-white text-black p-2'
-                                                  }`}
+                                                className={`${
+                                                  active
+                                                    ? "bg-blue-500 text-white p-2"
+                                                    : "bg-white text-black p-2"
+                                                }`}
                                               >
-
-
                                                 {school.name}
-                                              </li>)}
+                                              </li>
+                                            )}
                                           </Combobox.Option>
                                         ))}
                                       </Combobox.Options>
@@ -2057,9 +2137,9 @@ export default function Tabs(props) {
                                       <label className="font-semibold text-md ml-2 py-2">
                                         End At
                                       </label>
-                                      <div >
-                                        {!present &&
-                                          (<div className="">
+                                      <div>
+                                        {!present && (
+                                          <div className="">
                                             <Field
                                               name="end_date"
                                               type="month"
@@ -2076,13 +2156,13 @@ export default function Tabs(props) {
                                               component="div"
                                               className="text-sm text-red-600"
                                             />
-                                          </div>)
-                                        }
-
+                                          </div>
+                                        )}
 
                                         <div className="mx-3 my-2">
-
-                                          <input type="checkbox" id="myCheck"
+                                          <input
+                                            type="checkbox"
+                                            id="myCheck"
                                             onChange={(e) => {
                                               // var checkBox = document.getElementById("myCheck");
 
@@ -2090,17 +2170,13 @@ export default function Tabs(props) {
                                                 setPresent(true);
                                               } else {
                                                 setPresent(false);
-
                                               }
                                             }}
-                                            
                                             value={present}
-
                                           />
                                           <label className="font-semibold text-md ml-2 py-2">
                                             Present
                                           </label>
-
                                         </div>
                                       </div>
                                     </div>
@@ -2156,7 +2232,7 @@ export default function Tabs(props) {
                                   <button
                                     onClick={() => {
                                       setPresent(false);
-                                      updateEducation(values)
+                                      updateEducation(values);
                                     }}
                                     className=" bg-blue-600  text-white rounded-lg block cursor-pointer py-2 px-8 align-middle"
                                     style={{ backgroundColor: "#034488" }}
@@ -2192,7 +2268,7 @@ export default function Tabs(props) {
           </Transition>
         )}
       </div>
-      <div className="tabContent bg-white p-5" hidden={index != 2}>
+      <div className="tabContent px-7 bg-white p-5" hidden={index != 2}>
         <div>
           {user &&
             experienceDetail.map((item, index) => {
@@ -2230,7 +2306,8 @@ export default function Tabs(props) {
                     <div className="flex items-center space-x-2 my-2">
                       <BsCalendar />
                       <p className="text-sm text-gray-600 mr-5">
-                        {item.start_date} - {item.Ispresent ? "Present" : item.end_date}
+                        {item.start_date} -{" "}
+                        {item.Ispresent ? "Present" : item.end_date}
                       </p>
                     </div>
                     <div className="flex items-center space-x-2">
@@ -2241,13 +2318,12 @@ export default function Tabs(props) {
                           setEdit(index);
                           setExInitialValues(item);
                           setShowExForm(true);
-                          setExPresent(item.Ispresent)
+                          setExPresent(item.Ispresent);
                         }}
                       >
                         Edit
                       </button>
                       <div className="text-xl mx-5 px-7 py-2">
-
                         <AiOutlineDelete
                           className="text-red-600 cursor-pointer"
                           onClick={async () => {
@@ -2318,7 +2394,7 @@ export default function Tabs(props) {
             <Dialog
               as="div"
               className="relative z-10000"
-              onClose={() => { }}
+              onClose={() => {}}
               static={true}
             >
               <div
@@ -2389,7 +2465,10 @@ export default function Tabs(props) {
                               errors.start_date =
                                 "Start date cannot be greater than today's date";
                             }
-                            if (!exPresent && values.start_date > values.end_date) {
+                            if (
+                              !exPresent &&
+                              values.start_date > values.end_date
+                            ) {
                               errors.end_date =
                                 "End date cannot be less than start date";
                             }
@@ -2431,10 +2510,7 @@ export default function Tabs(props) {
                                       value={values.title}
                                     /> */}
                                     {edit !== null && (
-                                      <p>
-                                        Current Job :{" "}
-                                        {`${values.title}`}
-                                      </p>
+                                      <p>Current Job : {`${values.title}`}</p>
                                     )}
 
                                     <Combobox
@@ -2450,7 +2526,10 @@ export default function Tabs(props) {
                                       />
                                       <Combobox.Options className="absolute z-100 bg-white rounded-lg shadow-md">
                                         {TitleQuery.length > 0 && (
-                                          <Combobox.Option className="p-2" value={`${TitleQuery}`}>
+                                          <Combobox.Option
+                                            className="p-2"
+                                            value={`${TitleQuery}`}
+                                          >
                                             Create "{TitleQuery}"
                                           </Combobox.Option>
                                         )}
@@ -2461,8 +2540,11 @@ export default function Tabs(props) {
                                           >
                                             {({ active, selected }) => (
                                               <li
-                                                className={`${active ? 'bg-blue-500 text-white p-2' : 'bg-white text-black p-2'
-                                                  }`}
+                                                className={`${
+                                                  active
+                                                    ? "bg-blue-500 text-white p-2"
+                                                    : "bg-white text-black p-2"
+                                                }`}
                                               >
                                                 {title.name}
                                               </li>
@@ -2529,7 +2611,9 @@ export default function Tabs(props) {
                                       value={values.company_name}
                                     /> */}
                                     {edit !== null && (
-                                      <p>Current Company : {values.company_name}</p>
+                                      <p>
+                                        Current Company : {values.company_name}
+                                      </p>
                                     )}
                                     <Combobox
                                       value={selectedCompany}
@@ -2542,14 +2626,21 @@ export default function Tabs(props) {
                                         className="border-[0.5px] rounded-lg border-gray-400 focus:outline-0 focus:border-0 px-4 py-2 w-full"
                                         style={{ borderRadius: "5px" }}
                                       />
-                                      <Combobox.Options className="absolute z-100 bg-white rounded-lg shadow-md overflow-y-auto" style={{ borderRadius: "5px", overflowY: "auto" }}>
+                                      <Combobox.Options
+                                        className="absolute z-100 bg-white rounded-lg shadow-md overflow-y-auto"
+                                        style={{
+                                          borderRadius: "5px",
+                                          overflowY: "auto",
+                                        }}
+                                      >
                                         {companyQuery.length > 0 && (
                                           <Combobox.Option
                                             value={`${companyQuery}`}
                                             className="cursor-pointer p-2"
                                             onClick={async () => {
-                                              let res = await checkCompany({ name: companyQuery });
-
+                                              let res = await checkCompany({
+                                                name: companyQuery,
+                                              });
                                             }}
                                           >
                                             Create "{companyQuery}"
@@ -2562,10 +2653,12 @@ export default function Tabs(props) {
                                             className="cursor-pointer "
                                           >
                                             {({ active, selected }) => (
-                                              
                                               <li
-                                                className={`${active ? 'bg-blue-500 text-white p-2' : 'bg-white text-black p-2'
-                                                  }`}
+                                                className={`${
+                                                  active
+                                                    ? "bg-blue-500 text-white p-2"
+                                                    : "bg-white text-black p-2"
+                                                }`}
                                               >
                                                 {company.name}
                                               </li>
@@ -2613,25 +2706,36 @@ export default function Tabs(props) {
                                       />
                                       <Combobox.Options className="absolute z-100 bg-white rounded-lg shadow-md">
                                         {query.length > 0 && (
-                                          <Combobox.Option className="p-2" value={`${query}`}>
+                                          <Combobox.Option
+                                            className="p-2"
+                                            value={`${query}`}
+                                          >
                                             Create "{query}"
                                           </Combobox.Option>
                                         )}
                                         {filteredCity.map((city) => (
                                           <Combobox.Option
                                             key={city.name}
-                                            value={`${city.name.replace("ā", "a")
+                                            value={`${city.name
+                                              .replace("ā", "a")
                                               .replace("ò", "o")
-                                              .replace("à", "a")}, ${city.country}`}
+                                              .replace("à", "a")}, ${
+                                              city.country
+                                            }`}
                                           >
                                             {({ active, selected }) => (
                                               <li
-                                                className={`${active ? 'bg-blue-500 text-white p-2' : 'bg-white text-black p-2'
-                                                  }`}
+                                                className={`${
+                                                  active
+                                                    ? "bg-blue-500 text-white p-2"
+                                                    : "bg-white text-black p-2"
+                                                }`}
                                               >
-                                                {city.name.replace("ā", "a")
+                                                {city.name
+                                                  .replace("ā", "a")
                                                   .replace("ò", "o")
-                                                  .replace("à", "a")}, {city.country}
+                                                  .replace("à", "a")}
+                                                , {city.country}
                                               </li>
                                             )}
                                           </Combobox.Option>
@@ -2681,8 +2785,8 @@ export default function Tabs(props) {
                                       <label className="font-semibold text-md ml-2 py-2">
                                         End At
                                       </label>
-                                      <div >
-                                        {!exPresent &&
+                                      <div>
+                                        {!exPresent && (
                                           <div className="">
                                             <Field
                                               name="end_date"
@@ -2701,10 +2805,11 @@ export default function Tabs(props) {
                                               className="text-sm text-red-600"
                                             />
                                           </div>
-                                        }
+                                        )}
                                         <div className="mx-3 my-2">
-
-                                          <input type="checkbox" id="myCheck"
+                                          <input
+                                            type="checkbox"
+                                            id="myCheck"
                                             onChange={(e) => {
                                               // var checkBox = document.getElementById("myCheck");
 
@@ -2712,19 +2817,15 @@ export default function Tabs(props) {
                                                 setExPresent(true);
                                               } else {
                                                 setExPresent(false);
-
                                               }
                                             }}
                                             value={exPresent}
-
                                           />
                                           <label className="font-semibold text-md ml-2 py-2">
                                             Present
                                           </label>
-
                                         </div>
                                       </div>
-
                                     </div>
                                   </div>
                                 </div>
@@ -2774,10 +2875,8 @@ export default function Tabs(props) {
                                     onClick={() => {
                                       setExPresent(false);
 
-                                      updateExperience(values)
-                                    }
-
-                                    }
+                                      updateExperience(values);
+                                    }}
                                     className=" bg-blue-600  text-white rounded-lg block cursor-pointer py-2 px-8 align-middle"
                                     style={{ backgroundColor: "#034488" }}
                                   >
@@ -2812,7 +2911,7 @@ export default function Tabs(props) {
           </Transition>
         )}
       </div>
-      <div className="tabContent bg-white p-5" hidden={index != 3}>
+      <div className="tabContent px-7 bg-white p-5" hidden={index != 3}>
         <div>
           {user &&
             associateDetail &&
@@ -2851,7 +2950,8 @@ export default function Tabs(props) {
                     <div className="flex items-center space-x-2 my-2">
                       <BsCalendar />
                       <p className="text-sm text-gray-600 mr-5">
-                        {item.start_date} - {item.Ispresent ? "Present" : item.end_date}
+                        {item.start_date} -{" "}
+                        {item.Ispresent ? "Present" : item.end_date}
                       </p>
                     </div>
                     <div className="flex items-center space-x-2">
@@ -2862,14 +2962,13 @@ export default function Tabs(props) {
                           setEdit(index);
                           setAsInitialValues(item);
                           setShowAsForm(true);
-                          setAsPresent(item.Ispresent)
-                          setSelectedCompany(item.company_name)
+                          setAsPresent(item.Ispresent);
+                          setSelectedCompany(item.company_name);
                         }}
                       >
                         Edit
                       </button>
                       <div className="text-xl mx-5 px-7 py-2">
-
                         <AiOutlineDelete
                           className="text-red-600 cursor-pointer"
                           onClick={async () => {
@@ -2941,7 +3040,7 @@ export default function Tabs(props) {
             <Dialog
               as="div"
               className="relative z-10000"
-              onClose={() => { }}
+              onClose={() => {}}
               static={true}
             >
               <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
@@ -2969,9 +3068,7 @@ export default function Tabs(props) {
                     leaveTo="opacity-0 scale-95"
                   >
                     <Dialog.Panel className="w-full  px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all max-w-4xl mx-auto">
-
                       <div className={`${!showAsForm ? "hidden" : "block"}`}>
-
                         <Formik
                           initialValues={asinitialValues}
                           validate={(values) => {
@@ -3000,7 +3097,10 @@ export default function Tabs(props) {
                               errors.start_date =
                                 "Start date cannot be greater than today's date";
                             }
-                            if (!asPresent && values.start_date > values.end_date) {
+                            if (
+                              !asPresent &&
+                              values.start_date > values.end_date
+                            ) {
                               errors.end_date =
                                 "End date cannot be less than start date";
                             }
@@ -3036,10 +3136,7 @@ export default function Tabs(props) {
                                       value={values.title}
                                     /> */}
                                     {edit !== null && (
-                                      <p>
-                                        Current Job :{" "}
-                                        {`${values.title}`}
-                                      </p>
+                                      <p>Current Job : {`${values.title}`}</p>
                                     )}
 
                                     <Combobox
@@ -3055,7 +3152,10 @@ export default function Tabs(props) {
                                       />
                                       <Combobox.Options className="absolute z-100 bg-white rounded-lg shadow-md">
                                         {TitleQuery.length > 0 && (
-                                          <Combobox.Option className="p-2" value={`${TitleQuery}`}>
+                                          <Combobox.Option
+                                            className="p-2"
+                                            value={`${TitleQuery}`}
+                                          >
                                             Create "{TitleQuery}"
                                           </Combobox.Option>
                                         )}
@@ -3066,8 +3166,11 @@ export default function Tabs(props) {
                                           >
                                             {({ active, selected }) => (
                                               <li
-                                                className={`${active ? 'bg-blue-500 text-white p-2' : 'bg-white text-black p-2'
-                                                  }`}
+                                                className={`${
+                                                  active
+                                                    ? "bg-blue-500 text-white p-2"
+                                                    : "bg-white text-black p-2"
+                                                }`}
                                               >
                                                 {title.name}
                                               </li>
@@ -3098,7 +3201,9 @@ export default function Tabs(props) {
                                       value={values.company_name}
                                     /> */}
                                     {edit !== null && (
-                                      <p>Current Company : {values.company_name}</p>
+                                      <p>
+                                        Current Company : {values.company_name}
+                                      </p>
                                     )}
                                     <Combobox
                                       value={selectedCompany}
@@ -3111,14 +3216,21 @@ export default function Tabs(props) {
                                         className="border-[0.5px] rounded-lg border-gray-400 focus:outline-0 focus:border-0 px-4 py-2 w-full"
                                         style={{ borderRadius: "5px" }}
                                       />
-                                      <Combobox.Options className="absolute z-100 bg-white rounded-lg shadow-md overflow-y-auto" style={{ borderRadius: "5px", overflowY: "auto" }}>
+                                      <Combobox.Options
+                                        className="absolute z-100 bg-white rounded-lg shadow-md overflow-y-auto"
+                                        style={{
+                                          borderRadius: "5px",
+                                          overflowY: "auto",
+                                        }}
+                                      >
                                         {companyQuery.length > 0 && (
                                           <Combobox.Option
                                             value={`${companyQuery}`}
                                             className="cursor-pointer p-2"
                                             onClick={async () => {
-                                              let res = await checkCompany({ name: companyQuery });
-
+                                              let res = await checkCompany({
+                                                name: companyQuery,
+                                              });
                                             }}
                                           >
                                             Create "{companyQuery}"
@@ -3131,10 +3243,12 @@ export default function Tabs(props) {
                                             className="cursor-pointer "
                                           >
                                             {({ active, selected }) => (
-                                              
                                               <li
-                                                className={`${active ? 'bg-blue-500 text-white p-2' : 'bg-white text-black p-2'
-                                                  }`}
+                                                className={`${
+                                                  active
+                                                    ? "bg-blue-500 text-white p-2"
+                                                    : "bg-white text-black p-2"
+                                                }`}
                                               >
                                                 {company.name}
                                               </li>
@@ -3182,25 +3296,38 @@ export default function Tabs(props) {
                                       />
                                       <Combobox.Options className="absolute bg-white rounded-lg shadow-md">
                                         {query.length > 0 && (
-                                          <Combobox.Option className="p-2" value={`${query}`}>
+                                          <Combobox.Option
+                                            className="p-2"
+                                            value={`${query}`}
+                                          >
                                             Create "{query}"
                                           </Combobox.Option>
                                         )}
                                         {filteredCity.map((city) => (
                                           <Combobox.Option
                                             key={city.name}
-                                            value={`${city.name.replace("ā", "a")
+                                            value={`${city.name
+                                              .replace("ā", "a")
                                               .replace("ò", "o")
-                                              .replace("à", "a")}, ${city.country}`}
+                                              .replace("à", "a")}, ${
+                                              city.country
+                                            }`}
                                           >
                                             {({ active, selected }) => (
                                               <li
-                                                className={`${active ? 'bg-blue-500 text-white p-2' : 'bg-white text-black p-2'
-                                                  }`}
+                                                className={`${
+                                                  active
+                                                    ? "bg-blue-500 text-white p-2"
+                                                    : "bg-white text-black p-2"
+                                                }`}
                                               >
-                                                {city.name.replace("ā", "a")
+                                                {city.name
+                                                  .replace("ā", "a")
                                                   .replace("ò", "o")
-                                                  .replace("à", "a")}, {city.country}</li>)}
+                                                  .replace("à", "a")}
+                                                , {city.country}
+                                              </li>
+                                            )}
                                           </Combobox.Option>
                                         ))}
                                       </Combobox.Options>
@@ -3248,8 +3375,8 @@ export default function Tabs(props) {
                                       <label className="font-semibold text-md ml-2 py-2">
                                         End At
                                       </label>
-                                      <div >
-                                        {!asPresent &&
+                                      <div>
+                                        {!asPresent && (
                                           <div className="">
                                             <Field
                                               name="end_date"
@@ -3268,12 +3395,12 @@ export default function Tabs(props) {
                                               className="text-sm text-red-600"
                                             />
                                           </div>
-                                        }
-
+                                        )}
 
                                         <div className="mx-3 my-2">
-
-                                          <input type="checkbox" id="myCheck"
+                                          <input
+                                            type="checkbox"
+                                            id="myCheck"
                                             onChange={(e) => {
                                               // var checkBox = document.getElementById("myCheck");
 
@@ -3281,16 +3408,13 @@ export default function Tabs(props) {
                                                 setAsPresent(true);
                                               } else {
                                                 setAsPresent(false);
-
                                               }
                                             }}
                                             value={asPresent}
-
                                           />
                                           <label className="font-semibold text-md ml-2 py-2">
                                             Present
                                           </label>
-
                                         </div>
                                       </div>
                                     </div>
@@ -3343,7 +3467,7 @@ export default function Tabs(props) {
                                     onClick={() => {
                                       setAsPresent(false);
 
-                                      updateAssociation(values)
+                                      updateAssociation(values);
                                     }}
                                     className=" bg-blue-600  text-white rounded-lg block cursor-pointer py-2 px-8 align-middle"
                                     style={{ backgroundColor: "#034488" }}
@@ -3379,7 +3503,7 @@ export default function Tabs(props) {
           </Transition>
         )}
       </div>
-      <div className="tabContent bg-white p-5" hidden={index !== 4}>
+      <div className="tabContent px-7 bg-white p-5" hidden={index !== 4}>
         {user !== null && user !== undefined && (
           <div>
             <label className="font-semibold text-lg w-2/5 mx-2">Skills</label>
@@ -3440,8 +3564,9 @@ export default function Tabs(props) {
                           {({ open }) => (
                             <div className={`${open ? "shadow-md" : ""}`}>
                               <Disclosure.Button
-                                className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-3 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${open ? "shadow-lg " : ""
-                                  }`}
+                                className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-3 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${
+                                  open ? "shadow-lg " : ""
+                                }`}
                               >
                                 <span>{el}</span>
                                 <div className="ml-auto mr-5 flex items-center space-x-2">
@@ -3480,8 +3605,9 @@ export default function Tabs(props) {
                                   <p>5</p>
                                 </div>
                                 <ChevronUpIcon
-                                  className={`${!open ? "rotate-180 transform" : ""
-                                    } h-5 w-5 text-blue-500`}
+                                  className={`${
+                                    !open ? "rotate-180 transform" : ""
+                                  } h-5 w-5 text-blue-500`}
                                 />
                               </Disclosure.Button>
                               <Disclosure.Panel className="p-3 px-4">
@@ -3491,19 +3617,22 @@ export default function Tabs(props) {
                                       <Disclosure>
                                         {({ open }) => (
                                           <div
-                                            className={`${open ? "shadow-md" : ""
-                                              }`}
+                                            className={`${
+                                              open ? "shadow-md" : ""
+                                            }`}
                                           >
                                             <Disclosure.Button
-                                              className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-3 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${open ? "shadow-lg" : ""
-                                                } `}
+                                              className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-3 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${
+                                                open ? "shadow-lg" : ""
+                                              } `}
                                             >
                                               <span>{skill}</span>
                                               <ChevronUpIcon
-                                                className={`${!open
-                                                  ? "rotate-180 transform"
-                                                  : ""
-                                                  } h-5 w-5 text-blue-500`}
+                                                className={`${
+                                                  !open
+                                                    ? "rotate-180 transform"
+                                                    : ""
+                                                } h-5 w-5 text-blue-500`}
                                               />
                                             </Disclosure.Button>
                                             <Disclosure.Panel className="p-3 px-12">
@@ -3511,7 +3640,7 @@ export default function Tabs(props) {
                                                 .filter((secSkill) => {
                                                   return (
                                                     secSkill.primarySkill ===
-                                                    skill &&
+                                                      skill &&
                                                     secSkill.role === el
                                                   );
                                                 })
@@ -3607,41 +3736,43 @@ export default function Tabs(props) {
             <div className="p-5">
               {rolesC
                 ? rolesC.map((item, index) => {
-                  return (
-                    <div className="py-2">
-                      <p className="font-semibold text-md md:w-1/2  md:flex w-full  space-y-2 my-5">
-                        {item}
-                      </p>
-                      {skillsPrimary[item].map((el) => (
-                        <div className="py-1">
-                          <p className="text-sm my-2">{el}</p>
-                          <div className="md:flex ">
-                            {user.tools
-                              .filter(
-                                (tool) =>
-                                  tool.role === item &&
-                                  tool.primarySkill === el
-                              )
-                              .map((item1, index) => (
-                                <p className="bg-blue-100 text-blue-800 text-xs mb-2 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800 ">
-                                  {item1.secondarySkill}{" "}
-                                  {item1.proficiency &&
-                                    `(${item1.proficiency})`}
-                                </p>
-                              ))}
+                    return (
+                      <div className="py-2">
+                        <p className="font-semibold text-md md:w-1/2  md:flex w-full  space-y-2 my-5">
+                          {item}
+                        </p>
+                        {skillsPrimary[item].map((el) => (
+                          <div className="py-1">
+                            <p className="text-sm my-2">{el}</p>
+                            <div className="md:flex ">
+                              {user.tools
+                                .filter(
+                                  (tool) =>
+                                    tool.role === item &&
+                                    tool.primarySkill === el
+                                )
+                                .map((item1, index) => (
+                                  <p className="bg-blue-100 text-blue-800 text-xs mb-2 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800 ">
+                                    {item1.secondarySkill}{" "}
+                                    {item1.proficiency &&
+                                      `(${item1.proficiency})`}
+                                  </p>
+                                ))}
+                            </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
-                  );
-                })
+                        ))}
+                      </div>
+                    );
+                  })
                 : "No Skills"}
             </div>
           </div>
         )}
 
         <div>
-          <label className="font-semibold text-lg w-2/5 mx-2">Language Skills</label>
+          <label className="font-semibold text-lg w-2/5 mx-2">
+            Language Skills
+          </label>
           <div className="my-3 px-4 flex items-center flex-wrap">
             {showLsForm && (
               <Transition
@@ -3654,10 +3785,13 @@ export default function Tabs(props) {
                 <Dialog
                   as="div"
                   className="relative z-10000"
-                  onClose={() => { }}
+                  onClose={() => {}}
                   static={true}
                 >
-                  <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+                  <div
+                    className="fixed inset-0 bg-black/30"
+                    aria-hidden="true"
+                  />
                   <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"
@@ -3682,9 +3816,9 @@ export default function Tabs(props) {
                         leaveTo="opacity-0 scale-95"
                       >
                         <Dialog.Panel className="w-full  px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all max-w-4xl mx-auto">
-
-                          <div className={`${!showLsForm ? "hidden" : "block"}`}>
-
+                          <div
+                            className={`${!showLsForm ? "hidden" : "block"}`}
+                          >
                             <Formik
                               initialValues={lsinitialValues}
                               validate={(values) => {
@@ -3708,7 +3842,7 @@ export default function Tabs(props) {
                                 //   errors.name ||
                                 //   errors.read ||
                                 //   errors.write ||
-                                //   errors.speak 
+                                //   errors.speak
                                 // ) {
                                 //   setLsFormError(true);
                                 // } else {
@@ -3720,7 +3854,6 @@ export default function Tabs(props) {
                               {({ values }) => {
                                 return (
                                   <Form className="w-full py-4">
-
                                     <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                                       <label className="font-bold text-lg md:w-2/5 mx-5 mt-2">
                                         Name{" "}
@@ -3729,7 +3862,12 @@ export default function Tabs(props) {
                                         component="select"
                                         id="name"
                                         name="name"
-                                        style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
+                                        style={{
+                                          boxShadow:
+                                            "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                                          borderRadius: "5px",
+                                          height: "40px",
+                                        }}
                                         className="block border-gray-200 py-1 md:w-4/5 sm:w-4/5 mx-5"
                                         value={values.name}
                                         multiple={false}
@@ -3737,7 +3875,9 @@ export default function Tabs(props) {
                                         {language &&
                                           language.map((item) => {
                                             return (
-                                              <option value={item.name}>{item.name}</option>
+                                              <option value={item.name}>
+                                                {item.name}
+                                              </option>
                                             );
                                           })}
                                       </Field>
@@ -3748,16 +3888,26 @@ export default function Tabs(props) {
                                           className="text-sm my-2 text-red-600"
                                         />
                                       </div>
-
                                     </div>
-                                    <div style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "60px" }}
-                                      className="border-gray-200 flex my-5">
+                                    <div
+                                      style={{
+                                        boxShadow:
+                                          "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                                        borderRadius: "5px",
+                                        height: "60px",
+                                      }}
+                                      className="border-gray-200 flex my-5"
+                                    >
                                       <div className="mx-3 my-4">
                                         <Field
                                           type="checkbox"
                                           name="read"
                                           className="my-1 "
-                                          style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px" }}
+                                          style={{
+                                            boxShadow:
+                                              "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                                            borderRadius: "5px",
+                                          }}
                                           onClick={() => {
                                             // let temp = permissions;
                                             // temp[index].value = !temp[index].value;
@@ -3776,7 +3926,11 @@ export default function Tabs(props) {
                                           type="checkbox"
                                           name="write"
                                           className="my-1 "
-                                          style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px" }}
+                                          style={{
+                                            boxShadow:
+                                              "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                                            borderRadius: "5px",
+                                          }}
                                           onClick={() => {
                                             // let temp = permissions;
                                             // temp[index].value = !temp[index].value;
@@ -3795,7 +3949,11 @@ export default function Tabs(props) {
                                           type="checkbox"
                                           name="speak"
                                           className="my-1"
-                                          style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px" }}
+                                          style={{
+                                            boxShadow:
+                                              "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                                            borderRadius: "5px",
+                                          }}
                                           onClick={() => {
                                             // let temp = permissions;
                                             // temp[index].value = !temp[index].value;
@@ -3813,15 +3971,15 @@ export default function Tabs(props) {
                                     <div className="flex px-5 w-full justify-center text-center">
                                       <button
                                         onClick={() => {
-
                                           updateLanguage(values);
                                           setShowLsForm(false);
-
                                         }}
                                         className=" bg-blue-600  text-white rounded-lg block cursor-pointer py-2 px-8 align-middle"
                                         style={{ backgroundColor: "#034488" }}
                                       >
-                                        {edit === null ? "Save Changes " : "Update"}
+                                        {edit === null
+                                          ? "Save Changes "
+                                          : "Update"}
                                       </button>
                                       <button
                                         type="button"
@@ -3836,7 +3994,8 @@ export default function Tabs(props) {
                                         Cancel
                                       </button>
                                     </div>
-                                  </Form>)
+                                  </Form>
+                                );
                               }}
                             </Formik>
                           </div>
@@ -3845,12 +4004,13 @@ export default function Tabs(props) {
                     </div>
                   </div>
                 </Dialog>
-              </Transition>)}
-
+              </Transition>
+            )}
           </div>
           <div className=" mx-auto justify-center text-center">
             <div className="lg:w-2/3 md:w-full sm:w-full">
-              {user && languageSkills &&
+              {user &&
+                languageSkills &&
                 languageSkills.map((item, index) => {
                   return (
                     <div
@@ -3869,26 +4029,35 @@ export default function Tabs(props) {
                   */}
                       </div>
                       <div className="font-semibold flex space-x-2 items-center">
-                        <p>{item.name}</p> <p className="font-normal text-sm"></p>{" "}
-
+                        <p>{item.name}</p>{" "}
+                        <p className="font-normal text-sm"></p>{" "}
                       </div>
                       <div className="flex w-full md:gap-2 gap-0 justify-between">
-                      <div className="w-auto flex">
-                            {item.read ?  <div className=" my-2 flex items-center">
-
-                                 <p className="lg:text-lg md:text-sm sm:text-xs text-sm flex "><AiOutlineRead className="my-auto mx-2" /> Read</p> 
-                              </div>: null}
-                              {item.write ? <div className=" my-2 flex items-center">
-
-                                 <p className="lg:text-lg md:text-sm sm:text-xs text-sm flex"><HiPencil className="my-auto mx-2" />Write</p> 
-                              </div>: null}
-                              {item.speak ?  <div className="flex items-center my-2">
-
-
-                               <p className="lg:text-lg md:text-sm sm:text-xs text-sm flex"><IoPeople className="my-auto mx-2" />Speak</p> 
-
-                              </div>: null}
+                        <div className="w-auto flex">
+                          {item.read ? (
+                            <div className=" my-2 flex items-center">
+                              <p className="lg:text-lg md:text-sm sm:text-xs text-sm flex ">
+                                <AiOutlineRead className="my-auto mx-2" /> Read
+                              </p>
                             </div>
+                          ) : null}
+                          {item.write ? (
+                            <div className=" my-2 flex items-center">
+                              <p className="lg:text-lg md:text-sm sm:text-xs text-sm flex">
+                                <HiPencil className="my-auto mx-2" />
+                                Write
+                              </p>
+                            </div>
+                          ) : null}
+                          {item.speak ? (
+                            <div className="flex items-center my-2">
+                              <p className="lg:text-lg md:text-sm sm:text-xs text-sm flex">
+                                <IoPeople className="my-auto mx-2" />
+                                Speak
+                              </p>
+                            </div>
+                          ) : null}
+                        </div>
                         <div className="col-start-5 col-end-7 col-span-2 flex items-center space-x-2 ">
                           <button
                             className=" hover:bg-blue-700 text-white font-bold py-3 px-8 text-xs rounded"
@@ -3902,12 +4071,13 @@ export default function Tabs(props) {
                             Edit
                           </button>
                           <div className="text-xl mx-5 px-7 py-2">
-
                             <AiOutlineDelete
                               className="text-red-600 cursor-pointer"
                               onClick={async () => {
                                 setLanguageSkills(
-                                  languageSkills.filter((item, i) => i !== index)
+                                  languageSkills.filter(
+                                    (item, i) => i !== index
+                                  )
                                 );
                                 let res = JSON.parse(
                                   await localStorage.getItem("user")
@@ -3916,7 +4086,10 @@ export default function Tabs(props) {
                                   (item, i) => i !== index
                                 );
                                 setUser(res);
-                                localStorage.setItem("user", JSON.stringify(res));
+                                localStorage.setItem(
+                                  "user",
+                                  JSON.stringify(res)
+                                );
                               }}
                             />
                           </div>
@@ -3948,11 +4121,8 @@ export default function Tabs(props) {
             >
               Add Language Skills
             </button>
-
-
           </div>
         </div>
-
 
         {/* <p className="font-bold text-lg">Resume</p>
         {fileName && <p className="my-3">{fileName}</p>}
@@ -3982,31 +4152,173 @@ export default function Tabs(props) {
           />
         </div> */}
 
-<div className="w-full text-center ">
-        <button
-          className="bg-blue-500 mx-auto py-3 px-7 text-white rounded-lg my-5"
-          style={{ backgroundColor: "#034488" }}
-          onClick={() => update(user)}
-        >
-          Submit
-        </button>
+        <div className="w-full text-center ">
+          <button
+            className="bg-blue-500 mx-auto py-3 px-7 text-white rounded-lg my-5"
+            style={{ backgroundColor: "#034488" }}
+            onClick={() => update(user)}
+          >
+            Submit
+          </button>
         </div>
+      </div>
+      <div className="tabContent px-5 bg-white p-5" hidden={index != 5}>
+        {user !== null && user !== undefined && (
+          <Formik
+            initialValues={{
+              username: user.username,
+              firstName: user.firstName,
+              email: user.email ? user.email : " ",
+              contact: user.contact
+                ? [
+                    user.googleId,
+                    user.microsoftId,
+                    user.linkedInId,
+                    user.username,
+                    user.githubId,
+                  ].includes(user.contact)
+                  ? " "
+                  : user.contact
+                : " ",
+              emailOTP: "",
+              contactOTP: "",
+              houseNo: user.houseNo,
+              street: user.street,
+              city: user.city,
+              country: user.country,
+              state: user.state,
+              zip: user.zip,
+            }}
+            onSubmit={(values) => save(values)}
+            validate={async (values) => {
+              const errors = {};
+              if (values.username !== user.username) {
+                let check = await validateSignupDetails({
+                  username: values.username,
+                });
+                console.log(check);
+                if (check.data.username) {
+                  errors.username = "Username already exists";
+                }
+              }
+              if (!values.firstName) {
+                errors.firstName = "Required";
+              }
+              if (!values.email) {
+                errors.email = "Required";
+              } else if (
+                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+              ) {
+                errors.email = "Invalid Email Address";
+              }
+              if (!values.contact) {
+                errors.contact = "Required";
+              } else if (
+                !/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/.test(
+                  values.contact
+                )
+              ) {
+                errors.contact = "Invalid Contact Number";
+              }
+              return errors;
+            }}
+          >
+            {({ values }) => (
+              <Form>
+                {/* <p className="md:w-1/2  flex w-full  space-y-1 my-5">
+                <span className="font-semibold text-lg w-2/5 mx-2"> Username :</span>{" "}
+                {user.username}{" "}
+              </p> */}
+
+                <div className="flex flex-wrap mt-2 w-full gap-y-5">
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
+                    <label className="font-semibold text-lg md:w-2/5 mx-2">
+                      Bank Name
+                    </label>
+                    <div className="w-full">
+                      <Field
+                        type="text"
+                        name="username"
+                        style={{
+                          boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                          borderRadius: "5px",
+                        }}
+                        className="block border-gray-200 py-1 w-full"
+                      />
+                      <ErrorMessage
+                        name="username"
+                        component="div"
+                        className="text-sm text-red-600"
+                      />
+                    </div>
+                  </div>
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
+                    <label className="font-semibold text-lg md:w-2/5 mx-2">
+                      Account No.
+                    </label>
+                    <div className="w-full">
+                      <Field
+                        type="text"
+                        name="firstName"
+                        style={{
+                          boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                          borderRadius: "5px",
+                        }}
+                        className="block border-gray-200 py-1 w-full"
+                      />
+                      <ErrorMessage
+                        name="firstName"
+                        component="div"
+                        className="text-sm text-red-600"
+                      />
+                    </div>
+                  </div>
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
+                    <label className="font-semibold text-lg md:w-2/5 mx-2">
+                      IFSC Code
+                    </label>
+                    <div className="w-full">
+                      <Field
+                        type="text"
+                        name="firstName"
+                        style={{
+                          boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                          borderRadius: "5px",
+                        }}
+                        className="block border-gray-200 py-1 w-full"
+                      />
+                      <ErrorMessage
+                        name="firstName"
+                        component="div"
+                        className="text-sm text-red-600"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="w-full text-center">
+                  <button
+                    className="bg-blue-500 px-4 mx-2 py-2 text-white rounded-lg my-5"
+                    style={{ backgroundColor: "#034488" }}
+                    type="submit"
+                  >
+                    Save
+                  </button>
+
+                  <button
+                    type="button"
+                    className="bg-blue-500 px-4 mx-2 py-2 text-white rounded-lg my-5"
+                    style={{ backgroundColor: "#034488" }}
+                    onClick={() => update(user)}
+                  >
+                    Submit
+                  </button>
+                </div>
+              </Form>
+            )}
+          </Formik>
+        )}
       </div>
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
