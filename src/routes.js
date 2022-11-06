@@ -635,6 +635,13 @@ export const XIDashboardRoutes = [
     component: <EditProfile />,
   },
   {
+    name: "All Transcation",
+    path: "/AllTranscation",
+    hide: false,
+    component: <XIAllTranscation />,
+    icon: <AiOutlineUser className="text-xl" />,
+  },
+  {
     name: "Interviews",
     path: "/evaluationlist",
     hide: false,
@@ -656,6 +663,7 @@ export const XIDashboardRoutes = [
     icon: <CgWorkAlt className="text-xl" />,
     component: <XIJobInterviews />,
   },
+  
   {
     name: "XI Onboarding",
     path: "/xiOnboarding",
@@ -679,13 +687,6 @@ export const XIDashboardRoutes = [
     icon: <MdOutlineWorkOutline className="text-xl" />,
     component: <XISlots />,
     permission: "default",
-  },
-  {
-    name: "All Transcation",
-    path: "/XIAllTranscation",
-    hide: false,
-    component: <XIAllTranscation />,
-    icon: <FaBuilding className="text-xl" />,
   },
  
   {
