@@ -20,6 +20,8 @@ import SuperXIDashboard from "./Pages/Layout/SuperXILayout";
 
 import ResetPassword from "./Components/Login/ForgotPassword";
 import SetProfile from "./Pages/UserDashboard/SetProfile";
+import InterviewPanel from "./Pages/InterviewPanel";
+import InterviewerPanel from "./Pages/InterviewerPanel";
 import Initial from "./Pages/Initial";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -56,6 +58,9 @@ root.render(
 
         <Route path="/superXI" element={<SuperXIDashboard />} />
         <Route path="/superXI/:component" element={<SuperXIDashboard />} />
+
+        <Route path="/interview/:id" element={<InterviewPanel />} />
+        <Route path="/interviewer/:id" element={<InterviewerPanel />} />
       </Routes>
     </Router>
   </React.StrictMode>

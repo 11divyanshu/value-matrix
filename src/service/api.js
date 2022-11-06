@@ -4,6 +4,7 @@ export const url = "http://localhost:8000";
 // export const url = "http://3.6.65.3:8000"
 // export const url = "https://backend.babyhost.in"
 export const frontendUrl = "http://localhost:3001";
+export const flaskurl = "http://localhost:5000";
 
 // User Method API
 export const authenticateLogin = async (user) => {
@@ -1003,7 +1004,57 @@ export const updateInterviewApplication = async (id ,data) => {
 }
 
 
+export const checkinterviewdetails = async (meetingid ,participantdetails) => {
+  try {
+    return await axios.post(`${url}/checkinterviewdetails`,{
+      meetingID: meetingid,
+      participant: participantdetails
+    }
+    );
 
+  } catch (err) {
+    console.log("Error : ", err);
 
+  }
+}
 
+export const processFlask = async (currentUser, imageSrc, type, id) => {
+  try {
+    return await axios.post(`${flaskurl}/Interview`,{
+      id: currentUser._id,
+      data: imageSrc,
+      type: type,
+      interview: id,
+    });
 
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+
+export const updateinterviewcheck = async (data, type, id) => {
+  try {
+    return await axios.post(`${url}/updateinterviewcheck`,{
+      data: data,
+      type: type,
+      meetingID: id
+    });
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+
+export const getinterviewdetails = async (id) => {
+  try {
+    return await axios.post(`${url}/getinterviewdetails`,{
+      meetingID: id
+    });
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
