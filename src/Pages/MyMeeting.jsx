@@ -24,6 +24,8 @@ export default function MyMeeting() {
 
     useEffect(()=>{
       meeting.joinRoom();
+      var dm = document.getElementById("dytemaster");
+      console.log(dm);
     },[]);
 
     const checkmeeting = ()=>{
@@ -61,8 +63,10 @@ export default function MyMeeting() {
                   style={{ minHeight: '50vh', width: '100%', backgroundColor: '#111827', color:"#fff" }}
                 />
               </div>
-              <div className="md:w-1/2">
-                <DyteMeeting mode="fill" meeting={meeting} className="dytemaster" style={{ height: '480px' }} />
+              <div className="md:w-1/2" style={{ overflowY:"hidden" }}>
+                <div style={{ height:"120%", overflowY:"hidden" }}>
+                  <DyteMeeting mode="fill" meeting={meeting} className="dytemaster" style={{ height: '100%' }} />
+                </div>
               </div>
             </div>
           </div>
