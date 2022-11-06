@@ -4164,158 +4164,93 @@ export default function Tabs(props) {
       </div>
       <div className="tabContent px-5 bg-white p-5" hidden={index != 5}>
         {user !== null && user !== undefined && (
-          <Formik
-            initialValues={{
-              username: user.username,
-              firstName: user.firstName,
-              email: user.email ? user.email : " ",
-              contact: user.contact
-                ? [
-                    user.googleId,
-                    user.microsoftId,
-                    user.linkedInId,
-                    user.username,
-                    user.githubId,
-                  ].includes(user.contact)
-                  ? " "
-                  : user.contact
-                : " ",
-              emailOTP: "",
-              contactOTP: "",
-              houseNo: user.houseNo,
-              street: user.street,
-              city: user.city,
-              country: user.country,
-              state: user.state,
-              zip: user.zip,
-            }}
-            onSubmit={(values) => save(values)}
-            validate={async (values) => {
-              const errors = {};
-              if (values.username !== user.username) {
-                let check = await validateSignupDetails({
-                  username: values.username,
-                });
-                console.log(check);
-                if (check.data.username) {
-                  errors.username = "Username already exists";
-                }
-              }
-              if (!values.firstName) {
-                errors.firstName = "Required";
-              }
-              if (!values.email) {
-                errors.email = "Required";
-              } else if (
-                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-              ) {
-                errors.email = "Invalid Email Address";
-              }
-              if (!values.contact) {
-                errors.contact = "Required";
-              } else if (
-                !/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/.test(
-                  values.contact
-                )
-              ) {
-                errors.contact = "Invalid Contact Number";
-              }
-              return errors;
-            }}
-          >
-            {({ values }) => (
-              <Form>
-                {/* <p className="md:w-1/2  flex w-full  space-y-1 my-5">
-                <span className="font-semibold text-lg w-2/5 mx-2"> Username :</span>{" "}
-                {user.username}{" "}
-              </p> */}
-
-                <div className="flex flex-wrap mt-2 w-full gap-y-5">
-                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                    <label className="font-semibold text-lg md:w-2/5 mx-2">
-                      Bank Name
-                    </label>
-                    <div className="w-full">
-                      <Field
-                        type="text"
-                        name="username"
-                        style={{
-                          boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
-                          borderRadius: "5px",
-                        }}
-                        className="block border-gray-200 py-1 w-full"
-                      />
-                      <ErrorMessage
-                        name="username"
-                        component="div"
-                        className="text-sm text-red-600"
-                      />
-                    </div>
-                  </div>
-                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                    <label className="font-semibold text-lg md:w-2/5 mx-2">
-                      Account No.
-                    </label>
-                    <div className="w-full">
-                      <Field
-                        type="text"
-                        name="firstName"
-                        style={{
-                          boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
-                          borderRadius: "5px",
-                        }}
-                        className="block border-gray-200 py-1 w-full"
-                      />
-                      <ErrorMessage
-                        name="firstName"
-                        component="div"
-                        className="text-sm text-red-600"
-                      />
-                    </div>
-                  </div>
-                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                    <label className="font-semibold text-lg md:w-2/5 mx-2">
-                      IFSC Code
-                    </label>
-                    <div className="w-full">
-                      <Field
-                        type="text"
-                        name="firstName"
-                        style={{
-                          boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
-                          borderRadius: "5px",
-                        }}
-                        className="block border-gray-200 py-1 w-full"
-                      />
-                      <ErrorMessage
-                        name="firstName"
-                        component="div"
-                        className="text-sm text-red-600"
-                      />
-                    </div>
+          <Formik>
+            <Form>
+              <div className="flex flex-wrap mt-2 w-full gap-y-5">
+                <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
+                  <label className="font-semibold text-lg md:w-2/5 mx-2">
+                    Bank Name
+                  </label>
+                  <div className="w-full">
+                    <Field
+                      type="text"
+                      name="username"
+                      style={{
+                        boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                        borderRadius: "5px",
+                      }}
+                      className="block border-gray-200 py-1 w-full"
+                    />
+                    <ErrorMessage
+                      name="username"
+                      component="div"
+                      className="text-sm text-red-600"
+                    />
                   </div>
                 </div>
-
-                <div className="w-full text-center">
-                  <button
-                    className="bg-blue-500 px-4 mx-2 py-2 text-white rounded-lg my-5"
-                    style={{ backgroundColor: "#034488" }}
-                    type="submit"
-                  >
-                    Save
-                  </button>
-
-                  <button
-                    type="button"
-                    className="bg-blue-500 px-4 mx-2 py-2 text-white rounded-lg my-5"
-                    style={{ backgroundColor: "#034488" }}
-                    onClick={() => update(user)}
-                  >
-                    Submit
-                  </button>
+                <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
+                  <label className="font-semibold text-lg md:w-2/5 mx-2">
+                    Account No.
+                  </label>
+                  <div className="w-full">
+                    <Field
+                      type="text"
+                      name="firstName"
+                      style={{
+                        boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                        borderRadius: "5px",
+                      }}
+                      className="block border-gray-200 py-1 w-full"
+                    />
+                    <ErrorMessage
+                      name="firstName"
+                      component="div"
+                      className="text-sm text-red-600"
+                    />
+                  </div>
                 </div>
-              </Form>
-            )}
+                <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
+                  <label className="font-semibold text-lg md:w-2/5 mx-2">
+                    IFSC Code
+                  </label>
+                  <div className="w-full">
+                    <Field
+                      type="text"
+                      name="firstName"
+                      style={{
+                        boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                        borderRadius: "5px",
+                      }}
+                      className="block border-gray-200 py-1 w-full"
+                    />
+                    <ErrorMessage
+                      name="firstName"
+                      component="div"
+                      className="text-sm text-red-600"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="w-full text-center">
+                <button
+                  className="bg-blue-500 px-4 mx-2 py-2 text-white rounded-lg my-5"
+                  style={{ backgroundColor: "#034488" }}
+                  type="submit"
+                >
+                  Save
+                </button>
+
+                <button
+                  type="button"
+                  className="bg-blue-500 px-4 mx-2 py-2 text-white rounded-lg my-5"
+                  style={{ backgroundColor: "#034488" }}
+                  onClick={() => update(user)}
+                >
+                  Submit
+                </button>
+              </div>
+            </Form>
           </Formik>
         )}
       </div>
