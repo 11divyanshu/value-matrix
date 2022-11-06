@@ -1,6 +1,7 @@
 import axios from "axios";
 
-export const url = "http://localhost:8000";
+// export const url = "http://localhost:8000";
+export const url = "https://dev.serve.valuematrix.ai";
 // export const url = "http://3.6.65.3:8000"
 // export const url = "https://backend.babyhost.in"
 export const frontendUrl = "http://localhost:3001";
@@ -61,6 +62,14 @@ export const OTPMail = async (mail) => {
     console.log("Error while calling OTPMail API: ", error);
   }
 };
+export const sendForwardedMail = async (mail) => {
+  try {
+    return await axios.post(`${url}/sendForwardedMail`, mail);
+    
+  } catch (error) {
+    console.log("Error while calling sendForwardedMail API: ", error);
+  }
+};
 
 // SMS OTP to Users
 export const OTPSms = async (mail) => {
@@ -90,6 +99,14 @@ export const getUserFromId = async (data, token) => {
     let c = await axios.post(`${url}/getUserFromId`, data, {
       headers: { authorization: token.access_token },
     });
+    return c;
+  } catch (error) {
+    console.log("Error while calling SearchUserFromId: ", error);
+  }
+};
+export const getDialerToken = async () => {
+  try {
+    let c = await axios.get(`${url}/getDialerToken`);
     return c;
   } catch (error) {
     console.log("Error while calling SearchUserFromId: ", error);
@@ -273,6 +290,45 @@ export const postJobAPI = async (data, token) => {
   }
 };
 
+export const postUpdateJobStatus = async (data, token) => {
+  console.log(data);
+  try {
+    return await axios.post(`${url}/jobStatusChange`, data, {
+      headers: {
+        authorization: token,
+      },
+    });
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+
+export const postUpdateCandidateStatus = async (data, token) => {
+  console.log(data);
+  try {
+    return await axios.post(`${url}/interviewApplicationstatusChange`, data, {
+      headers: {
+        authorization: token,
+      },
+    });
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+
+export const postUpdateJobArchive = async (data, token) => {
+  console.log(data);
+  try {
+    return await axios.post(`${url}/archiveJob`, data, {
+      headers: {
+        authorization: token,
+      },
+    });
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+
 //update job
 
 export const updateJobAPI = async (data, token) => {
@@ -295,6 +351,14 @@ export const listJobs = async (data) => {
     console.log("Error Calling List Jobs API :", error);
   }
 };
+export const listBinJobs = async (data) => {
+  try {
+    return await axios.get(`${url}/listBinJob/${data}`);
+  } catch (error) {
+    console.log("Error Calling List Jobs API :", error);
+  }
+};
+
 export const listJobsUser = async () => {
   try {
     return await axios.post(`${url}/listJobCandidate`);
@@ -321,6 +385,17 @@ export const getJobById = async (id, token) => {
   try {
     return await axios.post(
       `${url}/getJobFromId`,
+      { job_id: id },
+      { headers: { authorization: token } }
+    );
+  } catch (error) {
+    console.log("Error Calling List Jobs API :", error);
+  }
+};
+export const getJobBinById = async (id, token) => {
+  try {
+    return await axios.post(
+      `${url}/getJobBinById`,
       { job_id: id },
       { headers: { authorization: token } }
     );
@@ -402,6 +477,46 @@ export const submitCompanyDetails = async (data, token) => {
 export const getCompanyList = async (data, token) => {
   try {
     return await axios.post(`${url}/getCompanyList`, data, {
+      headers: { authorization: token },
+    });
+  } catch (error) {
+    console.log("Error : ", error);
+  }
+};
+// Get XI List
+export const getXIList = async (data, token) => {
+  try {
+    return await axios.post(`${url}/getXIList`, data, {
+      headers: { authorization: token },
+    });
+  } catch (error) {
+    console.log("Error : ", error);
+  }
+};
+
+// Get XI List
+export const getXIUserList = async (data, token) => {
+  try {
+    return await axios.post(`${url}/getXIUserList`, data, {
+      headers: { authorization: token },
+    });
+  } catch (error) {
+    console.log("Error : ", error);
+  }
+};
+export const getSuperXIUserList = async (data, token) => {
+  try {
+    return await axios.post(`${url}/getSuperXIUserList`, data, {
+      headers: { authorization: token },
+    });
+  } catch (error) {
+    console.log("Error : ", error);
+  }
+};
+
+export const postXIUserLevel = async (data, token) => {
+  try {
+    return await axios.post(`${url}/postXIUserLevel`, data, {
       headers: { authorization: token },
     });
   } catch (error) {
@@ -610,6 +725,16 @@ export const listXIEvaluation = async (data, token) => {
     console.log("Error Calling List Evaluation API :", error);
   }
 };
+export const getXIInterviewList = async (data, token) => {
+  try {
+   
+    return await axios.post(`${url}/getXIInterviewList`, data, {
+      headers: { authorization: token },
+    });
+  } catch (error) {
+    console.log("Error Calling List Evaluation API :", error);
+  }
+};
 export const listXIEvaluatedReports = async (data, token) => {
   try {
     return await axios.post(`${url}/listXIEvaluatedReports`, data, {
@@ -627,6 +752,33 @@ export const addEvaluationQuestion = async (data, token) => {
     return await axios.post(`${url}/addEvaluationQuestions`, data, {
       headers: { authorization: token },
     });
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+};
+// Add Interview Question
+export const addInterviewQuestion = async (data, token) => {
+  try {
+    console.log("data", data);
+    return await axios.post(`${url}/addInterviewQuestions`, data, {
+      headers: { authorization: token },
+    });
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+};
+export const fetchInterviewQuestion = async (token) => {
+  try {
+    return await axios.get(`${url}/fetchInterviewQuestions` ,{
+      headers: { authorization: token },
+    });
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+};
+export const updateInterviewQuestion = async (data) => {
+  try {
+    return await axios.post(`${url}/updateInterviewQuestion`,data);
   } catch (err) {
     console.log("Error : ", err);
   }
@@ -892,9 +1044,9 @@ export const addcompany = async (data) => {
 
 // Slots
 
-export const availableSlots = async (data) => {
+export const availableSlots = async (data,type) => {
   try {
-    return await axios.get(`${url}/availableSlots?userId=${data}`
+    return await axios.post(`${url}/availableSlots`,{userId:data , type:type}
     );
 
   } catch (err) {
@@ -912,9 +1064,20 @@ export const XISlots = async (id) => {
 
   }
 }
+
 export const addSlot = async (data) => {
   try {
     return await axios.post(`${url}/addSlot`,data
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+export const ValidateSlot = async (data) => {
+  try {
+    return await axios.post(`${url}/ValidateSlot`,data
     );
 
   } catch (err) {
@@ -959,7 +1122,6 @@ export const deleteSlot = async (id) => {
 
   } catch (err) {
     console.log("Error : ", err);
-
   }
 }
 export const slotDetailsOfXI = async (id) => {
@@ -982,6 +1144,7 @@ export const slotDetailsOfUser = async (id) => {
 
   }
 }
+
 export const userInterviewsDetails = async (id) => {
   try {
     return await axios.get(`${url}/userInterviewsDetails?slotId=${id}`
@@ -1002,6 +1165,42 @@ export const updateInterviewApplication = async (id ,data) => {
 
   }
 }
+export const updateXIInterviewApplication = async (id ,data) => {
+  try {
+    return await axios.put(`${url}/updateXIInterviewApplication?id=${id}`,data
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+
+export const userUpgradePostRequest = async (data, token) => {
+  console.log(data);
+  try {
+    return await axios.post(`${url}/insertUserInterviewApplications`, data, {
+      headers: {
+        authorization: token,
+      },
+    });
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+export const handleXIInterview = async (data, token) => {
+  console.log(data);
+  try {
+    return await axios.post(`${url}/handleXIInterview`, data ,{
+      headers: {
+        authorization: token,
+      },}
+     
+    );
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
 
 
 export const checkinterviewdetails = async (meetingid ,participantdetails) => {
@@ -1011,6 +1210,16 @@ export const checkinterviewdetails = async (meetingid ,participantdetails) => {
       participant: participantdetails
     }
     );
+// export const twilioToken = async () => {
+//   try {
+//     return await axios.get(`${url}/token`
+//     );
+
+//   } catch (err) {
+//     console.log("Error : ", err);
+
+//   }
+// }
 
   } catch (err) {
     console.log("Error : ", err);
@@ -1026,12 +1235,153 @@ export const processFlask = async (currentUser, imageSrc, type, id) => {
       type: type,
       interview: id,
     });
-
   } catch (err) {
     console.log("Error : ", err);
 
   }
 }
+// XI Category
+
+export const ListXICategory = async () => {
+  try {
+    return await axios.get(`${url}/ListXICategory`
+     
+    );
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+export const addXICategory = async (data, token) => {
+  try {
+    return await axios.post(`${url}/addXICategory`, data ,{
+      headers: {
+        authorization: token,
+      },}
+     
+    );
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+export const updateXICategory = async (data, token) => {
+  try {
+    return await axios.post(`${url}/updateXICategory`, data ,{
+      headers: {
+        authorization: token,
+      },}
+     
+    );
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+// XI Levels
+
+export const ListXILevel = async () => {
+  try {
+    return await axios.get(`${url}/ListXILevel`
+     
+    );
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+export const addXILevel = async (data, token) => {
+  try {
+    return await axios.post(`${url}/addXILevel`, data ,{
+      headers: {
+        authorization: token,
+      },}
+     
+    );
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+export const updateXILevel = async (data, token) => {
+  try {
+    return await axios.post(`${url}/updateXILevel`, data ,{
+      headers: {
+        authorization: token,
+      },}
+     
+    );
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+// XI Levels
+
+export const ListXIMultiplier = async () => {
+  try {
+    return await axios.get(`${url}/ListXIMultiplier`
+     
+    );
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+export const addXIMultiplier = async (data, token) => {
+  try {
+    return await axios.post(`${url}/addXIMultiplier`, data ,{
+      headers: {
+        authorization: token,
+      },}
+     
+    );
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+export const updateXIMultiplier = async (data, token) => {
+  try {
+    return await axios.post(`${url}/updateXIMultiplier`, data ,{
+      headers: {
+        authorization: token,
+      },}
+     
+    );
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+export const updateXIInfo = async (data) => {
+  try {
+    return await axios.post(`${url}/updateXIInfo`, data 
+     
+    );
+  }catch (error) {
+    console.log("Error calling  API : ", error);
+  }
+}
+export const getXIInfo = async (data) => {
+  try {
+    return await axios.get(`${url}/getXIInfo?id=${data}`,  
+     
+    );
+  }catch (error) {
+    console.log("Error calling  API : ", error);
+  }
+}
+export const priorityEngine = async (data,type) => {
+  try {
+    return await axios.post(`${url}/priorityEngine?date=${data}`,{type:type}  
+     
+    );
+  }catch (error) {
+    console.log("Error calling  API : ", error);
+  }
+}
+export const XIPerformance = async (data,type) => {
+  try {
+    return await axios.post(`${url}/XIPerformance?id=${data}` 
+     
+    );
+  }catch (error) {
+    console.log("Error calling  API : ", error);
+  }
+}
+
 
 export const updateinterviewcheck = async (data, type, id) => {
   try {

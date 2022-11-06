@@ -10,7 +10,9 @@ import CompanyForm from "../../Components/CompanyDashboard/CompanyForm";
 
 import { getUserFromId, getUserIdFromToken } from "../../service/api";
 import JobDetails from "../CompanyDashboard/JobDetails.jsx";
+import JobBinDetails from "../CompanyDashboard/pendingJobDetails.jsx";
 import EvaluationDetails from "../CompanyDashboard/evaluationDetails.jsx";
+import CandidateDetails from "../CompanyDashboard/CandidateDetails.jsx";
 import CandidateReport from "../CompanyDashboard/CandidateReport.jsx";
 import "../../assets/stylesheet/layout.scss"
 
@@ -116,6 +118,8 @@ const CompanyDashboard = () => {
         let c1 = component.split("/");
         console.log(id);
         if (c1[1] === "jobDetails") setComponent(<JobDetails id={id} />);
+       else if (c1[1] === "pendingJobDetails") setComponent(<JobBinDetails id={id} />);
+       else if (c1[1] === "candidateDetails") setComponent(<CandidateDetails id={id} />);
        else if (c1[1] === "evaluationDetails") setComponent(<EvaluationDetails id={id} />);
        else if (c1[1] === "candidateReport") setComponent(<CandidateReport/>);
 
@@ -126,7 +130,7 @@ const CompanyDashboard = () => {
            
           );
            console.log(c);
-          if (c.length > 0 && c[0]) setComponent(c[0].component);
+          if (c[0]) setComponent(c[0].component);
           else
             setComponent(
               companyDashboardRoutes.filter(

@@ -113,7 +113,7 @@ const AddCompanyUser = () => {
 
   return (
     <div className="md:p-5 p-3 bg-slate-100">
-      <p className="text-2xl my-5 mx-5 font-bold">Add Company User</p>
+      <p className="text-2xl my-5 mx-10 font-bold">Add Company User</p>
       <div className="w-full">
         <Formik
           initialValues={initialValue}
@@ -155,7 +155,7 @@ const AddCompanyUser = () => {
         >
           {({ values }) => {
             return (
-              <Form className="container bg-white p-5  w-4/5 mx-auto shadow-md">
+              <Form className="container bg-white p-5  w-4/5 shadow-md">
                 <div className="md:w-1/2 md:mx-9 sm:mx-0 md:flex w-full my-3 space-y-1">
 
                   <label htmlFor="username" className="font-semibold text-lg md:w-2/5 w-4/5 lg:mx-5">

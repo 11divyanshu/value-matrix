@@ -31,32 +31,11 @@ const SessionCard = () => {
           <p className="text-lg text-center font-semibold">
             Available Sessions
           </p>
-
         </div>
       </div>
-      <div className="my-3">
-
-        <div className='mx-2  my-4'>
-          <label>  <Moment format="D MMM YYYY" withTitle>
-            {new Date()}
-          </Moment></label>
+      <div className="my-1">
+        <div className='mx-2'>
           <br />
-          <div className='flex my-2 '>
-
-            {slot && slot.map((item, index) => {
-
-              if (new Date(item.startDate).getDate() === new Date().getDate()) {
-                return (
-                  <span className="bg-white border border-gray-400 text-gray-600 text-xs font-semibold mr-2 px-2.5 py-2 rounded-3xl cursor-pointer"
-
-
-
-                  >{new Date(item.startDate).getHours() + ":" + new Date(item.startDate).getMinutes()} - {new Date(item.endDate).getHours() + ":" + new Date(item.endDate).getMinutes()}</span>
-                )
-              }
-
-            })}
-          </div>
           <div className='mx-2  my-4'>
             <label> <Moment format="D MMM YYYY" withTitle add={{ days: 1 }}>{new Date()}</Moment></label>
             <br />
@@ -70,7 +49,6 @@ const SessionCard = () => {
                     >{new Date(item.startDate).getHours() + ":" + new Date(item.startDate).getMinutes()} - {new Date(item.endDate).getHours() + ":" + new Date(item.endDate).getMinutes()}</span>
                   )
                 }
-
               })}
             </div>
           </div>
@@ -78,9 +56,7 @@ const SessionCard = () => {
             <label> <Moment format="D MMM YYYY" withTitle add={{ days: 2 }}>{new Date()}</Moment></label>
             <br />
             <div className='flex my-2 '>
-
               {slot && slot.map((item, index) => {
-
                 if (new Date(item.startDate).getDate() === new Date().getDate() + 2) {
                   return (
                     <span className="bg-white border border-gray-400 text-gray-600 text-xs font-semibold mr-2 px-2.5 py-2 rounded-3xl cursor-pointer"
@@ -88,11 +64,9 @@ const SessionCard = () => {
                     >{new Date(item.startDate).getHours() + ":" + new Date(item.startDate).getMinutes()} - {new Date(item.endDate).getHours() + ":" + new Date(item.endDate).getMinutes()}</span>
                   )
                 }
-
               })}
             </div>
           </div>
-
         </div>
         {/* <button
   className=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"

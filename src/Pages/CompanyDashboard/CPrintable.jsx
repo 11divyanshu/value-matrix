@@ -1,24 +1,106 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState ,Fragment } from 'react'
 import UserAvatar from "../../assets/images/loginBackground.jpeg"
 import { AiOutlineDelete, AiOutlinePrinter } from "react-icons/ai";
 import { BsFillStarFill } from 'react-icons/bs';
 import BarChart from '../../Components/CompanyDashboard/BarChart';
 import RadarChart from '../../Components/CompanyDashboard/RadarChart';
 import StackedChart from '../../Components/CompanyDashboard/StackedChart';
-
+import PrintAble from "../CompanyDashboard/PrintAble";
+import { Dialog, Disclosure, Transition } from "@headlessui/react";
+import { ImCross } from "react-icons/im";
 const CPrintable = () => {
+  const [user, setUser] = useState(null);
+  const [modal, setModal] = React.useState(null);
+
+  useEffect(() => {
+    let user = JSON.parse(localStorage.getItem("user"));
+    setUser(user);
+  }, []);
   return (
     <div>
       <div
         className="flex mx-5 mt-3"
         style={{ justifyContent: "space-between" }}
       >
-        <p className="text-sm flex my-5 mx-5 font-semibold">
-          Hey
+        <p className="text-sm flex my-3 mx-5 font-semibold">
+          Hey {user && user.firstName ? user.firstName : "Company"} 
           <p className="text-gray-400 px-2"> here's what's happening today!</p>
         </p>
+        <button
+              className=" mx-3  lg:px-5 lg:py-3 md:p-3 sm:p-3 text-xs lg:text-lg md:text-sm rounded-md text-white"
+              style={{ backgroundColor: "#034488" }}
+              onClick={() => {
+                setModal(true);
+                
+              }}
+            >
+              Save
+            </button>
 
-      </div>
+      </div>{modal && (
+                <Transition
+                  appear
+                  show={modal}
+                  as={Fragment}
+                  className="relative z-1050 w-full"
+                  style={{ zIndex: 1000 }}
+                >
+                  <Dialog
+                    as="div"
+                    className="relative z-1050 w-5/6"
+                    onClose={() => {}}
+                    static={true}
+                  >
+                    <div
+                      className="fixed inset-0 bg-black/30"
+                      aria-hidden="true"
+                    />
+                    <Transition.Child
+                      as={Fragment}
+                      enter="ease-out duration-300"
+                      enterFrom="opacity-0"
+                      enterTo="opacity-100"
+                      leave="ease-in duration-200"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <div className="fixed inset-0 bg-black bg-opacity-25" />
+                    </Transition.Child>
+
+                    <div className="fixed inset-0 overflow-y-auto ">
+                      <div className="flex min-h-full items-center justify-center p-4 text-center max-w-screen-2xl mx-auto">
+                        <Transition.Child
+                          as={Fragment}
+                          enter="ease-out duration-300"
+                          enterFrom="opacity-0 scale-95"
+                          enterTo="opacity-100 scale-100"
+                          leave="ease-in duration-200"
+                          leaveFrom="opacity-100 scale-100"
+                          leaveTo="opacity-0 scale-95"
+                        >
+                          <Dialog.Panel className="w-full px-7 transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
+                            <div className={`${!modal ? "hidden" : "block"}`}>
+                              <div className="w-full">
+                                <button
+                                  className="bg-[#034488] text-white rounded-sm py-1 mt-5"
+                                  onClick={() => setModal(false)}
+                                  style={{
+                                    backgroundColor: "#fff",
+                                    color: "#034488",
+                                  }}
+                                >
+                                  <ImCross />
+                                </button>
+                                <PrintAble />
+                              </div>
+                            </div>
+                          </Dialog.Panel>
+                        </Transition.Child>
+                      </div>
+                    </div>
+                  </Dialog>
+                </Transition>
+              )}
       <div className='lg:flex mx-5'>
 
 

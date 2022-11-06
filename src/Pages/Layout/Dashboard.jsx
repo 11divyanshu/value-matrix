@@ -119,8 +119,23 @@ const Dashboard = () => {
       }
       if(!user.profileImg || user.tools.length === 0 || !user.linkedInId){
         setDetailForm(true);
-      }
-      else if (
+      }else{
+       if(user.tools.length > 0 &&
+        
+       ( user.education  &&
+       user.education.length > 0) &&
+        (user.association != [] &&
+        user.asscoiation &&
+        user.association.length > 0 ) &&
+       ( user.experience != [] &&
+        user.experience &&
+        user.experience.length > 0)){
+
+          setModalIsOpen(false);
+        localStorage.setItem("modalOnce" ,false);
+        
+        }
+       else if (
         user.tools.length === 0 ||
         user.education === [] ||
         !user.education ||
@@ -132,12 +147,17 @@ const Dashboard = () => {
         !user.experience ||
         user.experience.length === 0
       ) {
+        // localStorage.setItem("modalOnce" ,true);
+
         let modalOnce = await localStorage.getItem("modalOnce");
         console.log(modalOnce);
         if (modalOnce === "null" || modalOnce === null) {
           setModalIsOpen(true);
         }
-      }
+      }else{
+        setModalIsOpen(false);
+        localStorage.setItem("modalOnce" ,false);
+      }}
     };
 
     const func = async () => {

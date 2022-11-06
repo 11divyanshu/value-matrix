@@ -260,39 +260,6 @@ const EditProfile = () => {
     <div className="px-3 h-100 bg-slate-100">
       {user !== null && (
         <div className="m-1">
-          {/* <div
-            className="h-48 w-full -z-[3]"
-            style={{ background: "#99DEFF" }}
-          ></div>
-          <div className="relative  rounded-md w-full py-3 md:flex items-center ">
-            <div className="absolute  sm:left-10 -top-20 md:-top-28 md:left-20 ">
-              <img
-                src={
-                  user && user.profileImg && ProfilePic ? ProfilePic : Avatar
-                }
-                className="sm:h-20 sm:w-20 md:h-56 md:w-56 rounded-full -z-[3]"
-                alt="userAvatar"
-              />
-            </div>
-            <div className=" md:ml-80 md:px-5 text-right md:text-left">
-              <p className="font-semibold md:text-3xl sm:text-xl ">
-                {user.firstName} {user.lastname}
-              </p>
-              <p className="text-gray-400 text-lg">{user.username}</p>
-            </div>
-            <div className="ml-auto mr-0 mt-5 text-right md:text-left">
-              <label>
-                <button
-                  className=" hover:bg-blue-700 text-white text-sm font-bold py-2 mx-3 px-6 rounded"
-                  onClick={() => ModalBtnRef.current.click()}
-                  style={{ backgroundColor: "#034488" }}
-                >
-                  Upload Image
-                </button>
-              </label>
-            </div> */}
-          {/* </div> */}
-
           <div
             className="md:h-48 h-24 w-full relative -z-[0]"
             style={{ background: "#99DEFF" }}

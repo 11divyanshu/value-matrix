@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import JobCard from "../../Components/Dashbaord/JobCard.jsx";
-import { listJobs } from "../../service/api.js";
+import { listJobs,listBinJobs } from "../../service/api.js";
 import { CSVLink } from "react-csv";
 import { Formik, Field, Form } from "formik";
 import { FilterCompany } from "../../service/api.js";
@@ -11,6 +11,7 @@ import { HiOutlineUser } from "react-icons/hi";
 import { Popover, Transition } from "@headlessui/react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import "../../assets/stylesheet/pagination.css";
 const JobList = () => {
   const [jobs, setJobs] = React.useState([]);
   const [loader, setLoader] = React.useState(false);
@@ -20,6 +21,7 @@ const JobList = () => {
   React.useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"));
     setUser(user);
+    // document.getElementById('1').classList.add('page_active')
   }, []);
   const headerso = [
     { label: "job_id", key: "_id" },
@@ -46,6 +48,8 @@ const JobList = () => {
       let c_id = JSON.parse(localStorage.getItem("user"));
       console.log(c_id);
       let res = await listJobs(c_id._id);
+      let binJobs = await listBinJobs(c_id._id);
+      console.log(binJobs);
       console.log(res);
       if (res && res.data) {
         setJobs(res.data.jobs);
@@ -73,7 +77,7 @@ const JobList = () => {
       // await setJobs(res.data.jobs);
       console.log(res.data.jobs);
       let arr = [...res.data.jobs];
-
+      console.log(arr);
       setJobs([]);
       // setLoader(true);
       setLoader(false);
@@ -200,14 +204,11 @@ const JobList = () => {
                 <div className="w-[5vw] py-4 ml-auto px-6">
                   <Link to="/company/jobsAdd">
                     <button
-                      className=" hover:bg-blue-700 flex text-white font-bold py-2 w-full text-sm text-center align-center rounded-lg"
+                      className=" hover:bg-blue-700 rounded-lg text-white p-3"
                       style={{ backgroundColor: "#034488" }}
                     >
-                      <p className="mx-auto flex">
-                        <p className="py-1 px-2 text-lg font-semibold">
-                          {" "}
-                          <AiOutlinePlus />
-                        </p>
+                      <p className="flex">
+                        <AiOutlinePlus />
                       </p>
                     </button>
                   </Link>
@@ -238,7 +239,9 @@ const JobList = () => {
                       jobs.map((job, index) => {
                         return index % 5 == 0 ? (
                           <span
-                            className="mx-2"
+                            className={`mx-2 ${
+                              page == index / 5 + 1 ? "page_active" : ""
+                            }`}
                             style={{ cursor: "pointer" }}
                             onClick={() => {
                               paginate(index / 5 + 1);

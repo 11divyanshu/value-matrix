@@ -15,7 +15,7 @@ import { ChevronUpIcon, StarIcon } from "@heroicons/react/solid";
 import { Disclosure } from "@headlessui/react";
 import Logo from "../../assets/images/logo.png"
 import UserAvatar from "../../assets/images/loginBackground.jpeg"
-import Printable from "../UserDashboard/PrintAble"
+import Printable from "../CompanyDashboard/PrintAble"
 
 const UpdateInterviewApplication = React.forwardRef(({ ...props }, ref) => {
   const { id } = useParams();

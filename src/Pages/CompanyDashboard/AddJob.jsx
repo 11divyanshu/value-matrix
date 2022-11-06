@@ -53,6 +53,7 @@ const AddJob = () => {
   // Skill Set Required For Job
   const [skills, setSkills] = React.useState([]);
   const [error, setError] = React.useState(null);
+  const [access, setAccess] = React.useState(null);
   const [disabled, setDisabled] = React.useState(true);
 
   // Screeing Questions
@@ -265,22 +266,26 @@ const AddJob = () => {
           user_id: user._id,
           salary: [currency, salary, maxSalary],
           questions: questions,
+          draft: false,
+          invitations:selectedData.length > 0 ? selectedData :[],
           ...values,
         },
         access_token
       );
 
-      if (selectedData.length > 0) {
-        let res1 = sendJobInvitations(
-          {
-            job_id: res.data.job._id,
-            candidates: selectedData,
-            user_id: user._id,
-          },
-          access_token
-        );
-      }
+     
       if (res) {
+        // if (selectedData.length > 0) {
+        //   console.log(selectedData)
+        //   let res1 = sendJobInvitations(
+        //     {
+        //       job_id: res.data.job._id,
+        //       candidates: selectedData,
+        //       user_id: user._id,
+        //     },
+        //     access_token
+        //   );
+        // }
         swal({
           title: "Job Posted Successfully !",
           message: "Success",
@@ -291,7 +296,7 @@ const AddJob = () => {
           localStorage.removeItem("postjob");
           localStorage.removeItem("prof");
 
-          window.location.href = "/company/jobs";
+           window.location.href = "/company/jobs";
         });
       } else {
         swal({
@@ -322,6 +327,7 @@ const AddJob = () => {
       let pr1 = JSON.parse(await localStorage.getItem("RolesProf"));
       let user = await JSON.parse(await localStorage.getItem("user"));
       await setUser(user);
+      setAccess(user.access_token);
       let res = await getSkills({ user_id: user._id }, user.access_token);
 
       let roles = new Set();
@@ -981,6 +987,48 @@ const AddJob = () => {
                             className="text-red-600 text-sm w-full"
                           />
                         </div>
+                        {values.jobTitle && <button
+                        onClick={async()=>{
+                          if (job === null) job = {};
+                          job.jobTitle = values.jobTitle;
+                          localStorage.setItem(
+                            "postjob",
+                            JSON.stringify(job)
+                          );
+                           setJob(job);
+                           let res = await postJobAPI(
+                            {
+                              user_id: user._id,
+                              draft:true,
+                              ...values,
+                            },
+                            access
+                          );
+                          if (res) {
+                            swal({
+                              title: "Job Saved to Draft !",
+                              message: "Success",
+                              icon: "success",
+                              button: "Continue",
+                            }).then((result) => {
+                              setLoading(false);
+                              localStorage.removeItem("postjob");
+                              localStorage.removeItem("prof");
+                    
+                              window.location.href = "/company/jobs";
+                            });
+                          } else {
+                            swal({
+                              title: " Error Saving Job !",
+                              message: "OOPS! Error Occured",
+                              icon: "Error",
+                              button: "Ok",
+                            });
+                          }
+                        }}
+                            className="bg-[#034488] px-4 py-1 text-white mx-auto block my-6 rounded-sm">
+                            Save As Draft
+                        </button> }
                         {values.jobTitle &&
                           desc &&
                           selectedCity !== null &&
@@ -988,6 +1036,8 @@ const AddJob = () => {
                           values.jobLocation &&
                           values.validTill &&
                           values.hiringOrganization ? (
+                            <>
+                            
                           <button
                             className="bg-[#034488] px-4 py-1 text-white mx-auto block my-6 rounded-sm"
                             onClick={async () => {
@@ -1032,6 +1082,7 @@ const AddJob = () => {
                           >
                             Next
                           </button>
+                          </>
                         ) : (
                           <button className="bg-[#034388d7] px-4 py-1 text-white mx-auto block my-6 rounded-sm" onClick={() => {
                             if (selectedCity.country === "NULL") {
@@ -1369,6 +1420,57 @@ const AddJob = () => {
                               </div>
                             </div>
                           </div>
+                           <button
+                        onClick={async()=>{
+                          let skills = [];
+
+                          dbSkills.forEach((el, index) => {
+                            if (prof[index] > 0) {
+                              el.proficiency = prof[index];
+                              skills.push(el);
+                            }
+                          });
+                          let job = JSON.parse(localStorage.getItem("postjob"))
+                           let res = await postJobAPI(
+                            { skills:skills,
+                              user_id: user._id,
+                              draft:true,
+                              location:job.location,
+                              jobType:job.jobtype,
+                              jobTitle:job.jobTitle,
+                              jobLocation:job.jobLocation,
+                              jobDesc:job.jobDesc,
+                              hiringOrganization:job.hiringOrganization,
+                              eligibility:job.eligibility,
+                              validTill:job.validTill
+                            },
+                            access
+                          );
+                          if (res) {
+                            swal({
+                              title: "Job Saved to Draft !",
+                              message: "Success",
+                              icon: "success",
+                              button: "Continue",
+                            }).then((result) => {
+                              setLoading(false);
+                              localStorage.removeItem("postjob");
+                              localStorage.removeItem("prof");
+                    
+                              window.location.href = "/company/jobs";
+                            });
+                          } else {
+                            swal({
+                              title: " Error Saving Job !",
+                              message: "OOPS! Error Occured",
+                              icon: "Error",
+                              button: "Ok",
+                            });
+                          }
+                        }}
+                            className="bg-[#034488] px-4 py-1 text-white mx-auto block my-6 rounded-sm">
+                            Save As Draft
+                        </button> 
                         </div>
                         <div className="flex space-x-3 mx-auto justify-center">
                           <button
@@ -2206,6 +2308,60 @@ const AddJob = () => {
           </button>
         </div>
       )}
+      <div>
+      <button
+                        onClick={async()=>{
+                          let skills = [];
+
+                          dbSkills.forEach((el, index) => {
+                            if (prof[index] > 0) {
+                              el.proficiency = prof[index];
+                              skills.push(el);
+                            }
+                          });
+                          let job = JSON.parse(localStorage.getItem("postjob"))
+                           let res = await postJobAPI(
+                            { skills:skills,
+                              user_id: user._id,
+                              draft:true,
+                              location:job.location,
+                              jobType:job.jobtype,
+                              jobTitle:job.jobTitle,
+                              jobLocation:job.jobLocation,
+                              jobDesc:job.jobDesc,
+                              hiringOrganization:job.hiringOrganization,
+                              eligibility:job.eligibility,
+                              validTill:job.validTill,
+                              questions: questions,
+                            },
+                            access
+                          );
+                          if (res) {
+                            swal({
+                              title: "Job Saved to Draft !",
+                              message: "Success",
+                              icon: "success",
+                              button: "Continue",
+                            }).then((result) => {
+                              setLoading(false);
+                              localStorage.removeItem("postjob");
+                              localStorage.removeItem("prof");
+                    
+                              // window.location.href = "/company/jobs";
+                            });
+                          } else {
+                            swal({
+                              title: " Error Saving Job !",
+                              message: "OOPS! Error Occured",
+                              icon: "Error",
+                              button: "Ok",
+                            });
+                          }
+                        }}
+                            className="bg-[#034488] px-4 py-1 text-white mx-auto block my-6 rounded-sm">
+                            Save As Draft
+                        </button> 
+      </div>
       <div className="flex space-x-3 mx-auto justify-center">
         <button
           className="bg-[#034488] px-4 py-1 rounded-sm text-white"
@@ -2385,6 +2541,63 @@ const AddJob = () => {
 
                       </div>
                     </div>
+                    <button
+                        onClick={async()=>{
+                          let skills = [];
+
+                          dbSkills.forEach((el, index) => {
+                            if (prof[index] > 0) {
+                              el.proficiency = prof[index];
+                              skills.push(el);
+                            }
+                          });
+                          let job = JSON.parse(localStorage.getItem("postjob"))
+                           let res = await postJobAPI(
+                            { skills:skills,
+                              user_id: user._id,
+                              draft:true,
+                              location:job.location,
+                              jobType:job.jobtype,
+                              jobTitle:job.jobTitle,
+                              jobLocation:job.jobLocation,
+                              jobDesc:job.jobDesc,
+                              hiringOrganization:job.hiringOrganization,
+                              eligibility:job.eligibility,
+                              validTill:job.validTill,
+                              questions: questions,
+                              showComLogo : values.values.logo,
+                              showComName : values.values.title,
+                              showEducation : values.values.education,
+                              showContact : values.values.contact,
+                              showEmail : values.values.email,
+                            },
+                            access
+                          );
+                          if (res) {
+                            swal({
+                              title: "Job Saved to Draft !",
+                              message: "Success",
+                              icon: "success",
+                              button: "Continue",
+                            }).then((result) => {
+                              setLoading(false);
+                              localStorage.removeItem("postjob");
+                              localStorage.removeItem("prof");
+                    
+                              // window.location.href = "/company/jobs";
+                            });
+                          } else {
+                            swal({
+                              title: " Error Saving Job !",
+                              message: "OOPS! Error Occured",
+                              icon: "Error",
+                              button: "Ok",
+                            });
+                          }
+                        }}
+                            className="bg-[#034488] px-4 py-1 text-white mx-auto block my-6 rounded-sm">
+                            Save As Draft
+                        </button> 
 
                     <div className="">
                       <button
@@ -2633,7 +2846,52 @@ const AddJob = () => {
                         </div>
                       </div>
                     </div>
+                    <button
+                        onClick={async()=>{
+                          let skills = [];
 
+                          dbSkills.forEach((el, index) => {
+                            if (prof[index] > 0) {
+                              el.proficiency = prof[index];
+                              skills.push(el);
+                            }
+                          });
+                          let job = JSON.parse(localStorage.getItem("postjob"))
+                           let res = await postJobAPI(
+                            { skills:skills,
+                              user_id: user._id,
+                              draft:true,
+                            
+                              questions: questions,
+                              ...job,
+                            },
+                            access
+                          );
+                          if (res) {
+                            swal({
+                              title: "Job Saved to Draft !",
+                              message: "Success",
+                              icon: "success",
+                              button: "Continue",
+                            }).then((result) => {
+                              setLoading(false);
+                              localStorage.removeItem("postjob");
+                              localStorage.removeItem("prof");
+                    
+                              // window.location.href = "/company/jobs";
+                            });
+                          } else {
+                            swal({
+                              title: " Error Saving Job !",
+                              message: "OOPS! Error Occured",
+                              icon: "Error",
+                              button: "Ok",
+                            });
+                          }
+                        }}
+                            className="bg-[#034488] px-4 py-1 text-white mx-auto block my-6 rounded-sm">
+                            Save As Draft
+                        </button> 
                     <div className="">
                       <button
                         className="mx-auto bg-[#034488] px-4 py-1 text-white rounded-sm"

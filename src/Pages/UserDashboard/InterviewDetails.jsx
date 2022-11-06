@@ -18,14 +18,15 @@ import {
   updateSlot,
   bookSlot,
   availableSlots,
-  findCandidateByEmail
+  findCandidateByEmail,
 } from "../../service/api";
 import { Fragment } from "react";
-import { Popover, Transition,Dialog } from "@headlessui/react";
+import { Popover, Transition, Dialog } from "@headlessui/react";
 import swal from "sweetalert";
 import Loader from "../../assets/images/loader.gif";
-import Moment from 'react-moment';
-import DatePicker from 'react-date-picker';
+import Moment from "react-moment";
+import DatePicker from "react-date-picker";
+import Rating from "../../Components/Dashbaord/Rating";
 
 function JobDetails(props) {
   const [job_id, setJobId] = React.useState(props.id);
@@ -43,9 +44,9 @@ function JobDetails(props) {
   const [smsOTP, setsmsOTP] = React.useState("");
   const [candidate, setCandidate] = React.useState(null);
 
-  const handleOTP = (e)=>{
+  const handleOTP = (e) => {
     setsmsOTP(e.target.value);
- }
+  };
   React.useEffect(() => {
     const getData = async () => {
       // let access_token = ReactSession.get("access_token");
@@ -54,7 +55,7 @@ function JobDetails(props) {
       await setUser(user);
       // let res = await getJobById(job_id, access_token);
       let res = await userInterviewsDetails(props.id);
-console.log(props)
+      console.log(props);
       let slots = await availableSlots(user._id);
       console.log(slots.data);
       setSlot(slots.data);
@@ -62,9 +63,9 @@ console.log(props)
       let candidate = await findCandidateByEmail(user.email);
       console.log(candidate);
 
-      setCandidate(candidate.data[0]);  
+      setCandidate(candidate.data[0]);
 
-      console.log(res)
+      console.log(res);
       let primarySkills = {};
       let roles = new Set([]);
       if (res.data[0].job[0].skills) {
@@ -75,8 +76,8 @@ console.log(props)
           } else {
             primarySkills[skill.role] = new Set([skill.primarySkill]);
           }
-        })
-      };
+        });
+      }
       setRoles(Array.from(roles));
       Array.from(roles).map((el) => {
         primarySkills[el] = Array.from(primarySkills[el]);
@@ -95,76 +96,80 @@ console.log(props)
       __html: DOMPurify.sanitize(html),
     };
   };
-  
 
   return (
- 
     <div className="w-full p-5 h-full bg-slate-100">
-       {otpModal &&
-          <Transition
-            appear
-            show={otpModal}
-            as={Fragment}
-            className="relative z-10 w-full "
-            style={{ zIndex: 1000 }}
+      {otpModal && (
+        <Transition
+          appear
+          show={otpModal}
+          as={Fragment}
+          className="relative z-10 w-full "
+          style={{ zIndex: 1000 }}
+        >
+          <Dialog
+            as="div"
+            className="relative z-10 w-5/6 "
+            onClose={() => { }}
+            static={true}
           >
-            <Dialog
-              as="div"
-              className="relative z-10 w-5/6 "
-              onClose={() => { }}
-              static={true}
+            <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
             >
-              <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
-              >
-                <div className="fixed inset-0 bg-black bg-opacity-25" />
-              </Transition.Child>
+              <div className="fixed inset-0 bg-black bg-opacity-25" />
+            </Transition.Child>
 
-              <div className="fixed inset-0 overflow-y-auto ">
-                <div className="flex min-h-full items-center justify-center p-4 text-center max-w-4xl mx-auto">
-                  <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0 scale-95"
-                    enterTo="opacity-100 scale-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100 scale-100"
-                    leaveTo="opacity-0 scale-95"
-                  >
-                    <Dialog.Panel className="w-full  px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle  transition-all h-[30vh]">
+            <div className="fixed inset-0 overflow-y-auto ">
+              <div className="flex min-h-full items-center justify-center p-4 text-center max-w-4xl mx-auto">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 scale-95"
+                  enterTo="opacity-100 scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 scale-100"
+                  leaveTo="opacity-0 scale-95"
+                >
+                  <Dialog.Panel className="w-full  px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle  transition-all h-[30vh]">
+                    <p>Enter OTP</p>
+                    <input
+                      type="number"
+                      name="smsOTP"
+                      onChange={handleOTP}
+                      placeholder="Email OTP"
+                      className="w-full"
+                      style={{ borderRadius: "12px", marginTop: "10px" }}
+                    ></input>
+                    <div className="flex my-3">
+                      <button
+                        className=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
+                        style={{ backgroundColor: "#034488" }}
+                        onClick={async () => {
+                          console.log(smsOTP);
+                          console.log(otp);
 
-                      <p>Enter OTP</p>
-                      <input
-                        type="number"
-                        name="smsOTP"
-                        onChange={handleOTP}
-                        placeholder="Email OTP"
-                        className="w-full"
-                        style={{ borderRadius: "12px", marginTop: "10px" }}
-                      ></input>
-                      <div className="flex my-3">
-                        <button
-                          className=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
-                          style={{ backgroundColor: "#034488" }}
-                          onClick={async() => {
-                            
-                            console.log(smsOTP);
-                            console.log(otp);
+                          if (smsOTP == otp) {
+                            console.log(user._id);
+                            let deleteSlot = await updateSlot(props.id, {
+                              userId: null,
+                              status: "Available",
+                              interviewId: null,
+                            });
+                            let update = await updateSlot(slotId, {
+                              userId: user._id,
+                              status: "Pending",
+                              interviewId: job.interviewId,
+                            });
 
-                            if (smsOTP == otp) {
-                              console.log(user._id)
-                              let deleteSlot = await updateSlot(props.id, { userId:null , status:"Available" , interviewId : null});
-                              let update = await updateSlot(slotId, { userId:user._id , status:"Pending" , interviewId : job.interviewId});
-
-                              // handleJobInvitation(invitation, true);
-                              if(update.status == 200){
+                            // handleJobInvitation(invitation, true);
+                            if (update.status == 200) {
                               swal({
                                 title: "Interview Rescheduled Successfully !",
                                 message: "Success",
@@ -173,129 +178,170 @@ console.log(props)
                               }).then((result) => {
                                 window.location.href = "/user/interviews";
                                 setslotId(null);
-                                 setotpModal(false);
+                                setotpModal(false);
                               });
                             }
-                            }else{
-                              swal({
-                                title: "Invalid OTP !",
-                                message: "Error",
-                                icon: "error",
-                                button: "Continue",
-                              })
-                            }
-                          }}>Submit</button>
-                          <button
-                            className=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
-                            style={{ backgroundColor: "#034488" }} onClick={async() => { 
+                          } else {
+                            swal({
+                              title: "Invalid OTP !",
+                              message: "Error",
+                              icon: "error",
+                              button: "Continue",
+                            });
+                          }
+                        }}
+                      >
+                        Submit
+                      </button>
+                      <button
+                        className=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
+                        style={{ backgroundColor: "#034488" }}
+                        onClick={async () => {
+                          let resend = await updateContactOTP(
+                            { contact: user.contact },
+                            { access_token: user.access_token }
+                          );
+                          console.log(resend.otp);
+                          setotp(resend.otp);
+                        }}
+                      >
+                        Resend OTP
+                      </button>
 
-                              let resend = await updateContactOTP({contact :user.contact} , {access_token : user.access_token})
-                              console.log(resend.otp)
-                              setotp(resend.otp)
-                            }}>Resend OTP</button>
-                          
-                           <button
-                            className=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
-                            style={{ backgroundColor: "#034488" }} onClick={() => { setotpModal(false) }}>Cancel</button></div>
-                    </Dialog.Panel>
-                  </Transition.Child>
-                </div>
+                      <button
+                        className=" hover:bg-blue-700 text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
+                        style={{ backgroundColor: "#034488" }}
+                        onClick={() => {
+                          setotpModal(false);
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </Dialog.Panel>
+                </Transition.Child>
               </div>
-            </Dialog>
-          </Transition>}
+            </div>
+          </Dialog>
+        </Transition>
+      )}
 
-        {chooseSlot &&
-          <Transition
-            appear
-            show={chooseSlot}
-            as={Fragment}
-            className="relative z-10 w-full "
-            style={{ zIndex: 1000 }}
+      {chooseSlot && (
+        <Transition
+          appear
+          show={chooseSlot}
+          as={Fragment}
+          className="relative z-10 w-full "
+          style={{ zIndex: 1000 }}
+        >
+          <Dialog
+            as="div"
+            className="relative z-10 w-5/6 "
+            onClose={() => { }}
+            static={true}
           >
-            <Dialog
-              as="div"
-              className="relative z-10 w-5/6 "
-              onClose={() => { }}
-              static={true}
+            <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
             >
-              <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
-              >
-                <div className="fixed inset-0 bg-black bg-opacity-25" />
-              </Transition.Child>
+              <div className="fixed inset-0 bg-black bg-opacity-25" />
+            </Transition.Child>
 
-              <div className="fixed inset-0 overflow-y-auto ">
-                <div className="flex min-h-full items-center justify-center p-4 text-center max-w-4xl mx-auto">
-                  <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0 scale-95"
-                    enterTo="opacity-100 scale-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100 scale-100"
-                    leaveTo="opacity-0 scale-95"
-                  >
-                    <Dialog.Panel className="w-full  px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle  transition-all h-[65vh]">
-                      <div className=" px-3 py-5 rounded-lg bg-white w-full">
-                        <div className="flex items-start space-x-3 	">
-                          {/* <AiFillCalendar className="text-4xl text-gray-700" /> */}
-                          <div className='py-1 mx-3 flex'>
-                            <p className="text-lg text-center font-semibold">
-                              Available Slots
-                            </p>
-                            <p onClick={() => { setchooseSlot(false) }}>Close</p>
+            <div className="fixed inset-0 overflow-y-auto ">
+              <div className="flex min-h-full items-center justify-center p-4 text-center max-w-4xl mx-auto">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 scale-95"
+                  enterTo="opacity-100 scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 scale-100"
+                  leaveTo="opacity-0 scale-95"
+                >
+                  <Dialog.Panel className="w-full  px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle  transition-all h-[65vh]">
+                    <div className=" px-3 py-5 rounded-lg bg-white w-full">
+                      <div className="flex items-start space-x-3 	">
+                        {/* <AiFillCalendar className="text-4xl text-gray-700" /> */}
+                        <div className="py-1 mx-3 flex">
+                          <p className="text-lg text-center font-semibold">
+                            Available Slots
+                          </p>
+                          <p
+                            onClick={() => {
+                              setchooseSlot(false);
+                            }}
+                          >
+                            Close
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-start space-x-3 	">
+                        {/* <AiFillCalendar className="text-4xl text-gray-700" /> */}
+                        <div className="py-1 mx-3 flex">
+                          <p className="text-lg text-center font-semibold">
+                            <DatePicker
+                              onChange={setStartTime}
+                              value={startTime}
+                              disableClock
+                            />
+                          </p>
+                        </div>
+                      </div>
+                      <div className="my-3">
+                        <div className="mx-2  my-4">
+                          <label>
+                            <Moment format="D MMM YYYY" withTitle>
+                              {new Date(startTime)}
+                            </Moment>
+                          </label>
+                          <br />
+                          <div className="flex my-2 ">
+                            {slot &&
+                              slot.map((item, index) => {
+                                if (
+                                  new Date(item.startDate).getDate() ===
+                                  new Date(startTime).getDate()
+                                ) {
+                                  return (
+                                    <span
+                                      className="bg-white border border-gray-400 text-gray-600 text-xs font-semibold mr-2 px-2.5 py-2 rounded-3xl cursor-pointer"
+                                      onClick={async () => {
+                                        let res = await bookSlot({
+                                          candidate_id: candidate.candidate_id,
+                                          slotId: item._id,
+                                        });
+                                        console.log(res);
+                                        if (res && res.status === 200) {
+                                          setchooseSlot(false);
+                                          setotpModal(true);
+                                          setotp(res.data.OTP);
+                                          setslotId(item._id);
+                                        }
+                                      }}
+                                    >
+                                      {new Date(item.startDate).getHours() +
+                                        ":" +
+                                        new Date(
+                                          item.startDate
+                                        ).getMinutes()}{" "}
+                                      -{" "}
+                                      {new Date(item.endDate).getHours() +
+                                        ":" +
+                                        new Date(item.endDate).getMinutes()}
+                                    </span>
+                                  );
+                                }
+                              })}
                           </div>
                         </div>
-                        <div className="flex items-start space-x-3 	">
-                            {/* <AiFillCalendar className="text-4xl text-gray-700" /> */}
-                            <div className='py-1 mx-3 flex'>
-                                <p className="text-lg text-center font-semibold">
-                                <DatePicker onChange={setStartTime} value={startTime} disableClock/>
-                                </p>
-                            </div>
-                        </div>
-                        <div className="my-3">
-
-                            <div className='mx-2  my-4'>
-                                <label> 
-                                   <Moment format="D MMM YYYY" withTitle>
-                                    {new Date(startTime)}
-                                </Moment></label>
-                                <br />
-                                <div className='flex my-2 '>
-
-                                    {slot && slot.map((item, index) => {
-
-                                        if (new Date(item.startDate).getDate() === new Date(startTime).getDate()) {
-                                            return (
-                                                <span className="bg-white border border-gray-400 text-gray-600 text-xs font-semibold mr-2 px-2.5 py-2 rounded-3xl cursor-pointer"
-                                                    onClick={async () => {
-                                                        let res = await bookSlot({ candidate_id: candidate.candidate_id, slotId: item._id });
-                                                        console.log(res)
-                                                        if (res && res.status === 200) {
-                                                            setchooseSlot(false);
-                                                            setotpModal(true);
-                                                            setotp(res.data.OTP)
-                                                            setslotId(item._id);
-                                                        }
-                                                    }}
-
-                                                >{new Date(item.startDate).getHours() + ":" + new Date(item.startDate).getMinutes()} - {new Date(item.endDate).getHours() + ":" + new Date(item.endDate).getMinutes()}</span>
-                                            )
-                                        }
-
-                                    })}
-                                </div>
-                            </div>
-                        </div>
-                        {/* <div className="my-3">
+                      </div>
+                      {/* <div className="my-3">
 
                           <div className='mx-2  my-4'>
                             <label>  <Moment format="D MMM YYYY" withTitle>
@@ -333,17 +379,16 @@ console.log(props)
 
                         </div>
                       </div> */}
-                      </div>
-                    </Dialog.Panel>
-                  </Transition.Child>
-                </div>
+                    </div>
+                  </Dialog.Panel>
+                </Transition.Child>
               </div>
-            </Dialog>
-          </Transition>}
+            </div>
+          </Dialog>
+        </Transition>
+      )}
       {job ? (
         <>
-        
-
           <div
             className="card my-5 w-full p-5 bg-white "
             style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px" }}
@@ -417,8 +462,12 @@ console.log(props)
 
                     {job.job[0].salary && job.job[0].salary.length >= 2 && (
                       <p className="px-4 text-md text-gray-400 font-semibold">
-                        {job.job[0].salary[0].symbol} {job.job[0].salary[1]} {job.job[0].salary.length === 3 && (<span>- {job.job[0].salary[2]}</span>)}
-                      </p>)}
+                        {job.job[0].salary[0].symbol} {job.job[0].salary[1]}{" "}
+                        {job.job[0].salary.length === 3 && (
+                          <span>- {job.job[0].salary[2]}</span>
+                        )}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -430,8 +479,6 @@ console.log(props)
                                ${open ? "" : "text-opacity-90"
                           } focus:outline-0`}
                       >
-
-
                         <BsThreeDots className="text-gray-700 text-lg mt-5 cursor-pointer hover:text-gray-800" />
                       </Popover.Button>
                       <Transition
@@ -462,7 +509,6 @@ console.log(props)
                     </>
                   )}
                 </Popover>
-
               </div>
             </div>
             <div className="card-body px-7 w-4/5">
@@ -507,7 +553,7 @@ console.log(props)
                           {skillsPrimary[item].map((el) => (
                             <div>
                               <p className="text-sm my-2">{el}</p>
-                              {job.skills
+                              {job.skills && job.skills
                                 .filter(
                                   (tool) =>
                                     tool.role === item &&
@@ -539,7 +585,6 @@ console.log(props)
                 {/* <p className="card-text font-semibold p-4">{job.jobDesc}</p> */}
               </div>
 
-
               <div className="grid grid-cols-1  items-center lg:grid-cols-6 relative py-3">
                 <div className="px-5 my-2 text-md col-span-2 space-y-1">
                   <p>
@@ -550,20 +595,35 @@ console.log(props)
                     </span>
                   </p>
                   <p>
-                    <span className="font-semibold">Job : </span> {job.job[0].jobTitle}
+                    <span className="font-semibold">Job : </span>{" "}
+                    {job.job[0].jobTitle}
                   </p>
-                  <p className="text-sm"><span className="font-semibold">Interview Id :</span>{job.interviewId}</p>
+                  <p className="text-sm">
+                    <span className="font-semibold">Interview Id :</span>
+                    {job.interviewId}
+                  </p>
                 </div>
                 <div className="px-5 my-2 text-md">
-                  <p>   {new Date(job.startDate).getDate() +
-                    "-" +
-                    (new Date(job.startDate).getMonth() + 1) +
-                    "-" +
-                    new Date(job.startDate).getFullYear()}</p>
+                  <p>
+                    {" "}
+                    {new Date(job.startDate).getDate() +
+                      "-" +
+                      (new Date(job.startDate).getMonth() + 1) +
+                      "-" +
+                      new Date(job.startDate).getFullYear()}
+                  </p>
                   <p className="text-gray-400 text-sm">Tuesday</p>
                 </div>
                 <div className="px-5 my-2 text-md">
-                  <p>{new Date(job.startDate).getHours() + ":" + new Date(job.startDate).getMinutes()} - {new Date(job.endDate).getHours() + ":" + new Date(job.endDate).getMinutes()}</p>
+                  <p>
+                    {new Date(job.startDate).getHours() +
+                      ":" +
+                      new Date(job.startDate).getMinutes()}{" "}
+                    -{" "}
+                    {new Date(job.endDate).getHours() +
+                      ":" +
+                      new Date(job.endDate).getMinutes()}
+                  </p>
                   <p className="text-red-400 text-xs">
                     <Moment toNow>{new Date(job.startDate)}</Moment>
                   </p>
@@ -579,13 +639,32 @@ console.log(props)
                             <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
                               Update
                             </span></Link> */}
-                  </div></div>
-
+                  </div>
+                </div>
               </div>
+              {job.status === "Interviewed" &&
+                (<div> <Rating id={job.interviewId} interviewer={job.XI[0]._id}/>
 
+                  <div className="flex mx-5 my-5">
+                    <div className="">
+                      <h2 className="font-semibold my-2">Comment</h2>
+                      <input type="text" name="" id="" />
+                    </div>
+                    <div className="my-8">
+                      <button
+                        className="shadow-lg rounded-md mx-5 px-6 py-3 "
+                        style={{ backgroundColor: "#034488", color: "#fff" }}
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  </div>
+                </div>
 
-
+                )
+              }
             </div>
+
             <div className="text-right">
               <button
                 className="shadow-lg rounded-md mx-5 my-4 px-6 py-2"
@@ -598,22 +677,23 @@ console.log(props)
                     buttons: true,
                     dangerMode: true,
                   }).then(async (willDelete) => {
-                      if (willDelete) {
-                        let res = await updateSlot(job._id , {userId:null , interviewId:null , status:"Available"});
-                        console.log(res)
-                        if (res.status === 200) {
-                          swal("Slot has been Deleted", {
-                            title: "Slot Removed",
-                            icon: "success",
-                          });
-                          window.location.href="/user/interviews"
-              
-                          }
-              
-                        
-                        }
-                      })
-                                   }}
+                    if (willDelete) {
+                      let res = await updateSlot(job._id, {
+                        userId: null,
+                        interviewId: null,
+                        status: "Available",
+                      });
+                      console.log(res);
+                      if (res.status === 200) {
+                        swal("Slot has been Deleted", {
+                          title: "Slot Removed",
+                          icon: "success",
+                        });
+                        window.location.href = "/user/interviews";
+                      }
+                    }
+                  });
+                }}
               // onClick={() => applyFilter(values)}
               >
                 Cancel Interview
@@ -630,12 +710,13 @@ console.log(props)
                 Reschedule Interview
               </button>
             </div>
-
           </div>
         </>
-      ) :
-        (<div className="text-center w-full py-5 text-2xl"><img src={Loader} alt="loader" className="h-24 mx-auto" /></div>)
-      }
+      ) : (
+        <div className="text-center w-full py-5 text-2xl">
+          <img src={Loader} alt="loader" className="h-24 mx-auto" />
+        </div>
+      )}
     </div>
   );
 }

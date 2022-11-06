@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef,Fragment } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getCandidateEvaluation, getUser, updateEvaluation } from "../../service/api";
 import { CgWorkAlt } from "react-icons/cg";
@@ -8,12 +8,14 @@ import { Formik, Form, ErrorMessage, Field } from "formik";
 import { AiTwotoneStar, AiOutlineStar, AiOutlinePrinter } from "react-icons/ai";
 import { RiEditBoxLine } from "react-icons/ri";
 import { AiOutlineDelete ,AiOutlineDown} from "react-icons/ai";
-import { useReactToPrint } from "react-to-print";
-
+import ReactToPrint,{ useReactToPrint } from "react-to-print";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import swal from "sweetalert";
 import { IoTerminalSharp } from "react-icons/io5";
-
+import { Button } from "@mui/material";
+import PrintAble from "../CompanyDashboard/PrintAble";
+import { Dialog, Disclosure, Transition } from "@headlessui/react";
+import { ImCross } from "react-icons/im";
 const UpdateInterviewApplication = () => {
   const { id } = useParams();
   const [interview, setInterview] = React.useState(null);
@@ -28,6 +30,7 @@ const UpdateInterviewApplication = () => {
   const [skillSet, setSkillSet] = React.useState([]);
   const [primarySkills, setPrimarySkills] = React.useState([]);
 
+  const [modal, setModal] = React.useState(null);
 
   const [user, setUser] = React.useState(null);
   const [candidate, setCandidate] = React.useState(null);
@@ -37,6 +40,24 @@ const UpdateInterviewApplication = () => {
     content: () => componentRef.current,
     documentTitle: "Evaluation Report"
   })
+
+  const pageStyle = `
+  @page {
+    size: 8000mm 5000mm;
+  }
+
+  @media all {
+    .pagebreak {
+      display: none;
+    }
+  }
+
+  @media print {
+    .pagebreak {
+      page-break-before: always;
+    }
+  }
+`;
 
   React.useEffect(() => {
     let initial = async () => {
@@ -62,7 +83,12 @@ const UpdateInterviewApplication = () => {
   }, []);
 
   return (
-    <div className="bg-slate-100" ref={componentRef}>
+    <>
+    <ReactToPrint
+          trigger={() => <Button>Print this out!</Button>}
+          content={() => componentRef}
+        />
+    <div className="bg-slate-100">
       <div className="mx-5 mt-3 md:p-5 p-1">
         <div className="flex justify-between">
           <p className="font-bold text-2xl ">Interview Details</p>
@@ -71,14 +97,9 @@ const UpdateInterviewApplication = () => {
           )}
 
           {/* <button onClick={openPdf} >Print</button> */}
-          <button
-            className=" hover:bg-blue-700 text-white font-bold py-2 px-8 md:mx-6 sm:mx-0 text-xl rounded"
-            style={{ backgroundColor: "#034488" }}
-            onClick={openPdf}
-          >
-            <AiOutlinePrinter />
-          </button>
-        </div>
+         
+          
+        </div>  
         {!loading && (
           <div >
             {interview && (
@@ -86,6 +107,214 @@ const UpdateInterviewApplication = () => {
                 <span className="font-semibold">Interview Id : </span>{" "}
                 {interview.application._id}
               </p>
+            )}
+            {candidate && (
+              <div className="my-5 mt-8">
+                <p className="my-3 text-lg font-semibold">Candidate Details</p>
+                <div className="w-full  bg-white border border-b bg-white md:px-9 px-3 mx-1 py-6 border space-y-2">
+                  <p>
+                    <span className="font-semibold">Name :</span>{" "}
+                    {candidate.firstName}{" "}
+                    {candidate.lastname}
+                  </p>
+                  <div className="w-1/2 flex flex-wrap justify-between">
+                    {candidate.email && (
+                      <p>
+                        <span className="font-semibold">Email :</span>{" "}
+                        {candidate.email}
+                      </p>
+                    )}
+                    {candidate.contact && (
+                      <p>
+                        <span className="font-semibold">Contact :</span>{" "}
+                        {candidate.contact}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+            {candidate && (
+              <div className="my-5 mt-8">
+                <p className="my-3 text-lg font-semibold">Candidate Details</p>
+                <div className="w-full  bg-white border border-b bg-white md:px-9 px-3 mx-1 py-6 border space-y-2">
+                  <p>
+                    <span className="font-semibold">Name :</span>{" "}
+                    {candidate.firstName}{" "}
+                    {candidate.lastname}
+                  </p>
+                  <div className="w-1/2 flex flex-wrap justify-between">
+                    {candidate.email && (
+                      <p>
+                        <span className="font-semibold">Email :</span>{" "}
+                        {candidate.email}
+                      </p>
+                    )}
+                    {candidate.contact && (
+                      <p>
+                        <span className="font-semibold">Contact :</span>{" "}
+                        {candidate.contact}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+            {candidate && (
+              <div className="my-5 mt-8">
+                <p className="my-3 text-lg font-semibold">Candidate Details</p>
+                <div className="w-full  bg-white border border-b bg-white md:px-9 px-3 mx-1 py-6 border space-y-2">
+                  <p>
+                    <span className="font-semibold">Name :</span>{" "}
+                    {candidate.firstName}{" "}
+                    {candidate.lastname}
+                  </p>
+                  <div className="w-1/2 flex flex-wrap justify-between">
+                    {candidate.email && (
+                      <p>
+                        <span className="font-semibold">Email :</span>{" "}
+                        {candidate.email}
+                      </p>
+                    )}
+                    {candidate.contact && (
+                      <p>
+                        <span className="font-semibold">Contact :</span>{" "}
+                        {candidate.contact}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+            {candidate && (
+              <div className="my-5 mt-8">
+                <p className="my-3 text-lg font-semibold">Candidate Details</p>
+                <div className="w-full  bg-white border border-b bg-white md:px-9 px-3 mx-1 py-6 border space-y-2">
+                  <p>
+                    <span className="font-semibold">Name :</span>{" "}
+                    {candidate.firstName}{" "}
+                    {candidate.lastname}
+                  </p>
+                  <div className="w-1/2 flex flex-wrap justify-between">
+                    {candidate.email && (
+                      <p>
+                        <span className="font-semibold">Email :</span>{" "}
+                        {candidate.email}
+                      </p>
+                    )}
+                    {candidate.contact && (
+                      <p>
+                        <span className="font-semibold">Contact :</span>{" "}
+                        {candidate.contact}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+            {candidate && (
+              <div className="my-5 mt-8">
+                <p className="my-3 text-lg font-semibold">Candidate Details</p>
+                <div className="w-full border-b bg-white md:px-9 px-3 mx-1 py-6 border space-y-2">
+                  <p>
+                    <span className="font-semibold">Name :</span>{" "}
+                    {candidate.firstName}{" "}
+                    {candidate.lastname}
+                  </p>
+                  <div className="w-1/2 flex flex-wrap justify-between">
+                    {candidate.email && (
+                      <p>
+                        <span className="font-semibold">Email :</span>{" "}
+                        {candidate.email}
+                      </p>
+                    )}
+                    {candidate.contact && (
+                      <p>
+                        <span className="font-semibold">Contact :</span>{" "}
+                        {candidate.contact}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+            {candidate && (
+              <div className="my-5 mt-8">
+                <p className="my-3 text-lg font-semibold">Candidate Details</p>
+                <div className="w-full  bg-white border border-b bg-white md:px-9 px-3 mx-1 py-6 border space-y-2">
+                  <p>
+                    <span className="font-semibold">Name :</span>{" "}
+                    {candidate.firstName}{" "}
+                    {candidate.lastname}
+                  </p>
+                  <div className="w-1/2 flex flex-wrap justify-between">
+                    {candidate.email && (
+                      <p>
+                        <span className="font-semibold">Email :</span>{" "}
+                        {candidate.email}
+                      </p>
+                    )}
+                    {candidate.contact && (
+                      <p>
+                        <span className="font-semibold">Contact :</span>{" "}
+                        {candidate.contact}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+            {candidate && (
+              <div className="my-5 mt-8">
+                <p className="my-3 text-lg font-semibold">Candidate Details</p>
+                <div className="w-full  bg-white border border-b bg-white md:px-9 px-3 mx-1 py-6 border space-y-2">
+                  <p>
+                    <span className="font-semibold">Name :</span>{" "}
+                    {candidate.firstName}{" "}
+                    {candidate.lastname}
+                  </p>
+                  <div className="w-1/2 flex flex-wrap justify-between">
+                    {candidate.email && (
+                      <p>
+                        <span className="font-semibold">Email :</span>{" "}
+                        {candidate.email}
+                      </p>
+                    )}
+                    {candidate.contact && (
+                      <p>
+                        <span className="font-semibold">Contact :</span>{" "}
+                        {candidate.contact}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+            {candidate && (
+              <div className="my-5 mt-8">
+                <p className="my-3 text-lg font-semibold">Candidate Details</p>
+                <div className="w-full  bg-white border border-b bg-white md:px-9 px-3 mx-1 py-6 border space-y-2">
+                  <p>
+                    <span className="font-semibold">Name :</span>{" "}
+                    {candidate.firstName}{" "}
+                    {candidate.lastname}
+                  </p>
+                  <div className="w-1/2 flex flex-wrap justify-between">
+                    {candidate.email && (
+                      <p>
+                        <span className="font-semibold">Email :</span>{" "}
+                        {candidate.email}
+                      </p>
+                    )}
+                    {candidate.contact && (
+                      <p>
+                        <span className="font-semibold">Contact :</span>{" "}
+                        {candidate.contact}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
             )}
             {candidate && (
               <div className="my-5 mt-8">
@@ -554,6 +783,7 @@ return (<div className="py-1 block">
         )}
       </div>
     </div>
+    </>
   );
 };
 

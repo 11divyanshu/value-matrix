@@ -1,7 +1,7 @@
 import React from "react";
 import { ReactSession } from "react-client-session";
 import { Formik, Form, Field } from "formik";
-import { getProfileImage } from "../../service/api";
+import { getProfileImage,getXIInfo } from "../../service/api";
 import { BiErrorCircle } from "react-icons/bi";
 import { TiTick } from "react-icons/ti";
 // Assets
@@ -16,14 +16,23 @@ const UserProfile = () => {
 
   // Access Token And User State
   const [user, setUser] = React.useState();
+  const [level, setLevel] = React.useState(null);
   const [profileImg, setProfileImg] = React.useState(null);
 
   // Sets User and AccessToken from SessionStorage
 
   React.useEffect(() => {
+    console.log("Checked");
     const func = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       let access_token = localStorage.getItem("access_token");
+      
+      let xi_info = await getXIInfo(user._id);
+      console.log(xi_info);
+      if(xi_info.data.user.level){
+
+        setLevel(xi_info.data.user.level)
+      }
       if (user && user.profileImg) {
 
         let image = await getProfileImage({ id: user._id }, user.access_token);
@@ -77,6 +86,8 @@ const UserProfile = () => {
                 {user.firstName} {user.lastname}
               </p>
               <p className="text-gray-400 mx-6 text-lg">{user.username}</p>
+             { level && <p className="text-gray-400 mx-6 text-lg">Level : {level}</p>}
+
             </div>
             <div className=" mt-3 md:text-right  md:ml-auto sm:text-left ">
               <button

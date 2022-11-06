@@ -10,6 +10,10 @@
       content="Web site created using create-react-app"
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
+    <script
+    src='//fw-cdn.com/2208654/2881785.js'
+    chat='true'>
+    </script>
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -27,11 +31,14 @@
     <link rel="stylesheet" href="../dist/output.css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Value Matrix</title>
-
+   
     <script
       src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"
       async=""
     ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+
+    
     <script>
       window.OneSignal = window.OneSignal || [];
       OneSignal.push(function () {
@@ -41,11 +48,13 @@
             "web.onesignal.auto.2cee7bb2-7604-4e25-b1d2-cbd521c730a5",
           notifyButton: {
             enable: true,
+            
           },
           allowLocalhostAsSecureOrigin: true,
         });
       });
     </script>
+
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -60,6 +69,9 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script src="https://media.twiliocdn.com/sdk/js/client/v1.4/twilio.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
       var popover = new bootstrap.Popover(
         document.querySelector(".popover-dismiss"),

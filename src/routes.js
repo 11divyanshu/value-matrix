@@ -30,7 +30,7 @@ import Interviews from "./Pages/UserDashboard/Interviews";
 import InterviewsDetails from "./Pages/UserDashboard/InterviewDetails";
 
 // import AllSlots from "./Pages/UserDashboard/AllSlots.jsx";
-import PrintAble from "./Pages/UserDashboard/PrintAble"
+import PrintAble from "./Pages/CompanyDashboard/PrintAble"
 import PrintAbleUi from "./Pages/UserDashboard/PrintAbleUi";
 
 
@@ -41,9 +41,12 @@ import PushNotification from "./Pages/AdminDashboard/PushNotifications";
 import APanel from "./Pages/AdminDashboard/panel";
 import WhatsappNotification from "./Pages/AdminDashboard/WhatsappNotification";
 import ChannelNotificationPanel from "./Pages/AdminDashboard/ChannelNotification";
+import XIPerformance from "./Pages/AdminDashboard/XIPerformance"
+import XILevel from "./Pages/AdminDashboard/XILevel"
 
 // Company Pages
 import CJobList from "./Pages/CompanyDashboard/jobList.jsx";
+import CPendingJobList from "./Pages/CompanyDashboard/pendingJobs.jsx";
 import CPanel from "./Pages/CompanyDashboard/panel";
 import CEvalDetails from "./Pages/CompanyDashboard/evaluationDetails";
 
@@ -54,12 +57,17 @@ import UpdateJob from "./Pages/CompanyDashboard/UpdateJob1.jsx";
 import EditCompanyProfile from "./Pages/CompanyDashboard/EditProfile.jsx";
 import CompanyProfile from "./Pages/CompanyDashboard/Profile";
 import CJobDetails from "./Pages/CompanyDashboard/JobDetails.jsx";
+import CJobBinDetails from "./Pages/CompanyDashboard/pendingJobDetails.jsx";
 import CompanyList from "./Pages/AdminDashboard/CompanyList";
 import CompanyDetails from "./Pages/AdminDashboard/CompanyDetails";
 import CandiadateList from "./Pages/AdminDashboard/CandidatesList";
 import CandiadateDetail from "./Pages/AdminDashboard/CandidateDetail";
+
+
+
 import AddCompanyUser from "./Pages/CompanyDashboard/AddCompanyUser";
 import CandidateList from "./Pages/CompanyDashboard/CandidateList";
+import CandidateDetails from "./Pages/CompanyDashboard/CandidateDetails";
 import CandidateReport from "./Pages/CompanyDashboard/CandidateReport";
 import Masking from "./Pages/CompanyDashboard/Masking";
 import CompanyUserList from "./Pages/CompanyDashboard/CompanyUsersList";
@@ -82,13 +90,21 @@ import CityValidate from "./Pages/AdminDashboard/companyValidate copy";
 import AddSkills from "./Components/AdminDashboard/AddSkills";
 import AddAdminUser from "./Pages/AdminDashboard/AddAdminUser";
 import AddTaxId from "./Pages/AdminDashboard/AddTaxId";
+// import Twilio from "./Pages/AdminDashboard/TwilioVoice";
+import XIUsersList from './Pages/AdminDashboard/XIUsersList';
+import SuperXIUsersList from './Pages/AdminDashboard/SuperXIUsersList';
+import XICategory from './Pages/AdminDashboard/XICategory';
+
 
 // XI Pages
 import XIDashboard from "./Pages/XIDashboard/Dashboard";
 import XIEvaluationList from "./Pages/XIDashboard/EvaluationList";
+import XIInterviewList from "./Pages/XIDashboard/Interviews";
 import XIJobDetails from "./Pages/XIDashboard/JobDetails.jsx";
 import XIEvaluatedList from "./Pages/XIDashboard/EvaluatedList.jsx";
 import XISlots from "./Pages/XIDashboard/Slots.jsx";
+import XIJobInvitations from "./Pages/XIDashboard/JobInvitations.jsx";
+import XIJobInterviews from "./Pages/XIDashboard/XIJobInterviews.jsx";
 import EvaluatedReport from "./Pages/XIDashboard/EvaluationReports.jsx";
 
 // SuperXIDashboard
@@ -98,6 +114,7 @@ import SXIEditProfile from "./Pages/SuperXIDashboard/EditProfile";
 import SXIJobList from "./Pages/SuperXIDashboard/jobList.jsx";
 import SXIJobDetails from "./Pages/SuperXIDashboard/JobDetails.jsx";
 import AddQuestions from "./Pages/AdminDashboard/AddQuestions";
+import AddInterviewQuestions from "./Pages/AdminDashboard/AddInterviewQuestions";
 import UpdateInterviewApplication from "./Pages/XIDashboard/UpdateInterviewApplication";
 
 
@@ -105,6 +122,13 @@ import UpdateInterviewApplication from "./Pages/XIDashboard/UpdateInterviewAppli
 
 import { FiSettings } from "react-icons/fi";
 import CPrintable from "./Pages/CompanyDashboard/CPrintable";
+import XIOnboarding from "./Pages/AdminDashboard/XIList";
+import AdminUserProfile from "./Pages/AdminDashboard/AdminUserProfile";
+import AllTranscation from "./Pages/UserDashboard/AllTranscation";
+import AdminAllTranscation from "./Pages/AdminDashboard/AdminAllTranscation";
+import CompanyAllTranscation from "./Pages/CompanyDashboard/CompanyAllTranscation";
+import XIAllTranscation from "./Pages/XIDashboard/XIAllTranscation";
+
 
 
 // User Dashboard Routes
@@ -195,12 +219,20 @@ export const dashboardRoutes = [
     permission: "default",
   },
   {
+    name: "All Transcation",
+    icon: <AiOutlineUser className="text-xl" />,
+    path: "AllTranscation",
+    component: <AllTranscation />,
+    hide: false,
+  },
+  {
     name: "InterviewDetails",
     path: "interviewsDetails",
     hide: true,
     icon: <MdOutlineWorkOutline className="text-xl" />,
     component: <InterviewsDetails />,
   },
+  
 ];
 
 // Admin Dashboard Routes
@@ -213,6 +245,14 @@ export const adminDashboardRoutes = [
     hide: true,
     permission: "default",
   },
+
+  // {
+  //   name: "UserProfile",
+  //   path: "/AdminUserProfile",
+  //   hide: true,
+  //   component: <AdminUserProfile />,
+  //   permission: "default",
+  // },
 
   {
     name: "Profile",
@@ -274,6 +314,13 @@ export const adminDashboardRoutes = [
     permission: "list_companies",
   },
   {
+    name: "All Transcation",
+    path: "/AdminAllTranscation",
+    hide: false,
+    component: <AdminAllTranscation />,
+    icon: <FaBuilding className="text-xl" />,
+  },
+  {
     name: "Company Details",
     path: "/company",
     hide: true,
@@ -307,6 +354,46 @@ export const adminDashboardRoutes = [
     path: "/jobvalidate",
     hide: true,
     component: <Jobvalidate />,
+    permission: "default",
+  },
+  {
+    name: "Xi Users List",
+    path: "/xiuserslist",
+    hide: false,
+    icon: <FaUserFriends className="text-xl" />,
+    component: <XIUsersList />,
+    permission: "default",
+  },
+  {
+    name: "Xi Performance",
+    path: "/XIPerformance",
+    hide: false,
+    icon: <FaUserFriends className="text-xl" />,
+    component: <XIPerformance />,
+    permission: "default",
+  },
+  {
+    name: "Xi Level",
+    path: "/XILevel",
+    hide: false,
+    icon: <FaUserFriends className="text-xl" />,
+    component: <XILevel />,
+    permission: "default",
+  },
+  {
+    name: "SuperXi List",
+    path: "/superxiuserslist",
+    hide: false,
+    icon: <FaUserFriends className="text-xl" />,
+    component: <SuperXIUsersList />,
+    permission: "default",
+  },
+  {
+    name: "XI Category",
+    path: "/XICategory",
+    hide: false,
+    icon: <FaUserFriends className="text-xl" />,
+    component: <XICategory />,
     permission: "default",
   },
   {
@@ -347,12 +434,28 @@ export const adminDashboardRoutes = [
     permission: "add_users",
   },
   {
-    name: "Add Questions",
+    name: "XIOnboarding",
+    path: "/XIOnboarding",
+    hide: false,
+    icon: <FaUserFriends className="text-xl" />,
+    component: <XIOnboarding />,
+    permission: "list_XI",
+  },
+  {
+    name: "Add Job Questions",
     path: "/addQuestions",
     hide:false,
     icon : <BsQuestionCircleFill className="text-xl" />,
     permission:"default",
     component : <AddQuestions/>
+  },
+  {
+    name: "Add Interview Questions",
+    path: "/addinterviewQuestions",
+    hide:false,
+    icon : <BsQuestionCircleFill className="text-xl" />,
+    permission:"default",
+    component : <AddInterviewQuestions/>
   },
   {
     name:"Add Tax Id",
@@ -361,7 +464,16 @@ export const adminDashboardRoutes = [
     icon : <BsQuestionCircleFill className="text-xl" />,
     permission:"default",
     component : <AddTaxId/>
-  }
+  },
+  // {
+  //   name:"call",
+  //   path: "/twilio",
+  //   hide:false,
+  //   icon : <BsQuestionCircleFill className="text-xl" />,
+  //   permission:"default",
+  //   component : <Twilio/>
+  // },
+
 ];
 
 // Company Dashboard Routes
@@ -405,6 +517,14 @@ export const companyDashboardRoutes = [
     component: <CJobList />,
     permission: "default",
   },
+  {
+    name: "Pending Job",
+    path: "/pendingjobs",
+    hide: false,
+    icon: <MdOutlineWorkOutline className="text-xl" />,
+    component: <CPendingJobList />,
+    permission: "default",
+  },
 
   {
     name: "Update Job",
@@ -422,11 +542,25 @@ export const companyDashboardRoutes = [
     permission: "default",
   },
   {
+    name: "getJobBinById",
+    path: "/jobBinDetails/",
+    hide: true,
+    component: <CJobBinDetails />,
+    permission: "default",
+  },
+  {
     name: "candidateEvaluation",
     path: "/evaluationDetails/",
     hide: true,
     component: <CEvalDetails />,
     permission: "default",
+  },
+  {
+    name: "All Transcation",
+    path: "/CompanyAllTranscation",
+    hide: false,
+    component: <CompanyAllTranscation />,
+    icon: <FaBuilding className="text-xl" />,
   },
   {
     name: "CPrintAble",
@@ -491,7 +625,7 @@ export const XIDashboardRoutes = [
     icon: <AiOutlineUser className="text-xl" />,
     path: "/profile",
     component: <UserProfile />,
-    hide: false,
+    hide: true,
     permission: "default",
   },
   {
@@ -501,11 +635,41 @@ export const XIDashboardRoutes = [
     component: <EditProfile />,
   },
   {
+    name: "All Transcation",
+    path: "/AllTranscation",
+    hide: false,
+    component: <XIAllTranscation />,
+    icon: <AiOutlineUser className="text-xl" />,
+  },
+  {
     name: "Interviews",
     path: "/evaluationlist",
     hide: false,
     icon: <MdOutlineWorkOutline className="text-xl" />,
     component: <XIEvaluationList />,
+    permission: "default",
+  },
+  {
+    name: "Invitations",
+    path: "/interviewInvitations",
+    hide: true,
+    icon: <CgWorkAlt className="text-xl" />,
+    component: <XIJobInvitations />,
+  },
+  {
+    name: "Job Interviews",
+    path: "/jobinterviews",
+    hide: true,
+    icon: <CgWorkAlt className="text-xl" />,
+    component: <XIJobInterviews />,
+  },
+  
+  {
+    name: "XI Onboarding",
+    path: "/xiOnboarding",
+    hide: true,
+    icon: <MdOutlineWorkOutline className="text-xl" />,
+    component: <XIInterviewList />,
     permission: "default",
   },
   {
@@ -549,6 +713,13 @@ export const XIDashboardRoutes = [
     hide: true,
     icon: <CgWorkAlt className="text-xl" />,
     component: <PrintAbleUi/>,
+  },
+  {
+    name: "InterviewDetails",
+    path: "/interviewsDetails/",
+    hide: true,
+    icon: <MdOutlineWorkOutline className="text-xl" />,
+    component: <InterviewsDetails />,
   },
 ];
 
@@ -599,4 +770,12 @@ export const superXIDashboardRoutes = [
     hide: true,
     component: <SXIJobDetails />,
   },
+  {
+    name: "Slots",
+    path: "/slots",
+    hide: false,
+    icon: <MdOutlineWorkOutline className="text-xl" />,
+    component: <XISlots />,
+  },
+ 
 ];

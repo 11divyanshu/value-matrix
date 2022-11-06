@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { useParams } from "react-router-dom";
 import { ReactSession } from "react-client-session";
 
@@ -14,16 +14,22 @@ import {
 import jsCookie from "js-cookie";
 import JobDetails from "../XIDashboard/JobDetails.jsx";
 import PrintAbleUi from "../UserDashboard/PrintAbleUi.jsx";
+import DetailForm from "../../Components/Dashbaord/DetailsForm.jsx";
+import InterviewsDetails from "../../Pages/UserDashboard/InterviewDetails.jsx"
 
 const XIDashboard = () => {
   let [comp, setComponent] = React.useState(null);
   let { component, id } = useParams();
   component = "/" + component;
   let [user, setUser] = React.useState(null);
+  const [detailForm, setDetailForm] = React.useState(false);
 
   // Retrieve And Saves Access Token and User to Session
   const [access_token, setAccessToken] = React.useState(null);
   const [profileImg, setProfileImg] = React.useState(null);
+
+
+  
 
   React.useEffect(() => {
     const tokenFunc = async () => {
@@ -54,6 +60,7 @@ const XIDashboard = () => {
           );
 
           await setUser(user.data.user.user);
+        
           if (user.invite) {
             window.location.href = "/setProfile" + user.resetPassId;
           }
@@ -71,12 +78,12 @@ const XIDashboard = () => {
           console.log(user.data.user);
           if (
             user.data.user.access_valid === false ||
-            user.data.user.user_type !== "XI"
+            user.data.user.user_type !== "XI" && user.data.user.user_type !== "SuperXI"
           )
             window.location.href = "/login";
           await localStorage.setItem("user", JSON.stringify(user.data.user));
           // window.history.pushState({ url: "/XI" }, "", "/XI");
-          window.location.href="/XI";
+          window.location.href = "/XI";
         } else {
           window.location.href = "/login";
         }
@@ -86,12 +93,18 @@ const XIDashboard = () => {
         let user = JSON.parse(localStorage.getItem("user"));
         await setUser(user);
 
-        if (user.access_valid === false || user.user_type !== "XI") {
+        if (user.access_valid === false || user.user_type !== "XI" && user.user_type !== "SuperXI") {
           window.location.href = "/login";
         }
       }
       let user = JSON.parse(localStorage.getItem("user"));
       let token = localStorage.getItem("access_token");
+      if (user && !user.profileImg || user.tools.length === 0 || !user.linkedInId ) {
+        setDetailForm(true);
+      }else{
+        setDetailForm(false);
+  
+      }
       if (!user || !token) {
         window.location.href = "/login";
       }
@@ -104,12 +117,13 @@ const XIDashboard = () => {
       const term = queryParams.get("a");
       if (term) {
         // window.history.pushState({ path: "/XI" }, "", "/XI");
-        window.location.href="/XI";
+        window.location.href = "/XI";
       }
     };
     func();
   }, [access_token]);
   React.useEffect(() => {
+   
     if (!component || component === "/undefined") {
       setComponent(
         XIDashboardRoutes.filter((route) => route.path === "/")[0].component
@@ -121,7 +135,8 @@ const XIDashboard = () => {
         let c1 = component.split("/");
         console.log(c1);
         if (c1[1] === "jobDetails") setComponent(<JobDetails id={id} />);
-        if (c1[1] === "evaluationreport") setComponent(<PrintAbleUi id={id} />);
+        else if (c1[1] === "evaluationreport") setComponent(<PrintAbleUi id={id} />);
+        else if (c1[1] === "interviewDetails") setComponent(<InterviewsDetails id={id} />);
         else {
           let c = XIDashboardRoutes.filter(
             (route) => route.path === component.split("XI/")[1]
@@ -143,6 +158,12 @@ const XIDashboard = () => {
         {" "}
         <Navbar user={user} />
       </div>
+      {
+        detailForm && (component !== '/editProfile' && component !== '/profile') && (
+          <DetailForm isOpen={true} setModalIsOpen={setDetailForm} user={user} />
+        )
+      }
+     
       <div className="flex w-full ">
         <Sidebar className="sidebarComponent"></Sidebar>
         <div className="justify-end ml-auto mt-20 panel">{comp}</div>
