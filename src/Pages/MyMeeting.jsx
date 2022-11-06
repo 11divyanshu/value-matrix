@@ -1,8 +1,10 @@
 import { useDyteMeeting } from "@dytesdk/react-web-core";
-import { DyteParticipantTile, DyteNameTag, DyteAudioVisualizer, DyteChat, DyteMeetingTitle, DyteMicToggle, DyteCameraToggle, DyteSetupScreen, DyteLeaveButton, DyteParticipantsAudio, DyteMeeting, DyteParticipant, DyteParticipantCount, DyteGrid } from "@dytesdk/react-ui-kit";
+import { DyteParticipantTile, DyteNameTag, DyteAudioVisualizer, DyteChat, DyteMeetingTitle, DyteMicToggle, DyteCameraToggle, DyteSetupScreen, DyteLeaveButton, DyteParticipantsAudio, DyteMeeting, DyteParticipant, DyteParticipantCount, DyteGrid, DyteSimpleGrid, DyteParticipants } from "@dytesdk/react-ui-kit";
 import { useEffect, useState } from "react";
 import Navbar from "../Components/XIDashboard/Navbar.jsx";
 import Editor from "@monaco-editor/react";
+
+import "../assets/stylesheet/dyte.css";
 
 export default function MyMeeting() {
     const { meeting } = useDyteMeeting();
@@ -23,6 +25,11 @@ export default function MyMeeting() {
     useEffect(()=>{
       meeting.joinRoom();
     },[]);
+
+    const checkmeeting = ()=>{
+      let list = Object.entries(meeting.participants.active);
+      console.log(meeting.participants.active);
+    }
 
     const leaveCall = ()=>{
       meeting.leaveRoom();
@@ -55,14 +62,14 @@ export default function MyMeeting() {
                 />
               </div>
               <div className="md:w-1/2">
-                <DyteGrid meeting={meeting} />
-                <DyteParticipantsAudio meeting={meeting} />
+                <DyteMeeting mode="fill" meeting={meeting} className="dytemaster" style={{ height: '480px' }} />
               </div>
             </div>
           </div>
         </div>
         <div>
           <button onClick={leaveCall}>Leave Room</button>
+          <button onClick={checkmeeting}>Check Room</button>
         </div>
       </div>
     );
