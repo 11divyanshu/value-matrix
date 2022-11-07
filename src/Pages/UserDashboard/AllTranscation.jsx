@@ -3,6 +3,7 @@ import {
   getUserList,
   getCompanyUserList,
   updateUserDetails,
+  getTransactions
 } from "../../service/api";
 import { Link } from "react-router-dom";
 import { getUserFromId } from "../../service/api";
@@ -19,7 +20,9 @@ import { HiOutlineOfficeBuilding, HiPencil } from "react-icons/hi";
 import { Dialog, Transition } from "@headlessui/react";
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import swal from "sweetalert";
-
+import * as htmlToImage from 'html-to-image';
+import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
+import { jsPDF } from "jspdf";
 const AllTranscation = () => {
   const [userList, setUserList] = React.useState([]);
   const [Modal, setModal] = React.useState(null);
@@ -46,16 +49,16 @@ const AllTranscation = () => {
 
   React.useEffect(() => {
     const initial = async () => {
-        let token = await localStorage.getItem("access_token");
-        let user = JSON.parse(await localStorage.getItem("user"));
-        let response = await getCompanyUserList(user._id);
-        console.log(response);
-        if (response && response.status === 200) {
-            setUserList(response.data);
-        }
+      let token = await localStorage.getItem("access_token");
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let response = await getTransactions(user._id);
+      console.log(response);
+      if (response && response.status === 200) {
+        setUserList(response.data);
+      }
     };
     initial();
-}, []);
+  }, []);
   return (
     <div className="p-5">
       <p className="text-2xl font-semibold mx-10">All Transcation</p>
@@ -100,25 +103,33 @@ const AllTranscation = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {userList.map((user, index) => {
+                    {userList.map((item, index) => {
                       return (
                         <>
                           <tr
-                            className={`${
-                              index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                            } border-b`}
+                            className={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                              } border-b`}
                           >
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                               {index + 1}
                             </td>
                             <td className="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
-                              {user.username}
+
+                              {new Date(item.transactionDate).getDate() +
+                                "-" +
+                                (new Date(item.transactionDate).getMonth() + 1) +
+                                "-" +
+                                new Date(item.transactionDate).getFullYear()}
                             </td>
                             <td className="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
-                              {user.firstName}
+
+                              {new Date(item.transactionDate).getHours() +
+                                ":" +
+                                new Date(item.transactionDate).getMinutes()}{" "}
+
                             </td>
                             <td className="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
-                              {user.email}
+                              Credit
                             </td>
                             <td className="text-xs text-blue-500 font-light px-6 py-4 whitespace-nowrap cursor-pointer">
                               <p
@@ -131,7 +142,7 @@ const AllTranscation = () => {
                             </td>
                           </tr>
 
-                          {Modal && user && (
+                          {Modal && item && (
                             <Transition
                               appear
                               show={Modal}
@@ -142,7 +153,7 @@ const AllTranscation = () => {
                               <Dialog
                                 as="div"
                                 className="relative z-10000"
-                                onClose={() => {}}
+                                onClose={() => { }}
                                 static={true}
                               >
                                 <div
@@ -173,11 +184,13 @@ const AllTranscation = () => {
                                       leaveTo="opacity-0 scale-95"
                                     >
                                       <Dialog.Panel className="w-full  px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all max-w-4xl mx-auto">
-                                        <div>
+                                        <div id="my-node">
+                                        <div >
                                           <div className="flex justify-between w-full">
                                             <p className="text-2xl font-bold">
                                               Invoice
                                             </p>{" "}
+                                            <div>
                                             <button
                                               type="button"
                                               className="my-1 px-3 py-2 rounded-lg text-center bg-[#034488] text-white "
@@ -188,6 +201,41 @@ const AllTranscation = () => {
                                             >
                                               Close
                                             </button>
+                                            <button
+                                               className="my-1 px-3 py-2 rounded-lg mx-3 text-center bg-[#034488] text-white "
+                                               style={{
+                                                 backgroundColor: "#034488",
+                                               }}
+                                              onClick={() => {
+                                                var node = document.getElementById('my-node');
+
+                                                htmlToImage.toPng(node)
+                                                  .then(function (dataUrl) {
+                                                    var img = new Image();
+                                                    img.src = dataUrl;
+                                                    // document.body.appendChild(img);
+                                                    console.log(dataUrl)
+                                                    window.jsPDF = window.jspdf.jsPDF;
+                                                    let doc = new jsPDF("p", "mm", "a6", true, "UTF-8", true);
+                                                    let width = doc.internal.pageSize.getWidth();
+                                                    let height = doc.internal.pageSize.getHeight();
+
+                                                    // Then you can use this width and height for your image to fit the entire PDF document.
+                                                    let imgData = dataUrl;
+                                                    doc.addImage(imgData, 'JPEG', 0, 0, width, height);
+                                                    doc.save('sample.pdf');
+
+                                                  })
+                                                  .catch(function (error) {
+                                                    console.error('oops, something went wrong!', error);
+                                                  });
+
+
+                                              }}
+                                            >
+                                              Save
+                                            </button>
+                                            </div>
                                           </div>
                                         </div>
                                         <div>
@@ -241,7 +289,11 @@ const AllTranscation = () => {
                                                           <p class="mt-2 text-sm font-normal text-slate-700">
                                                             Date of Issue
                                                           </p>
-                                                          <p>00.00.00</p>
+                                                          <p> {new Date(item.transactionDate).getDate() +
+                                                            "-" +
+                                                            (new Date(item.transactionDate).getMonth() + 1) +
+                                                            "-" +
+                                                            new Date(item.transactionDate).getFullYear()}</p>
                                                         </div>
                                                         <div class="text-sm font-light text-slate-500">
                                                           <p class="text-sm font-normal text-slate-700">
@@ -303,11 +355,11 @@ const AllTranscation = () => {
                                                               48
                                                             </td>
                                                             <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
-                                                              $0.00
+                                                              {item.amount}
                                                             </td>
-                                                            <td class="py-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
+                                                            {/* <td class="py-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
                                                               $0.00
-                                                            </td>
+                                                            </td> */}
                                                           </tr>
                                                           <tr class="border-b border-slate-200">
                                                             <td class="py-4 pl-4 pr-3 text-sm sm:pl-6 md:pl-0">
@@ -450,6 +502,7 @@ const AllTranscation = () => {
                                               </article>
                                             </div>
                                           </section>
+                                        </div>
                                         </div>
                                       </Dialog.Panel>
                                     </Transition.Child>

@@ -10,7 +10,8 @@ import {
   updateInterviewApplication,
   updateUserDetails,
   getUserFromId,
-  handleXIInterview
+  handleXIInterview,
+  priorityEngine
 } from "../../service/api";
 import Avatar from "../../assets/images/UserAvatar.png";
 import { BsFillBookmarkFill } from "react-icons/bs";
@@ -49,6 +50,7 @@ const JobInvitations = (props) => {
   const [smsOTP, setsmsOTP] = React.useState("");
   const [page, setPage] = useState(1);
   const [index, setIndex] = React.useState(props.index);
+  const [type, setType] = React.useState(null);
 
   const paginate = (p) => {
     setPage(p);
@@ -381,6 +383,9 @@ const JobInvitations = (props) => {
                                     <span className={`${ slotId && (slotId._id === item._id) ? "bg-blue text-white-600":"bg-white text-gray-600"} border border-gray-400  text-xs font-semibold mr-2 px-2.5 py-2 rounded-3xl cursor-pointer`}
                                       onClick={async () => {
                                         console.log(item);
+                                        let priority = await priorityEngine(item.startDate, type);
+                                        console.log(priority)
+                                        if (priority.status == 200) {
                                         let res = await bookSlot({ candidate_id: candidate.candidate_id, slotId: item._id });
                                         console.log(res)
 
@@ -393,6 +398,7 @@ const JobInvitations = (props) => {
 
                                           setslotId(item);
                                         }
+                                      }
                                       }}
 
                                     >{new Date(item.startDate).getHours() + ":" + new Date(item.startDate).getMinutes()} - {new Date(item.endDate).getHours() + ":" + new Date(item.endDate).getMinutes()}</span>
@@ -546,6 +552,7 @@ const JobInvitations = (props) => {
                           setSlot(slots.data);
                           setchooseSlot(true);
                           setxiInter(true);
+                          setType("SuperXI");
                         }}
                         className="btn  rounded-3xl shadow-sm px-6 my-1 py-2 mr-3 text-xs text-gray-900 font-semibold"
                       >
@@ -684,6 +691,7 @@ const JobInvitations = (props) => {
                               setSlot(slots.data);
                               setInvitation(job)
                               setchooseSlot(true);
+                              setType("XI")
                             }}
                             className="btn  rounded-3xl shadow-sm px-6 my-3 text-xs text-gray-900 font-semibold"
                           >
