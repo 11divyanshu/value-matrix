@@ -94,6 +94,8 @@ import AddTaxId from "./Pages/AdminDashboard/AddTaxId";
 import XIUsersList from './Pages/AdminDashboard/XIUsersList';
 import SuperXIUsersList from './Pages/AdminDashboard/SuperXIUsersList';
 import XICategory from './Pages/AdminDashboard/XICategory';
+import CreditCategory from './Pages/AdminDashboard/creditCategory';
+import CreditConverter from './Pages/AdminDashboard/creditConverter';
 
 
 // XI Pages
@@ -362,6 +364,22 @@ export const adminDashboardRoutes = [
     permission: "default",
   },
   {
+    name: "Credit Category",
+    path: "/creditCategory",
+    hide: false,
+    icon: <FaUserFriends className="text-xl" />,
+    component: <CreditCategory />,
+    permission: "default",
+  },
+  {
+    name: "Credit Converter",
+    path: "/creditConverter",
+    hide: false,
+    icon: <FaUserFriends className="text-xl" />,
+    component: <CreditConverter />,
+    permission: "default",
+  },
+  {
     name: "SuperXi List",
     path: "/superxiuserslist",
     hide: false,
@@ -369,12 +387,13 @@ export const adminDashboardRoutes = [
     component: <SuperXIUsersList />,
     permission: "default",
   },
+
   {
-    name: "XI Category",
-    path: "/XICategory",
+    name: "Credit Category",
+    path: "/creditCategory",
     hide: false,
     icon: <FaUserFriends className="text-xl" />,
-    component: <XICategory />,
+    component: <CreditCategory />,
     permission: "default",
   },
   {

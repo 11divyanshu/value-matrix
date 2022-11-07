@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useEffect, Fragment } from "react";
 
 // Components
 import Card from "../../Components/SuperXIDashboard/Cards";
 import SessionCard from "../../Components/CompanyDashboard/sessions";
 import { AiOutlineArrowUp } from "react-icons/ai"
 import Avatar from "../../assets/images/UserAvatar.png";
-
+import { PaymentSuccess, newOrder } from "../../service/api.js"
 // Assets
 import { Chart } from 'react-charts'
+import { Dialog, Transition } from "@headlessui/react";
 
 import VideoCall from "../../assets/images/Call.svg";
 import Board from "../../assets/images/board.svg";
@@ -15,14 +16,17 @@ import Graph from "../../assets/images/graph.png";
 import LGraph from "../../assets/images/lgraph.png";
 
 import { BsThreeDots } from "react-icons/bs";
+import logo from "../../assets/images/logo.png"
 
 const Panel = () => {
   const [user, setUser] = React.useState(null);
+  const [modal, setModal] = React.useState(null);
+  const [amount, setAmount] = React.useState(null);
 
   React.useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"));
     setUser(user);
-  })
+  },[])
   const data = React.useMemo(
     () => [
       {
@@ -44,6 +48,88 @@ const Panel = () => {
     ],
     []
   )
+
+
+  function loadScript(src) {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = src;
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
+  }
+  async function displayRazorpay(amt) {
+    const res = await loadScript(
+      "https://checkout.razorpay.com/v1/checkout.js"
+    );
+
+    if (!res) {
+      alert("Razorpay SDK failed to load. Are you online?");
+      return;
+    }
+
+    // creating a new order
+    const result = await newOrder({user_type : user.user_type  , amount:amt ,userId: user._id});
+    console.log(result)
+    if (!result) {
+      alert("Server error. Are you online?");
+      return;
+    }
+    console.log(result.data);
+
+
+
+    // Getting the order details back
+     const { amount, id: order_id, currency } = result.data.order;
+    // let amount = result.data.order.amount
+    // let order_id = result.data.order.order_id
+    // let currency = result.data.order.currency
+let transactionId = result.data.id;
+console.log(transactionId)
+    const options = {
+      key: "rzp_test_6ri9glEbS06F1H", // Enter the Key ID generated from the Dashboard
+      amount: amount.toString(),
+      currency: currency,
+      name: "Value Matrix",
+      description: "Test Transaction",
+      image: { logo },
+      order_id: order_id,
+      handler: async function (response) {
+        const data = {
+          orderCreationId: order_id,
+          razorpayPaymentId: response.razorpay_payment_id,
+          razorpayOrderId: response.razorpay_order_id,
+          razorpaySignature: response.razorpay_signature
+         
+        };
+
+
+console.log(transactionId)
+const result1 = await PaymentSuccess({data:data,id:transactionId});
+
+        alert(result1.data.msg);
+      },
+      prefill: {
+        name: "Value Matrix",
+        email: "vmdeveloper171@gmail.com",
+        contact: "9999999999",
+      },
+      notes: {
+        address: "Value Matrix Corporate Office",
+      },
+      theme: {
+        color: "#61dafb",
+      },
+    };
+
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+  }
 
   return (
     <div className="flex bg-slate-100 ">
@@ -76,8 +162,80 @@ const Panel = () => {
             </div>
           </div>
         </div>
+        {modal && (
+          <Transition
+            appear
+            show={modal}
+            as={Fragment}
+            className="relative z-1050 w-full"
+            style={{ zIndex: 1000 }}
+          >
+            <Dialog
+              as="div"
+              className="relative z-1050 w-5/6"
+              onClose={() => { }}
+              static={true}
+            >
+              <div
+                className="fixed inset-0 bg-black/30"
+                aria-hidden="true"
+              />
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <div className="fixed inset-0 bg-black bg-opacity-25" />
+              </Transition.Child>
 
-
+              <div className="fixed inset-0 overflow-y-auto ">
+                <div className="flex min-h-full items-center justify-center p-4 text-center max-w-4xl mx-auto">
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0 scale-95"
+                    enterTo="opacity-100 scale-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100 scale-100"
+                    leaveTo="opacity-0 scale-95"
+                  >
+                    <Dialog.Panel className="w-full px-7 transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
+                      <div className={`${!modal ? "hidden" : "block"}`}>
+                        <div className="w-full">
+                          <div className="w-full my-5">
+                            <p className="text-xl font-semibold">Buy Credits</p><p onClick={()=>{setModal(false)}}>Close</p>
+                          <input
+                                  id="amount"
+                                  name="amount"
+                                  className="block border border-gray-200 my-4 py-1 px-3 w-full"
+                                
+                                onChange={async(event) => {
+                                  console.log(event.target.value);
+                                  setAmount(event.target.value);
+                                 
+                                }}
+                                >
+                                 
+                                </input>
+                            <button
+                              className=" hover:bg-blue-700 text-white font-bold py-2 my-4 px-4 text-md flex text-center rounded-lg"
+                              style={{ backgroundColor: "#034488" }}
+                              onClick={() => {displayRazorpay(amount)}}
+                            >Buy</button>
+                          </div>
+                        </div>
+                      </div>
+                    </Dialog.Panel>
+                  </Transition.Child>
+                </div>
+              </div>
+            </Dialog>
+          </Transition>
+        )}
 
         <div className="lg:flex">
 
@@ -202,16 +360,33 @@ const Panel = () => {
             rounded-lg "><SessionCard /></div>
 
 
-            <div className="shadow-lg my-5 md:w-1/2 lg:w-full md:mx-1 lg:mx-5 md:my-0 rounded-lg py-5 bg-white sm:w-full h-28">
+            <div className="shadow-lg my-5 md:w-1/2 lg:w-full md:mx-1 lg:mx-5 md:my-0 rounded-lg py-5 bg-white sm:w-full h-32">
               <div className="flex items-start space-x-3 px-6  ">
                 <div className="py-5">
                   <p className="text-lg text-left font-semibold">
                     Credit Score $
                   </p>
-                  <p className="text-xs">
+                  {/* <p className="text-xs">
 
                     Lorem ipsum dolor sit amet,
-                  </p>
+                  </p> */}
+                  {/* <button className="App-link" >
+                    Pay ₹500
+                </button> */}
+                  <button
+                    className=" hover:bg-blue-700 text-white font-bold py-2 px-4 text-xs flex text-center rounded-lg"
+                    style={{ backgroundColor: "#034488" }}
+                    onClick={() => {
+                      setModal(true);
+                    }}
+                  >
+                    {/* <p classname=" py-2"><AiOutlinePlus/></p> */}
+                    {/* <p className="py-1 px-2 text-sm font-bold">
+              {" "}
+              <AiOutlinePlus />
+            </p> */}
+                    <p className="py-1">Buy Credits</p>
+                  </button>
                 </div>
                 <div className="text-2xl font-bold flex py-5"> 6200 <p className="text-green-500"><AiOutlineArrowUp /></p><p className="text-lg">62% </p></div>
               </div>
