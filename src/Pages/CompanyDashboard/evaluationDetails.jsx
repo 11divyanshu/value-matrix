@@ -215,7 +215,7 @@ const UpdateInterviewApplication = () => {
             {candidate && (
               <div className="my-5 mt-8">
                 <p className="my-3 text-lg font-semibold">Candidate Details</p>
-                <div className="w-full  bg-white border border-b bg-white md:px-9 px-3 mx-1 py-6 border space-y-2">
+                <div className="w-full border-b bg-white md:px-9 px-3 mx-1 py-6 border space-y-2">
                   <p>
                     <span className="font-semibold">Name :</span>{" "}
                     {candidate.firstName}{" "}

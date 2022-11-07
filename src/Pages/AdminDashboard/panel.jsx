@@ -247,7 +247,7 @@ const result1 = await PaymentSuccess({data:data,id:transactionId});
                 <p className="text-lg font-bold font-gray-400">Today's Interview Request</p>
                 <p className="text-sm font-bold text-gray-300 mb-2">Lorem ipsum dorem, Lorem ipsum dorem </p>
               </div>
-              <div className="text-xs text-gray-500 font-semibold mt-2">See All Logs &#12297;</div>
+              <div className="text-xs text-gray-500 font-semibold mt-2" style={{cursor:"pointer"}}>See All Logs &#12297;</div>
             </div>
             <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center md:grid-cols-6 sm:grid-cols-3">
 
