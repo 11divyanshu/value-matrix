@@ -160,13 +160,13 @@ const JobList = (props) => {
                               {/* {job.startDate === new Date() && job.status === "Accepted*/}
 
 
-                              <div className="px-5 text-center my-5 text-md" onClick={async()=>{
+                              <div className="px-5 text-center my-5 text-md cursor-pointer" onClick={async()=>{
                                     let update = await updateInterviewApplication(job.uploadBy, { status:"Interviewed" });
 
                                     let update2 = await updateWallet(job._id);
                                 }}>
                                   
-                                    <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
+                                    <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black cursor-pointer">
                                       Join
                                     </span>
                                 </div>
@@ -284,13 +284,13 @@ const JobList = (props) => {
 
 
 
-                                <div className="px-5 text-center my-5 text-md" onClick={async()=>{
+                                <div className="px-5 text-center my-5 text-md cursor-pointer" onClick={async()=>{
                                     let update = await updateInterviewApplication(job.uploadBy, { status:"Interviewed" });
 
                                     let update2 = await updateWallet(job._id);
                                 }}>
                                   
-                                    <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
+                                    <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black cursor-pointer">
                                       Join
                                     </span>
                                 </div>

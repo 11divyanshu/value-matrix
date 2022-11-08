@@ -47,6 +47,10 @@ export default function MyMeeting() {
       setlanguageid(languageOptions[e.target.value].id);
     }
 
+    const handlecustominput = (e)=>{
+      setCustomInput(e.target.value);
+    }
+
     const getOutput = () => {
       let statusId = outputDetails?.status?.id;
   
@@ -104,8 +108,8 @@ export default function MyMeeting() {
         <div className="bg-white">
           <Navbar user={user} />
         </div>
-        <div className="flex h-full m-0" style={{ backgroundColor:"#080808" }}>
-          <div className="md:w-1/2 h-full">
+        <div className="flex h-full m-0" style={{ backgroundColor:"#080808", position:"relative" }}>
+          <div className="md:w-1/2 h-full pl-2">
             <div className="flex justify-between my-4">
               <div className="text-white">
                 Select Language
@@ -135,19 +139,28 @@ export default function MyMeeting() {
               defaultValue="//Write your code here..."
               onChange={handleEditorChange}
             />
-            <div className="bg-gray-900 text-white p-4 rounded-2xl text-md my-4">
-              {outputDetails ? <>{getOutput()}</> : <pre className="px-2 py-1 font-normal text-xs text-white">
-                {processing?<>Processing</>:<>Code Output Appears Here</>}...
-              </pre>}
+            <div className="flex mb-8">
+              <div className="md:w-1/2 mr-2">
+                <div className="bg-gray-900 text-white p-4 rounded-2xl text-md my-4 h-full">
+                  <textarea className="bg-transparent w-full h-full p-0 font-normal text-xs border-0" onChange={handlecustominput}>Enter Your Inputs Here</textarea>
+                </div>
+              </div>
+              <div className="md:w-1/2 ml-2">
+                <div className="bg-gray-900 text-white p-4 rounded-2xl text-md my-4 h-full">
+                  {outputDetails ? <>{getOutput()}</> : <pre className="px-2 py-1 font-normal text-xs text-white">
+                    {processing?<>Processing</>:<>Code Output Appears Here</>}...
+                  </pre>}
+                </div>
+              </div>
             </div>
           </div>
           <div className="md:w-1/2 h-full">
-            <div className="w-full p-4">
-              <div className="bg-gray-900 text-white p-4 rounded-2xl text-md">
+            <div className="w-full h-full py-4 pr-2 pl-4">
+              <div className="bg-gray-900 text-white p-4 rounded-2xl text-md h-max">
                 Interview Coding Question Appears Here...
               </div>
             </div>
-            <div className="flex pb-4">
+            <div className="flex pb-4" style={{ position:"absolute", bottom:0 }}>
               <div className="md:w-1/2 px-4 pt-4">
                 <DyteChat
                   className="rounded-2xl"
