@@ -17,7 +17,6 @@ import LGraph from "../../assets/images/lgraph.png";
 
 import { BsThreeDots } from "react-icons/bs";
 import logo from "../../assets/images/logo.png"
-
 const Panel = () => {
   const [user, setUser] = React.useState(null);
   const [modal, setModal] = React.useState(null);
@@ -110,7 +109,7 @@ console.log(transactionId)
 
 
 console.log(transactionId)
-const result1 = await PaymentSuccess({data:data,id:transactionId});
+const result1 = await PaymentSuccess({data:data,id:transactionId,userId:user._id ,amount:amount});
 
         alert(result1.data.msg);
       },

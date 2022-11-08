@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import JobCard from "../../Components/XIDashboard/JobCard.jsx";
-import { slotDetailsOfUser } from "../../service/api.js";
+import { slotDetailsOfUser,updateInterviewApplication,updateWallet } from "../../service/api.js";
 
 import Loader from "../../assets/images/loader.gif";
 import Avatar from "../../assets/images/UserAvatar.png";
@@ -157,12 +157,20 @@ const JobList = (props) => {
                                   {job.status}
                                 </span>
                               </div>
-                              <div className="px-5 text-center my-5 text-md">
-                                {/* <Link to={`/XI/updateEvaluationDetails/${job.application._id}`}>
-    <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
-      Update
-    </span></Link> */}
-                              </div>
+                              {/* {job.startDate === new Date() && job.status === "Accepted*/}
+
+
+                              <div className="px-5 text-center my-5 text-md" onClick={async()=>{
+                                    let update = await updateInterviewApplication(job.uploadBy, { status:"Interviewed" });
+
+                                    let update2 = await updateWallet(job._id);
+                                }}>
+                                  
+                                    <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
+                                      Join
+                                    </span>
+                                </div>
+                                {/* } */}
                             </div>
 
                             <div className="px-4 mx-2 py-4 align-middle absolute -right-2 top-0">
@@ -271,12 +279,22 @@ const JobList = (props) => {
                                   {job.status}
                                 </span>
                               </div>
-                              <div className="px-5 text-center my-5 text-md">
-                                {/* <Link to={`/XI/updateEvaluationDetails/${job.application._id}`}>
-                            <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
-                              Update
-                            </span></Link> */}
-                              </div>
+                              {/* {job.startDate === new Date() && job.status === "Accepted*/}
+
+
+
+
+                                <div className="px-5 text-center my-5 text-md" onClick={async()=>{
+                                    let update = await updateInterviewApplication(job.uploadBy, { status:"Interviewed" });
+
+                                    let update2 = await updateWallet(job._id);
+                                }}>
+                                  
+                                    <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
+                                      Join
+                                    </span>
+                                </div>
+                                {/* } */}
                             </div>
 
                             <div className="px-4 mx-2 py-4 align-middle absolute -right-2 top-0">

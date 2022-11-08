@@ -1509,3 +1509,45 @@ export const getinterviewdetails = async (id) => {
 
   }
 }
+
+// Transactions
+
+export const getTransactions = async (id) => {
+  try {
+    return await axios.get(`${url}/getTransactions?id=${id}`)
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+export const updateWallet = async (id) => {
+  try {
+    return await axios.post(`${url}/updateWallet?id=${id}`)
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+export const userRequestUpdate = async (id) => {
+  try {
+    return await axios.get(`${url}/userRequestUpdate?id=${id}`)
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+export const userAcceptUpdate = async (id) => {
+  try {
+    return await axios.get(`${url}/userAcceptUpdate?id=${id}`)
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+
+
+

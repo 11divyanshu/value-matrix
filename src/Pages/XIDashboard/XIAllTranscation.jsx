@@ -11,7 +11,7 @@ import { FiInfo } from "react-icons/fi";
 import { BsCalendar, BsLinkedin } from "react-icons/bs";
 import { GrScorecard } from "react-icons/gr";
 import { Disclosure } from "@headlessui/react";
-import { getSkills, url } from "../../service/api";
+import { getSkills, url ,getTransactions} from "../../service/api";
 import { ChevronUpIcon, StarIcon } from "@heroicons/react/solid";
 import { CgWorkAlt } from "react-icons/cg";
 import { FaRegBuilding } from "react-icons/fa";
@@ -48,7 +48,7 @@ const XIAllTranscation = () => {
     const initial = async () => {
         let token = await localStorage.getItem("access_token");
         let user = JSON.parse(await localStorage.getItem("user"));
-        let response = await getCompanyUserList(user._id);
+        let response = await getTransactions(user._id);
         console.log(response);
         if (response && response.status === 200) {
             setUserList(response.data);
