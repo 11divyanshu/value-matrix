@@ -1579,6 +1579,13 @@ export const checkcompilestatus = async (token) => {
       token: token
     });
 
+export const getUserCurrentCredit = async (id) => {
+  try{
+     return await axios.post(`${url}/getUserCurrentCredit`, {'userId':id}) 
+  }catch(err){
+    console.log("Error : " + err);
+  }
+}
   } catch (err) {
     console.log("Error : ", err);
 

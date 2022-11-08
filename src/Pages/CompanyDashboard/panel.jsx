@@ -5,7 +5,7 @@ import Card from "../../Components/SuperXIDashboard/Cards";
 import SessionCard from "../../Components/CompanyDashboard/sessions";
 import { AiOutlineArrowUp } from "react-icons/ai"
 import Avatar from "../../assets/images/UserAvatar.png";
-import { PaymentSuccess, newOrder } from "../../service/api.js"
+import { PaymentSuccess, newOrder,getUserCurrentCredit } from "../../service/api.js"
 
 // Assets
 import { Chart } from 'react-charts'
@@ -17,14 +17,28 @@ import Graph from "../../assets/images/graph.png";
 import LGraph from "../../assets/images/lgraph.png";
 
 import { BsThreeDots } from "react-icons/bs";
-import logo from "../../assets/images/logo.png"
+import logo from "../../assets/images/logo.png";
+import swal from "sweetalert";
 const Panel = () => {
   const [user, setUser] = React.useState(null);
   const [modal, setModal] = React.useState(null);
   const [credit, setCredit] = React.useState(null);
-  React.useEffect(() => {
+  const [currentCredit, setCurrentCredit] = React.useState(null);
+  React.useEffect(()=>{
     let user = JSON.parse(localStorage.getItem("user"));
     setUser(user);
+  })
+
+  React.useEffect(() => {
+    const getCredit = async () => {
+      console.log("Checking function")
+      let user = JSON.parse(localStorage.getItem("user"));
+      let res = await getUserCurrentCredit(user._id); 
+      if(res){
+        setCurrentCredit(res.data.data.credit);
+      }
+    }
+    getCredit();
   },[])
   const data = React.useMemo(
     () => [
@@ -110,7 +124,16 @@ console.log(transactionId)
 console.log(transactionId)
 const result1 = await PaymentSuccess({data:data,id:transactionId,userId:user._id ,credit:credit});
 console.log(result1)
-        alert(result1.data.msg);
+        console.log("Swal Check");
+        swal({
+          title: "Payment Completed Successfully",
+          message: "Success",
+          icon: "success",
+          button: "OK",
+        })
+        .then(() => {
+          window.location.reload();
+        })
       },
       prefill: {
         name: "Value Matrix",
@@ -206,7 +229,8 @@ console.log(result1)
                       <div className={`${!modal ? "hidden" : "block"}`}>
                         <div className="w-full">
                           <div className="w-full my-5">
-                            <p className="text-xl font-semibold">Buy Credits</p><p onClick={()=>{setModal(false)}}>Close</p>
+                            <img src={logo} width="100"/>
+                            <h3 className="my-5">Enter the number of credit you want to purchase</h3>
                           <input
                                   id="amount"
                                   name="amount"
@@ -220,11 +244,18 @@ console.log(result1)
                                 >
                                  
                                 </input>
-                            <button
-                              className=" hover:bg-blue-700 text-white font-bold py-2 my-4 px-4 text-md flex text-center rounded-lg"
-                              style={{ backgroundColor: "#034488" }}
-                              onClick={() => {displayRazorpay(credit)}}
-                            >Buy</button>
+                            <div className="" style={{ display:"flex" }}>
+                              <button
+                                className=" hover:bg-blue-700 text-white font-bold py-2 my-4 px-4 text-md flex text-center rounded-lg"
+                                style={{ backgroundColor: "#034488" }}
+                                onClick={() => {displayRazorpay(credit)}}
+                              >Buy</button>
+                              <button
+                                className="mx-3 hover:bg-blue-700 text-white font-bold py-2 my-4 px-4 text-md flex text-center rounded-lg"
+                                style={{ backgroundColor: "#034488" }}
+                                onClick={() => {setModal(false)}}
+                              >Close</button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -352,28 +383,24 @@ console.log(result1)
             <div className="md:w-1/2 lg:w-full sm:w-full mx-5 rounded-lg"><SessionCard /></div>
 
 
-            <div className="shadow-lg my-5 md:w-1/2 lg:w-full md:mx-1 lg:mx-5 md:my-0 rounded-lg py-5 bg-white sm:w-full h-28">
+            <div className="shadow-lg my-5 md:w-1/2 lg:w-full md:mx-1 lg:mx-5 md:my-0 rounded-lg py-2 bg-white sm:w-full h-28">
               <div className="flex items-start space-x-3 px-6  ">
                 <div className="mt-3">
-                  <p className="text-lg text-left font-semibold">
-                    Credit Status $
+                  <p className="text-lg text-left">
+                    <p className="text-left text-lg font-semibold">
+                      Wallet Credit - {currentCredit}
+                    </p>
                   </p>
                   <button
-                    className=" hover:bg-blue-700 text-white font-bold py-2 px-4 text-xs flex text-center rounded-lg"
+                    className=" hover:bg-blue-700 text-white font-bold my-3 py-2 px-4 text-xs flex text-center rounded-lg"
                     style={{ backgroundColor: "#034488" }}
                     onClick={() => {
                       setModal(true);
                     }}
                   >
-                    {/* <p classname=" py-2"><AiOutlinePlus/></p> */}
-                    {/* <p className="py-1 px-2 text-sm font-bold">
-              {" "}
-              <AiOutlinePlus />
-            </p> */}
                     <p className="py-1">Buy Credits</p>
                   </button>
                 </div>
-                <div className="text-2xl font-bold flex my-auto"> 6200 <p className="text-green-500"><AiOutlineArrowUp /></p><p className="text-lg">62% </p></div>
               </div>
             </div>
             <div className="shadow-lg sm:w-full rounded-lg md:w-full lg:w-full py-10 my-8 h-auto mx-5 bg-white px-4">

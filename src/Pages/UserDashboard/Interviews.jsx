@@ -18,6 +18,7 @@ import {
   HiOutlinePlay,
 } from "react-icons/hi";
 import { CgWorkAlt } from "react-icons/cg";
+import swal from "sweetalert";
 const JobList = (props) => {
   const [jobs, setJobs] = React.useState([]);
   const [loader, setLoader] = React.useState(true);
@@ -279,7 +280,10 @@ const JobList = (props) => {
                                   {job.status}
                                 </span>
                               </div>
-                              {/* {job.startDate === new Date() && job.status === "Accepted*/}
+                                {
+                                  job.status === "Accepted" || job.status === "Pending" ? (
+                                    <div className="px-5 text-center my-5 text-md" onClick={async()=>{
+                                        let update = await updateInterviewApplication(job.uploadBy, { status:"Interviewed" });
 
 
 
@@ -295,6 +299,29 @@ const JobList = (props) => {
                                     </span>
                                 </div>
                                 {/* } */}
+                                        let update2 = await updateWallet(job._id);
+                                    }}>
+                                      
+                                        <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
+                                          Join
+                                        </span>
+                                    </div>
+                                  ) : (
+                                  <div className="px-5 text-center my-5 text-md" onClick={async()=>{
+                                    swal({
+                                      title: "Interviewed Already Completed",
+                                      message: "Success",
+                                      icon: "success",
+                                      button: "OK",
+                                    })
+                                  }}>
+                                    
+                                      <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
+                                        Completed
+                                      </span>
+                                  </div>
+                                )
+                                }
                             </div>
 
                             <div className="px-4 mx-2 py-4 align-middle absolute -right-2 top-0">

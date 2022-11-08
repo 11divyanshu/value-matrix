@@ -1158,17 +1158,6 @@ export default function Tabs(props) {
             <AiOutlineUnorderedList />
           </p>
         </div>
-        <div
-          className={`tabHead ${index === 5 && "active"}`}
-          onClick={() => {
-            setIndex(5);
-          }}
-        >
-          <p className="md:visible hidden content">Bank Details</p>
-          <p className="icons hidden">
-            <AiOutlineUnorderedList />
-          </p>
-        </div>
       </div>
       <div className="tabContent px-7 bg-white  w-full p-5" hidden={index != 0}>
         {user !== null && user !== undefined && (
@@ -4161,98 +4150,6 @@ export default function Tabs(props) {
             Submit
           </button>
         </div>
-      </div>
-      <div className="tabContent px-5 bg-white p-5" hidden={index != 5}>
-        {user !== null && user !== undefined && (
-          <Formik>
-            <Form>
-              <div className="flex flex-wrap mt-2 w-full gap-y-5">
-                <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                  <label className="font-semibold text-lg md:w-2/5 mx-2">
-                    Bank Name
-                  </label>
-                  <div className="w-full">
-                    <Field
-                      type="text"
-                      name="username"
-                      style={{
-                        boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
-                        borderRadius: "5px",
-                      }}
-                      className="block border-gray-200 py-1 w-full"
-                    />
-                    <ErrorMessage
-                      name="username"
-                      component="div"
-                      className="text-sm text-red-600"
-                    />
-                  </div>
-                </div>
-                <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                  <label className="font-semibold text-lg md:w-2/5 mx-2">
-                    Account No.
-                  </label>
-                  <div className="w-full">
-                    <Field
-                      type="text"
-                      name="firstName"
-                      style={{
-                        boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
-                        borderRadius: "5px",
-                      }}
-                      className="block border-gray-200 py-1 w-full"
-                    />
-                    <ErrorMessage
-                      name="firstName"
-                      component="div"
-                      className="text-sm text-red-600"
-                    />
-                  </div>
-                </div>
-                <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                  <label className="font-semibold text-lg md:w-2/5 mx-2">
-                    IFSC Code
-                  </label>
-                  <div className="w-full">
-                    <Field
-                      type="text"
-                      name="firstName"
-                      style={{
-                        boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
-                        borderRadius: "5px",
-                      }}
-                      className="block border-gray-200 py-1 w-full"
-                    />
-                    <ErrorMessage
-                      name="firstName"
-                      component="div"
-                      className="text-sm text-red-600"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="w-full text-center">
-                <button
-                  className="bg-blue-500 px-4 mx-2 py-2 text-white rounded-lg my-5"
-                  style={{ backgroundColor: "#034488" }}
-                  type="submit"
-                >
-                  Save
-                </button>
-
-                <button
-                  type="button"
-                  className="bg-blue-500 px-4 mx-2 py-2 text-white rounded-lg my-5"
-                  style={{ backgroundColor: "#034488" }}
-                  onClick={() => update(user)}
-                >
-                  Submit
-                </button>
-              </div>
-            </Form>
-          </Formik>
-        )}
       </div>
     </div>
   );
