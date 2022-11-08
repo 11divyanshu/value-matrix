@@ -1,4 +1,4 @@
-import React from "react";
+import React , {useEffect,Fragment} from "react";
 
 // Components
 import Card from "../../Components/Dashbaord/Cards";
@@ -11,11 +11,34 @@ import VideoCall from "../../assets/images/Call.svg";
 import Board from "../../assets/images/board.svg";
 import Graph from "../../assets/images/graph.png";
 import LGraph from "../../assets/images/lgraph.png";
-
+import swal from "sweetalert";
 import { BsThreeDots } from "react-icons/bs";
 import Sidebar from "../../Components/SuperXIDashboard/Sidebar";
-
+import { PaymentSuccess, newOrder,getUserCurrentCredit } from "../../service/api.js"
+import { AiOutlineArrowUp } from "react-icons/ai";
+import logo from "../../assets/images/logo.png";
+import { Dialog, Transition } from "@headlessui/react";
 const Panel = () => {
+  const [user, setUser] = React.useState(null);
+  const [modal, setModal] = React.useState(null);
+  const [amount, setAmount] = React.useState(null);
+  const [currentCredit, setCurrentCredit] = React.useState(null);
+  React.useEffect(()=>{
+    let user = JSON.parse(localStorage.getItem("user"));
+    setUser(user);
+  })
+
+  React.useEffect(() => {
+    const getCredit = async () => {
+      console.log("Checking function")
+      let user = JSON.parse(localStorage.getItem("user"));
+      let res = await getUserCurrentCredit(user._id); 
+      if(res){
+        setCurrentCredit(res.data.data.credit);
+      }
+    }
+    getCredit();
+  },[])
   const data = React.useMemo(
     () => [
       {
@@ -37,7 +60,93 @@ const Panel = () => {
     ],
     []
   )
+function loadScript(src) {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = src;
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
+  }
+  async function displayRazorpay(amt) {
+    const res = await loadScript(
+      "https://checkout.razorpay.com/v1/checkout.js"
+    );
 
+    if (!res) {
+      alert("Razorpay SDK failed to load. Are you online?");
+      return;
+    }
+
+    // creating a new order
+    const result = await newOrder({user_type : user.user_type  , amount:amt ,userId: user._id});
+    console.log(result)
+    if (!result) {
+      alert("Server error. Are you online?");
+      return;
+    }
+    console.log(result.data);
+
+
+
+    // Getting the order details back
+     const { amount, id: order_id, currency } = result.data.order;
+    // let amount = result.data.order.amount
+    // let order_id = result.data.order.order_id
+    // let currency = result.data.order.currency
+    let transactionId = result.data.id;
+    console.log(transactionId)
+    const options = {
+      key: "rzp_test_6ri9glEbS06F1H", // Enter the Key ID generated from the Dashboard
+      amount: amount.toString(),
+      currency: currency,
+      name: "Value Matrix",
+      description: "Test Transaction",
+      image: { logo },
+      order_id: order_id,
+      handler: async function (response) {
+        const data = {
+          orderCreationId: order_id,
+          razorpayPaymentId: response.razorpay_payment_id,
+          razorpayOrderId: response.razorpay_order_id,
+          razorpaySignature: response.razorpay_signature
+         
+        };
+
+
+    const result1 = await PaymentSuccess({data:data,id:transactionId,userId:user._id ,amount:amount});
+        console.log("Swal Check");
+        swal({
+          title: "Payment Completed Successfully",
+          message: "Success",
+          icon: "success",
+          button: "OK",
+        })
+        .then(() => {
+          window.location.reload();
+        })
+      },
+      prefill: {
+        name: "Value Matrix",
+        email: "vmdeveloper171@gmail.com",
+        contact: "9999999999",
+      },
+      notes: {
+        address: "Value Matrix Corporate Office",
+      },
+      theme: {
+        color: "#61dafb",
+      },
+    };
+
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+  }
 
   return (
     <div className="flex bg-slate-100 w-full sm:p-1">
@@ -91,7 +200,117 @@ const Panel = () => {
           </div>
 
           <div className="sm:w-full md:w-2/6 my-4 lg:mx-4 ">
+          {modal && (
+            <Transition
+              appear
+              show={modal}
+              as={Fragment}
+              className="relative z-1050 w-full"
+              style={{ zIndex: 1000 }}
+            >
+              <Dialog
+                as="div"
+                className="relative z-1050 w-5/6"
+                onClose={() => { }}
+                static={true}
+              >
+                <div
+                  className="fixed inset-0 bg-black/30"
+                  aria-hidden="true"
+                />
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <div className="fixed inset-0 bg-black bg-opacity-25" />
+                </Transition.Child>
+
+                <div className="fixed inset-0 overflow-y-auto ">
+                  <div className="flex min-h-full items-center justify-center p-4 text-center max-w-4xl mx-auto">
+                    <Transition.Child
+                      as={Fragment}
+                      enter="ease-out duration-300"
+                      enterFrom="opacity-0 scale-95"
+                      enterTo="opacity-100 scale-100"
+                      leave="ease-in duration-200"
+                      leaveFrom="opacity-100 scale-100"
+                      leaveTo="opacity-0 scale-95"
+                    >
+                      <Dialog.Panel className="w-full px-7 transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
+                        <div className={`${!modal ? "hidden" : "block"}`}>
+                          <div className="w-full">
+                            <div className="w-full my-5">
+                              <img src={logo} width="100"/>
+                            <h3 className="my-5">Enter the number of credit you want to purchase</h3>
+                            <input
+                                    id="amount"
+                                    name="amount"
+                                    className="block border border-gray-200 my-4 py-1 px-3 w-full"
+                                  
+                                  onChange={async(event) => {
+                                    console.log(event.target.value);
+                                    setAmount(event.target.value);
+                                   
+                                  }}
+                                  min={1}
+                              onKeyPress={(e) => {
+                                if (e.key === '-' || e.key === '+' || (e.target.value === '' && e.key === '0') || e.key === 'e' || e.key === '.' || e.key === ',' || e.key === 'E' || e.key === ' ' || e.key === 'Enter' || e.key === 'Backspace' || e.key === 'Delete' || e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                                  e.preventDefault();
+                                }
+                              }}
+                                  >
+                                   
+                                  </input>
+                              <div className="" style={{ display:"flex" }}>
+                              <button
+                                className=" hover:bg-blue-700 text-white font-bold py-2 my-4 px-4 text-md flex text-center rounded-lg"
+                                style={{ backgroundColor: "#034488" }}
+                                onClick={() => {displayRazorpay(amount)}}
+                              >Buy</button>
+                              <button
+                                className="mx-3 hover:bg-blue-700 text-white font-bold py-2 my-4 px-4 text-md flex text-center rounded-lg"
+                                style={{ backgroundColor: "#034488" }}
+                                onClick={() => {setModal(false)}}
+                              >Close</button>
+                            </div>
+                            </div>
+                          </div>
+                        </div>
+                      </Dialog.Panel>
+                    </Transition.Child>
+                  </div>
+                </div>
+              </Dialog>
+            </Transition>
+          )}
             <SessionCard />
+
+            <div className="shadow-lg my-5 md:w-1/2 lg:w-full md:mx-1 lg:mx-5 md:my-0 rounded-lg py-5 bg-white sm:w-full h-32">
+              <div className="flex items-start space-x-3 px-6  ">
+                <div className="py-5">
+                  <p className="text-lg text-left">
+                    <p className="text-left text-lg font-semibold">
+                      Wallet Credit - {currentCredit}
+                    </p>
+                  </p>
+                  <button
+                    className=" hover:bg-blue-700 text-white font-bold py-2 px-4 text-xs flex text-center rounded-lg"
+                    style={{ backgroundColor: "#034488" }}
+                    onClick={() => {
+                      setModal(true);
+                    }}
+                  >
+                    <p className="py-1">Buy Credits</p>
+                  </button>
+                </div>
+                <div className="text-2xl font-bold flex py-5"> 6200 <p className="text-green-500"><AiOutlineArrowUp /></p><p className="text-lg">62% </p></div>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -233,136 +452,6 @@ const Panel = () => {
 
 
       </div>
-      {/* <div className="flex flex-col-reverse lg:flex-row"> */}
-      {/* <div className="w-2/5 p-3">
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-        </div> */}
-      {/* <div className="w-3/5 p-3">
-          <div className="flex space-x-3 md:flex-row flex-col ">
-            <div className="w-3/5 mx-2">
-              <div className="shadow-lg  py-5 flex justify-around space-x-9 px-4 bg-slate-100">
-                <div className="space-y-2">
-                  <p className="text-blue-400 text-3xl font-semibold">16</p>
-                  <p className="font-semibold text-sm uppercase text-gray-700">
-                    Total Interview
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <p className="text-orange-400 text-3xl font-semibold">4</p>
-                  <p className="font-semibold text-sm uppercase text-gray-700">
-                    Pending Interview
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <p className="text-purple-400 text-3xl font-semibold">12</p>
-                  <p className="font-semibold text-sm uppercase text-gray-700">
-                    Completed Interview
-                  </p>
-                </div>
-              </div>
-              <div className="flex space-x-3 py-4">
-                <div className="w-1/2 bg-orange-200 p-3 space-y-3">
-                  <div className="flex items-center">
-                    <p className="text-md font-bold text-gray-700">
-                      Credits Bought
-                    </p>
-                    <BsThreeDots className="text-orange-400 ml-auto text-lg" />
-                  </div>
-                  <div>
-                    <div>
-                      <img
-                        src={LGraph}
-                        alt="graph"
-                        className="md:h-20  -z-10 md:w-32 h-8 w-full"
-                      />
-                      <p className="text-gray-800 text-lg font-bold ">
-                       12k
-                      </p>
-                      <p className="text-xs">This Month</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="w-1/2 p-3 space-y-3" style={{ backgroundColor: "#B4C6F0" }}>
-                  <div className="flex items-center">
-                    <p className="text-md font-bold text-gray-700">
-                      Current Balance
-                    </p>
-                    <BsThreeDots className="text-blue-400 ml-auto text-lg" />
-                  </div>
-                  <div>
-                    <div className="w-full h-22 relative">
-                      <img
-                        src={Graph}
-                        alt="graph"
-                        className="md:h-20  -z-10 md:w-32 h-8 w-full"
-                      />
-                      <p className="text-gray-800 text-lg font-bold">
-                        3.4 k
-                      </p>
-                      <p className="text-xs">This Month</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="w-2/5 mx-1">
-              <SessionCard />
-            </div>
-          </div> */}
-      {/* <div className="flex w-3/5 md:space-x-4 space-x-4 flex-wrap justify-center">
-            <div className="rounded-sm shadow-lg py-12 space-y-3 bg-purple-200 text-center px-10 my-3">
-              <p className="text-md font-bold text-gray-700">
-                Post a Job
-              </p>
-              <img
-                src={VideoCall}
-                alt="videoCall"
-                className="md:h-32 md:w-32 h-16 w-16 mx-auto"
-              />
-              <button className="bg-purple-600 rounded-md px-3 text-white text-sm hover:bg-purple-700 py-2">
-                view
-              </button>
-            </div>
-            <div className="rounded-sm shadow-lg py-12 space-y-3 bg-blue-200 text-center px-10  my-3">
-              <p className="text-md font-bold text-gray-700">
-                Buy Credits
-              </p>
-              <img src={Board} alt="Board" className="md:h-32 md:w-32 h-16 w-16 mx-auto" />
-              <button className="bg-blue-600 rounded-md px-3 text-white text-sm hover:bg-blue-700 py-2">
-                View
-              </button>
-            </div>
-            <div className="rounded-sm shadow-lg py-12 space-y-3 bg-orange-200 text-center px-10  my-3">
-              <p className="text-md font-bold text-gray-700">
-                Culture Training
-              </p>
-              <img
-                src={VideoCall}
-                alt="videoCall"
-                className="md:h-32 md:w-32 h-16 w-16 mx-auto"
-              />
-              <button className="bg-orange-600 rounded-md px-3 text-white text-sm hover:bg-orange-700 py-2">
-                Train Now
-              </button>
-            </div>
-            <div className="rounded-sm shadow-lg py-12 space-y-3 bg-blue-200 text-center px-10  my-3">
-              <p className="text-md font-bold text-gray-700">
-                Assistance
-              </p>
-              <img src={Board} alt="Board" className="md:h-32 md:w-32 h-16 w-16 mx-auto" />
-              <button className="bg-blue-600 rounded-md px-3 text-white text-sm hover:bg-blue-700 py-2">
-                View
-              </button>
-            </div>
-          </div>
-        \
-        </div>
-
-      </div> */}
-
     </div>
   );
 };

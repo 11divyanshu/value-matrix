@@ -1550,4 +1550,10 @@ export const userAcceptUpdate = async (id) => {
 }
 
 
-
+export const getUserCurrentCredit = async (id) => {
+  try{
+     return await axios.post(`${url}/getUserCurrentCredit`, {'userId':id}) 
+  }catch(err){
+    console.log("Error : " + err);
+  }
+}

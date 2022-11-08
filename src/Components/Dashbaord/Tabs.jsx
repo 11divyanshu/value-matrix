@@ -134,17 +134,6 @@ export default function Tabs() {
             <AiOutlineUnorderedList />
           </p>
         </div>
-        <div
-          className={`tabHead ${index === 5 && "active"}`}
-          onClick={() => {
-            setIndex(5);
-          }}
-        >
-          <p className="lg:visible hidden content">Bank Details</p>
-          <p className="icons hidden">
-            <AiOutlineUnorderedList />
-          </p>
-        </div>
       </div>
       <div
         className="tabContent shadow-md bg-white p-5 w-full"
@@ -785,71 +774,7 @@ export default function Tabs() {
           </div>
         )}
       </div>
-      <div
-        className="tabContent shadow-md mx-6 bg-white py-5 px-5"
-        hidden={index != 5}
-      >
-        {user !== null && user !== undefined && (
-          <Formik>
-            <Form>
-              <div className="flex flex-wrap w-70 gap-y-5">
-                <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0 md:flex w-full  space-y-1">
-                  <label className="font-bold text-lg lg:mx-5 md:w-2/5 mt-2">
-                    Bank Name
-                  </label>
-                  <Field
-                    type="text"
-                    name="username"
-                    disabled
-                    style={{
-                      boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
-                      borderRadius: "5px",
-                      height: "40px",
-                    }}
-                    className="block border-gray-200 py-1 md:w-4/5 sm:w-4/5 w-full"
-                    // style={{
-                    //   boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
-                    //   border: "none",
-                    // }}
-                  />
-                </div>
-                <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0 md:flex w-full  space-y-1">
-                  <label className="font-semibold text-lg lg:mx-5 md:w-2/5">
-                    Account No.
-                  </label>
-                  <Field
-                    type="text"
-                    name="firstName"
-                    disabled
-                    style={{
-                      boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
-                      borderRadius: "5px",
-                      height: "40px",
-                    }}
-                    className="block border-gray-200 py-1 md:w-4/5 sm:w-4/5  w-full"
-                  />
-                </div>
-                <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0 md:flex w-full  space-y-1">
-                  <label className="font-semibold text-lg lg:mx-5 md:w-2/5">
-                    IFSC Code
-                  </label>
-                  <Field
-                    type="text"
-                    name="firstName"
-                    disabled
-                    style={{
-                      boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
-                      borderRadius: "5px",
-                      height: "40px",
-                    }}
-                    className="block border-gray-200 py-1 md:w-4/5 sm:w-4/5  w-full"
-                  />
-                </div>
-              </div>
-            </Form>
-          </Formik>
-        )}
-      </div>
+
     </div>
   );
 }

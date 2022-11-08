@@ -5,7 +5,7 @@ import Card from "../../Components/SuperXIDashboard/Cards";
 import SessionCard from "../../Components/CompanyDashboard/sessions";
 import { AiOutlineArrowUp } from "react-icons/ai"
 import Avatar from "../../assets/images/UserAvatar.png";
-import { PaymentSuccess, newOrder } from "../../service/api.js"
+import { PaymentSuccess, newOrder,getUserCurrentCredit } from "../../service/api.js"
 // Assets
 import { Chart } from 'react-charts'
 import { Dialog, Transition } from "@headlessui/react";
@@ -17,14 +17,27 @@ import LGraph from "../../assets/images/lgraph.png";
 
 import { BsThreeDots } from "react-icons/bs";
 import logo from "../../assets/images/logo.png"
+import swal from "sweetalert";
 const Panel = () => {
   const [user, setUser] = React.useState(null);
   const [modal, setModal] = React.useState(null);
   const [amount, setAmount] = React.useState(null);
-
-  React.useEffect(() => {
+  const [currentCredit, setCurrentCredit] = React.useState(null);
+  React.useEffect(()=>{
     let user = JSON.parse(localStorage.getItem("user"));
     setUser(user);
+  })
+
+  React.useEffect(() => {
+    const getCredit = async () => {
+      console.log("Checking function")
+      let user = JSON.parse(localStorage.getItem("user"));
+      let res = await getUserCurrentCredit(user._id); 
+      if(res){
+        setCurrentCredit(res.data.data.credit);
+      }
+    }
+    getCredit();
   },[])
   const data = React.useMemo(
     () => [
@@ -108,10 +121,17 @@ console.log(transactionId)
         };
 
 
-console.log(transactionId)
 const result1 = await PaymentSuccess({data:data,id:transactionId,userId:user._id ,amount:amount});
-
-        alert(result1.data.msg);
+        console.log("Swal Check");
+        swal({
+          title: "Payment Completed Successfully",
+          message: "Success",
+          icon: "success",
+          button: "OK",
+        })
+        .then(() => {
+          window.location.reload();
+        })
       },
       prefill: {
         name: "Value Matrix",
@@ -206,7 +226,8 @@ const result1 = await PaymentSuccess({data:data,id:transactionId,userId:user._id
                       <div className={`${!modal ? "hidden" : "block"}`}>
                         <div className="w-full">
                           <div className="w-full my-5">
-                            <p className="text-xl font-semibold">Buy Credits</p><p onClick={()=>{setModal(false)}}>Close</p>
+                            <img src={logo} width="100"/>
+                            <h3 className="my-5">Enter the number of credit you want to purchase</h3>
                           <input
                                   id="amount"
                                   name="amount"
@@ -217,14 +238,27 @@ const result1 = await PaymentSuccess({data:data,id:transactionId,userId:user._id
                                   setAmount(event.target.value);
                                  
                                 }}
+                                min={1}
+                            onKeyPress={(e) => {
+                              if (e.key === '-' || e.key === '+' || (e.target.value === '' && e.key === '0') || e.key === 'e' || e.key === '.' || e.key === ',' || e.key === 'E' || e.key === ' ' || e.key === 'Enter' || e.key === 'Backspace' || e.key === 'Delete' || e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                                e.preventDefault();
+                              }
+                            }}
                                 >
                                  
                                 </input>
-                            <button
-                              className=" hover:bg-blue-700 text-white font-bold py-2 my-4 px-4 text-md flex text-center rounded-lg"
-                              style={{ backgroundColor: "#034488" }}
-                              onClick={() => {displayRazorpay(amount)}}
-                            >Buy</button>
+                            <div className="" style={{ display:"flex" }}>
+                              <button
+                                className=" hover:bg-blue-700 text-white font-bold py-2 my-4 px-4 text-md flex text-center rounded-lg"
+                                style={{ backgroundColor: "#034488" }}
+                                onClick={() => {displayRazorpay(amount)}}
+                              >Buy</button>
+                              <button
+                                className="mx-3 hover:bg-blue-700 text-white font-bold py-2 my-4 px-4 text-md flex text-center rounded-lg"
+                                style={{ backgroundColor: "#034488" }}
+                                onClick={() => {setModal(false)}}
+                              >Close</button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -362,8 +396,10 @@ const result1 = await PaymentSuccess({data:data,id:transactionId,userId:user._id
             <div className="shadow-lg my-5 md:w-1/2 lg:w-full md:mx-1 lg:mx-5 md:my-0 rounded-lg py-5 bg-white sm:w-full h-32">
               <div className="flex items-start space-x-3 px-6  ">
                 <div className="py-5">
-                  <p className="text-lg text-left font-semibold">
-                    Credit Score $
+                  <p className="text-lg text-left">
+                    <p className="text-left text-lg font-semibold">
+                      Wallet Credit - {currentCredit}
+                    </p>
                   </p>
                   {/* <p className="text-xs">
 
