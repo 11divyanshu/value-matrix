@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// export const url = "http://localhost:8000";
-export const url = "https://dev.serve.valuematrix.ai";
+export const url = "http://localhost:8000";
+// export const url = "https://dev.serve.valuematrix.ai";
 // export const url = "http://3.6.65.3:8000"
 // export const url = "https://backend.babyhost.in"
 export const frontendUrl = "http://localhost:3001";
@@ -1210,6 +1210,25 @@ export const checkinterviewdetails = async (meetingid ,participantdetails) => {
       participant: participantdetails
     }
     );
+    
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
+
+export const fetchinterviewdetails = async (meetingid ,participantdetails) => {
+  try {
+    return await axios.post(`${url}/fetchinterviewdetails`,{
+      meetingID: meetingid,
+      participant: participantdetails
+    }
+    );
+    
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
+
 // export const twilioToken = async () => {
 //   try {
 //     return await axios.get(`${url}/token`
@@ -1220,12 +1239,6 @@ export const checkinterviewdetails = async (meetingid ,participantdetails) => {
 
 //   }
 // }
-
-  } catch (err) {
-    console.log("Error : ", err);
-
-  }
-}
 
 export const processFlask = async (currentUser, imageSrc, type, id) => {
   try {
@@ -1401,6 +1414,30 @@ export const getinterviewdetails = async (id) => {
   try {
     return await axios.post(`${url}/getinterviewdetails`,{
       meetingID: id
+    });
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+
+export const compilecode = async (formdata) => {
+  try {
+    return await axios.post(`${url}/compilecode`,{
+      data: formdata
+    });
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+
+export const checkcompilestatus = async (token) => {
+  try {
+    return await axios.post(`${url}/checkcompilestatus`,{
+      token: token
     });
 
   } catch (err) {
