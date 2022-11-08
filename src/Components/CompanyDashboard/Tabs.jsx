@@ -99,6 +99,7 @@ export default function Tabs() {
                     <Field
                       type="text"
                       name="firstName"
+                      disabled
                       className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5"
                       style={{ borderRadius: "5px" }}
                     />

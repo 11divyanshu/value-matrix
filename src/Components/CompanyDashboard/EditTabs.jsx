@@ -426,23 +426,6 @@ export default function Tabs(props) {
                 <div className="flex flex-wrap w-full gap-y-5">
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg md:w-2/5 mx-5">
-                      Username
-                    </label>
-
-                    <Field
-                      type="text"
-                      name="username"
-                      className="block border-gray-400 py-2 px-4 md:w-3/5 sm:w-4/5 mx-5"
-                      style={{ borderRadius: "5px" }}
-                    />
-                    <ErrorMessage
-                      name="username"
-                      component="div"
-                      className="text-sm text-red-600"
-                    />
-                  </div>
-                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                    <label className="font-semibold text-lg md:w-2/5 mx-5">
                       Company Name
                     </label>
                     <Field
