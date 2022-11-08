@@ -7,12 +7,12 @@ import { useParams } from "react-router-dom";
 import logo from "../assets/images/logo.png";
 import Webcam from "react-webcam";
 
-import { getinterviewdetails, checkinterviewdetails, processFlask, updateinterviewcheck } from "../service/api.js";
+import { getinterviewdetails, checkinterviewdetails, processFlask, updateinterviewcheck, fetchinterviewdetails } from "../service/api.js";
 import { IoEar } from "react-icons/io5";
 
 export default function App() {
     const [meeting, initMeeting] = useDyteClient();
-    const [screenDisplay, setScreenDisplay] = useState(6);
+    const [screenDisplay, setScreenDisplay] = useState(0);
     const [currentbtn, setcurrentbtn] = useState(0);
     const [counter, setcounter] = useState(0);
     const [overlapImage, setOverlapImage] = useState("");
@@ -34,28 +34,29 @@ export default function App() {
 
           let interviewStatus = await checkinterviewdetails(id, user);
           setInterviewStatus(interviewStatus);
-          initDyte(interviewStatus.data);
 
-          // if(interviewStatus.data.data === "Data Retrieved"){
-          //   if(interviewStatus.data.faceTest === false && interviewStatus.data.gazeTest === false && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
-          //     setScreenDisplay(1);
-          //     setTimeout(()=>{
-          //       document.getElementById("getUserPhoto").click();
-          //     },2000);
-          //   }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === false && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
-          //     setScreenDisplay(2);
-          //   }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
-          //     setScreenDisplay(3);
-          //   }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === true && interviewStatus.data.earTest === false){
-          //     setScreenDisplay(4);
-          //   }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === true && interviewStatus.data.earTest === true){
-          //     if(interviewStatus.data.interviewStatus === false){
-          //       setScreenDisplay(5);
-          //     }else{
-          //       setScreenDisplay(6);
-          //     }
-          //   }
-          // }
+          if(interviewStatus.data.data === "Data Retrieved"){
+            if(interviewStatus.data.faceTest === false && interviewStatus.data.gazeTest === false && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
+              setScreenDisplay(1);
+              setTimeout(()=>{
+                document.getElementById("getUserPhoto").click();
+              },2000);
+            }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === false && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
+              setScreenDisplay(2);
+            }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
+              setScreenDisplay(3);
+            }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === true && interviewStatus.data.earTest === false){
+              setScreenDisplay(4);
+            }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === true && interviewStatus.data.earTest === true){
+              setcurrentbtn(1);
+              if(interviewStatus.data.interviewStatus === false){
+                setScreenDisplay(5);
+              }else{
+                initDyte(interviewStatus.data);
+                setScreenDisplay(6);
+              }
+            }
+          }
         }
       }
       initial();
@@ -77,12 +78,26 @@ export default function App() {
       setcurrentbtn(0);
       setScreenDisplay(screenDisplay+1);
       setOverlapImage(null);
-      setTimeout(()=>{
-        document.getElementById("getUserPhoto").click();
-      },1000);
+      if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === true && interviewStatus.data.earTest === true){
+        setScreenDisplay(5);
+        if(interviewStatus.data.interviewStatus){
+          setcurrentbtn(1);
+        }else{
+          setcurrentbtn(1);
+        }
+      }else{
+        setTimeout(()=>{
+          document.getElementById("getUserPhoto").click();
+        },1000);
+      }
     }
 
-    const joinMeeting = ()=>{}
+    const joinMeeting = async ()=>{
+      let interviewStatus = await fetchinterviewdetails(id, currentUser);
+      setInterviewStatus(interviewStatus);
+      initDyte(interviewStatus.data);
+      setScreenDisplay(6);
+    }
 
     const processFrame = async (imageSrc)=>{
       setcounter(counter+1);
@@ -407,12 +422,22 @@ export default function App() {
               {screenDisplay<5 && currentbtn===1?
               <button className="mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={nextFrame}>Next</button>
               :
+              null
+              }
+              {screenDisplay<5 && currentbtn===0?
               <button className="mt-4 bg-gray-400 text-white font-bold py-2 px-4 rounded">Next</button>
+              :
+              null
               }
               {screenDisplay===5 && currentbtn===1?
               <button className="mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={joinMeeting}>Join !!</button>
               :
+              null
+              }
+              {screenDisplay===5 && currentbtn===0?
               <button className="mt-4 bg-gray-400 text-white font-bold py-2 px-4 rounded">Waiting!!</button>
+              :
+              null
               }
             </div>
           </div>

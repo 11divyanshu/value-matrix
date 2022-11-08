@@ -18,6 +18,7 @@ export default function MyMeeting() {
     const [language, setlanguage] = useState(null);
     const [theme, settheme] = useState(null);
     const [code, setcode] = useState(null);
+    const [usercode, setusercode] = useState("");
 
     const [value, setValue] = useState(code || "");
 
@@ -116,7 +117,7 @@ export default function MyMeeting() {
               language={language || "javascript"}
               value={value}
               theme="vs-dark"
-              defaultValue="Write your code here..."
+              defaultValue={atob(usercode)}
               onChange={handleEditorChange}
             />
           </div>
