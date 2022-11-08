@@ -29,7 +29,7 @@ const UserProfile = () => {
       
       let xi_info = await getXIInfo(user._id);
       console.log(xi_info);
-      if(xi_info.data.user.level){
+      if(xi_info.data.user){
 
         setLevel(xi_info.data.user.level)
       }
@@ -86,7 +86,7 @@ const UserProfile = () => {
                 {user.firstName} {user.lastname}
               </p>
               <p className="text-gray-400 mx-6 text-lg">{user.username}</p>
-             { level && <p className="text-gray-400 mx-6 text-lg">Level : {level}</p>}
+             { level !== null && <p className="text-gray-400 mx-6 text-lg">Level : {level}</p>}
 
             </div>
             <div className=" mt-3 md:text-right  md:ml-auto sm:text-left ">
@@ -97,6 +97,7 @@ const UserProfile = () => {
                   let url = window.location.href;
                   let type = url.split("/")[3];
                   window.location.href = "/" + type + "/editProfile";
+
                 }}
               >
                 Edit Profile

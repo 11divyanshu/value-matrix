@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import JobCard from "../../Components/XIDashboard/JobCard.jsx";
-import { slotDetailsOfUser } from "../../service/api.js";
+import { slotDetailsOfUser,updateWallet } from "../../service/api.js";
 
 import Loader from "../../assets/images/loader.gif";
 import Avatar from "../../assets/images/UserAvatar.png";
@@ -98,121 +98,124 @@ const JobList = (props) => {
               <div className="w-full">
                 {jobs &&
                   jobs.map((job, index) => {
-                    if (job.slotType == "SuperXI" ) {
+                    if (job.slotType == "SuperXI") {
                       return (
                         <div id={"intercard" + (index + 1)} className={index < 5 ? "w-full px-5 bg-white py-1 my-2" : "w-full px-5 bg-white py-1 my-2 hidden"}>
-                        <div className="grid grid-cols-1  items-center lg:grid-cols-6 relative py-3">
-                          <div className="px-5 my-2 text-md col-span-2 space-y-1">
-                            <p>
-                              Interview with
-                              <span className="font-semibold">
-                                {" "}
-                                {job.XI[0].firstName} {job.XI[0].lastname}
-                              </span>
-                            </p>
-                            <p>
-                              <span className="font-semibold">Upgrade to XI </span>{" "}
-                           </p>
-                            
-                              { job.xiinterviewApplication && job.xiinterviewApplication.length>0 ?
-                            <p className="text-sm">
-                              <span className="font-semibold">
-                                Interview Id :
-                              </span>
-                              { job.interviewId }
-                            </p>:null}
-                            
-                          </div>
-                          <div className="px-5 my-2 text-md">
-                            <p>
-                              {" "}
-                              {new Date(job.startDate).getDate() +
-                                "-" +
-                                (new Date(job.startDate).getMonth() + 1) +
-                                "-" +
-                                new Date(job.startDate).getFullYear()}
-                            </p>
-                            <p className="text-gray-400 text-sm">
-                              {new Intl.DateTimeFormat("en-US", {
-                                weekday: "long",
-                              }).format(new Date(job.startDate))}
-                            </p>
-                          </div>
-                          <div className="px-5 my-2 text-md">
-                            <p>
-                              {new Date(job.startDate).getHours() +
-                                ":" +
-                                new Date(job.startDate).getMinutes()}{" "}
-                              -{" "}
-                              {new Date(job.endDate).getHours() +
-                                ":" +
-                                new Date(job.endDate).getMinutes()}
-                            </p>
-                            <p className="text-red-400 text-xs">
-                              <Moment to={new Date(job.startDate)}>
-                                {new Date()}
-                              </Moment>
-                            </p>
-                          </div>
-                          <div className="flex space-x-3 items-center">
-                            <div className="px-5 text-center my-5 text-md">
-                              <span className="bg-gray-400 text-gray-800 text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl dark:bg-yellow-200 dark:text-gray-900 my-2 py-2">
-                                {job.status}
-                              </span>
-                            </div>
-                            <div className="px-5 text-center my-5 text-md">
-                              {/* <Link to={`/XI/updateEvaluationDetails/${job.application._id}`}>
-    <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
-      Update
-    </span></Link> */}
-                            </div>
-                          </div>
+                          <div className="grid grid-cols-1  items-center lg:grid-cols-6 relative py-3">
+                            <div className="px-5 my-2 text-md col-span-2 space-y-1">
+                              <p>
+                                Interview with
+                                <span className="font-semibold">
+                                  {" "}
+                                  {job.XI[0].firstName} {job.XI[0].lastname}
+                                </span>
+                              </p>
+                              <p>
+                                <span className="font-semibold">Upgrade to XI </span>{" "}
+                              </p>
 
-                          <div className="px-4 mx-2 py-4 align-middle absolute -right-2 top-0">
-                            <Popover className="relative mt-1">
-                              {({ open }) => (
-                                <>
-                                  <Popover.Button
-                                    className={`
+                              {job.xiinterviewApplication && job.xiinterviewApplication.length > 0 ?
+                                <p className="text-sm">
+                                  <span className="font-semibold">
+                                    Interview Id :
+                                  </span>
+                                  {job.interviewId}
+                                </p> : null}
+
+                            </div>
+                            <div className="px-5 my-2 text-md">
+                              <p>
+                                {" "}
+                                {new Date(job.startDate).getDate() +
+                                  "-" +
+                                  (new Date(job.startDate).getMonth() + 1) +
+                                  "-" +
+                                  new Date(job.startDate).getFullYear()}
+                              </p>
+                              <p className="text-gray-400 text-sm">
+                                {new Intl.DateTimeFormat("en-US", {
+                                  weekday: "long",
+                                }).format(new Date(job.startDate))}
+                              </p>
+                            </div>
+                            <div className="px-5 my-2 text-md">
+                              <p>
+                                {new Date(job.startDate).getHours() +
+                                  ":" +
+                                  new Date(job.startDate).getMinutes()}{" "}
+                                -{" "}
+                                {new Date(job.endDate).getHours() +
+                                  ":" +
+                                  new Date(job.endDate).getMinutes()}
+                              </p>
+                              <p className="text-red-400 text-xs">
+                                <Moment to={new Date(job.startDate)}>
+                                  {new Date()}
+                                </Moment>
+                              </p>
+                            </div>
+                            <div className="flex space-x-3 items-center">
+                              <div className="px-5 text-center my-5 text-md">
+                                <span className="bg-gray-400 text-gray-800 text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl dark:bg-yellow-200 dark:text-gray-900 my-2 py-2">
+                                  {job.status}
+                                </span>
+                              </div>
+                              <div className="px-5 text-center my-5 text-md" onClick={async () => {
+                                let updateWallet = await updateWallet(job._id);
+
+                              }}>
+
+                                <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
+                                  Update
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="px-4 mx-2 py-4 align-middle absolute -right-2 top-0">
+                              <Popover className="relative mt-1">
+                                {({ open }) => (
+                                  <>
+                                    <Popover.Button
+                                      className={`
       ${open ? "" : "text-opacity-90"} focus:outline-0`}
-                                  >
-                                    <BsThreeDots className="text-gray-700 text-lg cursor-pointer hover:text-gray-800" />
-                                  </Popover.Button>
-                                  <Transition
-                                    as={Fragment}
-                                    enter="transition ease-out duration-200"
-                                    enterFrom="opacity-0 translate-y-1"
-                                    enterTo="opacity-100 translate-y-0"
-                                    leave="transition ease-in duration-150"
-                                    leaveFrom="opacity-100 translate-y-0"
-                                    leaveTo="opacity-0 translate-y-1"
-                                  >
-                                    <Popover.Panel className="absolute z-10  max-w-sm  px-9 sm:px-0 lg:max-w-3xl md:w-[8vw]">
-                                      <div className="overflow-hidden rounded-sm shadow-lg ring-1 ring-black ring-opacity-5">
-                                        <div className="relative gap-8 bg-white p-3 lg:grid-cols-4  justify-between">
-                                          <div className="flex items-center  text-gray-800 space-x-2">
-                                            {/* <BsThreeDots className="text-md" /> */}
-                                            <p className="text-sm font-semibold py-2">
-                                              <Link
-                                                to={`/XI/interviewDetails/${job._id}`}
-                                              >
-                                                View Details{" "}
-                                              </Link>
-                                            </p>{" "}
+                                    >
+                                      <BsThreeDots className="text-gray-700 text-lg cursor-pointer hover:text-gray-800" />
+                                    </Popover.Button>
+                                    <Transition
+                                      as={Fragment}
+                                      enter="transition ease-out duration-200"
+                                      enterFrom="opacity-0 translate-y-1"
+                                      enterTo="opacity-100 translate-y-0"
+                                      leave="transition ease-in duration-150"
+                                      leaveFrom="opacity-100 translate-y-0"
+                                      leaveTo="opacity-0 translate-y-1"
+                                    >
+                                      <Popover.Panel className="absolute z-10  max-w-sm  px-9 sm:px-0 lg:max-w-3xl md:w-[8vw]">
+                                        <div className="overflow-hidden rounded-sm shadow-lg ring-1 ring-black ring-opacity-5">
+                                          <div className="relative gap-8 bg-white p-3 lg:grid-cols-4  justify-between">
+                                            <div className="flex items-center  text-gray-800 space-x-2">
+                                              {/* <BsThreeDots className="text-md" /> */}
+                                              <p className="text-sm font-semibold py-2">
+                                                <Link
+                                                  to={`/XI/interviewDetails/${job._id}`}
+                                                >
+                                                  View Details{" "}
+                                                </Link>
+                                              </p>{" "}
+                                            </div>
                                           </div>
                                         </div>
-                                      </div>
-                                    </Popover.Panel>
-                                  </Transition>
-                                </>
-                              )}
-                            </Popover>
+                                      </Popover.Panel>
+                                    </Transition>
+                                  </>
+                                )}
+                              </Popover>
+                            </div>
                           </div>
-                        </div>
                         </div>
                       )
                     }
-                    else{
+                    else {
                       return (
                         <div id={"intercard" + (index + 1)} className={index < 5 ? "w-full px-5 bg-white py-1 my-2" : "w-full px-5 bg-white py-1 my-2 hidden"}>
                           <div className="grid grid-cols-1  items-center lg:grid-cols-6 relative py-3">
@@ -272,11 +275,15 @@ const JobList = (props) => {
                                   {job.status}
                                 </span>
                               </div>
-                              <div className="px-5 text-center my-5 text-md">
-                                {/* <Link to={`/XI/updateEvaluationDetails/${job.application._id}`}>
-                            <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
-                              Update
-                            </span></Link> */}
+                              <div className="px-5 text-center my-5 text-md" onClick={async () => {
+                                let update = await updateWallet(job.job[0]._id);
+console.log(updateWallet)
+                              }}>
+
+                                <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
+                                  Join
+                                </span>
+                             
                               </div>
                             </div>
 

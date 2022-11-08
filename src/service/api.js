@@ -1288,6 +1288,64 @@ export const updateXICategory = async (data, token) => {
     console.log("Error calling Post Job API : ", error);
   }
 }
+// CreditCategory
+
+export const ListCreditCategory = async () => {
+  try {
+    return await axios.get(`${url}/ListCreditCategory`
+     
+    );
+  }catch (error) {
+    console.log("Error calling Currency Category API : ", error);
+  }
+}
+export const addCreditCategory = async (data) => {
+  try {
+    return await axios.post(`${url}/addCreditCategory`, data 
+     
+    );
+  }catch (error) {
+    console.log("Error calling Currency Category API : ", error);
+  }
+}
+export const updateCreditCategory = async (data) => {
+  try {
+    return await axios.post(`${url}/updateCreditCategory`, data
+     
+    );
+  }catch (error) {
+    console.log("Error calling Currency Category API : ", error);
+  }
+}
+
+// Currency Converter
+export const ListCreditConverter = async () => {
+  try {
+    return await axios.get(`${url}/ListCreditConverter`
+     
+    );
+  }catch (error) {
+    console.log("Error calling Converter API : ", error);
+  }
+}
+export const addCreditConverter = async (data) => {
+  try {
+    return await axios.post(`${url}/addCreditConverter`, data 
+     
+    );
+  }catch (error) {
+    console.log("Error calling Converter API : ", error);
+  }
+}
+export const updateCreditConverter = async (data) => {
+  try {
+    return await axios.post(`${url}/updateCreditConverter`, data
+     
+    );
+  }catch (error) {
+    console.log("Error calling Converter API : ", error);
+  }
+}
 // XI Levels
 
 export const ListXILevel = async () => {
@@ -1323,6 +1381,8 @@ export const updateXILevel = async (data, token) => {
     console.log("Error calling Post Job API : ", error);
   }
 }
+
+
 // XI Levels
 
 export const ListXIMultiplier = async () => {
@@ -1396,6 +1456,47 @@ export const XIPerformance = async (data,type) => {
 }
 
 
+// razorpay
+export const PaymentSuccess = async (data) => {
+  try {
+    return await axios.post(`${url}/payment/success`, data) 
+     
+    
+  }catch (error) {
+    console.log("Error calling  Razorpay API : ", error);
+  }
+}
+export const newOrder = async (data) => {
+  try {
+    return await axios.post(`${url}/payment/orders`,data) 
+     
+    
+  }catch (error) {
+    console.log("Error calling  Razorpay API : ", error);
+  }
+}
+
+
+// User Credit Info
+export const getCreditInfoList = async (data) => {
+  try {
+    return await axios.post(`${url}/getCreditInfoList`, data) 
+     
+    
+  }catch (error) {
+    console.log("Error calling  Razorpay API : ", error);
+  }
+}
+export const updateUserCreditInfo = async (data) => {
+  try {
+    return await axios.post(`${url}/updateUserCreditInfo`, data) 
+     
+    
+  }catch (error) {
+    console.log("Error calling  Razorpay API : ", error);
+  }
+}
+
 export const updateinterviewcheck = async (data, type, id) => {
   try {
     return await axios.post(`${url}/updateinterviewcheck`,{
@@ -1427,6 +1528,44 @@ export const compilecode = async (formdata) => {
     return await axios.post(`${url}/compilecode`,{
       data: formdata
     });
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+// Transactions
+
+export const getTransactions = async (id) => {
+  try {
+    return await axios.get(`${url}/getTransactions?id=${id}`)
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+export const updateWallet = async (id) => {
+  try {
+    return await axios.post(`${url}/updateWallet?id=${id}`)
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+export const userRequestUpdate = async (id) => {
+  try {
+    return await axios.get(`${url}/userRequestUpdate?id=${id}`)
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+export const userAcceptUpdate = async (id) => {
+  try {
+    return await axios.get(`${url}/userAcceptUpdate?id=${id}`)
 
   } catch (err) {
     console.log("Error : ", err);

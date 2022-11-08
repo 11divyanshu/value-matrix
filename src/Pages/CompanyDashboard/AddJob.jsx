@@ -111,7 +111,7 @@ const AddJob = () => {
   const [eligibleButton, setEligibleButton] = React.useState(false);
   const [editIndex, setEditIndex] = React.useState(null);
   const [loading, setLoading] = React.useState(null);
-
+  const [checkCsvLength, setCheckCsvLength] = React.useState(false);
   const inputRef = React.useRef(null);
 
   const [submitError, setSubmitError] = React.useState(null);
@@ -414,97 +414,109 @@ const AddJob = () => {
           let d = selectedData;
           let r = rejectedData;
           const json = await xlsx.utils.sheet_to_json(worksheet);
-
-          json.forEach((item) => {
-            const EmailIndex = d.findIndex((el) => {
-              return (
-                (el.Email !== null &&
-                  el.Email !== undefined &&
-                  el.Email !== "undefined" &&
-                  item.Email !== undefined &&
-                  el.Email.trim().toLowerCase() ===
-                  item.Email.trim().toLowerCase()) ||
-                el.Contact === item.Contact
+          console.log("checking json");
+          console.log(json.length);
+          if(json.length > 0){
+            json.forEach((item) => {
+              const EmailIndex = d.findIndex((el) => {
+                return (
+                  (el.Email !== null &&
+                    el.Email !== undefined &&
+                    el.Email !== "undefined" &&
+                    item.Email !== undefined &&
+                    el.Email.trim().toLowerCase() ===
+                    item.Email.trim().toLowerCase()) ||
+                  el.Contact === item.Contact
+                );
+              });
+              const RejectIndex = r.findIndex(
+                (el) =>
+                  (el.Email !== null &&
+                    item.Email !== undefined &&
+                    (el.Email !== undefined && el.Email.trim().toLowerCase()) ===
+                    item.Email.trim().toLowerCase()) ||
+                  el.Contact === item.Contact
               );
+  
+              if (EmailIndex !== -1 || RejectIndex !== -1) {
+                r.push({
+                  FirstName: item["First Name"] ? item["First Name"] : "",
+                  LastName: item["Last Name"] ? item["Last Name"] : "",
+                  Email: item.Email ? item.Email : "",
+                  Contact: item.Contact ? item.Contact : "",
+                  Reason: "Email/Contact Already Added",
+                  Address: item.Address ? item.Address : "",
+                });
+                return;
+              }
+              if (
+                item.Email === null ||
+                item.Email === undefined ||
+                item.Email.trim() === "" ||
+                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
+                  item.Email.trim()
+                )
+              ) {
+                r.push({
+                  FirstName: item["First Name"] ? item["First Name"] : "",
+                  LastName: item["Last Name"] ? item["Last Name"] : "",
+                  Email: item.Email ? item.Email : "",
+                  Contact: item.Contact ? item.Contact : "",
+                  Reason: "Invalid Email",
+                  Address: item.Address ? item.Address : "",
+                });
+                return;
+              }
+              if (item.Contact === null || !/^[0-9]{10}$/i.test(item.Contact)) {
+                r.push({
+                  FirstName: item["First Name"] ? item["First Name"] : "",
+                  LastName: item["Last Name"] ? item["Last Name"] : "",
+                  Email: item.Email ? item.Email : "",
+                  Contact: item.Contact ? item.Contact : "",
+                  Reason: "Invalid Contact",
+                  Address: item.Address ? item.Address : "",
+                });
+                return;
+              }
+              if (
+                item["First Name"] === null ||
+                item["First Name"] === undefined ||
+                item["First Name"].trim() === ""
+              ) {
+                r.push({
+                  FirstName: item["First Name"] ? item["First Name"] : "",
+                  LastName: item["Last Name"] ? item["Last Name"] : "",
+                  Email: item.Email ? item.Email : "",
+                  Contact: item.Contact ? item.Contact : "",
+                  Reason: "Invalid First Name",
+                  Address: item.Address ? item.Address : "",
+                });
+                return;
+              }
+              if (EmailIndex === -1) {
+                d.push({
+                  FirstName: item["First Name"] ? item["First Name"] : "",
+                  LastName: item["Last Name"] ? item["Last Name"] : "",
+                  Email: item.Email ? item.Email : "",
+                  Contact: item.Contact ? item.Contact : "",
+                  Address: item.Address ? item.Address : "",
+                });
+              }
             });
-            const RejectIndex = r.findIndex(
-              (el) =>
-                (el.Email !== null &&
-                  item.Email !== undefined &&
-                  (el.Email !== undefined && el.Email.trim().toLowerCase()) ===
-                  item.Email.trim().toLowerCase()) ||
-                el.Contact === item.Contact
-            );
-
-            if (EmailIndex !== -1 || RejectIndex !== -1) {
-              r.push({
-                FirstName: item["First Name"] ? item["First Name"] : "",
-                LastName: item["Last Name"] ? item["Last Name"] : "",
-                Email: item.Email ? item.Email : "",
-                Contact: item.Contact ? item.Contact : "",
-                Reason: "Email/Contact Already Added",
-                Address: item.Address ? item.Address : "",
-              });
-              return;
-            }
-            if (
-              item.Email === null ||
-              item.Email === undefined ||
-              item.Email.trim() === "" ||
-              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
-                item.Email.trim()
-              )
-            ) {
-              r.push({
-                FirstName: item["First Name"] ? item["First Name"] : "",
-                LastName: item["Last Name"] ? item["Last Name"] : "",
-                Email: item.Email ? item.Email : "",
-                Contact: item.Contact ? item.Contact : "",
-                Reason: "Invalid Email",
-                Address: item.Address ? item.Address : "",
-              });
-              return;
-            }
-            if (item.Contact === null || !/^[0-9]{10}$/i.test(item.Contact)) {
-              r.push({
-                FirstName: item["First Name"] ? item["First Name"] : "",
-                LastName: item["Last Name"] ? item["Last Name"] : "",
-                Email: item.Email ? item.Email : "",
-                Contact: item.Contact ? item.Contact : "",
-                Reason: "Invalid Contact",
-                Address: item.Address ? item.Address : "",
-              });
-              return;
-            }
-            if (
-              item["First Name"] === null ||
-              item["First Name"] === undefined ||
-              item["First Name"].trim() === ""
-            ) {
-              r.push({
-                FirstName: item["First Name"] ? item["First Name"] : "",
-                LastName: item["Last Name"] ? item["Last Name"] : "",
-                Email: item.Email ? item.Email : "",
-                Contact: item.Contact ? item.Contact : "",
-                Reason: "Invalid First Name",
-                Address: item.Address ? item.Address : "",
-              });
-              return;
-            }
-            if (EmailIndex === -1) {
-              d.push({
-                FirstName: item["First Name"] ? item["First Name"] : "",
-                LastName: item["Last Name"] ? item["Last Name"] : "",
-                Email: item.Email ? item.Email : "",
-                Contact: item.Contact ? item.Contact : "",
-                Address: item.Address ? item.Address : "",
-              });
-            }
-          });
-          await setCandidateData(d);
-          await setRejectedData(r);
-          await setSelectedData(d);
-          candidateInputRef.current.value = "";
+            await setCandidateData(d);
+            await setRejectedData(r);
+            await setSelectedData(d);
+            candidateInputRef.current.value = "";
+          }
+          else{
+            swal({
+              title: "Error",
+              message: "Data File Empty",
+              icon: "error",
+              button: "Ok",
+            });
+          }
+          
         };
         reader.readAsArrayBuffer(e.target.files[0]);
       }
@@ -945,6 +957,7 @@ const AddJob = () => {
                             name="validTill"
                             type="date"
                             placeholder=""
+                            onKeyPress={(e) => e.preventDefault()}
                             className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4  w-full focus:outline-0 focus:border-0 px-4 py-2"
                             min={Date.now()}
                           />
@@ -980,6 +993,12 @@ const AddJob = () => {
                             type="number"
                             placeholder=""
                             className="border-[0.5px] rounded-lg my-3 border-gray-400 md:w-3/4  w-full focus:outline-0 focus:border-0 px-4 py-2"
+                            min={1}
+                            onKeyPress={(e) => {
+                              if (e.key === '-' || e.key === '+' || (e.target.value === '' && e.key === '0') || e.key === 'e' || e.key === '.' || e.key === ',' || e.key === 'E' || e.key === ' ' || e.key === 'Enter' || e.key === 'Backspace' || e.key === 'Delete' || e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                           <ErrorMessage
                             name="reqApp"
@@ -1569,14 +1588,14 @@ const AddJob = () => {
                         }}
                       >
                         {" "}
-                        Add File{" "}
+                        Bulk{" "}
                       </label>
                     )}
                     <input
                       ref={candidateInputRef}
                       type="file"
                       className="hidden"
-                      accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                      accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                       onChange={handleCandidateFileUpload}
                     />
                     {(rejectedData.length > 0 || selectedData.length > 0) && (
@@ -2139,6 +2158,8 @@ const AddJob = () => {
                   </button>
                   <button
                     className="bg-[#034488] px-4 py-1 rounded-sm text-white"
+                    // set disabled to true if selectedData is empty
+                    disabled={selectedData.length === 0}
                     onClick={() => {
                       setPageIndex(4);
                     }}
@@ -2823,6 +2844,12 @@ const AddJob = () => {
                             type="number"
                             placeholder=""
                             className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 focus:outline-0 focus:border-0 px-4"
+                            min={1}
+                            onKeyPress={(e) => {
+                              if (e.key === '-' || e.key === '+' || (e.target.value === '' && e.key === '0') || e.key === 'e' || e.key === '.' || e.key === ',' || e.key === 'E' || e.key === ' ' || e.key === 'Enter' || e.key === 'Backspace' || e.key === 'Delete' || e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                           <ErrorMessage
                             name="salary"
@@ -2837,6 +2864,12 @@ const AddJob = () => {
                             type="number"
                             placeholder=""
                             className="border-[0.5px] shadow-sm rounded-lg my-3 border-gray-400 focus:outline-0 focus:border-0 px-4"
+                            min={1}
+                            onKeyPress={(e) => {
+                              if (e.key === '-' || e.key === '+' || (e.target.value === '' && e.key === '0') || e.key === 'e' || e.key === '.' || e.key === ',' || e.key === 'E' || e.key === ' ' || e.key === 'Enter' || e.key === 'Backspace' || e.key === 'Delete' || e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                           <ErrorMessage
                             name="maxSalary"

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { getCompanyList, getUserFromId } from "../../service/api";
+import { getCompanyList, getUserFromId,getCreditInfoList ,updateUserCreditInfo} from "../../service/api";
 import { useNavigate } from "react-router-dom";
 
 // Assets
@@ -15,9 +15,10 @@ const CompanyList = () => {
     const initial = async () => {
       let access = await localStorage.getItem("access_token");
       let user = JSON.parse(await localStorage.getItem("user"));
-      let res = await getCompanyList({ user_id: user._id }, access);
+      let res = await getCreditInfoList({user_type:"Company"});
+      console.log(res)
       if (res && res.status === 200) {
-        setCompanyList(res.data.company);
+        setCompanyList(res.data);
       }
     };
     initial();
@@ -79,12 +80,18 @@ const CompanyList = () => {
                         scope="col"
                         className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                       >
-                        View Details
+                     Consumption Credit
+                      </th>
+                      <th
+                        scope="col"
+                        className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                      >
+                       
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {companyList.map((user, index) => {
+                    {companyList && companyList.map((user, index) => {
                       return (
                         <tr
                           className={`${
@@ -95,13 +102,31 @@ const CompanyList = () => {
                             {index + 1}
                           </td>
                           <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {user.username}
+                            {user.user[0].username}
                           </td>
                           <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {user.firstName}
+                            {user.user[0].firstName}
                           </td>
                           <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {user.email}
+                            {user.user[0].email}
+                          </td>
+                          <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                          <input
+                                  id="multiplier"
+                                  name="multiplier"
+                                  style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                                  className="block border-gray-200 py-1 px-3 w-full"
+                                 value={user.defaultCredit}
+                                onChange={async(event) => {
+                                  console.log(event.target.value);
+                                  let update = await updateUserCreditInfo({id:user._id , updates:{defaultCredit: event.target.value}});
+                                  if(update.status==200){
+                                    console.log('done');
+                                  }
+                                }}
+                                >
+                                 
+                                </input>
                           </td>
                           <td className="text-xs text-blue-900 font-light px-6 py-4 whitespace-nowrap">
                             <Link to={`/admin/company/${user._id}`}>

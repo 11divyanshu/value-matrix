@@ -11,7 +11,8 @@ import {
   updateUserDetails,
   getUserFromId,
   handleXIInterview,
-  priorityEngine
+  priorityEngine,
+  userRequestUpdate
 } from "../../service/api";
 import Avatar from "../../assets/images/UserAvatar.png";
 import { BsFillBookmarkFill } from "react-icons/bs";
@@ -390,17 +391,22 @@ const JobInvitations = (props) => {
 
 
                                           let max = 0;
-                                          for (let i = 0; i < priority.data.slot.length; i++) {
-                                            if (priority.data.slot[i].priority >= max) {
-                                              max = priority.data.slot[i].priority;
-                                              setSlotCompare(priority.data.slot[i]);
-                                            }
-                                          }
-                                          console.log(slotCompare)
-                                          let res = await bookSlot({ candidate_id: candidate.candidate_id, slotId: slotCompare._id });
+                                          // for (let i = 0; i < priority.data.slot.length; i++) {
+                                          //   if (priority.data.slot[i].priority >= max) {
+                                          //     max = priority.data.slot[i].priority;
+                                          //     setSlotCompare(priority.data.slot[i]);
+                                          //   }
+                                          // }
+                                          // console.log(slotCompare)
+                                          let res = await bookSlot({ candidate_id: candidate.candidate_id, slotId: priority.data.slot._id });
                                           console.log(res)
 
                                           if (res.status === 200) {
+
+                                            if(xiInter){
+
+                                              let userRequestUpdate = await userRequestUpdate(user._id);
+                                            }
                                             setchooseSlot(false);
                                             setotpModal(true);
                                             setotp(res.data.OTP)
