@@ -35,6 +35,10 @@ const AddQuestions = () => {
   const [initialQuestion, setInitialQuestion] = React.useState({
     question: "",
     answer: "",
+    type: "",
+    level: "",
+    experience: "",
+    category: "",
   });
   const [showQuestionForm, setShowQuestionForm] = React.useState(false);
   const [questionEditIndex, setQuestionEditIndex] = React.useState(null);
@@ -69,7 +73,7 @@ const AddQuestions = () => {
           if (item["Question"] && item["Question"] !== "") {
             setQuestions([
               ...questions,
-              { question: item["Question"], answer: item["Answer"] },
+              { question: item["Question"], answer: item["Answer"], type: item["Type"], level: item["Level"], experience: item["Experience"], category: item["Category"] },
             ]);
           }
         });
@@ -103,6 +107,7 @@ const AddQuestions = () => {
     setLoading(true);
     let user = JSON.parse(await localStorage.getItem("user"));
     let token = user.access_token;
+    console.log(questions);
     let res = await addInterviewQuestion(
       { user_id: user._id, questions: questions },
       token
@@ -177,6 +182,7 @@ const AddQuestions = () => {
                 return errors;
               }}
               onSubmit={(values) => {
+                console.log(values);
                 if (questionEditIndex !== null) {
                   let temp = [...questions];
                   temp[questionEditIndex] = values;
@@ -186,11 +192,15 @@ const AddQuestions = () => {
                   setInitialQuestion({
                     question: "",
                     answer: "",
+                    type: "",
+                    level: "",
+                    experience: "",
+                    category: "",
                   });
                 } else {
                   setQuestions([
                     ...questions,
-                    { question: convertedQuestion, answer: values.answer },
+                    { question: convertedQuestion, answer: values.answer, type: values.type, level: values.level, experience: values.experience, category: values.category },
                   ]);
                   setShowQuestionForm(false);
                   setInputQue(null);
@@ -198,6 +208,10 @@ const AddQuestions = () => {
                   setInitialQuestion({
                     question: "",
                     answer: "",
+                    type: "",
+                    level: "",
+                    experience: "",
+                    category: "",
                   });
                 }
               }}
@@ -241,6 +255,95 @@ const AddQuestions = () => {
                       className="text-red-600 text-sm"
                     />
                   </div>
+                  <div className="flex my-6 gap-x-3">
+                    <div className="md:w-2/4">
+                      <label className="font-semibold">Type</label>
+                      <Field
+                        component="select"
+                        id="type"
+                        name="type"
+                        className="w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:border-[#034488]"
+                        multiple={false}
+                      >
+                        <option value="" selected disabled>Select Question Type</option>
+                        <option value="Problem Statement">Problem Statement</option>
+                        <option value="General Question">General Question</option>
+                      </Field>
+                      <ErrorMessage
+                        component="div"
+                        name="type"
+                        className="text-red-600 text-sm"
+                      />
+                    </div>
+                    <div className="md:w-1/4">
+                      <label className="font-semibold">Level</label>
+                      <Field
+                        component="select"
+                        id="level"
+                        name="level"
+                        className="w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:border-[#034488]"
+                        multiple={false}
+                      >
+                        <option value="" selected disabled>Select Level</option>
+                        <option value="Easy">Easy</option>
+                        <option value="Moderate">Moderate</option>
+                        <option value="Hard">Hard</option>
+                      </Field>
+                      <ErrorMessage
+                        component="div"
+                        name="level"
+                        className="text-red-600 text-sm"
+                      />
+                    </div>
+                    <div className="md:w-1/4">
+                      <label className="font-semibold">Experience</label>
+                      <Field
+                        component="select"
+                        id="experience"
+                        name="experience"
+                        className="w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:border-[#034488]"
+                        multiple={false}
+                      >
+                        <option value="" selected disabled>Select Experience</option>
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advance">Advance</option>
+                        <option value="Professional">Professional</option>
+                      </Field>
+                      <ErrorMessage
+                        component="div"
+                        name="experience"
+                        className="text-red-600 text-sm"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex my-6 gap-x-3">
+                    <div className="md:w-full">
+                      <label className="font-semibold">Category</label>
+                      <Field
+                        component="select"
+                        id="category"
+                        name="category"
+                        className="w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:border-[#034488]"
+                        multiple={false}
+                      >
+                        <option value="" selected disabled>Select Skill Category</option>
+                        <option value="Java Full Stack Developer">Java Full Stack Developer</option>
+                        <option value="Front End Developer">Front End Developer</option>
+                        <option value="React Developer">React Developer</option>
+                        <option value="Angular Developer">Angular Developer</option>
+                        <option value="Backend Developer">Backend Developer</option>
+                        <option value="Python Developer">Python Developer</option>
+                        <option value="Java Developer">Java Developer</option>
+                        <option value="Android Developer">Android Developer</option>
+                      </Field>
+                      <ErrorMessage
+                        component="div"
+                        name="category"
+                        className="text-red-600 text-sm"
+                      />
+                    </div>
+                  </div>
                   <div className="flex space-x-4">
                     <button
                       type="submit"
@@ -259,6 +362,10 @@ const AddQuestions = () => {
                         setInitialQuestion({
                           question: "",
                           answer: "",
+                          type: "",
+                          level: "",
+                          experience: "",
+                          category: "",
                         });
                       }}
                     >
@@ -403,7 +510,7 @@ const AddQuestions = () => {
               }}
               onSubmit={async(values) => {
                 if (questionEditIndex !== null) {
-                  let update = await updateInterviewQuestion({id :questionEditIndex._id,updates:{question:convertedQuestion  ,answer:values.answer}})
+                  let update = await updateInterviewQuestion({id :questionEditIndex._id,updates:{question:convertedQuestion , answer:values.answer, type:values.type, level:values.level, experience:values.experience, category:values.category}})
                   if(update.status == 200){
                     console.log("updated")
                     setModal(false)
@@ -415,6 +522,10 @@ const AddQuestions = () => {
                   setInitialQuestion({
                     question: "",
                     answer: "",
+                    type: "",
+                    level: "",
+                    experience: "",
+                    category: "",
                   });
                 }
               }}
@@ -458,6 +569,95 @@ const AddQuestions = () => {
                       className="text-red-600 text-sm"
                     />
                   </div>
+                  <div className="flex my-6 gap-x-3">
+                    <div className="md:w-2/4">
+                      <label className="font-semibold">Type</label>
+                      <Field
+                        component="select"
+                        id="type"
+                        name="type"
+                        className="w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:border-[#034488]"
+                        multiple={false}
+                      >
+                        <option value="" selected disabled>Select Question Type</option>
+                        <option value="Problem Statement">Problem Statement</option>
+                        <option value="General Question">General Question</option>
+                      </Field>
+                      <ErrorMessage
+                        component="div"
+                        name="type"
+                        className="text-red-600 text-sm"
+                      />
+                    </div>
+                    <div className="md:w-1/4">
+                      <label className="font-semibold">Level</label>
+                      <Field
+                        component="select"
+                        id="level"
+                        name="level"
+                        className="w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:border-[#034488]"
+                        multiple={false}
+                      >
+                        <option value="" selected disabled>Select Level</option>
+                        <option value="Easy">Easy</option>
+                        <option value="Moderate">Moderate</option>
+                        <option value="Hard">Hard</option>
+                      </Field>
+                      <ErrorMessage
+                        component="div"
+                        name="level"
+                        className="text-red-600 text-sm"
+                      />
+                    </div>
+                    <div className="md:w-1/4">
+                      <label className="font-semibold">Experience</label>
+                      <Field
+                        component="select"
+                        id="experience"
+                        name="experience"
+                        className="w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:border-[#034488]"
+                        multiple={false}
+                      >
+                        <option value="" selected disabled>Select Experience</option>
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advance">Advance</option>
+                        <option value="Professional">Professional</option>
+                      </Field>
+                      <ErrorMessage
+                        component="div"
+                        name="experience"
+                        className="text-red-600 text-sm"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex my-6 gap-x-3">
+                    <div className="md:w-full">
+                      <label className="font-semibold">Category</label>
+                      <Field
+                        component="select"
+                        id="category"
+                        name="category"
+                        className="w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:border-[#034488]"
+                        multiple={false}
+                      >
+                        <option value="" selected disabled>Select Skill Category</option>
+                        <option value="Java Full Stack Developer">Java Full Stack Developer</option>
+                        <option value="Front End Developer">Front End Developer</option>
+                        <option value="React Developer">React Developer</option>
+                        <option value="Angular Developer">Angular Developer</option>
+                        <option value="Backend Developer">Backend Developer</option>
+                        <option value="Python Developer">Python Developer</option>
+                        <option value="Java Developer">Java Developer</option>
+                        <option value="Android Developer">Android Developer</option>
+                      </Field>
+                      <ErrorMessage
+                        component="div"
+                        name="category"
+                        className="text-red-600 text-sm"
+                      />
+                    </div>
+                  </div>
                   <div className="flex space-x-4">
                     <button
                       type="submit"
@@ -476,6 +676,10 @@ const AddQuestions = () => {
                         setInitialQuestion({
                           question: "",
                           answer: "",
+                          type: "",
+                          level: "",
+                          experience: "",
+                          category: "",
                         });
                       }}
                     >
@@ -544,6 +748,22 @@ const AddQuestions = () => {
                     <span className="font-normal">{question.answer}</span>
                   </p>
                 )}
+                <p className="text-gray-600 font-semibold">
+                  Type :{" "}
+                  <span className="font-normal">{question.type}</span>
+                </p>
+                <p className="text-gray-600 font-semibold">
+                  Level :{" "}
+                  <span className="font-normal">{question.level}</span>
+                </p>
+                <p className="text-gray-600 font-semibold">
+                  Experience :{" "}
+                  <span className="font-normal">{question.experience}</span>
+                </p>
+                <p className="text-gray-600 font-semibold">
+                  Category :{" "}
+                  <span className="font-normal">{question.category}</span>
+                </p>
               </div>
             );
           })}
