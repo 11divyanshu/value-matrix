@@ -26,6 +26,15 @@ export const authenticateSignUp = async (user) => {
   }
 };
 
+export const handleXIStatusChange = async (user) => {
+  try {
+    return await axios.post(`${url}/handleXIStatusChange`, user);
+  } catch (error) {
+    console.log(error.response.data);
+    console.log("Error while calling signup API: ", error);
+  }
+};
+
 // Validate Signup details
 export const validateSignupDetails = async (user) => {
   try {

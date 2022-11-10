@@ -45,7 +45,7 @@ const CompanyProfile = () => {
   }, []);
 
   return (
-    <div className="bg-slate-100 ml-10">
+    <div className="bg-slate-100 ml-10 mr-9 lg:mr-4">
       {/* <p className="text-2xl font-bold" style={{ color: "#3B82F6" }}>Company Details</p> */}
       {user !== null && user !== undefined && (
         <div className="my-3 mx-5">
@@ -53,8 +53,8 @@ const CompanyProfile = () => {
             className="md:h-48 h-24 w-full relative"
             style={{ background: "#99DEFF" }}
           ></div>
-          <div className="relative  rounded-md w-full py-3 md:flex  ">
-          <div className="absolute  sm:left-6 sm:px-2 -top-20 md:-top-28 md:left-20 ">
+          <div className="relative rounded-md w-full py-3 md:flex">
+          <div className="absolute sm:left-6 sm:px-2 -top-20 md:-top-28 md:left-20 ">
               <img
                 src={
                   user && user.profileImg && profileImg ? profileImg : Avatar
