@@ -34,8 +34,7 @@ export default function MyMeeting() {
 
     useEffect(()=>{
       meeting.joinRoom();
-      var dm = document.getElementById("dytemaster");
-      console.log(dm);
+      meeting.self.enableScreenShare();
     },[]);
 
     const leaveCall = ()=>{

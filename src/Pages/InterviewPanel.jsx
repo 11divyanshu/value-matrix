@@ -34,31 +34,31 @@ export default function App() {
 
           let interviewStatus = await checkinterviewdetails(id, user);
           setInterviewStatus(interviewStatus);
-          setScreenDisplay(5);
-          setcurrentbtn(1);
+          // setScreenDisplay(5);
+          // setcurrentbtn(1);
 
-          // if(interviewStatus.data.data === "Data Retrieved"){
-          //   if(interviewStatus.data.faceTest === false && interviewStatus.data.gazeTest === false && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
-          //     setScreenDisplay(15);
-          //     setTimeout(()=>{
-          //       document.getElementById("getUserPhoto").click();
-          //     },2000);
-          //   }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === false && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
-          //     setScreenDisplay(2);
-          //   }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
-          //     setScreenDisplay(3);
-          //   }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === true && interviewStatus.data.earTest === false){
-          //     setScreenDisplay(4);
-          //   }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === true && interviewStatus.data.earTest === true){
-          //     setcurrentbtn(1);
-          //     if(interviewStatus.data.interviewStatus === false){
-          //       setScreenDisplay(5);
-          //     }else{
-          //       initDyte(interviewStatus.data);
-          //       setScreenDisplay(6);
-          //     }
-          //   }
-          // }
+          if(interviewStatus.data.data === "Data Retrieved"){
+            if(interviewStatus.data.faceTest === false && interviewStatus.data.gazeTest === false && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
+              setScreenDisplay(1);
+              setTimeout(()=>{
+                document.getElementById("getUserPhoto").click();
+              },2000);
+            }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === false && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
+              setScreenDisplay(2);
+            }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
+              setScreenDisplay(3);
+            }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === true && interviewStatus.data.earTest === false){
+              setScreenDisplay(4);
+            }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === true && interviewStatus.data.earTest === true){
+              setcurrentbtn(1);
+              if(interviewStatus.data.interviewStatus === false){
+                setScreenDisplay(5);
+              }else{
+                initDyte(interviewStatus.data);
+                setScreenDisplay(6);
+              }
+            }
+          }
         }
       }
       initial();
@@ -110,6 +110,7 @@ export default function App() {
         let updatedinterview = null;
         if(interviewStatus.data.faceTest === false && interviewStatus.data.gazeTest === false && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
           response =  await processFlask(currentUser, imageSrc, "face", id);
+          console.log(response);
           if(response.data.data != ""){
             updatedinterview = await updateinterviewcheck(response.data.data, "face", id);
             console.log(updatedinterview);

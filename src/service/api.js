@@ -5,7 +5,7 @@ export const url = "http://localhost:8000";
 // export const url = "http://3.6.65.3:8000"
 // export const url = "https://backend.babyhost.in"
 export const frontendUrl = "http://localhost:3001";
-export const flaskurl = "http://localhost:5000";
+export const flaskurl = "http://3.110.220.19:5000";
 
 // User Method API
 export const authenticateLogin = async (user) => {
@@ -1596,6 +1596,21 @@ export const checkcompilestatus = async (token) => {
 export const getUserCurrentCredit = async (id) => {
   try{
      return await axios.post(`${url}/getUserCurrentCredit`, {'userId':id}) 
+  }catch(err){
+    console.log("Error : " + err);
+  }
+}
+export const getxiquestions = async (type, level, experience, category) => {
+  try{
+     return await axios.post(`${url}/getxiquestions`, {'type': type, "level": level, "experience": experience, "category": category}) 
+  }catch(err){
+    console.log("Error : " + err);
+  }
+}
+
+export const getinterviewjob = async (id) => {
+  try{
+     return await axios.post(`${url}/getinterviewjob`, {'jobid': id}) 
   }catch(err){
     console.log("Error : " + err);
   }
