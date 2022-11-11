@@ -118,7 +118,7 @@ const CreditCategory = () => {
                         <p>...Loading</p>
                     ) : (
                         <>
-                            <div className="flex justify-between w-full bg-white">
+                            {/* <div className="flex justify-between w-full bg-white">
                                 <div
                                     className="py-4 px-5 md:py-2 md:px-2"
                                     style={{ borderRadius: "6px 6px 0 0" }}
@@ -127,7 +127,7 @@ const CreditCategory = () => {
 
                                     </p>
                                 </div>
-                            </div>
+                            </div> */}
                             {modal && (
                                 <Transition
                                     appear
@@ -363,7 +363,7 @@ const CreditCategory = () => {
                                                 scope="col"
                                                 className="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
                                             >
-                                                Amount(in $)
+                                                Amount (in $)
                                             </th>
                                            
                                             <th

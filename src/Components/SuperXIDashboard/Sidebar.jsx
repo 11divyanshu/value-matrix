@@ -121,7 +121,7 @@ const Sidebar = () => {
     >
    <p className="py-1 px-2 text-sm font-bold"> <AiOutlinePlus/></p> Post New Job
     </button>
-      <SidebarContent    className='text-left mx-5 mt-7'>
+      <SidebarContent    className='text-left mx-5 mt-2'>
         <Menu iconShape="square">
         <MenuItem className='text-gray-700 font-semibold flex' active={window.location.pathname === `/superXI/` || window.location.pathname === `/superXI` } 
         // onClick={()=>{ handleToggle()}}
