@@ -291,7 +291,7 @@ const Panel = () => {
           </Transition>
         )}
             <SessionCard />
-            <div className="shadow-lg my-5 md:w-1/2 lg:w-full md:mx-1 lg:mx-5 md:my-0 rounded-lg py-5 bg-white sm:w-full h-32">
+            <div className="shadow-lg px-3 py-5 bg-white w-full rounded-lg mt-3">
               <div className="flex items-start space-x-3 px-6  ">
                 <div className="py-5">
                   <p className="text-lg text-left">
