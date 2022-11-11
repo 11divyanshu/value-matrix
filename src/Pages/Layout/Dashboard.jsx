@@ -204,11 +204,11 @@ const Dashboard = () => {
 
   return (
     <div className="max-w-screen h-screen">
-      {
+      {/* {
         detailForm &&  (component !== '/editProfile') && (
           <DetailForm isOpen={true} setModalIsOpen={setDetailForm} user={user}/>
         )
-      }
+      } */}
       {modalIsOpen &&(component !== '/editProfile') && (
         <div>
           <CandidateResumeForm isOpen={true} setModalIsOpen={setModalIsOpen} />

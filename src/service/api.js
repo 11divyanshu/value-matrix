@@ -26,6 +26,15 @@ export const authenticateSignUp = async (user) => {
   }
 };
 
+export const handleXIStatusChange = async (user) => {
+  try {
+    return await axios.post(`${url}/handleXIStatusChange`, user);
+  } catch (error) {
+    console.log(error.response.data);
+    console.log("Error while calling signup API: ", error);
+  }
+};
+
 // Validate Signup details
 export const validateSignupDetails = async (user) => {
   try {
@@ -1629,6 +1638,15 @@ export const getxiquestions = async (type, level, experience, category) => {
 export const getinterviewjob = async (id) => {
   try{
      return await axios.post(`${url}/getinterviewjob`, {'jobid': id}) 
+  }catch(err){
+    console.log("Error : " + err);
+  }
+}
+
+
+export const createTaskScheduler = async (data) => {
+  try{
+     return await axios.post(`${url}/createTaskScheduler`,data) 
   }catch(err){
     console.log("Error : " + err);
   }

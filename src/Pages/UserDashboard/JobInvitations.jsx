@@ -12,7 +12,8 @@ import {
   getUserFromId,
   handleXIInterview,
   priorityEngine,
-  userRequestUpdate
+  userRequestUpdate,
+  createTaskScheduler
 } from "../../service/api";
 import Avatar from "../../assets/images/UserAvatar.png";
 import { BsFillBookmarkFill } from "react-icons/bs";
@@ -107,6 +108,12 @@ const JobInvitations = (props) => {
       );
       console.log(res)
       if (res && res.status === 200) {
+        let date = new Date();
+        date = new Date(date.getTime() + 1800000);
+        let res2 = await createTaskScheduler({ applicantId: user._id, interviewerId: slotId.createdBy, nextTime: date, priority: slotId.priority , slotId: slotId._id ,interviewId :  res.data.data._id ,startDate : slotId.startDate })
+
+
+
         let res1 = await updateSlot(slotId._id, { interviewId: res.data.data._id });
         console.log(res1);
         let d = JobInvitation.filter((el) => {
@@ -256,10 +263,17 @@ const JobInvitations = (props) => {
                                   { slotId: slotId._id, interviewer: slotId.createdBy, applicant: user._id, status: "Pending" },
                                   user.access_token
                                 ); window.location.reload();
+                              
 
                                 setslotId(null);
                                 setotpModal(false);
                               } else {
+
+
+
+                              
+
+                             
                                 handleJobInvitation(invitation, true);
                                 if (res.status == 200) {
                                   console.log(invitation);
@@ -403,7 +417,7 @@ const JobInvitations = (props) => {
 
                                           if (res.status === 200) {
 
-                                            if(xiInter){
+                                            if (xiInter) {
 
                                               let userRequestUpdate = await userRequestUpdate(user._id);
                                             }

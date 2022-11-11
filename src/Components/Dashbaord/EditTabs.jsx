@@ -1228,27 +1228,7 @@ export default function Tabs(props) {
               </p> */}
 
                 <div className="flex flex-wrap mt-2 w-full gap-y-5">
-                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                    <label className="font-semibold text-lg md:w-2/5 mx-2">
-                      Username
-                    </label>
-                    <div className="w-full">
-                      <Field
-                        type="text"
-                        name="username"
-                        style={{
-                          boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
-                          borderRadius: "5px",
-                        }}
-                        className="block border-gray-200 py-1 w-full"
-                      />
-                      <ErrorMessage
-                        name="username"
-                        component="div"
-                        className="text-sm text-red-600"
-                      />
-                    </div>
-                  </div>
+                  
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                     <label className="font-semibold text-lg md:w-2/5 mx-2">
                       Name

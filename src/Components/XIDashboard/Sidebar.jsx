@@ -136,7 +136,7 @@ const Sidebar = () => {
             </button>
           </Link>
         </div>
-        <SidebarContent className="text-left mx-5 mt-7">
+        <SidebarContent className="text-left mx-5 mt-2">
           <Menu iconShape="square">
             <MenuItem
               className="text-gray-700 font-semibold flex"
