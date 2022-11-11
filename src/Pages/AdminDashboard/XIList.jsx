@@ -39,7 +39,7 @@ const XIOnboarding = () => {
   const [device, setDevice] = useState(null);
   const [call, setCall] = useState(null);
   const [callUser, setCallUser] = useState(null);
-  const options = ["Approve", "Forwarded"];
+  const options = ["Approved", "Forwarded"];
   const [selected, setSelected] = useState(options[0]);
   const [permissions, setPermissions] = React.useState([
     {
@@ -70,18 +70,18 @@ const XIOnboarding = () => {
     tokenFetch();
   }, []);
 
-  React.useEffect(() => {
-    const initial = async () => {
-      let user = JSON.parse(await localStorage.getItem("user"));
-      let res = await getUserFromId({ id: user._id }, user.access_token);
-      if (res && res.data && res.data.user) {
-        if (res.data.user.permissions[0].admin_permissions.list_XI === false) {
-          navigate(-1);
-        }
-      }
-    };
-    initial();
-  }, []);
+  // React.useEffect(() => {
+  //   const initial = async () => {
+  //     let user = JSON.parse(await localStorage.getItem("user"));
+  //     let res = await getUserFromId({ id: user._id }, user.access_token);
+  //     if (res && res.data && res.data.user) {
+  //       if (res.data.user.permissions[0].admin_permissions.list_XI === false) {
+  //         navigate(-1);
+  //       }
+  //     }
+  //   };
+  //   initial();
+  // }, []);
 
   React.useEffect(() => {
     const initial = async () => {
@@ -134,7 +134,24 @@ const XIOnboarding = () => {
 
   const handleUserStatusChange = async () => {
     let user = JSON.parse(await localStorage.getItem("user"));
-    let result = await handleXIStatusChange({selected});
+    let result = await handleXIStatusChange({id:callUser._id , status : selected});
+    console.log(result)
+    if(result && result.status ===200){
+      swal({
+        title: "Success",
+        text: "XI Onboarding Status Changed",
+        icon: "success",
+        button: "Ok",
+      });
+      window.location.reload();
+    }else{
+      swal({
+        title: "Oops",
+        text: "Something went wrong",
+        icon: "success",
+        button: "Ok",
+      });
+    }
   };
 
   return (
@@ -208,6 +225,7 @@ const XIOnboarding = () => {
                               style={{ backgroundColor: "#034488" }}
                               onClick={() => {
                                 setModal(false);
+                                handleUserStatusChange();
                               }}
                             >
                               OK

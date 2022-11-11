@@ -1615,3 +1615,12 @@ export const getinterviewjob = async (id) => {
     console.log("Error : " + err);
   }
 }
+
+
+export const createTaskScheduler = async (data) => {
+  try{
+     return await axios.post(`${url}/createTaskScheduler`,data) 
+  }catch(err){
+    console.log("Error : " + err);
+  }
+}
