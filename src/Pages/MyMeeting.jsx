@@ -5,13 +5,12 @@ import Navbar from "../Components/XIDashboard/Navbar.jsx";
 import Editor from "@monaco-editor/react";
 import axios from "axios";
 
-import { compilecode, checkcompilestatus } from "../service/api.js";
+import { compilecode, checkcompilestatus, savecode } from "../service/api.js";
 
 import "../assets/stylesheet/dyte.css";
 
 import { languageOptions } from "../Components/languageOption.js";
-
-import { processFlasklive } from "../service/api.js";
+import { useParams } from "react-router-dom";
 
 export default function MyMeeting() {
     const { meeting } = useDyteMeeting();
@@ -28,10 +27,14 @@ export default function MyMeeting() {
     const [currentUser, setCurrentUser] = useState(null);
 
     const [value, setValue] = useState(code || "");
+    const {id} = useParams();
 
-    const handleEditorChange = (value) => {
+    let savecc = null;
+
+    const handleEditorChange = async (value) => {
       setValue(value);
       setcode(value);
+      savecc = await savecode(id, btoa(value));
     };
 
 

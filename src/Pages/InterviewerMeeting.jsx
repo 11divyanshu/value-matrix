@@ -7,11 +7,13 @@ import {
   getUserFromId,
   getUserIdFromToken,
   getProfileImage,
+  startinterview,
+  endinterview,
 } from "../service/api";
 import Editor from "@monaco-editor/react";
 import renderHTML from 'react-render-html';
 
-import { getxiquestions, getinterviewjob, checkinterviewdetails } from "../service/api.js";
+import { getxiquestions, getinterviewjob, checkinterviewdetails, getlivestatus, setquestionresult } from "../service/api.js";
 import { useParams } from "react-router-dom";
 import swal from "sweetalert";
 
@@ -21,10 +23,11 @@ export default function MyMeeting() {
     const [access_token, setAccessToken] = useState(null);
     const [profileImg, setProfileImg] = useState(null);
     const [language, setlanguage] = useState(null);
+    const [livestats, setLiveStats] = useState(null);
     const [theme, settheme] = useState(null);
     const [code, setcode] = useState(null);
     const [usercode, setusercode] = useState("");
-    const [receivedcode, setreceivedcode] = useState("");
+    const [receivedcode, setreceivedcode] = useState("//Write your code here...");
     const [xiquestion, setxiquestion] = useState(null);
     const [selectedlanguage, setselectedlanguage] = useState("");
     const [currentUser, setCurrentUser] = useState(null);
@@ -33,16 +36,27 @@ export default function MyMeeting() {
     const [nqlevel, setnqlevel] = useState(null);
     const [nqexperience, setnqexperience] = useState(null);
     const [nqcategory, setnqcategory] = useState(null);
+    const [lateststats, setlateststats] = useState(null);
+    const [pscount, setpscount] = useState(0);
+    const [gqcount, setgqcount] = useState(0);
 
     const [value, setValue] = useState(code || "");
     const {id} = useParams();
+
+    let fetchinter = null;
+    let getstats = null;
 
     const handleEditorChange = (value) => {
       setValue(value);
     };
 
-    const leaveCall = ()=>{
+    const leaveCall = async ()=>{
       meeting.leaveRoom();
+      let end = await endinterview(id);
+    }
+
+    const startcall = async ()=>{
+      let start = await startinterview(id);
     }
 
     const handletype = (e)=>{
@@ -61,7 +75,49 @@ export default function MyMeeting() {
       setnqcategory(e.target.value);
     }
 
-    const getnextquestion = ()=>{
+    const setcorrect = async ()=>{
+      let intvquestion = {
+        question: xiquestion.question,
+        level: xiquestion.level,
+        type: xiquestion.type,
+        answer: xiquestion.answer,
+        experience: xiquestion.experience,
+        category: xiquestion.category,
+        submission: "Correct"
+      }
+      setxiquestion(null);
+      let setques = await setquestionresult(id, intvquestion);
+    }
+
+    const setincorrect = async ()=>{
+      let intvquestion = {
+        type: xiquestion.question,
+        level: xiquestion.level,
+        type: xiquestion.type,
+        answer: xiquestion.answer,
+        experience: xiquestion.experience,
+        category: xiquestion.category,
+        submission: "Incorrect"
+      }
+      setxiquestion(null);
+      let setques = await setquestionresult(id, intvquestion);
+    }
+
+    const setskipped = async ()=>{
+      let intvquestion = {
+        type: xiquestion.question,
+        level: xiquestion.level,
+        type: xiquestion.type,
+        answer: xiquestion.answer,
+        experience: xiquestion.experience,
+        category: xiquestion.category,
+        submission: "Skipped"
+      }
+      setxiquestion(null);
+      let setques = await setquestionresult(id, intvquestion);
+    }
+
+    const getnextquestion = async ()=>{
       if(nqtype == null || nqlevel == null || nqexperience == null || nqcategory == null){
         swal({
           title: "Do select all the fields to get next question!",
@@ -69,6 +125,16 @@ export default function MyMeeting() {
           icon: "error",
           button: "Ok",
         });
+      }else{
+        if(nqtype === "General Question"){
+          let xiquestion = await getxiquestions(nqtype,nqlevel,nqexperience,nqcategory);
+          setxiquestion(xiquestion.data.ques);
+          setgqcount(gqcount+1);
+        }else{
+          let xiquestion = await getxiquestions(nqtype,nqlevel,nqexperience,nqcategory);
+          setxiquestion(xiquestion.data.ques);
+          setpscount(pscount+1);
+        }
       }
     }
 
@@ -90,7 +156,7 @@ export default function MyMeeting() {
               console.log(interviewjob.data.job.skills[0].role);
               let xiquestion = await getxiquestions("General Question","Easy","Beginner",interviewjob.data.job.skills[0].role);
               console.log(xiquestion);
-              // setxiquestion(xiquestion.data.ques);
+              setxiquestion(xiquestion.data.ques);
             }else{
               console.log("Error");
             }
@@ -171,6 +237,12 @@ export default function MyMeeting() {
       };
       tokenFunc();
       initial();
+      fetchinter = setInterval(async ()=>{
+        getstats = await getlivestatus(id);
+        setLiveStats(getstats.data.stats.livestats);
+        setlateststats(getstats.data.stats);
+        setValue(atob(getstats.data.stats.codearea))
+      },2000);
     },[]);
   
     return (
@@ -224,9 +296,9 @@ export default function MyMeeting() {
                       <strong>Level: </strong> {xiquestion.level}<br/>
                       <strong>Experience: </strong> {xiquestion.experience}<br/>
                       <strong>Category: </strong> {xiquestion.category}<br/>
-                      <button className="rounded border-2 border-green-500 bg-green-500 text-white font-bold px-4 py-2 mr-2 mt-4">Correct</button>
-                      <button className="rounded border-2 border-red-500 bg-red-500 text-white font-bold px-4 py-2 mr-2 mt-4">Incorrect</button>
-                      <button className="rounded border-2 border-gray-200 text-gray-200 font-bold px-4 py-2 mt-4">Skip</button>
+                      <button className="rounded border-2 border-green-500 bg-green-500 text-white font-bold px-4 py-2 mr-2 mt-4" onClick={setcorrect}>Correct</button>
+                      <button className="rounded border-2 border-red-500 bg-red-500 text-white font-bold px-4 py-2 mr-2 mt-4" onClick={setincorrect}>Incorrect</button>
+                      <button className="rounded border-2 border-gray-200 text-gray-200 font-bold px-4 py-2 mt-4" onClick={setskipped}>Skip</button>
                     </>: <>
                       <div>
                         <h2 className="text-white font-bold mb-3">Select Next Question Type</h2>
@@ -282,7 +354,15 @@ export default function MyMeeting() {
                 </div>
                 <div className="md:w-1/4">
                   <div className="bg-gray-900 text-white p-4 rounded-2xl text-md h-full">
-                    <strong>Face:</strong> Pass
+                    {livestats?
+                      <>
+                        <strong>Face:</strong> {livestats.countOfPeople != 0 ?<span className="text-green-500">Pass</span>:<span className="text-red-500">Fail</span>}<br/>
+                        <strong>Earpiece:</strong> {livestats.earPiece === null ?<span className="text-green-500">Pass</span>:<span className="text-red-500">Fail</span>}<br/>
+                        <strong>Gaze:</strong> {livestats.gaze === null ?<span className="text-green-500">Pass</span>:<span className="text-red-500">Fail</span>}<br/>
+                        <strong>Emotion:</strong> <span className="text-green-500">{livestats.emotion}</span><br/>
+                        <strong>Head Pose:</strong> <span className="text-green-500">{livestats.headPose}</span><br/>
+                      </>
+                    :<>Loading...</>}
                   </div>
                 </div>
               </div>
@@ -304,7 +384,13 @@ export default function MyMeeting() {
           </div>
         </div>
         <div className="flex bg-white justify-center p-6">
-          <button className="rounded-2xl bg-red-600 text-white px-4 py-2 font-bold" onClick={leaveCall}>Leave Room</button>
+          {lateststats?<>
+            {lateststats.interviewStatus?<>
+              <button className="rounded-2xl bg-red-600 text-white px-4 py-2 font-bold" onClick={leaveCall}>End Interview</button>
+            </>:<>
+              <button className="rounded-2xl bg-green-600 text-white px-4 py-2 font-bold" onClick={startcall}>Start Interview</button>
+            </>}
+          </>:null}
         </div>
       </div>
     );
