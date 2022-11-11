@@ -1238,6 +1238,18 @@ export const fetchinterviewdetails = async (meetingid ,participantdetails) => {
   }
 }
 
+export const getlivestatus = async (meetingid) => {
+  try {
+    return await axios.post(`${url}/getlivestatus`,{
+      meetingID: meetingid
+    }
+    );
+    
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
+
 // export const twilioToken = async () => {
 //   try {
 //     return await axios.get(`${url}/token`
@@ -1556,6 +1568,53 @@ export const getinterviewdetails = async (id) => {
   } catch (err) {
     console.log("Error : ", err);
 
+  }
+}
+
+export const savecode = async (id, code) => {
+  try {
+    return await axios.post(`${url}/savecode`,{
+      meetingID: id,
+      code: code
+    });
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+
+export const startinterview = async (id) => {
+  try {
+    return await axios.post(`${url}/startinterview`,{
+      meetingID: id
+    });
+
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
+
+export const endinterview = async (id) => {
+  try {
+    return await axios.post(`${url}/endinterview`,{
+      meetingID: id
+    });
+
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
+
+export const setquestionresult = async (id, qn) => {
+  try {
+    return await axios.post(`${url}/setquestionresult`,{
+      meetingID: id,
+      qn: qn
+    });
+
+  } catch (err) {
+    console.log("Error : ", err);
   }
 }
 
