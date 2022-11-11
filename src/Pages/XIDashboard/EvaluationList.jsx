@@ -218,8 +218,8 @@ const JobList = () => {
                             <p className="text-red-400 text-xs">                                                             <Moment toNow>{new Date(job.slots[0].startDate)}</Moment>
                             </p>
                           </div>
-                          <div className="flex space-x-3 items-center">
-                            <div className="px-5 text-center my-5 text-md">
+                          <div className="flex space-x-3 items-center justify-between">
+                            <div className=" text-center my-5 text-md">
                               <span className="bg-gray-400 text-gray-800 text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl dark:bg-yellow-200 dark:text-gray-900 my-2 py-2">
                                 {job.slots[0].status }
                               </span>
@@ -245,7 +245,7 @@ const JobList = () => {
                                   setslotId(job.slots[0]);
                                   setInterviewers(job.interviewers)
                                 }}
-                                className="btn  rounded-3xl shadow-sm px-6 my-3 py-2 text-xs text-gray-900 font-semibold"
+                                className="btn rounded-3xl shadow-sm px-6 my-3 py-2 text-xs text-gray-900 font-semibold"
                               >
                                 Accept{" "}
                               </button>
@@ -257,7 +257,7 @@ const JobList = () => {
                                 onClick={async () => {
                                  
                                 }}
-                                className="btn  rounded-3xl shadow-sm px-6 my-3 py-2 text-xs text-gray-900 font-semibold"
+                                className="btn mx-7  rounded-3xl shadow-sm px-6 my-3 py-2 text-xs text-gray-900 font-semibold"
                               >
                                 Interview{" "}
                               </button>
@@ -266,8 +266,8 @@ const JobList = () => {
 
                           </div>
 
-                          <div className="px-4 mx-2 py-4 align-middle absolute -right-2 top-7">
-                            <Popover className="relative mt-1">
+                          <div className=" mx-2  align-middle absolute -right-2 top-7">
+                            <Popover className="relative mt-7">
                               {({ open }) => (
                                 <>
                                   <Popover.Button
