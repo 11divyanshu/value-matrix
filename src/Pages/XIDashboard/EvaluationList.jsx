@@ -225,14 +225,14 @@ const JobList = () => {
                               </span>
                             </div>
                             {job.slots[0].status === "Interviewed" && <div className="px-5 text-center my-5 text-md">
-                              {/* <Link to={`/XI/updateEvaluationDetails/${job.slots[0]._id}`}>
-                                <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
-                                  Update
-                                </span></Link> */}
-                              <Link to={`/XI/evaluationreport`}>
+                              <Link to={`/XI/updateEvaluationDetails/${job._id}`}>
+                                <span className="text-xs font-medium  px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
+                                  Evaluate
+                                </span></Link>
+                              {/* <Link to={`/XI/evaluationreport`}>
                                 <span className="text-xs font-medium mr-4 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
                                   Update
-                                </span></Link>
+                                </span></Link> */}
                             </div> }
                              { job.slots[0].status === "Pending" && <button
                                 style={{ background: "#3ED3C5" }}
@@ -250,7 +250,9 @@ const JobList = () => {
                                 Accept{" "}
                               </button>
                             }
-                             { job.slots[0].status === "Accepted" && <button
+                             { job.slots[0].status === "Accepted" && 
+                               <Link to={`/XI/updateEvaluationDetails/${job._id}`}>
+                             <button
                                 style={{ background: "#3ED3C5" }}
                                 onClick={async () => {
                                  
@@ -259,6 +261,7 @@ const JobList = () => {
                               >
                                 Interview{" "}
                               </button>
+                              </Link>
                             }
 
                           </div>

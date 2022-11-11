@@ -224,10 +224,10 @@ const JobList = () => {
                                                                 {job.status}
                                                             </span>
                                                         </div>
-                                                        {job.status === "Accepted" ? <div className="px-5 text-center my-5 text-md">
+                                                        {job.status === "Interviewed" ? <div className="px-5 text-center my-5 text-md">
                                                             {/* <Link to={`/XI/updateEvaluationDetails/${job.slots[0]._id}`}>
                                 <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
-                                  Update
+                                  Evaluate
                                 </span></Link> */}
                                                             <Link to={`/XI/evaluationreport`}>
                                                                 <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
