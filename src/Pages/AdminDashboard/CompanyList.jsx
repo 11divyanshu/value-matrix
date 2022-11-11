@@ -43,9 +43,9 @@ const CompanyList = () => {
 
   return (
     <div className="p-5">
-      <p className="text-2xl font-bold">Company List</p>
+      <p className="text-2xl font-bold mx-10">Company List</p>
       <div className="mt-3">
-        <div className="flex flex-col">
+        <div className="flex flex-col mx-10">
           <div className="overflow-x-auto w-[90%] sm:-mx-6 lg:-mx-8">
             <div className="py-2 inline-block w-full sm:px-6 lg:px-8">
               <div className="overflow-hidden">

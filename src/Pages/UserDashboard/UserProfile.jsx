@@ -64,7 +64,7 @@ const UserProfile = () => {
     <div className="h-100 w-full -z-[10]">
       {/* <p className="text-2xl font-bold" style={{ color: "#3B82F6" }}>Company Details</p> */}
       {user !== null && user !== undefined && (
-        <div className="w-full">
+        <div className="w-auto pl-6">
           <div
             className="md:h-48 h-24 relative -z-[3]"
             style={{ background: "#99DEFF" }}
@@ -139,7 +139,7 @@ const UserProfile = () => {
           </div>
 
           <div
-            className="my-7 rounded-lg pt-3 w-full"
+            className="my-7 rounded-lg pt-3 pr-3 w-full"
             style={{ borderRadius: "12px" }}
           >
             <div className="App " style={{ borderRadius: "12px" }}>
