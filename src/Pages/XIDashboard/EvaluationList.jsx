@@ -218,21 +218,21 @@ const JobList = () => {
                             <p className="text-red-400 text-xs">                                                             <Moment toNow>{new Date(job.slots[0].startDate)}</Moment>
                             </p>
                           </div>
-                          <div className="flex space-x-3 items-center">
-                            <div className="px-5 text-center my-5 text-md">
+                          <div className="flex space-x-3 items-center justify-between">
+                            <div className=" text-center my-5 text-md">
                               <span className="bg-gray-400 text-gray-800 text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl dark:bg-yellow-200 dark:text-gray-900 my-2 py-2">
                                 {job.slots[0].status }
                               </span>
                             </div>
                             {job.slots[0].status === "Interviewed" && <div className="px-5 text-center my-5 text-md">
-                              {/* <Link to={`/XI/updateEvaluationDetails/${job.slots[0]._id}`}>
-                                <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
-                                  Update
-                                </span></Link> */}
-                              <Link to={`/XI/evaluationreport`}>
+                              <Link to={`/XI/updateEvaluationDetails/${job._id}`}>
+                                <span className="text-xs font-medium  px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
+                                  Evaluate
+                                </span></Link>
+                              {/* <Link to={`/XI/evaluationreport`}>
                                 <span className="text-xs font-medium mr-4 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
                                   Update
-                                </span></Link>
+                                </span></Link> */}
                             </div> }
                              { job.slots[0].status === "Pending" && <button
                                 style={{ background: "#3ED3C5" }}
@@ -245,26 +245,29 @@ const JobList = () => {
                                   setslotId(job.slots[0]);
                                   setInterviewers(job.interviewers)
                                 }}
-                                className="btn  rounded-3xl shadow-sm px-6 my-3 py-2 text-xs text-gray-900 font-semibold"
+                                className="btn rounded-3xl shadow-sm px-6 my-3 py-2 text-xs text-gray-900 font-semibold"
                               >
                                 Accept{" "}
                               </button>
                             }
-                             { job.slots[0].status === "Accepted" && <button
+                             { job.slots[0].status === "Accepted" && 
+                               <Link to={`/XI/updateEvaluationDetails/${job._id}`}>
+                             <button
                                 style={{ background: "#3ED3C5" }}
                                 onClick={async () => {
                                  
                                 }}
-                                className="btn  rounded-3xl shadow-sm px-6 my-3 py-2 text-xs text-gray-900 font-semibold"
+                                className="btn mx-7  rounded-3xl shadow-sm px-6 my-3 py-2 text-xs text-gray-900 font-semibold"
                               >
                                 Interview{" "}
                               </button>
+                              </Link>
                             }
 
                           </div>
 
-                          <div className="px-4 mx-2 py-4 align-middle absolute -right-2 top-7">
-                            <Popover className="relative mt-1">
+                          <div className=" mx-2  align-middle absolute -right-2 top-7">
+                            <Popover className="relative mt-7">
                               {({ open }) => (
                                 <>
                                   <Popover.Button
@@ -321,7 +324,7 @@ const JobList = () => {
           )}
         </div>
 
-        <div className="md:w-1/4 my-3">
+        <div className="md:w-1/4">
           <div className="shadow-lg  py-5 justify-around  px-5 bg-white">
             <p className="text-xl mx-auto text-gray-700 font-bold  flex">
               <p className="p-1">

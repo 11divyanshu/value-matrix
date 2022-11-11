@@ -19,6 +19,7 @@ import {
   bookSlot,
   availableSlots,
   findCandidateByEmail,
+  updateInterviewApplication
 } from "../../service/api";
 import { Fragment } from "react";
 import { Popover, Transition, Dialog } from "@headlessui/react";
@@ -43,6 +44,7 @@ function JobDetails(props) {
   const [startTime, setStartTime] = React.useState(new Date());
   const [smsOTP, setsmsOTP] = React.useState("");
   const [candidate, setCandidate] = React.useState(null);
+  const [comment, setComment] = React.useState(null);
 
   const handleOTP = (e) => {
     setsmsOTP(e.target.value);
@@ -648,12 +650,16 @@ function JobDetails(props) {
                   <div className="flex mx-5 my-5">
                     <div className="">
                       <h2 className="font-semibold my-2">Comment</h2>
-                      <input type="text" name="" id="" />
+                      <input type="text" name="" value={job.comment} id="" onChange={(e)=> setComment(e.target.value)} />
                     </div>
                     <div className="my-8">
                       <button
                         className="shadow-lg rounded-md mx-5 px-6 py-3 "
                         style={{ backgroundColor: "#034488", color: "#fff" }}
+                        onClick={async()=>{
+                          let update = await updateInterviewApplication(job.interviewId, { comment:comment });
+
+                        }}
                       >
                         Submit
                       </button>

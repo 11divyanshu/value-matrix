@@ -6,7 +6,7 @@ import {
   AiOutlineUser,
   AiOutlineFolderAdd,
   AiOutlineUserAdd,
-  AiOutlineUnorderedList
+  AiOutlineUnorderedList,
 } from "react-icons/ai";
 import {
   BsFillChatLeftTextFill,
@@ -30,9 +30,8 @@ import Interviews from "./Pages/UserDashboard/Interviews";
 import InterviewsDetails from "./Pages/UserDashboard/InterviewDetails";
 
 // import AllSlots from "./Pages/UserDashboard/AllSlots.jsx";
-import PrintAble from "./Pages/CompanyDashboard/PrintAble"
+import PrintAble from "./Pages/CompanyDashboard/PrintAble";
 import PrintAbleUi from "./Pages/UserDashboard/PrintAbleUi";
-
 
 // Admin Pages
 import NotificationPanel from "./Pages/AdminDashboard/Notification";
@@ -41,8 +40,8 @@ import PushNotification from "./Pages/AdminDashboard/PushNotifications";
 import APanel from "./Pages/AdminDashboard/panel";
 import WhatsappNotification from "./Pages/AdminDashboard/WhatsappNotification";
 import ChannelNotificationPanel from "./Pages/AdminDashboard/ChannelNotification";
-import XIPerformance from "./Pages/AdminDashboard/XIPerformance"
-import XILevel from "./Pages/AdminDashboard/XILevel"
+import XIPerformance from "./Pages/AdminDashboard/XIPerformance";
+import XILevel from "./Pages/AdminDashboard/XILevel";
 
 // Company Pages
 import CJobList from "./Pages/CompanyDashboard/jobList.jsx";
@@ -63,8 +62,6 @@ import CompanyDetails from "./Pages/AdminDashboard/CompanyDetails";
 import CandiadateList from "./Pages/AdminDashboard/CandidatesList";
 import CandiadateDetail from "./Pages/AdminDashboard/CandidateDetail";
 
-
-
 import AddCompanyUser from "./Pages/CompanyDashboard/AddCompanyUser";
 import CandidateList from "./Pages/CompanyDashboard/CandidateList";
 import CandidateDetails from "./Pages/CompanyDashboard/CandidateDetails";
@@ -72,31 +69,22 @@ import CandidateReport from "./Pages/CompanyDashboard/CandidateReport";
 import Masking from "./Pages/CompanyDashboard/Masking";
 import CompanyUserList from "./Pages/CompanyDashboard/CompanyUsersList";
 
-
-
-
-
-
-
 import Jobvalidate from "./Pages/AdminDashboard/jobValidate";
 import CompanyValidate from "./Pages/AdminDashboard/companyValidate";
 import TitleValidate from "./Pages/AdminDashboard/TitleValidate";
 
 import CityValidate from "./Pages/AdminDashboard/companyValidate copy";
 
-
-
 // Admin Pages
 import AddSkills from "./Components/AdminDashboard/AddSkills";
 import AddAdminUser from "./Pages/AdminDashboard/AddAdminUser";
 import AddTaxId from "./Pages/AdminDashboard/AddTaxId";
 // import Twilio from "./Pages/AdminDashboard/TwilioVoice";
-import XIUsersList from './Pages/AdminDashboard/XIUsersList';
-import SuperXIUsersList from './Pages/AdminDashboard/SuperXIUsersList';
-import XICategory from './Pages/AdminDashboard/XICategory';
-import CreditCategory from './Pages/AdminDashboard/creditCategory';
-import CreditConverter from './Pages/AdminDashboard/creditConverter';
-
+import XIUsersList from "./Pages/AdminDashboard/XIUsersList";
+import SuperXIUsersList from "./Pages/AdminDashboard/SuperXIUsersList";
+import XICategory from "./Pages/AdminDashboard/XICategory";
+import CreditCategory from "./Pages/AdminDashboard/creditCategory";
+import CreditConverter from "./Pages/AdminDashboard/creditConverter";
 
 // XI Pages
 import XIDashboard from "./Pages/XIDashboard/Dashboard";
@@ -119,9 +107,6 @@ import AddQuestions from "./Pages/AdminDashboard/AddQuestions";
 import AddInterviewQuestions from "./Pages/AdminDashboard/AddInterviewQuestions";
 import UpdateInterviewApplication from "./Pages/XIDashboard/UpdateInterviewApplication";
 
-
-
-
 import { FiSettings } from "react-icons/fi";
 import CPrintable from "./Pages/CompanyDashboard/CPrintable";
 import XIOnboarding from "./Pages/AdminDashboard/XIList";
@@ -131,24 +116,21 @@ import AdminAllTranscation from "./Pages/AdminDashboard/AdminAllTranscation";
 import CompanyAllTranscation from "./Pages/CompanyDashboard/CompanyAllTranscation";
 import XIAllTranscation from "./Pages/XIDashboard/XIAllTranscation";
 
-
-
 // User Dashboard Routes
 export const dashboardRoutes = [
-
   {
     name: "printAble",
     path: "PrintAbleUi",
     hide: true,
     icon: <CgWorkAlt className="text-xl" />,
-    component: <PrintAbleUi/>,
+    component: <PrintAbleUi />,
   },
   {
     name: "printAblee",
     path: "PrintAble",
     hide: true,
     icon: <CgWorkAlt className="text-xl" />,
-    component: <PrintAble/>,
+    component: <PrintAble />,
   },
 
   {
@@ -234,7 +216,6 @@ export const dashboardRoutes = [
     icon: <MdOutlineWorkOutline className="text-xl" />,
     component: <InterviewsDetails />,
   },
-  
 ];
 
 // Admin Dashboard Routes
@@ -463,26 +444,26 @@ export const adminDashboardRoutes = [
   {
     name: "Add Job Questions",
     path: "/addQuestions",
-    hide:false,
-    icon : <BsQuestionCircleFill className="text-xl" />,
-    permission:"default",
-    component : <AddQuestions/>
+    hide: false,
+    icon: <BsQuestionCircleFill className="text-xl" />,
+    permission: "default",
+    component: <AddQuestions />,
   },
   {
     name: "Add Interview Questions",
     path: "/addinterviewQuestions",
-    hide:false,
-    icon : <BsQuestionCircleFill className="text-xl" />,
-    permission:"default",
-    component : <AddInterviewQuestions/>
+    hide: false,
+    icon: <BsQuestionCircleFill className="text-xl" />,
+    permission: "default",
+    component: <AddInterviewQuestions />,
   },
   {
-    name:"Add Tax Id",
+    name: "Add Tax Id",
     path: "/addtaxid",
-    hide:false,
-    icon : <BsQuestionCircleFill className="text-xl" />,
-    permission:"default",
-    component : <AddTaxId/>
+    hide: false,
+    icon: <BsQuestionCircleFill className="text-xl" />,
+    permission: "default",
+    component: <AddTaxId />,
   },
   // {
   //   name:"call",
@@ -492,7 +473,6 @@ export const adminDashboardRoutes = [
   //   permission:"default",
   //   component : <Twilio/>
   // },
-
 ];
 
 // Company Dashboard Routes
@@ -586,7 +566,7 @@ export const companyDashboardRoutes = [
     path: "/CPrintAble",
     hide: true,
     icon: <CgWorkAlt className="text-xl" />,
-    component: <CPrintable/>,
+    component: <CPrintable />,
   },
   {
     name: "Add User",
@@ -627,7 +607,6 @@ export const companyDashboardRoutes = [
     component: <CandidateReport />,
     permission: "default",
   },
-
 ];
 
 // XI Routes
@@ -682,7 +661,7 @@ export const XIDashboardRoutes = [
     icon: <CgWorkAlt className="text-xl" />,
     component: <XIJobInterviews />,
   },
-  
+
   {
     name: "XI Onboarding",
     path: "/xiOnboarding",
@@ -707,7 +686,7 @@ export const XIDashboardRoutes = [
     component: <XISlots />,
     permission: "default",
   },
- 
+
   {
     name: "getJobById",
     path: "/jobDetails/",
@@ -731,7 +710,7 @@ export const XIDashboardRoutes = [
     path: "/evaluationreport",
     hide: true,
     icon: <CgWorkAlt className="text-xl" />,
-    component: <PrintAbleUi/>,
+    component: <PrintAbleUi />,
   },
   {
     name: "InterviewDetails",
@@ -796,5 +775,4 @@ export const superXIDashboardRoutes = [
     icon: <MdOutlineWorkOutline className="text-xl" />,
     component: <XISlots />,
   },
- 
 ];

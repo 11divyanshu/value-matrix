@@ -45,6 +45,7 @@ const AddQuestions = () => {
 
   const [loading, setLoading] = React.useState(false);
   const [quesList, setQuesList] = React.useState(false);
+  const [importQues, setimportQues] = React.useState([]);
 
   useEffect(() => {
     const initial = async () => {
@@ -69,14 +70,24 @@ const AddQuestions = () => {
         const sheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[sheetName];
         const json = xlsx.utils.sheet_to_json(worksheet);
+        console.log(json)
+        let tempArray = [];
+
+
         json.forEach((item) => {
+          console.log(item)
+
           if (item["Question"] && item["Question"] !== "") {
-            setQuestions([
-              ...questions,
-              { question: item["Question"], answer: item["Answer"], type: item["Type"], level: item["Level"], experience: item["Experience"], category: item["Category"] },
-            ]);
+            tempArray.push( { question: item["Question"], answer: item["Answer"], type: item["Type"], level: item["Level"], experience: item["Experience"], category: item["Category"] })
+            // setimportQues([
+            //   ...importQues ,
+            //   { question: item["Question"], answer: item["Answer"], type: item["Type"], level: item["Level"], experience: item["Experience"], category: item["Category"] },
+            // ]);
           }
         });
+
+        setimportQues(tempArray);
+        // console.log(questions)
         fileRef.current.value = "";
       };
       reader.readAsArrayBuffer(e.target.files[0]);
@@ -110,6 +121,42 @@ const AddQuestions = () => {
     console.log(questions);
     let res = await addInterviewQuestion(
       { user_id: user._id, questions: questions },
+      token
+    );
+    console.log(res);
+    if (res && res.status === 200) {
+      swal({
+        title: "Success",
+        text: "Questions Added Successfully",
+        icon: "success",
+        button: "Ok",
+      });
+      setLoading(false);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    }
+    else {
+      swal({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        button: "Ok",
+      });
+      setLoading(false);
+    }
+  };
+  const handleImportUpload = async () => {
+     setLoading(true);
+    let user = JSON.parse(await localStorage.getItem("user"));
+    let token = user.access_token;
+    // console.log(importQues);
+    importQues.forEach((item)=>{
+      item.question = "<p>"+item.question+"</p>"
+    })
+    console.log(importQues)
+    let res = await addInterviewQuestion(
+      { user_id: user._id, questions: importQues },
       token
     );
     console.log(res);
@@ -378,7 +425,8 @@ const AddQuestions = () => {
           )}
 
           <div className="my-3">
-            {questions.map((question, index) => {
+            {questions && questions.map((question, index) => {
+              // console.log(question)
               return (
                 <div className="my-5">
                   <div className="flex justify-between">
@@ -436,7 +484,7 @@ const AddQuestions = () => {
               <div className="">
                 <button
                   onClick={handleUpload}
-                  className="px-4 py-1 rounded-sm text-white"
+                  className="px-4 py-1 rounded-sm text-white mx-3"
                   style={{ backgroundColor: "#034488" }}
                 >
                   {!loading ? (
@@ -450,6 +498,92 @@ const AddQuestions = () => {
 
 
           </div>
+          <div className="my-4 flex items-center">
+          <div className="my-4">
+            <p className="font-semibold">Import Spreadsheet</p>
+            <p className="text-xs">
+              ( Upload sheet with Questions, Answer as header )
+            </p>
+          </div>
+          <label for="questionCSV">
+            <p
+              className="ml-10 rounded-sm cursor-pointer bg-blue-500 px-4 py-1 text-white"
+              style={{ backgroundColor: "#034488" }}
+              onClick={() => {
+                if (fileRef.current) {
+                  fileRef.current.click();
+                }
+              }}
+            >
+              Import
+            </p>
+          </label>
+          <input
+            type="File"
+            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            name="questionCSV"
+            ref={fileRef}
+            className="hidden"
+            onChange={changeHandler}
+          />
+        </div>
+        <div className="my-3">
+            {importQues && importQues.map((question, index) => {
+              // console.log(question)
+              return (
+                <div className="my-5">
+                  <div className="flex justify-between">
+                    <p className="font-semibold">
+                      Question {index + 1} :{" "}
+                      <span className="font-normal">{question.question}</span>
+                    </p>
+                    <div className="flex space-x-3">
+                      {/* <RiEditBoxLine
+                        className="cursor-pointer text-blue-500"
+                        onClick={() => {
+                          setShowQuestionForm(false);
+                          setInitialQuestion(question);
+                          setQuestionEditIndex(index);
+                          setShowQuestionForm(true);
+                        }}
+                      /> */}
+                      <AiOutlineDelete
+                        className="cursor-pointer text-red-600"
+                        onClick={() => {
+                          setimportQues(
+                            importQues.filter(
+                              (item) => item.question !== question.question
+                            )
+                          );
+                        }}
+                      />
+                    </div>
+                  </div>
+                  {question.answer && (
+                    <p className="text-gray-600 font-semibold">
+                      Answer :{" "}
+                      <span className="font-normal">{question.answer}</span>
+                    </p>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+          {importQues.length > 0 && (
+              <div className="">
+                <button
+                  onClick={handleImportUpload}
+                  className="px-4 py-1 rounded-sm text-white mx-3"
+                  style={{ backgroundColor: "#034488" }}
+                >
+                  {!loading ? (
+                    "Upload"
+                  ) : (
+                    <img src={Loader} alt="loader" className="h-9 mx-auto" />
+                  )}
+                </button>
+              </div>
+            )}
         </div>
       </div>
       {modal && (

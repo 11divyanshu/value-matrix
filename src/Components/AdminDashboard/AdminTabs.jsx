@@ -81,7 +81,7 @@ export default function AdminTabs(props) {
 
 
   return (
-    <div className="Tabs w-screen">
+    <div className="Tabs w-screen ml-5">
       <div className="tabList">
         <div
           className={`tabHead ${index === 0 && "active"} px-0`}
@@ -397,7 +397,7 @@ export default function AdminTabs(props) {
                           type="text"
                           disabled
                           style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", height: "40px" }}
-                          className="block border-gray-200 py-1 my-3 w-full"
+                          className="block border-gray-200 py-1 my-3 ml-5 w-full"
                         // style={{
                         //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
 

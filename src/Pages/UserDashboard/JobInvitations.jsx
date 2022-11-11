@@ -108,13 +108,17 @@ const JobInvitations = (props) => {
       );
       console.log(res)
       if (res && res.status === 200) {
+
+        let res1 = await updateSlot(slotId._id, { interviewId: res.data.data._id });
+
+
         let date = new Date();
         date = new Date(date.getTime() + 1800000);
         let res2 = await createTaskScheduler({ applicantId: user._id, interviewerId: slotId.createdBy, nextTime: date, priority: slotId.priority , slotId: slotId._id ,interviewId :  res.data.data._id ,startDate : slotId.startDate })
 
+       console.log(res2)
 
-
-        let res1 = await updateSlot(slotId._id, { interviewId: res.data.data._id });
+       
         console.log(res1);
         let d = JobInvitation.filter((el) => {
           return el !== job;
@@ -280,7 +284,7 @@ const JobInvitations = (props) => {
 
 
 
-                                  setslotId(null);
+                               
                                   setotpModal(false);
 
                                 }

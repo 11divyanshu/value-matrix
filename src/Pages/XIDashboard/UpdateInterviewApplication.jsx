@@ -13,6 +13,9 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 import swal from "sweetalert";
 import { ChevronUpIcon, StarIcon } from "@heroicons/react/solid";
 import { Disclosure } from "@headlessui/react";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
+import backg from "../../assets/images/LoginBg.jpg"
 const UpdateInterviewApplication = () => {
   const { id } = useParams();
   const [interview, setInterview] = React.useState(null);
@@ -54,29 +57,57 @@ const UpdateInterviewApplication = () => {
       let user = await JSON.parse(localStorage.getItem("user"));
       await setUser(user);
       let res = await getInterviewApplication({ id: id }, user.access_token);
+      console.log(res)
       if (res.data.data) {
         console.log(res.data.data);
         let candidate = await getUser({ id: res.data.data.applicant._id }, user.access_token);
         
         setCandidate(candidate.data.user);
-        setSkillSet(res.data.data.application.evaluations[user._id].skills)
+        // if(res.data.data.application.evaluations){
+
+          setSkillSet(res.data.data.application.evaluations[user._id].skills)
+        // }else{
+        //   setSkillSet([])
+        // }
 
         let primarySkills = {};
     let roles = new Set([]);
-    res.data.data.application.evaluations[user._id].skills.forEach((skill) => {
+    let tempArray =[];
+
+  // if(res.data.data.application.evaluations){
+      res.data.data.application.evaluations[user._id].skills.forEach((skill) => {
       roles.add(skill.role);
       if (primarySkills[skill.role]) {
         primarySkills[skill.role].add(skill.primarySkill);
       } else {
         primarySkills[skill.role] = new Set([skill.primarySkill]);
       }
-    });
-    setCRoles(Array.from(roles));
+    }) 
+  // }else{
+  //     primarySkills = {}
+  //   } 
+     console.log(primarySkills)
+    // if(Array.from(roles)){
+      
+      setCRoles(Array.from(roles));
+    // }else{
+    //   setCRoles({})
+    // }
+    console.log(rolesC)
+
     console.log(Array.from(roles))
-    Array.from(roles).map((el) => {
+    Array.from(roles).length > 0 && Array.from(roles).map((el) => {
+      console.log(el)
       primarySkills[el] = Array.from(primarySkills[el]);
     });
+    // if(primarySkills)
     setSkillsPrimary(primarySkills);
+    // else{
+      
+    //   setSkillsPrimary([]);
+    // }
+  // }
+  // console.log("1");
 
         if (res.data.data.job.questions) {
           let answers = new Array(res.data.data.job.questions.length).fill("");
@@ -86,6 +117,7 @@ const UpdateInterviewApplication = () => {
           res.data.data.application.evaluations &&
           res.data.data.application.evaluations[user._id]
         ) {
+          console.log("2")
           if (res.data.data.application.evaluations[user._id].status) {
             setCurrStatus(
               res.data.data.application.evaluations[user._id].status
@@ -95,7 +127,7 @@ const UpdateInterviewApplication = () => {
           if (
             res.data.data.application.evaluations[user._id].candidate_rating
           ) {
-           
+           console.log(3)
             setInitialRating(
               res.data.data.application.evaluations[user._id].candidate_rating
             );
@@ -115,7 +147,7 @@ const UpdateInterviewApplication = () => {
           setStatus("Pending");
         }
         setInterview(res.data.data);
-      }
+        }
       setLoading(false);
     };
     initial();
@@ -242,8 +274,45 @@ const UpdateInterviewApplication = () => {
         {loading && (
           <p className="text-center font-semibold text-lg">Loading Data...</p>
         )}
+          <div>
+              <div className="mx-2 w-full h-[50vh] my-3">
+            <Carousel>
+                <div>
+                    <img src={backg} />
+                    <p className="legend">Legend 1</p>
+                </div>
+                <div>
+                    <img src={backg} />
+                    <p className="legend">Legend 2</p>
+                </div>
+                <div>
+                    <img src={backg} />
+                    <p className="legend">Legend 3</p>
+                </div>
+            </Carousel>
+            </div>
+
+
+            <div className="mx-2 w-full  my-3">
+            <Carousel>
+                <div>
+                    <img src={backg} />
+                    <p className="legend">Legend 1</p>
+                </div>
+                <div>
+                    <img src={backg} />
+                    <p className="legend">Legend 2</p>
+                </div>
+                <div>
+                    <img src={backg} />
+                    <p className="legend">Legend 3</p>
+                </div>
+            </Carousel>
+                </div>
+            </div>
         {!loading && (
           <div>
+          
             {interview && (
               <p className="my-2 text-sm">
                 <span className="font-semibold">Interview Id : </span>{" "}
@@ -335,7 +404,7 @@ const UpdateInterviewApplication = () => {
                         </div>
 
                         <p className="px-4 text-md text-gray-400 font-semibold">
-                          {interview.job.salary}
+                          {interview.job.salary[1] - interview.job.salary[2]}  {interview.job.salary[0].code}
                         </p>
                       </div>
                     </div>
@@ -536,14 +605,14 @@ const UpdateInterviewApplication = () => {
                       <span className="font-semibold">
                         Current Status :
                       </span>{" "}
-                      {currStatus}
+                      {currStatus ? currStatus : null}
                     </p>
                   </div>
                   <div className="w-full bg-white p-2">
               <p className="font-semibold text-lg my-3">Skills</p>
                 {showRoles ? (
                   <>
-                  {showRoles.map((el, index) => {
+                  {showRoles.length > 0 && showRoles.map((el, index) => {
                     return (
                       <div key={index}>
                         <Disclosure>
@@ -595,7 +664,7 @@ const UpdateInterviewApplication = () => {
                                 />
                               </Disclosure.Button>
                               <Disclosure.Panel className="p-3 px-4">
-                                {primarySkills[el].map((skill, index) => {
+                                {primarySkills[el] && primarySkills[el].map((skill, index) => {
                                   return (
                                     <div>
                                       <Disclosure>
@@ -722,15 +791,16 @@ const UpdateInterviewApplication = () => {
                   Update Skills
             </button> 
 
+
             <div className="p-5">
-              {rolesC
+              {rolesC.length > 0
                 ? rolesC.map((item, index) => {
                   return (
                     <div className="py-2">
                       <p className="font-semibold text-md md:w-1/2  md:flex w-full  space-y-2 my-5">
                         {item}
                       </p>
-                      {skillsPrimary[item].map((el) => (
+                      {skillsPrimary[item] && skillsPrimary[item].map((el) => (
                         <div className="py-1">
                           <p className="text-sm my-2">{el}</p>
                           <div className="md:flex flex-wrap">

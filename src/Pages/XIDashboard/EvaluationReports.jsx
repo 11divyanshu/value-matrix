@@ -17,6 +17,8 @@ import Logo from "../../assets/images/logo.png"
 import UserAvatar from "../../assets/images/loginBackground.jpeg"
 import Printable from "../CompanyDashboard/PrintAble"
 
+
+
 const UpdateInterviewApplication = React.forwardRef(({ ...props }, ref) => {
   const { id } = useParams();
   const [interview, setInterview] = React.useState(null);
@@ -159,6 +161,7 @@ const UpdateInterviewApplication = React.forwardRef(({ ...props }, ref) => {
           <Printable />
           </div>
         </div>}
+      
         {!loading && (
           <div>
             {interview && (
@@ -173,9 +176,9 @@ const UpdateInterviewApplication = React.forwardRef(({ ...props }, ref) => {
                 <div className="w-full  bg-white border border-b bg-white px-9 py-6 border space-y-2">
                   <p>
                     <span className="font-semibold">Name :</span>{" "}
-                    {/* {interview.applicant.firstName}{" "}
-                    {interview.applicant.lastname} */}
-                    Aryaman Swami
+                    {interview.applicant.firstName}{" "}
+                    {interview.applicant.lastname}
+                    {/* Aryaman Swami */}
                   </p>
                   <div className="w-1/2 flex flex-wrap justify-between">
                     {/* {interview.applicant.email && (
