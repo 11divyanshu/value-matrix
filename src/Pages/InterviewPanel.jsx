@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import logo from "../assets/images/logo.png";
 import Webcam from "react-webcam";
 
-import { getinterviewdetails, checkinterviewdetails, processFlask, updateinterviewcheck, fetchinterviewdetails } from "../service/api.js";
+import { getinterviewdetails, checkinterviewdetails, processFlask, updateinterviewcheck, updatelivestatus, fetchinterviewdetails, processFlasklive } from "../service/api.js";
 import { IoEar } from "react-icons/io5";
 
 export default function App() {
@@ -23,6 +23,9 @@ export default function App() {
     const [rightearpiece, setrightearpiece] = useState(0);
     const [flaskurl, setFlaskUrl] = useState("http://localhost:5000");
     const {id} = useParams();
+
+    let pfl = null;
+    let ufl = null;
   
     useEffect(() => {
       const initial = async ()=>{
@@ -34,31 +37,34 @@ export default function App() {
 
           let interviewStatus = await checkinterviewdetails(id, user);
           setInterviewStatus(interviewStatus);
-          // setScreenDisplay(5);
-          // setcurrentbtn(1);
+          
+          setScreenDisplay(5);
+          setcurrentbtn(1);
 
-          if(interviewStatus.data.data === "Data Retrieved"){
-            if(interviewStatus.data.faceTest === false && interviewStatus.data.gazeTest === false && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
-              setScreenDisplay(1);
-              setTimeout(()=>{
-                document.getElementById("getUserPhoto").click();
-              },2000);
-            }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === false && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
-              setScreenDisplay(2);
-            }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
-              setScreenDisplay(3);
-            }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === true && interviewStatus.data.earTest === false){
-              setScreenDisplay(4);
-            }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === true && interviewStatus.data.earTest === true){
-              setcurrentbtn(1);
-              if(interviewStatus.data.interviewStatus === false){
-                setScreenDisplay(5);
-              }else{
-                initDyte(interviewStatus.data);
-                setScreenDisplay(6);
-              }
-            }
-          }
+          // if(interviewStatus.data.data === "Data Retrieved"){
+          //   if(interviewStatus.data.faceTest === false && interviewStatus.data.gazeTest === false && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
+          //     setScreenDisplay(1);
+          //     setTimeout(()=>{
+          //       document.getElementById("getUserPhoto").click();
+          //     },2000);
+          //   }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === false && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
+          //     setScreenDisplay(2);
+          //   }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
+          //     setScreenDisplay(3);
+          //   }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === true && interviewStatus.data.earTest === false){
+          //     setScreenDisplay(4);
+          //   }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === true && interviewStatus.data.earTest === true){
+          //     setcurrentbtn(1);
+          //     if(interviewStatus.data.interviewStatus === false){
+          //       setScreenDisplay(5);
+          //     }else{
+          //       initDyte(interviewStatus.data);
+          //       setScreenDisplay(6);
+          //     }
+          //   }
+          // }
+
+
         }
       }
       initial();
@@ -99,6 +105,21 @@ export default function App() {
       setInterviewStatus(interviewStatus);
       initDyte(interviewStatus.data);
       setScreenDisplay(6);
+      
+      setTimeout(()=>{
+        document.getElementById("getUserPhotoLive").click();
+      },2000);
+
+    }
+
+    const processLive = async (image)=>{
+      if(image != null){
+        pfl = await processFlasklive(currentUser, image, id);
+        ufl = await updatelivestatus(pfl.data.data, id);
+        document.getElementById("getUserPhotoLive").click();
+      }else{
+        document.getElementById("getUserPhotoLive").click();
+      }
     }
 
     const processFrame = async (imageSrc)=>{
@@ -108,11 +129,11 @@ export default function App() {
       }else{
         let response = null;
         let updatedinterview = null;
-        if(interviewStatus.data.faceTest === false && interviewStatus.data.gazeTest === false && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
+        if(interviewStatus.data.faceTest === false && interviewStatus.data.gazeTest === false && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false && screenDisplay === 1){
           response =  await processFlask(currentUser, imageSrc, "face", id);
           console.log(response);
-          if(response.data.data != ""){
-            updatedinterview = await updateinterviewcheck(response.data.data, "face", id);
+          if(response.data.data.FaceDetected === true){
+            updatedinterview = await updateinterviewcheck("face", "data:image/jpeg;base64,"+response.data.img, id);
             console.log(updatedinterview);
             if(updatedinterview.data.data === "Updated Test"){
               if(updatedinterview.data.updatedinterview.faceTest === true){
@@ -129,37 +150,43 @@ export default function App() {
           }else{
             document.getElementById("getUserPhoto").click();
           }
-        }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === false && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
+        }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === false && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false && screenDisplay === 2){
           response =  await processFlask(currentUser, imageSrc, "gaze", id);
-          if(response.data.data === ""){
-            updatedinterview = await updateinterviewcheck(response.data.data, "gaze", id);
-            console.log(updatedinterview);
-            if(updatedinterview.data.data === "Updated Test"){
-              if(updatedinterview.data.updatedinterview.gazeTest === true){
-                let newinterview = await getinterviewdetails(id);
-                setOverlapText("");
-                setInterviewStatus(newinterview);
-                setcurrentbtn(1);
+          console.log(response);
+          if(response.data.data.Eyes_Detected === true){
+            if(response.data.data.message === ""){
+              updatedinterview = await updateinterviewcheck("gaze", "data:image/jpeg;base64,"+response.data.img, id);
+              console.log(updatedinterview);
+              if(updatedinterview.data.data === "Updated Test"){
+                if(updatedinterview.data.updatedinterview.gazeTest === true){
+                  let newinterview = await getinterviewdetails(id);
+                  setOverlapText("");
+                  setInterviewStatus(newinterview);
+                  setcurrentbtn(1);
+                }else{
+                  console.log("Something Went Wrong");
+                }
               }else{
                 console.log("Something Went Wrong");
               }
             }else{
-              console.log("Something Went Wrong");
+              setOverlapText("response.data.data.message");
             }
           }else{
-            setOverlapText(response.data.data);
+            setOverlapText(response.data.data.message);
             document.getElementById("getUserPhoto").click();
           }
-        }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
+        }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false && screenDisplay === 3){
           response =  await processFlask(currentUser, imageSrc, "person", id);
-          if(response.data.data < 1){
+          console.log(response);
+          if(response.data.data.NumberOfFaces < 1){
             setOverlapText("No Person Detected");
             document.getElementById("getUserPhoto").click();
-          }else if(response.data.data > 1){
+          }else if(response.data.data.NumberOfFaces > 1){
             setOverlapText("More Than One Person Detected");
             document.getElementById("getUserPhoto").click();
-          }else if(response.data.data === 1){
-            updatedinterview = await updateinterviewcheck(response.data.data, "person", id);
+          }else if(response.data.data.NumberOfFaces === 1){
+            updatedinterview = await updateinterviewcheck("person", "data:image/jpeg;base64,"+response.data.img, id);
             console.log(updatedinterview);
             if(updatedinterview.data.data === "Updated Test"){
               if(updatedinterview.data.updatedinterview.personTest === true){
@@ -176,11 +203,12 @@ export default function App() {
           }else{
             document.getElementById("getUserPhoto").click();
           }
-        }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === true && interviewStatus.data.earTest === false){
+        }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === true && interviewStatus.data.earTest === false && screenDisplay === 4){
           response =  await processFlask(currentUser, imageSrc, "ear", id);
+          console.log(response);
           if(response.data.data.State === "NoEarpiece"){
             if(leftearpiece === 2 && rightearpiece === 2){
-              updatedinterview = await updateinterviewcheck(response.data.data, "ear", id);
+              updatedinterview = await updateinterviewcheck("ear", "data:image/jpeg;base64,"+response.data.img, id);
               if(updatedinterview.data.data === "Updated Test"){
                 if(updatedinterview.data.updatedinterview.earTest === true){
                   let newinterview = await getinterviewdetails(id);
@@ -203,11 +231,21 @@ export default function App() {
             }else{
               document.getElementById("getUserPhoto").click();
             }
+          }else if(response.data.data.State === "Earpiece"){
+            if(response.data.data.Side === "Right"){
+              setrightearpiece(1);
+              document.getElementById("getUserPhoto").click();
+            }else if(response.data.data.Side === "Left"){
+              setleftearpiece(1);
+              document.getElementById("getUserPhoto").click();
+            }else{
+              document.getElementById("getUserPhoto").click();
+            }
           }else{
             document.getElementById("getUserPhoto").click();
             setOverlapText("Kindly Remove Your Earpiece !!");
           }
-        }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === true && interviewStatus.data.earTest === true){
+        }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === true && interviewStatus.data.earTest === true && screenDisplay === 5){
         }
       }
     }
@@ -447,10 +485,34 @@ export default function App() {
         </div>
       :null}
       {screenDisplay===6?
-        <div>
+        <div style={{ zIndex:"-10000", position:"fixed", top:0 }}>
           <DyteProvider value={meeting}>
             <MyMeeting />
           </DyteProvider>
+          <div>
+            <Webcam
+              audio={false}
+              height={1080}
+              width={1920}
+              videoConstraints={{
+                width: 1920,
+                height: 1080,
+                facingMode: "user"
+              }}
+              screenshotFormat="image/jpeg"
+            >
+              {({ getScreenshot }) => (
+                <button id="getUserPhotoLive" className="text-white"
+                  onClick={() => {
+                    const imageSrc = getScreenshot()
+                    processLive(imageSrc);
+                  }}
+                >
+                  click
+                </button>
+              )}
+            </Webcam>
+          </div>
         </div>
       :null}
       </>

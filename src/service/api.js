@@ -1253,6 +1253,20 @@ export const processFlask = async (currentUser, imageSrc, type, id) => {
 
   }
 }
+
+export const processFlasklive = async (currentUser, imageSrc, id) => {
+  try {
+    return await axios.post(`${flaskurl}/Interview/Live`,{
+      id: currentUser._id,
+      data: imageSrc,
+      type: "live",
+      interview: id,
+    });
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
 // XI Category
 
 export const ListXICategory = async () => {
@@ -1497,11 +1511,24 @@ export const updateUserCreditInfo = async (data) => {
   }
 }
 
-export const updateinterviewcheck = async (data, type, id) => {
+export const updateinterviewcheck = async (type, img, id) => {
   try {
     return await axios.post(`${url}/updateinterviewcheck`,{
-      data: data,
       type: type,
+      img: img,
+      meetingID: id
+    });
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+
+export const updatelivestatus = async (stats, id) => {
+  try {
+    return await axios.post(`${url}/updatelivestatus`,{
+      stats: stats,
       meetingID: id
     });
 
