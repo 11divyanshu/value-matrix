@@ -77,7 +77,7 @@ export default function Tabs() {
   }, []);
 
   return (
-    <div className="Tabs w-screen">
+    <div className="Tabs w-screen pl-3">
       <div className="tabList w-fit px-0">
         <div
           className={`tabHead ${index === 0 && "active"} px-0`}

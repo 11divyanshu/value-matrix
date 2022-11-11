@@ -11,6 +11,8 @@ import "../assets/stylesheet/dyte.css";
 
 import { languageOptions } from "../Components/languageOption.js";
 
+import { processFlasklive } from "../service/api.js";
+
 export default function MyMeeting() {
     const { meeting } = useDyteMeeting();
     const [user, setUser] = useState(null);
@@ -23,6 +25,7 @@ export default function MyMeeting() {
     const [outputDetails, setoutputDetails] = useState(null);
     const [customInput, setCustomInput] = useState("");
     const [processing, setProcessing] = useState(false);
+    const [currentUser, setCurrentUser] = useState(null);
 
     const [value, setValue] = useState(code || "");
 
@@ -34,7 +37,18 @@ export default function MyMeeting() {
 
     useEffect(()=>{
       meeting.joinRoom();
-      meeting.self.enableScreenShare();
+      setTimeout(()=>{
+        meeting.self.enableScreenShare();
+      },2000);
+      const initial = async ()=>{
+        let user = JSON.parse(localStorage.getItem("user"));
+        if(user === null){
+          window.location.href="/login";
+        }else{
+          setCurrentUser(user);
+        }
+      }
+      initial();
     },[]);
 
     const leaveCall = ()=>{

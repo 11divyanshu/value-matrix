@@ -128,7 +128,7 @@ const ChannelNotificationPanel = () => {
   }, []);
 
   return (
-    <div className=" bg-white my-5 shadow-md p-5">
+    <div className=" bg-white shadow-md p-5 ml-10 mr-3">
       <p className="text-2xl font-bold">Notification Panel</p>
       {/* <div className="flex my-3 flex-wrap ">
         <Link to="/admin/emailNotification">
