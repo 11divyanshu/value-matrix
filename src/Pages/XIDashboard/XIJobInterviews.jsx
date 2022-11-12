@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import JobCard from "../../Components/XIDashboard/JobCard.jsx";
-import { slotDetailsOfUser,updateWallet } from "../../service/api.js";
+import { slotDetailsOfUser, updateWallet } from "../../service/api.js";
 
 import Loader from "../../assets/images/loader.gif";
 import Avatar from "../../assets/images/UserAvatar.png";
@@ -100,7 +100,14 @@ const JobList = (props) => {
                   jobs.map((job, index) => {
                     if (job.slotType == "SuperXI") {
                       return (
-                        <div id={"intercard" + (index + 1)} className={index < 5 ? "w-full px-5 bg-white py-1 my-2" : "w-full px-5 bg-white py-1 my-2 hidden"}>
+                        <div
+                          id={"intercard" + (index + 1)}
+                          className={
+                            index < 5
+                              ? "w-full px-5 bg-white py-1 my-2"
+                              : "w-full px-5 bg-white py-1 my-2 hidden"
+                          }
+                        >
                           <div className="grid grid-cols-1  items-center lg:grid-cols-6 relative py-3">
                             <div className="px-5 my-2 text-md col-span-2 space-y-1">
                               <p>
@@ -111,17 +118,20 @@ const JobList = (props) => {
                                 </span>
                               </p>
                               <p>
-                                <span className="font-semibold">Upgrade to XI </span>{" "}
+                                <span className="font-semibold">
+                                  Upgrade to XI{" "}
+                                </span>{" "}
                               </p>
 
-                              {job.xiinterviewApplication && job.xiinterviewApplication.length > 0 ?
+                              {job.xiinterviewApplication &&
+                              job.xiinterviewApplication.length > 0 ? (
                                 <p className="text-sm">
                                   <span className="font-semibold">
                                     Interview Id :
                                   </span>
                                   {job.interviewId}
-                                </p> : null}
-
+                                </p>
+                              ) : null}
                             </div>
                             <div className="px-5 my-2 text-md">
                               <p>
@@ -160,11 +170,14 @@ const JobList = (props) => {
                                   {job.status}
                                 </span>
                               </div>
-                              <div className="px-5 text-center my-5 text-md" onClick={async () => {
-                                let updateWallet = await updateWallet(job._id);
-
-                              }}>
-
+                              <div
+                                className="px-5 text-center my-5 text-md"
+                                onClick={async () => {
+                                  let updateWallet = await updateWallet(
+                                    job._id
+                                  );
+                                }}
+                              >
                                 <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
                                   Update
                                 </span>
@@ -213,11 +226,17 @@ const JobList = (props) => {
                             </div>
                           </div>
                         </div>
-                      )
-                    }
-                    else {
+                      );
+                    } else {
                       return (
-                        <div id={"intercard" + (index + 1)} className={index < 5 ? "w-full px-5 bg-white py-1 my-2" : "w-full px-5 bg-white py-1 my-2 hidden"}>
+                        <div
+                          id={"intercard" + (index + 1)}
+                          className={
+                            index < 5
+                              ? "w-full px-5 bg-white py-1 my-2"
+                              : "w-full px-5 bg-white py-1 my-2 hidden"
+                          }
+                        >
                           <div className="grid grid-cols-1  items-center lg:grid-cols-6 relative py-3">
                             <div className="px-5 my-2 text-md col-span-2 space-y-1">
                               <p>
@@ -275,19 +294,22 @@ const JobList = (props) => {
                                   {job.status}
                                 </span>
                               </div>
-                              <div className="px-5 text-center my-5 text-md" onClick={async () => {
-                                let update = await updateWallet(job.job[0]._id);
-console.log(updateWallet)
-                              }}>
-
+                              <div
+                                className="text-center my-5 text-md"
+                                onClick={async () => {
+                                  let update = await updateWallet(
+                                    job.job[0]._id
+                                  );
+                                  console.log(updateWallet);
+                                }}
+                              >
                                 <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
                                   Join
                                 </span>
-                             
                               </div>
                             </div>
 
-                            <div className="px-4 mx-2 py-4 align-middle absolute -right-2 top-0">
+                            <div className="px-4 mx-2 py-4 align-middle absolute -right-2 top-10">
                               <Popover className="relative mt-1">
                                 {({ open }) => (
                                   <>

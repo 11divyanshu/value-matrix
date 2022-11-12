@@ -19,7 +19,7 @@ import {
   bookSlot,
   availableSlots,
   findCandidateByEmail,
-  updateInterviewApplication
+  updateInterviewApplication,
 } from "../../service/api";
 import { Fragment } from "react";
 import { Popover, Transition, Dialog } from "@headlessui/react";
@@ -112,7 +112,7 @@ function JobDetails(props) {
           <Dialog
             as="div"
             className="relative z-10 w-5/6 "
-            onClose={() => { }}
+            onClose={() => {}}
             static={true}
           >
             <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
@@ -239,7 +239,7 @@ function JobDetails(props) {
           <Dialog
             as="div"
             className="relative z-10 w-5/6 "
-            onClose={() => { }}
+            onClose={() => {}}
             static={true}
           >
             <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
@@ -478,8 +478,9 @@ function JobDetails(props) {
                     <>
                       <Popover.Button
                         className={`
-                               ${open ? "" : "text-opacity-90"
-                          } focus:outline-0`}
+                               ${
+                                 open ? "" : "text-opacity-90"
+                               } focus:outline-0`}
                       >
                         <BsThreeDots className="text-gray-700 text-lg mt-5 cursor-pointer hover:text-gray-800" />
                       </Popover.Button>
@@ -549,29 +550,30 @@ function JobDetails(props) {
                 <div className="px-4">
                   {roles
                     ? roles.map((item, index) => {
-                      return (
-                        <div>
-                          <p className="font-semibold text-md my-3">{item}</p>
-                          {skillsPrimary[item].map((el) => (
-                            <div>
-                              <p className="text-sm my-2">{el}</p>
-                              {job.skills && job.skills
-                                .filter(
-                                  (tool) =>
-                                    tool.role === item &&
-                                    tool.primarySkill === el
-                                )
-                                .map((item1, index) => (
-                                  <span className="bg-blue-100 text-blue-800 text-xs my-4 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
-                                    {item1.secondarySkill}({item1.proficiency}
+                        return (
+                          <div>
+                            <p className="font-semibold text-md my-3">{item}</p>
+                            {skillsPrimary[item].map((el) => (
+                              <div>
+                                <p className="text-sm my-2">{el}</p>
+                                {job.skills &&
+                                  job.skills
+                                    .filter(
+                                      (tool) =>
+                                        tool.role === item &&
+                                        tool.primarySkill === el
                                     )
-                                  </span>
-                                ))}
-                            </div>
-                          ))}
-                        </div>
-                      );
-                    })
+                                    .map((item1, index) => (
+                                      <span className="bg-blue-100 text-blue-800 text-xs my-4 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
+                                        {item1.secondarySkill}(
+                                        {item1.proficiency})
+                                      </span>
+                                    ))}
+                              </div>
+                            ))}
+                          </div>
+                        );
+                      })
                     : "No Skills Required"}
                 </div>
                 <div className=""></div>
@@ -644,21 +646,30 @@ function JobDetails(props) {
                   </div>
                 </div>
               </div>
-              {job.status === "Interviewed" &&
-                (<div> <Rating id={job.interviewId} interviewer={job.XI[0]._id}/>
-
+              {job.status === "Interviewed" && (
+                <div>
+                  {" "}
+                  <Rating id={job.interviewId} interviewer={job.XI[0]._id} />
                   <div className="flex mx-5 my-5">
                     <div className="">
                       <h2 className="font-semibold my-2">Comment</h2>
-                      <input type="text" name="" value={job.comment} id="" onChange={(e)=> setComment(e.target.value)} />
+                      <input
+                        type="text"
+                        name=""
+                        value={job.comment}
+                        id=""
+                        onChange={(e) => setComment(e.target.value)}
+                      />
                     </div>
                     <div className="my-8">
                       <button
                         className="shadow-lg rounded-md mx-5 px-6 py-3 "
                         style={{ backgroundColor: "#034488", color: "#fff" }}
-                        onClick={async()=>{
-                          let update = await updateInterviewApplication(job.interviewId, { comment:comment });
-
+                        onClick={async () => {
+                          let update = await updateInterviewApplication(
+                            job.interviewId,
+                            { comment: comment }
+                          );
                         }}
                       >
                         Submit
@@ -666,9 +677,7 @@ function JobDetails(props) {
                     </div>
                   </div>
                 </div>
-
-                )
-              }
+              )}
             </div>
 
             <div className="text-right">
@@ -700,7 +709,7 @@ function JobDetails(props) {
                     }
                   });
                 }}
-              // onClick={() => applyFilter(values)}
+                // onClick={() => applyFilter(values)}
               >
                 Cancel Interview
               </button>
@@ -711,7 +720,7 @@ function JobDetails(props) {
                   setchooseSlot(true);
                   // handleJobInvitation(job, true);
                 }}
-              // onClick={() => applyFilter(values)}
+                // onClick={() => applyFilter(values)}
               >
                 Reschedule Interview
               </button>

@@ -38,7 +38,10 @@ const InterviewListCard = (props) => {
           <p>
             <span className="font-semibold">Job : </span> {job.job.jobTitle}
           </p>
-          <p className="text-sm"><span className="font-semibold">Interview Id :</span>{job.application._id}</p>
+          <p className="text-sm">
+            <span className="font-semibold">Interview Id :</span>
+            {job.application._id}
+          </p>
         </div>
         <div className="px-5 my-2 text-md">
           <p> Jan 17,2022</p>
@@ -49,17 +52,19 @@ const InterviewListCard = (props) => {
           <p className="text-red-400 text-xs"> 03 Minutes Remaining</p>
         </div>
         <div className="flex space-x-3 items-center">
-        <div className="px-5 text-center my-5 text-md">
-          <span className="bg-gray-400 text-gray-800 text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl dark:bg-yellow-200 dark:text-gray-900 my-2 py-2">
-            {job.application.status}
-          </span>
-        </div>
-        <div className="px-5 text-center my-5 text-md">
+          <div className="px-5 text-center my-5 text-md">
+            <span className="bg-gray-400 text-gray-800 text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl dark:bg-yellow-200 dark:text-gray-900 my-2 py-2">
+              {job.application.status}
+            </span>
+          </div>
+          <div className="px-5 text-center my-5 text-md">
             <Link to={`/XI/updateEvaluationDetails/${job.application._id}`}>
-          <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
-            Update
-          </span></Link>
-        </div></div>
+              <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
+                Update
+              </span>
+            </Link>
+          </div>
+        </div>
 
         <div className="px-4 mx-2 py-4 align-middle absolute -right-2 top-0">
           <Popover className="relative mt-1">
@@ -69,8 +74,6 @@ const InterviewListCard = (props) => {
                   className={`
             ${open ? "" : "text-opacity-90"} focus:outline-0`}
                 >
-                
-
                   <BsThreeDots className="text-gray-700 text-lg cursor-pointer hover:text-gray-800" />
                 </Popover.Button>
                 <Transition
@@ -88,7 +91,10 @@ const InterviewListCard = (props) => {
                         <div className="flex items-center border-b text-gray-800 space-x-2">
                           {/* <BsThreeDots className="text-md" /> */}
                           <p className="text-sm font-semibold py-2">
-                            <Link to={`/XI/jobDetails/${job.job._id}`} target="_blank">
+                            <Link
+                              to={`/XI/jobDetails/${job.job._id}`}
+                              target="_blank"
+                            >
                               View Job Details{" "}
                             </Link>
                           </p>{" "}

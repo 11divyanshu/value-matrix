@@ -198,7 +198,7 @@ const JobList = () => {
                   className="  py-4 px-5"
                   style={{ borderRadius: "6px 6px 0 0" }}
                 >
-                  <p className="text-gray-900 w-full font-bold">Posted Jobs</p>
+                  <p className="text-gray-900 w-full font-bold">Pending Jobs</p>
                   {/* <p className="text-gray-400 w-full font-semibold">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p> */}
                 </div>
                 <div className="w-[5vw] py-4 ml-auto px-6">
@@ -228,11 +228,20 @@ const JobList = () => {
                     return <JobBinCard job={job} index={index} />;
                   })}
               </div>
+              {pjobs && pjobs.length === 0 && (
+                  <p className="text-center font-semibold my-5">
+                    No Pending Jobs
+                  </p>
+                )}
               <div className="w-full">
                 <div className="flex justify-between my-2 mx-1">
-                  <div>
-                    Page {page} of {Math.ceil(pjobs.length / 5)}
-                  </div>
+                  {
+                    Math.ceil(pjobs.length / 5) ? (
+                      <div>
+                        Page {page} of {Math.ceil(pjobs.length / 5)}
+                      </div>
+                    ) : null
+                  }
                   <div>
                     {" "}
                     {pjobs &&
@@ -258,7 +267,7 @@ const JobList = () => {
           )}
         </div>
 
-        <div className="md:w-1/4 my-3">
+        <div className="md:w-1/4">
           <div className="shadow-lg  py-5  justify-around  px-5 bg-white">
             <p className="text-xl mx-auto text-gray-700 font-bold  flex">
               <p className="p-1">

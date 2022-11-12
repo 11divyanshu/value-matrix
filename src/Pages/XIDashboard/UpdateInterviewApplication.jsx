@@ -274,42 +274,6 @@ const UpdateInterviewApplication = () => {
         {loading && (
           <p className="text-center font-semibold text-lg">Loading Data...</p>
         )}
-          <div>
-              <div className="mx-2 w-full h-[50vh] my-3">
-            <Carousel>
-                <div>
-                    <img src={backg} />
-                    <p className="legend">Legend 1</p>
-                </div>
-                <div>
-                    <img src={backg} />
-                    <p className="legend">Legend 2</p>
-                </div>
-                <div>
-                    <img src={backg} />
-                    <p className="legend">Legend 3</p>
-                </div>
-            </Carousel>
-            </div>
-
-
-            <div className="mx-2 w-full  my-3">
-            <Carousel>
-                <div>
-                    <img src={backg} />
-                    <p className="legend">Legend 1</p>
-                </div>
-                <div>
-                    <img src={backg} />
-                    <p className="legend">Legend 2</p>
-                </div>
-                <div>
-                    <img src={backg} />
-                    <p className="legend">Legend 3</p>
-                </div>
-            </Carousel>
-                </div>
-            </div>
         {!loading && (
           <div>
           
