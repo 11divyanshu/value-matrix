@@ -477,15 +477,13 @@ const JobInvitations = (props) => {
             style={{ borderRadius: "6px 6px 0 0" }}
           >
             <div className="  py-4 px-5">
-              <p className="text-gray-900 w-full font-bold">Posted Jobs</p>
+              <p className="text-gray-900 w-full font-bold">Interview Invitations</p>
               {/* <p className="text-gray-400 w-full font-semibold">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p> */}
             </div>
           </div>
           {!Loading && JobInvitation.length === 0 ?
             (
-              <div className="text-center py-5 text-2xl md:w-3/4">
-                No Interview Invitations
-              </div>
+              <></>
             ) : (
               <div className="w-full">{user && user.status == "Forwarded" && (
                 <div className={"w-full px-5 bg-white py-1 border border-b"}>
@@ -756,10 +754,19 @@ const JobInvitations = (props) => {
                 })}
               </div>)}
           <div className="w-full">
+          {JobInvitation && JobInvitation.length === 0 && (
+                  <p className="text-center font-semibold my-5">
+                    No Interviews Invitations
+                  </p>
+                )}
             <div className="flex justify-between my-2 mx-1">
-              <div>
-                Page {page} of {Math.ceil(JobInvitation.length / 5)}
-              </div>
+              {
+                Math.ceil(JobInvitation.length / 5) ? (
+                  <div>
+                    Page {page} of {Math.ceil(JobInvitation.length / 5)}
+                  </div>
+                ) : null
+              }
               <div>
                 {" "}
                 {JobInvitation &&

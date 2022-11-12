@@ -393,40 +393,6 @@ const result1 = await PaymentSuccess({data:data,id:transactionId,userId:user._id
             rounded-lg "><SessionCard /></div>
 
 
-            <div className="shadow-lg my-5 md:w-1/2 lg:w-full md:mx-1 lg:mx-5 md:my-0 rounded-lg py-5 bg-white sm:w-full h-32">
-              <div className="flex items-start space-x-3 px-6  ">
-                <div className="py-5">
-                  <p className="text-lg text-left">
-                    <p className="text-left text-lg font-semibold">
-                      Wallet Credit - {currentCredit}
-                    </p>
-                  </p>
-                  {/* <p className="text-xs">
-
-                    Lorem ipsum dolor sit amet,
-                  </p> */}
-                  {/* <button className="App-link" >
-                    Pay ₹500
-                </button> */}
-                  <button
-                    className=" hover:bg-blue-700 text-white font-bold py-2 px-4 text-xs flex text-center rounded-lg"
-                    style={{ backgroundColor: "#034488" }}
-                    onClick={() => {
-                      setModal(true);
-                    }}
-                  >
-                    {/* <p classname=" py-2"><AiOutlinePlus/></p> */}
-                    {/* <p className="py-1 px-2 text-sm font-bold">
-              {" "}
-              <AiOutlinePlus />
-            </p> */}
-                    <p className="py-1">Buy Credits</p>
-                  </button>
-                </div>
-                <div className="text-2xl font-bold flex py-5"> 6200 <p className="text-green-500"><AiOutlineArrowUp /></p><p className="text-lg">62% </p></div>
-              </div>
-            </div>
-
             <div className="shadow-lg sm:w-full rounded-lg md:w-full lg:w-full py-10 my-8 h-auto mx-5 bg-white px-4">
               <p className="text-xl px-4 mx-auto text-gray-700 font-bold  flex">
 
