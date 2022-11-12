@@ -29,7 +29,7 @@ export default function MyMeeting() {
     const [usercode, setusercode] = useState("");
     const [receivedcode, setreceivedcode] = useState("//Write your code here...");
     const [xiquestion, setxiquestion] = useState(null);
-    const [selectedlanguage, setselectedlanguage] = useState("");
+    const [selectedlanguage, setselectedlanguage] = useState("Javascript");
     const [currentUser, setCurrentUser] = useState(null);
     const [interviewStatus, setInterviewStatus] = useState(null);
     const [nqtype, setnqtype] = useState(null);
@@ -37,6 +37,8 @@ export default function MyMeeting() {
     const [nqexperience, setnqexperience] = useState(null);
     const [nqcategory, setnqcategory] = useState(null);
     const [lateststats, setlateststats] = useState(null);
+    const [codeInputs, setCodeInputs] = useState("");
+    const [codeOutputs, setCodeOutputs] = useState("");
     const [pscount, setpscount] = useState(0);
     const [gqcount, setgqcount] = useState(0);
 
@@ -242,6 +244,9 @@ export default function MyMeeting() {
         setLiveStats(getstats.data.stats.livestats);
         setlateststats(getstats.data.stats);
         setValue(atob(getstats.data.stats.codearea))
+        setCodeInputs(getstats.data.stats.codestdin);
+        setCodeOutputs(getstats.data.stats.codestdout);
+        setselectedlanguage(getstats.data.stats.codelanguage);
       },2000);
     },[]);
   
@@ -271,14 +276,14 @@ export default function MyMeeting() {
               <div className="md:w-1/2 mr-2">
                 <div className="bg-gray-900 text-white p-4 rounded-2xl text-md my-4 h-full">
                   <pre className="px-2 py-1 font-normal text-xs text-white">
-                    Code Inputs Appear Here...
+                    {codeInputs}
                   </pre>
                 </div>
               </div>
               <div className="md:w-1/2 ml-2">
                 <div className="bg-gray-900 text-white p-4 rounded-2xl text-md my-4 h-full">
                   <pre className="px-2 py-1 font-normal text-xs text-white">
-                    Code Output Appears Here...
+                    {atob(codeOutputs)}
                   </pre>
                 </div>
               </div>

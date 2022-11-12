@@ -5,12 +5,13 @@ import Navbar from "../Components/XIDashboard/Navbar.jsx";
 import Editor from "@monaco-editor/react";
 import axios from "axios";
 
-import { compilecode, checkcompilestatus, savecode } from "../service/api.js";
+import { compilecode, checkcompilestatus, savecode, getlivestatus } from "../service/api.js";
 
 import "../assets/stylesheet/dyte.css";
 
 import { languageOptions } from "../Components/languageOption.js";
 import { useParams } from "react-router-dom";
+import renderHTML from "react-render-html";
 
 export default function MyMeeting() {
     const { meeting } = useDyteMeeting();
@@ -25,16 +26,23 @@ export default function MyMeeting() {
     const [customInput, setCustomInput] = useState("");
     const [processing, setProcessing] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
+    const [liveStats, setLiveStats] = useState(null);
 
     const [value, setValue] = useState(code || "");
     const {id} = useParams();
 
     let savecc = null;
+    let fetchinter = null;
+    let getstats = null;
 
     const handleEditorChange = async (value) => {
       setValue(value);
       setcode(value);
-      savecc = await savecode(id, btoa(value));
+      if(outputDetails){
+        savecc = await savecode(id, btoa(value), customInput, getOutput2());
+      }else{
+        savecc = await savecode(id, btoa(value), customInput, "");
+      }
     };
 
 
@@ -52,6 +60,11 @@ export default function MyMeeting() {
         }
       }
       initial();
+      fetchinter = setInterval(async ()=>{
+        getstats = await getlivestatus(id);
+        console.log(getstats.data.stats);
+        setLiveStats(getstats.data.stats.livestats);
+      },2000);
     },[]);
 
     const leaveCall = ()=>{
@@ -97,6 +110,21 @@ export default function MyMeeting() {
             {atob(outputDetails?.stderr)}
           </pre>
         );
+      }
+    };
+
+    const getOutput2 = () => {
+      let statusId = outputDetails?.status?.id;
+  
+      if (statusId === 6) {
+        // compilation error
+        return (outputDetails?.compile_output);
+      } else if (statusId === 3) {
+        return (outputDetails.stdout);
+      } else if (statusId === 5) {
+        return ("Time Limit Exceeded");
+      } else {
+        return (outputDetails?.stderr);
       }
     };
 
@@ -173,7 +201,9 @@ export default function MyMeeting() {
           <div className="md:w-1/2 h-full">
             <div className="w-full h-full py-4 pr-2 pl-4">
               <div className="bg-gray-900 text-white p-4 rounded-2xl text-md h-max">
-                Interview Coding Question Appears Here...
+                {liveStats?<>
+                  {liveStats.codequestion?<>{renderHTML(liveStats.codequestion)}</>:<>Interview Coding Question Appears Here...</>}
+                </>:<>Interview Coding Question Appears Here...</>}
               </div>
             </div>
             <div className="flex pb-4" style={{ position:"absolute", bottom:0 }}>

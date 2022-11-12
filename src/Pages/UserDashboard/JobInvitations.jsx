@@ -354,7 +354,7 @@ const JobInvitations = (props) => {
                           {/* <AiFillCalendar className="text-4xl text-gray-700" /> */}
                           <div className='py-5 w-full bg-blue-900 flex'>
                             <p className="text-lg mx-5 text-center text-white font-semibold">
-                              Meeting
+                              Schedule an Interview
                             </p>
                           </div>
                         </div>

@@ -1145,6 +1145,7 @@ export const slotDetailsOfXI = async (id) => {
 }
 export const slotDetailsOfUser = async (id) => {
   try {
+    console.log(id);
     return await axios.get(`${url}/slotDetailsOfUser?userId=${id}`
     );
 
@@ -1536,7 +1537,6 @@ export const updateinterviewcheck = async (type, img, id) => {
   try {
     return await axios.post(`${url}/updateinterviewcheck`,{
       type: type,
-      img: img,
       meetingID: id
     });
 
@@ -1571,11 +1571,13 @@ export const getinterviewdetails = async (id) => {
   }
 }
 
-export const savecode = async (id, code) => {
+export const savecode = async (id, code, stdin, stdout) => {
   try {
     return await axios.post(`${url}/savecode`,{
       meetingID: id,
-      code: code
+      code: code,
+      stdin: stdin,
+      stdout: stdout
     });
 
   } catch (err) {
