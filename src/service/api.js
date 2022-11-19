@@ -929,6 +929,15 @@ export const unapprovedJobsList = async () => {
     console.log("Error : ", err);
   }
 }
+export const getallJobs = async () => {
+  try {
+    return await axios.get(`${url}/allJobs`
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
 export const languagesList = async () => {
   try {
     return await axios.get(`${url}/languagesList`
@@ -941,6 +950,30 @@ export const languagesList = async () => {
 export const approveJob = async (data) => {
   try {
     return await axios.post(`${url}/approveJob`,data
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
+export const approveCd = async (index, job_id, candet) => {
+  try {
+    return await axios.post(`${url}/approveCandidate`,{
+      index: index,
+      _id: job_id,
+      candet: candet
+    }
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+}
+export const getuserbyEmail = async (email) => {
+  try {
+    return await axios.post(`${url}/getuserbyEmail`,{
+      email: email
+    }
     );
 
   } catch (err) {
@@ -1287,6 +1320,41 @@ export const processFlasklive = async (currentUser, imageSrc, id) => {
   } catch (err) {
     console.log("Error : ", err);
 
+  }
+}
+// XI Panels
+
+export const ListXIPanels = async () => {
+  try {
+    return await axios.get(`${url}/ListXIPanels`
+     
+    );
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+export const addXIPanels = async (data, token) => {
+  try {
+    return await axios.post(`${url}/addXIPanels`, data ,{
+      headers: {
+        authorization: token,
+      },}
+     
+    );
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
+  }
+}
+export const updateXIPanels = async (data, token) => {
+  try {
+    return await axios.post(`${url}/updateXIPanels`, data ,{
+      headers: {
+        authorization: token,
+      },}
+     
+    );
+  }catch (error) {
+    console.log("Error calling Post Job API : ", error);
   }
 }
 // XI Category

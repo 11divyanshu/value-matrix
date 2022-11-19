@@ -8,6 +8,7 @@ import {
   ListXIMultiplier,
   ListXILevel,
   ListXICategory,
+  ListXIPanels,
   updateXIInfo,
 } from "../../service/api";
 import { Link } from "react-router-dom";
@@ -31,6 +32,7 @@ const XIOnboarding = () => {
   const [userList, setUserList] = React.useState([]);
   const [level, setLevel] = React.useState([]);
   const [category, setCategory] = React.useState([]);
+  const [panels, setPanels] = React.useState([]);
   const [multiplier, setMultiplier] = React.useState([]);
   const [Modal, setModal] = React.useState(null);
   const [add_jobs, setadd_jobs] = React.useState(false);
@@ -101,6 +103,10 @@ const XIOnboarding = () => {
       let response3 = await ListXICategory();
       if (response3 && response3.status === 200) {
         setCategory(response3.data.category);
+      }
+      let response4 = await ListXIPanels();
+      if (response4 && response4.status === 200) {
+        setPanels(response4.data.category);
       }
     };
     initial();
@@ -278,6 +284,12 @@ const XIOnboarding = () => {
                         scope="col"
                         className="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
                       >
+                        Panel
+                      </th>
+                      <th
+                        scope="col"
+                        className="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
+                      >
                         Performance
                       </th>
                       <th
@@ -364,6 +376,36 @@ const XIOnboarding = () => {
                                     category.map((item) => {
                                       return (
                                         <option value={item._id}>{item.category}</option>
+                                      );
+                                    })}
+                                </select>
+
+                              </div>
+                            </td>
+                            <td className="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
+                              {/* {user.level}
+                              <Button onClick={() => {
+                                handleLevelChange(user.level,user._id)
+                              }}>Edit</Button> */}
+                              <div className="">
+                                <select
+                                  id="panel"
+                                  name="panel"
+                                  style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", borderRadius: "5px", }}
+                                  className="block border-gray-200 py-1 w-full"
+                                 value={user.xi_info.panels}
+                                onChange={async(event) => {
+                                  console.log(event.target.value);
+                                  let update = await updateXIInfo({id:user._id , updates:{panelId: event.target.value}});
+                                  if(update.status==200){
+                                    console.log('done');
+                                  }
+                                }}
+                                >
+                                  {panels &&
+                                    panels.map((item) => {
+                                      return (
+                                        <option value={item._id}>{item.panels}</option>
                                       );
                                     })}
                                 </select>

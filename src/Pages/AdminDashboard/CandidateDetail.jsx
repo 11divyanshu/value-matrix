@@ -29,6 +29,7 @@ const CandiadateDetail = () => {
       }
       let token = await localStorage.getItem("access_token");
       let response = await getUserFromId({ id: id }, token);
+      console.log(response);
       if (response && response.status === 200) {
         await setUserDetail(response.data.user);
       }
@@ -163,7 +164,33 @@ const CandiadateDetail = () => {
                 {userDetail.tools &&
                   userDetail.tools.length > 0 &&
                   userDetail.tools.map((skill) => {
-                    return <div className="bg-gray-100 px-2 py-1">{skill}</div>;
+                    return (
+                      <div>
+                        {/* <p className="font-semibold text-md my-3">{skill}</p>
+                        {skillsPrimary[skill].map((el) => (
+                          <div>
+                            <p className="text-sm my-2">{el}</p>
+                            {user.tools
+                              .filter(
+                                (tool) =>
+                                  tool.role === skill &&
+                                  tool.primarySkill === el
+                              )
+                              .map((skill1, index) => (
+                                <span className="bg-blue-100 inline-block text-blue-800 text-xs my-4 font-semibold mr-2 px-3 py-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
+                                  {skill1.secondarySkill}({skill1.proficiency}){" "}
+                                  <span className="text-sm">
+                                    {" "}
+                                    {skill1.lastassested
+                                      ? `(lastassested(${item1.lastassested}))`
+                                      : "unassested"}
+                                  </span>
+                                </span>
+                              ))}
+                          </div>
+                        ))} */}
+                      </div>
+                    );
                   })}
               </div>
             </div>

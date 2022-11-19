@@ -1,6 +1,6 @@
 import React from "react";
 import JobCard from "../../Components/AdminDashboard/JobCard.jsx";
-import { listJobs, unapprovedJobsList, approveJob } from "../../service/api.js";
+import { listJobs, getallJobs, approveJob } from "../../service/api.js";
 import { CSVLink } from "react-csv";
 import { Formik, Field, Form } from "formik";
 import { FilterCompany } from "../../service/api.js";
@@ -24,7 +24,6 @@ const JobList = () => {
   const [jobs, setJobs] = React.useState([]);
   const [loader, setLoader] = React.useState(false);
   const [user, setUser] = React.useState(null);
-  const [page, setPage] = React.useState(1);
 
   React.useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"));
@@ -54,7 +53,7 @@ const JobList = () => {
     const getData = async () => {
       let c_id = JSON.parse(localStorage.getItem("user"));
       console.log(c_id);
-      let res = await unapprovedJobsList();
+      let res = await getallJobs();
       console.log(res);
       if (res && res.data) {
         setJobs(res.data);
@@ -68,18 +67,6 @@ const JobList = () => {
     };
     getData();
   }, []);
-
-  const paginate = (p) => {
-    setPage(p);
-    for (var i = 1; i <= jobs.length; i++) {
-      document.getElementById("crd" + i).classList.add("hidden");
-    }
-    for (var j = 1; j <= 5; j++) {
-      document
-        .getElementById("crd" + ((p - 1) * 5 + j))
-        .classList.remove("hidden");
-    }
-  };
 
   const applyFilter = async (values) => {
     setLoader(true);
@@ -147,7 +134,7 @@ const JobList = () => {
                   style={{ borderRadius: "6px 6px 0 0" }}
                 >
                   <p className="text-gray-900 w-full font-bold">
-                    Unapproved Jobs
+                    All Jobs
                   </p>
                   {/* <p className="text-gray-400 w-full font-semibold">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p> */}
                 </div>
@@ -157,9 +144,9 @@ const JobList = () => {
 
               <div className="w-full">
                 {jobs &&
-                  jobs.map((job, index) => {
+                  jobs.map((job) => {
                     return (
-                      <div className={index < 5 ? "w-full px-5 bg-white py-1 border border-b": "w-full px-5 bg-white py-1 border border-b hidden"} id={"crd" + (index + 1)}>
+                      <div className="w-full px-5 bg-white py-1 border border-b">
                         <div className="grid grid-cols-1 gap-4 lg:grid-cols-8 sm:grid-cols-4 my-3">
                           <div className="col-span-2">
                             <h5 className="text-black-900 text-md font-bold mb-1 ">
@@ -293,7 +280,7 @@ const JobList = () => {
                                                   }).then(() => {
                                                     window.location.reload();
                                                   });
-                                                  //  let res = await unapprovedJobsList();
+                                                  //  let res = await allJobs();
 
                                                   //  if (res && res.data) {
                                                   //    setJobs(res.data);
@@ -341,33 +328,6 @@ const JobList = () => {
                       </div>
                     );
                   })}
-              </div>
-              
-              <div className="w-full">
-                <div className="flex justify-between my-2 mx-1">
-                  <div>
-                    Page {page} of {Math.ceil(jobs.length / 5)}
-                  </div>
-                  <div>
-                    {" "}
-                    {jobs &&
-                      jobs.map((job, index) => {
-                        return index % 5 == 0 ? (
-                          <span
-                            className={`mx-2 ${
-                              page == index / 5 + 1 ? "page_active" : ""
-                            }`}
-                            style={{ cursor: "pointer" }}
-                            onClick={() => {
-                              paginate(index / 5 + 1);
-                            }}
-                          >
-                            {index / 5 + 1}
-                          </span>
-                        ) : null;
-                      })}
-                  </div>
-                </div>
               </div>
             </>
           )}

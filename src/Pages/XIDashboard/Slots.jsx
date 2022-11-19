@@ -39,6 +39,7 @@ const JobList = () => {
   const [loading, setLoading] = React.useState(null);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
+  const [page, setPage] = React.useState(1);
 
   //   const headerso = [
   //     { label: "job_id", key: "_id" },
@@ -231,6 +232,18 @@ const JobList = () => {
     });
   };
 
+  const paginate = (p) => {
+    setPage(p);
+    for (var i = 1; i <= slots.length; i++) {
+      document.getElementById("crd" + i).classList.add("hidden");
+    }
+    for (var j = 1; j <= 5; j++) {
+      document
+        .getElementById("crd" + ((p - 1) * 5 + j))
+        .classList.remove("hidden");
+    }
+  };
+
   return (
     <div className="bg-slate-100">
       <div
@@ -319,28 +332,21 @@ const JobList = () => {
                               {slots &&
                                 slots.map((user, index) => {
                                   return (
-                                    <tr
+                                    <tr id={"crd" + (index + 1)}
                                       className={`${
                                         index % 2 === 0
                                           ? "bg-gray-100"
                                           : "bg-white"
-                                      } border-b`}
+                                      } border-b ${index < 5 ? "" : "hidden"}`}
                                     >
                                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                         {index + 1}
                                       </td>
                                       <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                        {new Date(
-                                          user.startDate.toLocaleString()
-                                        ).getHours() +
-                                          "/" +
-                                          new Date(
+                                        <span>
+                                          {new Date(
                                             user.startDate.toLocaleString()
-                                          ).getMinutes()}{" "}
-                                        &nbsp;&nbsp;{" "}
-                                        {new Date(
-                                          user.startDate.toLocaleString()
-                                        ).getDate() +
+                                          ).getDate() +
                                           "-" +
                                           (new Date(
                                             user.startDate.toLocaleString()
@@ -350,20 +356,29 @@ const JobList = () => {
                                           new Date(
                                             user.startDate.toLocaleString()
                                           ).getFullYear()}
-                                        {}
+                                        </span>
+                                        <span className="ml-2">
+                                          {new Date(
+                                            user.startDate.toLocaleString()
+                                          ).getHours()>9 ? null: "0"}
+                                          {new Date(
+                                            user.startDate.toLocaleString()
+                                          ).getHours() +
+                                            ":" }
+                                          {new Date(
+                                            user.startDate.toLocaleString()
+                                          ).getMinutes()>9 ? null: "0"}
+                                          {
+                                          new Date(
+                                            user.startDate.toLocaleString()
+                                          ).getMinutes()}
+                                        </span>
                                       </td>
                                       <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                        {new Date(
-                                          user.endDate.toLocaleString()
-                                        ).getHours() +
-                                          "/" +
-                                          new Date(
+                                      <span>
+                                          {new Date(
                                             user.endDate.toLocaleString()
-                                          ).getMinutes()}{" "}
-                                        &nbsp;&nbsp;{" "}
-                                        {new Date(
-                                          user.endDate.toLocaleString()
-                                        ).getDate() +
+                                          ).getDate() +
                                           "-" +
                                           (new Date(
                                             user.endDate.toLocaleString()
@@ -373,6 +388,23 @@ const JobList = () => {
                                           new Date(
                                             user.endDate.toLocaleString()
                                           ).getFullYear()}
+                                        </span>
+                                        <span className="ml-2">
+                                          {new Date(
+                                            user.endDate.toLocaleString()
+                                          ).getHours()>9 ? null: "0"}
+                                          {new Date(
+                                            user.endDate.toLocaleString()
+                                          ).getHours() +
+                                            ":" }
+                                          {new Date(
+                                            user.endDate.toLocaleString()
+                                          ).getMinutes()>9 ? null: "0"}
+                                          {
+                                          new Date(
+                                            user.endDate.toLocaleString()
+                                          ).getMinutes()}
+                                        </span>
                                       </td>
                                       <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                         {user.status}
@@ -441,6 +473,32 @@ const JobList = () => {
                 </div>
 
                 {/* <div className="text-xs text-gray-500 py-4 px-2 font-semibold mt-2">See All Logs &#12297;</div> */}
+              </div>
+              <div className="w-full">
+                <div className="flex justify-between my-2 mx-1">
+                  <div>
+                    Page {page} of {Math.ceil(slots.length / 5)}
+                  </div>
+                  <div>
+                    {" "}
+                    {slots &&
+                      slots.map((slot, index) => {
+                        return index % 5 == 0 ? (
+                          <span
+                            className={`mx-2 ${
+                              page == index / 5 + 1 ? "page_active" : ""
+                            }`}
+                            style={{ cursor: "pointer" }}
+                            onClick={() => {
+                              paginate(index / 5 + 1);
+                            }}
+                          >
+                            {index / 5 + 1}
+                          </span>
+                        ) : null;
+                      })}
+                  </div>
+                </div>
               </div>
               {modal && (
                 <Transition

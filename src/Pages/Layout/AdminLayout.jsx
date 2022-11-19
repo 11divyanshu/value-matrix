@@ -137,7 +137,7 @@ console.log(id)
         <Sidebar className="sidebarComponent">
 
         </Sidebar>
-        <div className="justify-end ml-auto mt-20 panel">{comp}</div>
+        <div className="justify-end ml-auto mt-20 panel2">{comp}</div>
       </div>
     </div>
   );

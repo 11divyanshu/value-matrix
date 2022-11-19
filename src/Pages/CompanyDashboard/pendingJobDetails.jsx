@@ -18,7 +18,7 @@ import DOMPurify from "dompurify";
 import { Link, useNavigate } from "react-router-dom";
 import { BsThreeDots, BsCashStack } from "react-icons/bs";
 import Microsoft from "../../assets/images/micro.jpg";
-import { updateJobAPI, getSkills, archiveJob } from "../../service/api";
+import { updateJobAPI, getSkills, archiveJob, approveCd } from "../../service/api";
 import { useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import swal from "sweetalert";
@@ -136,6 +136,13 @@ function JobDetails(props) {
     console.log(id,status)
     setChoosenStatus(status);
     setChoosenId(id);
+  }
+
+  const approveCandidate = async (index)=>{
+    let approve = await approveCd(index, job_id, candidates[index]);
+    if(approve){
+      window.location.reload();
+    }
   }
 
   const handleCandidateStatusPost = async () => {
@@ -430,6 +437,7 @@ function JobDetails(props) {
                 </div>
               )}
             </div>
+            <div className="card-body md:px-7">
             {user._id === job.uploadBy && (
               <div className="my-5 px-3 md:px-9">
                 <div className="flex items-center justify-between">
@@ -508,7 +516,7 @@ function JobDetails(props) {
                                 {index + 1}
                               </td>
                               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                {user.FirstName} {user.LastName}
+                                <a href="/">{user.FirstName} {user.LastName}</a>
                               </td>
                               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                 {user.Email}
@@ -517,7 +525,7 @@ function JobDetails(props) {
                                 {user.Contact}
                               </td>
                               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                Pending
+                                {user.Status}
                               </td>
                              
                              
@@ -692,6 +700,278 @@ function JobDetails(props) {
                
               </div>
             )}
+            {user.isAdmin === true && (
+              <div className="my-5 px-3 md:px-9">
+                <div className="flex items-center justify-between">
+                  <p className="font-bold text-md">
+                    Invitations{" "}
+                    <span className="text-sm">({candidates.length})</span>
+                  </p>
+                  {/* {candidates.length > 0 && showCandidate ? (
+                    <p
+                      className="text-sm hover:underline text-blue-500 cursor-pointer"
+                      onClick={() => setShowCandidate(false)}
+                    >
+                      Hide
+                    </p>
+                  ) : (
+                    <p
+                      className="text-sm hover:underline text-blue-500 cursor-pointer"
+                      onClick={() => setShowCandidate(true)}
+                    >
+                      Show
+                    </p>
+                  )} */}
+                </div>
+
+                {candidates.length > 0 && (
+                  <div className="overflow-x-auto">
+                    <table className="w-full my-5 ">
+                      <thead className="bg-white border-b text-left">
+                        <tr className="font-bold">
+                          <th
+                            scope="col"
+                            className="text-sm text-gray-900 px-6 py-4 text-left"
+                          >
+                            #
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm text-gray-900 px-6 py-4 text-left"
+                          >
+                            First Name
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm text-gray-900 px-6 py-4 text-left"
+                          >
+                            Email
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm text-gray-900 px-6 py-4 text-left"
+                          >
+                            Contact
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm text-gray-900 px-6 py-4 text-left"
+                          >
+                            Status
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm text-gray-900 px-6 py-4 text-left"
+                          >
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {candidates.map((user, index) => {
+                          return (
+                            <tr
+                              id={"jobcrd" + (index + 1)}
+                              className={
+                                index < 5 ? "bg-gray-100" : "bg-gray-100 hidden"
+                              }
+                            >
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
+                                {index + 1}
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.Uid ? <><a href={"/admin/AdminUserProfile/"+user.Uid}>{user.FirstName} {user.LastName}</a></> : <>{user.FirstName} {user.LastName}</> }
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.Email}
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.Contact}
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {!user.Uid ? <>Pending Invitation</> : <>{user.Status}</>}
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {!user.Uid ? <button className="text-white font-bold bg-sky-500 rounded-xl px-4 py-2" onClick={()=>{
+                                  approveCandidate(index);
+                                }} >Invite</button> : <button className="text-white font-bold bg-green-500 rounded-xl px-4 py-2" onClick={()=>{
+                                  approveCandidate(index);
+                                }}>Approve</button>}
+                              </td>
+                             
+                             
+                              {/* <td className="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap text-left">
+                                <p className="text-sm font-semibold py-2">
+                                  <Link
+                                    to={`/company/evaluationDetails/${user._id}`}
+                                    // to={`/user/printable`}
+                                  >
+                                    View Details{" "}
+                                  </Link>
+                                </p>{" "}
+                              </td> */}
+                              {/* <td className="text-sm text-blue-700 font-light px-3 py-4 whitespace-nowrap text-left">
+                                <p className="text-sm font-semibold py-2">
+                                  <Link
+                                    to={`/company/CPrintAble/${user._id}`}
+                                    // to={`/company/CPrintable`}
+                                  >
+                                    View Evaluation{" "}
+                                  </Link>
+                                </p>{" "}
+                              </td> */}
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+
+                {chooseStatus && (
+                  <Transition
+                    appear
+                    show={chooseStatus}
+                    as={Fragment}
+                    className="relative z-10 w-full "
+                    style={{ zIndex: 1000 }}
+                  >
+                    <Dialog
+                      as="div"
+                      className="relative z-10 w-5/6 "
+                      onClose={() => {}}
+                      static={true}
+                    >
+                      <div
+                        className="fixed inset-0 bg-black/30"
+                        aria-hidden="true"
+                      />
+                      <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                      >
+                        <div className="fixed inset-0 bg-black bg-opacity-25" />
+                      </Transition.Child>
+
+                      <div className="fixed inset-0 overflow-y-auto ">
+                        <div className="flex min-h-full items-center justify-center text-center max-w-4xl mx-auto">
+                          <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0 scale-95"
+                            enterTo="opacity-100 scale-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100 scale-100"
+                            leaveTo="opacity-0 scale-95"
+                          >
+                            <Dialog.Panel className="w-auto pb-5 transform overflow-hidden rounded-2xl bg-white text-left align-middle  transition-all">
+                              <div className="rounded-lg bg-white w-full">
+                                <div className="flex items-start space-x-3 	">
+                                  {/* <AiFillCalendar className="text-4xl text-gray-700" /> */}
+                                  <div className="py-5 w-full bg-blue-900 flex">
+                                    <p className="text-lg mx-5 text-center text-white font-semibold">
+                                      Change Status
+                                    </p>
+                                  </div>
+                                </div>
+
+                                <div className="flex items-start space-x-3 	">
+                                  {/* <AiFillCalendar className="text-4xl text-gray-700" /> */}
+                                  <div className="py-5 w-full flex">
+                                    <p className="text-lg mx-5 text-center text-black font-semibold">
+                                      Do you want to change status
+                                    </p>
+                                  </div>
+                                </div>
+
+                                <div className="w-auto mx-auto flex justify-center">
+                                  <button
+                                    className="text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
+                                    style={{ backgroundColor: "#034488" }}
+                                    onClick={() => {
+                                      handleCandidateStatusPost()
+                                    }}
+                                  >
+                                    Confirm
+                                  </button>
+                                  <button
+                                    className="text-black font-bold py-3 border-black border-2 px-8 mx-1 md:mx-4 text-xs rounded"
+                                    onClick={() => {
+                                      setchooseStatus(false);
+                                    }}
+                                  >
+                                    Decline
+                                  </button>
+                                </div>
+                              </div>
+                            </Dialog.Panel>
+                          </Transition.Child>
+                        </div>
+                      </div>
+                    </Dialog> 
+                  </Transition>
+                )}
+                <div className={candidates.length > 5 ? "w-full" : "hidden"}>
+                  <div className="flex justify-between my-2 mx-1">
+                    <div>
+                      Page {page} of {Math.ceil(candidates.length / 5)}
+                    </div>
+                    <div>
+                      {" "}
+                      {candidates &&
+                        candidates.map((job, index) => {
+                          return index % 5 == 0 ? (
+                            <span
+                              className="mx-2"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                paginate(index / 5 + 1);
+                              }}
+                            >
+                              {index / 5 + 1}
+                            </span>
+                          ) : null;
+                        })}
+                    </div>
+                  </div>
+                </div>
+                {/* <div className="flex items-center justify-between my-5">
+                  <p className="font-bold text-md">
+                    Invitations
+                    <span className="text-sm"> ({invited.length})</span>
+                  </p>
+                  {/* {invited.length > 0 && showInvited ? (
+                    <p
+                      className="text-sm hover:underline text-blue-500 cursor-pointer"
+                      onClick={() => setShowInvited(false)}
+                    >
+                      Hide
+                    </p>
+                  ) : (
+                    <p
+                      className="text-sm hover:underline text-blue-500 cursor-pointer"
+                      onClick={() => setShowInvited(true)}
+                    >
+                      Show
+                    </p>
+                  )} 
+                </div> */}
+
+                
+
+               
+
+              
+                
+               
+              </div>
+            )}
+            </div>
           </div>
         </>
       ) : (

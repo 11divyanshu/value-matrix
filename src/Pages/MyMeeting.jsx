@@ -5,6 +5,14 @@ import Navbar from "../Components/XIDashboard/Navbar.jsx";
 import Editor from "@monaco-editor/react";
 import axios from "axios";
 
+// import {
+//   TranscribeStreamingClient,
+//   StartMedicalStreamTranscriptionCommand,
+//   StartStreamTranscriptionCommand,
+// } from "@aws-sdk/client-transcribe-streaming";
+
+// import { mic } from "microphone-stream";
+
 import { compilecode, checkcompilestatus, savecode, getlivestatus } from "../service/api.js";
 
 import "../assets/stylesheet/dyte.css";
@@ -62,7 +70,7 @@ export default function MyMeeting() {
       initial();
       fetchinter = setInterval(async ()=>{
         getstats = await getlivestatus(id);
-        console.log(getstats.data.stats);
+        // console.log(getstats.data.stats);
         setLiveStats(getstats.data.stats.livestats);
       },2000);
     },[]);

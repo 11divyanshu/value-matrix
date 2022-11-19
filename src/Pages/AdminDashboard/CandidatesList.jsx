@@ -101,7 +101,7 @@ const CandiadateList = () => {
                             {user.email}
                           </td>
                           <td className="text-xs text-blue-500 font-light px-6 py-4 whitespace-nowrap">
-                            <Link to={`/admin/candidate/${user._id}`}>View Detail</Link>
+                            <Link to={`/admin/AdminUserProfile/${user._id}`}>View Detail</Link>
                           </td>
                         </tr>
                       );

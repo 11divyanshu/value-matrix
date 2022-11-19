@@ -138,7 +138,7 @@ const Sidebar = () => {
           // width={280}
 
           className="fixed left-0 h-screen z-10 text-left active text-gray-500"
-          style={{ backgroundColor: "#FAFAFA" }}
+          style={{ backgroundColor: "#FAFAFA", width:"320px" }}
           breakPoint="xl"
           collapsed={collapsed}
           toggled={toggled}

@@ -23,6 +23,7 @@ import SetProfile from "./Pages/UserDashboard/SetProfile";
 import InterviewPanel from "./Pages/InterviewPanel";
 import InterviewerPanel from "./Pages/InterviewerPanel";
 import Initial from "./Pages/Initial";
+import TestPage from "./Pages/TestPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 ReactSession.setStoreType("sessionStorage");
@@ -32,6 +33,7 @@ root.render(
       <Routes>
 
         <Route path="/" element={<Initial/>} />
+        <Route path="/testpage" element={<TestPage/>} />
 
         <Route path="/dialer" element={<Dialer />} />
         <Route path="/login" element={<Login />} />

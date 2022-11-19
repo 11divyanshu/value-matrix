@@ -6,6 +6,7 @@ import {
   postJobAPI,
   sendJobInvitations,
   eligibleCandidateList,
+  getuserbyEmail,
 } from "../../service/api";
 import swal from "sweetalert";
 import { Editor } from "react-draft-wysiwyg";
@@ -25,6 +26,8 @@ import Loader from "../../assets/images/loader.gif";
 import { Combobox } from "@headlessui/react";
 import cities from "cities.json";
 import "../../assets/stylesheet/editor.scss";
+
+import "../../assets/stylesheet/custom.css";
 
 const AddJob = () => {
   // Page Index
@@ -57,6 +60,7 @@ const AddJob = () => {
   const [skills, setSkills] = React.useState([]);
   const [error, setError] = React.useState(null);
   const [access, setAccess] = React.useState(null);
+  const [mainValue, setMainValue] = React.useState(0);
   const [disabled, setDisabled] = React.useState(true);
 
   // Screeing Questions
@@ -109,6 +113,8 @@ const AddJob = () => {
     Email: "",
     Contact: "",
     Address: "",
+    Status: "Pending",
+    Uid: null
   });
   const [showCandidateForm, setShowCandidateForm] = React.useState(false);
   const [eligibleButton, setEligibleButton] = React.useState(false);
@@ -291,7 +297,7 @@ const AddJob = () => {
           localStorage.removeItem("postjob");
           localStorage.removeItem("prof");
 
-          window.location.href = "/company/jobs";
+          window.location.href = "/company/pendingjobs";
         });
       } else {
         swal({
@@ -409,7 +415,7 @@ const AddJob = () => {
           console.log("checking json");
           console.log(json.length);
           if (json.length > 0) {
-            json.forEach((item) => {
+            json.forEach(async (item) => {
               const EmailIndex = d.findIndex((el) => {
                 return (
                   (el.Email !== null &&
@@ -431,7 +437,12 @@ const AddJob = () => {
                   el.Contact === item.Contact
               );
 
+              console.log(EmailIndex);
+              console.log(RejectIndex);
+
               if (EmailIndex !== -1 || RejectIndex !== -1) {
+                let vmuser = await getuserbyEmail(item.Email);
+                console.log(vmuser);
                 r.push({
                   FirstName: item["First Name"] ? item["First Name"] : "",
                   LastName: item["Last Name"] ? item["Last Name"] : "",
@@ -439,6 +450,8 @@ const AddJob = () => {
                   Contact: item.Contact ? item.Contact : "",
                   Reason: "Email/Contact Already Added",
                   Address: item.Address ? item.Address : "",
+                  Status: "Pending",
+                  Uid: vmuser.data.data._id,
                 });
                 return;
               }
@@ -457,6 +470,7 @@ const AddJob = () => {
                   Contact: item.Contact ? item.Contact : "",
                   Reason: "Invalid Email",
                   Address: item.Address ? item.Address : "",
+                  Status: "Pending",
                 });
                 return;
               }
@@ -468,6 +482,7 @@ const AddJob = () => {
                   Contact: item.Contact ? item.Contact : "",
                   Reason: "Invalid Contact",
                   Address: item.Address ? item.Address : "",
+                  Status: "Pending",
                 });
                 return;
               }
@@ -483,6 +498,7 @@ const AddJob = () => {
                   Contact: item.Contact ? item.Contact : "",
                   Reason: "Invalid First Name",
                   Address: item.Address ? item.Address : "",
+                  Status: "Pending",
                 });
                 return;
               }
@@ -493,6 +509,7 @@ const AddJob = () => {
                   Email: item.Email ? item.Email : "",
                   Contact: item.Contact ? item.Contact : "",
                   Address: item.Address ? item.Address : "",
+                  Status: "Pending",
                 });
               }
             });
@@ -1245,13 +1262,48 @@ const AddJob = () => {
                                   }
                                 }}
                               />
-                              <button
-                                className="h-10 bg-[#034488] text-white rounded-sm block cursor-pointer px-8 align-middle"
-                                type="button"
-                                style={{ backgroundColor: "#034488" }}
-                              >
-                                Search
-                              </button>
+                              <div className="flex justify-between w-full">
+                                <button
+                                  className="h-10 bg-[#034488] text-white rounded-sm block cursor-pointer px-8 align-middle"
+                                  type="button"
+                                  style={{ backgroundColor: "#034488" }}
+                                >
+                                  Search
+                                </button>
+                                <div>
+                                  Select All Skills: 
+                                  <input type="range" min="0" max="5" value={mainValue} className="m-2" onChange={(e)=>{
+                                    setMainValue(e.target.value);
+                                    let arr = [];
+                                    for(let i = 0; i<rolesProf.length; i++){
+                                      arr.push(e.target.value);
+                                    }
+                                    setRolesProf(arr);
+                                    dbSkills.forEach(
+                                      (skill) => {
+                                        if (1) {
+                                          skill.proficiency =
+                                            e.target.value;
+                                          let inde =
+                                            dbSkills.findIndex(
+                                              (el) => {
+                                                return (
+                                                  el === skill
+                                                );
+                                              }
+                                            );
+                                          let p = prof;
+                                          p[inde] =
+                                            e.target.value;
+                                          setProf(p);
+                                          skill.rating =
+                                            e.target.value;
+                                        }
+                                      }
+                                    );
+                                  }}/>
+                                </div>
+                              </div>
                             </div>
 
                             <div className="my-3">
@@ -1268,9 +1320,9 @@ const AddJob = () => {
                                               }`}
                                             >
                                               <Disclosure.Button
-                                                className={`flex w-full justify-between rounded-lg bg-blue-50 px-4 py-3 text-left text-sm font-medium hover:bg-blue-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${
+                                                className={`flex w-full justify-between rounded-lg px-4 py-3 text-left text-sm font-medium hover:bg-blue-100 my-2 focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${
                                                   open ? "shadow-lg " : ""
-                                                }`}
+                                                } ${rolesProf[index] != 0 ? "bg-blue-200-important" : ""}`}
                                               >
                                                 <span>{el}</span>
                                                 <div className="ml-auto mr-5 flex items-center space-x-2">
@@ -1857,7 +1909,22 @@ const AddJob = () => {
 
                         if (editIndex !== null) r.splice(editIndex, 1);
                         setEditIndex(null);
-                        d.push(values);
+                        
+                        let vmuser = await getuserbyEmail(values.Email);
+
+                        if(vmuser.data.data != null){
+                          d.push({
+                            FirstName: values.FirstName,
+                            LastName: values.LastName,
+                            Email: values.Email,
+                            Contact: values.Contact,
+                            Address: values.Address,
+                            Status: values.Status,
+                            Uid: vmuser.data.data._id
+                          });
+                        }else{
+                          d.push(values);
+                        }
                         console.log(d);
                         await setSelectedData(d);
                         await setCandidateData(d);
@@ -1953,6 +2020,8 @@ const AddJob = () => {
                                     Email: "",
                                     Contact: "",
                                     Address: "",
+                                    Status: "Pending",
+                                    Uid: null
                                   });
                                   setShowCandidateForm(false);
                                   setEditIndex(null);
