@@ -21,6 +21,10 @@ import { languageOptions } from "../Components/languageOption.js";
 import { useParams } from "react-router-dom";
 import renderHTML from "react-render-html";
 
+// import { DrawingBoard  } from "react-fabricjs-whiteboard";
+
+import { ReactSketchCanvas } from 'react-sketch-canvas';
+
 export default function MyMeeting() {
     const { meeting } = useDyteMeeting();
     const [user, setUser] = useState(null);
@@ -35,9 +39,15 @@ export default function MyMeeting() {
     const [processing, setProcessing] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
     const [liveStats, setLiveStats] = useState(null);
+    const [activearea, setactivearea] = useState(0);
 
     const [value, setValue] = useState(code || "");
     const {id} = useParams();
+
+    const styles = {
+      border: '0.0625rem solid #9c9c9c',
+      borderRadius: '0.25rem',
+    };
 
     let savecc = null;
     let fetchinter = null;
@@ -59,6 +69,12 @@ export default function MyMeeting() {
       setTimeout(()=>{
         meeting.self.enableScreenShare();
       },2000);
+      window.addEventListener('keyup',(event)=>{
+        console.log(event.keyCode);
+        if(event.keyCode === 9){
+          event.preventDefault();
+        }
+      });
       const initial = async ()=>{
         let user = JSON.parse(localStorage.getItem("user"));
         if(user === null){
@@ -162,49 +178,71 @@ export default function MyMeeting() {
         </div>
         <div className="flex h-full m-0" style={{ backgroundColor:"#080808", position:"relative" }}>
           <div className="md:w-1/2 h-full pl-2">
-            <div className="flex justify-between my-4">
-              <div className="text-white">
-                Select Language
-                <select onChange={modifyLanguage} className="bg-gray-900 text-white mx-2">
-                  {languageOptions.map((data,key)=>{
-                    return(<>
-                    {key===0?
-                      <option value={key} selected>{data.name}</option>:
-                      <option value={key}>{data.name}</option>
-                    }
-                  </>);
-                  })
-                  }
-                </select>
+            <div className="w-full flex mt-4">
+              <div className="w-1/2">
+                <div className={ activearea===0 ? "border-2 border-white w-full text-center p-4 font-bold bg-white text-gray-900 cursor-pointer":"border-2 border-white w-full text-center p-4 font-bold bg-gray-900 text-white cursor-pointer" } onClick={()=>{setactivearea(0)}} style={{ borderRadius:"10px 0px 0px 10px" }}>CODING</div>
               </div>
-              <div>
-                <button className="bg-green-500 rounded-xl text-white font-bold px-4 py-2" onClick={handleCompile}>Compile</button>
+              <div className="w-1/2">
+                <div className={ activearea===1 ? "border-2 border-white w-full text-center p-4 font-bold bg-white text-gray-900 cursor-pointer":"border-2 border-white w-full text-center p-4 font-bold bg-gray-900 text-white cursor-pointer" } onClick={()=>{setactivearea(1)}} style={{ borderRadius:"0px 10px 10px 0px" }}>WHITEBOARD</div>
               </div>
             </div>
-            <Editor
-              className="rounded-2xl"
-              height="50vh"
-              width={`100%`}
-              language={language || "javascript"}
-              value={value}
-              theme="vs-dark"
-              defaultValue="//Write your code here..."
-              onChange={handleEditorChange}
-            />
-            <div className="flex mb-8">
-              <div className="md:w-1/2 mr-2">
-                <div className="bg-gray-900 text-white p-4 rounded-2xl text-md my-4 h-full">
-                  <textarea className="bg-transparent w-full h-full p-0 font-normal text-xs border-0" onChange={handlecustominput}>Enter Your Inputs Here</textarea>
+            {activearea===0?
+              <div className="w-full">
+                <div className="flex justify-between my-4">
+                  <div className="text-white">
+                    Select Language
+                    <select onChange={modifyLanguage} className="bg-gray-900 text-white mx-2">
+                      {languageOptions.map((data,key)=>{
+                        return(<>
+                        {key===0?
+                          <option value={key} selected>{data.name}</option>:
+                          <option value={key}>{data.name}</option>
+                        }
+                      </>);
+                      })
+                      }
+                    </select>
+                  </div>
+                  <div>
+                    <button className="bg-green-500 rounded-xl text-white font-bold px-4 py-2" onClick={handleCompile}>Compile</button>
+                  </div>
+                </div>
+                <Editor
+                  className="rounded-2xl"
+                  height="50vh"
+                  width={`100%`}
+                  language={language || "javascript"}
+                  value={value}
+                  theme="vs-dark"
+                  defaultValue="//Write your code here..."
+                  onChange={handleEditorChange}
+                />
+                <div className="flex mb-8">
+                  <div className="md:w-1/2 mr-2">
+                    <div className="bg-gray-900 text-white p-4 rounded-2xl text-md my-4 h-full">
+                      <textarea className="bg-transparent w-full h-full p-0 font-normal text-xs border-0" onChange={handlecustominput}>Enter Your Inputs Here</textarea>
+                    </div>
+                  </div>
+                  <div className="md:w-1/2 ml-2">
+                    <div className="bg-gray-900 text-white p-4 rounded-2xl text-md my-4 h-full">
+                      {outputDetails ? <>{getOutput()}</> : <pre className="px-2 py-1 font-normal text-xs text-white">
+                        {processing?<>Processing</>:<>Code Output Appears Here</>}...
+                      </pre>}
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="md:w-1/2 ml-2">
-                <div className="bg-gray-900 text-white p-4 rounded-2xl text-md my-4 h-full">
-                  {outputDetails ? <>{getOutput()}</> : <pre className="px-2 py-1 font-normal text-xs text-white">
-                    {processing?<>Processing</>:<>Code Output Appears Here</>}...
-                  </pre>}
-                </div>
+            :
+              <div className="w-full">
+                <ReactSketchCanvas
+                  style={styles}
+                  width="100%"
+                  height="600px"
+                  strokeWidth={4}
+                  strokeColor="black"
+                />
               </div>
-            </div>
+            }
           </div>
           <div className="md:w-1/2 h-full">
             <div className="w-full h-full py-4 pr-2 pl-4">

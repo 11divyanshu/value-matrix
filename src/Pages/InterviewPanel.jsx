@@ -38,6 +38,8 @@ export default function App() {
 
           let interviewStatus = await checkinterviewdetails(id, user);
           setInterviewStatus(interviewStatus);
+
+          initDyte(interviewStatus.data);
           
           setScreenDisplay(5);
           setcurrentbtn(1);
@@ -110,10 +112,12 @@ export default function App() {
     }
 
     const joinMeeting = async ()=>{
-      let interviewStatus = await fetchinterviewdetails(id, currentUser);
-      setInterviewStatus(interviewStatus);
-      initDyte(interviewStatus.data);
+      // let interviewStatus = await fetchinterviewdetails(id, currentUser);
+      // setInterviewStatus(interviewStatus);
+      // initDyte(interviewStatus.data);
       setScreenDisplay(6);
+
+      document.getElementById("intvpanel").requestFullscreen();
       
       setTimeout(()=>{
         document.getElementById("getUserPhotoLive").click();
@@ -172,6 +176,7 @@ export default function App() {
                   setOverlapText("");
                   setInterviewStatus(newinterview);
                   setcurrentbtn(1);
+                  setOverlapImage("data:image/jpeg;base64,"+response.data.img);
                 }else{
                   console.log("Something Went Wrong");
                 }
@@ -203,6 +208,7 @@ export default function App() {
                 setInterviewStatus(newinterview);
                 setOverlapText("");
                 setcurrentbtn(1);
+                setOverlapImage("data:image/jpeg;base64,"+response.data.img);
               }else{
                 console.log("Something Went Wrong");
               }
@@ -262,7 +268,7 @@ export default function App() {
     return (
       <>
       {screenDisplay===0?
-        <div className="flex justify-center items-center h-screen">
+        <div className="flex justify-center items-center h-screen" style={{ backgroundColor:"#f1f1f1" }}>
           <div>
             <img src={logo} alt="Value Matrix" width="200px"/>
             <div className="flex justify-center items-center mt-4 mb-2">
@@ -279,7 +285,7 @@ export default function App() {
         </div>
       :null}
       {screenDisplay>=1 && screenDisplay<=5?
-        <div className="flex min-h-screen justify-center items-center" style={{ flexDirection:"row-reverse", flexWrap:"wrap" }}>
+        <div className="flex min-h-screen justify-center items-center" style={{ flexDirection:"row-reverse", flexWrap:"wrap", backgroundColor:"#f1f1f1" }}>
           <div className="w-full">
             <div className="md:flex px-8">
               <div className="md:w-fit flex justify-center">
@@ -493,37 +499,11 @@ export default function App() {
           </div>
         </div>
       :null}
-      {screenDisplay===6?
-        <div style={{ zIndex:"-10000", position:"fixed", top:0 }}>
-          <DyteProvider value={meeting}>
-            <MyMeeting />
-          </DyteProvider>
-          <div>
-            <Webcam
-              audio={false}
-              height={1080}
-              width={1920}
-              videoConstraints={{
-                width: 1920,
-                height: 1080,
-                facingMode: "user"
-              }}
-              screenshotFormat="image/jpeg"
-            >
-              {({ getScreenshot }) => (
-                <button id="getUserPhotoLive" className="text-white"
-                  onClick={() => {
-                    const imageSrc = getScreenshot()
-                    processLive(imageSrc);
-                  }}
-                >
-                  click
-                </button>
-              )}
-            </Webcam>
-          </div>
-        </div>
-      :null}
+      <div style={{ zIndex:`${screenDisplay===6?"10000":"-10000"}`, position:"fixed", top:0, width:"100%" }} id="intvpanel">
+        <DyteProvider value={meeting}>
+          <MyMeeting />
+        </DyteProvider>
+      </div>
       </>
     );
   }

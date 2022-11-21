@@ -29,6 +29,11 @@ const JobList = () => {
   const [loader, setLoader] = useState(false);
   const [user, setUser] = useState(null);
   const [modal, setModal] = React.useState(false);
+  const [modal2, setModal2] = React.useState(false);
+  const [slotbookingscreen, setslotbookingscreen] = React.useState(0);
+  const [slotdate, setslotdate] = React.useState(null);
+  const [slotrange, setslotrange] = React.useState(null);
+  const [slotmap, setslotmap] = React.useState(null);
 
   // const [SlotTime, setSlotTime] = React.useState({
   //   startTime: "",
@@ -195,6 +200,36 @@ const JobList = () => {
       });
     }
   };
+
+  const selectSlots = (slotval)=>{
+    if(slotdate==null){
+      swal({
+        icon: "error",
+        title: "Please Select Date",
+        button: "Ok"
+      });
+    }else{
+      let hour = null;
+      let minutes = null;
+      let temp = [];
+      for(let i=0; i<1440; i+=slotval){
+        if(parseInt(i/60)>9){
+          hour = parseInt(i/60).toString();
+        }else{
+          hour = "0"+parseInt(i/60).toString()
+        }
+        if(parseInt(i%60)>9){
+          minutes = parseInt(i%60).toString();
+        }else{
+          minutes = "0"+parseInt(i%60).toString()
+        }
+        temp.push(hour+":"+minutes);
+      }
+      setslotmap(temp);
+      setslotbookingscreen(1);
+      setslotrange(slotval);
+    }
+  }
 
   const handleUpdate = async (slots) => {
     console.log(slots);
@@ -501,6 +536,231 @@ const JobList = () => {
                 </div>
               </div>
               {modal && (
+                <Transition
+                  appear
+                  show={modal}
+                  as={Fragment}
+                  className="relative z-10 w-full "
+                  style={{ zIndex: 1000 }}
+                >
+                  <Dialog
+                    as="div"
+                    className="relative z-10 w-5/6 "
+                    onClose={() => {}}
+                    static={true}
+                  >
+                    <div
+                      className="fixed inset-0 bg-black/30"
+                      aria-hidden="true"
+                    />
+                    <Transition.Child
+                      as={Fragment}
+                      enter="ease-out duration-300"
+                      enterFrom="opacity-0"
+                      enterTo="opacity-100"
+                      leave="ease-in duration-200"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <div className="fixed inset-0 bg-black bg-opacity-25" />
+                    </Transition.Child>
+
+                    <div className="fixed inset-0 overflow-y-auto ">
+                      <div className="flex min-h-full items-center justify-center p-4 text-center max-w-4xl mx-auto">
+                        <Transition.Child
+                          as={Fragment}
+                          enter="ease-out duration-300"
+                          enterFrom="opacity-0 scale-95"
+                          enterTo="opacity-100 scale-100"
+                          leave="ease-in duration-200"
+                          leaveFrom="opacity-100 scale-100"
+                          leaveTo="opacity-0 scale-95"
+                        >
+                          <Dialog.Panel className="w-full px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all h-[65vh]">
+                            {/* <Dialog.Title
+                        as="h3"
+                        className="text-2xl font-bold leading-6 text-gray-900"
+                      >
+                        Complete Your Details
+                      </Dialog.Title> */}
+                            <div className={`${!modal ? "hidden" : "block"} h-full`}>
+                              <div className="w-full h-full">
+                                <div className="w-full h-full">
+                                  <div className="my-3 w-3/4 md:w-full text-left flex justify-between">
+                                    <div>
+                                      <p className="font-semibold">Add Slots</p>
+                                      {/* <p className="text-sm mt-3 mb-1 break-words">
+                                      ( Headers Conventions: firstName, lastName, email,
+                                      phoneNo, Address)
+                                    </p>
+                                    <p className="text-sm break-words">
+                                      (Data must contain candidate's email Address and phoneNo
+                                      Number)
+                                    </p> */}
+                                    </div>
+                                    <div>
+                                      <button
+                                        className="bg-[#034488] text-white rounded-sm px-4 my-2 pt--8"
+                                        onClick={() => {
+                                          setStartTime(null);
+                                          setEndTime(null);
+                                          setModal(false);
+                                          setslotbookingscreen(0);
+                                        }}
+                                        style={{
+                                          backgroundColor: "#fff",
+                                          color: "#034488",
+                                        }}
+                                      >
+                                        <ImCross />
+                                      </button>
+                                    </div>
+                                  </div>
+
+                                  <div className="my-4 w-full p-3 bg-slate-100 px-8">
+                                    {slotbookingscreen==0?<>
+                                      <div className="text-center">
+                                        <h2 className="text-center font-bold text-2xl">Select Date</h2>
+                                        <div className="flex w-full justify-center my-4">
+                                          <input type="date" onChange={(e)=>{
+                                            setslotdate(e.target.value);
+                                          }} />
+                                        </div>
+                                        <h2 className="text-center font-bold text-2xl">Select Time Range</h2>
+                                        <div className="flex w-full justify-center my-4">
+                                          <button onClick={()=>{selectSlots(30)}} className="bg-white text-gray-600 border border-gray-400  text-xs font-semibold mr-2 px-2.5 py-2 rounded-3xl cursor-pointer">30 Minutes</button>
+                                          <button onClick={()=>{selectSlots(60)}} className="bg-white text-gray-600 border border-gray-400  text-xs font-semibold mr-2 px-2.5 py-2 rounded-3xl cursor-pointer">1 Hour</button>
+                                        </div>
+                                      </div>
+                                    </>:<>
+                                      <div className="text-center">
+                                        <h2 className="text-center font-bold text-2xl">Select Time Slots for <span className="text-xl text-gray-900">{slotdate}</span></h2>
+                                        <div className="w-full my-4">
+                                          {slotmap?<>
+                                            {slotmap.map((usetime)=>{
+                                              return(
+                                                <div className="flex mb-1">
+                                                  <div className="w-1/12 flex"><span className="text-xs" style={{ marginTop:"-8px" }}>{usetime}</span></div>
+                                                  <div className="w-11/12">
+                                                    <div className="bg-blue-100 hover:bg-blue-200 cursor-pointer h-8 w-full"></div>
+                                                  </div>
+                                                </div>
+                                              );
+                                            })}
+                                          </>:<>Loading...</>}
+                                        </div>
+                                      </div>
+                                    </>}
+                                  </div>
+                                  <div className="my-4 w-3/4 p-3 bg-slate-100 px-8 hidden">
+                                    <Formik
+                                      initialValues={{}}
+                                      validate={(values) => {
+                                        const errors = {};
+
+                                        if (
+                                          startTime === "" ||
+                                          startTime === null
+                                        ) {
+                                          errors.startTime =
+                                            "Start Time Cannot be Empty";
+                                        }
+                                        if (
+                                          endTime === "" ||
+                                          endTime === null
+                                        ) {
+                                          errors.endTime =
+                                            "End Time Cannot be Empty";
+                                        }
+                                        if (startTime > endTime) {
+                                          errors.endTime =
+                                            "End Time Cannot be greater than Start Time";
+                                        }
+                                        return errors;
+                                      }}
+                                      onSubmit={handleSubmit}
+                                    >
+                                      {({ values }) => {
+                                        return (
+                                          <Form>
+                                            {/* <p className="text-left font-semibold py-2">
+                                              Add User
+                                            </p> */}
+                                            <div className="flex my-3 flex-wrap text-left">
+                                              <div className="w-1/2">
+                                                <label>Start Time</label>
+                                                <DateTimePicker
+                                                  minDate={new Date()}
+                                                  onChange={setStartTime}
+                                                  value={startTime}
+                                                />
+
+                                                {/* <Field
+                                                  name="startTime"
+                                                  type="text"
+                                                  className="text-600 rounded-sm block px-4 py-1"
+                                                  style={{ borderRadius: "5px" }}
+                                                /> */}
+                                                <ErrorMessage
+                                                  name="startTime"
+                                                  component="div"
+                                                  className="text-red-600 text-sm w-full"
+                                                />
+                                              </div>
+                                              <div className="w-1/2">
+                                                <label>End Time</label>
+                                                <DateTimePicker
+                                                  onChange={setEndTime}
+                                                  value={endTime}
+                                                  disabled
+                                                />
+
+                                                <ErrorMessage
+                                                  name="endTime"
+                                                  component="div"
+                                                  className="text-red-600 text-sm w-full"
+                                                />
+                                              </div>
+                                            </div>
+
+                                            <div>
+                                              <button
+                                                className="bg-[#034488] text-white rounded-sm py-1 my-2 px-4"
+                                                type="submit"
+                                                style={{
+                                                  backgroundColor: "#034488",
+                                                }}
+                                              >
+                                                {editId ? "Update" : "Add"}
+                                              </button>
+                                              <button
+                                                className="bg-[#034488] text-white rounded-sm px-4 py-1 my-2 mx-4"
+                                                onClick={() => {
+                                                  setStartTime(null);
+                                                  setEndTime(null);
+                                                  setModal(false);
+                                                  setEditId(null);
+                                                }}
+                                              >
+                                                Cancel
+                                              </button>
+                                            </div>
+                                          </Form>
+                                        );
+                                      }}
+                                    </Formik>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </Dialog.Panel>
+                        </Transition.Child>
+                      </div>
+                    </div>
+                  </Dialog>
+                </Transition>
+              )}
+              {modal2 && (
                 <Transition
                   appear
                   show={modal}
