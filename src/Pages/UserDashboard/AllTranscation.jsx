@@ -23,12 +23,14 @@ import swal from "sweetalert";
 import * as htmlToImage from "html-to-image";
 import { toPng, toJpeg, toBlob, toPixelData, toSvg } from "html-to-image";
 import { jsPDF } from "jspdf";
-const AllTranscation = () => {
+const AllTranscation = (props) => {
   const [userList, setUserList] = React.useState([]);
   const [Modal, setModal] = React.useState(null);
   const [add_jobs, setadd_jobs] = React.useState(false);
   const [add_users, setadd_users] = React.useState(false);
   const [listCan, setlistCan] = React.useState(false);
+  const [page, setPage] = useState(1);
+  const [index, setIndex] = React.useState(props.index);
   const [permissions, setPermissions] = React.useState([
     {
       title: "Add Jobs",
@@ -59,6 +61,18 @@ const AllTranscation = () => {
     };
     initial();
   }, []);
+
+  const paginate = (p) => {
+    setPage(p);
+    for (var i = 1; i <= userList.length; i++) {
+      document.getElementById("invcrd" + i).classList.add("hidden");
+    }
+    for (var j = 1; j <= 5; j++) {
+      document
+        .getElementById("invcrd" + ((p - 1) * 5 + j))
+        .classList.remove("hidden");
+    }
+  };
   return (
     <div className="p-5">
       <p className="text-2xl font-semibold mx-10">All Transcation</p>
@@ -107,9 +121,12 @@ const AllTranscation = () => {
                       return (
                         <>
                           <tr
-                            className={`${
-                              index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                            } border-b`}
+                            id={"invcrd" + (index + 1)}
+                            className={
+                              index < 5
+                                ? "w-full px-5 bg-white py-1 border border-b"
+                                : "w-full px-5 bg-white py-1 border border-b hidden"
+                            }
                           >
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                               {index + 1}
@@ -556,6 +573,30 @@ const AllTranscation = () => {
                     })}
                   </tbody>
                 </table>
+                <div className="flex justify-between my-2 mx-1">
+                  {Math.ceil(userList.length / 5) ? (
+                    <div>
+                      Page {page} of {Math.ceil(userList.length / 5)}
+                    </div>
+                  ) : null}
+                  <div>
+                    {" "}
+                    {userList &&
+                      userList.map((userList, index) => {
+                        return index % 5 == 0 ? (
+                          <span
+                            className="mx-2"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => {
+                              paginate(index / 5 + 1);
+                            }}
+                          >
+                            {index / 5 + 1}
+                          </span>
+                        ) : null;
+                      })}
+                  </div>
+                </div>
               </div>
             </div>
           </div>

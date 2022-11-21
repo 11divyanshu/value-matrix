@@ -23,7 +23,7 @@ import renderHTML from "react-render-html";
 
 // import { DrawingBoard  } from "react-fabricjs-whiteboard";
 
-import { ReactSketchCanvas } from 'react-sketch-canvas';
+import {ReactSketchCanvas} from "react-sketch-canvas"
 
 export default function MyMeeting() {
     const { meeting } = useDyteMeeting();
