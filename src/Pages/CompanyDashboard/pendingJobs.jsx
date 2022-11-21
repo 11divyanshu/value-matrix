@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import JobBinCard from "../../Components/Dashbaord/JobCard.jsx";
-import { listJobs,listBinJobs } from "../../service/api.js";
+import { listJobs, listBinJobs } from "../../service/api.js";
 import { CSVLink } from "react-csv";
 import { Formik, Field, Form } from "formik";
 import { FilterCompany } from "../../service/api.js";
@@ -13,11 +13,12 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import "../../assets/stylesheet/pagination.css";
 import SupportTable from "./SupportTable.jsx";
-const JobList = () => {
+const JobList = (props) => {
   const [pjobs, setPJobs] = React.useState([]);
   const [loader, setLoader] = React.useState(false);
   const [user, setUser] = React.useState(null);
   const [page, setPage] = useState(1);
+  const [index, setIndex] = React.useState(props.index);
 
   React.useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"));
@@ -230,19 +231,17 @@ const JobList = () => {
                   })}
               </div>
               {pjobs && pjobs.length === 0 && (
-                  <p className="text-center font-semibold my-5">
-                    No Pending Jobs
-                  </p>
-                )}
+                <p className="text-center font-semibold my-5">
+                  No Pending Jobs
+                </p>
+              )}
               <div className="w-full">
                 <div className="flex justify-between my-2 mx-1">
-                  {
-                    Math.ceil(pjobs.length / 5) ? (
-                      <div>
-                        Page {page} of {Math.ceil(pjobs.length / 5)}
-                      </div>
-                    ) : null
-                  }
+                  {Math.ceil(pjobs.length / 5) ? (
+                    <div>
+                      Page {page} of {Math.ceil(pjobs.length / 5)}
+                    </div>
+                  ) : null}
                   <div>
                     {" "}
                     {pjobs &&
@@ -292,7 +291,7 @@ const JobList = () => {
             </div>
           </div>
 
-          <SupportTable/>
+          <SupportTable />
         </div>
       </div>
     </div>
