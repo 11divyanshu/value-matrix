@@ -138,7 +138,7 @@ const Sidebar = () => {
           // width={280}
 
           className="fixed left-0 h-screen z-10 text-left active text-gray-500"
-          style={{ backgroundColor: "#FAFAFA", width:"320px" }}
+          style={{ backgroundColor: "#FAFAFA", width:"240px" }}
           breakPoint="xl"
           collapsed={collapsed}
           toggled={toggled}
@@ -178,7 +178,7 @@ const Sidebar = () => {
                 <Link to={`/admin/`} />
               </MenuItem>
 
-              <p className="text-gray-400 font-semibold font-sm mx-4 my-5">
+              <p className="text-gray-400 font-semibold font-sm my-5">
                 Analytics
               </p>
               {adminDashboardRoutes.map((item) => {
