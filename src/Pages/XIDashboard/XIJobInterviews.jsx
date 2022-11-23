@@ -415,7 +415,7 @@ const JobList = (props) => {
             </div>
           </div>
 
-          <SupportTable/>
+          <SupportTable />
         </div>
       </div>
     </div>

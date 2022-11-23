@@ -11,7 +11,7 @@ import { FiInfo } from "react-icons/fi";
 import { BsCalendar, BsLinkedin } from "react-icons/bs";
 import { GrScorecard } from "react-icons/gr";
 import { Disclosure } from "@headlessui/react";
-import { getSkills, url ,getTransactions} from "../../service/api";
+import { getSkills, url, getTransactions } from "../../service/api";
 import { ChevronUpIcon, StarIcon } from "@heroicons/react/solid";
 import { CgWorkAlt } from "react-icons/cg";
 import { FaRegBuilding } from "react-icons/fa";
@@ -20,12 +20,14 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import swal from "sweetalert";
 
-const XIAllTranscation = () => {
+const XIAllTranscation = (props) => {
   const [userList, setUserList] = React.useState([]);
   const [Modal, setModal] = React.useState(null);
   const [add_jobs, setadd_jobs] = React.useState(false);
   const [add_users, setadd_users] = React.useState(false);
   const [listCan, setlistCan] = React.useState(false);
+  const [index, setIndex] = React.useState(props.index);
+  const [page, setPage] = useState(1);
   const [permissions, setPermissions] = React.useState([
     {
       title: "Add Jobs",
@@ -46,16 +48,27 @@ const XIAllTranscation = () => {
 
   React.useEffect(() => {
     const initial = async () => {
-        let token = await localStorage.getItem("access_token");
-        let user = JSON.parse(await localStorage.getItem("user"));
-        let response = await getTransactions(user._id);
-        console.log(response);
-        if (response && response.status === 200) {
-            setUserList(response.data);
-        }
+      let token = await localStorage.getItem("access_token");
+      let user = JSON.parse(await localStorage.getItem("user"));
+      let response = await getTransactions(user._id);
+      console.log(response);
+      if (response && response.status === 200) {
+        setUserList(response.data);
+      }
     };
     initial();
-}, []);
+  }, []);
+  const paginate = (p) => {
+    setPage(p);
+    for (var i = 1; i <= userList.length; i++) {
+      document.getElementById("intercard" + i).classList.add("hidden");
+    }
+    for (var j = 1; j <= 5; j++) {
+      document
+        .getElementById("intercard" + ((p - 1) * 5 + j))
+        .classList.remove("hidden");
+    }
+  };
   return (
     <div className="p-5">
       <p className="text-2xl font-semibold mx-10">All Transcation</p>
@@ -104,9 +117,12 @@ const XIAllTranscation = () => {
                       return (
                         <>
                           <tr
-                            className={`${
-                              index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                            } border-b`}
+                            id={"intercard" + (index + 1)}
+                            className={
+                              index < 5
+                                ? "w-full px-5 bg-white py-1 my-2"
+                                : "w-full px-5 bg-white py-1 my-2 hidden"
+                            }
                           >
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                               {index + 1}
@@ -172,7 +188,7 @@ const XIAllTranscation = () => {
                                       leaveFrom="opacity-100 scale-100"
                                       leaveTo="opacity-0 scale-95"
                                     >
-                                <Dialog.Panel className="w-full  px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all max-w-4xl mx-auto">
+                                      <Dialog.Panel className="w-full  px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all max-w-4xl mx-auto">
                                         <div>
                                           <div className="flex justify-between w-full">
                                             <p className="text-2xl font-bold">
@@ -463,6 +479,34 @@ const XIAllTranscation = () => {
                     })}
                   </tbody>
                 </table>
+                <div
+                  className={
+                    Math.ceil(userList.length / 5) < 1 ? "hidden" : "w-full"
+                  }
+                >
+                  <div className="flex justify-between my-2 mx-1">
+                    <div>
+                      Page {page} of {Math.ceil(userList.length / 5)}
+                    </div>
+                    <div>
+                      {" "}
+                      {userList &&
+                        userList.map((userList, index) => {
+                          return index % 5 == 0 ? (
+                            <span
+                              className="mx-2"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                paginate(index / 5 + 1);
+                              }}
+                            >
+                              {index / 5 + 1}
+                            </span>
+                          ) : null;
+                        })}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

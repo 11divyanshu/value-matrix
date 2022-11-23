@@ -883,8 +883,7 @@ const JobInvitations = (props) => {
               <p className="text-gray-400 font-semibold text-xs">01</p>
             </div>
           </div>
-
-          <SupportTable/>
+          <SupportTable />
         </div>
       </div>
     </div>
