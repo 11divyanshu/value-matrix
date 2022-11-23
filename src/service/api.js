@@ -1654,6 +1654,19 @@ export const savecode = async (id, code, stdin, stdout) => {
   }
 }
 
+export const updatewhiteboard = async (id, data) => {
+  try {
+    return await axios.post(`${url}/updatewhiteboard`,{
+      meetingID: id,
+      data: data
+    });
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
+
 export const startinterview = async (id) => {
   try {
     return await axios.post(`${url}/startinterview`,{

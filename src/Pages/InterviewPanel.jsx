@@ -10,6 +10,8 @@ import Webcam from "react-webcam";
 import { getinterviewdetails, checkinterviewdetails, processFlask, updateinterviewcheck, updatelivestatus, fetchinterviewdetails, processFlasklive, getlivestatus } from "../service/api.js";
 import { IoEar } from "react-icons/io5";
 
+import html2canvas from 'html2canvas';
+
 export default function App() {
     const [meeting, initMeeting] = useDyteClient();
     const [screenDisplay, setScreenDisplay] = useState(0);
@@ -109,6 +111,12 @@ export default function App() {
           document.getElementById("getUserPhoto").click();
         },1000);
       }
+    }
+
+    const capturescreenshot = ()=>{
+      html2canvas(document.body).then(function(canvas) {
+        let capturedimage = canvas.toDataURL();
+      });
     }
 
     const joinMeeting = async ()=>{

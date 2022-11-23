@@ -5,6 +5,8 @@ import Navbar from "../Components/XIDashboard/Navbar.jsx";
 import Editor from "@monaco-editor/react";
 import axios from "axios";
 
+import Intvwhiteboard from "./Intvwhiteboard.js";
+
 // import {
 //   TranscribeStreamingClient,
 //   StartMedicalStreamTranscriptionCommand,
@@ -180,10 +182,10 @@ export default function MyMeeting() {
           <div className="md:w-1/2 h-full pl-2">
             <div className="w-full flex mt-4">
               <div className="w-1/2">
-                <div className={ activearea===0 ? "border-2 border-white w-full text-center p-4 font-bold bg-white text-gray-900 cursor-pointer":"border-2 border-white w-full text-center p-4 font-bold bg-gray-900 text-white cursor-pointer" } onClick={()=>{setactivearea(0)}} style={{ borderRadius:"10px 0px 0px 10px" }}>CODING</div>
+                <div className={ activearea===0 ? "border-2 border-white w-full text-center p-2 font-bold bg-white text-gray-900 cursor-pointer":"border-2 border-white w-full text-center p-2 font-bold bg-gray-900 text-white cursor-pointer" } onClick={()=>{setactivearea(0)}} style={{ borderRadius:"10px 0px 0px 10px" }}>CODING</div>
               </div>
               <div className="w-1/2">
-                <div className={ activearea===1 ? "border-2 border-white w-full text-center p-4 font-bold bg-white text-gray-900 cursor-pointer":"border-2 border-white w-full text-center p-4 font-bold bg-gray-900 text-white cursor-pointer" } onClick={()=>{setactivearea(1)}} style={{ borderRadius:"0px 10px 10px 0px" }}>WHITEBOARD</div>
+                <div className={ activearea===1 ? "border-2 border-white w-full text-center p-2 font-bold bg-white text-gray-900 cursor-pointer":"border-2 border-white w-full text-center p-2 font-bold bg-gray-900 text-white cursor-pointer" } onClick={()=>{setactivearea(1)}} style={{ borderRadius:"0px 10px 10px 0px" }}>WHITEBOARD</div>
               </div>
             </div>
             {activearea===0?
@@ -233,14 +235,8 @@ export default function MyMeeting() {
                 </div>
               </div>
             :
-              <div className="w-full">
-                <ReactSketchCanvas
-                  style={styles}
-                  width="100%"
-                  height="600px"
-                  strokeWidth={4}
-                  strokeColor="black"
-                />
+              <div className="w-full py-2">
+                <Intvwhiteboard id={id}/>
               </div>
             }
           </div>

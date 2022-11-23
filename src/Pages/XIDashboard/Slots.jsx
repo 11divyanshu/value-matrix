@@ -224,12 +224,35 @@ const JobList = () => {
         }else{
           minutes = "0"+parseInt(i%60).toString()
         }
-        temp.push(hour+":"+minutes);
+        temp.push({
+          value: hour+":"+minutes,
+          status: false
+        });
       }
       setslotmap(temp);
       setslotbookingscreen(1);
       setslotrange(slotval);
     }
+  }
+
+  const updateslotbox = (index)=>{
+    let temp = [];
+    console.log(index)
+    for(let i=0; i<slotmap.length; i++){
+      if(i===index){
+        temp.push({
+          value: slotmap[i].value,
+          status: !slotmap[i].status
+        });
+      }else{
+        temp.push({
+          value: slotmap[i].value,
+          status: slotmap[i].status
+        });
+      }
+    }
+    console.log(temp);
+    setslotmap(temp);
   }
 
   const handleUpdate = async (slots) => {
@@ -618,7 +641,7 @@ const JobList = () => {
                                     </div>
                                   </div>
 
-                                  <div className="my-4 w-full p-3 bg-slate-100 px-8">
+                                  <div className="my-4 w-full p-3 bg-slate-100 px-8" style={{ height:"90%", overflowY:"scroll" }}>
                                     {slotbookingscreen==0?<>
                                       <div className="text-center">
                                         <h2 className="text-center font-bold text-2xl">Select Date</h2>
@@ -638,17 +661,20 @@ const JobList = () => {
                                         <h2 className="text-center font-bold text-2xl">Select Time Slots for <span className="text-xl text-gray-900">{slotdate}</span></h2>
                                         <div className="w-full my-4">
                                           {slotmap?<>
-                                            {slotmap.map((usetime)=>{
+                                            {slotmap.map((usetime,index)=>{
                                               return(
                                                 <div className="flex mb-1">
-                                                  <div className="w-1/12 flex"><span className="text-xs" style={{ marginTop:"-8px" }}>{usetime}</span></div>
+                                                  <div className="w-1/12 flex"><span className="text-xs" style={{ marginTop:"-8px" }}>{usetime.value}</span></div>
                                                   <div className="w-11/12">
-                                                    <div className="bg-blue-100 hover:bg-blue-200 cursor-pointer h-8 w-full"></div>
+                                                    <div onClick={()=>{updateslotbox(index)}} className={usetime.status===true ? "bg-blue-300 hover:bg-blue-200 cursor-pointer h-8 w-full flex justify-center items-center text-white font-bold" : "bg-blue-100 hover:bg-blue-200 cursor-pointer h-8 w-full flex justify-center items-center text-white font-bold"}>{usetime.status===true ? <>Selected</> : null}</div>
                                                   </div>
                                                 </div>
                                               );
                                             })}
                                           </>:<>Loading...</>}
+                                        </div>
+                                        <div className="w-full my-4 flex justify-center">
+                                          <button className="bg-blue-500 hover:bg-blue-500 rounded px-4 py-2 text-white font-bold">Update Slot</button>
                                         </div>
                                       </div>
                                     </>}

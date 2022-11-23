@@ -545,8 +545,8 @@ const JobInvitations = (props) => {
               {/* <p className="text-gray-400 w-full font-semibold">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p> */}
             </div>
           </div>
-          {!Loading && JobInvitation.length === 0 ? (
-            <></>
+          {Loading && JobInvitation.length === 0 ? (
+            <>Loading...</>
           ) : (
             <div className="w-full">
               {user && user.status == "Forwarded" && (
@@ -829,7 +829,7 @@ const JobInvitations = (props) => {
             </div>
           )}
           <div className="w-full">
-            {JobInvitation && JobInvitation.length === 0 && (
+            {JobInvitation && JobInvitation.length === 0 && user.status != "Forwarded" && (
               <p className="text-center font-semibold my-5">
                 No Interviews Invitations
               </p>

@@ -35,21 +35,28 @@ const XIPanels = () => {
   const [add_users, setadd_users] = React.useState(false);
   const [listCan, setlistCan] = React.useState(false);
   const [page, setPage] = useState(1);
+  
+  const [temppermissions, settempPermissions] = React.useState([]);
   const [permissions, setPermissions] = React.useState([
     {
-      title: "Add Jobs",
-      id: "add_jobs",
-      value: add_jobs,
+      title: "View Ongoing Interviews",
+      id: "view_ongoing_interviews",
+      value: false,
     },
     {
-      title: "Add Users",
-      id: "add_users",
-      value: add_users,
+      title: "View All Interviews",
+      id: "view_all_interviews",
+      value: false,
     },
     {
-      title: "List Candidates",
-      id: "list_candidates",
-      value: listCan,
+      title: "Approve Interview Evaluation",
+      id: "approve_interview_evaluation",
+      value: false,
+    },
+    {
+      title: "Join Ongoing Interviews",
+      id: "join_ongoing_interviews",
+      value: false,
     },
   ]);
 
@@ -75,7 +82,7 @@ const XIPanels = () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       let response = await ListXIPanels();
       if (response && response.status === 200) {
-        setUserList(response.data.category);
+        setUserList(response.data.panels);
       }
     };
     initial();
@@ -83,6 +90,7 @@ const XIPanels = () => {
 
   const [showLevelForm, setShowLevelForm] = React.useState(false);
   const [loader, setLoader] = useState(false);
+  
   const paginate = (p) => {
     setPage(p);
     for (var i = 1; i <= userList.length; i++) {
@@ -108,7 +116,7 @@ const XIPanels = () => {
               setShowLevelForm(false);
             }}
           >
-            Add Level
+            Add Panel
           </button>
         </div>
       </div>
@@ -167,21 +175,13 @@ const XIPanels = () => {
                                     <div className="w-full my-7">
                                       <Formik
                                         initialValues={{
-                                          level: item ? item.level : " ",
-                                          min: item ? item.min : " ",
-                                          max: item ? item.max : " ",
+                                          panel: item ? item.panel : " ",
                                         }}
                                         validate={async (values) => {
                                           const errors = {};
 
-                                          if (!values.level) {
-                                            errors.level = "Required";
-                                          }
-                                          if (!values.min) {
-                                            errors.min = "Required";
-                                          }
-                                          if (!values.max) {
-                                            errors.max = "Required";
+                                          if (!values.panel) {
+                                            errors.panel = "Required";
                                           }
 
                                           return errors;
@@ -190,7 +190,10 @@ const XIPanels = () => {
                                           if (item !== null) {
                                             const update = await updateXIPanels({
                                               id: item._id,
-                                              updates: values,
+                                              updates: {
+                                                panel: values.panel,
+                                                permissions: temppermissions
+                                              },
                                             });
                                             if (
                                               update &&
@@ -202,7 +205,7 @@ const XIPanels = () => {
                                                 icon: "success",
                                                 button: "Ok",
                                               });
-                                              setUserList(update.data.category);
+                                              setUserList(update.data.panels);
                                             } else {
                                               swal({
                                                 title: "Oops!",
@@ -215,7 +218,10 @@ const XIPanels = () => {
 
                                             return;
                                           }
-                                          const add = await addXIPanels(values);
+                                          const add = await addXIPanels({
+                                            panel: values.panel,
+                                            permissions: permissions
+                                          });
                                           setModal(false);
                                           if (add && add.status == 200) {
                                             swal({
@@ -250,51 +256,78 @@ const XIPanels = () => {
 
                                             <div className="w-full my-5">
                                               <h2 className="font-semibold my-3">
-                                                Level
+                                                Panel
                                               </h2>
                                               <Field
                                                 className="w-full rounded-lg border-gray-100"
                                                 type="text"
-                                                name="level"
-                                                placeholder="Enter Value"
+                                                name="panel"
+                                                placeholder="Enter Panel Name"
                                                 id=""
                                               />
                                               <ErrorMessage
-                                                name="level"
+                                                name="panel"
                                                 component="div"
                                                 className="text-sm text-red-600"
                                               />
                                             </div>
-                                            <div className="w-full my-5">
-                                              <h2 className="font-semibold my-3">
-                                                Minimum
-                                              </h2>
-                                              <Field
-                                                className="w-full rounded-lg border-gray-100"
-                                                type="number"
-                                                name="min"
-                                                placeholder="Enter Value"
-                                                id=""
-                                              />
+                                            <div className="text-left">
+                                              <label
+                                                htmlFor="permissions"
+                                                className="font-semibold"
+                                              >
+                                                User permissions
+                                              </label>
+                                              {item !== null ? <>
+                                                {temppermissions.map((item, index) => {
+                                                return (
+                                                  <div className="mx-3 my-4">
+                                                    <Field
+                                                      type="checkbox"
+                                                      checked={item.value}
+                                                      name={item.id}
+                                                      className="my-1"
+                                                      onClick={() => {
+                                                        let temp = temppermissions;
+                                                        temp[index].value = !temp[index].value;
+                                                        settempPermissions(temp);
+                                                      }}
+                                                    />
+                                                    <label
+                                                      htmlFor="permissions"
+                                                      className="text-gray-700 mx-3"
+                                                    >
+                                                      {item.title}
+                                                    </label>
+                                                  </div>
+                                                );
+                                              })}
+                                              </> : <>
+                                                {permissions.map((item, index) => {
+                                                  return (
+                                                    <div className="mx-3 my-4">
+                                                      <Field
+                                                        type="checkbox"
+                                                        name={item.id}
+                                                        className="my-1"
+                                                        onClick={() => {
+                                                          let temp = permissions;
+                                                          temp[index].value = !temp[index].value;
+                                                          setPermissions(temp);
+                                                        }}
+                                                      />
+                                                      <label
+                                                        htmlFor="permissions"
+                                                        className="text-gray-700 mx-3"
+                                                      >
+                                                        {item.title}
+                                                      </label>
+                                                    </div>
+                                                  );
+                                                })}
+                                              </> }
                                               <ErrorMessage
-                                                name="min"
-                                                component="div"
-                                                className="text-sm text-red-600"
-                                              />
-                                            </div>
-                                            <div className="w-full my-5">
-                                              <h2 className="font-semibold my-3">
-                                                Maximum
-                                              </h2>
-                                              <Field
-                                                className="w-full rounded-lg border-gray-100"
-                                                type="number"
-                                                name="max"
-                                                placeholder="Enter Value"
-                                                id=""
-                                              />
-                                              <ErrorMessage
-                                                name="max"
+                                                name="permission"
                                                 component="div"
                                                 className="text-sm text-red-600"
                                               />
@@ -362,25 +395,20 @@ const XIPanels = () => {
                         scope="col"
                         className="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
                       >
-                        Level
+                        Panel
                       </th>
                       <th
                         scope="col"
                         className="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
                       >
-                        Minimum
+                        Permissions
                       </th>
                       <th
                         scope="col"
                         className="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
                       >
-                        Maximumm
+                        Actions
                       </th>
-
-                      <th
-                        scope="col"
-                        className="lg:text-sm md:text-xs sm:text-[13px] font-medium text-gray-900 px-6 py-4 text-left"
-                      ></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -397,13 +425,14 @@ const XIPanels = () => {
                               {index + 1}
                             </td>
                             <td className="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
-                              {item.level}
+                              {item.panel}
                             </td>
                             <td className="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
-                              {item.min}
-                            </td>
-                            <td className="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
-                              {item.max}
+                              <ul>
+                                {item.permissions.map((prmns)=>{
+                                  return(<li>{prmns.value?prmns.title:null}</li>);
+                                })}
+                              </ul>
                             </td>
 
                             <td className="text-xs text-blue-500 font-light px-6 py-4 whitespace-nowrap cursor-pointer">
@@ -432,6 +461,8 @@ const XIPanels = () => {
                                               className="flex items-center border-b text-gray-800 space-x-2"
                                               onClick={async () => {
                                                 setItem(item);
+                                                settempPermissions(item.permissions);
+                                                console.log(temppermissions);
                                                 setModal(true);
                                               }}
                                             >

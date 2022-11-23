@@ -106,7 +106,7 @@ const XIOnboarding = () => {
       }
       let response4 = await ListXIPanels();
       if (response4 && response4.status === 200) {
-        setPanels(response4.data.category);
+        setPanels(response4.data.panels);
       }
     };
     initial();
@@ -402,10 +402,11 @@ const XIOnboarding = () => {
                                   }
                                 }}
                                 >
+                                  <option value="" selected disabled>Assign Panel</option>
                                   {panels &&
                                     panels.map((item) => {
                                       return (
-                                        <option value={item._id}>{item.panels}</option>
+                                        <option value={item._id}>{item.panel}</option>
                                       );
                                     })}
                                 </select>

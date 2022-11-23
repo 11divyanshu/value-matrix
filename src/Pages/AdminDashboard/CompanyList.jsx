@@ -15,10 +15,10 @@ const CompanyList = () => {
     const initial = async () => {
       let access = await localStorage.getItem("access_token");
       let user = JSON.parse(await localStorage.getItem("user"));
-      let res = await getCreditInfoList({user_type:"Company"});
+      let res = await getCompanyList({user_type:"Company"});
       console.log(res)
       if (res && res.status === 200) {
-        setCompanyList(res.data);
+        setCompanyList(res.data.company);
       }
     };
     initial();
@@ -68,7 +68,7 @@ const CompanyList = () => {
                         scope="col"
                         className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                       >
-                        First Name
+                        Company Name
                       </th>
                       <th
                         scope="col"
@@ -80,13 +80,13 @@ const CompanyList = () => {
                         scope="col"
                         className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                       >
-                     Consumption Credit
+                        Consumption Credit
                       </th>
                       <th
                         scope="col"
                         className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                       >
-                       
+                       Actions
                       </th>
                     </tr>
                   </thead>
@@ -102,13 +102,13 @@ const CompanyList = () => {
                             {index + 1}
                           </td>
                           <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {user.user[0].username}
+                            {user.username}
                           </td>
                           <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {user.user[0].firstName}
+                            {user.firstName} {user.lastName}
                           </td>
                           <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {user.user[0].email}
+                            {user.email}
                           </td>
                           <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                           <input
