@@ -6,7 +6,7 @@ import { FiInfo } from "react-icons/fi";
 import { BsCalendar, BsLinkedin } from "react-icons/bs";
 import { GrScorecard } from "react-icons/gr";
 import { Disclosure } from "@headlessui/react";
-import { getSkills, url } from "../../service/api";
+import { getSkills, url, getpsykey } from "../../service/api";
 import { ChevronUpIcon, StarIcon } from "@heroicons/react/solid";
 import { IoPeople, IoSchoolOutline } from "react-icons/io5";
 import Microsoft from "../../assets/images/Social/microsoft.svg";
@@ -829,6 +829,10 @@ export default function Tabs(props) {
       user.lastname = values.lastName;
       user.houseNo = values.houseNo;
       user.street = values.street;
+      user.linkedinurl = values.linkedinurl;
+      let getpsyky = await getpsykey(values.linkedinurl);
+      console.log(getpsyky);
+      user.linkedinurlkey = getpsyky.data;
       user.city = city;
       user.country = values.country;
       user.state = values.state;
@@ -1028,6 +1032,8 @@ export default function Tabs(props) {
       country: ed.country,
       state: ed.state,
       zip: ed.zip,
+      linkedinurl: ed.linkedinurl,
+      linkedinurlkey: ed.linkedinurlkey,
       experience: experienceDetail,
       username: ed.username,
       associate: associateDetail,
@@ -1181,6 +1187,7 @@ export default function Tabs(props) {
               contactOTP: "",
               houseNo: user.houseNo,
               street: user.street,
+              linkedinurl: user.linkedinurl,
               city: user.city,
               country: user.country,
               state: user.state,
@@ -1237,6 +1244,28 @@ export default function Tabs(props) {
                       <Field
                         type="text"
                         name="firstName"
+                        style={{
+                          boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                          borderRadius: "5px",
+                        }}
+                        className="block border-gray-200 py-1 w-full"
+                      />
+                      <ErrorMessage
+                        name="firstName"
+                        component="div"
+                        className="text-sm text-red-600"
+                      />
+                    </div>
+                  </div>
+                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
+                    <label className="font-semibold text-lg md:w-2/5 mx-2">
+                      Linkedin Profile
+                    </label>
+                    <div className="w-full">
+                      <Field
+                        type="text"
+                        name="linkedinurl"
+                        placeholder="Example:- https://linkedin.com/in/vanity_name"
                         style={{
                           boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
                           borderRadius: "5px",

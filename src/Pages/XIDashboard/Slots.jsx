@@ -3,6 +3,7 @@ import {
   addSlot,
   XISlots,
   updateSlot,
+  newslotupdater,
   deleteSlot,
   ValidateSlot,
 } from "../../service/api.js";
@@ -27,6 +28,7 @@ import SupportTable from "./SupportTable.jsx";
 
 const JobList = () => {
   const [slots, setSlots] = useState([]);
+  const [slotstructure, setslotstructure] = useState([]);
   const [loader, setLoader] = useState(false);
   const [user, setUser] = useState(null);
   const [modal, setModal] = React.useState(false);
@@ -35,6 +37,7 @@ const JobList = () => {
   const [slotdate, setslotdate] = React.useState(null);
   const [slotrange, setslotrange] = React.useState(null);
   const [slotmap, setslotmap] = React.useState(null);
+  const [allslotdates, setallslotdates] = React.useState(null);
 
   // const [SlotTime, setSlotTime] = React.useState({
   //   startTime: "",
@@ -46,6 +49,7 @@ const JobList = () => {
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [page, setPage] = React.useState(1);
+  const [globalslotval, setglobalslotval] = React.useState(0);
 
   //   const headerso = [
   //     { label: "job_id", key: "_id" },
@@ -68,6 +72,68 @@ const JobList = () => {
   //     data: jobs,
   //   }
 
+  const setSlotsdate = (data)=>{
+    let alldates = [];
+    let allslots = [];
+    let tempslot = [];
+    let tempdate = null;
+    let customdate = null;
+    let tempstart = null;
+    let tempend = null;
+    console.log(data);
+    for(let i=0; i<data.length; i++){
+      tempdate = new Date(data[i].startDate.toLocaleString());
+      customdate = tempdate.getDate() + "-" + (parseInt(tempdate.getMonth())+1) + "-" + tempdate.getFullYear();
+      if(!alldates.includes(customdate)){
+        alldates.push(customdate);
+        alldates.sort();
+        alldates.reverse();
+      }
+    }
+    setallslotdates(alldates);
+    for(let i=0; i<alldates.length; i++){
+      tempslot = [];
+      for(let j=0; j<data.length; j++){
+        tempstart = "";
+        tempend = "";
+        tempdate = new Date(data[j].startDate.toLocaleString());
+        customdate = tempdate.getDate() + "-" + (parseInt(tempdate.getMonth())+1) + "-" + tempdate.getFullYear();
+        if(alldates[i] == customdate){
+          tempdate = new Date(data[j].startDate.toLocaleString());
+          if(tempdate.getHours() < 9){
+            tempstart = tempstart + "0";
+          }
+          tempstart = tempstart + tempdate.getHours();
+          tempstart = tempstart + ":";
+          if(tempdate.getMinutes() < 9){
+            tempstart = tempstart + "0";
+          }
+          tempstart = tempstart + tempdate.getMinutes();
+          tempdate = new Date(data[j].endDate.toLocaleString());
+          if(tempdate.getHours() < 9){
+            tempend = tempend + "0";
+          }
+          tempend = tempend + tempdate.getHours();
+          tempend = tempend + ":";
+          if(tempdate.getMinutes() < 9){
+            tempend = tempend + "0";
+          }
+          tempend = tempend + tempdate.getMinutes();
+          tempslot.push({
+            startTime: tempstart,
+            endTime: tempend,
+            data: data[j]
+          })
+        }
+      }
+      allslots.push({
+        slots: tempslot,
+        date: alldates[i]
+      });
+    }
+    setslotstructure(allslots);
+  }
+
   useEffect(() => {
     const getData = async () => {
       let user = JSON.parse(localStorage.getItem("user"));
@@ -78,6 +144,7 @@ const JobList = () => {
       let res = await XISlots(user._id);
       if (res) {
         setSlots(res.data);
+        setSlotsdate(res.data);
       }
     };
     getData();
@@ -115,6 +182,7 @@ const JobList = () => {
           let res1 = await XISlots(user._id);
           if (res1) {
             setSlots(res1.data);
+            setSlotsdate(res1.data);
           }
           setLoading(false);
           swal({
@@ -164,6 +232,7 @@ const JobList = () => {
         let res2 = await XISlots(user._id);
         if (res2) {
           setSlots(res2.data);
+          setSlotsdate(res2.data);
         }
         setLoading(false);
         swal({
@@ -203,6 +272,7 @@ const JobList = () => {
   };
 
   const selectSlots = (slotval)=>{
+    setglobalslotval(slotval);
     if(slotdate==null){
       swal({
         icon: "error",
@@ -212,6 +282,8 @@ const JobList = () => {
     }else{
       let hour = null;
       let minutes = null;
+      let endhour = null;
+      let endminutes = null;
       let temp = [];
       for(let i=0; i<1440; i+=slotval){
         if(parseInt(i/60)>9){
@@ -224,8 +296,19 @@ const JobList = () => {
         }else{
           minutes = "0"+parseInt(i%60).toString()
         }
+        if(parseInt((i+slotval)/60)>9){
+          endhour = parseInt((i+slotval)/60).toString();
+        }else{
+          endhour = "0"+parseInt((i+slotval)/60).toString()
+        }
+        if(parseInt((i+slotval)%60)>9){
+          endminutes = parseInt((i+slotval)%60).toString();
+        }else{
+          endminutes = "0"+parseInt((i+slotval)%60).toString()
+        }
         temp.push({
           value: hour+":"+minutes,
+          endtime: endhour+":"+endminutes,
           status: false
         });
       }
@@ -237,22 +320,159 @@ const JobList = () => {
 
   const updateslotbox = (index)=>{
     let temp = [];
-    console.log(index)
     for(let i=0; i<slotmap.length; i++){
       if(i===index){
         temp.push({
           value: slotmap[i].value,
+          endtime: slotmap[i].endtime,
           status: !slotmap[i].status
         });
       }else{
         temp.push({
           value: slotmap[i].value,
+          endtime: slotmap[i].endtime,
           status: slotmap[i].status
         });
       }
     }
-    console.log(temp);
     setslotmap(temp);
+  }
+
+  const updateSlotFncn = async ()=>{
+    let trueslots = [];
+    let interviewslots = [];
+    for(let i=0; i<slotmap.length; i++){
+      if(slotmap[i].status == true)
+      trueslots.push(slotmap[i]);
+    }
+    if(globalslotval == 30){
+      for(let i=0; i<trueslots.length-1; i++){
+        if(trueslots[i].endtime == trueslots[i+1].value){
+          interviewslots.push({
+            starttime: trueslots[i].value,
+            endtime: trueslots[i+1].endtime
+          });
+        }
+      }
+    }else if(globalslotval == 60){
+      let hour = null;
+      let minutes = null;
+      let endhour = null;
+      let endminutes = null;
+      let temp = [];
+      let tempslotmap = [];
+      for(let i=0; i<1440; i+=30){
+        if(parseInt(i/60)>9){
+          hour = parseInt(i/60).toString();
+        }else{
+          hour = "0"+parseInt(i/60).toString()
+        }
+        if(parseInt(i%60)>9){
+          minutes = parseInt(i%60).toString();
+        }else{
+          minutes = "0"+parseInt(i%60).toString()
+        }
+        if(parseInt((i+30)/60)>9){
+          endhour = parseInt((i+30)/60).toString();
+        }else{
+          endhour = "0"+parseInt((i+30)/60).toString()
+        }
+        if(parseInt((i+30)%60)>9){
+          endminutes = parseInt((i+30)%60).toString();
+        }else{
+          endminutes = "0"+parseInt((i+30)%60).toString()
+        }
+        temp.push({
+          value: hour+":"+minutes,
+          endtime: endhour+":"+endminutes,
+          status: false
+        });
+      }
+      for(let j=0; j<temp.length; j+=2){
+        for(let k=0; k<trueslots.length; k++){
+          if(temp[j].value == trueslots[k].value){
+            tempslotmap.push({
+              value: temp[j].value,
+              endtime: temp[j].endtime,
+              status: true
+            });
+            tempslotmap.push({
+              value: temp[j+1].value,
+              endtime: temp[j+1].endtime,
+              status: true
+            });
+          }
+        }
+      }
+      for(let i=0; i<tempslotmap.length-1; i++){
+        if(tempslotmap[i].endtime == tempslotmap[i+1].value){
+          interviewslots.push({
+            starttime: tempslotmap[i].value,
+            endtime: tempslotmap[i+1].endtime
+          });
+        }
+      }
+    }else{
+      swal({
+        icon: "error",
+        title: "Something Went Wrong",
+        button: "Ok"
+      });
+    }
+    let newinterviewslots = interviewslots;
+    let oldslots = [];
+    let checkedslots = [];
+    let skipentry = 0;
+    let checkingdate = slotdate.charAt(8).toString() + slotdate.charAt(9).toString() + "-" + slotdate.charAt(5).toString() + slotdate.charAt(6).toString() + "-" + slotdate.charAt(0).toString() + slotdate.charAt(1).toString() + slotdate.charAt(2).toString() + slotdate.charAt(3).toString();
+    if(allslotdates.includes(checkingdate.toString())){
+      for(let i=0; i<slotstructure.length; i++){
+        if(slotstructure[i].date == checkingdate){
+          oldslots = slotstructure[i].slots;
+          for(let j=0; j<oldslots.length; j++){
+            skipentry = 0;
+            for(let k=0; k<newinterviewslots.length; k++){
+              if(oldslots[j].endTime == newinterviewslots[k].endtime && oldslots[j].startTime == newinterviewslots[k].starttime){
+                skipentry = 1;
+                checkedslots.push({
+                  data: oldslots[j].data,
+                  startTime: oldslots[j].startTime,
+                  endTime: oldslots[j].endTime,
+                  action: "ignore",
+                });
+              }
+            }
+            if(skipentry == 0){
+              checkedslots.push({
+                data: oldslots[j].data,
+                startTime: oldslots[j].startTime,
+                endTime: oldslots[j].endTime,
+                action: "delete",
+              });
+            }
+          }
+          let oldcheckedslots = checkedslots;
+          for(let l=0; l<newinterviewslots.length; l++){
+            skipentry = 0;
+            for(let m=0; m<oldcheckedslots.length; m++){
+              if(newinterviewslots[l].starttime === oldcheckedslots[m].startTime && newinterviewslots[l].endtime === oldcheckedslots[m].endTime){
+                skipentry = 1;
+              }
+            }
+            if(skipentry === 0){
+              checkedslots.push({
+                startTime: newinterviewslots[l].starttime,
+                endTime: newinterviewslots[l].endtime,
+                action: "create",
+              });
+            }
+          }
+        }
+      }
+    }
+    let newupdater = await newslotupdater(user._id, checkedslots, slotdate);
+    if(newupdater.status === 200){
+      window.location.reload();
+    }
   }
 
   const handleUpdate = async (slots) => {
@@ -281,6 +501,7 @@ const JobList = () => {
           let res2 = await XISlots(user._id);
           if (res2) {
             setSlots(res2.data);
+            setSlotsdate(res2.data);
           }
         }
         swal("Slot has been Deleted", {
@@ -293,7 +514,7 @@ const JobList = () => {
 
   const paginate = (p) => {
     setPage(p);
-    for (var i = 1; i <= slots.length; i++) {
+    for (var i = 1; i <= slotstructure.length; i++) {
       document.getElementById("crd" + i).classList.add("hidden");
     }
     for (var j = 1; j <= 5; j++) {
@@ -367,29 +588,25 @@ const JobList = () => {
                                   scope="col"
                                   className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                                 >
-                                  Start Time
+                                  Date
                                 </th>
                                 <th
                                   scope="col"
                                   className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                                 >
-                                  End Time
+                                  Slots
                                 </th>
                                 <th
                                   scope="col"
                                   className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                                 >
-                                  Status
+                                  Actions
                                 </th>
-                                <th
-                                  scope="col"
-                                  className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                                ></th>
                               </tr>
                             </thead>
                             <tbody>
-                              {slots &&
-                                slots.map((user, index) => {
+                              {slotstructure &&
+                                slotstructure.map((slotdetails, index) => {
                                   return (
                                     <tr id={"crd" + (index + 1)}
                                       className={`${
@@ -402,123 +619,18 @@ const JobList = () => {
                                         {index + 1}
                                       </td>
                                       <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                        <span>{ slotdetails.date }</span>
+                                      </td>
+                                      <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                        {slotdetails.slots.map((slottime,index)=>{
+                                          return (<span className="border border-gray-900 rounded px-2 py-1 text-xs mr-2">{ slottime.startTime } - { slottime.endTime }</span>);
+                                        })}
                                         <span>
-                                          {new Date(
-                                            user.startDate.toLocaleString()
-                                          ).getDate() +
-                                          "-" +
-                                          (new Date(
-                                            user.startDate.toLocaleString()
-                                          ).getMonth() +
-                                            1) +
-                                          "-" +
-                                          new Date(
-                                            user.startDate.toLocaleString()
-                                          ).getFullYear()}
+                                          
                                         </span>
-                                        <span className="ml-2">
-                                          {new Date(
-                                            user.startDate.toLocaleString()
-                                          ).getHours()>9 ? null: "0"}
-                                          {new Date(
-                                            user.startDate.toLocaleString()
-                                          ).getHours() +
-                                            ":" }
-                                          {new Date(
-                                            user.startDate.toLocaleString()
-                                          ).getMinutes()>9 ? null: "0"}
-                                          {
-                                          new Date(
-                                            user.startDate.toLocaleString()
-                                          ).getMinutes()}
-                                        </span>
-                                      </td>
-                                      <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                      <span>
-                                          {new Date(
-                                            user.endDate.toLocaleString()
-                                          ).getDate() +
-                                          "-" +
-                                          (new Date(
-                                            user.endDate.toLocaleString()
-                                          ).getMonth() +
-                                            1) +
-                                          "-" +
-                                          new Date(
-                                            user.endDate.toLocaleString()
-                                          ).getFullYear()}
-                                        </span>
-                                        <span className="ml-2">
-                                          {new Date(
-                                            user.endDate.toLocaleString()
-                                          ).getHours()>9 ? null: "0"}
-                                          {new Date(
-                                            user.endDate.toLocaleString()
-                                          ).getHours() +
-                                            ":" }
-                                          {new Date(
-                                            user.endDate.toLocaleString()
-                                          ).getMinutes()>9 ? null: "0"}
-                                          {
-                                          new Date(
-                                            user.endDate.toLocaleString()
-                                          ).getMinutes()}
-                                        </span>
-                                      </td>
-                                      <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                        {user.status}
                                       </td>
                                       <td className="text-xs text-blue-500 font-light px-6 py-4 whitespace-nowrap">
-                                        <Popover className="relative mt-1">
-                                          {({ open }) => (
-                                            <>
-                                              <Popover.Button
-                                                className={`
-            ${open ? "" : "text-opacity-90"} focus:outline-0`}
-                                              >
-                                                <BsThreeDots className="text-gray-700 text-lg cursor-pointer hover:text-gray-800" />
-                                              </Popover.Button>
-                                              <Transition
-                                                as={Fragment}
-                                                enter="transition ease-out duration-200"
-                                                enterFrom="opacity-0 translate-y-1"
-                                                enterTo="opacity-100 translate-y-0"
-                                                leave="transition ease-in duration-150"
-                                                leaveFrom="opacity-100 translate-y-0"
-                                                leaveTo="opacity-0 translate-y-1"
-                                              >
-                                                <Popover.Panel className="absolute z-10  max-w-sm  px-9 sm:px-0 lg:max-w-3xl md:w-[8vw]">
-                                                  <div className="overflow-hidden rounded-sm shadow-lg ring-1 ring-black ring-opacity-5">
-                                                    <div className="relative gap-8 bg-white p-3 lg:grid-cols-4  justify-between">
-                                                      <div
-                                                        className="flex items-center border-b text-gray-800 space-x-2 cursor-pointer"
-                                                        onClick={() =>
-                                                          handleUpdate(user)
-                                                        }
-                                                      >
-                                                        {/* <BsThreeDots className="text-md" /> */}
-                                                        <p className="text-sm font-semibold py-2">
-                                                          Update
-                                                        </p>{" "}
-                                                      </div>
-                                                      <div
-                                                        className="flex items-center text-gray-800 space-x-2 cursor-pointer"
-                                                        onClick={() =>
-                                                          handleDelete(user)
-                                                        }
-                                                      >
-                                                        {/* <BsThreeDots className="text-md" /> */}
-                                                        <p className="text-sm font-semibold py-1">
-                                                          Delete
-                                                        </p>{" "}
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </Popover.Panel>
-                                              </Transition>
-                                            </>
-                                          )}
-                                        </Popover>
+                                        Edit
                                       </td>
                                     </tr>
                                   );
@@ -536,12 +648,12 @@ const JobList = () => {
               <div className="w-full">
                 <div className="flex justify-between my-2 mx-1">
                   <div>
-                    Page {page} of {Math.ceil(slots.length / 5)}
+                    Page {page} of {Math.ceil(slotstructure.length / 5)}
                   </div>
                   <div>
                     {" "}
-                    {slots &&
-                      slots.map((slot, index) => {
+                    {slotstructure &&
+                      slotstructure.map((slot, index) => {
                         return index % 5 == 0 ? (
                           <span
                             className={`mx-2 ${
@@ -674,7 +786,7 @@ const JobList = () => {
                                           </>:<>Loading...</>}
                                         </div>
                                         <div className="w-full my-4 flex justify-center">
-                                          <button className="bg-blue-500 hover:bg-blue-500 rounded px-4 py-2 text-white font-bold">Update Slot</button>
+                                          <button className="bg-blue-500 hover:bg-blue-500 rounded px-4 py-2 text-white font-bold" onClick={()=>{updateSlotFncn()}}>Update Slot</button>
                                         </div>
                                       </div>
                                     </>}

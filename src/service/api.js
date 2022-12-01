@@ -6,6 +6,7 @@ export const url = "http://localhost:8000";
 // export const url = "https://backend.babyhost.in"
 export const frontendUrl = "http://localhost:3001";
 export const flaskurl = "http://3.110.220.19:5000";
+export const psyurl = "http://ec2-34-235-151-0.compute-1.amazonaws.com:9027/psychometric/candidate";
 
 // User Method API
 export const authenticateLogin = async (user) => {
@@ -391,6 +392,8 @@ export const updateJobDetails = async (data, token) => {
 // Get Job Details
 
 export const getJobById = async (id, token) => {
+  console.log(id);
+  console.log(token);
   try {
     return await axios.post(
       `${url}/getJobFromId`,
@@ -1157,6 +1160,22 @@ export const updateSlot = async (id,data) => {
 
   }
 }
+export const newslotupdater = async (id,data,date) => {
+  try {
+    console.log(data);
+    return await axios.put(`${url}/newslotupdater`,
+      {
+        id: id,
+        data: data,
+        date: date
+      }
+    );
+
+  } catch (err) {
+    console.log("Error : ", err);
+
+  }
+}
 export const deleteSlot = async (id) => {
   try {
     return await axios.delete(`${url}/deleteSlot?slotId=${id}`
@@ -1789,6 +1808,16 @@ export const getinterviewjob = async (id) => {
 export const createTaskScheduler = async (data) => {
   try{
      return await axios.post(`${url}/createTaskScheduler`,data) 
+  }catch(err){
+    console.log("Error : " + err);
+  }
+}
+
+
+
+export const getpsykey = async (data) => {
+  try{
+     return await axios.post(`${psyurl}?linkedInProfileUrl=${data}`) 
   }catch(err){
     console.log("Error : " + err);
   }

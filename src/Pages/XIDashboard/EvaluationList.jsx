@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import JobCard from "../../Components/XIDashboard/JobCard.jsx";
 import { listXIEvaluation,updateInterviewApplication } from "../../service/api.js";
 import { CSVLink } from "react-csv";
@@ -33,17 +33,18 @@ const JobList = () => {
     setsmsOTP(e.target.value);
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     const getData = async () => {
+      console.log("132423t");
       let user = JSON.parse(localStorage.getItem("user"));
       setUser(user);
       let res = await listXIEvaluation(
         { user_id: user._id },
         user.access_token
       );
-      console.log(res)
       if (res && res.data) {
-        setJobs(res.data);
+        console.log(res.data.data);
+        setJobs(res.data.data);
         setLoader(false);
         let arr = [...res.data];
         const jsonObj = JSON.stringify(arr);
@@ -335,7 +336,7 @@ const JobList = () => {
             </p>
             <div className="border-b border-gray-600 flex justify-between my-4 py-4">
               <p className="font-bold text-xs">Posted Jobs</p>
-              <p className="text-gray-400 font-semibold text-xs"> {jobs.length > 0 ? jobs.length : 0}</p>
+              <p className="text-gray-400 font-semibold text-xs">0</p>
             </div>
             <div className="border-b border-gray-600 flex justify-between my-4 py-4">
               <p className="font-bold text-xs">My Learnings</p>

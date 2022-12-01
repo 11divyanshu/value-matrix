@@ -263,6 +263,32 @@ export default function Tabs() {
                       // }}
                     />
                   </div>
+                  <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0 md:flex w-full  space-y-1">
+                    <label className="font-semibold text-lg lg:mx-5 md:w-2/5">
+                      LinkedIn Profile
+                    </label>
+                    <Field
+                      name="linkedinurl"
+                      type="text"
+                      disabled
+                      value={
+                        user.linkedinurl
+                          ? user.linkedinurl
+                          : " "
+                      }
+                      style={{
+                        boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                        borderRadius: "5px",
+                        height: "40px",
+                      }}
+                      className="block border-gray-200 py-1 md:w-4/5 sm:w-4/5 w-full"
+                      // style={{
+                      //                           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
+
+                      //   border: "none",
+                      // }}
+                    />
+                  </div>
                   <div className="md:w-1/2 md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
                     {/* <label className="font-semibold text-lg w-2/5 mx-2">
                                     Work Period{" "}

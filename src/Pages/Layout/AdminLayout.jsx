@@ -10,7 +10,7 @@ import { getUserFromId, getUserIdFromToken } from "../../service/api";
 import jsCookie from "js-cookie";
 import "../../assets/stylesheet/layout.scss"
 import AdminUserProfile from "../AdminDashboard/AdminUserProfile.jsx";
-import JobBinDetails from "../CompanyDashboard/pendingJobDetails.jsx";
+import JobDetails from "../AdminDashboard/JobDetails.jsx";
 
 const AdminDashboard = () => {
   // Component To Render
@@ -109,7 +109,7 @@ console.log(id)
         let c1 = component.split("/");
         console.log(c1);
         if (c1[1] === "AdminUserProfile") setComponent(<AdminUserProfile id={id} />);
-        else if (c1[1] === "jobDetails") setComponent(<JobBinDetails id={id} />);
+        else if (c1[1] === "jobDetails") setComponent(<JobDetails id={id} />);
       else {
         let c = adminDashboardRoutes.filter(
           (route) => route.path === component.split("admin/")[1]

@@ -1,5 +1,5 @@
 import React from "react";
-import { getJobBinById } from "../../service/api";
+import { approveJob, getJobBinById } from "../../service/api";
 import { ReactSession } from "react-client-session";
 import { useParams } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -701,7 +701,37 @@ function JobDetails(props) {
               </div>
             )}
             {user.isAdmin === true && (
-              <div className="my-5 px-3 md:px-9">
+              <>
+                { job.status === "Pending" ? <>
+                  <div className="flex my-5 px-3 w-full justify-center">
+                    <button className="bg-green-500 hover:bg-green-600 text-white font-bold rounded-xl py-2 px-4"
+                      onClick={async () => {
+                        let res1 = await approveJob({
+                          _id: job._id,
+                        });
+                        if (res1) {
+                          swal({
+                            icon: "success",
+                            title: "Job Approved Successfully",
+                            button: "Continue",
+                          }).then(() => {
+                            window.location.reload();
+                          });
+                          //  let res = await unapprovedJobsList();
+
+                          //  if (res && res.data) {
+                          //    setJobs(res.data);
+                          //    console.log(res.data);
+                          //    let arr = [...res.data];
+                          //    const jsonObj = JSON.stringify(arr);
+
+                          // }
+                        }
+                      }}
+                    >Approve Job</button>
+                  </div>
+                </> : <>
+                <div className="my-5 px-3 md:px-9">
                 <div className="flex items-center justify-between">
                   <p className="font-bold text-md">
                     Invitations{" "}
@@ -970,6 +1000,8 @@ function JobDetails(props) {
                 
                
               </div>
+                </>}
+              </>
             )}
             </div>
           </div>

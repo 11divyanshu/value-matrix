@@ -1,12 +1,12 @@
 import React from "react";
-import { getJobById } from "../../service/api";
+import { approveJob, getJobById } from "../../service/api";
 import { ReactSession } from "react-client-session";
 import { useParams } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { AiOutlineCalendar } from "react-icons/ai";
 import { CgWorkAlt } from "react-icons/cg";
 import { Fragment } from "react";
-import { Popover, Transition } from "@headlessui/react";
+import { Popover, Transition, Menu, Dialog } from "@headlessui/react";
 import { HiOutlineCurrencyRupee } from "react-icons/hi";
 import {
   HiOutlineLocationMarker,
@@ -18,8 +18,13 @@ import DOMPurify from "dompurify";
 import { Link, useNavigate } from "react-router-dom";
 import { BsThreeDots, BsCashStack } from "react-icons/bs";
 import Microsoft from "../../assets/images/micro.jpg";
-import { updateJobAPI, getSkills, archiveJob } from "../../service/api";
-
+import { updateJobAPI, getSkills, archiveJob, approveCd } from "../../service/api";
+import { useState } from "react";
+import { ChevronDownIcon } from "@heroicons/react/solid";
+import swal from "sweetalert";
+import { 
+  postUpdateCandidateStatus
+} from "../../service/api";
 function JobDetails(props) {
   const [job_id, setJobId] = React.useState(props.id);
   const [job, setJob] = React.useState(null);
@@ -30,33 +35,37 @@ function JobDetails(props) {
   const [showDeclined, setShowDeclined] = React.useState(false);
   const [invited, setInvited] = React.useState([]);
   const [showInvited, setShowInvited] = React.useState(false);
+  const [index, setIndex] = React.useState(props.index);
+  const [page, setPage] = useState(1);
 
   const [skillsPrimary, setSkillsPrimary] = React.useState([]);
   const [roles, setRoles] = React.useState([]);
 
   const [user, setUser] = React.useState(null);
   const [toggle, setToggle] = React.useState(true);
-
+  const [choosenStatus, setChoosenStatus] = React.useState("");
+  const [choosenId, setChoosenId] = React.useState("");
+  const [loading, setLoading] = React.useState(null);
   React.useEffect(() => {
     const getData = async () => {
       // let access_token = ReactSession.get("access_token");
       let access_token = localStorage.getItem("access_token");
       let user = JSON.parse(await localStorage.getItem("user"));
-
       await setUser(user);
       let res = await getJobById(job_id, access_token);
-      console.log(res.data.job);
+      console.log(res);
       if (res) {
+        console.log(res.data.job)
         setJob(res.data.job);
         let jobDetails = res.data.job;
-        await localStorage.setItem("jobDetails", JSON.stringify(res.data.job));
-        console.log(res.data.job.archived);
-        if (res.data.job.archived) {
-          setToggle(res.data.job.archived);
-        }
-        setCandidates(res.data.applicants);
-        setDeclined(res.data.declined);
-        setInvited(res.data.invited);
+        await localStorage.setItem("jobDetails", JSON.stringify(res.data.job[0]));
+        // if (res.data.job[0].archived) {
+        //   setToggle(res.data.job[0].archived);
+        // }
+        console.log(res.data.applicants);
+        setCandidates(res.data.job.invitations);
+        // setDeclined(res.data.declined);
+        // setInvited(res.data.invited);
         let primarySkills = {};
         let roles = new Set([]);
         res.data.job.skills.forEach((skill) => {
@@ -79,7 +88,7 @@ function JobDetails(props) {
     };
 
     getData();
-  }, [job_id]);
+  }, []);
   const archive = async () => {
     let access_token = localStorage.getItem("access_token");
     let user = JSON.parse(await localStorage.getItem("jobDetails"));
@@ -102,6 +111,71 @@ function JobDetails(props) {
       __html: DOMPurify.sanitize(html),
     };
   };
+
+  const paginate = (p) => {
+    setPage(p);
+    for (var i = 1; i <= candidates.length; i++) {
+      document.getElementById("jobcrd" + i).classList.add("hidden");
+      document.getElementById("invcrd" + i).classList.add("hidden");
+      document.getElementById("invdeccrd" + i).classList.add("hidden");
+    }
+    for (var j = 1; j <= 5; j++) {
+      document
+        .getElementById("jobcrd" + ((p - 1) * 5 + j))
+        .classList.remove("hidden");
+      document
+        .getElementById("invcrd" + ((p - 1) * 5 + j))
+        .classList.remove("hidden");
+      document
+        .getElementById("invdeccrd" + ((p - 1) * 5 + j))
+        .classList.remove("hidden");
+    }
+  };
+  const [chooseStatus, setchooseStatus] = React.useState(null);
+
+  const handleCandidateStatusChange = (id,status) => {
+    console.log(id,status)
+    setChoosenStatus(status);
+    setChoosenId(id);
+  }
+
+  const approveCandidate = async (index)=>{
+    let approve = await approveCd(index, job_id, candidates[index]);
+    if(approve){
+      window.location.reload();
+    }
+  }
+
+  const handleCandidateStatusPost = async () => {
+    let access_token = localStorage.getItem("access_token");
+    let user = JSON.parse(localStorage.getItem("user"));
+    let res = await postUpdateCandidateStatus(
+      {
+        _id: choosenId,
+        status: choosenStatus,
+        isCompany: true
+      },
+      access_token
+    );
+    if(res){
+      swal({
+        title: "Candidate Job Status Updated Successfully !",
+        message: "Success",
+        icon: "success",
+        button: "Continue",
+      }).then((result) => {
+        setLoading(false);
+        window.location.reload();
+      });
+    }else{
+      swal({
+        title: "Error Updating Candidate Job Status !",
+        message: "OOPS! Error Occured",
+        icon: "Error",
+        button: "Ok",
+      });
+    }
+  }
 
   return (
     // <div className="p-5 mx-auto">
@@ -145,11 +219,12 @@ function JobDetails(props) {
     //     </div>
     //   )}
     // </div>
-    <div className="w-full p-5  overflow-hidden" style={{ backgroundColor: "#F2F3F5" }}>
+    <div
+      className="w-full p-5  overflow-hidden"
+      style={{ backgroundColor: "#F2F3F5" }}
+    >
       {job ? (
         <>
-         
-
           <div
             className="card my-5 w-full md:p-5 p-2 bg-white "
             style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px" }}
@@ -363,14 +438,15 @@ function JobDetails(props) {
                 </div>
               )}
             </div>
+            <div className="card-body md:px-7">
             {user._id === job.uploadBy && (
               <div className="my-5 px-3 md:px-9">
                 <div className="flex items-center justify-between">
                   <p className="font-bold text-md">
-                    Applicants{" "}
+                    Invitations{" "}
                     <span className="text-sm">({candidates.length})</span>
                   </p>
-                  {candidates.length > 0 && showCandidate ? (
+                  {/* {candidates.length > 0 && showCandidate ? (
                     <p
                       className="text-sm hover:underline text-blue-500 cursor-pointer"
                       onClick={() => setShowCandidate(false)}
@@ -384,96 +460,222 @@ function JobDetails(props) {
                     >
                       Show
                     </p>
-                  )}
+                  )} */}
                 </div>
 
-                {candidates.length > 0 && showCandidate && (
-                 <div className="overflow-x-auto">
-                  <table className="w-full my-5 ">
-                    <thead className="bg-white border-b text-left">
-                      <tr>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          #
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          First Name
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Email
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Contact
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Status
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          
-                        </th>
-                       
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {candidates.map((user, index) => {
-                        return (
-                          <tr
-                            className={`${
-                              index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                            } border-b`}
+                {candidates.length > 0 && (
+                  <div className="overflow-x-auto">
+                    <table className="w-full my-5 ">
+                      <thead className="bg-white border-b text-left">
+                        <tr>
+                          <th
+                            scope="col"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
-                              {index + 1}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.firstName} {user.lastName}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.email}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.contact}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.status}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                            <p className="text-sm font-semibold py-2">
-                              <Link to={`/company/evaluationDetails/${user._id}`}>
-                                View Details{" "}
-                              </Link>
-                            </p>{" "}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                            #
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            First Name
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            Email
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            Contact
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          >
+                            Status
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                          ></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {candidates.map((user, index) => {
+                          return (
+                            <tr
+                              id={"jobcrd" + (index + 1)}
+                              className={
+                                index < 5 ? "bg-gray-100" : "bg-gray-100 hidden"
+                              }
+                            >
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
+                                {index + 1}
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                <a href="/">{user.FirstName} {user.LastName}</a>
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.Email}
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.Contact}
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.Status}
+                              </td>
+                             
+                             
+                              {/* <td className="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap text-left">
+                                <p className="text-sm font-semibold py-2">
+                                  <Link
+                                    to={`/company/evaluationDetails/${user._id}`}
+                                    // to={`/user/printable`}
+                                  >
+                                    View Details{" "}
+                                  </Link>
+                                </p>{" "}
+                              </td> */}
+                              {/* <td className="text-sm text-blue-700 font-light px-3 py-4 whitespace-nowrap text-left">
+                                <p className="text-sm font-semibold py-2">
+                                  <Link
+                                    to={`/company/CPrintAble/${user._id}`}
+                                    // to={`/company/CPrintable`}
+                                  >
+                                    View Evaluation{" "}
+                                  </Link>
+                                </p>{" "}
+                              </td> */}
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
                   </div>
                 )}
-                <div className="flex items-center justify-between my-5">
+
+                {chooseStatus && (
+                  <Transition
+                    appear
+                    show={chooseStatus}
+                    as={Fragment}
+                    className="relative z-10 w-full "
+                    style={{ zIndex: 1000 }}
+                  >
+                    <Dialog
+                      as="div"
+                      className="relative z-10 w-5/6 "
+                      onClose={() => {}}
+                      static={true}
+                    >
+                      <div
+                        className="fixed inset-0 bg-black/30"
+                        aria-hidden="true"
+                      />
+                      <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                      >
+                        <div className="fixed inset-0 bg-black bg-opacity-25" />
+                      </Transition.Child>
+
+                      <div className="fixed inset-0 overflow-y-auto ">
+                        <div className="flex min-h-full items-center justify-center text-center max-w-4xl mx-auto">
+                          <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0 scale-95"
+                            enterTo="opacity-100 scale-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100 scale-100"
+                            leaveTo="opacity-0 scale-95"
+                          >
+                            <Dialog.Panel className="w-auto pb-5 transform overflow-hidden rounded-2xl bg-white text-left align-middle  transition-all">
+                              <div className="rounded-lg bg-white w-full">
+                                <div className="flex items-start space-x-3 	">
+                                  {/* <AiFillCalendar className="text-4xl text-gray-700" /> */}
+                                  <div className="py-5 w-full bg-blue-900 flex">
+                                    <p className="text-lg mx-5 text-center text-white font-semibold">
+                                      Change Status
+                                    </p>
+                                  </div>
+                                </div>
+
+                                <div className="flex items-start space-x-3 	">
+                                  {/* <AiFillCalendar className="text-4xl text-gray-700" /> */}
+                                  <div className="py-5 w-full flex">
+                                    <p className="text-lg mx-5 text-center text-black font-semibold">
+                                      Do you want to change status
+                                    </p>
+                                  </div>
+                                </div>
+
+                                <div className="w-auto mx-auto flex justify-center">
+                                  <button
+                                    className="text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
+                                    style={{ backgroundColor: "#034488" }}
+                                    onClick={() => {
+                                      handleCandidateStatusPost()
+                                    }}
+                                  >
+                                    Confirm
+                                  </button>
+                                  <button
+                                    className="text-black font-bold py-3 border-black border-2 px-8 mx-1 md:mx-4 text-xs rounded"
+                                    onClick={() => {
+                                      setchooseStatus(false);
+                                    }}
+                                  >
+                                    Decline
+                                  </button>
+                                </div>
+                              </div>
+                            </Dialog.Panel>
+                          </Transition.Child>
+                        </div>
+                      </div>
+                    </Dialog> 
+                  </Transition>
+                )}
+                <div className={candidates.length > 5 ? "w-full" : "hidden"}>
+                  <div className="flex justify-between my-2 mx-1">
+                    <div>
+                      Page {page} of {Math.ceil(candidates.length / 5)}
+                    </div>
+                    <div>
+                      {" "}
+                      {candidates &&
+                        candidates.map((job, index) => {
+                          return index % 5 == 0 ? (
+                            <span
+                              className="mx-2"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                paginate(index / 5 + 1);
+                              }}
+                            >
+                              {index / 5 + 1}
+                            </span>
+                          ) : null;
+                        })}
+                    </div>
+                  </div>
+                </div>
+                {/* <div className="flex items-center justify-between my-5">
                   <p className="font-bold text-md">
                     Invitations
                     <span className="text-sm"> ({invited.length})</span>
                   </p>
-                  {invited.length > 0 && showInvited ? (
+                  {/* {invited.length > 0 && showInvited ? (
                     <p
                       className="text-sm hover:underline text-blue-500 cursor-pointer"
                       onClick={() => setShowInvited(false)}
@@ -487,164 +689,322 @@ function JobDetails(props) {
                     >
                       Show
                     </p>
-                  )}
-                </div>
+                  )} 
+                </div> */}
 
-                {invited.length > 0 && showInvited && (
-                <div className="overflow-x-auto">
+                
 
-                  <table className="w-full my-3">
-                    <thead className="bg-white border-b text-left">
-                      <tr>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          #
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          First Name
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Email
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Contact
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Status
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {invited.map((user, index) => {
-                        return (
-                          <tr
-                            className={`${
-                              index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                            } border-b`}
-                          >
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
-                              {index + 1}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.firstName} {user.lastName}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.email}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.contact}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {candidates.includes(user)
-                                ? "Accepted"
-                                : declined.includes(user)
-                                ? "Declined"
-                                : "Waiting"}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+               
+
+              
+                
+               
+              </div>
+            )}
+            {user.isAdmin === true && (
+              <>
+                { job.status === "Pending" ? <>
+                  <div className="flex my-5 px-3 w-full justify-center">
+                    <button className="bg-green-500 hover:bg-green-600 text-white font-bold rounded-xl py-2 px-4"
+                      onClick={async () => {
+                        let res1 = await approveJob({
+                          _id: job._id,
+                        });
+                        if (res1) {
+                          swal({
+                            icon: "success",
+                            title: "Job Approved Successfully",
+                            button: "Continue",
+                          }).then(() => {
+                            window.location.reload();
+                          });
+                          //  let res = await unapprovedJobsList();
+
+                          //  if (res && res.data) {
+                          //    setJobs(res.data);
+                          //    console.log(res.data);
+                          //    let arr = [...res.data];
+                          //    const jsonObj = JSON.stringify(arr);
+
+                          // }
+                        }
+                      }}
+                    >Approve Job</button>
                   </div>
-                )}
-                <div className="flex items-center justify-between my-3">
+                </> : <>
+                <div className="my-5 px-3 md:px-9">
+                <div className="flex items-center justify-between">
                   <p className="font-bold text-md">
-                    Invitations Declined
-                    <span className="text-sm"> ({declined.length})</span>
+                    Invitations{" "}
+                    <span className="text-sm">({candidates.length})</span>
                   </p>
-                  {declined.length > 0 && showDeclined ? (
+                  {/* {candidates.length > 0 && showCandidate ? (
                     <p
                       className="text-sm hover:underline text-blue-500 cursor-pointer"
-                      onClick={() => setShowDeclined(false)}
+                      onClick={() => setShowCandidate(false)}
                     >
                       Hide
                     </p>
                   ) : (
                     <p
                       className="text-sm hover:underline text-blue-500 cursor-pointer"
-                      onClick={() => setShowDeclined(true)}
+                      onClick={() => setShowCandidate(true)}
                     >
                       Show
                     </p>
-                  )}
+                  )} */}
                 </div>
 
-                {declined.length > 0 && showDeclined && (
-                                   <div className="overflow-x-auto">
-
-                  <table className="w-full my-3">
-                    <thead className="bg-white border-b text-left">
-                      <tr>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          #
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          First Name
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Email
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                          Contact
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {declined.map((user, index) => {
-                        return (
-                          <tr
-                            className={`${
-                              index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                            } border-b`}
+                {candidates.length > 0 && (
+                  <div className="overflow-x-auto">
+                    <table className="w-full my-5 ">
+                      <thead className="bg-white border-b text-left">
+                        <tr className="font-bold">
+                          <th
+                            scope="col"
+                            className="text-sm text-gray-900 px-6 py-4 text-left"
                           >
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
-                              {index + 1}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.firstName} {user.lastName}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.email}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                              {user.contact}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                            #
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm text-gray-900 px-6 py-4 text-left"
+                          >
+                            First Name
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm text-gray-900 px-6 py-4 text-left"
+                          >
+                            Email
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm text-gray-900 px-6 py-4 text-left"
+                          >
+                            Contact
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm text-gray-900 px-6 py-4 text-left"
+                          >
+                            Status
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-sm text-gray-900 px-6 py-4 text-left"
+                          >
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {candidates.map((user, index) => {
+                          return (
+                            <tr
+                              id={"jobcrd" + (index + 1)}
+                              className={
+                                index < 5 ? "bg-gray-100" : "bg-gray-100 hidden"
+                              }
+                            >
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
+                                {index + 1}
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.Uid ? <><a href={"/admin/AdminUserProfile/"+user.Uid}>{user.FirstName} {user.LastName}</a></> : <>{user.FirstName} {user.LastName}</> }
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.Email}
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {user.Contact}
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {!user.Uid ? <>Pending Invitation</> : <>{user.Status}</>}
+                              </td>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {!user.Uid ? <button className="text-white font-bold bg-sky-500 rounded-xl px-4 py-2" onClick={()=>{
+                                  approveCandidate(index);
+                                }} >Invite</button> : <button className="text-white font-bold bg-green-500 rounded-xl px-4 py-2" onClick={()=>{
+                                  approveCandidate(index);
+                                }}>Approve</button>}
+                              </td>
+                             
+                             
+                              {/* <td className="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap text-left">
+                                <p className="text-sm font-semibold py-2">
+                                  <Link
+                                    to={`/company/evaluationDetails/${user._id}`}
+                                    // to={`/user/printable`}
+                                  >
+                                    View Details{" "}
+                                  </Link>
+                                </p>{" "}
+                              </td> */}
+                              {/* <td className="text-sm text-blue-700 font-light px-3 py-4 whitespace-nowrap text-left">
+                                <p className="text-sm font-semibold py-2">
+                                  <Link
+                                    to={`/company/CPrintAble/${user._id}`}
+                                    // to={`/company/CPrintable`}
+                                  >
+                                    View Evaluation{" "}
+                                  </Link>
+                                </p>{" "}
+                              </td> */}
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
                   </div>
                 )}
+
+                {chooseStatus && (
+                  <Transition
+                    appear
+                    show={chooseStatus}
+                    as={Fragment}
+                    className="relative z-10 w-full "
+                    style={{ zIndex: 1000 }}
+                  >
+                    <Dialog
+                      as="div"
+                      className="relative z-10 w-5/6 "
+                      onClose={() => {}}
+                      static={true}
+                    >
+                      <div
+                        className="fixed inset-0 bg-black/30"
+                        aria-hidden="true"
+                      />
+                      <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                      >
+                        <div className="fixed inset-0 bg-black bg-opacity-25" />
+                      </Transition.Child>
+
+                      <div className="fixed inset-0 overflow-y-auto ">
+                        <div className="flex min-h-full items-center justify-center text-center max-w-4xl mx-auto">
+                          <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0 scale-95"
+                            enterTo="opacity-100 scale-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100 scale-100"
+                            leaveTo="opacity-0 scale-95"
+                          >
+                            <Dialog.Panel className="w-auto pb-5 transform overflow-hidden rounded-2xl bg-white text-left align-middle  transition-all">
+                              <div className="rounded-lg bg-white w-full">
+                                <div className="flex items-start space-x-3 	">
+                                  {/* <AiFillCalendar className="text-4xl text-gray-700" /> */}
+                                  <div className="py-5 w-full bg-blue-900 flex">
+                                    <p className="text-lg mx-5 text-center text-white font-semibold">
+                                      Change Status
+                                    </p>
+                                  </div>
+                                </div>
+
+                                <div className="flex items-start space-x-3 	">
+                                  {/* <AiFillCalendar className="text-4xl text-gray-700" /> */}
+                                  <div className="py-5 w-full flex">
+                                    <p className="text-lg mx-5 text-center text-black font-semibold">
+                                      Do you want to change status
+                                    </p>
+                                  </div>
+                                </div>
+
+                                <div className="w-auto mx-auto flex justify-center">
+                                  <button
+                                    className="text-white font-bold py-3 px-8 mx-1 md:mx-4 text-xs rounded"
+                                    style={{ backgroundColor: "#034488" }}
+                                    onClick={() => {
+                                      handleCandidateStatusPost()
+                                    }}
+                                  >
+                                    Confirm
+                                  </button>
+                                  <button
+                                    className="text-black font-bold py-3 border-black border-2 px-8 mx-1 md:mx-4 text-xs rounded"
+                                    onClick={() => {
+                                      setchooseStatus(false);
+                                    }}
+                                  >
+                                    Decline
+                                  </button>
+                                </div>
+                              </div>
+                            </Dialog.Panel>
+                          </Transition.Child>
+                        </div>
+                      </div>
+                    </Dialog> 
+                  </Transition>
+                )}
+                <div className={candidates.length > 5 ? "w-full" : "hidden"}>
+                  <div className="flex justify-between my-2 mx-1">
+                    <div>
+                      Page {page} of {Math.ceil(candidates.length / 5)}
+                    </div>
+                    <div>
+                      {" "}
+                      {candidates &&
+                        candidates.map((job, index) => {
+                          return index % 5 == 0 ? (
+                            <span
+                              className="mx-2"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                paginate(index / 5 + 1);
+                              }}
+                            >
+                              {index / 5 + 1}
+                            </span>
+                          ) : null;
+                        })}
+                    </div>
+                  </div>
+                </div>
+                {/* <div className="flex items-center justify-between my-5">
+                  <p className="font-bold text-md">
+                    Invitations
+                    <span className="text-sm"> ({invited.length})</span>
+                  </p>
+                  {/* {invited.length > 0 && showInvited ? (
+                    <p
+                      className="text-sm hover:underline text-blue-500 cursor-pointer"
+                      onClick={() => setShowInvited(false)}
+                    >
+                      Hide
+                    </p>
+                  ) : (
+                    <p
+                      className="text-sm hover:underline text-blue-500 cursor-pointer"
+                      onClick={() => setShowInvited(true)}
+                    >
+                      Show
+                    </p>
+                  )} 
+                </div> */}
+
+                
+
+               
+
+              
+                
+               
               </div>
+                </>}
+              </>
             )}
+            </div>
           </div>
         </>
       ) : (

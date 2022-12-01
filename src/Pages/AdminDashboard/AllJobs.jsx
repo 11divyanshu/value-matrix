@@ -25,6 +25,7 @@ const JobList = () => {
   const [jobs, setJobs] = React.useState([]);
   const [loader, setLoader] = React.useState(false);
   const [user, setUser] = React.useState(null);
+  const [page, setPage] = React.useState(1);
 
   React.useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"));
@@ -101,6 +102,18 @@ const JobList = () => {
     }
   };
 
+  const paginate = (p) => {
+    setPage(p);
+    for (var i = 1; i <= jobs.length; i++) {
+      document.getElementById("crd" + i).classList.add("hidden");
+    }
+    for (var j = 1; j <= 5; j++) {
+      document
+        .getElementById("crd" + ((p - 1) * 5 + j))
+        .classList.remove("hidden");
+    }
+  };
+
   return (
     <div className="bg-slate-100">
       <div className="flex mx-5" style={{ justifyContent: "space-between" }}>
@@ -143,13 +156,17 @@ const JobList = () => {
 
               <div className="w-full">
                 {jobs &&
-                  jobs.map((job) => {
+                  jobs.map((job, index) => {
                     return (
-                      <div className="w-full px-5 bg-white py-1 border border-b">
+                      <div id={"crd" + (index + 1)} className={`w-full px-5 bg-white py-1 border border-b ${index < 5 ? "" : "hidden"}`}>
                         <div className="grid grid-cols-1 gap-4 lg:grid-cols-8 sm:grid-cols-4 my-3">
                           <div className="col-span-2">
                             <h5 className="text-black-900 text-md font-bold mb-1 ">
-                              {job.jobTitle}
+                              <Link
+                                to={`/admin/jobDetails/${job._id}`}
+                              >
+                                {job.jobTitle}
+                              </Link>
                             </h5>
                             <p className="text-sm font-bold  text-gray-400 font-semibold">
                               {job.hiringOrganization}
@@ -330,6 +347,34 @@ const JobList = () => {
               </div>
             </>
           )}
+          {(Math.ceil(jobs.length / 5)!=0)?
+          <div className="w-full">
+            <div className="flex justify-between my-2 mx-1">
+              <div>
+                Page {page} of {Math.ceil(jobs.length / 5)}
+              </div>
+              <div>
+                {" "}
+                {jobs &&
+                  jobs.map((slot, index) => {
+                    return index % 5 == 0 ? (
+                      <span
+                        className={`mx-2 ${
+                          page == index / 5 + 1 ? "page_active" : ""
+                        }`}
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          paginate(index / 5 + 1);
+                        }}
+                      >
+                        {index / 5 + 1}
+                      </span>
+                    ) : null;
+                  })}
+              </div>
+            </div>
+          </div>
+          :null}
         </div>
 
         <div className="md:w-1/4">

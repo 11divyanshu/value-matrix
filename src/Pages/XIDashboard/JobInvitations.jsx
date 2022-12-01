@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   availableSlots,
   bookSlot,
@@ -69,7 +69,7 @@ const JobInvitations = (props) => {
     setsmsOTP(e.target.value);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const initial = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       let user1 = await getUserFromId({ id: user._id }, user.access_token);
@@ -829,7 +829,7 @@ const JobInvitations = (props) => {
             </div>
           )}
           <div className="w-full">
-            {JobInvitation && JobInvitation.length === 0 && user.status != "Forwarded" && (
+            {JobInvitation && JobInvitation.length === 0 && (
               <p className="text-center font-semibold my-5">
                 No Interviews Invitations
               </p>
