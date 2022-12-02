@@ -141,7 +141,7 @@ function JobDetails(props) {
   const approveCandidate = async (index)=>{
     let approve = await approveCd(index, job_id, candidates[index]);
     if(approve){
-      window.location.reload();
+      window.location.href= "/admin/alljobs";
     }
   }
 

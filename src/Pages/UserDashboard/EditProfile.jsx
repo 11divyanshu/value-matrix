@@ -18,6 +18,7 @@ import Avatar from "../../assets/images/UserAvatar.png";
 import "react-image-crop/dist/ReactCrop.css";
 import EditTabs from "../../Components/Dashbaord/EditTabs";
 import Loader from "../../assets/images/loader.gif";
+import swal from "sweetalert";
 
 const EditProfile = () => {
   // Sets OTPs to NULL
@@ -36,54 +37,37 @@ const EditProfile = () => {
     setLoading(true);
     setError(null);
     if (e.target && e.target.files) {
-      let user = JSON.parse(await localStorage.getItem("user"));
-      let access_token = await localStorage.getItem("access_token");
-      console.log(user, " ", access_token);
-      let fd = new FormData();
-      fd.append("user_id", user._id);
-      fd.append("file", e.target.files[0]);
-
-      let response = await uploadCandidateResume(fd, access_token);
-      if (response && response.status === 200) {
-        console.log(response);
-        localStorage.setItem("resumeInfo" , JSON.stringify(response.data));
-        
-        await setFile(e.target.files[0]);
-        setFileName(e.target.files[0].name);
-        setLoading(false);
-        window.location.reload(false)
-      } else {
-        let res = await localStorage.getItem("candidateDetails");
-        res = JSON.parse(res);
-        res.resume = e.target.files[0].name;
-        await localStorage.setItem("candidateDetails", JSON.stringify(res));      }
-
-      // Resume Parser
-      // var fileReader = new FileReader();
-      // var base64;
-      // // Onload of file read the file content
-      // let base64String = "";
-      // fileReader.onload = async function (fileLoadedEvent) {
-      //   var modifiedDate = (new Date(fileLoadedEvent.lastModified)).toISOString().substring(0, 10);
-      //   // base64 = Base64.encodeArray(fileLoadedEvent.target.result);
-      //   base64 = fileLoadedEvent.target.result;
-      //   base64String = base64;
-        // let resumeResponse = await sovrenResumeParser({
-        //   DocumentAsBase64String: base64,
-        //   SkillsSettings: {
-        //     Normalize: false,
-        //     TaxonomyVersion: "",
-        //   },
-        //   ProfessionsSettings: {
-        //     Normalize: false,
-        //   },
-        //   DocumentLastModified : modifiedDate,
-        // });
-        // console.log(resumeResponse);
-      // };
-      // await fileReader.readAsDataURL(e.target.files[0]);
-      // setLoading(false);
-      // e.target.files = null;
+      let filename = e.target.files[0].name.split('.').pop();
+      if(filename === "pdf" || filename === "docx"){
+        let user = JSON.parse(await localStorage.getItem("user"));
+        let access_token = await localStorage.getItem("access_token");
+        console.log(user, " ", access_token);
+        let fd = new FormData();
+        fd.append("user_id", user._id);
+        fd.append("file", e.target.files[0]);
+  
+        let response = await uploadCandidateResume(fd, access_token);
+        if (response && response.status === 200) {
+          console.log(response);
+          localStorage.setItem("resumeInfo" , JSON.stringify(response.data));
+          
+          await setFile(e.target.files[0]);
+          setFileName(e.target.files[0].name);
+          setLoading(false);
+          window.location.reload(false)
+        } else {
+          let res = await localStorage.getItem("candidateDetails");
+          res = JSON.parse(res);
+          res.resume = e.target.files[0].name;
+          await localStorage.setItem("candidateDetails", JSON.stringify(res));
+        }
+      }else{
+        swal({
+          icon:"error",
+          title: "Only PDF and DOCX files allowed",
+          button: "Ok",
+        });
+      }
     }
   };
   React.useEffect(() => {

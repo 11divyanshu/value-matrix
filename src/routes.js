@@ -205,7 +205,7 @@ export const dashboardRoutes = [
     permission: "default",
   },
   {
-    name: "All Transcation",
+    name: "Transactions",
     icon: <AiOutlineUser className="text-xl" />,
     path: "AllTranscation",
     component: <AllTranscation />,
@@ -299,7 +299,7 @@ export const adminDashboardRoutes = [
     permission: "list_companies",
   },
   {
-    name: "All Transcation",
+    name: "Transactions",
     path: "/AdminAllTranscation",
     hide: false,
     component: <AdminAllTranscation />,

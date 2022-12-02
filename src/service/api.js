@@ -6,7 +6,7 @@ export const url = "http://localhost:8000";
 // export const url = "https://backend.babyhost.in"
 export const frontendUrl = "http://localhost:3001";
 export const flaskurl = "http://3.110.220.19:5000";
-export const psyurl = "http://ec2-34-235-151-0.compute-1.amazonaws.com:9027/psychometric/candidate";
+export const psyurl = "http://3.84.200.126:9027/psychometric/candidate";
 
 // User Method API
 export const authenticateLogin = async (user) => {
@@ -1818,6 +1818,14 @@ export const createTaskScheduler = async (data) => {
 export const getpsykey = async (data) => {
   try{
      return await axios.post(`${psyurl}?linkedInProfileUrl=${data}`) 
+  }catch(err){
+    console.log("Error : " + err);
+  }
+}
+
+export const getUserStats = async (id) => {
+  try{
+     return await axios.post(`${url}/getUserStats`,{id})
   }catch(err){
     console.log("Error : " + err);
   }

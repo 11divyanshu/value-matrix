@@ -11,6 +11,7 @@ import jsCookie from "js-cookie";
 import "../../assets/stylesheet/layout.scss"
 import AdminUserProfile from "../AdminDashboard/AdminUserProfile.jsx";
 import JobDetails from "../AdminDashboard/JobDetails.jsx";
+import PendingJobDetails from "../CompanyDashboard/pendingJobDetails.jsx";
 
 const AdminDashboard = () => {
   // Component To Render
@@ -110,6 +111,7 @@ console.log(id)
         console.log(c1);
         if (c1[1] === "AdminUserProfile") setComponent(<AdminUserProfile id={id} />);
         else if (c1[1] === "jobDetails") setComponent(<JobDetails id={id} />);
+        else if (c1[1] === "pendingJobDetails") setComponent(<PendingJobDetails id={id} />);
       else {
         let c = adminDashboardRoutes.filter(
           (route) => route.path === component.split("admin/")[1]

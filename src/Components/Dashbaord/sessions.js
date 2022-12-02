@@ -29,7 +29,7 @@ const SessionCard = () => {
         <AiFillCalendar className="text-4xl text-gray-700" />
         <div className='py-1'>
           <p className="text-lg text-center font-semibold">
-            Available Sessions
+            Available Slots
           </p>
         </div>
       </div>

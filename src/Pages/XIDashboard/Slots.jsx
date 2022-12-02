@@ -468,6 +468,15 @@ const JobList = () => {
           }
         }
       }
+    }else{
+      for(let l=0; l<interviewslots.length; l++){
+        console.log(interviewslots[l]);
+        checkedslots.push({
+          startTime: interviewslots[l].starttime,
+          endTime: interviewslots[l].endtime,
+          action: "create",
+        });
+      }
     }
     let newupdater = await newslotupdater(user._id, checkedslots, slotdate);
     if(newupdater.status === 200){

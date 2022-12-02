@@ -830,25 +830,32 @@ export default function Tabs(props) {
       user.houseNo = values.houseNo;
       user.street = values.street;
       user.linkedinurl = values.linkedinurl;
-      let getpsyky = await getpsykey(values.linkedinurl);
-      console.log(getpsyky);
-      user.linkedinurlkey = getpsyky.data;
-      user.city = city;
-      user.country = values.country;
-      user.state = values.state;
-      user.zip = values.zip;
-      user.contact = values.contact;
-      user.secondaryContacts = secContact;
-      user.secondaryEmails = secEmail;
-      user.resume = resume;
-      setUser(user);
-      localStorage.setItem("user", JSON.stringify(user));
-      swal({
-        icon: "success",
-        title: "EditProfile",
-        text: "Details Saved",
-        button: "Continue",
-      });
+      if(values.linkedinurl){
+        let getpsyky = await getpsykey(values.linkedinurl);
+        user.linkedinurlkey = getpsyky.data;
+        user.city = city;
+        user.country = values.country;
+        user.state = values.state;
+        user.zip = values.zip;
+        user.contact = values.contact;
+        user.secondaryContacts = secContact;
+        user.secondaryEmails = secEmail;
+        user.resume = resume;
+        setUser(user);
+        localStorage.setItem("user", JSON.stringify(user));
+        swal({
+          icon: "success",
+          title: "EditProfile",
+          text: "Details Saved",
+          button: "Continue",
+        });
+      }else{
+        swal({
+          icon: "error",
+          title: "Enter Linkedin URL to Continue",
+          button: "Ok",
+        });
+      }
     }
 
     // if (values.about) {
@@ -1262,21 +1269,61 @@ export default function Tabs(props) {
                       Linkedin Profile
                     </label>
                     <div className="w-full">
-                      <Field
-                        type="text"
-                        name="linkedinurl"
-                        placeholder="Example:- https://linkedin.com/in/vanity_name"
-                        style={{
-                          boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
-                          borderRadius: "5px",
-                        }}
-                        className="block border-gray-200 py-1 w-full"
-                      />
-                      <ErrorMessage
-                        name="firstName"
-                        component="div"
-                        className="text-sm text-red-600"
-                      />
+                      <div className="flex">
+                        <div className="w-full pr-2">
+                          <Field
+                            type="text"
+                            name="linkedinurl"
+                            placeholder="Example:- https://linkedin.com/in/vanity_name"
+                            style={{
+                              boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                              borderRadius: "5px",
+                            }}
+                            className="block border-gray-200 py-1 w-full"
+                          />
+                          <ErrorMessage
+                            name="firstName"
+                            component="div"
+                            className="text-sm text-red-600"
+                          />
+                        </div>
+                        <div>
+                          {user && !user.linkedInId ? (
+                            <div className="w-full flex items-center ">
+                              <a href={`${url}/auth/linkedin`}>
+                                {/* <button className=" color-white py-2 px-8 flex rounded-lg"
+                                  style={{ backgroundColor: "#034488" }}
+                                > */}
+                                {/* <img
+                                    src={Linkedin}
+                                    className="h-5 ml-1"
+                                    alt="socialauthLinkedIn"
+                                  /> */}
+                                <div
+                                  className="flex rounded-lg shadow-md px-8 py-2"
+                                  style={{ backgroundColor: "#034488" }}
+                                >
+                                  <p
+                                    className="text-sm py-1"
+                                    style={{ color: "#fff" }}
+                                  >
+                                    <BsLinkedin />
+                                  </p>
+
+                                  <p className="text-white font-semibold text-sm mx-2">
+                                    Authenticate
+                                  </p>
+                                </div>
+                                {/* </button> */}
+                              </a>
+                            </div>
+                          ) : (
+                            <p className="w-full flex items-center text-green-600 font-semibold">
+                              Connected
+                            </p>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
@@ -1691,48 +1738,6 @@ export default function Tabs(props) {
                         })}
                     </div>
                   </div>
-
-                  <div className="md:mx-2 my-1 sm:mx-0  md:flex w-full  space-y-1">
-                    <label className="font-semibold text-lg md:w-2/5 mx-2">
-                      Connect Social Account
-                      {/* <p className="text-sm mx-2 text-gray-500">Connect Account Associated With Provided Email Address Only !</p> */}
-                    </label>
-                    {user && !user.linkedInId ? (
-                      <div className="w-full flex items-center ">
-                        <a href={`${url}/auth/linkedin`}>
-                          {/* <button className=" color-white py-2 px-8 flex rounded-lg"
-                            style={{ backgroundColor: "#034488" }}
-                          > */}
-                          {/* <img
-                              src={Linkedin}
-                              className="h-5 ml-1"
-                              alt="socialauthLinkedIn"
-                            /> */}
-                          <div
-                            className="flex rounded-lg shadow-md px-8 py-2"
-                            style={{ backgroundColor: "#034488" }}
-                          >
-                            <p
-                              className="text-lg py-1"
-                              style={{ color: "#fff" }}
-                            >
-                              <BsLinkedin />
-                            </p>
-
-                            <p className="text-white font-semibold mx-2">
-                              LinkedIn
-                            </p>
-                          </div>
-                          {/* </button> */}
-                        </a>
-                      </div>
-                    ) : (
-                      <p className="w-full flex items-center text-green-600 font-semibold">
-                        Connected
-                      </p>
-                    )}
-                    {Error && <p className="text-sm text-red-500">{Error}</p>}
-                  </div>
                 </div>
 
                 <div className="w-full text-center">
@@ -1741,7 +1746,7 @@ export default function Tabs(props) {
                     style={{ backgroundColor: "#034488" }}
                     type="submit"
                   >
-                    Save
+                    Save Contact
                   </button>
 
                   <button

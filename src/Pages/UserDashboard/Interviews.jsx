@@ -108,7 +108,7 @@ const JobList = (props) => {
                                 Interview with
                                 <span className="font-semibold">
                                   {" "}
-                                  {job.XI[0].firstName} {job.XI[0].lastname}
+                                  {job.XI[0]._id}
                                 </span>
                               </p>
                               <p>
@@ -228,7 +228,7 @@ const JobList = (props) => {
                                 Interview with
                                 <span className="font-semibold">
                                   {" "}
-                                  {job.XI[0].firstName} {job.XI[0].lastname}
+                                  {job.XI[0]._id}
                                 </span>
                               </p>
                               <p>
