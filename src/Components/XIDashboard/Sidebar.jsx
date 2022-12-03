@@ -230,9 +230,9 @@ const Sidebar = () => {
           </Menu>
         </SidebarContent>
         <div className="mx-4 my-24">
-          <div className="flex m-2 cursor-pointer">
+          {/* <div className="flex m-2 cursor-pointer">
           <a href="/XI/profile" className='text-gray-700 mx-4 py-2 font-semibold'><FiSettings/> </a><a href="/XI/profile" className='text-gray-700  font-semibold py-1'>Settings</a>
-          </div>
+          </div> */}
           <div className="flex m-2 cursor-pointer" onClick={Logout}>
             <p className="text-gray-700 mx-4 py-2 font-semibold">
               <MdOutlineLogout />{" "}

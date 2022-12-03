@@ -101,7 +101,7 @@ const HorizontalNav = (props) => {
 
       <div className="space-x-8   ml-auto flex mr-8 items-center">
 
-        <IoIosHelpCircleOutline className="text-gray-700 text-xl cursor-pointer hover:text-gray-800" />
+        {/* <a href="#" target="_window"><IoIosHelpCircleOutline className="text-gray-700 text-xl cursor-pointer hover:text-gray-800" /></a> */}
         <NotificationPopOver />
         <Popover className="relative">
           {({ open }) => (

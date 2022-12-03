@@ -20,6 +20,10 @@ const JobList = () => {
   const [jobs, setJobs] = React.useState([]);
   const [loader, setLoader] = React.useState(true);
 
+  const [interviewed, setinterviewed] = React.useState(0);
+  const [accepted, setaccepted] = React.useState(0);
+  const [pending, setpending] = React.useState(0);
+
   const [user, setUser] = React.useState(null);
   const [sendOTP, setsendOTP] = React.useState(null);
   const [otpModal, setotpModal] = React.useState(null);
@@ -43,14 +47,33 @@ const JobList = () => {
         user.access_token
       );
       if (res && res.data) {
-        console.log(res.data.data);
-        setJobs(res.data.data);
+        console.log(res.data);
+        setJobs(res.data);
         setLoader(false);
         let arr = [...res.data];
         const jsonObj = JSON.stringify(arr);
 
         // save to localStorage
         localStorage.setItem("jobsdetails", jsonObj);
+
+        let interviewedval = 0;
+        let acceptedval = 0;
+        let pendingval = 0;
+
+        for(let i=0; i<res.data.length; i++){
+          if(res.data[i].status == "Interviewed"){
+            interviewedval += 1;
+          }
+          if(res.data[i].status == "Accepted"){
+            acceptedval += 1;
+          }
+          if(res.data[i].status == "Pending"){
+            pendingval += 1;
+          }
+        }
+        setinterviewed(interviewedval);
+        setaccepted(acceptedval);
+        setpending(pendingval);
       }
     };
     getData();
@@ -335,20 +358,20 @@ const JobList = () => {
               <p className=" mx-2  text-sm ">My Items</p>
             </p>
             <div className="border-b border-gray-600 flex justify-between my-4 py-4">
-              <p className="font-bold text-xs">Posted Jobs</p>
-              <p className="text-gray-400 font-semibold text-xs">0</p>
+              <p className="font-bold text-xs">Interviewed</p>
+              <p className="text-gray-400 font-semibold text-xs">{ interviewed }</p>
             </div>
             <div className="border-b border-gray-600 flex justify-between my-4 py-4">
-              <p className="font-bold text-xs">My Learnings</p>
-              <p className="text-gray-400 font-semibold text-xs">06</p>
+              <p className="font-bold text-xs">Accepted</p>
+              <p className="text-gray-400 font-semibold text-xs">{ accepted }</p>
             </div>
             <div className=" border-gray-600 flex justify-between mt-4 pt-4">
-              <p className="font-bold text-xs">Save Posts</p>
-              <p className="text-gray-400 font-semibold text-xs">01</p>
+              <p className="font-bold text-xs">Pending</p>
+              <p className="text-gray-400 font-semibold text-xs">{ pending }</p>
             </div>
           </div>
 
-          <SupportTable/>
+          {/* <SupportTable/> */}
         </div>
       </div>
     </div>

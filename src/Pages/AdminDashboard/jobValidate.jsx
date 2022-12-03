@@ -163,7 +163,7 @@ const JobList = () => {
                         <div className="grid grid-cols-1 gap-4 lg:grid-cols-8 sm:grid-cols-4 my-3">
                           <div className="col-span-2">
                             <h5 className="text-black-900 text-md font-bold mb-1 ">
-                              <a href={`/admin/jobDetails/${job._id}`}>{job.jobTitle}</a>
+                              <a href={`/admin/pendingJobDetails/${job._id}`}>{job.jobTitle}</a>
                             </h5>
                             <p className="text-sm font-bold  text-gray-400 font-semibold">
                               {job.hiringOrganization}
@@ -272,7 +272,7 @@ const JobList = () => {
                                               {/* <BsThreeDots className="text-md" /> */}
                                               <p className="text-sm font-semibold py-2">
                                                 <Link
-                                                  to={`/admin/jobDetails/${job._id}`}
+                                                  to={`/admin/pendingJobDetails/${job._id}`}
                                                 >
                                                   View Details{" "}
                                                 </Link>

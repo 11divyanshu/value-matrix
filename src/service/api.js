@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// export const url = "http://localhost:8000";
-export const url = "https://dev.serve.valuematrix.ai";
+export const url = "http://localhost:8000";
+// export const url = "https://dev.serve.valuematrix.ai";
 // export const url = "http://3.6.65.3:8000"
 // export const url = "https://backend.babyhost.in"
 export const frontendUrl = "http://localhost:3001";

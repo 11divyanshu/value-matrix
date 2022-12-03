@@ -738,7 +738,7 @@ const Panel = () => {
                 </div>
               </div>
                 {interviews.length === 0 ? <>
-                  <h5>No Interviews Found</h5>
+                  <h5 className="px-8">No Interviews Found</h5>
                 </>:<>
                   {interviews.map((interview, index)=>{
                     if(interview.status === "Accepted" && index<=5){

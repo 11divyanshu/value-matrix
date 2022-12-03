@@ -19,6 +19,11 @@ const JobList = () => {
   const [user, setUser] = React.useState(null);
   const [page, setPage] = useState(1);
 
+  const [activejb, setactivejb] = useState(0);
+  const [notacceptingjb, setnotacceptingjb] = useState(0);
+  const [closedjb, setclosedjb] = useState(0);
+  const [archivedjb, setarchivedjb] = useState(0);
+
   React.useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"));
     setUser(user);
@@ -61,6 +66,28 @@ const JobList = () => {
         // save to localStorage
         localStorage.setItem("jobsdetails", jsonObj);
       }
+      let setactive = 0;
+      let setnotaccepting = 0;
+      let setclosed = 0;
+      let setarchived = 0;
+      for(let i=0; i<res.data.jobs.length; i++){
+        if(res.data.jobs[i].status === "Active"){
+          setactive += 1;
+        }
+        if(res.data.jobs[i].status === "Not Accepting"){
+          setnotaccepting += 1;
+        }
+        if(res.data.jobs[i].status === "Closed"){
+          setclosed += 1;
+        }
+        if(res.data.jobs[i].status === "Archived"){
+          setarchived += 1;
+        }
+      }
+      setactivejb(setactive);
+      setnotacceptingjb(setnotaccepting);
+      setclosedjb(setclosed);
+      setarchivedjb(setarchived);
     };
     getData();
   }, []);
@@ -265,25 +292,27 @@ const JobList = () => {
               <p className="p-1">
                 <BsFillBookmarkFill />
               </p>
-              <p className=" mx-2  text-sm ">My Items</p>
+              <p className=" mx-2  text-sm ">Posted Jobs</p>
             </p>
             <div className="border-b border-gray-600 flex justify-between my-4 py-4">
-              <p className="font-bold text-xs">Posted Jobs</p>
-              <p className="text-gray-400 font-semibold text-xs">
-                {jobs.length > 0 ? jobs.length : 0}
-              </p>
+              <p className="font-bold text-xs">Active</p>
+              <p className="text-gray-400 font-semibold text-xs">{ activejb }</p>
             </div>
             <div className="border-b border-gray-600 flex justify-between my-4 py-4">
-              <p className="font-bold text-xs">My Learnings</p>
-              <p className="text-gray-400 font-semibold text-xs">06</p>
+              <p className="font-bold text-xs">Not Accepting</p>
+              <p className="text-gray-400 font-semibold text-xs">{ notacceptingjb }</p>
+            </div>
+            <div className="border-b border-gray-600 flex justify-between mt-4 py-4">
+              <p className="font-bold text-xs">Closed</p>
+              <p className="text-gray-400 font-semibold text-xs">{ closedjb }</p>
             </div>
             <div className=" border-gray-600 flex justify-between mt-4 pt-4">
-              <p className="font-bold text-xs">Save Posts</p>
-              <p className="text-gray-400 font-semibold text-xs">01</p>
+              <p className="font-bold text-xs">Archived</p>
+              <p className="text-gray-400 font-semibold text-xs">{ archivedjb }</p>
             </div>
           </div>
 
-          <SupportTable/>
+          {/* <SupportTable/> */}
         </div>
       </div>
     </div>

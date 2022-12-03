@@ -102,8 +102,8 @@ const Navbar = (props) => {
       <div className="space-x-8   ml-auto flex mr-8 items-center" style={{zIndex:9999}}>
         {/* <IoCall className="text-gray-700 text-lg cursor-pointer hover:text-gray-800 md:block hidden"/>
       <BsFillChatLeftTextFill className="text-gray-700 text-lg cursor-pointer hover:text-gray-800 md:block hidden" /> */}
+        {/* <IoIosHelpCircleOutline className="text-gray-700 text-xl cursor-pointer hover:text-gray-800" /> */}
         <NotificationPopOver />
-        <IoIosHelpCircleOutline className="text-gray-700 text-xl cursor-pointer hover:text-gray-800" />
         <Popover className="relative">
           {({ open }) => (
             <>

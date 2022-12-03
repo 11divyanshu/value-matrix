@@ -871,19 +871,11 @@ const JobInvitations = (props) => {
               <p className=" mx-2  text-sm ">My Items</p>
             </p>
             <div className="border-b border-gray-600 flex justify-between my-4 py-4">
-              <p className="font-bold text-xs">All Jobs</p>
-              <p className="text-gray-400 font-semibold text-xs">04</p>
-            </div>
-            <div className="border-b border-gray-600 flex justify-between my-4 py-4">
-              <p className="font-bold text-xs">My Learnings</p>
-              <p className="text-gray-400 font-semibold text-xs">06</p>
-            </div>
-            <div className=" border-gray-600 flex justify-between mt-4 pt-4">
-              <p className="font-bold text-xs">Save Posts</p>
-              <p className="text-gray-400 font-semibold text-xs">01</p>
+              <p className="font-bold text-xs">Total Invitations</p>
+              <p className="text-gray-400 font-semibold text-xs">{ JobInvitation.length }</p>
             </div>
           </div>
-          <SupportTable />
+          {/* <SupportTable /> */}
         </div>
       </div>
     </div>

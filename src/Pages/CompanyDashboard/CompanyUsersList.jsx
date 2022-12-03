@@ -604,28 +604,30 @@ const CandiadateList = (props) => {
                   </tbody>
                 </table>
                 <div className="w-full">
-                  <div className="flex justify-between my-2 mx-1">
-                    <div>
-                      Page {page} of {Math.ceil(userList.length / 5)}
+                  {Math.ceil(userList.length / 5) != 0?
+                    <div className="flex justify-between my-2 mx-1">
+                      <div>
+                        Page {page} of {Math.ceil(userList.length / 5)}
+                      </div>
+                      <div>
+                        {" "}
+                        {userList &&
+                          userList.map((userList, index) => {
+                            return index % 5 == 0 ? (
+                              <span
+                                className="mx-2"
+                                style={{ cursor: "pointer" }}
+                                onClick={() => {
+                                  paginate(index / 5 + 1);
+                                }}
+                              >
+                                {index / 5 + 1}
+                              </span>
+                            ) : null;
+                          })}
+                      </div>
                     </div>
-                    <div>
-                      {" "}
-                      {userList &&
-                        userList.map((userList, index) => {
-                          return index % 5 == 0 ? (
-                            <span
-                              className="mx-2"
-                              style={{ cursor: "pointer" }}
-                              onClick={() => {
-                                paginate(index / 5 + 1);
-                              }}
-                            >
-                              {index / 5 + 1}
-                            </span>
-                          ) : null;
-                        })}
-                    </div>
-                  </div>
+                  :<h5 className="text-center font-bold mt-4">No Users Found</h5>}
                 </div>
               </div>
             </div>

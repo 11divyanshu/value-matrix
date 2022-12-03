@@ -573,7 +573,7 @@ export const companyDashboardRoutes = [
     permission: "default",
   },
   {
-    name: "All Transcation",
+    name: "Transactions",
     path: "/CompanyAllTranscation",
     hide: false,
     component: <CompanyAllTranscation />,

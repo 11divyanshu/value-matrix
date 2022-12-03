@@ -132,7 +132,7 @@ const Sidebar = (props) => {
     //   access_token
     // );
     let res = await updateUserDetails(
-      { user_id: user._id, updates: {status:"Pending"} },
+      { user_id: user._id, updates: {status:"Pending", user_type: "XI"} },
       { access_token: user.access_token }
     );
 
@@ -367,12 +367,12 @@ const Sidebar = (props) => {
                 onClick={handleUpgradeXIRequest}
               >
                 {/* <p classname=" py-2"><AiOutlinePlus/></p> */}
-                <p className="py-1">Upgrade to XI</p>
+                <p className="py-1">Become a XI</p>
               </button>
             </Menu>
           </SidebarContent>
           <div className="mx-4 my-24">
-            <div className="flex m-2">
+            {/* <div className="flex m-2">
               <a
                 href="/user/profile"
                 className="text-gray-700 mx-4 py-2 font-semibold"
@@ -385,7 +385,7 @@ const Sidebar = (props) => {
               >
                 Settings
               </a>
-            </div>
+            </div> */}
             <div
               className="flex m-2"
               onClick={Logout}

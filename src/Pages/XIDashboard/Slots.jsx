@@ -12,6 +12,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import Loader from "../../assets/images/loader.gif";
 import Avatar from "../../assets/images/UserAvatar.png";
 import { BsFillBookmarkFill } from "react-icons/bs";
+import { BiBlock } from "react-icons/bi";
 import { HiOutlineUser } from "react-icons/hi";
 import { Popover } from "@headlessui/react";
 import { Dialog, Transition } from "@headlessui/react";
@@ -32,6 +33,7 @@ const JobList = () => {
   const [loader, setLoader] = useState(false);
   const [user, setUser] = useState(null);
   const [modal, setModal] = React.useState(false);
+  const [bdmodal, setBDModal] = React.useState(false);
   const [modal2, setModal2] = React.useState(false);
   const [slotbookingscreen, setslotbookingscreen] = React.useState(0);
   const [slotdate, setslotdate] = React.useState(null);
@@ -1116,28 +1118,42 @@ const JobList = () => {
           <div className="shadow-lg  py-5  bg-white  justify-around  px-5 bg-white">
             <p className="text-xl mx-auto text-gray-700 font-bold  flex">
               <p className="p-1">
-                <BsFillBookmarkFill />
+                <BiBlock />
               </p>
-              <p className=" mx-2  text-sm ">My Items</p>
+              <p className=" mx-2  text-sm ">Blocked Dates</p>
             </p>
-            <div className="border-b border-gray-600 flex justify-between my-4 py-4">
-              <p className="font-bold text-xs">Posted Jobs</p>
-              <p className="text-gray-400 font-semibold text-xs">
-                {" "}
-                {slots.length > 0 ? slots.length : 0}
-              </p>
+            <div className="mt-2">
+              <div className="border border-gray-900 rounded px-2 py-1 text-xs mr-2 w-full flex justify-between p-2 mb-2">
+                <span>2022-12-04</span>
+                <span className="text-danger">
+                  <ImCross/>
+                </span>
+              </div>
+              <div className="border border-gray-900 rounded px-2 py-1 text-xs mr-2 w-full flex justify-between p-2 mb-2">
+                <span>2022-12-04</span>
+                <span className="text-danger">
+                  <ImCross/>
+                </span>
+              </div>
+              <div className="border border-gray-900 rounded px-2 py-1 text-xs mr-2 w-full flex justify-between p-2 mb-2">
+                <span>2022-12-04</span>
+                <span className="text-danger">
+                  <ImCross/>
+                </span>
+              </div>
             </div>
-            <div className="border-b border-gray-600 flex justify-between my-4 py-4">
-              <p className="font-bold text-xs">My Learnings</p>
-              <p className="text-gray-400 font-semibold text-xs">06</p>
-            </div>
-            <div className=" border-gray-600 flex justify-between mt-4 pt-4">
-              <p className="font-bold text-xs">Save Posts</p>
-              <p className="text-gray-400 font-semibold text-xs">01</p>
-            </div>
+            <button
+              className="p-2 w-full rounded-md text-white text-sm font-bold"
+              style={{ backgroundColor: "#034488" }}
+              onClick={() => {
+                setBDModal(true);
+              }}
+            >
+              Update Blocked Dates
+            </button>
           </div>
 
-          <SupportTable/>
+          {/* <SupportTable/> */}
         </div>
       </div>
     </div>

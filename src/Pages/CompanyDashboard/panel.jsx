@@ -9,6 +9,8 @@ import {
   PaymentSuccess,
   newOrder,
   getUserCurrentCredit,
+  listJobs,
+  listBinJobs,
 } from "../../service/api.js";
 
 // Assets
@@ -20,19 +22,66 @@ import Board from "../../assets/images/board.svg";
 import Graph from "../../assets/images/graph.png";
 import LGraph from "../../assets/images/lgraph.png";
 
-import { BsThreeDots } from "react-icons/bs";
+import { BsCashStack, BsThreeDots } from "react-icons/bs";
 import logo from "../../assets/images/logo.png";
 import swal from "sweetalert";
 import RecentPeople from "./RecentPeople";
+import { CgWorkAlt } from "react-icons/cg";
+import { HiOutlineCalendar, HiOutlineLocationMarker } from "react-icons/hi";
 const Panel = () => {
   const [user, setUser] = React.useState(null);
   const [modal, setModal] = React.useState(null);
+  
+  const [jobs, setjobs] = React.useState(null);
+  const [cjobs, setcjobs] = React.useState(null);
+  const [pjobs, setpjobs] = React.useState(null);
+  const [pendingjobs, setpendingjobs] = React.useState(0);
+  const [activejobs, setactivejobs] = React.useState(0);
+  const [notacceptingjobs, setnotacceptingjobs] = React.useState(0);
+  const [closedjobs, setclosedjobs] = React.useState(0);
+  const [archivedjobs, setarchivedjobs] = React.useState(0);
+
   const [credit, setCredit] = React.useState(null);
   const [currentCredit, setCurrentCredit] = React.useState(null);
   React.useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"));
     setUser(user);
-  });
+    
+    const initial = async ()=>{
+      let res = await listJobs(user._id);
+      let binJobs = await listBinJobs(user._id);
+      setjobs(res.data.jobs);
+      setpjobs(binJobs.data.jobs);
+      setpendingjobs(binJobs.data.jobs.length);
+      let activejob = 0;
+      let notaccepting = 0;
+      let closedjob = 0;
+      let archivedjob = 0;
+      let setcjob = [];
+      for(let i=0; i<res.data.jobs.length; i++){
+        if(res.data.jobs[i].status === "Active"){
+          activejob += 1;
+        }
+        if(res.data.jobs[i].status === "Not Accepting"){
+          notaccepting += 1;
+        }
+        if(res.data.jobs[i].status === "Closed"){
+          closedjob += 1;
+          setcjob.push(res.data.jobs[i]);
+        }
+        if(res.data.jobs[i].status === "Archived"){
+          archivedjob += 1;
+        }
+      }
+      setactivejobs(activejob);
+      setnotacceptingjobs(notaccepting);
+      setclosedjobs(closedjob);
+      setarchivedjobs(archivedjob);
+      setcjobs(setcjob);
+    }
+
+    initial();
+  },[]);
 
   React.useEffect(() => {
     const getCredit = async () => {
@@ -181,19 +230,25 @@ const Panel = () => {
           Hey {user && user.firstName ? user.firstName : "Company"} -{" "}
           <p className="text-gray-400 px-2"> here's what's happening today!</p>
         </p>
-        <div className="grid grid-cols-1 gap-2 mb-6 mx-5 lg:grid-cols-4 align-items-center">
+        <div className="grid grid-cols-1 gap-2 mb-6 mx-5 lg:grid-cols-5 align-items-center">
           <div
             className="lg:w-5/6 px-4 mx-5 py-3 text-center bg-white rounded-lg shadow"
             style={{ background: "#9BDDFB" }}
           >
-            <p className=" text-md font-bold text-gray-900">Job Active - 00</p>
+            <p className=" text-md font-bold text-gray-900">Pending Jobs - { pendingjobs }</p>
+          </div>
+          <div
+            className="lg:w-5/6 px-4 mx-5 py-3 text-center bg-white rounded-lg shadow"
+            style={{ background: "#9BDDFB" }}
+          >
+            <p className=" text-md font-bold text-gray-900">Active Jobs - { activejobs }</p>
           </div>
           <div
             className="lg:w-5/6 px-4 mx-5 py-3 text-center bg-white rounded-lg shadow"
             style={{ background: "#9BDDFB" }}
           >
             <div className=" text-md font-black text-gray-900">
-              Interview Schedule - 00
+              Not Accepting Jobs - { notacceptingjobs }
             </div>
           </div>
           <div
@@ -201,7 +256,7 @@ const Panel = () => {
             style={{ background: "#9BDDFB" }}
           >
             <div className=" text-md font-black text-gray-900">
-              Candidate Uploaded - 00
+              Closed Jobs - { closedjobs }
             </div>
           </div>
           <div
@@ -209,7 +264,7 @@ const Panel = () => {
             style={{ background: "#9BDDFB" }}
           >
             <div className=" text-md font-black text-gray-900">
-              Reschedule Interviews - 00
+              Archived Jobs - { archivedjobs }
             </div>
           </div>
         </div>
@@ -300,186 +355,180 @@ const Panel = () => {
         )}
 
         <div className="lg:flex">
-          <div className="md:w-full  sm:w-full lg:w-4/6  rounded-lg py-5 my-4 lg:mx-10 h-full bg-white shadow-md">
-            <div className="border-b border-gray-200 my-2 px-5 mb-2 pb-2 flex justify-between">
-              <div className="">
-                <p className="text-lg font-bold font-gray-400">
-                  Today's Interview Request
-                </p>
-                <p className="text-sm font-bold text-gray-300 mb-2">
-                  Lorem ipsum dorem, Lorem ipsum dorem{" "}
-                </p>
-              </div>
-              <div className="text-xs text-gray-500 font-semibold mt-2">
-                See All Logs &#12297;
-              </div>
-            </div>
-            <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center md:grid-cols-6 sm:grid-cols-3">
-              <div className="px-5 text-center my-2 text-sm col-span-2">
-                <p>Interview Request with Developer</p>
-                <button
-                  style={{ background: "#3ED3C5" }}
-                  className="  rounded-3xl px-6 mx-2 py-2 my-2 text-xs text-gray-900 font-semibold"
-                >
-                  Accept
-                </button>{" "}
-                <button className="bg-white rounded-3xl px-6 mx-2 py-2 text-xs my-2 border border-gray-500  text-gray">
-                  Reject
-                </button>
-              </div>
-              <div className="px-5 text-center my-2 text-sm">
-                <p>Tuesday</p>
-                <p className="text-gray-400 text-sm"> Jan 17,2022</p>
-              </div>
-              <div className="px-5 text-center my-2 text-sm">
-                <p>12am - 1am</p>
-                <p className="text-gray-400 text-sm"> 03 Minutes Remaining</p>
-              </div>
-              <div className="px-5 text-center my-5 text-sm">
-                <span className="bg-yellow-300 text-yellow-800 text-xs font-semibold mr-2 px-6 py-2  rounded-3xl dark:bg-yellow-200 dark:text-yellow-900 mt-4">
-                  Pending
-                </span>
-              </div>
-              <div className="px-5 text-center my-2 text-sm">
-                <p>
-                  <button
-                    style={{ background: "#3ED3C5" }}
-                    className=" rounded-lg my-2  px-6 mx-2 py-2 text-xs text-gray-900 font-semibold"
-                  >
-                    More
-                  </button>
-                </p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center md:grid-cols-6 sm:grid-cols-3">
-              <div className="px-5 text-center my-2 text-sm col-span-2">
-                <p>Interview Request with Developer</p>
-                <button
-                  style={{ background: "#3ED3C5" }}
-                  className=" rounded-3xl my-2   px-6 mx-2 py-2 text-xs text-gray-900 font-semibold"
-                >
-                  Start
-                </button>{" "}
-                <button className="bg-white rounded-3xl border border-gray-500  px-6 mx-2 py-2 my-2  text-xs text-gray">
-                  Reject
-                </button>
-              </div>
-              <div className="px-5 text-center my-2 text-sm">
-                <p>Wednesday</p>
-                <p className="text-gray-400 text-sm"> Jan 18,2022</p>
-              </div>
-              <div className="px-5 text-center my-2 text-sm">
-                <p>12am - 1am</p>
-                <p className="text-gray-400 text-sm"> 03 Minutes Remaining</p>
-              </div>
-              <div className="px-5 text-center my-5 text-sm">
-                <span className="bg-yellow-300 text-yellow-800 text-xs font-semibold mr-2 px-6 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900 my-2 ">
-                  Pending
-                </span>
-              </div>
-              <div className="px-5 text-center my-2 text-sm">
-                <p>
-                  <button
-                    style={{ background: "#3ED3C5" }}
-                    className=" rounded-lg my-2  px-6 mx-2 py-2 text-xs text-gray-900 font-semibold"
-                  >
-                    More
-                  </button>
-                </p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center md:grid-cols-6 sm:grid-cols-3">
-              <div className="px-5 text-center my-2 text-sm col-span-2">
-                <p>Interview Request with Client</p>
-                <button
-                  style={{ background: "#3ED3C5" }}
-                  className="  rounded-3xl my-2  px-6 mx-2 py-2 text-xs text-gray-900 font-semibold"
-                >
-                  Re-Start
-                </button>{" "}
-                <button className="bg-white border border-gray-500  rounded-3xl px-6 mx-2 py-2 my-2  text-xs text-gray">
-                  Discard
-                </button>
-              </div>
-              <div className="px-5 text-center my-2 text-sm">
-                <p>Monday</p>
-                <p className="text-gray-400 text-sm"> Jan 16,2022</p>
-              </div>
-              <div className="px-5 text-center my-2 text-sm ">
-                <p>12am - 1am</p>
-                <p className="text-gray-400 text-sm"> 03 Minutes Remaining</p>
-              </div>
-              <div className="px-5 text-center my-5 text-sm">
-                <span className="bg-green-500 font-bold text-black text-xs font-semibold mr-2 px-6 py-2 rounded-3xl dark:bg-green-200 dark:text-black my-2">
-                  Completed
-                </span>
-              </div>
-              <div className="px-5 text-center my-2 text-sm">
-                <p>
-                  <button
-                    style={{ background: "#3ED3C5" }}
-                    className=" rounded-lg my-2  px-6 mx-2 py-2 text-xs text-gray-900 font-semibold"
-                  >
-                    More
-                  </button>
-                </p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center md:grid-cols-6 sm:grid-cols-3">
-              <div className="px-5 text-center my-2 text-sm col-span-2">
-                <p>Interview Request with Developer</p>
-                <div className="w-full justify-between">
-                  <button className=" rounded-3xl my-2 border border-gray-500 px-6 mx-2 py-2 text-xs text-gray-900 font-semibold">
-                    Inprogress
-                  </button>
-                  <button className="bg-white border border-gray-500  rounded-3xl px-6 mx-2 my-2  py-2 text-xs text-gray">
-                    Reject
-                  </button>
+          <div className="md:w-full sm:w-full lg:w-4/6">
+            <div className="rounded-lg py-5 my-4 lg:mx-10 bg-white shadow-md">
+              <div className="border-b border-gray-200 my-2 px-5 mb-2 pb-2 flex justify-between">
+                <div className="">
+                  <p className="text-lg font-bold font-gray-400">
+                    Posted Jobs
+                  </p>
+                  {/* <p className="text-sm font-bold text-gray-300 mb-2">
+                    Lorem ipsum dorem, Lorem ipsum dorem{" "}
+                  </p> */}
+                </div>
+                <div className="text-xs text-gray-500 font-semibold mt-2">
+                  <a href="/company/jobs">See All Active Jobs &#12297;</a>
                 </div>
               </div>
-              <div className="px-5 text-center my-2 text-sm">
-                <p>Tuesday</p>
-                <p className="text-gray-400 text-sm"> Jan 17,2022</p>
-              </div>
-              <div className="px-5 text-center my-2 text-sm">
-                <p>12am - 1am</p>
-                <p className="text-gray-400 text-sm"> 03 Minutes Remaining</p>
-              </div>
-              <div className="px-5 text-center my-5 text-sm">
-                <span
-                  className=" text-gray-800 text-xs font-semibold mr-2 px-6   rounded-3xl  my-2 py-2"
-                  style={{ backgroundColor: "#A5C0BD" }}
-                >
-                  Inprogress
-                </span>
-              </div>
-              <div className="px-5 text-center my-2 text-sm">
-                <p>
-                  <button
-                    style={{ background: "#3ED3C5" }}
-                    className=" rounded-lg my-2  px-6 mx-2 py-2 text-xs text-gray-900 font-semibold"
-                  >
-                    More
-                  </button>
-                </p>
-              </div>
+              {jobs?<div className="px-6">
+                {jobs.map((job, index)=>{
+                  if(index<3){
+                    return(
+                      <div className="grid grid-cols-1 gap-4 lg:grid-cols-8 sm:grid-cols-4 my-3">
+                        <div className="col-span-2">
+                          <h5 className="text-black-900 text-md font-bold mb-1 ">
+                            {job.jobTitle}
+                          </h5>
+                          <p className="text-sm  text-gray-400 font-semibold">
+                            {job.hiringOrganization}
+                          </p>
+                        </div>
+                        <div className="col-span-2">
+                          {/* <p className="px-4 text-gray-400 font-semibold text-md text-gray-400 font-semibold">Job Type</p> */}
+                          <div className="flex py-1">
+                            <div className="text-md py-1 text-gray-400 font-semibold ">
+                              <CgWorkAlt />
+                            </div>
+
+                            <p className="px-4 text-sm text-gray-400 font-semibold">
+                              {job.jobType}
+                            </p>
+                          </div>
+                          <div className="flex py-1">
+                            <div className="text-md py-1 text-gray-400 font-semibold ">
+                              <HiOutlineLocationMarker />
+                            </div>
+
+                            <p className="px-4 text-sm text-gray-400 font-semibold">
+                              {job.location}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-2">
+                          <div className="flex py-1">
+                            <div className="text-md py-1 text-gray-400 font-semibold ">
+                              <HiOutlineCalendar />
+                            </div>
+
+                            <p className="px-2 text-md text-gray-400 font-semibold">
+                              {new Date(job.validTill).getDate() +
+                                "-" +
+                                (new Date(job.validTill).getMonth() + 1) +
+                                "-" +
+                                new Date(job.validTill).getFullYear()}
+                            </p>
+                          </div>
+                          <div className="flex py-1">
+                            <div className="text-md py-1 text-gray-400 font-semibold ">
+                              <BsCashStack />
+                            </div>
+
+                            {job.salary && job.salary.length >= 2 && (
+                              <p className="px-4 text-md text-gray-400 font-semibold">
+                                {job.salary[0].symbol} {job.salary[1]}{" "}
+                                {job.salary.length === 3 && <span>- {job.salary[2]}</span>}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                        <div className="col-span-2 flex justify-center items-center">
+                          <a className="rounded-xl px-4 py-4 my-3 text-xs text-white font-semibold" style={{ background: "#3ED3C5" }} href={`/company/jobDetails/${job._id}`}>View Details</a>
+                        </div>
+                      </div>
+                    );
+                  }
+                })}
+              </div>:null}
             </div>
-            <div className="md:w-full sm:w-full lg:w-100 my-10 px-5 bg-white ">
-              <div className="h-72">
-                <Chart data={data} axes={axes} />
+            <div className="rounded-lg py-5 my-4 lg:mx-10 bg-white shadow-md">
+              <div className="border-b border-gray-200 my-2 px-5 mb-2 pb-2 flex justify-between">
+                <div className="">
+                  <p className="text-lg font-bold font-gray-400">
+                    Pending Jobs
+                  </p>
+                  {/* <p className="text-sm font-bold text-gray-300 mb-2">
+                    Lorem ipsum dorem, Lorem ipsum dorem{" "}
+                  </p> */}
+                </div>
+                <div className="text-xs text-gray-500 font-semibold mt-2">
+                  <a href="/company/pendingjobs">See All Pending Jobs &#12297;</a>
+                </div>
               </div>
+              {pjobs?<div className="px-6 h-fit">
+                {pjobs.map((job, index)=>{
+                  if(index<3){
+                    return(
+                      <div className="grid grid-cols-1 gap-4 lg:grid-cols-8 sm:grid-cols-4 my-3">
+                        <div className="col-span-2">
+                          <h5 className="text-black-900 text-md font-bold mb-1 ">
+                            {job.jobTitle}
+                          </h5>
+                          <p className="text-sm  text-gray-400 font-semibold">
+                            {job.hiringOrganization}
+                          </p>
+                        </div>
+                        <div className="col-span-2">
+                          {/* <p className="px-4 text-gray-400 font-semibold text-md text-gray-400 font-semibold">Job Type</p> */}
+                          <div className="flex py-1">
+                            <div className="text-md py-1 text-gray-400 font-semibold ">
+                              <CgWorkAlt />
+                            </div>
+
+                            <p className="px-4 text-sm text-gray-400 font-semibold">
+                              {job.jobType}
+                            </p>
+                          </div>
+                          <div className="flex py-1">
+                            <div className="text-md py-1 text-gray-400 font-semibold ">
+                              <HiOutlineLocationMarker />
+                            </div>
+
+                            <p className="px-4 text-sm text-gray-400 font-semibold">
+                              {job.location}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-2">
+                          <div className="flex py-1">
+                            <div className="text-md py-1 text-gray-400 font-semibold ">
+                              <HiOutlineCalendar />
+                            </div>
+
+                            <p className="px-2 text-md text-gray-400 font-semibold">
+                              {new Date(job.validTill).getDate() +
+                                "-" +
+                                (new Date(job.validTill).getMonth() + 1) +
+                                "-" +
+                                new Date(job.validTill).getFullYear()}
+                            </p>
+                          </div>
+                          <div className="flex py-1">
+                            <div className="text-md py-1 text-gray-400 font-semibold ">
+                              <BsCashStack />
+                            </div>
+
+                            {job.salary && job.salary.length >= 2 && (
+                              <p className="px-4 text-md text-gray-400 font-semibold">
+                                {job.salary[0].symbol} {job.salary[1]}{" "}
+                                {job.salary.length === 3 && <span>- {job.salary[2]}</span>}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                        <div className="col-span-2 flex justify-center items-center">
+                          <a className="rounded-xl px-4 py-4 my-3 text-xs text-white font-semibold" style={{ background: "#3ED3C5" }} href={`/company/jobDetails/${job._id}`}>View Details</a>
+                        </div>
+                      </div>
+                    );
+                  }
+                })}
+              </div>:null}
             </div>
           </div>
 
-          <div className="sm:w-full md:flex lg:flex-wrap md:w-full lg:w-2/6 my-4 ">
-            <div className="md:w-1/2 lg:w-full sm:w-full mx-5 rounded-lg">
-              <SessionCard />
-            </div>
+          <div className="sm:w-full md:flex-wrap lg:flex-wrap md:w-full lg:w-2/6 my-4 ">
 
-            <div className="shadow-lg my-5 md:w-1/2 lg:w-full md:mx-1 lg:mx-5 md:my-0 rounded-lg py-2 bg-white sm:w-full h-28">
+            <div className="shadow-lg my-5 w-full md:mx-1 lg:mx-5 md:my-0 rounded-lg py-2 bg-white h-fit">
               <div className="flex items-start space-x-3 px-6  ">
                 <div className="mt-3">
                   <p className="text-lg text-left">
@@ -499,7 +548,47 @@ const Panel = () => {
                 </div>
               </div>
             </div>
-            <RecentPeople/>
+
+            <div className="rounded-lg lg:mx-4 bg-white shadow-md w-full h-fit py-2">
+              <div className="border-b border-gray-200 my-2 px-5 mb-2 pb-2 flex justify-between">
+                <div className="">
+                  <p className="text-lg font-bold font-gray-400">
+                    Closed Jobs
+                  </p>
+                  {/* <p className="text-sm font-bold text-gray-300 mb-2">
+                    Lorem ipsum dorem, Lorem ipsum dorem{" "}
+                  </p> */}
+                </div>
+              </div>
+              {cjobs.length != 0 ?<div className="px-6">
+                {cjobs.map((job, index)=>{
+                  if(index<3){
+                    return(
+                      <div className="grid grid-cols-1 gap-4 lg:grid-cols-4 sm:grid-cols-4 my-3">
+                        <div className="col-span-2">
+                          <h5 className="text-black-900 text-md font-bold mb-1 ">
+                            {job.jobTitle}
+                          </h5>
+                          <p className="text-sm  text-gray-400 font-semibold">
+                            {job.hiringOrganization}
+                          </p>
+                        </div>
+                        <div className="col-span-2 flex justify-center items-center">
+                          <a className="rounded-xl px-4 py-2 text-xs text-white font-semibold" style={{ background: "#3ED3C5" }} href={`/company/jobDetails/${job._id}`}>View Details</a>
+                        </div>
+                      </div>
+                    );
+                  }
+                })}
+                <div className="flex justify-end">
+                  <a href="/company/jobs" className="text-blue-500 text-xs">View More</a>
+                </div>
+              </div>:<h5 className="text-center font-bold mt-4">No Records Found</h5>}
+            </div>
+
+            {/* <div className="md:w-1/2 lg:w-full sm:w-full mx-5 rounded-lg">
+              <SessionCard />
+            </div> */}
           </div>
         </div>
       </div>

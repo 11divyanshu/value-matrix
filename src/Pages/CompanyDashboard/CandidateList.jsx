@@ -108,7 +108,7 @@ const JobList = (props) => {
 
       let res = await getCandidateList(id);
       console.log(res);
-      if (res && res.data) {
+      if (res && res.data.success === true) {
         setJobs(res.data);
         console.log(res.data);
         let arr = [...res.data];
@@ -1289,28 +1289,32 @@ const JobList = (props) => {
                   })}
               </div>
               <div className="w-full">
-                <div className="flex justify-between my-2 mx-1">
-                  <div>
-                    Page {page} of {Math.ceil(jobs.length / 5)}
+                {Math.ceil(jobs.length / 5) !=0 ?
+                  <div className="flex justify-between my-2 mx-1">
+                    <div>
+                      Page {page} of {Math.ceil(jobs.length / 5)}
+                    </div>
+                    <div>
+                      {" "}
+                      {jobs &&
+                        jobs.map((job, index) => {
+                          return index % 5 == 0 ? (
+                            <span
+                              className="mx-2"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                paginate(index / 5 + 1);
+                              }}
+                            >
+                              {index / 5 + 1}
+                            </span>
+                          ) : null;
+                        })}
+                    </div>
                   </div>
-                  <div>
-                    {" "}
-                    {jobs &&
-                      jobs.map((job, index) => {
-                        return index % 5 == 0 ? (
-                          <span
-                            className="mx-2"
-                            style={{ cursor: "pointer" }}
-                            onClick={() => {
-                              paginate(index / 5 + 1);
-                            }}
-                          >
-                            {index / 5 + 1}
-                          </span>
-                        ) : null;
-                      })}
-                  </div>
-                </div>
+                :<>
+                  <h5 className="text-center font-bold mt-4">No Candidates Found</h5>
+                </>}
               </div>
             </>
           )}
@@ -1325,23 +1329,15 @@ const JobList = (props) => {
               <p className=" mx-2  text-sm ">My Items</p>
             </p>
             <div className="border-b border-gray-600 flex justify-between my-4 py-4">
-              <p className="font-bold text-xs">Posted Jobs</p>
+              <p className="font-bold text-xs">Candidates</p>
               <p className="text-gray-400 font-semibold text-xs">
                 {" "}
                 {jobs.length > 0 ? jobs.length : 0}
               </p>
             </div>
-            <div className="border-b border-gray-600 flex justify-between my-4 py-4">
-              <p className="font-bold text-xs">My Learnings</p>
-              <p className="text-gray-400 font-semibold text-xs">06</p>
-            </div>
-            <div className=" border-gray-600 flex justify-between mt-4 pt-4">
-              <p className="font-bold text-xs">Save Posts</p>
-              <p className="text-gray-400 font-semibold text-xs">01</p>
-            </div>
           </div>
 
-         <SupportTable/>
+         {/* <SupportTable/> */}
         </div>
       </div>
     </div>
