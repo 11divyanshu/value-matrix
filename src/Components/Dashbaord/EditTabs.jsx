@@ -6,7 +6,7 @@ import { FiInfo } from "react-icons/fi";
 import { BsCalendar, BsLinkedin } from "react-icons/bs";
 import { GrScorecard } from "react-icons/gr";
 import { Disclosure } from "@headlessui/react";
-import { getSkills, url, getpsykey } from "../../service/api";
+import { getSkills, url, getpsykey, setprofileauth, getOtherLI } from "../../service/api";
 import { ChevronUpIcon, StarIcon } from "@heroicons/react/solid";
 import { IoPeople, IoSchoolOutline } from "react-icons/io5";
 import Microsoft from "../../assets/images/Social/microsoft.svg";
@@ -1274,6 +1274,7 @@ export default function Tabs(props) {
                           <Field
                             type="text"
                             name="linkedinurl"
+                            id="LIurl"
                             placeholder="Example:- https://linkedin.com/in/vanity_name"
                             style={{
                               boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
@@ -1290,15 +1291,48 @@ export default function Tabs(props) {
                         <div>
                           {user && !user.linkedInId ? (
                             <div className="w-full flex items-center ">
-                              <a href={`${url}/auth/linkedin`}>
-                                {/* <button className=" color-white py-2 px-8 flex rounded-lg"
+                              <a href="#" onClick={async ()=>{
+                                let liurl = document.getElementById("LIurl").value;
+                                if(liurl != ""){
+                                  let getLI = await getOtherLI(liurl);
+                                  if(getLI.data.message === "Profile Not Found"){
+                                    let setpauth = await setprofileauth(user._id);
+                                    if(setpauth.status === 200){
+                                      document.getElementById("authenticatelinkedin").click();
+                                    }
+                                  }else{
+                                    swal({
+                                      icon:"error",
+                                      title:"This LinkedIn Profile is already connected to another User Account",
+                                      button:"Ok"
+                                    });
+                                  }
+                                }else{
+                                  swal({
+                                    icon:"error",
+                                    title:"Please enter your linkedin URL to Authenticate",
+                                    button:"Ok"
+                                  });
+                                }
+                              }}>
+                                <div
+                                  className="flex rounded-lg shadow-md px-8 py-2"
                                   style={{ backgroundColor: "#034488" }}
-                                > */}
-                                {/* <img
-                                    src={Linkedin}
-                                    className="h-5 ml-1"
-                                    alt="socialauthLinkedIn"
-                                  /> */}
+                                >
+                                  <p
+                                    className="text-sm py-1"
+                                    style={{ color: "#fff" }}
+                                  >
+                                    <BsLinkedin />
+                                  </p>
+
+                                  <p className="text-white font-semibold text-sm mx-2">
+                                    Authenticate
+                                  </p>
+                                </div>
+                                {/* </button> */}
+                              </a>
+                              <a href={`${url}/auth/linkedin`} id="authenticatelinkedin" className="hidden">
                                 <div
                                   className="flex rounded-lg shadow-md px-8 py-2"
                                   style={{ backgroundColor: "#034488" }}

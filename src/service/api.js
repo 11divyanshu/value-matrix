@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const url = "http://localhost:8000";
-// export const url = "https://dev.serve.valuematrix.ai";
+// export const url = "http://localhost:8000";
+export const url = "https://dev.serve.valuematrix.ai";
 // export const url = "http://3.6.65.3:8000"
 // export const url = "https://backend.babyhost.in"
 export const frontendUrl = "http://localhost:3001";
@@ -1826,6 +1826,26 @@ export const getpsykey = async (data) => {
 export const getUserStats = async (id) => {
   try{
      return await axios.post(`${url}/getUserStats`,{id})
+  }catch(err){
+    console.log("Error : " + err);
+  }
+}
+
+export const getOtherLI = async (id) => {
+  try{
+     return await axios.post(`${url}/getOtherLI`,{
+      li: id
+     })
+  }catch(err){
+    console.log("Error : " + err);
+  }
+}
+
+export const setprofileauth = async (id) => {
+  try{
+     return await axios.post(`${url}/setprofileauth`,{
+      id: id
+     })
   }catch(err){
     console.log("Error : " + err);
   }
