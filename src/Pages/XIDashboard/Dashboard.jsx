@@ -1,9 +1,9 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 
 // Components
 import Card from "../../Components/SuperXIDashboard/Cards";
 import SessionCard from "../../Components/CompanyDashboard/sessions";
-import { AiOutlineArrowUp } from "react-icons/ai";
+import { AiOutlineArrowUp, AiOutlinePlus } from "react-icons/ai";
 import Avatar from "../../assets/images/UserAvatar.png";
 
 // Assets
@@ -14,28 +14,147 @@ import Board from "../../assets/images/board.svg";
 import Graph from "../../assets/images/graph.png";
 import LGraph from "../../assets/images/lgraph.png";
 import swal from "sweetalert";
-import { BsThreeDots } from "react-icons/bs";
+import { BsCashStack, BsThreeDots } from "react-icons/bs";
 import Sidebar from "../../Components/Dashbaord/sidebar";
 import RecentPeople from "./RecentPeople.jsx";
 import {
   PaymentSuccess,
   newOrder,
   getUserCurrentCredit,
+  XISlots,
+  getXIInterviewList,
+  getJobInvitations,
 } from "../../service/api.js";
 import logo from "../../assets/images/logo.png";
 import { Dialog, Transition } from "@headlessui/react";
+import { HiOutlineCalendar, HiOutlineLocationMarker } from "react-icons/hi";
+import { CgWorkAlt } from "react-icons/cg";
+
 const Panel = () => {
+  const [slots, setSlots] = React.useState(null);
+  const [slotstructure, setslotstructure] = React.useState(null);
   const [user, setUser] = React.useState(null);
   const [modal, setModal] = React.useState(null);
   const [amount, setAmount] = React.useState(null);
   const [credit, setCredit] = React.useState(null);
   const [currentCredit, setCurrentCredit] = React.useState(null);
-  React.useEffect(() => {
+  const [invitations, setinvitations] = React.useState(0);
+  const [scheduledinterviews, setscheduledinterviews] = React.useState(0);
+  const [matchedinterviews, setmatchedinterviews] = React.useState(0);
+  const [bookedslots, setbookedslots] = React.useState(0);
+  const [JobInvitation, setJobInvitation] = React.useState([]);
+  const [JobInvitationbin, setJobInvitationbin] = React.useState([]);
+  const [interviews, setInterviews] = React.useState([]);
+
+  const setSlotsdate = (data)=>{
+    let alldates = [];
+    let allslots = [];
+    let tempslot = [];
+    let tempdate = null;
+    let customdate = null;
+    let tempstart = null;
+    let tempend = null;
+    console.log(data);
+    for(let i=0; i<data.length; i++){
+      tempdate = new Date(data[i].startDate.toLocaleString());
+      customdate = tempdate.getDate() + "-" + (parseInt(tempdate.getMonth())+1) + "-" + tempdate.getFullYear();
+      if(!alldates.includes(customdate)){
+        alldates.push(customdate);
+        alldates.sort();
+        alldates.reverse();
+      }
+    }
+    for(let i=0; i<alldates.length; i++){
+      tempslot = [];
+      for(let j=0; j<data.length; j++){
+        tempstart = "";
+        tempend = "";
+        tempdate = new Date(data[j].startDate.toLocaleString());
+        customdate = tempdate.getDate() + "-" + (parseInt(tempdate.getMonth())+1) + "-" + tempdate.getFullYear();
+        if(alldates[i] == customdate){
+          tempdate = new Date(data[j].startDate.toLocaleString());
+          if(tempdate.getHours() < 9){
+            tempstart = tempstart + "0";
+          }
+          tempstart = tempstart + tempdate.getHours();
+          tempstart = tempstart + ":";
+          if(tempdate.getMinutes() < 9){
+            tempstart = tempstart + "0";
+          }
+          tempstart = tempstart + tempdate.getMinutes();
+          tempdate = new Date(data[j].endDate.toLocaleString());
+          if(tempdate.getHours() < 9){
+            tempend = tempend + "0";
+          }
+          tempend = tempend + tempdate.getHours();
+          tempend = tempend + ":";
+          if(tempdate.getMinutes() < 9){
+            tempend = tempend + "0";
+          }
+          tempend = tempend + tempdate.getMinutes();
+          tempslot.push({
+            startTime: tempstart,
+            endTime: tempend,
+            data: data[j]
+          })
+        }
+      }
+      allslots.push({
+        slots: tempslot,
+        date: alldates[i]
+      });
+    }
+    setslotstructure(allslots);
+  }
+
+  useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"));
     setUser(user);
-  });
 
-  React.useEffect(() => {
+    const getslots = async ()=>{
+      let res = await XISlots(user._id);
+      if (res) {
+        setSlots(res.data);
+        setbookedslots(res.data.length);
+        setSlotsdate(res.data);
+      }
+
+      let res2 = await getXIInterviewList(
+        { user_id: user._id },
+        user.access_token
+      );
+      if(res2){
+        setmatchedinterviews(res2.data.length);
+      }
+
+      let res3 = await getJobInvitations(
+        { user_id: user._id },
+        user.access_token
+      );
+      if(res3){
+        console.log(res3);
+        setinvitations(res3.data.jobInvites.length);
+      }
+    }
+    
+    const initial = async () => {
+      let user = JSON.parse(await localStorage.getItem("user"));
+      console.log(user);
+      let res = await getJobInvitations(
+        { user_id: user._id },
+        user.access_token
+      );
+      if (res && res.status === 200) {
+        setJobInvitation(res.data.jobInvites);
+        setJobInvitationbin(res.data.jobInvitesbin);
+      }
+    };
+
+    getslots();
+    initial();
+  },[]);
+
+  useEffect(() => {
     const getCredit = async () => {
       let user = JSON.parse(localStorage.getItem("user"));
       let res = await getUserCurrentCredit(user._id);
@@ -43,7 +162,7 @@ const Panel = () => {
         console.log(res.data);
       }
     };
-  });
+  },[]);
 
   const data = React.useMemo(
     () => [
@@ -172,8 +291,8 @@ const Panel = () => {
   }
 
   return (
-    <div className="flex bg-slate-100 ">
-      <div className="container-fluid mx-5 mt-2 ">
+    <div className="flex bg-slate-100 w-full">
+      <div className="container-fluid mx-5 mt-2 w-full">
         <p className="text-sm flex my-5 mx-5 font-semibold">
           Hey {user && user.firstName ? user.firstName : "XI"} -{" "}
           <p className="text-gray-400 px-2"> here's what's happening today!</p>
@@ -184,7 +303,7 @@ const Panel = () => {
             style={{ background: "#9BDDFB" }}
           >
             <div className=" text-md font-semibold text-gray-900">
-              Job Active - 00
+              Invitations - { invitations }
             </div>
           </div>
           <div
@@ -192,7 +311,7 @@ const Panel = () => {
             style={{ background: "#9BDDFB" }}
           >
             <div className=" text-md font-semibold text-gray-900">
-              Interview Schedule - 00
+              Scheduled Interviews - { scheduledinterviews }
             </div>
           </div>
           <div
@@ -200,7 +319,7 @@ const Panel = () => {
             style={{ background: "#9BDDFB" }}
           >
             <div className=" text-md font-semibold text-gray-900">
-              Candidate Uploaded - 00
+              Matched Interviews - { matchedinterviews }
             </div>
           </div>
           <div
@@ -208,176 +327,384 @@ const Panel = () => {
             style={{ background: "#9BDDFB" }}
           >
             <div className=" text-md font-semibold text-gray-900">
-              Reschedule Interviews - 00
+              Booked Slots - { bookedslots }
             </div>
           </div>
         </div>
 
-        <div className="lg:flex">
-          <div className="md:w-full  sm:w-full lg:w-5/6  rounded-lg py-5 my-4 lg:mx-3 bg-white shadow-md">
-            <div className="border-b border-gray-200 my-2 px-5 mb-2 pb-2 flex justify-between">
-              <div className="">
-                <p className="text-lg font-bold font-gray-400">
-                  Today's Interview Request
-                </p>
-                <p className="text-sm font-bold text-gray-300 mb-2">
-                  Lorem ipsum dorem, Lorem ipsum dorem{" "}
-                </p>
-              </div>
-              <div className="text-xs text-gray-500 font-semibold mt-2">
-                See All Logs &#12297;
-              </div>
-            </div>
-            <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center md:grid-cols-6 sm:grid-cols-3">
-              <div className="px-5 text-center my-2 text-sm col-span-2">
-                <p>Interview Request with Developer</p>
-                <button
-                  style={{ background: "#3ED3C5" }}
-                  className="  rounded-3xl px-6 mx-2 py-2 my-2 text-xs text-gray-900 font-semibold"
+        <div className="lg:flex w-full">
+          <div className="md:w-full sm:w-full lg:w-5/6 rounded-lg py-5 my-4 lg:mx-3 md:pr-8">
+            <div className="shadow-lg w-full rounded-lg py-5 my-4 lg:mx-10 bg-white">
+              <div className="border-b border-gray-200 my-2 px-5 mb-2 pb-2 flex justify-between">
+                <div className="">
+                  <p className="text-lg font-bold font-gray-400">
+                    Recent Interview Invitations
+                  </p>
+                  {/* <p className="text-sm font-bold text-gray-300 mb-2">
+                    Lorem ipsum dorem, Lorem ipsum dorem{" "}
+                  </p> */}
+                </div>
+                <div
+                  className="text-xs text-gray-500 font-semibold mt-2"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    window.location.href = "/xi/interviewInvitations";
+                  }}
                 >
-                  Accept
-                </button>{" "}
-                <button className="bg-white rounded-3xl px-6 mx-2 py-2 text-xs my-2 border border-gray-500  text-gray">
-                  Reject
-                </button>
+                  See All Invitations &#12297;
+                </div>
               </div>
-              <div className="px-5 text-center my-2 text-sm">
-                <p>Tuesday</p>
-                <p className="text-gray-400 text-sm"> Jan 17,2022</p>
-              </div>
-              <div className="px-5 text-center my-2 text-sm">
-                <p>12am - 1am</p>
-                <p className="text-gray-400 text-sm"> 03 Minutes Remaining</p>
-              </div>
-              <div className="px-5 text-center my-5 text-sm">
-                <span className="bg-yellow-300 text-yellow-800 text-xs font-medium mr-2 px-6 py-2  rounded-3xl dark:bg-yellow-200 dark:text-yellow-900 mt-4">
-                  Pending
-                </span>
-              </div>
-              <div className="px-5 text-center my-2 text-sm">
-                <p>
-                  <button
-                    style={{ background: "#3ED3C5" }}
-                    className=" rounded-lg my-2  px-6 mx-2 py-2 text-xs text-gray-900 font-semibold"
-                  >
-                    More
-                  </button>
-                </p>
-              </div>
-            </div>
 
-            <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center md:grid-cols-6 sm:grid-cols-3">
-              <div className="px-5 text-center my-2 text-sm col-span-2">
-                <p>Interview Request with Developer</p>
-                <button
-                  style={{ background: "#3ED3C5" }}
-                  className=" rounded-3xl my-2   px-6 mx-2 py-2 text-xs text-gray-900 font-semibold"
-                >
-                  Start
-                </button>{" "}
-                <button className="bg-white rounded-3xl border border-gray-500  px-6 mx-2 py-2 my-2  text-xs text-gray">
-                  Reject
-                </button>
-              </div>
-              <div className="px-5 text-center my-2 text-sm">
-                <p>Wednesday</p>
-                <p className="text-gray-400 text-sm"> Jan 18,2022</p>
-              </div>
-              <div className="px-5 text-center my-2 text-sm">
-                <p>12am - 1am</p>
-                <p className="text-gray-400 text-sm"> 03 Minutes Remaining</p>
-              </div>
-              <div className="px-5 text-center my-5 text-sm">
-                <span className="bg-yellow-300 text-yellow-800 text-xs font-medium mr-2 px-6 py-2 rounded-3xl dark:bg-yellow-200 dark:text-yellow-900 my-2 ">
-                  Pending
-                </span>
-              </div>
-              <div className="px-5 text-center my-2 text-sm">
-                <p>
-                  <button
-                    style={{ background: "#3ED3C5" }}
-                    className=" rounded-lg my-2  px-6 mx-2 py-2 text-xs text-gray-900 font-semibold"
-                  >
-                    More
-                  </button>
-                </p>
-              </div>
-            </div>
+              {JobInvitation.length === 0 && JobInvitationbin.length === 0 ? (
+                <div className="text-center py-5 text-2xl md:w-4/4">
+                  No Interview Invitations
+                </div>
+              ) : (
+                <div className="w-full">
+                  {JobInvitation.map((job, index) => {
+                    if (job.status && job.status === "Active") {
+                      return (
+                        <div
+                          id={"invcrd" + (index + 1)}
+                          className={
+                            index < 5
+                              ? "w-full px-5 bg-white py-1 border border-b"
+                              : "w-full px-5 bg-white py-1 border border-b hidden"
+                          }
+                        >
+                          <div className="grid grid-cols-1 gap-4 md:grid-cols-8 sm:grid-cols-4  my-3">
+                            <div className="col-span-2">
+                              <h5 className="text-black-900 text-md font-bold mb-1 ">
+                                {job.jobTitle}
+                              </h5>
+                              <p className="text-sm font-bold  text-gray-400 font-semibold">
+                                {job.hiringOrganization}
+                              </p>
+                            </div>
+                            <div className="col-span-2">
+                              {/* <p className="px-4 text-gray-400 font-semibold text-md text-gray-400 font-semibold">Job Type</p> */}
+                              <div className="flex py-1">
+                                <div className="text-md py-1 text-gray-400 font-semibold ">
+                                  <CgWorkAlt />
+                                </div>
 
-            <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center md:grid-cols-6 sm:grid-cols-3">
-              <div className="px-5 text-center my-2 text-sm col-span-2">
-                <p>Interview Request with Client</p>
-                <button
-                  style={{ background: "#3ED3C5" }}
-                  className="  rounded-3xl my-2  px-6 mx-2 py-2 text-xs text-gray-900 font-semibold"
-                >
-                  Re-Start
-                </button>{" "}
-                <button className="bg-white border border-gray-500  rounded-3xl px-6 mx-2 py-2 my-2  text-xs text-gray">
-                  Discard
-                </button>
-              </div>
-              <div className="px-5 text-center my-2 text-sm">
-                <p>Monday</p>
-                <p className="text-gray-400 text-sm"> Jan 16,2022</p>
-              </div>
-              <div className="px-5 text-center my-2 text-sm ">
-                <p>12am - 1am</p>
-                <p className="text-gray-400 text-sm"> 03 Minutes Remaining</p>
-              </div>
-              <div className="px-5 text-center my-5 text-sm">
-                <span className="bg-green-500 font-bold text-black text-xs font-medium mr-2 px-6 py-2 rounded-3xl dark:bg-green-200 dark:text-black my-2">
-                  Completed
-                </span>
-              </div>
-              <div className="px-5 text-center my-2 text-sm">
-                <p>
-                  <button
-                    style={{ background: "#3ED3C5" }}
-                    className=" rounded-lg my-2  px-6 mx-2 py-2 text-xs text-gray-900 font-semibold"
-                  >
-                    More
-                  </button>
-                </p>
-              </div>
-            </div>
+                                <p className="px-4 text-sm text-gray-400 font-semibold">
+                                  {job.jobType}
+                                </p>
+                              </div>
+                              <div className="flex py-1">
+                                <div className="text-md py-1 text-gray-400 font-semibold ">
+                                  <HiOutlineLocationMarker />
+                                </div>
 
-            <div className="grid grid-cols-1 border-b border-gray-200 mb-6 align-items-center text-center md:grid-cols-6 sm:grid-cols-3">
-              <div className="px-5 text-center my-2 text-sm col-span-2">
-                <p>Interview Request with Developer</p>
-                <button className=" rounded-3xl my-2 border border-gray-500 px-6 mx-2 py-2 text-xs text-gray-900 font-semibold">
-                  Inprogress
-                </button>{" "}
-                <button className="bg-white border border-gray-500  rounded-3xl px-6 mx-2 my-2  py-2 text-xs text-gray">
-                  Reject
-                </button>
-              </div>
-              <div className="px-5 text-center my-2 text-sm">
-                <p>Tuesday</p>
-                <p className="text-gray-400 text-sm"> Jan 17,2022</p>
-              </div>
-              <div className="px-5 text-center my-2 text-sm">
-                <p>12am - 1am</p>
-                <p className="text-gray-400 text-sm"> 03 Minutes Remaining</p>
-              </div>
-              <div className="px-5 text-center my-5 text-sm">
-                <span
-                  className=" text-gray-800 text-xs font-semibold mr-2 px-6 py-0.5  rounded-3xl  my-2 py-2"
-                  style={{ backgroundColor: "#A5C0BD" }}
+                                <p className="px-4 text-sm text-gray-400 font-semibold">
+                                  {job.location}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="col-span-2">
+                              <div className="flex py-1">
+                                <div className="text-md py-1 text-gray-400 font-semibold ">
+                                  <HiOutlineCalendar />
+                                </div>
+
+                                <p className="px-2 text-md text-gray-400 font-semibold">
+                                  {new Date(job.validTill).getDate() +
+                                    "-" +
+                                    (new Date(job.validTill).getMonth() + 1) +
+                                    "-" +
+                                    new Date(job.validTill).getFullYear()}
+                                </p>
+                              </div>
+                              <div className="flex py-1">
+                                <div className="text-md py-1 text-gray-400 font-semibold ">
+                                  <BsCashStack />
+                                </div>
+
+                                <p className="px-4 text-sm text-gray-400 font-semibold">
+                                  {typeof job.salary === "object"
+                                    ? job.salary[2]
+                                    : job.salary}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex col-span-2">
+                              {/* button here */}
+                              <a href={`/xi/jobDetails/${job._id}`}
+                                style={{ background: "#3ED3C5" }}
+                                className=" rounded-lg my-2  px-6 mx-2 py-2 text-xs font-bold flex items-center text-white"
+                              >
+                                View Details
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    }
+                  })}
+                  {JobInvitationbin.map((job, index) => {
+                    if (1) {
+                      return (
+                        <div
+                          id={"invcrd" + (index + 1)}
+                          className={
+                            index < 5
+                              ? "w-full px-5 bg-white py-1 border border-b"
+                              : "w-full px-5 bg-white py-1 border border-b hidden"
+                          }
+                        >
+                          <div className="grid grid-cols-1 gap-4 md:grid-cols-8 sm:grid-cols-4  my-3">
+                            <div className="col-span-2">
+                              <h5 className="text-black-900 text-md font-bold mb-1 ">
+                                {job.jobTitle}
+                              </h5>
+                              <p className="text-sm font-bold  text-gray-400 font-semibold">
+                                {job.hiringOrganization}
+                              </p>
+                            </div>
+                            <div className="col-span-2">
+                              {/* <p className="px-4 text-gray-400 font-semibold text-md text-gray-400 font-semibold">Job Type</p> */}
+                              <div className="flex py-1">
+                                <div className="text-md py-1 text-gray-400 font-semibold ">
+                                  <CgWorkAlt />
+                                </div>
+
+                                <p className="px-4 text-sm text-gray-400 font-semibold">
+                                  {job.jobType}
+                                </p>
+                              </div>
+                              <div className="flex py-1">
+                                <div className="text-md py-1 text-gray-400 font-semibold ">
+                                  <HiOutlineLocationMarker />
+                                </div>
+
+                                <p className="px-4 text-sm text-gray-400 font-semibold">
+                                  {job.location}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="col-span-2">
+                              <div className="flex py-1">
+                                <div className="text-md py-1 text-gray-400 font-semibold ">
+                                  <HiOutlineCalendar />
+                                </div>
+
+                                <p className="px-2 text-md text-gray-400 font-semibold">
+                                  {new Date(job.validTill).getDate() +
+                                    "-" +
+                                    (new Date(job.validTill).getMonth() + 1) +
+                                    "-" +
+                                    new Date(job.validTill).getFullYear()}
+                                </p>
+                              </div>
+                              <div className="flex py-1">
+                                <div className="text-md py-1 text-gray-400 font-semibold ">
+                                  <BsCashStack />
+                                </div>
+
+                                <p className="px-4 text-sm text-gray-400 font-semibold">
+                                  {typeof job.salary === "object"
+                                    ? job.salary[2]
+                                    : job.salary}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex col-span-2">
+                              {/* button here */}
+                              <a href={`/xi/jobDetails/${job._id}`}
+                                style={{ background: "#3ED3C5" }}
+                                className=" rounded-lg my-2  px-6 mx-2 py-2 text-xs font-bold flex items-center text-white"
+                              >
+                                View Details
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    }
+                  })}
+                </div>
+              )}
+            </div>
+            <div className="shadow-lg w-full rounded-lg py-5 my-4 lg:mx-10 bg-white">
+              <div className="border-b border-gray-200 my-2 px-5 mb-2 pb-2 flex justify-between">
+                <div className="">
+                  <p className="text-lg font-bold font-gray-400">
+                    Pending Interview Invitations
+                  </p>
+                  {/* <p className="text-sm font-bold text-gray-300 mb-2">
+                    Lorem ipsum dorem, Lorem ipsum dorem{" "}
+                  </p> */}
+                </div>
+                <div
+                  className="text-xs text-gray-500 font-semibold mt-2"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    window.location.href = "/xi/interviews";
+                  }}
                 >
-                  Inprogress
-                </span>
+                  See All Pending Interviews &#12297;
+                </div>
               </div>
-              <div className="px-5 text-center my-2 text-sm">
-                <p>
-                  <button
-                    style={{ background: "#3ED3C5" }}
-                    className=" rounded-lg my-2  px-6 mx-2 py-2 text-xs text-gray-900 font-semibold"
-                  >
-                    More
-                  </button>
-                </p>
+
+              {interviews.length === 0 ? (
+                <div className="text-center py-5 text-2xl md:w-4/4">
+                  No Pending Invitations
+                </div>
+              ) : (
+                <div className="w-full">
+                  {interviews.map((job, index) => {
+                    if (job.status && job.status === "Pending") {
+                      return (
+                        <div
+                          className={
+                            index < 5
+                              ? "w-full px-5 bg-white py-1 border border-b"
+                              : "w-full px-5 bg-white py-1 border border-b hidden"
+                          }
+                        >
+                          <div className="grid grid-cols-1 gap-4 md:grid-cols-8 sm:grid-cols-4  my-3">
+                            <div className="col-span-2">
+                              <h5 className="text-black-900 text-md font-bold mb-1 ">
+                                {job.job[0].jobTitle}
+                              </h5>
+                              <p className="text-sm font-bold  text-gray-400 font-semibold">
+                                {job.job[0].hiringOrganization}
+                              </p>
+                            </div>
+                            <div className="col-span-4">
+                              <div className="flex py-1">
+                                <div className="text-md py-1 text-gray-400 font-semibold ">
+                                  <HiOutlineCalendar />
+                                </div>
+
+                                <p className="px-2 text-md text-gray-400 font-semibold">
+                                  Scheduled on {" "}
+                                  {new Date(job.startDate).getDate() +
+                                    "-" +
+                                    (new Date(job.startDate).getMonth() + 1) +
+                                    "-" +
+                                    new Date(job.startDate).getFullYear()}
+                                </p>
+                              </div>
+                              <div className="flex py-1">
+                                <div className="text-md py-1 text-gray-400 font-semibold ">
+                                  <BsCashStack />
+                                </div>
+
+                                <p className="px-4 text-sm text-gray-400 font-semibold">
+                                  {typeof job.job[0].salary === "object"
+                                    ? job.job[0].salary[2]
+                                    : job.job[0].salary}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex col-span-2">
+                              {/* button here */}
+                              <a href={`/user/jobDetails/${job._id}`}
+                                style={{ background: "#3ED3C5" }}
+                                className=" rounded-lg my-2  px-6 mx-2 py-2 text-xs font-bold flex items-center text-white"
+                              >
+                                View Details
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    }
+                  })}
+                </div>
+              )}
+            </div>
+            <div className="shadow-lg w-full rounded-lg py-5 my-4 lg:mx-10 bg-white">
+              <div className="border-b border-gray-200 my-2 px-5 mb-2 pb-2 flex justify-between">
+                <div className="">
+                  <p className="text-lg font-bold font-gray-400">
+                    Matched Interview Invitations
+                  </p>
+                  {/* <p className="text-sm font-bold text-gray-300 mb-2">
+                    Lorem ipsum dorem, Lorem ipsum dorem{" "}
+                  </p> */}
+                </div>
+                <div
+                  className="text-xs text-gray-500 font-semibold mt-2"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    window.location.href = "/xi/interviews";
+                  }}
+                >
+                  See All Matched Interviews &#12297;
+                </div>
               </div>
+
+              {interviews.length === 0 ? (
+                <div className="text-center py-5 text-2xl md:w-4/4">
+                  No Matched Invitations
+                </div>
+              ) : (
+                <div className="w-full">
+                  {interviews.map((job, index) => {
+                    if (job.status && job.status === "Pending") {
+                      return (
+                        <div
+                          className={
+                            index < 5
+                              ? "w-full px-5 bg-white py-1 border border-b"
+                              : "w-full px-5 bg-white py-1 border border-b hidden"
+                          }
+                        >
+                          <div className="grid grid-cols-1 gap-4 md:grid-cols-8 sm:grid-cols-4  my-3">
+                            <div className="col-span-2">
+                              <h5 className="text-black-900 text-md font-bold mb-1 ">
+                                {job.job[0].jobTitle}
+                              </h5>
+                              <p className="text-sm font-bold  text-gray-400 font-semibold">
+                                {job.job[0].hiringOrganization}
+                              </p>
+                            </div>
+                            <div className="col-span-4">
+                              <div className="flex py-1">
+                                <div className="text-md py-1 text-gray-400 font-semibold ">
+                                  <HiOutlineCalendar />
+                                </div>
+
+                                <p className="px-2 text-md text-gray-400 font-semibold">
+                                  Scheduled on {" "}
+                                  {new Date(job.startDate).getDate() +
+                                    "-" +
+                                    (new Date(job.startDate).getMonth() + 1) +
+                                    "-" +
+                                    new Date(job.startDate).getFullYear()}
+                                </p>
+                              </div>
+                              <div className="flex py-1">
+                                <div className="text-md py-1 text-gray-400 font-semibold ">
+                                  <BsCashStack />
+                                </div>
+
+                                <p className="px-4 text-sm text-gray-400 font-semibold">
+                                  {typeof job.job[0].salary === "object"
+                                    ? job.job[0].salary[2]
+                                    : job.job[0].salary}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex col-span-2">
+                              {/* button here */}
+                              <a href={`/user/jobDetails/${job._id}`}
+                                style={{ background: "#3ED3C5" }}
+                                className=" rounded-lg my-2  px-6 mx-2 py-2 text-xs font-bold flex items-center text-white"
+                              >
+                                View Details
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    }
+                  })}
+                </div>
+              )}
             </div>
           </div>
 
@@ -472,7 +799,38 @@ const Panel = () => {
                   </Dialog>
                 </Transition>
               )}
-              <SessionCard />
+              <div className="shadow-lg mb-5 md:w-1/2 lg:w-full py-2 md:my-0 rounded-lg bg-white sm:w-full">
+                <div className="px-6 mt-2">
+                  <h5 className="text-lg font-semibold w-full flex justify-between">
+                    <span>Booked Slots</span>
+                    <button
+                      className=" hover:bg-blue-700 rounded-lg text-white p-3"
+                      style={{ backgroundColor: "#034488" }}
+                    >
+                      <a href="/XI/slots?addslot=1"><AiOutlinePlus /></a>
+                    </button>
+                  </h5>
+                </div>
+                <div className="">
+                  {slotstructure && slotstructure.map((slotdetails, index) => {
+                    if(index<3){
+                      return (
+                        <div className='mx-2 my-4 px-4'>
+                          <h5 className="mb-2">{ slotdetails.date }</h5>
+                          <div className="flex w-full" style={{overflowX:"auto"}}>
+                            {slotdetails.slots.map((slottime,index)=>{
+                              return (<span className="bg-white border border-gray-400 text-gray-600 text-xs font-semibold mr-2 px-2.5 py-2 rounded-3xl">{ slottime.startTime } - { slottime.endTime }</span>);
+                            })}
+                          </div>
+                        </div>
+                      );
+                    }
+                  })}
+                </div>
+                <div className="text-right px-6 my-2">
+                  <a href={`/XI/slots`} className="text-blue-500 text-sm">View More</a>
+                </div>
+              </div>
               <div className="shadow-lg my-5 md:w-1/2 lg:w-full py-2 md:my-0 rounded-lg bg-white sm:w-full h-28">
                 <div className="flex items-start space-x-3 px-6  ">
                   <div className="mt-3">
@@ -496,7 +854,7 @@ const Panel = () => {
             </div>
           </div>
         </div>
-        <div className="lg:flex ">
+        {/* <div className="lg:flex ">
           <div className="sm:w-full md:w-full lg:w-5/6 rounded-lg px-5 py-2 my-4 h-80 lg:mx-4 bg-white shadow-md ">
             <div
               style={{
@@ -510,7 +868,7 @@ const Panel = () => {
           </div>
 
           <RecentPeople />
-        </div>
+        </div> */}
       </div>
     </div>
   );

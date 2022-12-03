@@ -135,6 +135,12 @@ const JobList = () => {
   }
 
   useEffect(() => {
+    if(window.location.search.slice(1) === "addslot=1"){
+      document.getElementById("addslotbutton").click();
+    }
+  }, []);
+
+  useEffect(() => {
     const getData = async () => {
       let user = JSON.parse(localStorage.getItem("user"));
       setUser(user);
@@ -551,6 +557,7 @@ const JobList = () => {
               <button
                 className=" p-3 w-10vw rounded-md text-white"
                 style={{ backgroundColor: "#034488" }}
+                id="addslotbutton"
                 onClick={() => {
                   setModal(true);
                   setShowCandidateForm(true);
@@ -747,10 +754,14 @@ const JobList = () => {
                                       <button
                                         className="bg-[#034488] text-white rounded-sm px-4 my-2 pt--8"
                                         onClick={() => {
-                                          setStartTime(null);
-                                          setEndTime(null);
-                                          setModal(false);
-                                          setslotbookingscreen(0);
+                                          if(window.location.search.slice(1) === "addslot=1"){
+                                            window.history.back();
+                                          }else{
+                                            setStartTime(null);
+                                            setEndTime(null);
+                                            setModal(false);
+                                            setslotbookingscreen(0);
+                                          }
                                         }}
                                         style={{
                                           backgroundColor: "#fff",

@@ -651,14 +651,14 @@ export const XIDashboardRoutes = [
     component: <EditProfile />,
   },
   {
-    name: "All Transcation",
+    name: "Transactions",
     path: "/AllTranscation",
     hide: false,
     component: <XIAllTranscation />,
     icon: <AiOutlineUser className="text-xl" />,
   },
   {
-    name: "Interviews",
+    name: "Matched Interviews",
     path: "/evaluationlist",
     hide: false,
     icon: <MdOutlineWorkOutline className="text-xl" />,
@@ -673,7 +673,7 @@ export const XIDashboardRoutes = [
     component: <XIJobInvitations />,
   },
   {
-    name: "Job Interviews",
+    name: "Scheduled Interviews",
     path: "/jobinterviews",
     hide: true,
     icon: <CgWorkAlt className="text-xl" />,

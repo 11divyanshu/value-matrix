@@ -125,17 +125,6 @@ const Sidebar = () => {
         toggled={toggled}
         onToggle={handleToggle}
       >
-        <div className="w-full px-6">
-          <Link to="">
-            <button
-              className=" hover:bg-blue-700 flex text-white font-bold py-2 w-full text-sm mt-4 text-center align-center rounded-lg"
-              style={{backgroundColor:"#034488"}}
-
-            >
-             <p className="mx-auto flex"><p className="py-1 px-2 text-md"> <AiOutlinePlus/></p> Post New Job</p>
-            </button>
-          </Link>
-        </div>
         <SidebarContent className="text-left mx-5 mt-2">
           <Menu iconShape="square">
             <MenuItem
@@ -195,7 +184,7 @@ const Sidebar = () => {
               <p className="text-xl flex mx-2">
                 <AiOutlineUser />
                 <p className="text-sm mx-4 text-gray-700 font-semibold">
-                 Job Interviews{" "}
+                 Scheduled Interviews{" "}
                 </p>
               </p>
               <Link to={`/XI/jobinterviews`} />
@@ -219,24 +208,22 @@ const Sidebar = () => {
             {XIDashboardRoutes.map((item) => {
               if (item.hide === false && permission[item.permission] !== false && user && user.isXI !== false && user.status === "Approved")
                 return (
-                  // <Link
-                  //   to={`/company${item.path}`}
-                  //   onClick={() => setOpen(true)}
-                  // > <span className="flex my-2 p-3 text-gray-700"> <p className="mx-2 text-gray-600">{item.icon} </p>  <p className="font-bold"> {item.name}</p> </span></Link>
-
                   <MenuItem
-                    className="text-gray-700 font-semibold"
+                    className="text-gray-700 font-semibold mb-2 mt-3 flex"
                     active={window.location.pathname === `/XI${item.path}`}
-                    icon={item.icon}
+                    // onClick={()=>{ handleToggle();}}
                   >
-                    {item.name}{" "}
-                    <Link
-                      to={`/XI${item.path}`}
-                      onClick={() => {
+                    {" "}
+                    <p className="text-xl flex mx-2">
+                      <AiOutlineUser />
+                      <p className="text-sm mx-4 text-gray-700 font-semibold">
+                        {item.name}{" "}
+                      </p>
+                    </p>
+                    <Link to={`/XI${item.path}`} onClick={() => {
                         setOpen(true);
                          handleToggle();
-                      }}
-                    />
+                      }} />
                   </MenuItem>
                 );
             })}

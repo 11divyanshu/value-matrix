@@ -89,7 +89,7 @@ const JobList = (props) => {
                   className="  py-4 px-5"
                   style={{ borderRadius: "6px 6px 0 0" }}
                 >
-                  <p className="text-gray-900 w-full font-bold">Interviews</p>
+                  <p className="text-gray-900 w-full font-bold">Scheduled Interviews</p>
                   {/* <p className="text-gray-400 w-full font-semibold">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p> */}
                 </div>
 
