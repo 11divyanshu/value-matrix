@@ -54,7 +54,6 @@ export const countryCodeList = async () => {
   }
 };
 
-
 // Logout
 export const LogoutAPI = async (user_id) => {
   try {
@@ -76,7 +75,6 @@ export const OTPMail = async (mail) => {
 export const sendForwardedMail = async (mail) => {
   try {
     return await axios.post(`${url}/sendForwardedMail`, mail);
-    
   } catch (error) {
     console.log("Error while calling sendForwardedMail API: ", error);
   }
@@ -149,7 +147,7 @@ export const getProfileImage = async (data, token) => {
 export const getBlockedDate = async (id) => {
   try {
     return await axios.post(`${url}/getBlockedDate`, {
-      id: id
+      id: id,
     });
   } catch (error) {
     console.log("Error while calling UpdateUserDetails : ", error);
@@ -161,7 +159,7 @@ export const updateBlockedDate = async (id, blockeddates) => {
   try {
     return await axios.post(`${url}/updateBlockedDate`, {
       id: id,
-      blockeddates: blockeddates
+      blockeddates: blockeddates,
     });
   } catch (error) {
     console.log("Error while calling UpdateUserDetails : ", error);
@@ -298,22 +296,21 @@ export const sendOneSignalNotification = async (data, token) => {
 };
 
 // Update Profile Image
-export const updateProfileImage = async (data,user, token) => {
+export const updateProfileImage = async (data, user, token) => {
   try {
     console.log(data);
     return await axios.post(`${url}/updateProfilePicture?user=${user}`, data, {
       headers: { "Content-Type": "multipart/form-data", authorization: token },
     });
   } catch (error) {
-   // return error;
+    // return error;
     console.log("Error calling Update  : ", error);
-
   }
 };
 
 // Post Job
 export const postJobAPI = async (data, token) => {
-  console.log(data)
+  console.log(data);
   try {
     return await axios.post(`${url}/addJob`, data, {
       headers: {
@@ -333,10 +330,10 @@ export const postUpdateJobStatus = async (data, token) => {
         authorization: token,
       },
     });
-  }catch (error) {
+  } catch (error) {
     console.log("Error calling Post Job API : ", error);
   }
-}
+};
 
 export const postUpdateCandidateStatus = async (data, token) => {
   console.log(data);
@@ -346,10 +343,10 @@ export const postUpdateCandidateStatus = async (data, token) => {
         authorization: token,
       },
     });
-  }catch (error) {
+  } catch (error) {
     console.log("Error calling Post Job API : ", error);
   }
-}
+};
 
 export const postUpdateJobArchive = async (data, token) => {
   console.log(data);
@@ -359,10 +356,10 @@ export const postUpdateJobArchive = async (data, token) => {
         authorization: token,
       },
     });
-  }catch (error) {
+  } catch (error) {
     console.log("Error calling Post Job API : ", error);
   }
-}
+};
 
 //update job
 
@@ -575,12 +572,16 @@ export const getUserList = async (data, token) => {
 // Download Resume
 export const downloadResume = async (data, token) => {
   try {
-
-    return await axios.post(`${url}/downloadResume`, data, {
-      headers: { authorization: token },
-    }, {
-      responseType: 'blob'
-    });
+    return await axios.post(
+      `${url}/downloadResume`,
+      data,
+      {
+        headers: { authorization: token },
+      },
+      {
+        responseType: "blob",
+      }
+    );
   } catch (error) {
     console.log("Error : ", error);
   }
@@ -753,8 +754,8 @@ export const archiveJob = async (data) => {
 
 export const listXIEvaluation = async (data, token) => {
   try {
-    console.log(data)
-    console.log(token)
+    console.log(data);
+    console.log(token);
     return await axios.post(`${url}/listXIEvaluation`, data, {
       headers: { authorization: token },
     });
@@ -764,7 +765,6 @@ export const listXIEvaluation = async (data, token) => {
 };
 export const getXIInterviewList = async (data, token) => {
   try {
-   
     return await axios.post(`${url}/getXIInterviewList`, data, {
       headers: { authorization: token },
     });
@@ -806,7 +806,7 @@ export const addInterviewQuestion = async (data, token) => {
 };
 export const fetchInterviewQuestion = async (token) => {
   try {
-    return await axios.get(`${url}/fetchInterviewQuestions` ,{
+    return await axios.get(`${url}/fetchInterviewQuestions`, {
       headers: { authorization: token },
     });
   } catch (err) {
@@ -815,7 +815,7 @@ export const fetchInterviewQuestion = async (token) => {
 };
 export const updateInterviewQuestion = async (data) => {
   try {
-    return await axios.post(`${url}/updateInterviewQuestion`,data);
+    return await axios.post(`${url}/updateInterviewQuestion`, data);
   } catch (err) {
     console.log("Error : ", err);
   }
@@ -870,7 +870,7 @@ export const getDBCompanyList = async (data, token) => {
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 // Get School List
 export const getDBSchoolList = async (data, token) => {
   try {
@@ -878,7 +878,7 @@ export const getDBSchoolList = async (data, token) => {
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 
 // Update Evaluation Details
 export const updateEvaluation = async (data, token) => {
@@ -889,7 +889,7 @@ export const updateEvaluation = async (data, token) => {
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 export const getCandidateEvaluation = async (data, token) => {
   try {
     return await axios.post(`${url}/getCandidateEvaluation`, data, {
@@ -898,7 +898,7 @@ export const getCandidateEvaluation = async (data, token) => {
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 
 //Candidate ENdpoints
 
@@ -910,358 +910,287 @@ export const addCandidate = async (data, token) => {
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 export const getCandidateList = async (data) => {
   try {
-    return await axios.post(`${url}/getCandidateList?id=${data}`
-    );
+    return await axios.post(`${url}/getCandidateList?id=${data}`);
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 export const eligibleCandidateList = async (data) => {
   try {
     return await axios.post(`${url}/eligibleCandidateList`, data);
-
   } catch (err) {
     console.log("Error : ", err);
   }
-}
-export const deleteCandidate = async (id , company , isDeleted) => {
+};
+export const deleteCandidate = async (id, company, isDeleted) => {
   try {
-     console.log(id , company,isDeleted);
-    return await axios.post(`${url}/deleteCandidate?id=${id}`,{company : company , isDeleted : isDeleted}
-    );
-
+    console.log(id, company, isDeleted);
+    return await axios.post(`${url}/deleteCandidate?id=${id}`, {
+      company: company,
+      isDeleted: isDeleted,
+    });
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 export const eligibleJobsForCandidate = async (data) => {
   console.log(data);
   try {
-    return await axios.get(`${url}/eligibleJobsForCandidate?email=${data}`
-    );
-
+    return await axios.get(`${url}/eligibleJobsForCandidate?email=${data}`);
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 // unapproved jobs
 export const unapprovedJobsList = async () => {
   try {
-    return await axios.get(`${url}/unapprovedJobsList`
-    );
-
+    return await axios.get(`${url}/unapprovedJobsList`);
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 export const getallJobs = async () => {
   try {
-    return await axios.get(`${url}/allJobs`
-    );
-
+    return await axios.get(`${url}/allJobs`);
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 export const languagesList = async () => {
   try {
-    return await axios.get(`${url}/languagesList`
-    );
-
+    return await axios.get(`${url}/languagesList`);
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 export const approveJob = async (data) => {
   try {
-    return await axios.post(`${url}/approveJob`,data
-    );
-
+    return await axios.post(`${url}/approveJob`, data);
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 export const approveCd = async (index, job_id, candet) => {
   try {
-    return await axios.post(`${url}/approveCandidate`,{
+    return await axios.post(`${url}/approveCandidate`, {
       index: index,
       _id: job_id,
-      candet: candet
-    }
-    );
-
+      candet: candet,
+    });
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 export const getuserbyEmail = async (email) => {
   try {
-    return await axios.post(`${url}/getuserbyEmail`,{
-      email: email
-    }
-    );
-
+    return await axios.post(`${url}/getuserbyEmail`, {
+      email: email,
+    });
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 export const approveCompany = async (data) => {
   try {
-    return await axios.post(`${url}/approveCompany`,data
-    );
-
+    return await axios.post(`${url}/approveCompany`, data);
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 export const checkCompany = async (data) => {
   try {
-    return await axios.post(`${url}/checkCompany`,data
-    );
-
+    return await axios.post(`${url}/checkCompany`, data);
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 export const listUnapproveCompany = async () => {
   try {
-    return await axios.get(`${url}/listUnapproveCompany`
-    );
-
+    return await axios.get(`${url}/listUnapproveCompany`);
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 export const saveCandidateReport = async (data) => {
   console.log(data);
   try {
-    return await axios.get(`${url}/saveCandidateReport?candidate_id=${data}`
-    );
-    
+    return await axios.get(`${url}/saveCandidateReport?candidate_id=${data}`);
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 
 // get Company users
 
-
 export const getCompanyUserList = async (id) => {
   try {
-    return await axios.get(`${url}/getCompanyUserList?id=${id}`
-    );
-
+    return await axios.get(`${url}/getCompanyUserList?id=${id}`);
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 
 // get titles
 export const getJobTitles = async (id) => {
   try {
-    return await axios.get(`${url}/getJobTitles`
-    );
-
+    return await axios.get(`${url}/getJobTitles`);
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 export const listUnapproveTitles = async (id) => {
   try {
-    return await axios.get(`${url}/listUnapproveTitles`
-    );
-
+    return await axios.get(`${url}/listUnapproveTitles`);
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 export const approveTitle = async (data) => {
   try {
-    return await axios.post(`${url}/approveTitle`,data
-    );
-    
+    return await axios.post(`${url}/approveTitle`, data);
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 export const jobTitles = async (data) => {
   try {
-    return await axios.post(`${url}/jobTitles`,data
-    );
-
+    return await axios.post(`${url}/jobTitles`, data);
   } catch (err) {
     console.log("Error : ", err);
-    
   }
-}
+};
 export const addcompany = async (data) => {
   try {
-    return await axios.post(`${url}/addcompany`,data
-    );
-    
+    return await axios.post(`${url}/addcompany`, data);
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 
 // Slots
 
-export const availableSlots = async (data,type) => {
+export const availableSlots = async (data, type) => {
   try {
-    return await axios.post(`${url}/availableSlots`,{userId:data , type:type}
-    );
-
+    return await axios.post(`${url}/availableSlots`, {
+      userId: data,
+      type: type,
+    });
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
+export const slot_by_interviewId = async (interviewId) => {
+  try {
+    return await axios.get(`${url}/slot_by_interviewId?id=${interviewId}`);
+  } catch (err) {
+    console.log("Error : ", err);
+  }
+};
 export const XISlots = async (id) => {
   try {
-    return await axios.get(`${url}/XISlots?id=${id}`
-    );
-
+    return await axios.get(`${url}/XISlots?id=${id}`);
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 
 export const addSlot = async (data) => {
   try {
-    return await axios.post(`${url}/addSlot`,data
-    );
-
+    return await axios.post(`${url}/addSlot`, data);
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 export const ValidateSlot = async (data) => {
   try {
-    return await axios.post(`${url}/ValidateSlot`,data
-    );
-
+    return await axios.post(`${url}/ValidateSlot`, data);
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 export const findCandidateByEmail = async (data) => {
   try {
-    return await axios.post(`${url}/findCandidateByEmail?email=${data}`,
-    );
-
+    return await axios.post(`${url}/findCandidateByEmail?email=${data}`);
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 export const bookSlot = async (data) => {
   try {
-    return await axios.post(`${url}/bookSlot`,data
-    );
-
+    return await axios.post(`${url}/bookSlot`, data);
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
-export const updateSlot = async (id,data) => {
+};
+export const updateSlot = async (id, data) => {
   try {
-    return await axios.put(`${url}/updateSlot?slotId=${id}`,data
-    );
-
+    return await axios.put(`${url}/updateSlot?slotId=${id}`, data);
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
-export const newslotupdater = async (id,data,date) => {
+};
+export const newslotupdater = async (id, data, date) => {
   try {
     console.log(data);
-    return await axios.put(`${url}/newslotupdater`,
-      {
-        id: id,
-        data: data,
-        date: date
-      }
-    );
-
+    return await axios.put(`${url}/newslotupdater`, {
+      id: id,
+      data: data,
+      date: date,
+    });
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 export const deleteSlot = async (id) => {
   try {
-    return await axios.delete(`${url}/deleteSlot?slotId=${id}`
-    );
-
+    return await axios.delete(`${url}/deleteSlot?slotId=${id}`);
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 export const slotDetailsOfXI = async (id) => {
   try {
-    return await axios.get(`${url}/slotDetailsOfXI?XI_id=${id}`
-    );
-
+    return await axios.get(`${url}/slotDetailsOfXI?XI_id=${id}`);
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 export const slotDetailsOfUser = async (id) => {
   try {
     console.log(id);
-    return await axios.get(`${url}/slotDetailsOfUser?userId=${id}`
-    );
-
+    return await axios.get(`${url}/slotDetailsOfUser?userId=${id}`);
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 
 export const userInterviewsDetails = async (id) => {
   try {
-    return await axios.get(`${url}/userInterviewsDetails?slotId=${id}`
-    );
-
+    return await axios.get(`${url}/userInterviewsDetails?slotId=${id}`);
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
-export const updateInterviewApplication = async (id ,data) => {
+};
+export const updateInterviewApplication = async (id, data) => {
   try {
-    return await axios.put(`${url}/updateInterviewApplication?id=${id}`,data
-    );
-
+    return await axios.put(`${url}/updateInterviewApplication?id=${id}`, data);
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
-export const updateXIInterviewApplication = async (id ,data) => {
+};
+export const updateXIInterviewApplication = async (id, data) => {
   try {
-    return await axios.put(`${url}/updateXIInterviewApplication?id=${id}`,data
+    return await axios.put(
+      `${url}/updateXIInterviewApplication?id=${id}`,
+      data
     );
-
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 
 export const userUpgradePostRequest = async (data, token) => {
   console.log(data);
@@ -1271,62 +1200,54 @@ export const userUpgradePostRequest = async (data, token) => {
         authorization: token,
       },
     });
-  }catch (error) {
+  } catch (error) {
     console.log("Error calling Post Job API : ", error);
   }
-}
+};
 export const handleXIInterview = async (data, token) => {
   console.log(data);
   try {
-    return await axios.post(`${url}/handleXIInterview`, data ,{
+    return await axios.post(`${url}/handleXIInterview`, data, {
       headers: {
         authorization: token,
-      },}
-     
-    );
-  }catch (error) {
+      },
+    });
+  } catch (error) {
     console.log("Error calling Post Job API : ", error);
   }
-}
+};
 
-
-export const checkinterviewdetails = async (meetingid ,participantdetails) => {
+export const checkinterviewdetails = async (meetingid, participantdetails) => {
   try {
-    return await axios.post(`${url}/checkinterviewdetails`,{
+    return await axios.post(`${url}/checkinterviewdetails`, {
       meetingID: meetingid,
-      participant: participantdetails
-    }
-    );
-    
+      participant: participantdetails,
+    });
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 
-export const fetchinterviewdetails = async (meetingid ,participantdetails) => {
+export const fetchinterviewdetails = async (meetingid, participantdetails) => {
   try {
-    return await axios.post(`${url}/fetchinterviewdetails`,{
+    return await axios.post(`${url}/fetchinterviewdetails`, {
       meetingID: meetingid,
-      participant: participantdetails
-    }
-    );
-    
+      participant: participantdetails,
+    });
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 
 export const getlivestatus = async (meetingid) => {
   try {
-    return await axios.post(`${url}/getlivestatus`,{
-      meetingID: meetingid
-    }
-    );
-    
+    return await axios.post(`${url}/getlivestatus`, {
+      meetingID: meetingid,
+    });
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 
 // export const twilioToken = async () => {
 //   try {
@@ -1341,7 +1262,7 @@ export const getlivestatus = async (meetingid) => {
 
 export const processFlask = async (currentUser, imageSrc, type, id) => {
   try {
-    return await axios.post(`${flaskurl}/Interview`,{
+    return await axios.post(`${flaskurl}/Interview`, {
       id: currentUser._id,
       data: imageSrc,
       type: type,
@@ -1349,13 +1270,12 @@ export const processFlask = async (currentUser, imageSrc, type, id) => {
     });
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 
 export const processFlasklive = async (currentUser, imageSrc, id) => {
   try {
-    return await axios.post(`${flaskurl}/Interview/Live`,{
+    return await axios.post(`${flaskurl}/Interview/Live`, {
       id: currentUser._id,
       data: imageSrc,
       type: "live",
@@ -1363,562 +1283,491 @@ export const processFlasklive = async (currentUser, imageSrc, id) => {
     });
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 // XI Panels
 
 export const ListXIPanels = async () => {
   try {
-    return await axios.get(`${url}/ListXIPanels`
-     
-    );
-  }catch (error) {
+    return await axios.get(`${url}/ListXIPanels`);
+  } catch (error) {
     console.log("Error calling Post Job API : ", error);
   }
-}
+};
 export const addXIPanels = async (data, token) => {
   try {
-    return await axios.post(`${url}/addXIPanels`, data ,{
+    return await axios.post(`${url}/addXIPanels`, data, {
       headers: {
         authorization: token,
-      },}
-     
-    );
-  }catch (error) {
+      },
+    });
+  } catch (error) {
     console.log("Error calling Post Job API : ", error);
   }
-}
+};
 export const updateXIPanels = async (data, token) => {
   try {
-    return await axios.post(`${url}/updateXIPanels`, data ,{
+    return await axios.post(`${url}/updateXIPanels`, data, {
       headers: {
         authorization: token,
-      },}
-     
-    );
-  }catch (error) {
+      },
+    });
+  } catch (error) {
     console.log("Error calling Post Job API : ", error);
   }
-}
+};
 // XI Category
 
 export const ListXICategory = async () => {
   try {
-    return await axios.get(`${url}/ListXICategory`
-     
-    );
-  }catch (error) {
+    return await axios.get(`${url}/ListXICategory`);
+  } catch (error) {
     console.log("Error calling Post Job API : ", error);
   }
-}
+};
 export const addXICategory = async (data, token) => {
   try {
-    return await axios.post(`${url}/addXICategory`, data ,{
+    return await axios.post(`${url}/addXICategory`, data, {
       headers: {
         authorization: token,
-      },}
-     
-    );
-  }catch (error) {
+      },
+    });
+  } catch (error) {
     console.log("Error calling Post Job API : ", error);
   }
-}
+};
 export const updateXICategory = async (data, token) => {
   try {
-    return await axios.post(`${url}/updateXICategory`, data ,{
+    return await axios.post(`${url}/updateXICategory`, data, {
       headers: {
         authorization: token,
-      },}
-     
-    );
-  }catch (error) {
+      },
+    });
+  } catch (error) {
     console.log("Error calling Post Job API : ", error);
   }
-}
+};
 // CreditCategory
 
 export const ListCreditCategory = async () => {
   try {
-    return await axios.get(`${url}/ListCreditCategory`
-     
-    );
-  }catch (error) {
+    return await axios.get(`${url}/ListCreditCategory`);
+  } catch (error) {
     console.log("Error calling Currency Category API : ", error);
   }
-}
+};
 export const addCreditCategory = async (data) => {
   try {
-    return await axios.post(`${url}/addCreditCategory`, data 
-     
-    );
-  }catch (error) {
+    return await axios.post(`${url}/addCreditCategory`, data);
+  } catch (error) {
     console.log("Error calling Currency Category API : ", error);
   }
-}
+};
 export const updateCreditCategory = async (data) => {
   try {
-    return await axios.post(`${url}/updateCreditCategory`, data
-     
-    );
-  }catch (error) {
+    return await axios.post(`${url}/updateCreditCategory`, data);
+  } catch (error) {
     console.log("Error calling Currency Category API : ", error);
   }
-}
+};
 
 // Currency Converter
 export const ListCreditConverter = async () => {
   try {
-    return await axios.get(`${url}/ListCreditConverter`
-     
-    );
-  }catch (error) {
+    return await axios.get(`${url}/ListCreditConverter`);
+  } catch (error) {
     console.log("Error calling Converter API : ", error);
   }
-}
+};
 export const addCreditConverter = async (data) => {
   try {
-    return await axios.post(`${url}/addCreditConverter`, data 
-     
-    );
-  }catch (error) {
+    return await axios.post(`${url}/addCreditConverter`, data);
+  } catch (error) {
     console.log("Error calling Converter API : ", error);
   }
-}
+};
 export const updateCreditConverter = async (data) => {
   try {
-    return await axios.post(`${url}/updateCreditConverter`, data
-     
-    );
-  }catch (error) {
+    return await axios.post(`${url}/updateCreditConverter`, data);
+  } catch (error) {
     console.log("Error calling Converter API : ", error);
   }
-}
+};
 // XI Levels
 
 export const ListXILevel = async () => {
   try {
-    return await axios.get(`${url}/ListXILevel`
-     
-    );
-  }catch (error) {
+    return await axios.get(`${url}/ListXILevel`);
+  } catch (error) {
     console.log("Error calling Post Job API : ", error);
   }
-}
+};
 export const addXILevel = async (data, token) => {
   try {
-    return await axios.post(`${url}/addXILevel`, data ,{
+    return await axios.post(`${url}/addXILevel`, data, {
       headers: {
         authorization: token,
-      },}
-     
-    );
-  }catch (error) {
+      },
+    });
+  } catch (error) {
     console.log("Error calling Post Job API : ", error);
   }
-}
+};
 export const updateXILevel = async (data, token) => {
   try {
-    return await axios.post(`${url}/updateXILevel`, data ,{
+    return await axios.post(`${url}/updateXILevel`, data, {
       headers: {
         authorization: token,
-      },}
-     
-    );
-  }catch (error) {
+      },
+    });
+  } catch (error) {
     console.log("Error calling Post Job API : ", error);
   }
-}
-
+};
 
 // XI Levels
 
 export const ListXIMultiplier = async () => {
   try {
-    return await axios.get(`${url}/ListXIMultiplier`
-     
-    );
-  }catch (error) {
+    return await axios.get(`${url}/ListXIMultiplier`);
+  } catch (error) {
     console.log("Error calling Post Job API : ", error);
   }
-}
+};
 export const addXIMultiplier = async (data, token) => {
   try {
-    return await axios.post(`${url}/addXIMultiplier`, data ,{
+    return await axios.post(`${url}/addXIMultiplier`, data, {
       headers: {
         authorization: token,
-      },}
-     
-    );
-  }catch (error) {
+      },
+    });
+  } catch (error) {
     console.log("Error calling Post Job API : ", error);
   }
-}
+};
 export const updateXIMultiplier = async (data, token) => {
   try {
-    return await axios.post(`${url}/updateXIMultiplier`, data ,{
+    return await axios.post(`${url}/updateXIMultiplier`, data, {
       headers: {
         authorization: token,
-      },}
-     
-    );
-  }catch (error) {
+      },
+    });
+  } catch (error) {
     console.log("Error calling Post Job API : ", error);
   }
-}
+};
 export const updateXIInfo = async (data) => {
   try {
-    return await axios.post(`${url}/updateXIInfo`, data 
-     
-    );
-  }catch (error) {
+    return await axios.post(`${url}/updateXIInfo`, data);
+  } catch (error) {
     console.log("Error calling  API : ", error);
   }
-}
+};
 export const getXIInfo = async (data) => {
   try {
-    return await axios.get(`${url}/getXIInfo?id=${data}`,  
-     
-    );
-  }catch (error) {
+    return await axios.get(`${url}/getXIInfo?id=${data}`);
+  } catch (error) {
     console.log("Error calling  API : ", error);
   }
-}
-export const priorityEngine = async (data,type) => {
+};
+export const priorityEngine = async (data, type) => {
   try {
-    return await axios.post(`${url}/priorityEngine?date=${data}`,{type:type}  
-     
-    );
-  }catch (error) {
+    return await axios.post(`${url}/priorityEngine?date=${data}`, {
+      type: type,
+    });
+  } catch (error) {
     console.log("Error calling  API : ", error);
   }
-}
-export const XIPerformance = async (data,type) => {
+};
+export const XIPerformance = async (data, type) => {
   try {
-    return await axios.post(`${url}/XIPerformance?id=${data}` 
-     
-    );
-  }catch (error) {
+    return await axios.post(`${url}/XIPerformance?id=${data}`);
+  } catch (error) {
     console.log("Error calling  API : ", error);
   }
-}
-
+};
 
 // razorpay
 export const PaymentSuccess = async (data) => {
   try {
-    return await axios.post(`${url}/payment/success`, data) 
-     
-    
-  }catch (error) {
+    return await axios.post(`${url}/payment/success`, data);
+  } catch (error) {
     console.log("Error calling  Razorpay API : ", error);
   }
-}
+};
 export const newOrder = async (data) => {
   try {
-    return await axios.post(`${url}/payment/orders`,data) 
-     
-    
-  }catch (error) {
+    return await axios.post(`${url}/payment/orders`, data);
+  } catch (error) {
     console.log("Error calling  Razorpay API : ", error);
   }
-}
-
+};
 
 // User Credit Info
 export const getCreditInfoList = async (data) => {
   try {
-    return await axios.post(`${url}/getCreditInfoList`, data) 
-     
-    
-  }catch (error) {
+    return await axios.post(`${url}/getCreditInfoList`, data);
+  } catch (error) {
     console.log("Error calling  Razorpay API : ", error);
   }
-}
+};
 export const updateUserCreditInfo = async (data) => {
   try {
-    return await axios.post(`${url}/updateUserCreditInfo`, data) 
-     
-    
-  }catch (error) {
+    return await axios.post(`${url}/updateUserCreditInfo`, data);
+  } catch (error) {
     console.log("Error calling  Razorpay API : ", error);
   }
-}
+};
 
 export const updateinterviewcheck = async (type, img, id) => {
   try {
-    return await axios.post(`${url}/updateinterviewcheck`,{
+    return await axios.post(`${url}/updateinterviewcheck`, {
       type: type,
-      meetingID: id
+      meetingID: id,
     });
-
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 
 export const updatelivestatus = async (stats, id) => {
   try {
-    return await axios.post(`${url}/updatelivestatus`,{
+    return await axios.post(`${url}/updatelivestatus`, {
       stats: stats,
-      meetingID: id
+      meetingID: id,
     });
-
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 
 export const getinterviewdetails = async (id) => {
   try {
-    return await axios.post(`${url}/getinterviewdetails`,{
-      meetingID: id
+    return await axios.post(`${url}/getinterviewdetails`, {
+      meetingID: id,
     });
-
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 
 export const savecode = async (id, code, stdin, stdout) => {
   try {
-    return await axios.post(`${url}/savecode`,{
+    return await axios.post(`${url}/savecode`, {
       meetingID: id,
       code: code,
       stdin: stdin,
-      stdout: stdout
+      stdout: stdout,
     });
-
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 
 export const updatewhiteboard = async (id, data) => {
   try {
-    return await axios.post(`${url}/updatewhiteboard`,{
+    return await axios.post(`${url}/updatewhiteboard`, {
       meetingID: id,
-      data: data
+      data: data,
     });
-
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 
 export const startinterview = async (id) => {
   try {
-    return await axios.post(`${url}/startinterview`,{
-      meetingID: id
+    return await axios.post(`${url}/startinterview`, {
+      meetingID: id,
     });
-
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 
 export const endinterview = async (id) => {
   try {
-    return await axios.post(`${url}/endinterview`,{
-      meetingID: id
+    return await axios.post(`${url}/endinterview`, {
+      meetingID: id,
     });
-
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 
 export const setquestionresult = async (id, qn) => {
   try {
-    return await axios.post(`${url}/setquestionresult`,{
+    return await axios.post(`${url}/setquestionresult`, {
       meetingID: id,
-      qn: qn
+      qn: qn,
     });
-
   } catch (err) {
     console.log("Error : ", err);
   }
-}
+};
 
 export const compilecode = async (formdata) => {
   try {
-    return await axios.post(`${url}/compilecode`,{
-      data: formdata
+    return await axios.post(`${url}/compilecode`, {
+      data: formdata,
     });
-
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 // Transactions
 
 export const getTransactions = async (id) => {
   try {
-    return await axios.get(`${url}/getTransactions?id=${id}`)
-
+    return await axios.get(`${url}/getTransactions?id=${id}`);
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 export const updateWallet = async (id) => {
   try {
-    return await axios.post(`${url}/updateWallet?id=${id}`)
-
+    return await axios.post(`${url}/updateWallet?id=${id}`);
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 export const userRequestUpdate = async (id) => {
   try {
-    return await axios.get(`${url}/userRequestUpdate?id=${id}`)
-
+    return await axios.get(`${url}/userRequestUpdate?id=${id}`);
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 export const userAcceptUpdate = async (id) => {
   try {
-    return await axios.get(`${url}/userAcceptUpdate?id=${id}`)
-
+    return await axios.get(`${url}/userAcceptUpdate?id=${id}`);
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 
 export const checkcompilestatus = async (token) => {
   try {
-    return await axios.post(`${url}/checkcompilestatus`,{
-      token: token
+    return await axios.post(`${url}/checkcompilestatus`, {
+      token: token,
     });
   } catch (err) {
     console.log("Error : ", err);
-
   }
-}
+};
 
 export const getUserCurrentCredit = async (id) => {
-  try{
-     return await axios.post(`${url}/getUserCurrentCredit`, {'userId':id}) 
-  }catch(err){
+  try {
+    return await axios.post(`${url}/getUserCurrentCredit`, { userId: id });
+  } catch (err) {
     console.log("Error : " + err);
   }
-}
+};
 export const getxiquestions = async (type, level, experience, category) => {
-  try{
-     return await axios.post(`${url}/getxiquestions`, {'type': type, "level": level, "experience": experience, "category": category}) 
-  }catch(err){
+  try {
+    return await axios.post(`${url}/getxiquestions`, {
+      type: type,
+      level: level,
+      experience: experience,
+      category: category,
+    });
+  } catch (err) {
     console.log("Error : " + err);
   }
-}
+};
 
 export const getinterviewjob = async (id) => {
-  try{
-     return await axios.post(`${url}/getinterviewjob`, {'jobid': id}) 
-  }catch(err){
+  try {
+    return await axios.post(`${url}/getinterviewjob`, { jobid: id });
+  } catch (err) {
     console.log("Error : " + err);
   }
-}
-
+};
 
 export const createTaskScheduler = async (data) => {
-  try{
-     return await axios.post(`${url}/createTaskScheduler`,data) 
-  }catch(err){
+  try {
+    return await axios.post(`${url}/createTaskScheduler`, data);
+  } catch (err) {
     console.log("Error : " + err);
   }
-}
-
-
+};
 
 export const getpsykey = async (data) => {
-  try{
-     return await axios.post(`${psyurl}?linkedInProfileUrl=${data}`) 
-  }catch(err){
+  try {
+    return await axios.post(`${psyurl}?linkedInProfileUrl=${data}`);
+  } catch (err) {
     console.log("Error : " + err);
   }
-}
+};
 
 export const getUserStats = async (id) => {
-  try{
-     return await axios.post(`${url}/getUserStats`,{id})
-  }catch(err){
+  try {
+    return await axios.post(`${url}/getUserStats`, { id });
+  } catch (err) {
     console.log("Error : " + err);
   }
-}
+};
 
 export const getOtherLI = async (id) => {
-  try{
-     return await axios.post(`${url}/getOtherLI`,{
-      li: id
-     })
-  }catch(err){
+  try {
+    return await axios.post(`${url}/getOtherLI`, {
+      li: id,
+    });
+  } catch (err) {
     console.log("Error : " + err);
   }
-}
+};
 
 export const setprofileauth = async (id) => {
-  try{
-     return await axios.post(`${url}/setprofileauth`,{
-      id: id
-     })
-  }catch(err){
+  try {
+    return await axios.post(`${url}/setprofileauth`, {
+      id: id,
+    });
+  } catch (err) {
     console.log("Error : " + err);
   }
-}
+};
 
 export const startlivemeet = async (id, room) => {
-  try{
-     return await axios.post(`${url}/startlivemeet`,{
+  try {
+    return await axios.post(`${url}/startlivemeet`, {
       meetingID: id,
-      room: room
-
-     })
-  }catch(err){
+      room: room,
+    });
+  } catch (err) {
     console.log("Error : " + err);
   }
-}
+};
 
 export const startproctoring = async (id, link) => {
-  try{
-     return await axios.post(`${proctoringurl}/task/${id}`,{
+  try {
+    return await axios.post(`${proctoringurl}/task/${id}`, {
       job_id: id,
-      link: link
-
-     })
-  }catch(err){
+      link: link,
+    });
+  } catch (err) {
     console.log("Error : " + err);
   }
-}
+};
 
 export const stopproctoring = async (id, link) => {
-  try{
-     return await axios.post(`${proctoringurl}/stoptask/${id}`,{
+  try {
+    return await axios.post(`${proctoringurl}/stoptask/${id}`, {
       job_id: id,
-      link: link
-
-     })
-  }catch(err){
+      link: link,
+    });
+  } catch (err) {
     console.log("Error : " + err);
   }
-}
+};
 
 export const handleproctoring = async (id, data) => {
-  try{
-     return await axios.post(`${url}/handleproctoring`,{
+  try {
+    return await axios.post(`${url}/handleproctoring`, {
       id: id,
-      proctoring : data
-     })
-  }catch(err){
+      proctoring: data,
+    });
+  } catch (err) {
     console.log("Error : " + err);
   }
-}
+};

@@ -376,7 +376,7 @@ const UpdateInterviewApplication = () => {
                 </div>
               </div>
             )}
-            <div className="my-5">
+            {/* <div className="my-5">
               <div className="w-full border border-b bg-white px-9 py-3 space-y-2 flex items-center flex-wrap">
                 <div className="w-3/4 flex items-center flex-wrap space-y-2">
                   <p className="font-semibold text-lg my-3">
@@ -507,7 +507,7 @@ const UpdateInterviewApplication = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
             {interview && (
               <div className="my-5">
                 <div>
@@ -801,7 +801,7 @@ const UpdateInterviewApplication = () => {
                   
                   }
               </div>
-                  <div className="my-5">
+                  {/* <div className="my-5">
                     <p className="font-semibold text-lg my-3">
                       Evaluation Details
                     </p>
@@ -1089,7 +1089,7 @@ const UpdateInterviewApplication = () => {
                         </button>
                       )}
                     </div>
-                  </div>
+                  </div> */}
                   <div className="my-5">
                     <p className="font-semibold text-lg my-3">Feedback</p>
                     <div className="w-full  bg-white border border-b bg-white px-9 py-6 border space-y-2">
