@@ -6,6 +6,7 @@ export const url = "http://localhost:8000";
 // export const url = "https://backend.babyhost.in"
 export const frontendUrl = "http://localhost:3001";
 export const flaskurl = "http://3.110.220.19:5000";
+export const proctoringurl = "https://ec7d-2401-4900-1c62-948a-1c79-6fbc-fcb3-1553.in.ngrok.io";
 export const psyurl = "http://3.84.200.126:9027/psychometric/candidate";
 
 // User Method API
@@ -145,6 +146,29 @@ export const getProfileImage = async (data, token) => {
 };
 
 // Update User Details
+export const getBlockedDate = async (id) => {
+  try {
+    return await axios.post(`${url}/getBlockedDate`, {
+      id: id
+    });
+  } catch (error) {
+    console.log("Error while calling UpdateUserDetails : ", error);
+  }
+};
+
+// Update User Details
+export const updateBlockedDate = async (id, blockeddates) => {
+  try {
+    return await axios.post(`${url}/updateBlockedDate`, {
+      id: id,
+      blockeddates: blockeddates
+    });
+  } catch (error) {
+    console.log("Error while calling UpdateUserDetails : ", error);
+  }
+};
+
+// Update User Details
 export const updateUserDetails = async (data, token) => {
   try {
     return await axios.post(`${url}/updateUserDetails`, data, {
@@ -154,6 +178,7 @@ export const updateUserDetails = async (data, token) => {
     console.log("Error while calling UpdateUserDetails : ", error);
   }
 };
+
 export const updateSkills = async (data, token) => {
   try {
     return await axios.post(`${url}/updateSkills`, data, {
@@ -1845,6 +1870,53 @@ export const setprofileauth = async (id) => {
   try{
      return await axios.post(`${url}/setprofileauth`,{
       id: id
+     })
+  }catch(err){
+    console.log("Error : " + err);
+  }
+}
+
+export const startlivemeet = async (id, room) => {
+  try{
+     return await axios.post(`${url}/startlivemeet`,{
+      meetingID: id,
+      room: room
+
+     })
+  }catch(err){
+    console.log("Error : " + err);
+  }
+}
+
+export const startproctoring = async (id, link) => {
+  try{
+     return await axios.post(`${proctoringurl}/task/${id}`,{
+      job_id: id,
+      link: link
+
+     })
+  }catch(err){
+    console.log("Error : " + err);
+  }
+}
+
+export const stopproctoring = async (id, link) => {
+  try{
+     return await axios.post(`${proctoringurl}/stoptask/${id}`,{
+      job_id: id,
+      link: link
+
+     })
+  }catch(err){
+    console.log("Error : " + err);
+  }
+}
+
+export const getproctoring = async (id) => {
+  try{
+     return await axios.post(`${url}/handleproctoring`,{
+      job_id: id,
+      proctoring : proctoringurl
      })
   }catch(err){
     console.log("Error : " + err);

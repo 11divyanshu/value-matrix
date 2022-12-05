@@ -23,8 +23,13 @@ import swal from "sweetalert";
 import * as htmlToImage from "html-to-image";
 import { toPng, toJpeg, toBlob, toPixelData, toSvg } from "html-to-image";
 import { jsPDF } from "jspdf";
+
+import logo from "../../assets/images/logo.png";
+
 const AllTranscation = (props) => {
+  const [user, setUser] = React.useState([]);
   const [userList, setUserList] = React.useState([]);
+  const [transactionprint, setTransactionprint] = React.useState(null);
   const [Modal, setModal] = React.useState(null);
   const [add_jobs, setadd_jobs] = React.useState(false);
   const [add_users, setadd_users] = React.useState(false);
@@ -53,6 +58,8 @@ const AllTranscation = (props) => {
     const initial = async () => {
       let token = await localStorage.getItem("access_token");
       let user = JSON.parse(await localStorage.getItem("user"));
+      setUser(user);
+      console.log(user);
       let response = await getTransactions(user._id);
       console.log(response);
       if (response && response.status === 200) {
@@ -152,6 +159,7 @@ const AllTranscation = (props) => {
                             <td className="text-xs text-blue-500 font-light px-6 py-4 whitespace-nowrap cursor-pointer">
                               <p
                                 onClick={() => {
+                                  setTransactionprint(item);
                                   setModal(true);
                                 }}
                               >
@@ -202,11 +210,11 @@ const AllTranscation = (props) => {
                                       leaveTo="opacity-0 scale-95"
                                     >
                                       <Dialog.Panel className="w-full  px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all max-w-4xl mx-auto">
-                                        <div id="my-node">
+                                        <div>
                                           <div>
                                             <div className="flex justify-between w-full">
                                               <p className="text-2xl font-bold">
-                                                Invoice
+                                                Transaction Invoice
                                               </p>{" "}
                                               <div>
                                                 <button
@@ -244,7 +252,7 @@ const AllTranscation = (props) => {
                                                         let doc = new jsPDF(
                                                           "p",
                                                           "mm",
-                                                          "a6",
+                                                          "a4",
                                                           true,
                                                           "UTF-8",
                                                           true
@@ -252,7 +260,7 @@ const AllTranscation = (props) => {
                                                         let width =
                                                           doc.internal.pageSize.getWidth();
                                                         let height =
-                                                          doc.internal.pageSize.getHeight();
+                                                          doc.internal.pageSize.getHeight()-60;
 
                                                         // Then you can use this width and height for your image to fit the entire PDF document.
                                                         let imgData = dataUrl;
@@ -264,7 +272,7 @@ const AllTranscation = (props) => {
                                                           width,
                                                           height
                                                         );
-                                                        doc.save("sample.pdf");
+                                                        doc.save("Valuematrix_Transaction_Invoice.pdf");
                                                       })
                                                       .catch(function (error) {
                                                         console.error(
@@ -274,90 +282,81 @@ const AllTranscation = (props) => {
                                                       });
                                                   }}
                                                 >
-                                                  Save
+                                                  Save as PDF
                                                 </button>
                                               </div>
                                             </div>
                                           </div>
                                           <div>
-                                            <section class="py-20 bg-black">
+                                            <section class="bg-black">
                                               <div class="max-w-5xl mx-auto py-16 bg-white">
                                                 <article class="overflow-hidden">
-                                                  <div class="bg-[white] rounded-b-md">
+                                                  <div class="bg-[white] rounded-b-md" id="my-node">
                                                     <div class="p-9">
-                                                      <div class="space-y-6 text-slate-700">
+                                                      <div class="py-6 text-slate-700">
                                                         <img
                                                           class="object-cover h-12"
-                                                          src="https://pbs.twimg.com/profile_images/1513243060834123776/dL8-d7zI_400x400.png"
+                                                          src={logo}
                                                         />
-
-                                                        <p class="text-xl font-extrabold tracking-tight uppercase font-body">
-                                                          Unwrapped.design
-                                                        </p>
+                                                        <p className="font-bold mt-4">VALUEMATRIX LAB INC.</p>
+                                                        <p className="font-semibold text-sm text-slate-500">16192 Coastal Highway, Lewes, Delaware, USA - 19958</p>
                                                       </div>
                                                     </div>
                                                     <div class="p-9">
                                                       <div class="flex w-full">
-                                                        <div class="grid grid-cols-4 gap-12">
+                                                        <div class="grid grid-cols-3 gap-12">
                                                           <div class="text-sm font-light text-slate-500">
-                                                            <p class="text-sm font-normal text-slate-700">
-                                                              Invoice Detail:
-                                                            </p>
-                                                            <p>Unwrapped</p>
-                                                            <p>
-                                                              Fake Street 123
-                                                            </p>
-                                                            <p>San Javier</p>
-                                                            <p>CA 1234</p>
-                                                          </div>
-                                                          <div class="text-sm font-light text-slate-500">
-                                                            <p class="text-sm font-normal text-slate-700">
+                                                            <p class="text-sm font-semibold text-slate-700">
                                                               Billed To
                                                             </p>
                                                             <p>
-                                                              The Boring Company
+                                                              {user?<>
+                                                                {user.houseNo}, {user.street}, {user.city} {user.state}, {user.country} - {user.zip}
+                                                              </>:null}
                                                             </p>
-                                                            <p>
-                                                              Tesla Street 007
-                                                            </p>
-                                                            <p>Frisco</p>
-                                                            <p>CA 0000</p>
                                                           </div>
                                                           <div class="text-sm font-light text-slate-500">
-                                                            <p class="text-sm font-normal text-slate-700">
-                                                              Invoice Number
+                                                            <p class="text-sm font-semibold text-slate-700">
+                                                              Invoice ID
                                                             </p>
-                                                            <p>000000</p>
+                                                            <p>{transactionprint.invoiceID}</p>
 
-                                                            <p class="mt-2 text-sm font-normal text-slate-700">
+                                                            <p class="mt-2 text-sm font-semibold text-slate-700">
                                                               Date of Issue
                                                             </p>
                                                             <p>
                                                               {" "}
                                                               {new Date(
-                                                                item.transactionDate
+                                                                transactionprint.transactionDate
                                                               ).getDate() +
                                                                 "-" +
                                                                 (new Date(
-                                                                  item.transactionDate
+                                                                  transactionprint.transactionDate
                                                                 ).getMonth() +
                                                                   1) +
                                                                 "-" +
                                                                 new Date(
-                                                                  item.transactionDate
+                                                                  transactionprint.transactionDate
                                                                 ).getFullYear()}
                                                             </p>
                                                           </div>
                                                           <div class="text-sm font-light text-slate-500">
-                                                            <p class="text-sm font-normal text-slate-700">
-                                                              Terms
-                                                            </p>
-                                                            <p>0 Days</p>
+                                                            {transactionprint.razorpayPaymentId?<>
+                                                              <p class="text-sm font-semibold text-slate-700">
+                                                                Order ID
+                                                              </p>
+                                                              <p>{transactionprint.razorpayOrderId}</p>
 
-                                                            <p class="mt-2 text-sm font-normal text-slate-700">
-                                                              Due
-                                                            </p>
-                                                            <p>00.00.00</p>
+                                                              <p class="mt-2 text-sm font-semibold text-slate-700">
+                                                                Payment ID
+                                                              </p>
+                                                              <p>{transactionprint.razorpayPaymentId}</p>
+                                                            </>:<>
+                                                              <p class="mt-2 text-sm font-semibold text-slate-700">
+                                                                Status
+                                                              </p>
+                                                              <p>Unpaid</p>
+                                                            </>}
                                                           </div>
                                                         </div>
                                                       </div>
@@ -370,25 +369,19 @@ const AllTranscation = (props) => {
                                                             <tr>
                                                               <th
                                                                 scope="col"
-                                                                class="py-3.5 pl-4 pr-3 text-left text-sm font-normal text-slate-700 sm:pl-6 md:pl-0"
+                                                                class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-700 sm:pl-6 md:pl-0"
                                                               >
                                                                 Description
                                                               </th>
                                                               <th
                                                                 scope="col"
-                                                                class="hidden py-3.5 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell"
+                                                                class="py-3.5 px-3 text-right text-sm font-semibold text-slate-700 sm:table-cell"
                                                               >
                                                                 Quantity
                                                               </th>
                                                               <th
                                                                 scope="col"
-                                                                class="hidden py-3.5 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell"
-                                                              >
-                                                                Rate
-                                                              </th>
-                                                              <th
-                                                                scope="col"
-                                                                class="py-3.5 pl-3 pr-4 text-right text-sm font-normal text-slate-700 sm:pr-6 md:pr-0"
+                                                                class="py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-slate-700 sm:pr-6 md:pr-0"
                                                               >
                                                                 Amount
                                                               </th>
@@ -398,121 +391,17 @@ const AllTranscation = (props) => {
                                                             <tr class="border-b border-slate-200">
                                                               <td class="py-4 pl-4 pr-3 text-sm sm:pl-6 md:pl-0">
                                                                 <div class="font-medium text-slate-700">
-                                                                  Tesla Truck
-                                                                </div>
-                                                                <div class="mt-0.5 text-slate-500 sm:hidden">
-                                                                  1 unit at
-                                                                  $0.00
+                                                                  Credit Purchase
                                                                 </div>
                                                               </td>
-                                                              <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
-                                                                48
+                                                              <td class="px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
+                                                                {transactionprint.credit}
                                                               </td>
-                                                              <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
-                                                                {item.amount}
-                                                              </td>
-                                                              {/* <td class="py-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                                                              $0.00
-                                                            </td> */}
-                                                            </tr>
-                                                            <tr class="border-b border-slate-200">
-                                                              <td class="py-4 pl-4 pr-3 text-sm sm:pl-6 md:pl-0">
-                                                                <div class="font-medium text-slate-700">
-                                                                  Tesla Charging
-                                                                  Station
-                                                                </div>
-                                                                <div class="mt-0.5 text-slate-500 sm:hidden">
-                                                                  1 unit at
-                                                                  $75.00
-                                                                </div>
-                                                              </td>
-                                                              <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
-                                                                4
-                                                              </td>
-                                                              <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
-                                                                $0.00
-                                                              </td>
-                                                              <td class="py-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                                                                $0.00
+                                                              <td class="pl-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
+                                                                INR {transactionprint.amount/100}
                                                               </td>
                                                             </tr>
-
-                                                            {/* <!-- Here you can write more products/tasks that you want to charge for--> */}
                                                           </tbody>
-                                                          <tfoot>
-                                                            <tr>
-                                                              <th
-                                                                scope="row"
-                                                                colspan="3"
-                                                                class="hidden pt-6 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0"
-                                                              >
-                                                                Subtotal
-                                                              </th>
-                                                              <th
-                                                                scope="row"
-                                                                class="pt-6 pl-4 pr-3 text-sm font-light text-left text-slate-500 sm:hidden"
-                                                              >
-                                                                Subtotal
-                                                              </th>
-                                                              <td class="pt-6 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                                                                $0.00
-                                                              </td>
-                                                            </tr>
-                                                            <tr>
-                                                              <th
-                                                                scope="row"
-                                                                colspan="3"
-                                                                class="hidden pt-6 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0"
-                                                              >
-                                                                Discount
-                                                              </th>
-                                                              <th
-                                                                scope="row"
-                                                                class="pt-6 pl-4 pr-3 text-sm font-light text-left text-slate-500 sm:hidden"
-                                                              >
-                                                                Discount
-                                                              </th>
-                                                              <td class="pt-6 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                                                                $0.00
-                                                              </td>
-                                                            </tr>
-                                                            <tr>
-                                                              <th
-                                                                scope="row"
-                                                                colspan="3"
-                                                                class="hidden pt-4 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0"
-                                                              >
-                                                                Tax
-                                                              </th>
-                                                              <th
-                                                                scope="row"
-                                                                class="pt-4 pl-4 pr-3 text-sm font-light text-left text-slate-500 sm:hidden"
-                                                              >
-                                                                Tax
-                                                              </th>
-                                                              <td class="pt-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                                                                $0.00
-                                                              </td>
-                                                            </tr>
-                                                            <tr>
-                                                              <th
-                                                                scope="row"
-                                                                colspan="3"
-                                                                class="hidden pt-4 pl-6 pr-3 text-sm font-normal text-right text-slate-700 sm:table-cell md:pl-0"
-                                                              >
-                                                                Total
-                                                              </th>
-                                                              <th
-                                                                scope="row"
-                                                                class="pt-4 pl-4 pr-3 text-sm font-normal text-left text-slate-700 sm:hidden"
-                                                              >
-                                                                Total
-                                                              </th>
-                                                              <td class="pt-4 pl-3 pr-4 text-sm font-normal text-right text-slate-700 sm:pr-6 md:pr-0">
-                                                                $0.00
-                                                              </td>
-                                                            </tr>
-                                                          </tfoot>
                                                         </table>
                                                       </div>
                                                     </div>
@@ -520,7 +409,7 @@ const AllTranscation = (props) => {
                                                     <div class="mt-48 p-9">
                                                       <div class="border-t pt-9 border-slate-200">
                                                         <div class="text-sm font-light text-slate-700">
-                                                          <p>
+                                                          <p className="hidden">
                                                             Payment terms are 14
                                                             days. Please be
                                                             aware that according

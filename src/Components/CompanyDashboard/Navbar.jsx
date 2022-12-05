@@ -19,7 +19,7 @@ import { IoIosHelpCircleOutline } from "react-icons/io";
 
 const Navbar = (props) => {
   const Logout = async () => {
-    console.log("CHeck");
+    // console.log("CHeck");
     let user = await localStorage.getItem("user");
     user = JSON.parse(user);
     let res = await LogoutAPI(user._id);

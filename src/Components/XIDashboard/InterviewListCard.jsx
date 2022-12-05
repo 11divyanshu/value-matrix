@@ -16,7 +16,7 @@ import { Popover, Transition } from "@headlessui/react";
 const InterviewListCard = (props) => {
   const [job, setJob] = React.useState(props.job);
   const [user, setUser] = React.useState(null);
-  console.log(props.job);
+  // console.log(props.job);
   // localStorage.setItem("jobs", JSON.stringify(job))
 
   React.useState(() => {

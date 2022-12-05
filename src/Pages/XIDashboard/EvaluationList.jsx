@@ -270,13 +270,14 @@ const JobList = () => {
                                   setslotId(job.slots[0]);
                                   setInterviewers(job.interviewers)
                                 }}
-                                className="btn rounded-3xl shadow-sm px-6 my-3 py-2 text-xs text-gray-900 font-semibold"
+                                className="btn mx-7 rounded-3xl shadow-sm px-6 my-3 py-2 text-xs text-gray-900 font-semibold"
                               >
                                 Accept{" "}
                               </button>
                             }
                              { job.slots[0].status === "Accepted" && 
-                               <Link to={`/XI/updateEvaluationDetails/${job._id}`}>
+                              //  <Link to={`/XI/updateEvaluationDetails/${job._id}`}>
+                               <Link to={`/interviewer/${job._id}`}>
                              <button
                                 style={{ background: "#3ED3C5" }}
                                 onClick={async () => {
@@ -284,7 +285,7 @@ const JobList = () => {
                                 }}
                                 className="btn mx-7  rounded-3xl shadow-sm px-6 my-3 py-2 text-xs text-gray-900 font-semibold"
                               >
-                                Interview{" "}
+                                Join{" "}
                               </button>
                               </Link>
                             }

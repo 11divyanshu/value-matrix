@@ -560,30 +560,34 @@ const Panel = () => {
                   </p> */}
                 </div>
               </div>
-              {cjobs.length != 0 ?<div className="px-6">
-                {cjobs.map((job, index)=>{
-                  if(index<3){
-                    return(
-                      <div className="grid grid-cols-1 gap-4 lg:grid-cols-4 sm:grid-cols-4 my-3">
-                        <div className="col-span-2">
-                          <h5 className="text-black-900 text-md font-bold mb-1 ">
-                            {job.jobTitle}
-                          </h5>
-                          <p className="text-sm  text-gray-400 font-semibold">
-                            {job.hiringOrganization}
-                          </p>
-                        </div>
-                        <div className="col-span-2 flex justify-center items-center">
-                          <a className="rounded-xl px-4 py-2 text-xs text-white font-semibold" style={{ background: "#3ED3C5" }} href={`/company/jobDetails/${job._id}`}>View Details</a>
-                        </div>
-                      </div>
-                    );
-                  }
-                })}
-                <div className="flex justify-end">
-                  <a href="/company/jobs" className="text-blue-500 text-xs">View More</a>
-                </div>
-              </div>:<h5 className="text-center font-bold mt-4">No Records Found</h5>}
+              {cjobs?
+                <>
+                  {cjobs.length != 0 ?<div className="px-6">
+                    {cjobs.map((job, index)=>{
+                      if(index<3){
+                        return(
+                          <div className="grid grid-cols-1 gap-4 lg:grid-cols-4 sm:grid-cols-4 my-3">
+                            <div className="col-span-2">
+                              <h5 className="text-black-900 text-md font-bold mb-1 ">
+                                {job.jobTitle}
+                              </h5>
+                              <p className="text-sm  text-gray-400 font-semibold">
+                                {job.hiringOrganization}
+                              </p>
+                            </div>
+                            <div className="col-span-2 flex justify-center items-center">
+                              <a className="rounded-xl px-4 py-2 text-xs text-white font-semibold" style={{ background: "#3ED3C5" }} href={`/company/jobDetails/${job._id}`}>View Details</a>
+                            </div>
+                          </div>
+                        );
+                      }
+                    })}
+                    <div className="flex justify-end">
+                      <a href="/company/jobs" className="text-blue-500 text-xs">View More</a>
+                    </div>
+                  </div>:<h5 className="text-center font-bold mt-4">No Records Found</h5>}
+                </>
+              :null}
             </div>
 
             {/* <div className="md:w-1/2 lg:w-full sm:w-full mx-5 rounded-lg">

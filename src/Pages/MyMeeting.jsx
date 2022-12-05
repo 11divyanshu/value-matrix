@@ -15,7 +15,7 @@ import Intvwhiteboard from "./Intvwhiteboard.js";
 
 // import { mic } from "microphone-stream";
 
-import { compilecode, checkcompilestatus, savecode, getlivestatus } from "../service/api.js";
+import { compilecode, checkcompilestatus, savecode, getlivestatus, stopproctoring, getproctoring, checkinterviewdetails } from "../service/api.js";
 
 import "../assets/stylesheet/dyte.css";
 
@@ -42,6 +42,7 @@ export default function MyMeeting() {
     const [currentUser, setCurrentUser] = useState(null);
     const [liveStats, setLiveStats] = useState(null);
     const [activearea, setactivearea] = useState(0);
+    const [interviewStatus, setInterviewStatus] = useState(null);
 
     const [value, setValue] = useState(code || "");
     const {id} = useParams();
@@ -72,13 +73,17 @@ export default function MyMeeting() {
         meeting.self.enableScreenShare();
       },2000);
       window.addEventListener('keyup',(event)=>{
-        console.log(event.keyCode);
+        // console.log(event.keyCode);
         if(event.keyCode === 9){
           event.preventDefault();
         }
       });
       const initial = async ()=>{
         let user = JSON.parse(localStorage.getItem("user"));
+
+        let interviewStatus = await checkinterviewdetails(id, user);
+        setInterviewStatus(interviewStatus);
+
         if(user === null){
           window.location.href="/login";
         }else{
@@ -93,7 +98,11 @@ export default function MyMeeting() {
       },2000);
     },[]);
 
-    const leaveCall = ()=>{
+    const leaveCall = async ()=>{
+      let stopproct = await stopproctoring(id, interviewStatus.data.livestream);
+      // console.log(stopproct);
+      let proctoringreport = await getproctoring(id);
+      // console.log(proctoringreport);
       meeting.leaveRoom();
     }
 
@@ -169,7 +178,7 @@ export default function MyMeeting() {
         setoutputDetails(ccs.data.rsp);
         setProcessing(true);
       }else{
-        console.log("Something Went Wrong!!");
+        // console.log("Something Went Wrong!!");
       }
     };
   

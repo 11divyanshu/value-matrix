@@ -120,7 +120,7 @@ const SignupForm = () => {
   useEffect(() => {
     const initial = async () => {
       let countryCode = await countryCodeList();
-      console.log(countryCode)
+      // console.log(countryCode)
       setcountryCode(countryCode.data)
     }
     initial();
@@ -156,7 +156,7 @@ const SignupForm = () => {
     }
     setSignupError(null);
     let check = await validateSignupDetails(values);
-    console.log(check.data);
+    // console.log(check.data);
     if (check.data.username && check.data.email === true) {
       setSignupError("Username and Email Already Registered");
       swal({
@@ -190,14 +190,14 @@ const SignupForm = () => {
       setEmailLoading(false);
       return;
     }
-    console.log(values.mail);
+    // console.log(values.mail);
 
     let res2 = await OTPMail({ mail: values.email });
 
     if (res2) {
       setEmailOTP(res2);
     } else if (!res2) {
-      console.log("Error");
+      // console.log("Error");
     }
 
     // setOTP(true);
@@ -248,7 +248,7 @@ const SignupForm = () => {
     setSmsLoading(true);
     setverifySms(false);
     let check = await validateSignupDetails(values);
-    console.log(check.data);
+    // console.log(check.data);
 
     if (check.data.username && check.data.contact) {
       // setSignupError("Username and Contact Already Registered");
@@ -284,11 +284,11 @@ const SignupForm = () => {
     }
 
     let res1 = await OTPSms({ contact: values.contact });
-console.log(res1)
+// console.log(res1)
     if (res1) {
       setSMSOTP(res1);
     } else if (!res1) {
-      console.log("Error");
+      // console.log("Error");
     }
     setContactLoading(false);
   };
@@ -344,7 +344,7 @@ console.log(res1)
       parseInt(values.EmailOTP) === parseInt(EmailOTP)
     ) {
       if (captcha === false) {
-        console.log("show Captcha");
+        // console.log("show Captcha");
         setShowCaptcha(true);
       } else if (captcha) {
         let res = await authenticateSignUp(values);

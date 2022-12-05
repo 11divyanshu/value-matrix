@@ -26,7 +26,7 @@ import { Fragment } from "react";
 
 const AdminUserProfile = (props) => {
   let navigate = useNavigate();
-  console.log(props);
+  // console.log(props);
   // Access Token And User State
   const [user, setUser] = React.useState();
   const [profileImg, setProfileImg] = React.useState(null);
@@ -45,12 +45,12 @@ const AdminUserProfile = (props) => {
         { id: props.id },
         { token: access_token }
       );
-      console.log(user1);
+      // console.log(user1);
       let user = user1.data.user;
-      console.log(user);
+      // console.log(user);
       if (user && user.profileImg) {
         let image = await getProfileImage({ id: user._id }, user.access_token);
-        console.log(image);
+        // console.log(image);
         if (image && image.status === 200) {
           await localStorage.setItem("profileImg", JSON.stringify(image));
 

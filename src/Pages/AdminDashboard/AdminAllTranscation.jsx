@@ -49,7 +49,7 @@ const AdminAllTranscation = () => {
         let token = await localStorage.getItem("access_token");
         let user = JSON.parse(await localStorage.getItem("user"));
         let response = await getCompanyUserList(user._id);
-        console.log(response);
+        // console.log(response);
         if (response && response.status === 200) {
             setUserList(response.data);
         }

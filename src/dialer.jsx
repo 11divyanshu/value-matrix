@@ -30,7 +30,7 @@ export default class DialerApp extends React.Component {
       }
     }
     componentDidMount() {
-      console.log(Device);
+      // console.log(Device);
       // $.getJSON('/token').done(function (data) {
       //   console.log(data);
       //   Device.setup(data.token);
@@ -65,7 +65,7 @@ export default class DialerApp extends React.Component {
     }
     handleToggleCall() {
       if (!this.state.onPhone) {
-        console.log("checked");
+        // console.log("checked");
         this.setState({
           muted: false,
           onPhone: true

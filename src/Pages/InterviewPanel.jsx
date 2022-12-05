@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import logo from "../assets/images/logo.png";
 import Webcam from "react-webcam";
 
-import { getinterviewdetails, checkinterviewdetails, processFlask, updateinterviewcheck, updatelivestatus, fetchinterviewdetails, processFlasklive, getlivestatus } from "../service/api.js";
+import { getinterviewdetails, checkinterviewdetails, processFlask, updateinterviewcheck, updatelivestatus, fetchinterviewdetails, processFlasklive, getlivestatus, startproctoring, stopproctoring, getproctoring, startlivemeet } from "../service/api.js";
 import { IoEar } from "react-icons/io5";
 
 import html2canvas from 'html2canvas';
@@ -39,6 +39,7 @@ export default function App() {
           setCurrentUser(user);
 
           let interviewStatus = await checkinterviewdetails(id, user);
+          console.log(interviewStatus);
           setInterviewStatus(interviewStatus);
 
           initDyte(interviewStatus.data);
@@ -84,7 +85,7 @@ export default function App() {
           video: true
         },
       });
-      console.log(meeting);
+      // console.log(meeting);
     }
 
     const nextFrame = async ()=>{
@@ -120,9 +121,42 @@ export default function App() {
     }
 
     const joinMeeting = async ()=>{
-      // let interviewStatus = await fetchinterviewdetails(id, currentUser);
-      // setInterviewStatus(interviewStatus);
-      // initDyte(interviewStatus.data);
+
+      await axios.post("https://api.cluster.dyte.in/v2/meetings/"+interviewStatus.data.meetingID+"/livestreams",{
+        name: interviewStatus.data.meetingRoom
+      },{
+        headers:{
+          Authorization: 'Basic YzJjM2RkZTgtMGUzNy00NWVkLTlkNGEtZTMyNGE1ZjNmZGNlOmE5Nzc2NjM0YmMwNGUxNTczZDI2',
+        }
+      }).then(async (data)=>{
+        console.log(data);
+        let startproct = await startproctoring(id, data.data.data.playback_url);
+        console.log(startproct.data);
+      }).catch( async (err)=>{
+        let respp = await axios.get("https://api.cluster.dyte.in/v2/meetings/"+interviewStatus.data.meetingID+"/active-livestream", {
+          headers:{
+            Authorization: 'Basic YzJjM2RkZTgtMGUzNy00NWVkLTlkNGEtZTMyNGE1ZjNmZGNlOmE5Nzc2NjM0YmMwNGUxNTczZDI2'
+          }
+        });
+        if(respp){
+          let startproct = await startproctoring(id, respp.data.data.playback_url);
+          console.log(startproct.data);
+        }
+      });
+
+      let orgid = "c2c3dde8-0e37-45ed-9d4a-e324a5f3fdce";
+
+      await axios.post("https://api.cluster.dyte.in/v1/organizations/"+orgid+"/meetings/"+interviewStatus.data.meetingID+"/recording",{
+        headers:{
+          Authorization: 'Basic a9776634bc04e1573d26',
+        }
+      }).then(async (data)=>{
+        console.log(data);
+      }).catch( async (err)=>{
+        console.log(err);
+      });
+
+
       setScreenDisplay(6);
 
       document.getElementById("intvpanel").requestFullscreen();
@@ -152,10 +186,10 @@ export default function App() {
         let updatedinterview = null;
         if(interviewStatus.data.faceTest === false && interviewStatus.data.gazeTest === false && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false && screenDisplay === 1){
           response =  await processFlask(currentUser, imageSrc, "face", id);
-          console.log(response);
+          // console.log(response);
           if(response.data.data.FaceDetected === true){
             updatedinterview = await updateinterviewcheck("face", "data:image/jpeg;base64,"+response.data.img, id);
-            console.log(updatedinterview);
+            // console.log(updatedinterview);
             if(updatedinterview.data.data === "Updated Test"){
               if(updatedinterview.data.updatedinterview.faceTest === true){
                 let newinterview = await getinterviewdetails(id);
@@ -163,17 +197,17 @@ export default function App() {
                 setcurrentbtn(1);
                 setOverlapImage("data:image/jpeg;base64,"+response.data.img);
               }else{
-                console.log("Something Went Wrong");
+                // console.log("Something Went Wrong");
               }
             }else{
-              console.log("Something Went Wrong");
+              // console.log("Something Went Wrong");
             }
           }else{
             document.getElementById("getUserPhoto").click();
           }
         }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === false && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false && screenDisplay === 2){
           response =  await processFlask(currentUser, imageSrc, "gaze", id);
-          console.log(response);
+          // console.log(response);
           if(response.data.data.Eyes_Detected === true){
             if(response.data.data.message === ""){
               updatedinterview = await updateinterviewcheck("gaze", "data:image/jpeg;base64,"+response.data.img, id);
@@ -186,10 +220,10 @@ export default function App() {
                   setcurrentbtn(1);
                   setOverlapImage("data:image/jpeg;base64,"+response.data.img);
                 }else{
-                  console.log("Something Went Wrong");
+                  // console.log("Something Went Wrong");
                 }
               }else{
-                console.log("Something Went Wrong");
+                // console.log("Something Went Wrong");
               }
             }else{
               setOverlapText("response.data.data.message");

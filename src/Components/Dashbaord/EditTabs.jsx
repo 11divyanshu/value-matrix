@@ -138,18 +138,18 @@ export default function Tabs(props) {
       let res = await getDBCompanyList();
       setCompanyList(res.data);
       setExCompanyList(res.data);
-      console.log(excompanyList);
+      // console.log(excompanyList);
 
       let languages = await languagesList();
-      console.log(languages);
+      // console.log(languages);
       setLanguage(languages.data);
 
       let title = await getJobTitles();
-      console.log(title);
+      // console.log(title);
       setJobTitle(title.data);
 
       let country = await getCountryList();
-      console.log(country);
+      // console.log(country);
       setSelectedCountry(country.data.countries[0].country);
     };
     initial();
@@ -177,12 +177,12 @@ export default function Tabs(props) {
           )
           .slice(0, 10);
 
-  console.log(filteredExCompany);
+  // console.log(filteredExCompany);
 
   React.useEffect(() => {
     const initial = async () => {
       let res = await getDBSchoolList();
-      console.log(res);
+      // console.log(res);
       setSchoolList(res.data);
     };
     initial();
@@ -324,7 +324,7 @@ export default function Tabs(props) {
     if (e.target && e.target.files) {
       let user = JSON.parse(await localStorage.getItem("user"));
       let access_token = await localStorage.getItem("access_token");
-      console.log(user, " ", access_token);
+      // console.log(user, " ", access_token);
       let fd = new FormData();
       fd.append("user_id", user._id);
       fd.append("file", e.target.files[0]);
@@ -374,13 +374,13 @@ export default function Tabs(props) {
 
   React.useEffect(() => {
     const initial = async () => {
-      console.log("in user");
+      // console.log("in user");
       let e = JSON.parse(await localStorage.getItem("user"));
       let resume = JSON.parse(await localStorage.getItem("resumeInfo"));
       // console.log(resume.data);
       setUser(e);
       if (resume) {
-        console.log(resume.data);
+        // console.log(resume.data);
 
         setSecContact(resume.secondaryContacts);
         setSecEmail(resume.secondaryEmails);
@@ -472,15 +472,15 @@ export default function Tabs(props) {
         }
 
         setUser(e);
-        console.log(e);
+        // console.log(e);
       } else {
-        console.log("true user");
+        // console.log("true user");
 
         setSecContact(e.secondaryContacts);
         setSecEmail(e.secondaryEmails);
         if (e === null) return null;
         let ed = e.education;
-        console.log(ed);
+        // console.log(ed);
         if (ed !== "null" || ed !== null) {
           setEducationalDetail(ed);
         }
@@ -488,7 +488,7 @@ export default function Tabs(props) {
           setEducationalDetail([]);
         }
         let ex = e.experience;
-        console.log(ex);
+        // console.log(ex);
         if (ex !== "null" || ex !== null) {
           setExperienceDetail(ex);
         }
@@ -497,7 +497,7 @@ export default function Tabs(props) {
         }
 
         let as = e.associate;
-        console.log(as);
+        // console.log(as);
         if (as !== "null" || as !== null) {
           setAssociateDetail(as);
         }
@@ -505,7 +505,7 @@ export default function Tabs(props) {
           setAssociateDetail([]);
         }
         let ls = e.language;
-        console.log(ls);
+        // console.log(ls);
         if (ls.length > 0 && ls !== "null" && ls !== null) {
           setLanguageSkills(ls);
         }
@@ -542,7 +542,7 @@ export default function Tabs(props) {
   }, []);
 
   const updateEducation = async (values) => {
-    console.log(ederror);
+    // console.log(ederror);
     if (!ederror) {
       let e = JSON.parse(await localStorage.getItem("user"));
       if (edit !== null) {
@@ -661,7 +661,7 @@ export default function Tabs(props) {
     }
   };
   const updateLanguage = async (values) => {
-    console.log(values);
+    // console.log(values);
     if (!lserror) {
       let e = JSON.parse(await localStorage.getItem("user"));
       if (edit !== null) {
@@ -670,7 +670,7 @@ export default function Tabs(props) {
         await setLanguageSkills(temp);
         e.language = temp;
         setUser(e);
-        console.log(e);
+        // console.log(e);
         await localStorage.setItem("user", JSON.stringify(e));
         await setEdit(null);
         resetBtn.current.click();
@@ -684,7 +684,7 @@ export default function Tabs(props) {
       await setLanguageSkills(temp);
 
       e.language = temp;
-      console.log(e);
+      // console.log(e);
       setUser(e);
       await localStorage.setItem("user", JSON.stringify(e));
       await setLsInitialValues({
@@ -788,13 +788,13 @@ export default function Tabs(props) {
   };
 
   const save = async (values) => {
-    console.log(values);
+    // console.log(values);
     let wait = 0;
     if (values.firstName) {
       if (EmailOTP === null && ContactOTP === null)
         wait = await SendOTPFunction(values);
       if (wait !== 0) return;
-      console.log("values");
+      // console.log("values");
       if (EmailOTP && ContactOTP) {
         if (values.emailOTP !== EmailOTP && values.contactOTP !== ContactOTP) {
           setError("Invalid Email OTP and Contact OTP");
@@ -954,7 +954,7 @@ export default function Tabs(props) {
         setError(res2.Error);
       }
     }
-    console.log(wait);
+    // console.log(wait);
     return wait;
   };
 
@@ -1025,7 +1025,7 @@ export default function Tabs(props) {
     } else {
       skillData = user.tools;
     }
-    console.log(skillData);
+    // console.log(skillData);
 
     // let user = JSON.parse(localStorage.getItem("user"));
     // await setExperienceDetail(temp);
@@ -1057,7 +1057,7 @@ export default function Tabs(props) {
     if (ContactOTP) {
       data.contact = ed.contact;
     }
-    console.log(data);
+    // console.log(data);
     let res = await updateUserDetails(
       { user_id: user._id, updates: data },
       { access_token: access_token }
@@ -1078,7 +1078,7 @@ export default function Tabs(props) {
       await localStorage.removeItem("RolesProf");
       await localStorage.removeItem("resumeInfo");
     } else {
-      console.log("Error");
+      // console.log("Error");
     }
 
     swal({
@@ -1207,7 +1207,7 @@ export default function Tabs(props) {
                 let check = await validateSignupDetails({
                   username: values.username,
                 });
-                console.log(check);
+                // console.log(check);
                 if (check.data.username) {
                   errors.username = "Username already exists";
                 }
@@ -1996,7 +1996,7 @@ export default function Tabs(props) {
                             if (values.grade === null) {
                               errors.grade = "Required !";
                             }
-                            console.log(errors);
+                            // console.log(errors);
                             if (
                               errors.degree ||
                               errors.field_of_study ||
@@ -3614,7 +3614,7 @@ export default function Tabs(props) {
                                     max="5"
                                     value={rolesProf[index]}
                                     onChange={(e) => {
-                                      console.log(dbSkills);
+                                      // console.log(dbSkills);
                                       dbSkills.forEach((skill) => {
                                         if (skill.role === el) {
                                           skill.proficiency = e.target.value;
@@ -3629,7 +3629,7 @@ export default function Tabs(props) {
                                           skill.rating = e.target.value;
                                         }
                                       });
-                                      console.log(dbSkills);
+                                      // console.log(dbSkills);
                                       let rp = rolesProf;
                                       rp[index] = e.target.value;
                                       setRolesProf(rp);

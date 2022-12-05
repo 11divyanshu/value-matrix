@@ -54,7 +54,7 @@ const Sidebar = (props) => {
     user = JSON.parse(user);
     setU_id(user._id);
     let res = await LogoutAPI(user._id);
-    console.log(res);
+    // console.log(res);
     await localStorage.setItem("user", null);
     await localStorage.setItem("access_token", null);
     window.location.href = "/login";
@@ -102,7 +102,7 @@ const Sidebar = (props) => {
     setUser(user);
     setotpModal(true);
     let resend = await OTPSms({ contact: user.contact })
-    console.log(resend)
+    // console.log(resend)
     setotp(resend)
     // swal({
     //   title: "Are you sure?",
@@ -219,7 +219,7 @@ const Sidebar = (props) => {
                           onClick={async () => {
 
                             let resend = await OTPSms({ contact: user.contact })
-                            console.log(resend)
+                            // console.log(resend)
                             setotp(resend)
                           }}>Resend OTP</button>
                       </div>
@@ -230,8 +230,8 @@ const Sidebar = (props) => {
                           style={{ backgroundColor: "#034488" }}
                           onClick={async () => {
 
-                            console.log(smsOTP);
-                            console.log(otp);
+                            // console.log(smsOTP);
+                            // console.log(otp);
 
                             if (smsOTP == otp) {
                              

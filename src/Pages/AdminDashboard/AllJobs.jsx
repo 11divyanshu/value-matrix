@@ -54,12 +54,12 @@ const JobList = () => {
   React.useEffect(() => {
     const getData = async () => {
       let c_id = JSON.parse(localStorage.getItem("user"));
-      console.log(c_id);
+      // console.loglog(c_id);
       let res = await getallJobs();
-      console.log(res);
+      // console.log(res);
       if (res && res.data) {
         setJobs(res.data);
-        console.log(res.data);
+        // console.log(res.data);
         let arr = [...res.data];
         const jsonObj = JSON.stringify(arr);
 
@@ -72,8 +72,8 @@ const JobList = () => {
 
   const applyFilter = async (values) => {
     setLoader(true);
-    console.log(values.picked);
-    console.log(values.toggle);
+    // console.log(values.picked);
+    // console.log(values.toggle);
     let c_id = JSON.parse(localStorage.getItem("user"));
     console.log(c_id);
     const access_token = localStorage.getItem("access_token");
@@ -81,7 +81,7 @@ const JobList = () => {
 
     if (res && res.data) {
       // await setJobs(res.data.jobs);
-      console.log(res.data);
+      // console.log(res.data);
       let arr = [...res.data];
 
       setJobs([]);
@@ -92,13 +92,13 @@ const JobList = () => {
       }, 1000);
       // setFilter(res.data.jobs);
 
-      console.log(jobs);
+      // console.log(jobs);
       const jsonObj = JSON.stringify(arr);
 
       // save to localStorage
       localStorage.setItem("jobsdetails", jsonObj);
     } else {
-      console.log("no response");
+      // console.log("no response");
     }
   };
 

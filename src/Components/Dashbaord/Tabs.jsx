@@ -43,12 +43,12 @@ export default function Tabs() {
     const func = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       let user1 = await getUserFromId({ id: user._id }, user.access_token);
-      console.log(user1);
+      // console.log(user1);
       let access_token = localStorage.getItem("access_token");
       if (user && user.profileImg) {
         const img = user.profileImg;
         const imgBase64 = img.toString("base64");
-        console.log(imgBase64);
+        // console.log(imgBase64);
         setProfileImg(img);
         setProfileImg(imgBase64);
       }
@@ -70,7 +70,7 @@ export default function Tabs() {
         primarySkills[el] = Array.from(primarySkills[el]);
       });
       setSkillsPrimary(primarySkills);
-      console.log(user);
+      // console.log(user);
       await setUser(user);
     };
     func();
@@ -479,7 +479,7 @@ export default function Tabs() {
                               { user_id: user._id },
                               token
                             );
-                            console.log(res);
+                            // console.log(res);
                             // let blob = new Blob([res.data.Resume.data], {
                             //   type: "application/pdf",
                             // });

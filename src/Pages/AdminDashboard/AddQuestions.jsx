@@ -56,7 +56,7 @@ const AddQuestions = () => {
       { user_id: user._id, questions: questions },
       token
     );
-    console.log(res);
+    // console.log(res);
     if (res && res.status === 200) {
       swal({
         title: "Success",

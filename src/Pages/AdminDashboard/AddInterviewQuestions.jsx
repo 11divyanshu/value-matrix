@@ -52,7 +52,7 @@ const AddQuestions = () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       let token = user.access_token;
       const QuesList = await fetchInterviewQuestion(token);
-      console.log(QuesList);
+      // console.log(QuesList);
       setQuesList(QuesList.data.ques)
     }
     initial();
@@ -70,12 +70,12 @@ const AddQuestions = () => {
         const sheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[sheetName];
         const json = xlsx.utils.sheet_to_json(worksheet);
-        console.log(json)
+        // console.log(json)
         let tempArray = [];
 
 
         json.forEach((item) => {
-          console.log(item)
+          // console.log(item)
 
           if (item["Question"] && item["Question"] !== "") {
             tempArray.push( { question: item["Question"], answer: item["Answer"], type: item["Type"], level: item["Level"], experience: item["Experience"], category: item["Category"] })
@@ -95,7 +95,7 @@ const AddQuestions = () => {
   };
   //Perks Editor
   const onQuestionEditorStateChange = (state) => {
-    console.log(state)
+    // console.log(state)
     setInputQue(state);
     convertQuestionToHTML();
   };
@@ -118,12 +118,12 @@ const AddQuestions = () => {
     setLoading(true);
     let user = JSON.parse(await localStorage.getItem("user"));
     let token = user.access_token;
-    console.log(questions);
+    // console.log(questions);
     let res = await addInterviewQuestion(
       { user_id: user._id, questions: questions },
       token
     );
-    console.log(res);
+    // console.log(res);
     if (res && res.status === 200) {
       swal({
         title: "Success",
@@ -154,12 +154,12 @@ const AddQuestions = () => {
     importQues.forEach((item)=>{
       item.question = "<p>"+item.question+"</p>"
     })
-    console.log(importQues)
+    // console.log(importQues)
     let res = await addInterviewQuestion(
       { user_id: user._id, questions: importQues },
       token
     );
-    console.log(res);
+    // console.log(res);
     if (res && res.status === 200) {
       swal({
         title: "Success",
@@ -229,7 +229,7 @@ const AddQuestions = () => {
                 return errors;
               }}
               onSubmit={(values) => {
-                console.log(values);
+                // console.log(values);
                 if (questionEditIndex !== null) {
                   let temp = [...questions];
                   temp[questionEditIndex] = values;
@@ -646,7 +646,7 @@ const AddQuestions = () => {
                 if (questionEditIndex !== null) {
                   let update = await updateInterviewQuestion({id :questionEditIndex._id,updates:{question:convertedQuestion , answer:values.answer, type:values.type, level:values.level, experience:values.experience, category:values.category}})
                   if(update.status == 200){
-                    console.log("updated")
+                    // console.log("updated")
                     setModal(false)
                     window.location.reload();
                   }
@@ -868,7 +868,7 @@ const AddQuestions = () => {
                       onClick={async() => {
                         let update = await updateInterviewQuestion({id :questionEditIndex._id,updates:{isDeleted:true}})
                   if(update.status == 200){
-                    console.log("updated")
+                    // console.log("updated")
                     setModal(false)
                     window.location.reload();
                   }

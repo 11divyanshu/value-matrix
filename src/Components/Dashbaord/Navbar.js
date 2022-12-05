@@ -28,7 +28,7 @@ const HorizontalNav = (props) => {
     let user = await localStorage.getItem("user");
     user = JSON.parse(user);
     let res = await LogoutAPI(user._id);
-    console.log(res);
+    // console.log(res);
     await localStorage.setItem("user", null);
     await localStorage.setItem("access_token", null);
     window.location.href = "/login";
@@ -39,7 +39,7 @@ const HorizontalNav = (props) => {
       let user = JSON.parse(await localStorage.getItem("user"));
       await setUser(user);
       let step = 0;
-      console.log(user);
+      // console.log(user);
       if (user && user.profileImg) {
         let image = await getProfileImage({ id: user._id }, user.access_token);
         if(image.status === 200){

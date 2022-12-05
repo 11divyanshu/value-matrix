@@ -38,7 +38,7 @@ const LoginForm = (props) => {
     setLoading(true);
     if (props.admin) res = await adminLogin(values);
     else res = await authenticateLogin(values);
-    console.log(res);
+    // console.log(res);
     if (res) {
       setCaptcha(true);
       setCaptchaError(null);

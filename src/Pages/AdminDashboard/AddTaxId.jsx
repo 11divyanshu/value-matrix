@@ -53,19 +53,19 @@ const AddQuestions = () => {
 
         // console.log(res.data.countries[0].country);
         setCountries(res.data.countries);
-      console.log(user);
+      // console.log(user);
       await setUser(user);
       await setToken(access_token1);
     };
     initial();
   }, []);
   const DeleteTax = async(id)=>{
-    console.log("delete");
+    // console.log("delete");
                        
     const taxid = id;
     let user = JSON.parse(await localStorage.getItem("user"));
     let token = user.access_token;
-console.log(token);
+// console.log(token);
     let res = await findAndDeleteTax( taxid, token);
 
     if (res  && res.status === 200) {
@@ -167,7 +167,7 @@ console.log(token);
                 return errors;
               }}
               onSubmit={(values) => {
-                console.log(values);
+                // console.log(values);
 
                 const submit = async(values)=>{
 
@@ -183,7 +183,7 @@ console.log(token);
                            );
                            localStorage.setItem("taxid",JSON.stringify(res.data.countries));
 
-                           console.log(res.data);
+                           // console.log(res.data);
                            if (res) {
                                setCountries(res.data.countries);
        
@@ -221,7 +221,7 @@ return;
                         token 
                     );
                     localStorage.setItem("taxid",JSON.stringify(res.data.countries));
-                    console.log(res.data);
+                    // console.log(res.data);
                     if (res && res.status === 200) {
                         setCountries(res.data.countries);
 

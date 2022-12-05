@@ -6,6 +6,8 @@ import {
   newslotupdater,
   deleteSlot,
   ValidateSlot,
+  updateBlockedDate,
+  getBlockedDate,
 } from "../../service/api.js";
 import { CSVLink } from "react-csv";
 import { Formik, Field, Form, ErrorMessage } from "formik";
@@ -30,6 +32,7 @@ import SupportTable from "./SupportTable.jsx";
 const JobList = () => {
   const [slots, setSlots] = useState([]);
   const [slotstructure, setslotstructure] = useState([]);
+  const [blockedDates, setBlockedDates] = useState([]);
   const [loader, setLoader] = useState(false);
   const [user, setUser] = useState(null);
   const [modal, setModal] = React.useState(false);
@@ -37,6 +40,7 @@ const JobList = () => {
   const [modal2, setModal2] = React.useState(false);
   const [slotbookingscreen, setslotbookingscreen] = React.useState(0);
   const [slotdate, setslotdate] = React.useState(null);
+  const [blockdate, setblockdate] = React.useState(null);
   const [slotrange, setslotrange] = React.useState(null);
   const [slotmap, setslotmap] = React.useState(null);
   const [allslotdates, setallslotdates] = React.useState(null);
@@ -153,6 +157,11 @@ const JobList = () => {
       if (res) {
         setSlots(res.data);
         setSlotsdate(res.data);
+      }
+
+      let dts = await getBlockedDate(user._id);
+      if(dts){
+        setBlockedDates(dts.data.dates);
       }
     };
     getData();
@@ -344,6 +353,49 @@ const JobList = () => {
       }
     }
     setslotmap(temp);
+  }
+
+  const addblockdate = async ()=>{
+    let temp = [];
+    temp = blockedDates;
+    if(temp.includes(blockdate)){
+      swal({
+        icon: "error",
+        title: "Date Already Added !",
+        button: "Ok"
+      });
+    }else{
+      temp.push(blockdate);
+      setBlockedDates(temp);
+      setBDModal(false);
+      let bddd = await updateBlockedDate(user._id, temp);
+    }
+  }
+
+  const removeblockdate = async (date)=>{
+    let temp = [];
+    temp = blockedDates;
+    temp.pop(blockdate.indexOf(date)-1);
+    console.log(temp);
+    setBlockedDates(temp);
+    swal({
+      title: "Are you sure?",
+      text: "you want to remove blocked date!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then(async (willDelete) => {
+      if (willDelete) {
+        let bddd = await updateBlockedDate(user._id, temp);
+        if (bddd.status === 200) {
+          swal({
+            title: "Blocked Date Removed",
+            icon: "success",
+            button: "Ok"
+          });
+        }
+      }
+    });
   }
 
   const updateSlotFncn = async ()=>{
@@ -1110,6 +1162,117 @@ const JobList = () => {
                   </Dialog>
                 </Transition>
               )}
+              {bdmodal && (
+                <Transition
+                  appear
+                  show={bdmodal}
+                  as={Fragment}
+                  className="relative z-10 w-full "
+                  style={{ zIndex: 1000 }}
+                >
+                  <Dialog
+                    as="div"
+                    className="relative z-10 w-5/6 "
+                    onClose={() => {}}
+                    static={true}
+                  >
+                    <div
+                      className="fixed inset-0 bg-black/30"
+                      aria-hidden="true"
+                    />
+                    <Transition.Child
+                      as={Fragment}
+                      enter="ease-out duration-300"
+                      enterFrom="opacity-0"
+                      enterTo="opacity-100"
+                      leave="ease-in duration-200"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <div className="fixed inset-0 bg-black bg-opacity-25" />
+                    </Transition.Child>
+
+                    <div className="fixed inset-0 overflow-y-auto ">
+                      <div className="flex min-h-full items-center justify-center p-4 text-center max-w-4xl mx-auto">
+                        <Transition.Child
+                          as={Fragment}
+                          enter="ease-out duration-300"
+                          enterFrom="opacity-0 scale-95"
+                          enterTo="opacity-100 scale-100"
+                          leave="ease-in duration-200"
+                          leaveFrom="opacity-100 scale-100"
+                          leaveTo="opacity-0 scale-95"
+                        >
+                          <Dialog.Panel className="w-full px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all h-[65vh]">
+                            {/* <Dialog.Title
+                        as="h3"
+                        className="text-2xl font-bold leading-6 text-gray-900"
+                      >
+                        Complete Your Details
+                      </Dialog.Title> */}
+                            <div className={`${!bdmodal ? "hidden" : "block"} h-full`}>
+                              <div className="w-full h-full">
+                                <div className="w-full h-full">
+                                  <div className="my-3 w-3/4 md:w-full text-left flex justify-between">
+                                    <div>
+                                      <p className="font-semibold">Add Block Date</p>
+                                      {/* <p className="text-sm mt-3 mb-1 break-words">
+                                      ( Headers Conventions: firstName, lastName, email,
+                                      phoneNo, Address)
+                                    </p>
+                                    <p className="text-sm break-words">
+                                      (Data must contain candidate's email Address and phoneNo
+                                      Number)
+                                    </p> */}
+                                    </div>
+                                    <div>
+                                      <button
+                                        className="bg-[#034488] text-white rounded-sm px-4 my-2 pt--8"
+                                        onClick={() => {
+                                          setBDModal(false);
+                                        }}
+                                        style={{
+                                          backgroundColor: "#fff",
+                                          color: "#034488",
+                                        }}
+                                      >
+                                        <ImCross />
+                                      </button>
+                                    </div>
+                                  </div>
+
+                                  <div className="my-4 w-full p-3 bg-slate-100 px-8" style={{ height:"90%", overflowY:"scroll" }}>
+                                    <div className="text-center">
+                                      <h2 className="text-center font-bold text-2xl">Select Date</h2>
+                                      <div className="flex w-full justify-center my-4">
+                                        <input type="date" onChange={(e)=>{
+                                          setblockdate(e.target.value);
+                                        }} />
+                                      </div>
+                                      <div className="flex w-full justify-center my-4">
+                                        <button
+                                          className="bg-[#034488] text-white rounded-sm py-1 my-2 px-4"
+                                          type="button"
+                                          onClick={()=>{addblockdate()}}
+                                          style={{
+                                            backgroundColor: "#034488",
+                                          }}
+                                        >
+                                          Block Date
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </Dialog.Panel>
+                        </Transition.Child>
+                      </div>
+                    </div>
+                  </Dialog>
+                </Transition>
+              )}
             </>
           )}
         </div>
@@ -1123,27 +1286,23 @@ const JobList = () => {
               <p className=" mx-2  text-sm ">Blocked Dates</p>
             </p>
             <div className="mt-2">
-              <div className="border border-gray-900 rounded px-2 py-1 text-xs mr-2 w-full flex justify-between p-2 mb-2">
-                <span>2022-12-04</span>
-                <span className="text-danger">
-                  <ImCross/>
-                </span>
-              </div>
-              <div className="border border-gray-900 rounded px-2 py-1 text-xs mr-2 w-full flex justify-between p-2 mb-2">
-                <span>2022-12-04</span>
-                <span className="text-danger">
-                  <ImCross/>
-                </span>
-              </div>
-              <div className="border border-gray-900 rounded px-2 py-1 text-xs mr-2 w-full flex justify-between p-2 mb-2">
-                <span>2022-12-04</span>
-                <span className="text-danger">
-                  <ImCross/>
-                </span>
-              </div>
+              {blockedDates?<>
+              {blockedDates.length !=0 ? <>
+                {blockedDates.map((dates, index)=>{
+                  return(
+                    <div className="border border-gray-900 rounded px-2 py-1 text-xs mr-2 w-full flex justify-between p-2 mb-2">
+                      <span>{dates}</span>
+                      <span className="text-danger cursor-pointer" onClick={()=>{removeblockdate(dates)}}>
+                        <ImCross/>
+                      </span>
+                    </div>
+                  );
+                })}
+              </>:<h5 className="mt-4 font-bold text-center">No Blocked Dates</h5>}
+              </>:<h5 className="mt-4 font-bold text-center">No Blocked Dates</h5>}
             </div>
             <button
-              className="p-2 w-full rounded-md text-white text-sm font-bold"
+              className="p-2 w-full rounded-md text-white text-sm font-bold mt-2"
               style={{ backgroundColor: "#034488" }}
               onClick={() => {
                 setBDModal(true);

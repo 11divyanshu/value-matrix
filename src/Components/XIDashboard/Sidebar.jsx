@@ -34,7 +34,7 @@ const Sidebar = () => {
 
 
   const Logout = async () => {
-    console.log("CHeck");
+    // console.log("CHeck");
     let user = await localStorage.getItem("user");
     user = JSON.parse(user);
     let res = await LogoutAPI(user._id);
@@ -52,7 +52,7 @@ const Sidebar = () => {
   function getWindowDimensions() {
     const width = hasWindow ? window.innerWidth : null;
     const height = hasWindow ? window.innerHeight : null;
-    console.log(width);
+    // console.log(width);
     return {
       width,
       height,
@@ -86,7 +86,7 @@ const Sidebar = () => {
       let user1 = JSON.parse(await localStorage.getItem("user"));
       let token = await localStorage.getItem("access_token");
       let user = await getUserFromId({ id: user1._id }, token);
-      console.log(user.data.user);
+      // console.log(user.data.user);
        setUser(user.data.user);
       // if (
       //   user &&
@@ -101,7 +101,7 @@ const Sidebar = () => {
       //     });
       //   }
       // }
-      console.log(permission);
+      // console.log(permission);
     };
     initial();
   }, []);

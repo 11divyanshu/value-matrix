@@ -34,7 +34,7 @@ const Sidebar = () => {
   const hasWindow = typeof window !== "undefined";
 
   const Logout = async () => {
-    console.log("CHeck");
+    // console.log("CHeck");
     let user = await localStorage.getItem("user");
     user = JSON.parse(user);
     let res = await LogoutAPI(user._id);
@@ -69,7 +69,7 @@ const Sidebar = () => {
         setWindowDimensions(getWindowDimensions());
       }
       setClose(getWindowDimensions().width);
-      console.log(getWindowDimensions().width);
+      // console.log(getWindowDimensions().width);
 
       window.addEventListener("resize", handleResize);
       return () => window.removeEventListener("resize", handleResize);
@@ -88,7 +88,7 @@ const Sidebar = () => {
       let user1 = JSON.parse(await localStorage.getItem("user"));
       let token = await localStorage.getItem("access_token");
       let user = await getUserFromId({ id: user1._id }, token);
-      console.log(user);
+      // console.log(user);
       if (
         user &&
         user.data.user &&
@@ -102,7 +102,7 @@ const Sidebar = () => {
           });
         }
       }
-      console.log(permission);
+      // console.log(permission);
     };
     initial();
   }, []);

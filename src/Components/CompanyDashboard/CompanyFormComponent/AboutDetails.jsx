@@ -30,7 +30,7 @@ const EducationDetailForm = (props) => {
       let e = JSON.parse(await localStorage.getItem("companyDetails"));
       if (e === null) return null;
       let ed = e.about;
-      console.log(ed);
+      // console.log(ed);
       if (ed !== "null" || ed !== null) {
         setAboutDetail(ed);
       }

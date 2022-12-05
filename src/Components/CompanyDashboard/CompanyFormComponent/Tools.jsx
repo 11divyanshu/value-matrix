@@ -28,9 +28,9 @@ const Tools = (props) => {
     let res = JSON.parse(await localStorage.getItem("companyDetails"));
     let user = JSON.parse(await localStorage.getItem("user"));
     res.user_id = user._id;
-    console.log(res);
+    // console.log(res);
     let access_token = await localStorage.getItem("access_token");
-    console.log(access_token)
+    // console.log(access_token)
     let response = await submitCompanyDetails(res, access_token);
     if (response && response.status === 200) {
       await localStorage.setItem("user", JSON.stringify(response.data.user));
@@ -73,7 +73,7 @@ const Tools = (props) => {
                   let t = tools;
                   await setTools([...tools, inputRef.current.value]);
                   t.push(inputRef.current.value);
-                  console.log(t);
+                  // console.log(t);
                   inputRef.current.value = "";
                   let res = await localStorage.getItem("companyDetails");
                   res = JSON.parse(res);

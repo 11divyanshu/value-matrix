@@ -20,7 +20,7 @@ const Navbar = (props) => {
     let user = await localStorage.getItem("user");
     user = JSON.parse(user);
     let res = await LogoutAPI(user._id);
-    console.log(res);
+    // console.log(res);
     await localStorage.setItem("user", null);
     await localStorage.setItem("access_token", null);
     window.location.href = "/login";

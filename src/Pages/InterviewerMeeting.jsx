@@ -9,6 +9,8 @@ import {
   getProfileImage,
   startinterview,
   endinterview,
+  stopproctoring,
+  getproctoring,
 } from "../service/api";
 import Editor from "@monaco-editor/react";
 import renderHTML from 'react-render-html';
@@ -151,16 +153,16 @@ export default function MyMeeting() {
             setCurrentUser(user);
             let interviewStatus = await checkinterviewdetails(id, user);
             setInterviewStatus(interviewStatus);
-            console.log(interviewStatus);
+            // console.log(interviewStatus);
   
             if(interviewStatus.data.data === "Data Retrieved"){
               let interviewjob = await getinterviewjob(interviewStatus.data.jobid);
-              console.log(interviewjob.data.job.skills[0].role);
+              // console.log(interviewjob.data.job.skills[0].role);
               let xiquestion = await getxiquestions("General Question","Easy","Beginner",interviewjob.data.job.skills[0].role);
-              console.log(xiquestion);
+              // console.log(xiquestion);
               setxiquestion(xiquestion.data.ques);
             }else{
-              console.log("Error");
+              // console.log("Error");
             }
           }else{
             window.location.href="/login";
@@ -209,7 +211,7 @@ export default function MyMeeting() {
                 JSON.stringify(image.data.Image)
               );
             }
-            console.log(user.data.user);
+            // console.log(user.data.user);
             if (
               user.data.user.access_valid === false ||
               user.data.user.user_type !== "XI"

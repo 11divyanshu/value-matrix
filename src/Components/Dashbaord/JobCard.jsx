@@ -34,7 +34,7 @@ const JobCard = (props) => {
   }, []);
 
   const handleStatusChange = (id,status) => {
-    console.log(id,status)
+    // console.log(id,status)
     setChoosenStatus(status);
     setChoosenId(id);
   }
@@ -42,9 +42,9 @@ const JobCard = (props) => {
   const handleStatusPost = async () => {
     let access_token = localStorage.getItem("access_token");
     let user = JSON.parse(localStorage.getItem("user"));
-    console.log(choosenStatus);
+    // console.log(choosenStatus);
     if(choosenStatus === "Archieved"){
-      console.log("check");
+      // console.log("check");
       let res2 = await postUpdateJobArchive(
         {
           _id: choosenId,
@@ -54,7 +54,7 @@ const JobCard = (props) => {
       );
 
       if(res2){
-        console.log("Nice");
+        // console.log("Nice");
         swal({
           title: "Job Status Updated Successfully !",
           message: "Success",

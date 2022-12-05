@@ -85,7 +85,7 @@ export default function Tabs(props) {
       setUser(e);
       if (e === null) return null;
       let ed = e.desc;
-      console.log(ed);
+      // console.log(ed);
       if (ed !== "null" || ed !== null) {
         setAboutDetail(ed);
       }
@@ -94,7 +94,7 @@ export default function Tabs(props) {
       }
 
       let eb = e.billing;
-      console.log(ed);
+      // console.log(ed);
       if (eb !== "null" || eb !== null) {
         setBillingDetail(ed);
       }
@@ -103,11 +103,11 @@ export default function Tabs(props) {
       }
 
       let country = await getCountryList();
-      console.log(country);
+      // console.log(country);
       setSelectedCountry(country.data.countries[0].country);
 
       let tax_id = await fetchCountry();
-      console.log(tax_id);
+      // console.log(tax_id);
       setTax(tax_id.data.countries);
       // console.log(country)
     };
@@ -115,7 +115,7 @@ export default function Tabs(props) {
   }, []);
 
   const save = async (values) => {
-    console.log(values);
+    // console.log(values);
 
     if (values.firstName) {
       if (!conerror) {
@@ -156,7 +156,7 @@ export default function Tabs(props) {
       let e = JSON.parse(await localStorage.getItem("user"));
       const temp = [...user.desc];
       temp[0] = values;
-      console.log(temp);
+      // console.log(temp);
       e.desc = temp;
       setUser(e);
       // update(e);
@@ -175,7 +175,7 @@ export default function Tabs(props) {
         let e = JSON.parse(await localStorage.getItem("user"));
         const temp = [...user.billing];
         temp[0] = values;
-        console.log(temp);
+        // console.log(temp);
         e.billing = temp;
         setUser(e);
         // update(e);
@@ -199,12 +199,12 @@ export default function Tabs(props) {
   };
 
   const submit = async (values) => {
-    console.log("values");
+    // console.log("values");
     let wait = 0;
     if (EmailOTP === null && ContactOTP === null)
       wait = await SendOTPFunction(values);
     if (wait !== 0) return;
-    console.log("values");
+    // console.log("values");
     if (EmailOTP && ContactOTP) {
       if (values.emailOTP !== EmailOTP && values.contactOTP !== ContactOTP) {
         setError("Invalid Email OTP and Contact OTP");
@@ -216,12 +216,12 @@ export default function Tabs(props) {
       setError("Invalid Email OTP");
       return;
     }
-    console.log("values");
+    // console.log("values");
     if (ContactOTP && values.contactOTP !== ContactOTP) {
       setError("Invalid Contact OTP");
       return;
     }
-    console.log("values");
+    // console.log("values");
     update(user);
   };
 
@@ -263,12 +263,12 @@ export default function Tabs(props) {
         setError(res2.Error);
       }
     }
-    console.log(wait);
+    // console.log(wait);
     return wait;
   };
 
   const update = async (ed) => {
-    console.log(ed);
+    // console.log(ed);
 
     let data = {
       firstName: ed.firstName,
@@ -313,7 +313,7 @@ export default function Tabs(props) {
         window.location.href = "/company/profile";
       });
     } else {
-      console.log("Error");
+      // console.log("Error");
     }
   };
   React.useEffect(() => {
@@ -324,15 +324,15 @@ export default function Tabs(props) {
         await localStorage.setItem("access_token", user.access_token);
       if (user && user.profileImg) {
         let image = JSON.parse(await localStorage.getItem("profileImg"));
-        console.log(image);
+        // console.log(image);
         let base64string = btoa(
           String.fromCharCode(...new Uint8Array(image.data))
         );
         let src = `data:image/png;base64,${base64string}`;
-        console.log(src);
+        // console.log(src);
         await setProfilePic(src);
       }
-      console.log(user);
+      // console.log(user);
       await setUser(user);
       await setToken(access_token1);
     };
@@ -383,7 +383,7 @@ export default function Tabs(props) {
                 let check = await validateSignupDetails({
                   username: values.username,
                 });
-                console.log(check);
+                // console.log(check);
                 if (check.data.username) {
                   errors.username = "Username already exists";
                 }
@@ -927,7 +927,7 @@ export default function Tabs(props) {
                       >
                         {tax &&
                           tax.map((item) => {
-                             console.log(item)
+                             // console.log(item)
                             return (
                               <option value={item.tax_id}>{item.country}</option>
                             );

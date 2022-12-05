@@ -31,7 +31,7 @@ class Intvwhiteboard extends React.Component {
             let updatewb = await updatewhiteboard(this.props.id, data);
         })
         .catch(e => {
-            console.log(e);
+            // console.log(e);
         });
   }
 

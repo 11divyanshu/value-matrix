@@ -31,17 +31,17 @@ export default function App() {
           window.location.href="/login";
         }else{
           if(user.isXI === true){
-            console.log("123");
+            // console.log("123");
             setCurrentUser(user);
             let interviewStatus = await checkinterviewdetails(id, user);
             setInterviewStatus(interviewStatus);
-            console.log(interviewStatus);
+            // console.log(interviewStatus);
   
             if(interviewStatus.data.data === "Data Retrieved"){
               initDyte(interviewStatus.data);
               setScreenDisplay(6);
             }else{
-              console.log("Error");
+              // console.log("Error");
             }
           }else{
             window.location.href="/login";

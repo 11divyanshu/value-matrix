@@ -30,7 +30,7 @@ const BillingDetailForm = (props) => {
       let e = JSON.parse(await localStorage.getItem("companyDetails"));
       if (e === null) return null;
       let ed = e.billing;
-      console.log(ed);
+      // console.log(ed);
       if (ed !== "null" || ed !== null) {
         setBillingDetail(ed);
       }
@@ -46,9 +46,9 @@ const BillingDetailForm = (props) => {
     let res = JSON.parse(await localStorage.getItem("companyDetails"));
     let user = JSON.parse(await localStorage.getItem("user"));
     res.user_id = user._id;
-    console.log(res);
+    // console.log(res);
     let access_token = await localStorage.getItem("access_token");
-    console.log(access_token)
+    // console.log(access_token)
     let response = await submitCompanyDetails(res, access_token);
     if (response && response.status === 200) {
       await localStorage.setItem("user", JSON.stringify(response.data.user));
@@ -127,7 +127,7 @@ const BillingDetailForm = (props) => {
                 return errors;
               }}
               onSubmit={async (values) => {
-                console.log(values);
+                // console.log(values);
                 let e = JSON.parse(
                   await localStorage.getItem("companyDetails")
                 );

@@ -67,7 +67,7 @@ const AddAdminUser = () => {
         contact: values.contact,
         username: values.username,
       });
-      console.log(validate);
+      // console.log(validate);
       if (validate && validate.data.email) {
         setEmailError("Email already reigstered");
       }
@@ -106,7 +106,7 @@ const AddAdminUser = () => {
         });
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
 
@@ -116,7 +116,7 @@ const AddAdminUser = () => {
     const initial = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
       let res = await getUserFromId({ id: user._id }, user.access_token);
-      console.log(res);
+      // console.log(res);
       if (res && res.data && res.data.user) {
         if (
           res.data.user.permissions[0].admin_permissions.add_users === false

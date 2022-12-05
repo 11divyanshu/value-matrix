@@ -17,7 +17,7 @@ import { Popover, Transition } from "@headlessui/react";
 const JobCard = (props) => {
   const [job, setJob] = React.useState(props.job);
   const [user, setUser] = React.useState(null);
-  console.log(props.job);
+  // console.log(props.job);
   // localStorage.setItem("jobs", JSON.stringify(job))
 
   React.useState(() => {
@@ -215,7 +215,7 @@ const JobCard = (props) => {
                           onClick={async()=>{
                            let res = await approveJob({_id:job._id});
                            
-                           console.log(res)
+                           // console.log(res)
                           }}
                           >
                             {/* <BsThreeDots className="text-md" /> */}

@@ -23,7 +23,7 @@ const AddSkills = () => {
         const worksheet = workbook.Sheets[sheetName];
         const json = xlsx.utils.sheet_to_json(worksheet);
         let s = skills;
-        console.log(json[0]["Secondary Skill"].split("  ")[0].split("\n"));
+        // console.log(json[0]["Secondary Skill"].split("  ")[0].split("\n"));
         for (let i = 0; i < json.length; i++) {
           let secSkills = json[i]["Secondary Skill"]
             .split("  ")[0]
@@ -33,7 +33,7 @@ const AddSkills = () => {
           }
           for (let j = 0; j < secSkills.length; j++) {
             const res = s.findIndex((el) => {
-              console.log(el);
+              // console.log(el);
               return (
                 el.Role.toLowerCase() === json[i].Role.toLowerCase() &&
                 json[i]["Primary Skill"].toLowerCase() ===
@@ -58,7 +58,7 @@ const AddSkills = () => {
             }
           }
         }
-        console.log(s);
+        // console.log(s);
         await setSkills(s);
         setSkills([...skills, "S"]);
         setSkills(
@@ -76,7 +76,7 @@ const AddSkills = () => {
     let user = JSON.parse(await localStorage.getItem("user"));
     let token = user.access_token;
     let res = await addSkills({ user_id: user._id, skills: skills }, token);
-    console.log(res);
+    // console.log(res);
     if (res && res.status === 200) {
       swal({
         title: "Success",

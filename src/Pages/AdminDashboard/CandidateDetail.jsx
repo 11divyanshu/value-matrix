@@ -29,7 +29,7 @@ const CandiadateDetail = () => {
       }
       let token = await localStorage.getItem("access_token");
       let response = await getUserFromId({ id: id }, token);
-      console.log(response);
+      // console.log(response);
       if (response && response.status === 200) {
         await setUserDetail(response.data.user);
       }

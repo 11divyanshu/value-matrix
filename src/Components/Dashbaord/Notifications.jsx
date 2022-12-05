@@ -35,7 +35,7 @@ const NotificationPopOver = (props) => {
         setNotification(notification.filter((item) => item._id !== noti._id));
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -52,7 +52,7 @@ const NotificationPopOver = (props) => {
       });
       setNotification([]);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
 
