@@ -15,7 +15,7 @@ import Intvwhiteboard from "./Intvwhiteboard.js";
 
 // import { mic } from "microphone-stream";
 
-import { compilecode, checkcompilestatus, savecode, getlivestatus, stopproctoring, getproctoring, checkinterviewdetails } from "../service/api.js";
+import { compilecode, checkcompilestatus, savecode, getlivestatus, stopproctoring, handleproctoring, checkinterviewdetails, proctoringurl } from "../service/api.js";
 
 import "../assets/stylesheet/dyte.css";
 
@@ -26,6 +26,7 @@ import renderHTML from "react-render-html";
 // import { DrawingBoard  } from "react-fabricjs-whiteboard";
 
 import {ReactSketchCanvas} from "react-sketch-canvas"
+import swal from "sweetalert";
 
 export default function MyMeeting() {
     const { meeting } = useDyteMeeting();
@@ -100,10 +101,22 @@ export default function MyMeeting() {
 
     const leaveCall = async ()=>{
       let stopproct = await stopproctoring(id, interviewStatus.data.livestream);
-      // console.log(stopproct);
-      let proctoringreport = await getproctoring(id);
-      // console.log(proctoringreport);
-      meeting.leaveRoom();
+      let proctoringreport = await axios.post(proctoringurl+"/statistics",{
+        job_id: id
+      });
+      console.log(proctoringreport);
+      let saveproctoring = await handleproctoring(id, proctoringreport.data);
+      console.log(saveproctoring);
+      if(saveproctoring){
+        meeting.leaveRoom();
+        window.location.href = "/user";
+      }else{
+        swal({
+          icon: "error",
+          title: "Something Went Wrong!",
+          button: "Ok"
+        });
+      }
     }
 
     const modifyLanguage = (e)=>{

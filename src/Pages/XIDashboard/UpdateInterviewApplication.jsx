@@ -63,18 +63,18 @@ const UpdateInterviewApplication = () => {
         let candidate = await getUser({ id: res.data.data.applicant._id }, user.access_token);
         
         setCandidate(candidate.data.user);
-        // if(res.data.data.application.evaluations){
+        if(res.data.data.application.evaluations){
 
           setSkillSet(res.data.data.application.evaluations[user._id].skills)
-        // }else{
-        //   setSkillSet([])
-        // }
+        }else{
+          setSkillSet([])
+        }
 
         let primarySkills = {};
     let roles = new Set([]);
     let tempArray =[];
 
-  // if(res.data.data.application.evaluations){
+  if(res.data.data.application.evaluations){
       res.data.data.application.evaluations[user._id].skills.forEach((skill) => {
       roles.add(skill.role);
       if (primarySkills[skill.role]) {
@@ -83,16 +83,16 @@ const UpdateInterviewApplication = () => {
         primarySkills[skill.role] = new Set([skill.primarySkill]);
       }
     }) 
-  // }else{
-  //     primarySkills = {}
-  //   } 
+  }else{
+      primarySkills = {}
+    } 
      console.log(primarySkills)
-    // if(Array.from(roles)){
+    if(Array.from(roles)){
       
       setCRoles(Array.from(roles));
-    // }else{
-    //   setCRoles({})
-    // }
+    }else{
+      setCRoles({})
+    }
     console.log(rolesC)
 
     console.log(Array.from(roles))
@@ -100,12 +100,12 @@ const UpdateInterviewApplication = () => {
       console.log(el)
       primarySkills[el] = Array.from(primarySkills[el]);
     });
-    // if(primarySkills)
+    if(primarySkills)
     setSkillsPrimary(primarySkills);
-    // else{
+    else{
       
-    //   setSkillsPrimary([]);
-    // }
+      setSkillsPrimary([]);
+    }
   // }
   // console.log("1");
 

@@ -436,7 +436,9 @@ function JobDetails(props) {
                 <div className="flex items-center justify-between">
                   <p className="font-bold text-md">
                     Applicants{" "}
-                    <span className="text-sm">({candidates.length})</span>
+                    {candidates?
+                      <span className="text-sm">({candidates.length})</span>
+                    :null}
                   </p>
                   {/* {candidates.length > 0 && showCandidate ? (
                     <p
@@ -735,21 +737,6 @@ function JobDetails(props) {
                     Invitations
                     <span className="text-sm"> ({invited.length})</span>
                   </p>
-                  {/* {invited.length > 0 && showInvited ? (
-                    <p
-                      className="text-sm hover:underline text-blue-500 cursor-pointer"
-                      onClick={() => setShowInvited(false)}
-                    >
-                      Hide
-                    </p>
-                  ) : (
-                    <p
-                      className="text-sm hover:underline text-blue-500 cursor-pointer"
-                      onClick={() => setShowInvited(true)}
-                    >
-                      Show
-                    </p>
-                  )} */}
                 </div>
 
                 {invited.length > 0 && (
@@ -767,7 +754,7 @@ function JobDetails(props) {
                             scope="col"
                             className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
-                            First Name
+                            Full Name
                           </th>
                           <th
                             scope="col"

@@ -6,7 +6,7 @@ export const url = "http://localhost:8000";
 // export const url = "https://backend.babyhost.in"
 export const frontendUrl = "http://localhost:3001";
 export const flaskurl = "http://3.110.220.19:5000";
-export const proctoringurl = "https://ec7d-2401-4900-1c62-948a-1c79-6fbc-fcb3-1553.in.ngrok.io";
+export const proctoringurl = "http://52.87.184.176:8027";
 export const psyurl = "http://3.84.200.126:9027/psychometric/candidate";
 
 // User Method API
@@ -1912,11 +1912,11 @@ export const stopproctoring = async (id, link) => {
   }
 }
 
-export const getproctoring = async (id) => {
+export const handleproctoring = async (id, data) => {
   try{
      return await axios.post(`${url}/handleproctoring`,{
-      job_id: id,
-      proctoring : proctoringurl
+      id: id,
+      proctoring : data
      })
   }catch(err){
     console.log("Error : " + err);

@@ -128,10 +128,10 @@ export default function App() {
         headers:{
           Authorization: 'Basic YzJjM2RkZTgtMGUzNy00NWVkLTlkNGEtZTMyNGE1ZjNmZGNlOmE5Nzc2NjM0YmMwNGUxNTczZDI2',
         }
-      }).then(async (data)=>{
-        console.log(data);
-        let startproct = await startproctoring(id, data.data.data.playback_url);
-        console.log(startproct.data);
+      }).then(async (dt)=>{
+        setTimeout(async()=>{
+          let startproct = await startproctoring(id, dt.data.data.playback_url);
+        },120000);
       }).catch( async (err)=>{
         let respp = await axios.get("https://api.cluster.dyte.in/v2/meetings/"+interviewStatus.data.meetingID+"/active-livestream", {
           headers:{
@@ -140,7 +140,6 @@ export default function App() {
         });
         if(respp){
           let startproct = await startproctoring(id, respp.data.data.playback_url);
-          console.log(startproct.data);
         }
       });
 

@@ -472,7 +472,11 @@ const CPrintable = () => {
                 </div>
               </div>
               <div className='w-full'>
-                <iframe className='mx-auto rounded-lg w-4/5' height={400} src="https://www.youtube.com/embed/g_1oiJqE3OI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <video width="320" height="240" controls>
+                  <source src="http://d8vy4eiv60g8a.cloudfront.net/5b74347b-69ab-4cf3-ac57-4886e633f7a5_recording.mp4" type="video/mp4"/>
+                  Your browser does not support the video tag.
+                </video>
+                {/* <iframe className='mx-auto rounded-lg w-4/5' height={400} src="https://valuematrix.s3.ap-south-1.amazonaws.com/5b74347b-69ab-4cf3-ac57-4886e633f7a5_recording.mp4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */}
               </div>
             </div>
           </div>

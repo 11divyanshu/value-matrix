@@ -478,7 +478,7 @@ function JobDetails(props) {
                             scope="col"
                             className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                           >
-                            First Name
+                            Full Name
                           </th>
                           <th
                             scope="col"
@@ -770,7 +770,7 @@ function JobDetails(props) {
                             scope="col"
                             className="text-sm text-gray-900 px-6 py-4 text-left"
                           >
-                            First Name
+                            Full Name
                           </th>
                           <th
                             scope="col"
@@ -825,12 +825,14 @@ function JobDetails(props) {
                               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                 {!user.Uid ? <button className="text-white font-bold bg-sky-500 rounded-xl px-4 py-2" onClick={()=>{
                                   approveCandidate(index);
-                                }} >Invite</button> : <button className="text-white font-bold bg-green-500 rounded-xl px-4 py-2" onClick={()=>{
-                                  approveCandidate(index);
-                                }}>Approve</button>}
+                                }} >Invite</button> : <>
+                                  <button className="text-white font-bold bg-green-500 rounded-xl px-4 py-2" onClick={()=>{
+                                    approveCandidate(index);
+                                  }}>Approve</button>
+                                </>}
                               </td>
-                             
-                             
+                            
+                            
                               {/* <td className="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap text-left">
                                 <p className="text-sm font-semibold py-2">
                                   <Link

@@ -580,6 +580,12 @@ export const companyDashboardRoutes = [
     icon: <FaBuilding className="text-xl" />,
   },
   {
+    name: "Reports Details",
+    path: "/reportDetails",
+    hide: true,
+    component: <EvaluatedReport />,
+  },
+  {
     name: "CPrintAble",
     path: "/CPrintAble",
     hide: true,
