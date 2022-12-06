@@ -3,6 +3,7 @@ import {
   getUserList,
   getCompanyUserList,
   updateUserDetails,
+  getTransactions,
 } from "../../service/api";
 import { Link } from "react-router-dom";
 import { getUserFromId } from "../../service/api";
@@ -19,15 +20,22 @@ import { HiOutlineOfficeBuilding, HiPencil } from "react-icons/hi";
 import { Dialog, Transition } from "@headlessui/react";
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import swal from "sweetalert";
+import * as htmlToImage from "html-to-image";
+import { toPng, toJpeg, toBlob, toPixelData, toSvg } from "html-to-image";
+import { jsPDF } from "jspdf";
 
-const CompanyAllTranscation = (props) => {
+import logo from "../../assets/images/logo.png";
+
+const AllTranscation = (props) => {
+  const [user, setUser] = React.useState([]);
   const [userList, setUserList] = React.useState([]);
+  const [transactionprint, setTransactionprint] = React.useState(null);
   const [Modal, setModal] = React.useState(null);
   const [add_jobs, setadd_jobs] = React.useState(false);
   const [add_users, setadd_users] = React.useState(false);
   const [listCan, setlistCan] = React.useState(false);
-  const [index, setIndex] = React.useState(props.index);
   const [page, setPage] = useState(1);
+  const [index, setIndex] = React.useState(props.index);
   const [permissions, setPermissions] = React.useState([
     {
       title: "Add Jobs",
@@ -50,7 +58,9 @@ const CompanyAllTranscation = (props) => {
     const initial = async () => {
       let token = await localStorage.getItem("access_token");
       let user = JSON.parse(await localStorage.getItem("user"));
-      let response = await getCompanyUserList(user._id);
+      setUser(user);
+      console.log(user);
+      let response = await getTransactions(user._id);
       console.log(response);
       if (response && response.status === 200) {
         setUserList(response.data);
@@ -62,15 +72,14 @@ const CompanyAllTranscation = (props) => {
   const paginate = (p) => {
     setPage(p);
     for (var i = 1; i <= userList.length; i++) {
-      document.getElementById("intercard" + i).classList.add("hidden");
+      document.getElementById("invcrd" + i).classList.add("hidden");
     }
     for (var j = 1; j <= 5; j++) {
       document
-        .getElementById("intercard" + ((p - 1) * 5 + j))
+        .getElementById("invcrd" + ((p - 1) * 5 + j))
         .classList.remove("hidden");
     }
   };
-
   return (
     <div className="p-5">
       <p className="text-2xl font-semibold mx-10">All Transcation</p>
@@ -115,167 +124,239 @@ const CompanyAllTranscation = (props) => {
                     </tr>
                   </thead>
                   <tbody>
-                  {userList.length === 0 ?<>
-                      <tr>
-                        <td colSpan={5} className="text-center pt-2 font-bold">No Transactions Found</td>
-                      </tr>
-                    </>:<>
-                      {userList.map((user, index) => {
-                        return (
-                          <>
-                            <tr
-                              id={"intercard" + (index + 1)}
-                              className={
-                                index < 5
-                                  ? "w-full px-5 bg-white py-1 my-2"
-                                  : "w-full px-5 bg-white py-1 my-2 hidden"
-                              }
-                            >
-                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                {index + 1}
-                              </td>
-                              <td className="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
-                                {user.username}
-                              </td>
-                              <td className="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
-                                {user.firstName}
-                              </td>
-                              <td className="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
-                                {user.email}
-                              </td>
-                              <td className="text-xs text-blue-500 font-light px-6 py-4 whitespace-nowrap cursor-pointer">
-                                <p
-                                  onClick={() => {
-                                    setModal(true);
-                                  }}
-                                >
-                                  Download Invoice
-                                </p>
-                              </td>
-                            </tr>
-
-                            {Modal && user && (
-                              <Transition
-                                appear
-                                show={Modal}
-                                as={Fragment}
-                                className="relative z-10000"
-                                style={{ zIndex: 1000 }}
+                    {userList.map((item, index) => {
+                      return (
+                        <>
+                          <tr
+                            id={"invcrd" + (index + 1)}
+                            className={
+                              index < 5
+                                ? "w-full px-5 bg-white py-1 border border-b"
+                                : "w-full px-5 bg-white py-1 border border-b hidden"
+                            }
+                          >
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                              {index + 1}
+                            </td>
+                            <td className="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
+                              {new Date(item.transactionDate).getDate() +
+                                "-" +
+                                (new Date(item.transactionDate).getMonth() +
+                                  1) +
+                                "-" +
+                                new Date(item.transactionDate).getFullYear()}
+                            </td>
+                            <td className="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
+                              {new Date(item.transactionDate).getHours() +
+                                ":" +
+                                new Date(
+                                  item.transactionDate
+                                ).getMinutes()}{" "}
+                            </td>
+                            <td className="lg:text-sm md:text-xs sm:text-[10px] text-gray-900 font-light lg:px-6 md:px-3 sm:px-1 py-4 whitespace-nowrap">
+                              Credit
+                            </td>
+                            <td className="text-xs text-blue-500 font-light px-6 py-4 whitespace-nowrap cursor-pointer">
+                              <p
+                                onClick={() => {
+                                  setTransactionprint(item);
+                                  setModal(true);
+                                }}
                               >
-                                <Dialog
-                                  as="div"
-                                  className="relative z-10000"
-                                  onClose={() => {}}
-                                  static={true}
-                                >
-                                  <div
-                                    className="fixed inset-0 bg-black/30 z-10000"
-                                    aria-hidden="true"
-                                  />
-                                  <Transition.Child
-                                    as={Fragment}
-                                    enter="ease-out duration-300"
-                                    enterFrom="opacity-0"
-                                    enterTo="opacity-100"
-                                    leave="ease-in duration-200"
-                                    leaveFrom="opacity-100"
-                                    leaveTo="opacity-0"
-                                  >
-                                    <div className="fixed inset-0 bg-black bg-opacity-25 z-10000" />
-                                  </Transition.Child>
+                                Download Invoice
+                              </p>
+                            </td>
+                          </tr>
 
-                                  <div className="fixed inset-0 overflow-y-auto z-10000">
-                                    <div className="flex min-h-full items-center justify-center z-10000 p-4 text-center">
-                                      <Transition.Child
-                                        as={Fragment}
-                                        enter="ease-out duration-300"
-                                        enterFrom="opacity-0 scale-95"
-                                        enterTo="opacity-100 scale-100"
-                                        leave="ease-in duration-200"
-                                        leaveFrom="opacity-100 scale-100"
-                                        leaveTo="opacity-0 scale-95"
-                                      >
-                                        <Dialog.Panel className="w-full  px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all max-w-4xl mx-auto">
+                          {Modal && item && (
+                            <Transition
+                              appear
+                              show={Modal}
+                              as={Fragment}
+                              className="relative z-10000"
+                              style={{ zIndex: 1000 }}
+                            >
+                              <Dialog
+                                as="div"
+                                className="relative z-10000"
+                                onClose={() => {}}
+                                static={true}
+                              >
+                                <div
+                                  className="fixed inset-0 bg-black/30 z-10000"
+                                  aria-hidden="true"
+                                />
+                                <Transition.Child
+                                  as={Fragment}
+                                  enter="ease-out duration-300"
+                                  enterFrom="opacity-0"
+                                  enterTo="opacity-100"
+                                  leave="ease-in duration-200"
+                                  leaveFrom="opacity-100"
+                                  leaveTo="opacity-0"
+                                >
+                                  <div className="fixed inset-0 bg-black bg-opacity-25 z-10000" />
+                                </Transition.Child>
+
+                                <div className="fixed inset-0 overflow-y-auto z-10000">
+                                  <div className="flex min-h-full items-center justify-center z-10000 p-4 text-center">
+                                    <Transition.Child
+                                      as={Fragment}
+                                      enter="ease-out duration-300"
+                                      enterFrom="opacity-0 scale-95"
+                                      enterTo="opacity-100 scale-100"
+                                      leave="ease-in duration-200"
+                                      leaveFrom="opacity-100 scale-100"
+                                      leaveTo="opacity-0 scale-95"
+                                    >
+                                      <Dialog.Panel className="w-full  px-7 my-5 transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all max-w-4xl mx-auto">
+                                        <div>
                                           <div>
                                             <div className="flex justify-between w-full">
                                               <p className="text-2xl font-bold">
-                                                Invoice
+                                                Transaction Invoice
                                               </p>{" "}
-                                              <button
-                                                type="button"
-                                                className="my-1 px-3 py-2 rounded-lg text-center bg-[#034488] text-white "
-                                                style={{
-                                                  backgroundColor: "#034488",
-                                                }}
-                                                onClick={() => setModal(false)}
-                                              >
-                                                Close
-                                              </button>
+                                              <div>
+                                                <button
+                                                  type="button"
+                                                  className="my-1 px-3 py-2 rounded-lg text-center bg-[#034488] text-white "
+                                                  style={{
+                                                    backgroundColor: "#034488",
+                                                  }}
+                                                  onClick={() =>
+                                                    setModal(false)
+                                                  }
+                                                >
+                                                  Close
+                                                </button>
+                                                <button
+                                                  className="my-1 px-3 py-2 rounded-lg mx-3 text-center bg-[#034488] text-white "
+                                                  style={{
+                                                    backgroundColor: "#034488",
+                                                  }}
+                                                  onClick={() => {
+                                                    var node =
+                                                      document.getElementById(
+                                                        "my-node"
+                                                      );
+
+                                                    htmlToImage
+                                                      .toPng(node)
+                                                      .then(function (dataUrl) {
+                                                        var img = new Image();
+                                                        img.src = dataUrl;
+                                                        // document.body.appendChild(img);
+                                                        console.log(dataUrl);
+                                                        window.jsPDF =
+                                                          window.jspdf.jsPDF;
+                                                        let doc = new jsPDF(
+                                                          "p",
+                                                          "mm",
+                                                          "a4",
+                                                          true,
+                                                          "UTF-8",
+                                                          true
+                                                        );
+                                                        let width =
+                                                          doc.internal.pageSize.getWidth();
+                                                        let height =
+                                                          doc.internal.pageSize.getHeight()-60;
+
+                                                        // Then you can use this width and height for your image to fit the entire PDF document.
+                                                        let imgData = dataUrl;
+                                                        doc.addImage(
+                                                          imgData,
+                                                          "JPEG",
+                                                          0,
+                                                          0,
+                                                          width,
+                                                          height
+                                                        );
+                                                        doc.save("Valuematrix_Transaction_Invoice.pdf");
+                                                      })
+                                                      .catch(function (error) {
+                                                        console.error(
+                                                          "oops, something went wrong!",
+                                                          error
+                                                        );
+                                                      });
+                                                  }}
+                                                >
+                                                  Save as PDF
+                                                </button>
+                                              </div>
                                             </div>
                                           </div>
                                           <div>
-                                            <section class="py-20 bg-black">
+                                            <section class="bg-black">
                                               <div class="max-w-5xl mx-auto py-16 bg-white">
                                                 <article class="overflow-hidden">
-                                                  <div class="bg-[white] rounded-b-md">
+                                                  <div class="bg-[white] rounded-b-md" id="my-node">
                                                     <div class="p-9">
-                                                      <div class="space-y-6 text-slate-700">
+                                                      <div class="py-6 text-slate-700">
                                                         <img
                                                           class="object-cover h-12"
-                                                          src="https://pbs.twimg.com/profile_images/1513243060834123776/dL8-d7zI_400x400.png"
+                                                          src={logo}
                                                         />
-
-                                                        <p class="text-xl font-extrabold tracking-tight uppercase font-body">
-                                                          Unwrapped.design
-                                                        </p>
+                                                        <p className="font-bold mt-4">VALUEMATRIX LAB INC.</p>
+                                                        <p className="font-semibold text-sm text-slate-500">16192 Coastal Highway, Lewes, Delaware, USA - 19958</p>
                                                       </div>
                                                     </div>
                                                     <div class="p-9">
                                                       <div class="flex w-full">
-                                                        <div class="grid grid-cols-4 gap-12">
+                                                        <div class="grid grid-cols-3 gap-12">
                                                           <div class="text-sm font-light text-slate-500">
-                                                            <p class="text-sm font-normal text-slate-700">
-                                                              Invoice Detail:
-                                                            </p>
-                                                            <p>Unwrapped</p>
-                                                            <p>Fake Street 123</p>
-                                                            <p>San Javier</p>
-                                                            <p>CA 1234</p>
-                                                          </div>
-                                                          <div class="text-sm font-light text-slate-500">
-                                                            <p class="text-sm font-normal text-slate-700">
+                                                            <p class="text-sm font-semibold text-slate-700">
                                                               Billed To
                                                             </p>
                                                             <p>
-                                                              The Boring Company
+                                                              {user?<>
+                                                                {user.houseNo}, {user.street}, {user.city} {user.state}, {user.country} - {user.zip}
+                                                              </>:null}
                                                             </p>
-                                                            <p>
-                                                              Tesla Street 007
-                                                            </p>
-                                                            <p>Frisco</p>
-                                                            <p>CA 0000</p>
                                                           </div>
                                                           <div class="text-sm font-light text-slate-500">
-                                                            <p class="text-sm font-normal text-slate-700">
-                                                              Invoice Number
+                                                            <p class="text-sm font-semibold text-slate-700">
+                                                              Invoice ID
                                                             </p>
-                                                            <p>000000</p>
+                                                            <p>{transactionprint.invoiceID}</p>
 
-                                                            <p class="mt-2 text-sm font-normal text-slate-700">
+                                                            <p class="mt-2 text-sm font-semibold text-slate-700">
                                                               Date of Issue
                                                             </p>
-                                                            <p>00.00.00</p>
+                                                            <p>
+                                                              {" "}
+                                                              {new Date(
+                                                                transactionprint.transactionDate
+                                                              ).getDate() +
+                                                                "-" +
+                                                                (new Date(
+                                                                  transactionprint.transactionDate
+                                                                ).getMonth() +
+                                                                  1) +
+                                                                "-" +
+                                                                new Date(
+                                                                  transactionprint.transactionDate
+                                                                ).getFullYear()}
+                                                            </p>
                                                           </div>
                                                           <div class="text-sm font-light text-slate-500">
-                                                            <p class="text-sm font-normal text-slate-700">
-                                                              Terms
-                                                            </p>
-                                                            <p>0 Days</p>
+                                                            {transactionprint.razorpayPaymentId?<>
+                                                              <p class="text-sm font-semibold text-slate-700">
+                                                                Order ID
+                                                              </p>
+                                                              <p>{transactionprint.razorpayOrderId}</p>
 
-                                                            <p class="mt-2 text-sm font-normal text-slate-700">
-                                                              Due
-                                                            </p>
-                                                            <p>00.00.00</p>
+                                                              <p class="mt-2 text-sm font-semibold text-slate-700">
+                                                                Payment ID
+                                                              </p>
+                                                              <p>{transactionprint.razorpayPaymentId}</p>
+                                                            </>:<>
+                                                              <p class="mt-2 text-sm font-semibold text-slate-700">
+                                                                Status
+                                                              </p>
+                                                              <p>Unpaid</p>
+                                                            </>}
                                                           </div>
                                                         </div>
                                                       </div>
@@ -288,25 +369,19 @@ const CompanyAllTranscation = (props) => {
                                                             <tr>
                                                               <th
                                                                 scope="col"
-                                                                class="py-3.5 pl-4 pr-3 text-left text-sm font-normal text-slate-700 sm:pl-6 md:pl-0"
+                                                                class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-700 sm:pl-6 md:pl-0"
                                                               >
                                                                 Description
                                                               </th>
                                                               <th
                                                                 scope="col"
-                                                                class="hidden py-3.5 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell"
+                                                                class="py-3.5 px-3 text-right text-sm font-semibold text-slate-700 sm:table-cell"
                                                               >
                                                                 Quantity
                                                               </th>
                                                               <th
                                                                 scope="col"
-                                                                class="hidden py-3.5 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell"
-                                                              >
-                                                                Rate
-                                                              </th>
-                                                              <th
-                                                                scope="col"
-                                                                class="py-3.5 pl-3 pr-4 text-right text-sm font-normal text-slate-700 sm:pr-6 md:pr-0"
+                                                                class="py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-slate-700 sm:pr-6 md:pr-0"
                                                               >
                                                                 Amount
                                                               </th>
@@ -316,119 +391,17 @@ const CompanyAllTranscation = (props) => {
                                                             <tr class="border-b border-slate-200">
                                                               <td class="py-4 pl-4 pr-3 text-sm sm:pl-6 md:pl-0">
                                                                 <div class="font-medium text-slate-700">
-                                                                  Tesla Truck
-                                                                </div>
-                                                                <div class="mt-0.5 text-slate-500 sm:hidden">
-                                                                  1 unit at $0.00
+                                                                  Credit Purchase
                                                                 </div>
                                                               </td>
-                                                              <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
-                                                                48
+                                                              <td class="px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
+                                                                {transactionprint.credit}
                                                               </td>
-                                                              <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
-                                                                $0.00
-                                                              </td>
-                                                              <td class="py-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                                                                $0.00
+                                                              <td class="pl-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
+                                                                INR {transactionprint.amount/100}
                                                               </td>
                                                             </tr>
-                                                            <tr class="border-b border-slate-200">
-                                                              <td class="py-4 pl-4 pr-3 text-sm sm:pl-6 md:pl-0">
-                                                                <div class="font-medium text-slate-700">
-                                                                  Tesla Charging
-                                                                  Station
-                                                                </div>
-                                                                <div class="mt-0.5 text-slate-500 sm:hidden">
-                                                                  1 unit at $75.00
-                                                                </div>
-                                                              </td>
-                                                              <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
-                                                                4
-                                                              </td>
-                                                              <td class="hidden px-3 py-4 text-sm text-right text-slate-500 sm:table-cell">
-                                                                $0.00
-                                                              </td>
-                                                              <td class="py-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                                                                $0.00
-                                                              </td>
-                                                            </tr>
-
-                                                            {/* <!-- Here you can write more products/tasks that you want to charge for--> */}
                                                           </tbody>
-                                                          <tfoot>
-                                                            <tr>
-                                                              <th
-                                                                scope="row"
-                                                                colspan="3"
-                                                                class="hidden pt-6 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0"
-                                                              >
-                                                                Subtotal
-                                                              </th>
-                                                              <th
-                                                                scope="row"
-                                                                class="pt-6 pl-4 pr-3 text-sm font-light text-left text-slate-500 sm:hidden"
-                                                              >
-                                                                Subtotal
-                                                              </th>
-                                                              <td class="pt-6 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                                                                $0.00
-                                                              </td>
-                                                            </tr>
-                                                            <tr>
-                                                              <th
-                                                                scope="row"
-                                                                colspan="3"
-                                                                class="hidden pt-6 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0"
-                                                              >
-                                                                Discount
-                                                              </th>
-                                                              <th
-                                                                scope="row"
-                                                                class="pt-6 pl-4 pr-3 text-sm font-light text-left text-slate-500 sm:hidden"
-                                                              >
-                                                                Discount
-                                                              </th>
-                                                              <td class="pt-6 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                                                                $0.00
-                                                              </td>
-                                                            </tr>
-                                                            <tr>
-                                                              <th
-                                                                scope="row"
-                                                                colspan="3"
-                                                                class="hidden pt-4 pl-6 pr-3 text-sm font-light text-right text-slate-500 sm:table-cell md:pl-0"
-                                                              >
-                                                                Tax
-                                                              </th>
-                                                              <th
-                                                                scope="row"
-                                                                class="pt-4 pl-4 pr-3 text-sm font-light text-left text-slate-500 sm:hidden"
-                                                              >
-                                                                Tax
-                                                              </th>
-                                                              <td class="pt-4 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                                                                $0.00
-                                                              </td>
-                                                            </tr>
-                                                            <tr>
-                                                              <th
-                                                                scope="row"
-                                                                colspan="3"
-                                                                class="hidden pt-4 pl-6 pr-3 text-sm font-normal text-right text-slate-700 sm:table-cell md:pl-0"
-                                                              >
-                                                                Total
-                                                              </th>
-                                                              <th
-                                                                scope="row"
-                                                                class="pt-4 pl-4 pr-3 text-sm font-normal text-left text-slate-700 sm:hidden"
-                                                              >
-                                                                Total
-                                                              </th>
-                                                              <td class="pt-4 pl-3 pr-4 text-sm font-normal text-right text-slate-700 sm:pr-6 md:pr-0">
-                                                                $0.00
-                                                              </td>
-                                                            </tr>
-                                                          </tfoot>
                                                         </table>
                                                       </div>
                                                     </div>
@@ -436,13 +409,14 @@ const CompanyAllTranscation = (props) => {
                                                     <div class="mt-48 p-9">
                                                       <div class="border-t pt-9 border-slate-200">
                                                         <div class="text-sm font-light text-slate-700">
-                                                          <p>
+                                                          <p className="hidden">
                                                             Payment terms are 14
-                                                            days. Please be aware
-                                                            that according to the
-                                                            Late Payment of
-                                                            Unwrapped Debts Act
-                                                            0000, freelancers are
+                                                            days. Please be
+                                                            aware that according
+                                                            to the Late Payment
+                                                            of Unwrapped Debts
+                                                            Act 0000,
+                                                            freelancers are
                                                             entitled to claim a
                                                             00.00 late fee upon
                                                             non-payment of debts
@@ -450,19 +424,20 @@ const CompanyAllTranscation = (props) => {
                                                             which point a new
                                                             invoice will be
                                                             submitted with the
-                                                            addition of this fee.
-                                                            If payment of the
-                                                            revised invoice is not
-                                                            received within a
-                                                            further 14 days,
-                                                            additional interest
-                                                            will be charged to the
-                                                            overdue account and a
-                                                            statutory rate of 8%
-                                                            plus Bank of England
-                                                            base of 0.5%,
-                                                            totalling 8.5%.
-                                                            Parties cannot
+                                                            addition of this
+                                                            fee. If payment of
+                                                            the revised invoice
+                                                            is not received
+                                                            within a further 14
+                                                            days, additional
+                                                            interest will be
+                                                            charged to the
+                                                            overdue account and
+                                                            a statutory rate of
+                                                            8% plus Bank of
+                                                            England base of
+                                                            0.5%, totalling
+                                                            8.5%. Parties cannot
                                                             contract out of the
                                                             Act’s provisions.
                                                           </p>
@@ -474,44 +449,42 @@ const CompanyAllTranscation = (props) => {
                                               </div>
                                             </section>
                                           </div>
-                                        </Dialog.Panel>
-                                      </Transition.Child>
-                                    </div>
+                                        </div>
+                                      </Dialog.Panel>
+                                    </Transition.Child>
                                   </div>
-                                </Dialog>
-                              </Transition>
-                            )}
-                          </>
-                        );
-                      })}
-                    </>}
+                                </div>
+                              </Dialog>
+                            </Transition>
+                          )}
+                        </>
+                      );
+                    })}
                   </tbody>
                 </table>
-                <div className="w-full">
-                  {Math.ceil(userList.length / 5) != 0 ?
-                    <div className="flex justify-between my-2 mx-1">
-                      <div>
-                        Page {page} of {Math.ceil(userList.length / 5)}
-                      </div>
-                      <div>
-                        {" "}
-                        {userList &&
-                          userList.map((userList, index) => {
-                            return index % 5 == 0 ? (
-                              <span
-                                className="mx-2"
-                                style={{ cursor: "pointer" }}
-                                onClick={() => {
-                                  paginate(index / 5 + 1);
-                                }}
-                              >
-                                {index / 5 + 1}
-                              </span>
-                            ) : null;
-                          })}
-                      </div>
+                <div className="flex justify-between my-2 mx-1">
+                  {Math.ceil(userList.length / 5) ? (
+                    <div>
+                      Page {page} of {Math.ceil(userList.length / 5)}
                     </div>
-                  :null}
+                  ) : null}
+                  <div>
+                    {" "}
+                    {userList &&
+                      userList.map((userList, index) => {
+                        return index % 5 == 0 ? (
+                          <span
+                            className="mx-2"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => {
+                              paginate(index / 5 + 1);
+                            }}
+                          >
+                            {index / 5 + 1}
+                          </span>
+                        ) : null;
+                      })}
+                  </div>
                 </div>
               </div>
             </div>
@@ -522,4 +495,4 @@ const CompanyAllTranscation = (props) => {
   );
 };
 
-export default CompanyAllTranscation;
+export default AllTranscation;

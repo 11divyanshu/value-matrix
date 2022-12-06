@@ -483,6 +483,13 @@ export const adminDashboardRoutes = [
     permission: "default",
     component: <AddTaxId />,
   },
+  {
+    name: "CPrintAble",
+    path: "/CPrintAble",
+    hide: true,
+    icon: <CgWorkAlt className="text-xl" />,
+    component: <CPrintable />,
+  },
   // {
   //   name:"call",
   //   path: "/twilio",

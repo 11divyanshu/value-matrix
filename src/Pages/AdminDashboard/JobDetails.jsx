@@ -18,7 +18,7 @@ import DOMPurify from "dompurify";
 import { Link, useNavigate } from "react-router-dom";
 import { BsThreeDots, BsCashStack } from "react-icons/bs";
 import Microsoft from "../../assets/images/micro.jpg";
-import { updateJobAPI, getSkills, archiveJob, approveCd } from "../../service/api";
+import { updateJobAPI, getSkills, archiveJob, approveCd, getcandidatesevaluations } from "../../service/api";
 import { useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import swal from "sweetalert";
@@ -46,6 +46,7 @@ function JobDetails(props) {
   const [choosenStatus, setChoosenStatus] = React.useState("");
   const [choosenId, setChoosenId] = React.useState("");
   const [loading, setLoading] = React.useState(null);
+  const [gcaneval, setcaneval] = React.useState(null);
   React.useEffect(() => {
     const getData = async () => {
       // let access_token = ReactSession.get("access_token");
@@ -64,6 +65,13 @@ function JobDetails(props) {
         // }
         console.log(res.data.applicants);
         setCandidates(res.data.job.invitations);
+        console.log(res.data.job.invitations);
+        if(res.data.job.invitations.length != 0){
+          let caneval = await getcandidatesevaluations(job_id, res.data.job.invitations);
+          if(caneval){
+            setcaneval(caneval.data.data)
+          }
+        }
         // setDeclined(res.data.declined);
         // setInvited(res.data.invited);
         let primarySkills = {};
@@ -820,15 +828,39 @@ function JobDetails(props) {
                                 {user.Contact}
                               </td>
                               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                {!user.Uid ? <>Pending Invitation</> : <>{user.Status}</>}
+                                {!user.Uid ? <>Pending Invitation</> : <>
+                                  {user.Status==="Invited"?
+                                    <>
+                                    {gcaneval?<>
+                                      {gcaneval[index].status === "nf"?
+                                        <>Invited</>
+                                        :
+                                        <>Evaluated</>
+                                      }
+                                    </>:null}
+                                    </>
+                                  :null}
+                                </>}
                               </td>
                               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
                                 {!user.Uid ? <button className="text-white font-bold bg-sky-500 rounded-xl px-4 py-2" onClick={()=>{
                                   approveCandidate(index);
                                 }} >Invite</button> : <>
-                                  <button className="text-white font-bold bg-green-500 rounded-xl px-4 py-2" onClick={()=>{
-                                    approveCandidate(index);
-                                  }}>Approve</button>
+                                  {user.Status==="Invited"?
+                                    <>
+                                    {gcaneval?<>
+                                      {gcaneval[index].status === "nf"?
+                                        <a className="text-white font-bold bg-gray-800 rounded-xl px-4 py-2" href="#">Evaluation Pending</a>
+                                        :
+                                        <a className="text-white font-bold bg-green-500 rounded-xl px-4 py-2" href={`/admin/CPrintAble/${gcaneval[index]._id}`}>View Evaluation</a>
+                                      }
+                                    </>:null}
+                                    </>
+                                  :
+                                    <button className="text-white font-bold bg-green-500 rounded-xl px-4 py-2" onClick={()=>{
+                                      approveCandidate(index);
+                                    }}>Approve</button>
+                                  }
                                 </>}
                               </td>
                             

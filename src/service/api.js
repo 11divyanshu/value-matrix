@@ -1771,3 +1771,14 @@ export const handleproctoring = async (id, data) => {
     console.log("Error : " + err);
   }
 };
+
+export const getcandidatesevaluations = async (id, data) => {
+  try {
+    return await axios.post(`${url}/getcandidatesevaluations`, {
+      id: id,
+      data: data,
+    });
+  } catch (err) {
+    console.log("Error : " + err);
+  }
+};

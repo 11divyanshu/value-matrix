@@ -23,6 +23,8 @@ const UpdateInterviewApplication = () => {
   const [status, setStatus] = React.useState(null);
   const [currStatus, setCurrStatus] = React.useState(null);
   const [feedback, setFeedback] = React.useState(null);
+  const [positives, setPositives] = React.useState(null);
+  const [lowlights, setLowlights] = React.useState(null);
   const [evaluation, setEvaluation] = React.useState([]);
   const [rating, setRating] = React.useState(0);
   const [initialRating, setInitialRating] = React.useState(0);
@@ -572,8 +574,8 @@ const UpdateInterviewApplication = () => {
                       {currStatus ? currStatus : null}
                     </p>
                   </div>
-                  <div className="w-full bg-white p-2">
-              <p className="font-semibold text-lg my-3">Skills</p>
+                  <div className="w-full bg-white p-2 mt-8">
+              <p className="font-semibold text-lg my-3 px-4">Skills</p>
                 {showRoles ? (
                   <>
                   {showRoles.length > 0 && showRoles.map((el, index) => {
@@ -748,7 +750,7 @@ const UpdateInterviewApplication = () => {
                   })}
                   
                   <button
-                  className=" hover:bg-blue-700 text-white font-bold py-2 px-8 md:mx-6 sm:mx-0 text-xs rounded"
+                  className=" hover:bg-blue-700 text-white font-bold py-2 px-8 md:mx-4 sm:mx-0 text-xs rounded"
                   style={{backgroundColor:"#034488"}}
                   onClick={()=>updateSkill()}
                 >
@@ -1090,6 +1092,76 @@ const UpdateInterviewApplication = () => {
                       )}
                     </div>
                   </div> */}
+                  <div className="my-5">
+                    <p className="font-semibold text-lg my-3">Positives</p>
+                    <div className="w-full  bg-white border border-b bg-white px-9 py-6 border space-y-2">
+                      <p className="font-semibold">Add Positives</p>
+                      <textarea
+                        className="px-4 py-1 my-3 w-3/4 block"
+                        rows="5"
+                        style={{ borderRadius: "5px" }}
+                        onChange={(e) => {
+                          setPositives(e.target.value);
+                        }}
+                      />
+                      {positives !== "" && positives !== null && (
+                        <button
+                          className="px-4 py-1 bg-blue-500 text-white rounded-md ml-auto my-3"
+                          style={{ backgroundColor: "#034488" }}
+                          onClick={async()=>{
+                            let res = await updateEvaluation({
+                              updates: {positives: positives},
+                              user_id: user._id,
+                              application_id: interview.application._id,
+                            });
+                            if(res && res.status===200){
+                              swal("Success", "Positives Updated", "success");
+                            }
+                            else{
+                              swal("Error", "Something went wrong", "error");
+                            }
+                          }}
+                        >
+                          Update
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                  <div className="my-5">
+                    <p className="font-semibold text-lg my-3">Lowlights</p>
+                    <div className="w-full  bg-white border border-b bg-white px-9 py-6 border space-y-2">
+                      <p className="font-semibold">Add Lowlights</p>
+                      <textarea
+                        className="px-4 py-1 my-3 w-3/4 block"
+                        rows="5"
+                        style={{ borderRadius: "5px" }}
+                        onChange={(e) => {
+                          setLowlights(e.target.value);
+                        }}
+                      />
+                      {lowlights !== "" && lowlights !== null && (
+                        <button
+                          className="px-4 py-1 bg-blue-500 text-white rounded-md ml-auto my-3"
+                          style={{ backgroundColor: "#034488" }}
+                          onClick={async()=>{
+                            let res = await updateEvaluation({
+                              updates: {lowlights: lowlights},
+                              user_id: user._id,
+                              application_id: interview.application._id,
+                            });
+                            if(res && res.status===200){
+                              swal("Success", "Lowlights Updated", "success");
+                            }
+                            else{
+                              swal("Error", "Something went wrong", "error");
+                            }
+                          }}
+                        >
+                          Update
+                        </button>
+                      )}
+                    </div>
+                  </div>
                   <div className="my-5">
                     <p className="font-semibold text-lg my-3">Feedback</p>
                     <div className="w-full  bg-white border border-b bg-white px-9 py-6 border space-y-2">

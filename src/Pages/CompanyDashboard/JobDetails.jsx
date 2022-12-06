@@ -1,5 +1,5 @@
 import React from "react";
-import { getJobById } from "../../service/api";
+import { approveJob, getJobById } from "../../service/api";
 import { ReactSession } from "react-client-session";
 import { useParams } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -18,7 +18,7 @@ import DOMPurify from "dompurify";
 import { Link, useNavigate } from "react-router-dom";
 import { BsThreeDots, BsCashStack } from "react-icons/bs";
 import Microsoft from "../../assets/images/micro.jpg";
-import { updateJobAPI, getSkills, archiveJob } from "../../service/api";
+import { updateJobAPI, getSkills, archiveJob, approveCd, getcandidatesevaluations } from "../../service/api";
 import { useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import swal from "sweetalert";
@@ -46,26 +46,34 @@ function JobDetails(props) {
   const [choosenStatus, setChoosenStatus] = React.useState("");
   const [choosenId, setChoosenId] = React.useState("");
   const [loading, setLoading] = React.useState(null);
+  const [gcaneval, setcaneval] = React.useState(null);
   React.useEffect(() => {
     const getData = async () => {
       // let access_token = ReactSession.get("access_token");
       let access_token = localStorage.getItem("access_token");
       let user = JSON.parse(await localStorage.getItem("user"));
       await setUser(user);
-      console.log(job_id)
       let res = await getJobById(job_id, access_token);
+      console.log(res);
       if (res) {
         console.log(res.data.job)
         setJob(res.data.job);
         let jobDetails = res.data.job;
-        await localStorage.setItem("jobDetails", JSON.stringify(res.data.job));
-        if (res.data.job.archived) {
-          setToggle(res.data.job.archived);
-        }
+        await localStorage.setItem("jobDetails", JSON.stringify(res.data.job[0]));
+        // if (res.data.job[0].archived) {
+        //   setToggle(res.data.job[0].archived);
+        // }
         console.log(res.data.applicants);
-        setCandidates(res.data.applicants);
-        setDeclined(res.data.declined);
-        setInvited(res.data.invited);
+        setCandidates(res.data.job.invitations);
+        console.log(res.data.job.invitations);
+        if(res.data.job.invitations.length != 0){
+          let caneval = await getcandidatesevaluations(job_id, res.data.job.invitations);
+          if(caneval){
+            setcaneval(caneval.data.data)
+          }
+        }
+        // setDeclined(res.data.declined);
+        // setInvited(res.data.invited);
         let primarySkills = {};
         let roles = new Set([]);
         res.data.job.skills.forEach((skill) => {
@@ -88,7 +96,7 @@ function JobDetails(props) {
     };
 
     getData();
-  }, [job_id]);
+  }, []);
   const archive = async () => {
     let access_token = localStorage.getItem("access_token");
     let user = JSON.parse(await localStorage.getItem("jobDetails"));
@@ -137,6 +145,13 @@ function JobDetails(props) {
     console.log(id,status)
     setChoosenStatus(status);
     setChoosenId(id);
+  }
+
+  const approveCandidate = async (index)=>{
+    let approve = await approveCd(index, job_id, candidates[index]);
+    if(approve){
+      window.location.reload();
+    }
   }
 
   const handleCandidateStatusPost = async () => {
@@ -431,14 +446,44 @@ function JobDetails(props) {
                 </div>
               )}
             </div>
+            <div className="card-body md:px-7">
+            
             {user._id === job.uploadBy && (
-              <div className="my-5 px-3 md:px-9">
+              <>
+                { job.status === "Pending" ? <>
+                  <div className="flex my-5 px-3 w-full justify-center">
+                    <button className="bg-green-500 hover:bg-green-600 text-white font-bold rounded-xl py-2 px-4"
+                      onClick={async () => {
+                        let res1 = await approveJob({
+                          _id: job._id,
+                        });
+                        if (res1) {
+                          swal({
+                            icon: "success",
+                            title: "Job Approved Successfully",
+                            button: "Continue",
+                          }).then(() => {
+                            window.location.reload();
+                          });
+                          //  let res = await unapprovedJobsList();
+
+                          //  if (res && res.data) {
+                          //    setJobs(res.data);
+                          //    console.log(res.data);
+                          //    let arr = [...res.data];
+                          //    const jsonObj = JSON.stringify(arr);
+
+                          // }
+                        }
+                      }}
+                    >Approve Job</button>
+                  </div>
+                </> : <>
+                <div className="my-5 px-3 md:px-9">
                 <div className="flex items-center justify-between">
                   <p className="font-bold text-md">
-                    Applicants{" "}
-                    {candidates?
-                      <span className="text-sm">({candidates.length})</span>
-                    :null}
+                    Invitations{" "}
+                    <span className="text-sm">({candidates.length})</span>
                   </p>
                   {/* {candidates.length > 0 && showCandidate ? (
                     <p
@@ -461,41 +506,43 @@ function JobDetails(props) {
                   <div className="overflow-x-auto">
                     <table className="w-full my-5 ">
                       <thead className="bg-white border-b text-left">
-                        <tr>
+                        <tr className="font-bold">
                           <th
                             scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            className="text-sm text-gray-900 px-6 py-4 text-left"
                           >
                             #
                           </th>
                           <th
                             scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            className="text-sm text-gray-900 px-6 py-4 text-left"
                           >
-                            First Name
+                            Full Name
                           </th>
                           <th
                             scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            className="text-sm text-gray-900 px-6 py-4 text-left"
                           >
                             Email
                           </th>
                           <th
                             scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            className="text-sm text-gray-900 px-6 py-4 text-left"
                           >
                             Contact
                           </th>
                           <th
                             scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                            className="text-sm text-gray-900 px-6 py-4 text-left"
                           >
                             Status
                           </th>
                           <th
                             scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          ></th>
+                            className="text-sm text-gray-900 px-6 py-4 text-left"
+                          >
+                            Action
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -511,98 +558,60 @@ function JobDetails(props) {
                                 {index + 1}
                               </td>
                               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                {user.firstName} {user.lastName}
+                                {user.Uid ? <><a href={"/admin/AdminUserProfile/"+user.Uid}>{user.FirstName} {user.LastName}</a></> : <>{user.FirstName} {user.LastName}</> }
                               </td>
                               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                {user.email}
+                                {user.Email}
                               </td>
                               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                {user.contact}
+                                {user.Contact}
                               </td>
                               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                {user.status}
+                                {!user.Uid ? <>Pending Invitation</> : <>
+                                  {user.Status==="Invited"?
+                                    <>
+                                    {gcaneval?<>
+                                      {gcaneval[index].status === "nf"?
+                                        <>Invited</>
+                                        :
+                                        <>Evaluated</>
+                                      }
+                                    </>:null}
+                                    </>
+                                  :null}
+                                </>}
+                                
                               </td>
-                              <td className="text-sm text-gray-900 font-light py-4 whitespace-nowrap text-left">
-                                <Menu
-                                  as="div"
-                                  className="relative inline-block mx-3 text-left"
-                                >
-                                  <div>
-                                    <Menu.Button className="flex bg-yellow-300 rounded-3xl mx-2 py-2 my-3 text-xs text-gray-900 font-semibold">
-                                      Change Status
-                                      <ChevronDownIcon
-                                        className="h-5 w-5"
-                                        aria-hidden="true"
-                                      />
-                                    </Menu.Button>
-                                  </div>
-
-                                  <Transition
-                                    as={Fragment}
-                                    enter="transition ease-out duration-100"
-                                    enterFrom="transform opacity-0 scale-95"
-                                    enterTo="transform opacity-100 scale-100"
-                                    leave="transition ease-in duration-75"
-                                    leaveFrom="transform opacity-100 scale-100"
-                                    leaveTo="transform opacity-0 scale-95"
-                                  >
-                                    <Menu.Items className="absolute -mt-3 z-10 w-auto rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                      <div className="text-left">
-                                        <Menu.Item>
-                                          <button
-                                            // style={{background: "#3ED3C5" }}
-                                            className="rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
-                                            onClick={() => {
-                                              console.log(user.appid);
-                                              setchooseStatus(true);
-                                              handleCandidateStatusChange(user.appid, "Assigned");
-                                            }}
-                                          >
-                                            Assigned{" "}
-                                          </button>
-                                        </Menu.Item>
-                                        <Menu.Item>
-                                          <button
-                                            // style={{ background: "#3ED3C5" }}
-                                            className="  rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
-                                            onClick={() => {
-                                              console.log(user.appid);
-                                              setchooseStatus(true);
-                                              handleCandidateStatusChange(user.appid, "Declined");
-                                            }}
-                                          >
-                                            Declined{" "}
-                                          </button>
-                                        </Menu.Item>
-                                        <Menu.Item>
-                                          <button
-                                            // style={{ background: "#3ED3C5" }}
-                                            className="  rounded-3xl px-4 my-2 text-sm text-gray-900 font-semibold"
-                                            onClick={() => {
-                                              console.log(user.appid);
-                                              setchooseStatus(true);
-                                              handleCandidateStatusChange(user.appid, "Onhold");
-                                            }}
-                                          >
-                                            Onhold{" "}
-                                          </button>
-                                        </Menu.Item>
-                                      </div>
-                                    </Menu.Items>
-                                  </Transition>
-                                </Menu>
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+                                {!user.Uid ? <button className="text-white font-bold bg-sky-500 rounded-xl px-4 py-2" onClick={()=>{
+                                  approveCandidate(index);
+                                }} >Invite</button> : <>
+                                  {user.Status==="Invited"?
+                                    <>
+                                    {gcaneval?<>
+                                      {gcaneval[index].status === "nf"?
+                                        <a className="text-white font-bold bg-gray-800 rounded-xl px-4 py-2" href="#">Evaluation Pending</a>
+                                        :
+                                        <a className="text-white font-bold bg-green-500 rounded-xl px-4 py-2" href={`/company/CPrintAble/${gcaneval[index]._id}`}>View Evaluation</a>
+                                      }
+                                    </>:null}
+                                    </>
+                                  :null}
+                                </>}
                               </td>
-                              <td className="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap text-left">
+                            
+                            
+                              {/* <td className="text-sm text-gray-900 font-light px-3 py-4 whitespace-nowrap text-left">
                                 <p className="text-sm font-semibold py-2">
                                   <Link
-                                    to={`/company/candidateDetails/${user._id}`}
+                                    to={`/company/evaluationDetails/${user._id}`}
                                     // to={`/user/printable`}
                                   >
                                     View Details{" "}
                                   </Link>
                                 </p>{" "}
-                              </td>
-                              <td className="text-sm text-blue-700 font-light px-3 py-4 whitespace-nowrap text-left">
+                              </td> */}
+                              {/* <td className="text-sm text-blue-700 font-light px-3 py-4 whitespace-nowrap text-left">
                                 <p className="text-sm font-semibold py-2">
                                   <Link
                                     to={`/company/CPrintAble/${user._id}`}
@@ -611,7 +620,7 @@ function JobDetails(props) {
                                     View Evaluation{" "}
                                   </Link>
                                 </p>{" "}
-                              </td>
+                              </td> */}
                             </tr>
                           );
                         })}
@@ -705,7 +714,7 @@ function JobDetails(props) {
                           </Transition.Child>
                         </div>
                       </div>
-                    </Dialog>
+                    </Dialog> 
                   </Transition>
                 )}
                 <div className={candidates.length > 5 ? "w-full" : "hidden"}>
@@ -732,218 +741,40 @@ function JobDetails(props) {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center justify-between my-5">
+                {/* <div className="flex items-center justify-between my-5">
                   <p className="font-bold text-md">
                     Invitations
                     <span className="text-sm"> ({invited.length})</span>
                   </p>
-                </div>
-
-                {invited.length > 0 && (
-                  <div className="overflow-x-auto">
-                    <table className="w-full my-3">
-                      <thead className="bg-white border-b text-left">
-                        <tr>
-                          <th
-                            scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          >
-                            #
-                          </th>
-                          <th
-                            scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          >
-                            Full Name
-                          </th>
-                          <th
-                            scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          >
-                            Email
-                          </th>
-                          <th
-                            scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          >
-                            Contact
-                          </th>
-                          <th
-                            scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          >
-                            Status
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {invited.map((user, index) => {
-                          return (
-                            <tr
-                              id={"invcrd" + (index + 1)}
-                              className={
-                                index < 5 ? "bg-gray-100" : "bg-gray-100 hidden"
-                              }
-                            >
-                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
-                                {index + 1}
-                              </td>
-                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                {user.firstName} {user.lastName}
-                              </td>
-                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                {user.email}
-                              </td>
-                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                {user.contact}
-                              </td>
-                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                {candidates.includes(user)
-                                  ? "Accepted"
-                                  : declined.includes(user)
-                                  ? "Declined"
-                                  : "Waiting"}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
-
-                <div className={invited.length > 5 ? "w-full" : "hidden"}>
-                  <div className="flex justify-between my-2 mx-1">
-                    <div>
-                      Page {page} of {Math.ceil(invited.length / 5)}
-                    </div>
-                    <div>
-                      {" "}
-                      {invited &&
-                        invited.map((job, index) => {
-                          return index % 5 == 0 ? (
-                            <span
-                              className="mx-2"
-                              style={{ cursor: "pointer" }}
-                              onClick={() => {
-                                paginate(index / 5 + 1);
-                              }}
-                            >
-                              {index / 5 + 1}
-                            </span>
-                          ) : null;
-                        })}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between my-3">
-                  <p className="font-bold text-md">
-                    Invitations Declined
-                    <span className="text-sm"> ({declined.length})</span>
-                  </p>
-                  {/* {declined.length > 0 && showDeclined ? (
+                  {/* {invited.length > 0 && showInvited ? (
                     <p
                       className="text-sm hover:underline text-blue-500 cursor-pointer"
-                      onClick={() => setShowDeclined(false)}
+                      onClick={() => setShowInvited(false)}
                     >
                       Hide
                     </p>
                   ) : (
                     <p
                       className="text-sm hover:underline text-blue-500 cursor-pointer"
-                      onClick={() => setShowDeclined(true)}
+                      onClick={() => setShowInvited(true)}
                     >
                       Show
                     </p>
-                  )} */}
-                </div>
+                  )} 
+                </div> */}
 
-                {declined.length > 0 && (
-                  <div className="overflow-x-auto">
-                    <table className="w-full my-3">
-                      <thead className="bg-white border-b text-left">
-                        <tr>
-                          <th
-                            scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          >
-                            #
-                          </th>
-                          <th
-                            scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          >
-                            First Name
-                          </th>
-                          <th
-                            scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          >
-                            Email
-                          </th>
-                          <th
-                            scope="col"
-                            className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                          >
-                            Contact
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {declined.map((user, index) => {
-                          return (
-                            <tr
-                              id={"invdeccrd" + (index + 1)}
-                              className={
-                                index < 5 ? "bg-gray-100" : "bg-gray-100 hidden"
-                              }
-                            >
-                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
-                                {index + 1}
-                              </td>
-                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                {user.firstName} {user.lastName}
-                              </td>
-                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                {user.email}
-                              </td>
-                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-                                {user.contact}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
-                <div className={declined.length > 5 ? "w-full" : "hidden"}>
-                  <div className="flex justify-between my-2 mx-1">
-                    <div>
-                      Page {page} of {Math.ceil(declined.length / 5)}
-                    </div>
-                    <div>
-                      {" "}
-                      {declined &&
-                        declined.map((job, index) => {
-                          return index % 5 == 0 ? (
-                            <span
-                              className="mx-2"
-                              style={{ cursor: "pointer" }}
-                              onClick={() => {
-                                paginate(index / 5 + 1);
-                              }}
-                            >
-                              {index / 5 + 1}
-                            </span>
-                          ) : null;
-                        })}
-                    </div>
-                  </div>
-                </div>
+                
+
+               
+
+              
+                
+               
               </div>
+                </>}
+              </>
             )}
+            </div>
           </div>
         </>
       ) : (

@@ -1,4 +1,4 @@
-import React, { useEffect, useState ,Fragment } from 'react'
+import React, { useEffect, useState, Fragment } from 'react'
 import { browserName } from 'react-device-detect';
 
 import UserAvatar from "../../assets/images/loginBackground.jpeg"
@@ -11,73 +11,88 @@ import PrintAble from "../CompanyDashboard/PrintAble";
 import { Dialog, Disclosure, Transition } from "@headlessui/react";
 import { ImCross } from "react-icons/im";
 
-import { psyurl } from '../../service/api';
+import { psyurl, url } from '../../service/api';
+
+import Avatar from "../../assets/images/temp.jpg";
 
 import { useParams } from 'react-router-dom';
-import {  getInterviewApplication,slot_by_interviewId} from "../../service/api";
+import { getInterviewApplication, slot_by_interviewId } from "../../service/api";
+import axios from 'axios';
 const CPrintable = () => {
   const [user, setUser] = useState(null);
   const [modal, setModal] = React.useState(null);
-  const [application,setApplication]=useState(null)
-  const [applicant,setApplicant]=useState(null)
-  const [slot,setSlot]=useState(null)
-  const [job,setJob]=useState(null)
+  const [application, setApplication] = useState(null)
+  const [applicant, setApplicant] = useState(null)
+  const [slot, setSlot] = useState(null)
+  const [job, setJob] = useState(null)
+  const [psycsdetails, setpsycsdetails] = useState(null)
+  const [evaluated, setevaluated] = useState(null)
+  const [jobskills, setjobskills] = useState(null)
+  const [selfassested, setselfassested] = useState(null)
+  const [persona, setpersona] = useState(null)
   const { id } = useParams();
 
-    
+
   useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"));
     setUser(user);
-    
+
   }, []);
 
-useEffect(()=>{
-const gia=async ()=>{
-  let res = await getInterviewApplication({ id: id }, user.access_token);
-console.log("res ",res)
+  useEffect(() => {
+    const gia = async () => {
+      let res = await getInterviewApplication({ id: id }, user.access_token);
+      console.log("res ", res)
 
-const {applicant,application,job}=res.data.data
-setApplication(application);
-setApplicant(applicant);
-setJob(job);
+      const { applicant, application, job } = res.data.data
+      setApplication(application);
+      setApplicant(applicant);
+      setJob(job);
 
-let slot_res = await slot_by_interviewId(application._id)
-const slot=slot_res.data
-setSlot(slot)
-}
-gia()
+      let slot_res = await slot_by_interviewId(application._id)
+      const slot = slot_res.data
+      setSlot(slot);
 
-},[user])
-let leftEyeBlinkRate,faceTest,gazeTest,earpieceDetectionStatus;
-if(application)
-{
-  leftEyeBlinkRate=application.leftEyeBlinkRate*10
-  faceTest=application.faceTest
-  gazeTest=application.gazeTest
-  earpieceDetectionStatus=application.earpieceDetectionStatus
-if(parseFloat(leftEyeBlinkRate.toFixed(2))>4)
-leftEyeBlinkRate="High"
-else if(parseFloat(leftEyeBlinkRate.toFixed(2))<2.8)
-leftEyeBlinkRate="Low"
-else
-leftEyeBlinkRate="Medium"
-}
-let interview_date=""
-if(slot)
-{
-const {startDate}=slot
-const date=new Date(slot.startDate)
-const yy=date.getFullYear()
-const mm=date.getMonth()
-const dd=date.getDate()
-const hh=date.getHours()
-const mn=date.getMinutes()
-interview_date =`${yy}-${mm>9?mm:`0${mm}`}-${dd>9?dd:`0${dd}`} | ${hh>9?hh:`0${hh}`}-${mn>9?mn:`0${mn}`}`
+      let psycs = await axios.get(psyurl+"/"+applicant.linkedinurlkey);
+      console.log(psycs);
+      setpsycsdetails(psycs);
+      setpersona(psycs.data.persona.details);
+      let intrv = application.interviewers;
+      setevaluated(application.evaluations[intrv].skills);
+      setselfassested(applicant.skills);
+      setjobskills(job.skills);
+    }
+    gia()
 
-}
+  }, [user])
+  let leftEyeBlinkRate, faceTest, gazeTest, earpieceDetectionStatus;
+  if (application) {
+    leftEyeBlinkRate = application.leftEyeBlinkRate * 10
+    faceTest = application.faceTest
+    gazeTest = application.gazeTest
+    earpieceDetectionStatus = application.earpieceDetectionStatus
+    if (parseFloat(leftEyeBlinkRate.toFixed(2)) > 4)
+      leftEyeBlinkRate = "High"
+    else if (parseFloat(leftEyeBlinkRate.toFixed(2)) < 2.8)
+      leftEyeBlinkRate = "Low"
+    else
+      leftEyeBlinkRate = "Medium"
+  }
+  let interview_date = ""
+  if (slot) {
+    const { startDate } = slot
+    const date = new Date(slot.startDate)
+    const yy = date.getFullYear()
+    const mm = date.getMonth()
+    const dd = date.getDate()
+    const hh = date.getHours()
+    const mn = date.getMinutes()
+    interview_date = `${yy}-${mm > 9 ? mm : `0${mm}`}-${dd > 9 ? dd : `0${dd}`} | ${hh > 9 ? hh : `0${hh}`}-${mn > 9 ? mn : `0${mn}`}`
+
+  }
 
 
-// console.log("application 22",application)
+  // console.log("application 22",application)
   return (
     <div>
       <div
@@ -85,84 +100,84 @@ interview_date =`${yy}-${mm>9?mm:`0${mm}`}-${dd>9?dd:`0${dd}`} | ${hh>9?hh:`0${h
         style={{ justifyContent: "space-between" }}
       >
         <p className="text-sm flex my-3 mx-5 font-semibold">
-          Hey {user && user.firstName ? user.firstName : "Company"} 
+          Hey {user && user.firstName ? user.firstName : "Company"}
           <p className="text-gray-400 px-2"> here's what's happening today!</p>
         </p>
         <button
-              className=" mx-3  lg:px-5 lg:py-3 md:p-3 sm:p-3 text-xs lg:text-lg md:text-sm rounded-md text-white"
-              style={{ backgroundColor: "#034488" }}
-              onClick={() => {
-                setModal(true);
-                
-              }}
-            >
-              Save
-            </button>
+          className=" mx-3 hidden lg:px-5 lg:py-3 md:p-3 sm:p-3 text-xs lg:text-lg md:text-sm rounded-md text-white"
+          style={{ backgroundColor: "#034488" }}
+          onClick={() => {
+            setModal(true);
+
+          }}
+        >
+          Save
+        </button>
 
       </div>{modal && (
-                <Transition
-                  appear
-                  show={modal}
-                  as={Fragment}
-                  className="relative z-1050 w-full"
-                  style={{ zIndex: 1000 }}
-                >
-                  <Dialog
-                    as="div"
-                    className="relative z-1050 w-5/6"
-                    onClose={() => {}}
-                    static={true}
-                  >
-                    <div
-                      className="fixed inset-0 bg-black/30"
-                      aria-hidden="true"
-                    />
-                    <Transition.Child
-                      as={Fragment}
-                      enter="ease-out duration-300"
-                      enterFrom="opacity-0"
-                      enterTo="opacity-100"
-                      leave="ease-in duration-200"
-                      leaveFrom="opacity-100"
-                      leaveTo="opacity-0"
-                    >
-                      <div className="fixed inset-0 bg-black bg-opacity-25" />
-                    </Transition.Child>
+        <Transition
+          appear
+          show={modal}
+          as={Fragment}
+          className="relative z-1050 w-full"
+          style={{ zIndex: 1000 }}
+        >
+          <Dialog
+            as="div"
+            className="relative z-1050 w-5/6"
+            onClose={() => { }}
+            static={true}
+          >
+            <div
+              className="fixed inset-0 bg-black/30"
+              aria-hidden="true"
+            />
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-black bg-opacity-25" />
+            </Transition.Child>
 
-                    <div className="fixed inset-0 overflow-y-auto ">
-                      <div className="flex min-h-full items-center justify-center p-4 text-center max-w-screen-2xl mx-auto">
-                        <Transition.Child
-                          as={Fragment}
-                          enter="ease-out duration-300"
-                          enterFrom="opacity-0 scale-95"
-                          enterTo="opacity-100 scale-100"
-                          leave="ease-in duration-200"
-                          leaveFrom="opacity-100 scale-100"
-                          leaveTo="opacity-0 scale-95"
+            <div className="fixed inset-0 overflow-y-auto ">
+              <div className="flex min-h-full items-center justify-center p-4 text-center max-w-screen-2xl mx-auto">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 scale-95"
+                  enterTo="opacity-100 scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 scale-100"
+                  leaveTo="opacity-0 scale-95"
+                >
+                  <Dialog.Panel className="w-full px-7 transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
+                    <div className={`${!modal ? "hidden" : "block"}`}>
+                      <div className="w-full">
+                        <button
+                          className="bg-[#034488] text-white rounded-sm py-1 mt-5"
+                          onClick={() => setModal(false)}
+                          style={{
+                            backgroundColor: "#fff",
+                            color: "#034488",
+                          }}
                         >
-                          <Dialog.Panel className="w-full px-7 transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
-                            <div className={`${!modal ? "hidden" : "block"}`}>
-                              <div className="w-full">
-                                <button
-                                  className="bg-[#034488] text-white rounded-sm py-1 mt-5"
-                                  onClick={() => setModal(false)}
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    color: "#034488",
-                                  }}
-                                >
-                                  <ImCross />
-                                </button>
-                                <PrintAble />
-                              </div>
-                            </div>
-                          </Dialog.Panel>
-                        </Transition.Child>
+                          <ImCross />
+                        </button>
+                        <PrintAble />
                       </div>
                     </div>
-                  </Dialog>
-                </Transition>
-              )}
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
+            </div>
+          </Dialog>
+        </Transition>
+      )}
       <div className='lg:flex mx-5'>
 
 
@@ -184,7 +199,7 @@ interview_date =`${yy}-${mm>9?mm:`0${mm}`}-${dd>9?dd:`0${dd}`} | ${hh>9?hh:`0${h
             <div className="lg:w-1/3 w-full rounded-lg my-2">
               <div className="bg-white rounded-lg shadow h-32 py-5" style={{ background: "#9BDDFB" }}>
                 <p className='text-xs font-semibold mx-2'>Candidate Details</p>
-                <div className=" text-sm mx-2 my-3 flex justify-between">
+                <div className="text-sm mx-2 my-3 flex justify-between">
                   <div className=''>
                     <p className='text-xs my-2'>Name:</p>
                     <p className='text-xs my-2'>Email:</p>
@@ -201,16 +216,16 @@ interview_date =`${yy}-${mm>9?mm:`0${mm}`}-${dd>9?dd:`0${dd}`} | ${hh>9?hh:`0${h
             <div className="lg:w-1/3 w-full rounded-lg my-2">
               <div className="bg-white rounded-lg shadow h-32 py-5" style={{ background: "#9BDDFB" }}>
                 <p className='text-xs font-semibold mx-2'>Interview Details</p>
-                <div className=" text-sm mx-2 text-gray-500 flex justify-between ">
+                <div className="text-sm mx-2 my-3 text-gray-500 flex justify-between">
                   <div className=''>
-                    <p className='text-xs my-1'>Job Title:</p>
-                    <p className='text-xs my-1'>Job Type:</p>
-                    <p className='text-xs my-1'>Interview Date:</p>
+                    <p className='text-xs my-2'>Job Title:</p>
+                    <p className='text-xs my-2'>Job Type:</p>
+                    <p className='text-xs my-2'>Interview Date:</p>
                   </div>
-                  <div className=''>
-                    <p className='text-xs my-1'>{job && job.jobTitle}</p>
-                    <p className='text-xs my-1'>{job && job.jobType}</p>
-                    <p className='text-xs my-1'>{interview_date}</p>
+                  <div className='mr-16'>
+                    <p className='text-xs my-2'>{job && job.jobTitle}</p>
+                    <p className='text-xs my-2'>{job && job.jobType}</p>
+                    <p className='text-xs my-2'>{interview_date}</p>
                   </div>
                 </div>
               </div>
@@ -287,20 +302,29 @@ interview_date =`${yy}-${mm>9?mm:`0${mm}`}-${dd>9?dd:`0${dd}`} | ${hh>9?hh:`0${h
             <div className="shadow-lg sm:w-full md:w-full lg:w-full pb-10 h-auto bg-white rounded-b-lg">
               <div className="text-xl py-5 text-white rounded-t-lg font-bold  flex"
                 style={{ backgroundColor: "rgb(3, 68, 136)" }}>
-                <p className="px-6 mx-2  text-xl">Candidate Assessment Report</p>
+                <p className="px-6 mx-2  text-xl">Candidate Personality Report</p>
               </div>
               <div className="my-4 px-5 vertical-align-middle" >
-                <div> <p className="py-2 font-bold">Personality (OCEAN)</p>
+                {persona?
+                  <p className="text-gray-500 text-lg">
+                    <span className='font-semibold pb-4'>Folowing traits are observed for <strong>{applicant && applicant.firstName}</strong>.</span><br/>
+                    - Action orientness is <strong>{persona.actionOrientedness.level}</strong>. <br/>
+                    - Has a <strong>{persona.attitudeAndOutlook.level}</strong> attitude and outlook. <br/>
+                    - The team work skills are <strong>{persona.teamWorkSkills.level}</strong>. <br/>
+                    - The learning ability is <strong>{persona.learningAbility.level}</strong>. <br/>
+                    - Has a <strong>{persona.needForAutonomy.level}</strong> need for autonomy. <br/>
+                    - The general behavior is <strong>{persona.generalBehavior.level}</strong>.
+                  </p>
+                :null}
+                {/* <div> <p className="py-2 font-bold">Personality (OCEAN)</p>
                   <p className="text-gray-500 text-lg">This Big Five assessment measures your scores on five major dimensions of personality Openness, Conscientiousness, Extraversion,
                     Agreeableness, and Neuroticism (OCEAN).</p>
                 </div>
                 <div>
-                  <BarChart />
-                </div>
-                <div>
-                  <p className="text-gray-500 text-lg">The OCEAN score suggests that Mr. Peter is curious and a creative person interested in learning and trying new things and excited by
-                    challenge. Mr. Glaxon is goal oriented, shows attention to details and have a strong work ethic. </p>
-                </div>
+                  {psycsdetails?
+                  <BarChart psydata={psycsdetails.data} />
+                  :null}
+                </div> */}
               </div>
 
             </div>
@@ -414,9 +438,10 @@ interview_date =`${yy}-${mm>9?mm:`0${mm}`}-${dd>9?dd:`0${dd}`} | ${hh>9?hh:`0${h
               </div>
               <div className="flex my-4 px-5 vertical-align-middle" >
                 <div className='flex justify-around '> <p className="font-bold">Coding Assessment</p>
-                  <p className="text-gray-400 text-sm font-bold  m-5">Problem: Find out if the given two Strings are anagrams or not
-
-                    Language: Java
+                  <p className="text-gray-400 text-sm font-semibold  m-5">Problem: Find out if the given two Strings are anagrams or not
+                    <h5>
+                      <strong>Language:</strong> {application && application.codelanguage}
+                    </h5>
                   </p>
                 </div>
               </div>
@@ -432,44 +457,17 @@ interview_date =`${yy}-${mm>9?mm:`0${mm}`}-${dd>9?dd:`0${dd}`} | ${hh>9?hh:`0${h
                 <p className="px-6 mx-2  text-xl">Interviewers Score & Notes</p>
               </div>
               <div>
-                <StackedChart />
+                {(evaluated && jobskills && selfassested)?
+                  <StackedChart evaluated={evaluated} jobskills={jobskills} selfassested={selfassested} />
+                :null}
               </div>
               <div className='w-full'>
                 <p className="py-2 mx-5 font-bold">Positives</p>
                 <div className="text-gray-400 py-3 text-sm px-5 mx-5 bg-gray-100 rounded-lg my-4 vertical-align-middle">
 
-                  <div className='flex w-full gap-3'> <p className="font-bold font-md">-</p>
+                  <div className='flex w-full gap-3'>
                     <p className="text-gray-400 text-sm">Candidate s approach towards the solution was fine, he started by checking if the string is an anagram and then proceeded to
                       perform operations to find if the string is an anagram.
-                    </p>
-                  </div>
-                  <div className='flex w-full gap-3'> <p className="font-bold font-md">-</p>
-                    <p className="text-gray-400 text-sm">Kept the code clean and was able to clearly explain the logic he has implemented.
-
-                    </p>
-                  </div>
-                  <div className='flex w-full gap-3'> <p className="font-bold font-md">-</p>
-                    <p className="text-gray-400 text-sm">He made sure the requirements are well understood before he began to implement the solution.
-
-                    </p>
-                  </div>
-                  <div className='flex w-full gap-3'> <p className="font-bold font-md">-</p>
-                    <p className="text-gray-400 text-sm">Followed the design process to pay attention on pre steps before jumping onto HLD
-
-                    </p>
-                  </div>
-                  <div className='flex w-full gap-3'> <p className="font-bold font-md">-</p>
-                    <p className="text-gray-400 text-sm">He has good communication & clear thoughts. He was composed throughout the session & asked relevant questions and was
-                      interactive.
-
-
-                    </p>
-                  </div>
-                  <div className='flex w-full gap-3'> <p className="font-bold font-md">-</p>
-                    <p className="text-gray-400 text-sm">Explained what were the design choices he has made based on the requirements. Able to explain and justify the choices made.
-
-
-
                     </p>
                   </div>
 
@@ -479,28 +477,11 @@ interview_date =`${yy}-${mm>9?mm:`0${mm}`}-${dd>9?dd:`0${dd}`} | ${hh>9?hh:`0${h
                 <p className="py-2 mx-5 font-bold">Lowlights</p>
                 <div className="text-gray-400 py-3 text-sm px-5 mx-5 bg-gray-100 rounded-lg my-4 vertical-align-middle">
 
-                  <div className='flex w-full gap-3'> <p className="font-bold font-md">-</p>
+                  <div className='flex w-full gap-3'>
                     <p className="text-gray-400 text-sm">The solution was implemented using old ways of writing codes, when enquired candidate is not aware of modern coding
                       formats like
                     </p>
                   </div>
-                  <div className='flex w-full gap-3'> <p className="font-bold font-md">-</p>
-                    <p className="text-gray-400 text-sm">lambda, streams etc
-
-                    </p>
-                  </div>
-                  <div className='flex w-full gap-3'> <p className="font-bold font-md">-</p>
-                    <p className="text-gray-400 text-sm">Corner cases like null, empty & number check were missing.
-
-
-                    </p>
-                  </div>
-                  <div className='flex w-full gap-3'> <p className="font-bold font-md mx-1 "> </p>
-                    <p className="text-gray-400 text-sm">There were compilation errors in the beginning, needed nudge to correct those.
-                    </p>
-                  </div>
-
-
                 </div>
               </div>
             </div>
@@ -515,18 +496,18 @@ interview_date =`${yy}-${mm>9?mm:`0${mm}`}-${dd>9?dd:`0${dd}`} | ${hh>9?hh:`0${h
               </div>
               <div className="my-4 px-5 vertical-align-middle" >
                 <div>
-                  <p className="py-2 font-bold">Candidate interviewed by ABCDXXXXAS (masked id) on 2nd August 2022 at 5am GMT</p>
-                  <p className="py-2 font-bold">Feedback reviewed by Paula Rose on 2nd August 2022 at 6:30 am GMT.
+                  <p className="py-2 font-bold">Candidate interviewed by  (masked id) on {interview_date}</p>
+                  {/* <p className="py-2 font-bold">Feedback reviewed by Paula Rose on 2nd August 2022 at 6:30 am GMT.
                   </p>
                   <p className="py-2 font-bold">Quality check by YJKLXXXXMD (masked id) on 2nd August 2022 at 1 pm GMT.
-                  </p>
-                  <p className="py-2 font-bold">The complete interview session is available for your review at <span> <a className='text-blue-500' href=" www.valuematrix.ai/interview/12549558475545525212"> www.valuematrix.ai</a></span>
+                  </p> */}
+                  <p className="py-2 font-bold">The complete interview session is available for your below <span> <a className='text-blue-500 hidden' href=" www.valuematrix.ai/interview/12549558475545525212"> www.valuematrix.ai</a></span>
                   </p>
                 </div>
               </div>
-              <div className='w-full'>
-                <video width="320" height="240" controls>
-                  <source src="http://d8vy4eiv60g8a.cloudfront.net/5b74347b-69ab-4cf3-ac57-4886e633f7a5_recording.mp4" type="video/mp4"/>
+              <div className='w-full px-8'>
+                <video width="100%" controls>
+                  <source src="http://d8vy4eiv60g8a.cloudfront.net/5b74347b-69ab-4cf3-ac57-4886e633f7a5_recording.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
                 {/* <iframe className='mx-auto rounded-lg w-4/5' height={400} src="https://valuematrix.s3.ap-south-1.amazonaws.com/5b74347b-69ab-4cf3-ac57-4886e633f7a5_recording.mp4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */}
@@ -549,7 +530,7 @@ interview_date =`${yy}-${mm>9?mm:`0${mm}`}-${dd>9?dd:`0${dd}`} | ${hh>9?hh:`0${h
             <div className="flex my-4 px-5 vertical-align-middle" >
               <div className='flex w-full justify-between'>
                 <p className="font-md font-bold">Browser/OS</p>
-                <p className="text-gray-400 text-sm text-right ml-8">{browserName}</p>
+                <p className="text-gray-400 text-sm text-right font-bold ml-8">{browserName}</p>
               </div>
             </div>
             {/* <div className="flex my-4 px-5 vertical-align-middle" >
@@ -561,8 +542,8 @@ interview_date =`${yy}-${mm>9?mm:`0${mm}`}-${dd>9?dd:`0${dd}`} | ${hh>9?hh:`0${h
             <div className="flex my-4 px-5 vertical-align-middle" >
               <div className='flex w-full justify-between'>
                 <p className="font-md font-bold">Face Detection</p>
-                <p className="text-gray-400 text-sm text-right ml-8">{faceTest?<span className={"text-green-900"}>Detected</span>:<span  className={"text-red-900"}>Not Detected</span>} </p> 
-               
+                <p className="text-gray-400 text-sm text-right font-bold ml-8">{faceTest ? <span className={"text-green-500"}>Detected</span> : <span className={"text-red-500"}>Not Detected</span>} </p>
+
                 {/* <p className="text-gray-400 text-sm text-right ml-8">Detected Individual identified as Peter
 
                   (verified & matched with Profile and LinkedIn picture) </p> */}
@@ -571,20 +552,20 @@ interview_date =`${yy}-${mm>9?mm:`0${mm}`}-${dd>9?dd:`0${dd}`} | ${hh>9?hh:`0${h
             <div className="flex my-4 px-5 vertical-align-middle" >
               <div className='flex w-full justify-between'>
                 <p className="font-md font-bold">Gaze Tracking</p>
-                <p className="text-gray-400 text-sm text-right ml-8">{gazeTest?<span className={"text-green-900"}>Detected</span>:<span  className={"text-red-900"}>Not Detected</span>} </p> 
+                <p className="text-gray-400 text-sm text-right font-bold ml-8">{gazeTest ? <span className={"text-green-500"}>Detected</span> : <span className={"text-red-500"}>Not Detected</span>} </p>
               </div>
             </div>
             <div className="flex my-4 px-5 vertical-align-middle" >
               <div className='flex w-full justify-between'>
                 <p className="font-md font-bold">Earpiece Detection</p>
-                <p className="text-gray-400 text-sm text-right ml-8">{gazeTest?<span className={"text-red-900"}>Detected</span>:<span  className={"text-green-900"}>Not Detected</span>} </p> 
+                <p className="text-gray-400 text-sm text-right font-bold ml-8">{earpieceDetectionStatus ? <span className={"text-red-500"}>Detected</span> : <span className={"text-green-500"}>Not Detected</span>} </p>
 
               </div>
             </div>
             <div className="flex my-4 px-5 vertical-align-middle" >
               <div className='flex w-full justify-between'>
                 <p className="font-md font-bold">Eye Blink Rate</p>
-                <p className="text-gray-400 text-sm text-right ml-8">{leftEyeBlinkRate}</p>
+                <p className="text-gray-400 text-sm text-right font-bold ml-8">{leftEyeBlinkRate}</p>
               </div>
             </div>
 
@@ -628,48 +609,31 @@ interview_date =`${yy}-${mm>9?mm:`0${mm}`}-${dd>9?dd:`0${dd}`} | ${hh>9?hh:`0${h
 
           <div className='my-3'>
             <div>
-              <img className='rounded-t-lg' src={UserAvatar} alt="" />
+              {applicant ?
+                <img className='rounded-t-lg' src={url + "/media/profileImg/" + applicant.profileImg} width="100%" alt="" />
+                :
+                <img className='rounded-t-lg' src={Avatar} width="100%" alt="" />
+              }
             </div>
-            <div className="shadow-lg sm:w-full md:w-full lg:w-full pb-10   h-auto bg-white ">
-              <div className="text-xl py-5 rounded-tr-lg text-black font-bold  flex">
-                <p className="mx-5 text-xl">Candidate Details</p>
-              </div>
-              <div className="flex my-2 vertical-align-middle" >
-                <div className='flex mx-5 w-full justify-between'> <p className="py-2 font-bold font-md">Job Code</p>
-                  <p className="text-gray-400 text-sm">ABC-KJS-CKS</p>
-                </div>
-              </div>
-              <div className="flex my-2 vertical-align-middle" >
-                <div className='flex mx-5 w-full justify-between'> <p className="py-2 font-bold font-md">Job Family</p>
-                  <p className="text-gray-400 text-sm">Software Developer</p>
-                </div>
-              </div>
-              <div className="flex my-2 vertical-align-middle" >
-                <div className='flex mx-5 w-full justify-between'> <p className="py-2 font-bold font-md">Job Title</p>
-                  <p className="text-gray-400 text-sm">Senior Software Developer</p>
-                </div>
-              </div>
-              <div className="flex my-2 vertical-align-middle" >
-                <div className='flex mx-5 w-full justify-between'> <p className="py-2 font-bold font-md">Name</p>
-                  <p className="text-gray-400 text-sm">Peter</p>
-                </div>
-              </div>
-              <div className="flex my-2 vertical-align-middle" >
-                <div className='flex mx-5 w-full justify-between'> <p className="py-2 font-bold font-md">Invited to interview</p>
-                  <p className="text-gray-400 text-sm">26th July 2022</p>
-                </div>
-              </div>
-              <div className='w-5/6'>
-                <p className="text-gray-400 text-lg mx-5">Candidate resume and other details are available at
-
-
-                  Mr.Peter was assessed on 2nd of August 2022 on ValueMatrix.ai
-                  platform by ABCDXXXXAS (masked id) at 5 am GMT.
-
-                  Please note the interviewer has enabled the masked mode for
-                  enhanced privacy</p>
+            <div className="shadow-lg sm:w-full md:w-full lg:w-full pb-10 h-auto bg-white ">
+              <div className="text-xl pt-5 rounded-lg text-black font-bold flex">
+                <p className="mx-5 text-xl">{applicant && applicant.firstName}</p>
               </div>
             </div>
+          </div>
+
+          <div className="shadow-lg sm:w-full md:w-full lg:w-full my-3 pb-10 h-auto  bg-white ">
+            <div className="text-xl py-5 text-white rounded-t-lg bg-blue-600 ex"
+              style={{ backgroundColor: "rgb(3, 68, 136)" }}>
+              <p className="px-6 mx-2  text-xl">Interviewer Feedback </p>
+            </div>
+
+            <div className='mx-5 mt-4'>
+              {application?
+                <p className="text-gray-400 text-sm">{application.evaluations[application.interviewers].feedback}</p>
+              :null}
+            </div>
+
           </div>
 
           <div className="shadow-lg sm:w-full md:w-full lg:w-full my-3 pb-10 h-auto  bg-white ">
@@ -678,21 +642,25 @@ interview_date =`${yy}-${mm>9?mm:`0${mm}`}-${dd>9?dd:`0${dd}`} | ${hh>9?hh:`0${h
               <p className="px-6 mx-2  text-xl">Candidate Feedback </p>
             </div>
             <div className="flex my-4 vertical-align-middle" >
-              <div className='flex w-full mx-5 justify-between'> <p className="py-2 font-bold">Peter</p>
+              <div className='flex w-full mx-5 justify-between'> <p className="py-2 font-bold">{applicant && applicant.firstName}</p>
                 <div className='flex gap-1'>
-                  <BsFillStarFill />
-                  <BsFillStarFill />
-                  <BsFillStarFill />
-                  <BsFillStarFill />
-                  <BsFillStarFill />
+                  {application?<>
+                    {application.rating > 0 ? <BsFillStarFill />:null}
+                    {application.rating > 1 ? <BsFillStarFill />:null}
+                    {application.rating > 2 ? <BsFillStarFill />:null}
+                    {application.rating > 3 ? <BsFillStarFill />:null}
+                    {application.rating > 4 ? <BsFillStarFill />:null}
+                  </>
+                  :null}
                 </div>
               </div>
             </div>
 
             <div className='mx-5'>
+              {application?
+                <p className="text-gray-400 text-sm">{application.candidatefeedback}</p>
+              :null}
 
-              <p className="text-gray-400 text-sm">I had a smooth interview experience. Person who took my tech
-                round was calm, humble and thorough with technology </p>
             </div>
 
           </div>

@@ -132,7 +132,9 @@ const JobCard = (props) => {
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-8 sm:grid-cols-4 my-3">
         <div className="col-span-1">
           <h5 className="text-black-900 text-md font-bold mb-1 ">
-            {job.jobTitle}
+            <Link to={`/company/${job.status === "Pending" ?"pendingJobDetails":"jobDetails"}/${job._id}`}>
+              {job.jobTitle}
+            </Link>
           </h5>
           <p className="text-sm  text-gray-400 font-semibold">
             {job.hiringOrganization}
