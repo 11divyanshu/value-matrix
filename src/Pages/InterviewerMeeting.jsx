@@ -11,6 +11,7 @@ import {
   endinterview,
   stopproctoring,
   getproctoring,
+  handlerecording,
 } from "../service/api";
 import Editor from "@monaco-editor/react";
 import renderHTML from 'react-render-html';
@@ -21,6 +22,7 @@ import swal from "sweetalert";
 import logo from "../assets/images/logo.png";
 
 import UpdateInterviewApplication from "./XIDashboard/UpdateInterviewApplication.jsx";
+import axios from "axios";
 
 export default function MyMeeting() {
     const { meeting } = useDyteMeeting();
@@ -61,8 +63,32 @@ export default function MyMeeting() {
     };
 
     const leaveCall = async ()=>{
-      meeting.leaveRoom();
-      let end = await endinterview(id);
+      let orgid = "c2c3dde8-0e37-45ed-9d4a-e324a5f3fdce";
+      let getrec = await axios.get("https://api.cluster.dyte.in/v1/organizations/"+orgid+"/meetings/"+interviewStatus.data.meetingID+"/recordings",{
+        headers:{
+          Authorization: 'Basic a9776634bc04e1573d26',
+        }
+      });
+      if(getrec){
+        let stoprecording = await handlerecording(interviewStatus.data.meetingID, id, getrec.data.data.recordings[0].downloadUrl);
+        let end = await endinterview(id);
+        if(end && stoprecording){
+          meeting.leaveRoom();
+          window.location.href= "/XI/UpdateInterviewApplication/"+id;
+        }else{
+          swal({
+            icon: "error",
+            title: "Something went wrong!",
+            button:"Ok"
+          });
+        }
+      }else{
+        swal({
+          icon: "error",
+          title: "Something went wrong!",
+          button: "Ok"
+        });
+      }
     }
 
     const startcall = async ()=>{

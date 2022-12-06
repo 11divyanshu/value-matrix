@@ -28,6 +28,7 @@ import JobInvitations from "./Pages/UserDashboard/JobInvitations";
 import InterviewApplication from "./Pages/UserDashboard/InterviewApplication";
 import Interviews from "./Pages/UserDashboard/Interviews";
 import InterviewsDetails from "./Pages/UserDashboard/InterviewDetails";
+import Submitfeedback from "./Pages/UserDashboard/Submitfeedback";
 
 // import AllSlots from "./Pages/UserDashboard/AllSlots.jsx";
 import PrintAble from "./Pages/CompanyDashboard/PrintAble";
@@ -217,6 +218,13 @@ export const dashboardRoutes = [
     hide: true,
     icon: <MdOutlineWorkOutline className="text-xl" />,
     component: <InterviewsDetails />,
+  },
+  {
+    name: "submitfeedback",
+    path: "submitfeedback",
+    hide: false,
+    icon: <MdOutlineWorkOutline className="text-xl" />,
+    component: <Submitfeedback />,
   },
 ];
 

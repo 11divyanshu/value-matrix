@@ -1200,6 +1200,9 @@ const UpdateInterviewApplication = () => {
                 </div>
               </div>
             )}
+            <div className="flex justify-center">
+              <a className="px-4 py-1 bg-blue-500 text-white rounded-md my-3" href="/XI" style={{ backgroundColor: "#034488" }}>Complete Evaluation</a>
+            </div>
           </div>
         )}
       </div>

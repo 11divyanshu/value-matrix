@@ -39,36 +39,36 @@ export default function App() {
           setCurrentUser(user);
 
           let interviewStatus = await checkinterviewdetails(id, user);
-          console.log(interviewStatus);
+          // console.log(interviewStatus);
           setInterviewStatus(interviewStatus);
 
           initDyte(interviewStatus.data);
           
-          setScreenDisplay(5);
-          setcurrentbtn(1);
+          // setScreenDisplay(5);
+          // setcurrentbtn(1);
 
-          // if(interviewStatus.data.data === "Data Retrieved"){
-          //   if(interviewStatus.data.faceTest === false && interviewStatus.data.gazeTest === false && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
-          //     setScreenDisplay(1);
-          //     setTimeout(()=>{
-          //       document.getElementById("getUserPhoto").click();
-          //     },2000);
-          //   }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === false && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
-          //     setScreenDisplay(2);
-          //   }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
-          //     setScreenDisplay(3);
-          //   }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === true && interviewStatus.data.earTest === false){
-          //     setScreenDisplay(4);
-          //   }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === true && interviewStatus.data.earTest === true){
-          //     setcurrentbtn(1);
-          //     if(interviewStatus.data.interviewStatus === false){
-          //       setScreenDisplay(5);
-          //     }else{
-          //       initDyte(interviewStatus.data);
-          //       setScreenDisplay(6);
-          //     }
-          //   }
-          // }
+          if(interviewStatus.data.data === "Data Retrieved"){
+            if(interviewStatus.data.faceTest === false && interviewStatus.data.gazeTest === false && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
+              setScreenDisplay(1);
+              setTimeout(()=>{
+                document.getElementById("getUserPhoto").click();
+              },2000);
+            }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === false && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
+              setScreenDisplay(2);
+            }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === false && interviewStatus.data.earTest === false){
+              setScreenDisplay(3);
+            }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === true && interviewStatus.data.earTest === false){
+              setScreenDisplay(4);
+            }else if(interviewStatus.data.faceTest === true && interviewStatus.data.gazeTest === true && interviewStatus.data.personTest === true && interviewStatus.data.earTest === true){
+              setcurrentbtn(1);
+              if(interviewStatus.data.interviewStatus === false){
+                setScreenDisplay(5);
+              }else{
+                initDyte(interviewStatus.data);
+                setScreenDisplay(6);
+              }
+            }
+          }
 
 
         }
@@ -122,47 +122,43 @@ export default function App() {
 
     const joinMeeting = async ()=>{
 
-      // await axios.post("https://api.cluster.dyte.in/v2/meetings/"+interviewStatus.data.meetingID+"/livestreams",{
-      //   name: interviewStatus.data.meetingRoom
-      // },{
-      //   headers:{
-      //     Authorization: 'Basic YzJjM2RkZTgtMGUzNy00NWVkLTlkNGEtZTMyNGE1ZjNmZGNlOmE5Nzc2NjM0YmMwNGUxNTczZDI2',
-      //   }
-      // }).then(async (dt)=>{
-      //   setTimeout(async()=>{
-      //     let startproct = await startproctoring(id, dt.data.data.playback_url);
-      //   },120000);
-      // }).catch( async (err)=>{
-      //   let respp = await axios.get("https://api.cluster.dyte.in/v2/meetings/"+interviewStatus.data.meetingID+"/active-livestream", {
-      //     headers:{
-      //       Authorization: 'Basic YzJjM2RkZTgtMGUzNy00NWVkLTlkNGEtZTMyNGE1ZjNmZGNlOmE5Nzc2NjM0YmMwNGUxNTczZDI2'
-      //     }
-      //   });
-      //   if(respp){
-      //     let startproct = await startproctoring(id, respp.data.data.playback_url);
-      //   }
-      // });
+      await axios.post("https://api.cluster.dyte.in/v2/meetings/"+interviewStatus.data.meetingID+"/livestreams",{
+        name: interviewStatus.data.meetingRoom
+      },{
+        headers:{
+          Authorization: 'Basic YzJjM2RkZTgtMGUzNy00NWVkLTlkNGEtZTMyNGE1ZjNmZGNlOmE5Nzc2NjM0YmMwNGUxNTczZDI2',
+        }
+      }).then(async (dt)=>{
+        setTimeout(async()=>{
+          let startproct = await startproctoring(id, dt.data.data.playback_url);
+        },120000);
+      }).catch( async (err)=>{
+        let respp = await axios.get("https://api.cluster.dyte.in/v2/meetings/"+interviewStatus.data.meetingID+"/active-livestream", {
+          headers:{
+            Authorization: 'Basic YzJjM2RkZTgtMGUzNy00NWVkLTlkNGEtZTMyNGE1ZjNmZGNlOmE5Nzc2NjM0YmMwNGUxNTczZDI2'
+          }
+        });
+        if(respp){
+          let startproct = await startproctoring(id, respp.data.data.playback_url);
+        }
+      });
 
-      // let orgid = "c2c3dde8-0e37-45ed-9d4a-e324a5f3fdce";
+      let orgid = "c2c3dde8-0e37-45ed-9d4a-e324a5f3fdce";
 
-      // await axios.post("https://api.cluster.dyte.in/v1/organizations/"+orgid+"/meetings/"+interviewStatus.data.meetingID+"/recording",{
-      //   headers:{
-      //     Authorization: 'Basic a9776634bc04e1573d26',
-      //   }
-      // }).then(async (data)=>{
-      //   console.log(data);
-      // }).catch( async (err)=>{
-      //   console.log(err);
-      // });
+      await axios.post("https://api.cluster.dyte.in/v1/organizations/"+orgid+"/meetings/"+interviewStatus.data.meetingID+"/recording",{
+        headers:{
+          Authorization: 'Basic a9776634bc04e1573d26',
+        }
+      }).then(async (data)=>{
+        // console.log(data);
+      }).catch( async (err)=>{
+        // console.log(err);
+      });
 
 
       setScreenDisplay(6);
 
       document.getElementById("intvpanel").requestFullscreen();
-      
-      setTimeout(()=>{
-        document.getElementById("getUserPhotoLive").click();
-      },2000);
 
     }
 

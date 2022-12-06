@@ -97,6 +97,16 @@ export default function MyMeeting() {
         getstats = await getlivestatus(id);
         // console.log(getstats.data.stats);
         setLiveStats(getstats.data.stats.livestats);
+        let interviewStatus;
+  
+        setTimeout(async ()=>{
+          interviewStatus = await checkinterviewdetails(id, user);
+          if(interviewStatus){
+            if(interviewStatus.data.status === "Interviewed"){
+              document.getElementById("leavebutton").click();
+            }
+          }
+        },2000);
       },2000);
     },[]);
 
@@ -110,7 +120,7 @@ export default function MyMeeting() {
       console.log(saveproctoring);
       if(saveproctoring){
         meeting.leaveRoom();
-        window.location.href = "/user";
+        window.location.href = "/user/submitfeedback/"+id;
       }else{
         swal({
           icon: "error",
@@ -289,7 +299,7 @@ export default function MyMeeting() {
             <img src={logo} style={{ height:"4vh" }} />
           </div>
           <div className="md:w-4/6 flex justify-center items-center">
-            <button className="rounded-2xl bg-red-600 text-white px-4 py-2 font-bold" onClick={leaveCall}>Leave Room</button>
+            <button className="rounded-2xl bg-red-600 text-white px-4 py-2 font-bold" id="leavebutton" onClick={leaveCall}>Leave Room</button>
           </div>
           <div className="md:w-1/6"></div>
         </div>

@@ -1772,6 +1772,18 @@ export const handleproctoring = async (id, data) => {
   }
 };
 
+export const handlerecording = async (id, meetingID, link) => {
+  try {
+    return await axios.post(`${url}/handlerecording`, {
+      id: id,
+      meetingID: meetingID,
+      link: link,
+    });
+  } catch (err) {
+    console.log("Error : " + err);
+  }
+};
+
 export const getcandidatesevaluations = async (id, data) => {
   try {
     return await axios.post(`${url}/getcandidatesevaluations`, {
