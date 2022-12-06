@@ -8,6 +8,9 @@ import StackedChart from '../../Components/CompanyDashboard/StackedChart';
 import PrintAble from "../CompanyDashboard/PrintAble";
 import { Dialog, Disclosure, Transition } from "@headlessui/react";
 import { ImCross } from "react-icons/im";
+
+import { psyurl } from '../../service/api';
+
 const CPrintable = () => {
   const [user, setUser] = useState(null);
   const [modal, setModal] = React.useState(null);
@@ -437,17 +440,6 @@ const CPrintable = () => {
                   </div>
 
 
-                </div>
-              </div>
-              <div className='w-full'>
-                <p className="py-2 mx-5 font-bold">Recommendation</p>
-                <div className="text-gray-400 py-3 text-sm px-5 mx-5 bg-gray-100 rounded-lg my-4 vertical-align-middle">
-                  <div className='w-full'>
-                    <p className="text-gray-400 text-sm">(Rating 8/10)
-                    </p>
-                    <p className="text-gray-400 text-sm">ABCDXXXXAS (masked id) recommends this candidate as Strong and good to Proceed.
-                    </p>
-                  </div>
                 </div>
               </div>
             </div>

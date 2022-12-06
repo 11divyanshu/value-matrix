@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../Components/XIDashboard/Navbar.jsx";
 import Editor from "@monaco-editor/react";
 import axios from "axios";
+import logo from "../assets/images/logo.png";
 
 import Intvwhiteboard from "./Intvwhiteboard.js";
 
@@ -197,10 +198,7 @@ export default function MyMeeting() {
   
     return (
       <div style={{ minHeight:"100vh", backgroundColor:"#080808" }} className="flex flex-col">
-        <div className="bg-white">
-          <Navbar user={user} />
-        </div>
-        <div className="flex h-full m-0" style={{ backgroundColor:"#080808", position:"relative" }}>
+        <div className="flex m-0" style={{ backgroundColor:"#080808", position:"relative", height:"92vh" }}>
           <div className="md:w-1/2 h-full pl-2">
             <div className="w-full flex mt-4">
               <div className="w-1/2">
@@ -233,7 +231,7 @@ export default function MyMeeting() {
                 </div>
                 <Editor
                   className="rounded-2xl"
-                  height="50vh"
+                  height="60vh"
                   width={`100%`}
                   language={language || "javascript"}
                   value={value}
@@ -241,13 +239,13 @@ export default function MyMeeting() {
                   defaultValue="//Write your code here..."
                   onChange={handleEditorChange}
                 />
-                <div className="flex mb-8">
-                  <div className="md:w-1/2 mr-2">
+                <div className="flex mb-8" style={{ height:"16vh" }}>
+                  <div className="md:w-1/2 mr-2 h-full">
                     <div className="bg-gray-900 text-white p-4 rounded-2xl text-md my-4 h-full">
                       <textarea className="bg-transparent w-full h-full p-0 font-normal text-xs border-0" onChange={handlecustominput}>Enter Your Inputs Here</textarea>
                     </div>
                   </div>
-                  <div className="md:w-1/2 ml-2">
+                  <div className="md:w-1/2 ml-2 h-full">
                     <div className="bg-gray-900 text-white p-4 rounded-2xl text-md my-4 h-full">
                       {outputDetails ? <>{getOutput()}</> : <pre className="px-2 py-1 font-normal text-xs text-white">
                         {processing?<>Processing</>:<>Code Output Appears Here</>}...
@@ -263,8 +261,8 @@ export default function MyMeeting() {
             }
           </div>
           <div className="md:w-1/2 h-full">
-            <div className="w-full h-full py-4 pr-2 pl-4">
-              <div className="bg-gray-900 text-white p-4 rounded-2xl text-md h-max">
+            <div className="w-full py-4 pr-2 pl-4" style={{ height:"30vh" }}>
+              <div className="bg-gray-900 text-white p-4 rounded-2xl text-md h-full">
                 {liveStats?<>
                   {liveStats.codequestion?<>{renderHTML(liveStats.codequestion)}</>:<>Interview Coding Question Appears Here...</>}
                 </>:<>Interview Coding Question Appears Here...</>}
@@ -275,7 +273,7 @@ export default function MyMeeting() {
                 <DyteChat
                   className="rounded-2xl"
                   meeting={meeting}
-                  style={{ minHeight: '50vh', width: '100%', backgroundColor: '#111827', color:"#fff" }}
+                  style={{ minHeight: '60vh', width: '100%', backgroundColor: '#111827', color:"#fff" }}
                 />
               </div>
               <div className="md:w-1/2" style={{ overflowY:"hidden" }}>
@@ -286,8 +284,14 @@ export default function MyMeeting() {
             </div>
           </div>
         </div>
-        <div className="flex bg-white justify-center p-6">
-          <button className="rounded-2xl bg-red-600 text-white px-4 py-2 font-bold" onClick={leaveCall}>Leave Room</button>
+        <div className="flex bg-white justify-center items-center" style={{ height:"8vh" }}>
+          <div className="md:w-1/6 px-6">
+            <img src={logo} style={{ height:"4vh" }} />
+          </div>
+          <div className="md:w-4/6 flex justify-center items-center">
+            <button className="rounded-2xl bg-red-600 text-white px-4 py-2 font-bold" onClick={leaveCall}>Leave Room</button>
+          </div>
+          <div className="md:w-1/6"></div>
         </div>
       </div>
     );
