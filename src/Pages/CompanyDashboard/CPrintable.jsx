@@ -1,9 +1,11 @@
 import React, { useEffect, useState ,Fragment } from 'react'
+import { browserName } from 'react-device-detect';
+
 import UserAvatar from "../../assets/images/loginBackground.jpeg"
-import { AiOutlineDelete, AiOutlinePrinter } from "react-icons/ai";
+// import { AiOutlineDelete, AiOutlinePrinter } from "react-icons/ai";
 import { BsFillStarFill } from 'react-icons/bs';
 import BarChart from '../../Components/CompanyDashboard/BarChart';
-import RadarChart from '../../Components/CompanyDashboard/RadarChart';
+// import RadarChart from '../../Components/CompanyDashboard/RadarChart';
 import StackedChart from '../../Components/CompanyDashboard/StackedChart';
 import PrintAble from "../CompanyDashboard/PrintAble";
 import { Dialog, Disclosure, Transition } from "@headlessui/react";
@@ -11,14 +13,71 @@ import { ImCross } from "react-icons/im";
 
 import { psyurl } from '../../service/api';
 
+import { useParams } from 'react-router-dom';
+import {  getInterviewApplication,slot_by_interviewId} from "../../service/api";
 const CPrintable = () => {
   const [user, setUser] = useState(null);
   const [modal, setModal] = React.useState(null);
+  const [application,setApplication]=useState(null)
+  const [applicant,setApplicant]=useState(null)
+  const [slot,setSlot]=useState(null)
+  const [job,setJob]=useState(null)
+  const { id } = useParams();
 
+    
   useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"));
     setUser(user);
+    
   }, []);
+
+useEffect(()=>{
+const gia=async ()=>{
+  let res = await getInterviewApplication({ id: id }, user.access_token);
+console.log("res ",res)
+
+const {applicant,application,job}=res.data.data
+setApplication(application);
+setApplicant(applicant);
+setJob(job);
+
+let slot_res = await slot_by_interviewId(application._id)
+const slot=slot_res.data
+setSlot(slot)
+}
+gia()
+
+},[user])
+let leftEyeBlinkRate,faceTest,gazeTest,earpieceDetectionStatus;
+if(application)
+{
+  leftEyeBlinkRate=application.leftEyeBlinkRate*10
+  faceTest=application.faceTest
+  gazeTest=application.gazeTest
+  earpieceDetectionStatus=application.earpieceDetectionStatus
+if(parseFloat(leftEyeBlinkRate.toFixed(2))>4)
+leftEyeBlinkRate="High"
+else if(parseFloat(leftEyeBlinkRate.toFixed(2))<2.8)
+leftEyeBlinkRate="Low"
+else
+leftEyeBlinkRate="Medium"
+}
+let interview_date=""
+if(slot)
+{
+const {startDate}=slot
+const date=new Date(slot.startDate)
+const yy=date.getFullYear()
+const mm=date.getMonth()
+const dd=date.getDate()
+const hh=date.getHours()
+const mn=date.getMinutes()
+interview_date =`${yy}-${mm>9?mm:`0${mm}`}-${dd>9?dd:`0${dd}`} | ${hh>9?hh:`0${hh}`}-${mn>9?mn:`0${mn}`}`
+
+}
+
+
+// console.log("application 22",application)
   return (
     <div>
       <div
@@ -109,7 +168,7 @@ const CPrintable = () => {
 
         <div className='left lg:w-2/3'>
           <div className="lg:mx-10 lg:flex gap-2 mx-5 mt-2 ">
-            <div className="lg:w-1/3 w-full rounded-lg my-2">
+            {/* <div className="lg:w-1/3 w-full rounded-lg my-2">
               <div className="bg-white rounded-lg shadow h-32 py-5" style={{ background: "#9BDDFB" }}>
                 <div className=" text-sm mx-2 font-semibold text-gray-900 my-2">
                   <div className=''>
@@ -121,18 +180,20 @@ const CPrintable = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
             <div className="lg:w-1/3 w-full rounded-lg my-2">
               <div className="bg-white rounded-lg shadow h-32 py-5" style={{ background: "#9BDDFB" }}>
                 <p className='text-xs font-semibold mx-2'>Candidate Details</p>
                 <div className=" text-sm mx-2 my-3 flex justify-between">
                   <div className=''>
-                    <p className='text-xs my-2'>Company:</p>
-                    <p className='text-xs my-2'>Candidate:</p>
+                    <p className='text-xs my-2'>Name:</p>
+                    <p className='text-xs my-2'>Email:</p>
+                    <p className='text-xs my-2'>Contact:</p>
                   </div>
                   <div className='mr-16'>
-                    <p className='text-xs my-2'>Microsoft</p>
-                    <p className='text-xs my-2'>Peter</p>
+                    <p className='text-xs my-2'>{applicant && applicant.firstName}</p>
+                    <p className='text-xs my-2'>{applicant && applicant.email}</p>
+                    <p className='text-xs my-2'>{applicant && applicant.contact}</p>
                   </div>
                 </div>
               </div>
@@ -142,14 +203,14 @@ const CPrintable = () => {
                 <p className='text-xs font-semibold mx-2'>Interview Details</p>
                 <div className=" text-sm mx-2 text-gray-500 flex justify-between ">
                   <div className=''>
-                    <p className='text-xs my-1'>Position:</p>
-                    <p className='text-xs my-1'>Round:</p>
+                    <p className='text-xs my-1'>Job Title:</p>
+                    <p className='text-xs my-1'>Job Type:</p>
                     <p className='text-xs my-1'>Interview Date:</p>
                   </div>
                   <div className=''>
-                    <p className='text-xs my-1'>SSE 1</p>
-                    <p className='text-xs my-1'>Live Coding (90 Mins)</p>
-                    <p className='text-xs my-1'>20-07-2022 | 09:00 am</p>
+                    <p className='text-xs my-1'>{job && job.jobTitle}</p>
+                    <p className='text-xs my-1'>{job && job.jobType}</p>
+                    <p className='text-xs my-1'>{interview_date}</p>
                   </div>
                 </div>
               </div>
@@ -157,7 +218,7 @@ const CPrintable = () => {
           </div>
 
 
-          <div className='lg:mx-10 mx-4 my-5'>
+          {/* <div className='lg:mx-10 mx-4 my-5'>
             <div className="shadow-lg sm:w-full md:w-full lg:w-full pb-10 h-auto bg-white rounded-b-lg">
               <div className="text-xl py-5 text-white rounded-t-lg font-bold  flex"
                 style={{ backgroundColor: "rgb(3, 68, 136)" }}>
@@ -219,7 +280,7 @@ const CPrintable = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
 
           <div className='lg:mx-10 mx-4 my-5 '>
@@ -246,7 +307,7 @@ const CPrintable = () => {
           </div>
 
 
-          <div className='lg:mx-10 mx-4 mt-10 '>
+          {/* <div className='lg:mx-10 mx-4 mt-10 '>
             <div className="text-xl py-5 rounded-t-lg text-white font-bold  flex"
               style={{ backgroundColor: "rgb(3, 68, 136)" }}>
               <p className="px-6 mx-2  text-xl">Cognitive Aptitude</p>
@@ -342,7 +403,7 @@ const CPrintable = () => {
                 <RadarChart />
               </div>
             </div>
-          </div>
+          </div> */}
 
 
           <div className='lg:mx-10 mx-4 my-5 '>
@@ -487,49 +548,50 @@ const CPrintable = () => {
             </div>
             <div className="flex my-4 px-5 vertical-align-middle" >
               <div className='flex w-full justify-between'>
-                <p className="font-md font-bold">Device</p>
-                <p className="text-gray-400 text-sm text-right ml-8">Lenovo Laptop</p>
+                <p className="font-md font-bold">Browser/OS</p>
+                <p className="text-gray-400 text-sm text-right ml-8">{browserName}</p>
               </div>
             </div>
-            <div className="flex my-4 px-5 vertical-align-middle" >
+            {/* <div className="flex my-4 px-5 vertical-align-middle" >
               <div className='flex w-full justify-between'>
                 <p className="font-md font-bold">Location</p>
                 <p className="text-gray-400 text-sm text-right ml-8">Raritan, New Jersey, USA</p>
               </div>
-            </div>
+            </div> */}
             <div className="flex my-4 px-5 vertical-align-middle" >
               <div className='flex w-full justify-between'>
                 <p className="font-md font-bold">Face Detection</p>
-                <p className="text-gray-400 text-sm text-right ml-8">Detected Individual identified as Peter
+                <p className="text-gray-400 text-sm text-right ml-8">{faceTest?<span className={"text-green-900"}>Detected</span>:<span  className={"text-red-900"}>Not Detected</span>} </p> 
+               
+                {/* <p className="text-gray-400 text-sm text-right ml-8">Detected Individual identified as Peter
 
-                  (verified & matched with Profile and LinkedIn picture) </p>
+                  (verified & matched with Profile and LinkedIn picture) </p> */}
               </div>
             </div>
             <div className="flex my-4 px-5 vertical-align-middle" >
               <div className='flex w-full justify-between'>
                 <p className="font-md font-bold">Gaze Tracking</p>
-                <p className="text-gray-400 text-sm text-right ml-8">On
-
-                  Candidate was always looking at the screen or camera</p>
+                <p className="text-gray-400 text-sm text-right ml-8">{gazeTest?<span className={"text-green-900"}>Detected</span>:<span  className={"text-red-900"}>Not Detected</span>} </p> 
               </div>
             </div>
             <div className="flex my-4 px-5 vertical-align-middle" >
               <div className='flex w-full justify-between'>
                 <p className="font-md font-bold">Earpiece Detection</p>
-                <p className="text-gray-400 text-sm text-right ml-8">Not Detectedr</p>
+                <p className="text-gray-400 text-sm text-right ml-8">{gazeTest?<span className={"text-red-900"}>Detected</span>:<span  className={"text-green-900"}>Not Detected</span>} </p> 
+
               </div>
             </div>
             <div className="flex my-4 px-5 vertical-align-middle" >
               <div className='flex w-full justify-between'>
                 <p className="font-md font-bold">Eye Blink Rate</p>
-                <p className="text-gray-400 text-sm text-right ml-8">Normal</p>
+                <p className="text-gray-400 text-sm text-right ml-8">{leftEyeBlinkRate}</p>
               </div>
             </div>
 
           </div>
 
 
-          <div className="shadow-lg sm:w-full md:w-full lg:w-full pb-10 h-fit my-3 bg-white ">
+          {/* <div className="shadow-lg sm:w-full md:w-full lg:w-full pb-10 h-fit my-3 bg-white ">
             <div className="text-xl py-5 rounded-t-lg text-white font-bold  flex"
               style={{ backgroundColor: "rgb(3, 68, 136)" }}>
               <p className="px-6 mx-2  text-xl">Candidate Other Exposures</p>
@@ -561,7 +623,7 @@ const CPrintable = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
 
           <div className='my-3'>
