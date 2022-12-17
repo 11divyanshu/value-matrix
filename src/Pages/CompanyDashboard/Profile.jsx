@@ -27,6 +27,7 @@ const CompanyProfile = () => {
   React.useEffect(() => {
     const func = async () => {
       let user = JSON.parse(await localStorage.getItem("user"));
+      console.log(user);
       let access_token = localStorage.getItem("access_token");
       if (user && user.profileImg) {
         let image = await getProfileImage({id: user._id}, user.access_token);

@@ -349,14 +349,16 @@ function JobDetails(props) {
                                   >
                                     Update Details
                                   </p>
-                                  <p
-                                    className="text-sm font-semibold py-1 cursor-pointer"
-                                    onClick={() => {
-                                      archive();
-                                    }}
-                                  >
-                                    {toggle ? "Unarchive" : "Archive"} Job
-                                  </p>
+                                  {job.status === "Archieved"?
+                                    <p
+                                      className="text-sm font-semibold py-1 cursor-pointer"
+                                      onClick={() => {
+                                        archive();
+                                      }}
+                                    >
+                                      {toggle ? "Unarchive" : "Archive"} Job
+                                    </p>
+                                  :null}
                                 </div>
                               </div>
                             </div>

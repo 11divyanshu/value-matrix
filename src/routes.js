@@ -222,7 +222,7 @@ export const dashboardRoutes = [
   {
     name: "submitfeedback",
     path: "submitfeedback",
-    hide: false,
+    hide: true,
     icon: <MdOutlineWorkOutline className="text-xl" />,
     component: <Submitfeedback />,
   },

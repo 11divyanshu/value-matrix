@@ -230,7 +230,7 @@ function JobDetails(props) {
           >
             <p className="text-center text-3xl font-black py-2 mb-3">
               {job.jobTitle}
-              {"  "} {job.jobType} {"  "}job
+              {"  "} {job.jobType} {"  "}Job
             </p>
 
             <div className="w-full  bg-white border border-b">

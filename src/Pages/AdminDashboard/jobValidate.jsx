@@ -287,8 +287,7 @@ const JobList = () => {
                                                 if (res1) {
                                                   swal({
                                                     icon: "success",
-                                                    title: "EditProfile",
-                                                    text: "Details Saved",
+                                                    title: "Job Approved",
                                                     button: "Continue",
                                                   }).then(() => {
                                                     window.location.reload();

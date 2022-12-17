@@ -281,38 +281,6 @@ const JobList = () => {
                                                 </Link>
                                               </p>{" "}
                                             </div>
-                                            <div
-                                              className="flex items-center text-gray-800 space-x-2"
-                                              onClick={async () => {
-                                                let res1 = await approveJob({
-                                                  _id: job._id,
-                                                });
-                                                if (res1) {
-                                                  swal({
-                                                    icon: "success",
-                                                    title: "EditProfile",
-                                                    text: "Details Saved",
-                                                    button: "Continue",
-                                                  }).then(() => {
-                                                    window.location.reload();
-                                                  });
-                                                  //  let res = await allJobs();
-
-                                                  //  if (res && res.data) {
-                                                  //    setJobs(res.data);
-                                                  //    console.log(res.data);
-                                                  //    let arr = [...res.data];
-                                                  //    const jsonObj = JSON.stringify(arr);
-
-                                                  // }
-                                                }
-                                              }}
-                                            >
-                                              {/* <BsThreeDots className="text-md" /> */}
-                                              <p className="text-sm font-semibold py-1">
-                                                Approve Jobs
-                                              </p>{" "}
-                                            </div>
                                           </div>
                                         </div>
                                       </Popover.Panel>
