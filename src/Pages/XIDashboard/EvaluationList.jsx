@@ -214,6 +214,7 @@ const JobList = () => {
               <div className="w-full">
                 {jobs &&
                   jobs.map((job) => {
+                    if(job.slots.length > 0)
                     return (
                       <div className="w-full px-5 bg-white py-1 my-2">
                         <div className="grid grid-cols-1  items-center lg:grid-cols-6 relative py-3">
