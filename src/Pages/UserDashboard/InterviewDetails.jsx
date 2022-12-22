@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { getJobById } from "../../service/api";
 import {
   HiOutlineLocationMarker,
@@ -49,6 +49,15 @@ function JobDetails(props) {
   const handleOTP = (e) => {
     setsmsOTP(e.target.value);
   };
+
+  const chkquery = ()=>{
+    if(window.location.search.slice(1) === "qry=cancel"){
+      document.getElementById("cancelintv").click();
+    }else if(window.location.search.slice(1) === "qry=reschedule"){
+      document.getElementById("rescheduleintv").click();
+    }
+  };
+
   React.useEffect(() => {
     const getData = async () => {
       // let access_token = ReactSession.get("access_token");
@@ -87,6 +96,7 @@ function JobDetails(props) {
       setSkillsPrimary(primarySkills);
       if (res) {
         setJob(res.data[0]);
+        chkquery();
       }
     };
 
@@ -505,6 +515,17 @@ function JobDetails(props) {
                                 </p>
 
                               </div> */}
+                              {(new Date(job.endDate) > new Date())?
+                                <div className="w-[8vw]  text-gray-800 " onClick={() => {
+                                  window.location.href= "/interview/"+job.interviewId;
+                                }}>
+                                  <p className="text-sm font-semibold py-1  cursor-pointer"
+                                  >
+                                    Join
+                                  </p>
+
+                                </div>
+                              :null}
                             </div>
                           </div>
                         </Popover.Panel>
@@ -682,6 +703,7 @@ function JobDetails(props) {
 
             <div className="text-right">
               <button
+                id="cancelintv"
                 className="shadow-lg rounded-md mx-5 my-4 px-6 py-2"
                 style={{ backgroundColor: "#034488", color: "#fff" }}
                 onClick={() => {
@@ -714,6 +736,7 @@ function JobDetails(props) {
                 Cancel Interview
               </button>
               <button
+                id="rescheduleintv"
                 className="shadow-lg rounded-md mx-5 my-4 px-6 py-2"
                 style={{ backgroundColor: "#034488", color: "#fff" }}
                 onClick={() => {

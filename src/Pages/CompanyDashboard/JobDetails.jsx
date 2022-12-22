@@ -3,7 +3,7 @@ import { approveJob, getJobById } from "../../service/api";
 import { ReactSession } from "react-client-session";
 import { useParams } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { AiOutlineCalendar } from "react-icons/ai";
+import { AiOutlineCalendar, AiOutlinePlus } from "react-icons/ai";
 import { CgWorkAlt } from "react-icons/cg";
 import { Fragment } from "react";
 import { Popover, Transition, Menu, Dialog } from "@headlessui/react";
@@ -630,6 +630,21 @@ function JobDetails(props) {
                     </table>
                   </div>
                 )}
+
+                <div className="flex justify-end">
+                  <button
+                    className=" hover:bg-blue-700 flex text-white font-bold py-2 pr-4 text-sm mt-4 text-center align-center rounded-lg"
+                    style={{ backgroundColor: "#034488" }}
+                  >
+                    <p className="mx-auto flex">
+                      <p className="py-1 px-2 text-md">
+                        {" "}
+                        <AiOutlinePlus />
+                      </p>{" "}
+                      Add Candidates
+                    </p>
+                  </button>
+                </div>
 
                 {chooseStatus && (
                   <Transition

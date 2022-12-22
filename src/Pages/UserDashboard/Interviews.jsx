@@ -161,17 +161,25 @@ const JobList = (props) => {
                               </div>
                               {/* {job.startDate === new Date() && job.status === "Accepted*/}
 
-
-                              <div className="px-5 text-center my-5 text-md cursor-pointer" onClick={async()=>{
-                                    let update = await updateInterviewApplication(job.uploadBy, { status:"Interviewed" });
-
-                                    let update2 = await updateWallet(job._id);
+                              {(new Date(job.endDate) < new Date())?
+                                <div className="px-5 text-center my-5 text-md cursor-pointer" onClick={async()=>{
+                                  let update = await updateInterviewApplication(job.uploadBy, { status:"Interviewed" });
+                                  let update2 = await updateWallet(job._id);
                                 }}>
-                                  
-                                    <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black cursor-pointer">
-                                      Join
-                                    </span>
+                                  <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-red-500 text-red-500 cursor-pointer">
+                                    Closed
+                                  </span>
                                 </div>
+                                :
+                                <div className="px-5 text-center my-5 text-md cursor-pointer" onClick={async()=>{
+                                  let update = await updateInterviewApplication(job.uploadBy, { status:"Interviewed" });
+                                  let update2 = await updateWallet(job._id);
+                                }}>
+                                  <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black cursor-pointer">
+                                    Join
+                                  </span>
+                                </div>
+                              }
                                 {/* } */}
                             </div>
 
@@ -204,6 +212,26 @@ const JobList = (props) => {
                                                   to={`/user/interviewDetails/${job._id}`}
                                                 >
                                                   View Details{" "}
+                                                </Link>
+                                              </p>{" "}
+                                            </div>
+                                            <div className="flex items-center  text-gray-800 space-x-2">
+                                              {/* <BsThreeDots className="text-md" /> */}
+                                              <p className="text-sm font-semibold py-2">
+                                                <Link
+                                                  to={`/user/interviewDetails/${job._id}?qry=cancel`}
+                                                >
+                                                  Cancel Interview{" "}
+                                                </Link>
+                                              </p>{" "}
+                                            </div>
+                                            <div className="flex items-center  text-gray-800 space-x-2">
+                                              {/* <BsThreeDots className="text-md" /> */}
+                                              <p className="text-sm font-semibold py-2">
+                                                <Link
+                                                  to={`/user/interviewDetails/${job._id}?qry=reschedule`}
+                                                >
+                                                  Reschedule Interview{" "}
                                                 </Link>
                                               </p>{" "}
                                             </div>
@@ -289,25 +317,41 @@ const JobList = (props) => {
 
 
 
-                                <div className="px-5 text-center my-5 text-md cursor-pointer" onClick={async()=>{
-                                    let update = await updateInterviewApplication(job.uploadBy, { status:"Interviewed" });
-
-                                    let update2 = await updateWallet(job._id);
-                                }}>
-                                  
-                                    <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black cursor-pointer">
-                                      Join
-                                    </span>
-                                </div>
-                                {/* } */}
+                                        {(new Date(job.endDate) < new Date())?
+                                          <div className="px-5 text-center my-5 text-md cursor-pointer">
+                                            
+                                              <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl text-red-500 my-2 py-2 border-2 border-red-100 cursor-pointer">
+                                                Closed
+                                              </span>
+                                          </div>
+                                          :
+                                          <div className="px-5 text-center my-5 text-md cursor-pointer" onClick={async()=>{
+                                              let update = await updateInterviewApplication(job.uploadBy, { status:"Interviewed" });
+          
+                                              let update2 = await updateWallet(job._id);
+                                          }}>
+                                            
+                                              <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black cursor-pointer">
+                                                Join
+                                              </span>
+                                          </div>}
                                         let update2 = await updateWallet(job._id);
                                     }}>
+                                      {job.status === "Accepted"?
+                                      <>
+                                        {(new Date(job.endDate) < new Date())?
+                                          <span className="text-xs text-red-500 font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-red-100">
+                                            Closed
+                                          </span>
+                                          :
+                                          <Link to={`/interview/${job.interviewApplication[0]._id}`}>
+                                            <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
+                                              Join
+                                            </span>
+                                          </Link>
+                                        }</>
+                                      :null}
                                       
-                                      <Link to={`/interview/${job.interviewApplication[0]._id}`}>
-                                        <span className="text-xs font-medium mr-2 px-6 py-0.5 rounded-3xl my-2 py-2 border-2 border-black">
-                                          Join
-                                        </span>
-                                      </Link>
                                     </div>
                                   ) : (
                                   <div className="px-5 text-center my-5 text-md" onClick={async()=>{
@@ -356,6 +400,26 @@ const JobList = (props) => {
                                                   to={`/user/interviewDetails/${job._id}`}
                                                 >
                                                   View Details{" "}
+                                                </Link>
+                                              </p>{" "}
+                                            </div>
+                                            <div className="flex items-center  text-gray-800 space-x-2">
+                                              {/* <BsThreeDots className="text-md" /> */}
+                                              <p className="text-sm font-semibold py-2">
+                                                <Link
+                                                  to={`/user/interviewDetails/${job._id}?qry=cancel`}
+                                                >
+                                                  Cancel Interview{" "}
+                                                </Link>
+                                              </p>{" "}
+                                            </div>
+                                            <div className="flex items-center  text-gray-800 space-x-2">
+                                              {/* <BsThreeDots className="text-md" /> */}
+                                              <p className="text-sm font-semibold py-2">
+                                                <Link
+                                                  to={`/user/interviewDetails/${job._id}?qry=reschedule`}
+                                                >
+                                                  Reschedule Interview{" "}
                                                 </Link>
                                               </p>{" "}
                                             </div>

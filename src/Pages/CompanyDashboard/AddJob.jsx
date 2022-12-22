@@ -7,6 +7,7 @@ import {
   sendJobInvitations,
   eligibleCandidateList,
   getuserbyEmail,
+  getcognitiveSkills,
 } from "../../service/api";
 import swal from "sweetalert";
 import { Editor } from "react-draft-wysiwyg";
@@ -79,6 +80,7 @@ const AddJob = () => {
   // Skills To Be Displayed
   const [roles, setRoles] = React.useState([]);
   const [showRoles, setShowRoles] = React.useState([]);
+  const [showRoles2, setShowRoles2] = React.useState([]);
   const [primarySkills, setPrimarySkills] = React.useState([]);
   const [prof, setProf] = React.useState([]);
   const [dbSkills, setDbSkills] = React.useState([]);
@@ -330,10 +332,11 @@ const AddJob = () => {
       await setUser(user);
       setAccess(user.access_token);
       let res = await getSkills({ user_id: user._id }, user.access_token);
+      let resc = await getcognitiveSkills({ user_id: user._id }, user.access_token);
 
       let roles = new Set();
       let pSkills = {};
-      if (res && res.status === 200) {
+      if (res && res.status === 200 && resc && resc.status === 200) {
         res.data.map((el) => {
           el.proficiency = 0;
           roles.add(el.role);
@@ -353,6 +356,7 @@ const AddJob = () => {
         }
         await setRolesProf(pr1);
         await setShowRoles(Array.from(roles));
+        await setShowRoles2(resc.data);
         await setRoles(Array.from(roles));
         await setDbSkills(res.data);
         await setPrimarySkills(pSkills);
@@ -1211,8 +1215,116 @@ const AddJob = () => {
                           />
                         </div>
                         <div className="my-7 space-y-3 w-full block">
-                          <label className="text-left w-3/4 font-semibold block">
-                            Skills
+                          <Disclosure>
+                            {({ open }) => (
+                              <div
+                                className={`${
+                                  open
+                                    ? "shadow-md"
+                                    : ""
+                                }`}
+                              >
+                                <Disclosure.Button
+                                  className={`p-0 w-full focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${
+                                    open
+                                      ? "shadow-lg"
+                                      : ""
+                                  } `}
+                                >
+                                  <div className="px-4 py-3 flex w-full justify-between rounded-lg bg-blue-100 bg-blue-100 text-left text-sm font-medium hover:bg-blue-200 border-blue-100 w-full">
+                                    <span className="font-bold">
+                                      Cognitive Skills
+                                    </span>
+                                    <ChevronUpIcon
+                                      className={`${
+                                        !open
+                                          ? "rotate-180 transform"
+                                          : ""
+                                      } h-5 w-5 text-blue-500`}
+                                    />
+                                  </div>
+                                </Disclosure.Button>
+                                <Disclosure.Panel className="p-3 px-12">
+                                  <div className="w-full">
+                                    <div className="my-3">
+                                      <div className="w-full">
+                                        {showRoles2 &&
+                                          showRoles2.map((el, index) => {
+                                            return (
+                                              <div key={index}>
+                                                <div className="md:flex my-1 text-sm justify-between items-center">
+                                                  <p>
+                                                    {
+                                                      el.skill
+                                                    }
+                                                  </p>
+
+                                                  <div className="flex my-2 items-center space-x-2">
+                                                    0
+                                                    <input
+                                                      type="range"
+                                                      min="0"
+                                                      max="5"
+                                                      // value={0}
+                                                      // onChange={async (
+                                                      //   e
+                                                      // ) => {
+                                                      //   let d =
+                                                      //     dbSkills;
+                                                      //   // console.log(d);
+                                                      //   d[
+                                                      //     index1
+                                                      //   ] =
+                                                      //     {
+                                                      //       ...d[
+                                                      //         index1
+                                                      //       ],
+                                                      //       proficiency:
+                                                      //         e
+                                                      //           .target
+                                                      //           .value,
+                                                      //     };
+                                                      //   let p =
+                                                      //     prof;
+                                                      //   prof[
+                                                      //     index1
+                                                      //   ] =
+                                                      //     e.target.value;
+                                                      //   await localStorage.setItem(
+                                                      //     "prof",
+                                                      //     JSON.stringify(
+                                                      //       p
+                                                      //     )
+                                                      //   );
+                                                      //   await setProf(
+                                                      //     [
+                                                      //       ...p,
+                                                      //     ]
+                                                      //   );
+                                                      //   await setDbSkills(
+                                                      //     [
+                                                      //       ...d,
+                                                      //     ]
+                                                      //   );
+                                                      // }}
+                                                    />
+                                                    5
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            );
+                                          })}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </Disclosure.Panel>
+                              </div>
+                            )}
+                          </Disclosure>
+                        </div>
+                        <div className="my-7 space-y-3 w-full block">
+                          <label className="text-left text-sm w-3/4 font-semibold block px-4 py-3 rounded-lg bg-blue-100 w-full">
+                            Technical Skills
                           </label>
                           <div className="w-full">
                             <div className="my-3 flex items-center flex-wrap gap-y-3">

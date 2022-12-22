@@ -108,7 +108,7 @@ const JobList = (props) => {
 
       let res = await getCandidateList(id);
       console.log(res);
-      if (res && res.data.success === true) {
+      if (res && res.data.length != 0) {
         setJobs(res.data);
         console.log(res.data);
         let arr = [...res.data];
@@ -828,13 +828,13 @@ const JobList = (props) => {
                                                 scope="col"
                                                 className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                                               >
-                                                email
+                                                Email ID
                                               </th>
                                               <th
                                                 scope="col"
                                                 className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                                               >
-                                                phoneNo
+                                                Phone No
                                               </th>
                                             </tr>
                                           </thead>
@@ -1165,13 +1165,13 @@ const JobList = (props) => {
                             : "w-full px-5 bg-white py-1 border border-b hidden"
                         }
                       >
-                        <div className="grid grid-cols-1 gap-4 lg:grid-cols-7 sm:grid-cols-4 my-3">
-                          <div className="col-span-2">
+                        <div className="grid grid-cols-1 gap-4 lg:grid-cols-10 sm:grid-cols-4 my-3">
+                          <div className="col-span-3">
                             <h5 className="text-black-900 text-xs lg:text-lg md:text-sm font-bold mb-1 ">
                               {job.firstName} {job.lastName}
                             </h5>
                           </div>
-                          <div className="col-span-2">
+                          <div className="col-span-4">
                             <div className="flex py-1">
                               <div className="text-md py-1 text-gray-400 font-semibold ">
                                 <CgWorkAlt />

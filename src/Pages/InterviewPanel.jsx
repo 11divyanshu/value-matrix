@@ -74,6 +74,10 @@ export default function App() {
         }
       }
       initial();
+      window.addEventListener("popstate", e => {
+        e.preventDefault();
+        window.location.href= "/user/interviews";
+      });
     }, []);
 
     const initDyte = (interviewStatus) =>{
@@ -121,6 +125,7 @@ export default function App() {
     }
 
     const joinMeeting = async ()=>{
+      let startproct = await startproctoring(id, "http://51.158.153.210/the-office/season-7/The%20Office%20S07E18%20Todd%20Packer.mp4");
 
       await axios.post("https://api.cluster.dyte.in/v2/meetings/"+interviewStatus.data.meetingID+"/livestreams",{
         name: interviewStatus.data.meetingRoom
@@ -210,6 +215,7 @@ export default function App() {
               if(updatedinterview.data.data === "Updated Test"){
                 if(updatedinterview.data.updatedinterview.gazeTest === true){
                   let newinterview = await getinterviewdetails(id);
+                  console.log(newinterview);
                   setOverlapText("");
                   setInterviewStatus(newinterview);
                   setcurrentbtn(1);

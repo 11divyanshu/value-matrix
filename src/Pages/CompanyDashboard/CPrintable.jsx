@@ -34,14 +34,10 @@ const CPrintable = () => {
 
 
   useEffect(() => {
-    let user = JSON.parse(localStorage.getItem("user"));
-    setUser(user);
 
-  }, []);
-
-  useEffect(() => {
-    const gia = async () => {
-      let res = await getInterviewApplication({ id: id }, user.access_token);
+    const gia = async (usr) => {
+      console.log("token ",usr.access_token);
+      let res = await getInterviewApplication({ id: id }, usr.access_token);
       console.log("res ", res)
 
       const { applicant, application, job } = res.data.data
@@ -53,18 +49,29 @@ const CPrintable = () => {
       const slot = slot_res.data
       setSlot(slot);
 
-      let psycs = await axios.get(psyurl+"/"+applicant.linkedinurlkey);
+      let psycs = res.data.data.applicant.psycdata;
       console.log(psycs);
       setpsycsdetails(psycs);
-      setpersona(psycs.data.persona.details);
+      setpersona(psycs.persona.details);
       let intrv = application.interviewers;
       setevaluated(application.evaluations[intrv].skills);
       setselfassested(applicant.skills);
       setjobskills(job.skills);
     }
-    gia()
 
-  }, [user])
+    const getuserdata = async ()=>{
+
+      let user = JSON.parse(await localStorage.getItem("user"));
+      console.log(user);
+      setUser(user);
+      gia(user);
+    }
+
+    getuserdata();
+    
+
+  }, []);
+
   let leftEyeBlinkRate, faceTest, gazeTest, earpieceDetectionStatus;
   if (application) {
     leftEyeBlinkRate = application.leftEyeBlinkRate * 10

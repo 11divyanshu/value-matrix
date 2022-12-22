@@ -508,7 +508,7 @@ const UpdateInterviewApplication = () => {
               </div>
             )}
             <div className="flex justify-center">
-              <a className="px-4 py-1 bg-blue-500 text-white rounded-md my-3" href="/XI" style={{ backgroundColor: "#034488" }}>Submit Feedback</a>
+              <a className="px-4 py-1 bg-blue-500 text-white rounded-md my-3" href="/user" style={{ backgroundColor: "#034488" }}>Submit Feedback</a>
             </div>
           </div>
         )}

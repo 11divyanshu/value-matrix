@@ -5,7 +5,7 @@ export const url = "http://localhost:8000";
 // export const url = "http://3.6.65.3:8000"
 // export const url = "https://backend.babyhost.in"
 export const frontendUrl = "http://localhost:3001";
-export const flaskurl = "http://3.110.220.19:5000";
+export const flaskurl = "https://serve.valuematrix.ai";
 export const proctoringurl = "http://52.87.184.176:8027";
 export const psyurl = "http://3.84.200.126:9027/psychometric/candidate";
 
@@ -613,6 +613,16 @@ export const addSkills = async (data, token) => {
 export const getSkills = async (data, token) => {
   try {
     return await axios.post(`${url}/getSkills`, data, {
+      headers: { authorization: token },
+    });
+  } catch (error) {
+    console.log("Error : ", error);
+  }
+};
+
+export const getcognitiveSkills = async (data, token) => {
+  try {
+    return await axios.post(`${url}/getcognitiveSkills`, data, {
       headers: { authorization: token },
     });
   } catch (error) {

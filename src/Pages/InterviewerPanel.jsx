@@ -49,6 +49,10 @@ export default function App() {
         }
       }
       initial();
+      window.addEventListener("popstate", e => {
+        e.preventDefault();
+        window.location.href= "/XI/evaluationlist";
+      });
     }, []);
 
     const initDyte = (interviewStatus) =>{
